@@ -1,19 +1,11 @@
-﻿using _7dtd_svmanager_fix_mvvm.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _7dtd_svmanager_fix_mvvm.Models;
-using System.Windows;
-using Reactive.Bindings;
+﻿using Reactive.Bindings;
 using System.Windows.Input;
-using System.Windows.Interop;
-using ExMessageBox.Models;
+using CommonStyleLib.ExMessageBox.Models;
 using Reactive.Bindings.Extensions;
 using Prism.Commands;
+using CommonStyleLib.ViewModels;
 
-namespace ExMessageBox.ViewModels
+namespace CommonStyleLib.ExMessageBox.ViewModels
 {
     public class ExYesNoMessageBoxViewModel : ViewModelBase
     {

@@ -1,8 +1,8 @@
-﻿using _7dtd_svmanager_fix_mvvm.Models;
+﻿using CommonStyleLib.Models;
 using System;
-using static ExMessageBox.ExMessageBoxBase;
+using static CommonStyleLib.ExMessageBox.ExMessageBoxBase;
 
-namespace ExMessageBox.Models
+namespace CommonStyleLib.ExMessageBox.Models
 {
     public class ExMassageBoxModel : ModelBase
     {

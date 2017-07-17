@@ -15,7 +15,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public static SettingLoader Setting { get; set; }
 
         #region Properties
-        private int width = StaticData.Width;
+        private int width = CommonStyleLib.StaticData.Width;
         public int Width
         {
             get => width;
@@ -25,7 +25,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 iniLoader.SetValue("MAIN", "WIDTH", value);
             }
         }
-        private int height = StaticData.Height;
+        private int height = CommonStyleLib.StaticData.Height;
         public int Height
         {
             get => height;
@@ -186,8 +186,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private void Load()
         {
-            if (!int.TryParse(iniLoader.GetValue("MAIN", "WIDTH", "900"), out int width)) { width = StaticData.Width; }
-            if (!int.TryParse(iniLoader.GetValue("MAIN", "HEIGHT", "550"), out int height)) { height = StaticData.Height; }
+            if (!int.TryParse(iniLoader.GetValue("MAIN", "WIDTH", "900"), out int width)) { width = CommonStyleLib.StaticData.Width; }
+            if (!int.TryParse(iniLoader.GetValue("MAIN", "HEIGHT", "550"), out int height)) { height = CommonStyleLib.StaticData.Height; }
             this.width = width;
             this.height = height;
 

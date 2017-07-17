@@ -1,14 +1,11 @@
-﻿using _7dtd_svmanager_fix_mvvm.ViewModels;
-using ExMessageBox.Models;
+﻿using CommonStyleLib.ExMessageBox.Models;
+using CommonStyleLib.ViewModels;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Interop;
 
-namespace ExMessageBox.ViewModels
+namespace CommonStyleLib.ExMessageBox.ViewModels
 {
     public class ExOKMassageBoxViewModel : ViewModelBase
     {

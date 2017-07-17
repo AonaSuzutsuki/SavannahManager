@@ -41,21 +41,21 @@ namespace SvManagerLibrary.SteamLibrary
         }
 
         List<SteamLibraryPath> dirList = new List<SteamLibraryPath>();
-        public List<SteamLibraryPath> DirList
+        public List<SteamLibraryPath> SteamLibraryPathList
         {
             get
             {
                 return dirList;
             }
         }
-
-        public SteamLibraryLoader() { }
+        
         public SteamLibraryLoader(string _filePath)
         {
             filePath = _filePath;
+            SetJson();
         }
 
-        public List<SteamLibraryPath> GetJson()
+        public void SetJson()
         {
             var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             var sr = new StreamReader(fs);
@@ -72,8 +72,6 @@ namespace SvManagerLibrary.SteamLibrary
                         dirList.Add(new SteamLibraryPath(match.Groups["path"].Value));
                 }
             }
-
-            return dirList;
         }
     }
 }

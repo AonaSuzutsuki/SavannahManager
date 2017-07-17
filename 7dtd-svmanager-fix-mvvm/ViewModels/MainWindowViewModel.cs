@@ -1,20 +1,14 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Views;
-using ExMessageBox;
-using KimamaLib;
+using CommonStyleLib.ViewModels;
 using LanguageEx;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels

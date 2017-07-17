@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.ComponentModel;
 using System.Windows.Threading;
-using ExMessageBox;
+using CommonStyleLib.ExMessageBox;
 using System.Diagnostics;
 using SvManagerLibrary.Config;
 using SvManagerLibrary.Telnet;
@@ -13,6 +13,7 @@ using System.Threading;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 using _7dtd_svmanager_fix_mvvm.Settings;
+using CommonStyleLib.Models;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -141,7 +142,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public bool LocalMode
         {
             get => localMode;
-            set => SetProperty(ref localMode, value);
+            set
+            {
+                SetProperty(ref localMode, value);
+                ConnectionPanelIsEnabled = !value;
+                StartBTEnabled = value;
+            }
         }
         private bool localModeEnabled = true;
         public bool LocalModeEnabled
@@ -203,10 +209,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         #region Properties
         public bool IsConnected
         {
-            get
-            {
-                return telnet == null ? false : telnet.Connected;
-            }
+            get;
+            set;
         }
         //public bool IsTelnetLoading { get; private set; } = false;
         public bool IsFailed { get; private set; } = false;
@@ -411,7 +415,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             BottomNewsLabel = LangResources.Resources.UI_WaitingServer;
             if (!IsDeactivated)
             {
-                AroundBorderColor = StaticData.ActivatedBorderColor2;
+                AroundBorderColor = CommonStyleLib.StaticData.ActivatedBorderColor2;
             }
 
             Task tasks = Task.Factory.StartNew(() =>
@@ -431,7 +435,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                             BottomNewsLabel = LangResources.Resources.UI_ReadyComplete;
 
-                            AroundBorderColor = StaticData.ActivatedBorderColor;
+                            AroundBorderColor = CommonStyleLib.StaticData.ActivatedBorderColor;
                         }));
 
                         IsTelnetLoading = false;
@@ -443,6 +447,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                     if (telnet.Connect(address, port))
                     {
+                        IsConnected = true;
                         IsTelnetLoading = false;
 
                         view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
@@ -456,7 +461,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                             if (!IsDeactivated)
                             {
-                                AroundBorderColor = StaticData.ActivatedBorderColor;
+                                AroundBorderColor = CommonStyleLib.StaticData.ActivatedBorderColor;
                             }
                         }));
                         
@@ -484,37 +489,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 isServerForceStop = true;
                 return;
             }
-
-            if (isServerStarted)
+            
+            if (IsConnected)
             {
-                if (IsConnected)
-                {
-                    SocTelnetSend("shutdown");
-                    isStop = true;
+                SocTelnetSend("shutdown");
+                isStop = true;
 
-                    TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
-                    StartBTEnabled = true;
-                }
-                else
-                {
-                    //ForceShutdowner fs = new ForceShutdowner(this);
-                    //fs.Show();
-                }
+                TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
+                StartBTEnabled = true;
             }
             else
             {
-                if (IsConnected)
-                {
-                    SocTelnetSend("shutdown");
-                    isStop = true;
-
-                    TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
-                    StartBTEnabled = true;
-                }
-                else
-                {
-                    shutdownOpener();
-                }
+                shutdownOpener();
             }
         }
 
@@ -643,7 +629,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             string address = Address;
             int port = this.port;
             string password = Password;
-
+            
             if (LocalMode)
             {
                 address = "127.0.0.1";
@@ -661,12 +647,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 port = checkedValues.Port;
             }
 
+            //
+            // 空文字チェック
+            //
+
             IsFailed = false;
             if (telnet.Connect(address, port))
             {
+                IsConnected = true;
                 telnet.Write(TelnetClient.CR);
                 AppendConsoleLog(SocTelnetSend(password));
-                StartBTEnabled = false;
             }
             else
             {
@@ -676,11 +666,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 Task tasks = Task.Factory.StartNew(() =>
                 {
-                    FeedColorChange(StaticData.ActivatedBorderColor2);
-                    FeedColorChange(StaticData.ActivatedBorderColor);
+                    FeedColorChange(CommonStyleLib.StaticData.ActivatedBorderColor2);
+                    FeedColorChange(CommonStyleLib.StaticData.ActivatedBorderColor);
                 });
-
-                StartBTEnabled = true;
 
                 return;
             }
@@ -694,6 +682,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
             LocalModeEnabled = false;
             ConnectionPanelIsEnabled = false;
+            StartBTEnabled = false;
         }
         private void TelnetDisconnect()
         {
@@ -710,13 +699,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             telnet.Dispose();
             TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
             isServerStarted = false;
+            IsConnected = false;
 
-            ConnectionPanelIsEnabled = LocalMode;
+            ConnectionPanelIsEnabled = !LocalMode;
             LocalModeEnabled = true;
-            if (LocalMode)
-            {
-                StartBTEnabled = true;
-            }
+            StartBTEnabled = LocalMode;
 
             //PlayerClean();
         }
@@ -813,6 +800,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             LocalModeEnabled = true;
             ConnectionPanelIsEnabled = !LocalMode;
             isServerStarted = false;
+            IsConnected = false;
 
             if (LocalMode)
             {

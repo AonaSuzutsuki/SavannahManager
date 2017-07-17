@@ -1,12 +1,9 @@
-﻿using _7dtd_svmanager_fix_mvvm.ViewModels;
-using _7dtd_svmanager_fix_mvvm.Views;
-using _7dtd_svmanager_fix_mvvm.Models;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Interop;
-using static ExMessageBox.ExMessageBoxBase;
 using System;
+using static CommonStyleLib.ExMessageBox.ExMessageBoxBase;
 
-namespace ExMessageBox.Views
+namespace CommonStyleLib.ExMessageBox.Views
 {
     /// <summary>
     /// ExMassageBox.xaml の相互作用ロジック

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace _7dtd_svmanager_fix_mvvm.Models
+namespace CommonStyleLib.Models
 {
     public class ModelBase : BindableBase
     {

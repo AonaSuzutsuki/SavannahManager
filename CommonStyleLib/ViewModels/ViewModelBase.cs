@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace _7dtd_svmanager_fix_mvvm.ViewModels
+namespace CommonStyleLib.ViewModels
 {
     public class ViewModelBase : NotifyBase
     {

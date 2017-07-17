@@ -1,10 +1,9 @@
-﻿using _7dtd_svmanager_fix_mvvm.Views;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Interop;
-using static ExMessageBox.ExMessageBoxBase;
+using static CommonStyleLib.ExMessageBox.ExMessageBoxBase;
 
-namespace ExMessageBox.Views
+namespace CommonStyleLib.ExMessageBox.Views
 {
     /// <summary>
     /// ExYesNoMessageBox.xaml の相互作用ロジック

@@ -1,15 +1,9 @@
-﻿using _7dtd_svmanager_fix_mvvm.Models;
-using ExMessageBox;
+﻿using CommonStyleLib.ExMessageBox;
 using KimamaLib.File;
 using Microsoft.Win32;
 using Prism.Mvvm;
 using SvManagerLibrary.SteamLibrary;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.Models
 {
@@ -77,7 +71,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
             if (string.IsNullOrEmpty(filename))
             {
                 var slLoader = new SteamLibraryLoader(steamPath + StaticData.SteamLibraryPath);
-                var dirPaths = slLoader.GetJson();
+                var dirPaths = slLoader.SteamLibraryPathList;
                 foreach (SteamLibraryPath dirPath in dirPaths)
                     filename = _GetFileName(dirPath.DirPath);
             }

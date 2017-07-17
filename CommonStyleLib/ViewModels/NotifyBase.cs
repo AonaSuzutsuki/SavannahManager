@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _7dtd_svmanager_fix_mvvm.ViewModels
+namespace CommonStyleLib.ViewModels
 {
     public class NotifyBase : INotifyPropertyChanged
     {
