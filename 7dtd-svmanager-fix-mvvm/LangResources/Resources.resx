@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ConfigFile" xml:space="preserve">
+    <value>コンフィグファイル</value>
+  </data>
+  <data name="UI_ConnectWithTelnet" xml:space="preserve">
+    <value>Telnetで接続</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_DisconnectFromTelnet" xml:space="preserve">
+    <value>Telnetから切断</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_ExitBT" xml:space="preserve">
+    <value>終了(_X)</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_FileBT" xml:space="preserve">
+    <value>ファイル(_F)</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_FinishedLaunching" xml:space="preserve">
+    <value>起動完了</value>
+    <comment>UI, 下ラベル</comment>
+  </data>
+  <data name="PortNumber" xml:space="preserve">
+    <value>ポート番号</value>
+  </data>
+  <data name="UI_ReadyComplete" xml:space="preserve">
+    <value>準備完了</value>
+    <comment>UI, 下ラベル</comment>
+  </data>
+  <data name="_0_is_Empty" xml:space="preserve">
+    <value>{0}が空です。</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="_0_Is_Invalid" xml:space="preserve">
+    <value>{0}が不正です。</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>アドレス</value>
+  </data>
+  <data name="Failed_Connecting" xml:space="preserve">
+    <value>接続に失敗しました。</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="HasnotBeConnected" xml:space="preserve">
+    <value>サーバーに接続されていません。</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="AlreadyConnected" xml:space="preserve">
+    <value>既に接続されています。</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="DoYouShutdown" xml:space="preserve">
+    <value>Telnetから切断してからアプリケーションをシャットダウンします。 よろしいですか？</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="Not_Found_0" xml:space="preserve">
+    <value>{0}が見つかりませんでした。</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>ポート</value>
+  </data>
+  <data name="Same_Port_as_0_has_been_used_in_1" xml:space="preserve">
+    <value>{0}と{1}で同一のポートが選択されています。</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="TelnetIsBeenConnected" xml:space="preserve">
+    <value>Telnetに接続されています。</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="UI_WaitingServer" xml:space="preserve">
+    <value>サーバーの起動を待機中</value>
+    <comment>UI, 下ラベル</comment>
+  </data>
+  <data name="_0_is_1" xml:space="preserve">
+    <value>{0}が{1}です。</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="ConfigEditor" xml:space="preserve">
+    <value>Config Editor</value>
+  </data>
+  <data name="Notice" xml:space="preserve">
+    <value>お知らせ</value>
+    <comment>アップデータ</comment>
+  </data>
+  <data name="Culture_Lang" xml:space="preserve">
+    <value>ja</value>
+  </data>
+  <data name="UI_HealthLabel" xml:space="preserve">
+    <value>体力</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_HelpBT" xml:space="preserve">
+    <value>ヘルプ(_H)</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_LevelLabel" xml:space="preserve">
+    <value>レベル</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_NameLabel" xml:space="preserve">
+    <value>名前</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_PlayerKillsLabel" xml:space="preserve">
+    <value>プレイヤーキル数</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_SettingsBT" xml:space="preserve">
+    <value>設定(_S)</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_ShowCommandListBT" xml:space="preserve">
+    <value>コマンドリストの表示</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_ToolBT" xml:space="preserve">
+    <value>ツール(_T)</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_UpdateCheckBT" xml:space="preserve">
+    <value>アップデートの確認</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_VersionBT" xml:space="preserve">
+    <value>バージョン情報</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_ZombieKillsLabel" xml:space="preserve">
+    <value>ゾンビキル数</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_AddressLabel" xml:space="preserve">
+    <value>アドレス</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_CommandLabel" xml:space="preserve">
+    <value>コマンド</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_ConfigLabel" xml:space="preserve">
+    <value>コンフィグ</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_DeathLabel" xml:space="preserve">
+    <value>デス数</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_EnglishLabel" xml:space="preserve">
+    <value>英語</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_IDLabel" xml:space="preserve">
+    <value>ID</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_JapaneseLabel" xml:space="preserve">
+    <value>日本語</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_LanguageLabel" xml:space="preserve">
+    <value>言語</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_LocalServerModeLabel" xml:space="preserve">
+    <value>ローカルサーバーモード</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_PasswordLabel" xml:space="preserve">
+    <value>パスワード</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_PortLabel" xml:space="preserve">
+    <value>ポート</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_ScoreLabel" xml:space="preserve">
+    <value>スコア</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_ServerLabel" xml:space="preserve">
+    <value>サーバー</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_SteamIDLabel" xml:space="preserve">
+    <value>Steam ID</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_TelnetLabel" xml:space="preserve">
+    <value>Telnet</value>
+    <comment>UI</comment>
+  </data>
+  <data name="AdminFilePath" xml:space="preserve">
+    <value>アドミンファイルパス</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="UI_VersionLabel" xml:space="preserve">
+    <value>バージョン情報</value>
+    <comment>UI, バージョン</comment>
+  </data>
+  <data name="ConfigFilePath" xml:space="preserve">
+    <value>コンフィグファイルパス</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="Input_Some_Value" xml:space="preserve">
+    <value>値を入力してください。</value>
+  </data>
+  <data name="_0_is_not_found" xml:space="preserve">
+    <value>{0}が見つかりませんでした。</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="ServerFilePath" xml:space="preserve">
+    <value>サーバーファイルパス</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="UI_FirstSettingBT" xml:space="preserve">
+    <value>初期設定</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_DeleteLogBTLabel" xml:space="preserve">
+    <value>ログを消去</value>
+    <comment>UI</comment>
+  </data>
+  <data name="KeyConfigPath" xml:space="preserve">
+    <value>KeyConfig_ja.xml</value>
+  </data>
+  <data name="UI_Coord" xml:space="preserve">
+    <value>座標</value>
+    <comment>UI</comment>
+  </data>
+</root>

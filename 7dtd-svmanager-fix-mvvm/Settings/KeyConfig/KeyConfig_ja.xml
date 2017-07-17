@@ -1,0 +1,7 @@
+﻿<?xml version="1.0"?>
+<shortcuts>
+  <shortcut shortcutname="StartServerKey" specialkey="Control" mainkey="S">サーバーを起動します。</shortcut>
+  <shortcut shortcutname="StopServerKey" specialkey="Control" mainkey="D">サーバーを停止します。</shortcut>
+  <shortcut shortcutname="ConTelnetKey" specialkey="Control" mainkey="T">Telnetに接続します。</shortcut>
+  <shortcut shortcutname="DisConTelnetKey" specialkey="Control" mainkey="Y">Telnetを切断します。</shortcut>
+</shortcuts>

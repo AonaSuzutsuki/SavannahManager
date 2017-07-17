@@ -1,0 +1,80 @@
+﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Setup.Views.InitializeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:app="clr-namespace:LanguageEx"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
+        ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
+        Title="Settings" Height="300" Width="400" ResizeMode="CanMinimize">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding Closing}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Activated">
+            <i:InvokeCommandAction Command="{Binding Activated}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Deactivated">
+            <i:InvokeCommandAction Command="{Binding Deactivated}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
+                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
+                      UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/Icon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/KimamaLib;component/Styles/Main.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
+        <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" BorderThickness="1" />
+
+        <Grid Margin="{Binding MainWindowMargin}">
+            <StackPanel Orientation="Horizontal" Margin="5,0,0,0"
+                        HorizontalAlignment="left"
+                        VerticalAlignment="Top">
+                <Image Style="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDown">
+                            <local:InteractiveCommand  Command="{Binding ImageMouseDown}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Image>
+                <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_NameLabel, Mode=OneWay}" Style="{DynamicResource ResourceKey=StatTitle}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top">
+                <Button Name="MainWindowMinimumBT" Content="0" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMinimumBTClick}" />
+                <Button Name="MainWindowCloseBT" Content="r" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBTClick}" />
+            </StackPanel>
+            <Grid Margin="0,30,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="33" />
+                </Grid.RowDefinitions>
+
+                <Frame Grid.Row="0" Name="MainFrame"
+                       NavigationUIVisibility="Hidden" Margin="10" />
+
+                <Grid Margin="0,0,3,0" Grid.Row="1">
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Name="PrevBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_PrevBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" IsEnabled="{Binding PrevBTEnabled.Value}" Width="80" Height="25" Command="{Binding PrevBTClick}" />
+                        <Button Name="NextBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_NextBT, Mode=OneWay}" IsEnabled="{Binding NextBTEnabled.Value}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" Command="{Binding NextBTClick}"  />
+                        <Button Name="ExitBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_ExitBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" Visibility="{Binding ExitBTVisibility.Value}" Command="{Binding ExitBTClick}"  />
+                        <Button Name="CancelBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_CancelBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" Visibility="{Binding CancelBTVisibility.Value}" Command="{Binding MainWindowCloseBTClick}"  />
+                    </StackPanel>
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

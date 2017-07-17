@@ -1,0 +1,10 @@
+﻿<Application x:Class="_7dtd_svmanager_fix_mvvm.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm"
+             Startup="MyApp_Startup"
+             DispatcherUnhandledException="Application_DispatcherUnhandledException">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

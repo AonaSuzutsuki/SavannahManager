@@ -1,0 +1,7 @@
+﻿<?xml version="1.0"?>
+<shortcuts>
+  <shortcut shortcutname="StartServerKey" specialkey="Control" mainkey="S">Start server.</shortcut>
+  <shortcut shortcutname="StopServerKey" specialkey="Control" mainkey="D">Stop server.</shortcut>
+  <shortcut shortcutname="ConTelnetKey" specialkey="Control" mainkey="T">Connect to telnet.</shortcut>
+  <shortcut shortcutname="DisConTelnetKey" specialkey="Control" mainkey="Y">Disconnect from telnet.</shortcut>
+</shortcuts>
