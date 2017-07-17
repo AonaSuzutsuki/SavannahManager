@@ -1,4 +1,5 @@
-﻿using Reactive.Bindings;
+﻿using Prism.Commands;
+using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
 using System.ComponentModel;
@@ -19,13 +20,13 @@ namespace CommonStyleLib.ViewModels
             this.view = view;
             this.modelBase = modelBase;
 
-            Activated = new RelayCommand(MainWindow_Activated);
-            Deactivated = new RelayCommand(MainWindow_Deactivated);
-            ImageMouseDown = new RelayCommand<MouseEventArgs>(Image_MouseDown);
-            MainWindowMinimumBTClick = new RelayCommand(MainWindowMinimumBT_Click);
-            MainWindowMaximumBTClick = new RelayCommand(MainWindowMaximumBT_Click);
-            MainWindowCloseBTClick = new RelayCommand(MainWindowCloseBT_Click);
-            StateChanged = new RelayCommand(MainWindow_StateChanged);
+            Activated = new DelegateCommand(MainWindow_Activated);
+            Deactivated = new DelegateCommand(MainWindow_Deactivated);
+            ImageMouseDown = new DelegateCommand<MouseEventArgs>(Image_MouseDown);
+            MainWindowMinimumBTClick = new DelegateCommand(MainWindowMinimumBT_Click);
+            MainWindowMaximumBTClick = new DelegateCommand(MainWindowMaximumBT_Click);
+            MainWindowCloseBTClick = new DelegateCommand(MainWindowCloseBT_Click);
+            StateChanged = new DelegateCommand(MainWindow_StateChanged);
 
             AroundBorderColor = modelBase.ToReactivePropertyAsSynchronized(m => m.AroundBorderColor);
             AroundBorderOpacity = modelBase.ToReactivePropertyAsSynchronized(m => m.AroundBorderOpacity);

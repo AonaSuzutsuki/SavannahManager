@@ -116,7 +116,7 @@
     </Compile>
     <Compile Include="StaticData.cs" />
     <Compile Include="ViewModels\NotifyBase.cs" />
-    <Compile Include="ViewModels\RelayCommand.cs" />
+    <None Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\Window.cs" />
   </ItemGroup>
@@ -130,10 +130,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ExMessageBox\Views\ExYesNoMessageBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Icon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -50,6 +50,9 @@
     <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KimamaLib">
+      <HintPath>..\Lib\x86\KimamaLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Expression.Drawing.3.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
     </Reference>
@@ -118,6 +121,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\Icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -150,6 +157,34 @@
     <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonStyleLib\CommonStyleLib.csproj">
+      <Project>{cf1972e5-2df2-4b7f-96b3-90d9bdb418c3}</Project>
+      <Name>CommonStyleLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">
+      <Project>{adb034d1-b0fb-43d0-acac-3f5214cc03d7}</Project>
+      <Name>SvManagerLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="lang\a11.6\en_ConfigData.xml" />
+    <Resource Include="lang\a11.6\ja_ConfigData.xml" />
+    <Resource Include="lang\a12.5\en_ConfigData.xml" />
+    <Resource Include="lang\a12.5\ja_ConfigData.xml" />
+    <Resource Include="lang\a12\en_ConfigData.xml" />
+    <Resource Include="lang\a12\ja_ConfigData.xml" />
+    <Resource Include="lang\a13\en_ConfigData.xml" />
+    <Resource Include="lang\a13\ja_ConfigData.xml" />
+    <Resource Include="lang\a14.6\en_ConfigData.xml" />
+    <Resource Include="lang\a14.6\ja_ConfigData.xml" />
+    <Resource Include="lang\a14.7\en_ConfigData.xml" />
+    <Resource Include="lang\a14.7\ja_ConfigData.xml" />
+    <Resource Include="lang\a15\en_ConfigData.xml" />
+    <Resource Include="lang\a15\ja_ConfigData.xml" />
+    <Resource Include="lang\a16\en_ConfigData.xml" />
+    <Resource Include="lang\a16\ja_ConfigData.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

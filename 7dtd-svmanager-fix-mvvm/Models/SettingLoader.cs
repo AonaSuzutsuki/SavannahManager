@@ -172,6 +172,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             set
             {
                 isAutoUpdate = value;
+                iniLoader.SetValue("MAIN", "AUTOCHECK", value);
             }
         }
         #endregion

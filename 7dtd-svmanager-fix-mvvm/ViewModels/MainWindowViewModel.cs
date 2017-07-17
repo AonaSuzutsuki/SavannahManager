@@ -1,6 +1,7 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Views;
 using CommonStyleLib.ViewModels;
 using LanguageEx;
+using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
@@ -35,46 +36,46 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             this.model = model;
 
             #region Event Initialize
-            Loaded = new RelayCommand(MainWindow_Loaded);
-            Closing = new RelayCommand(MainWindow_Closing);
-            KeyDown = new RelayCommand<KeyEventArgs>(MainWindow_KeyDown);
+            Loaded = new DelegateCommand(MainWindow_Loaded);
+            Closing = new DelegateCommand(MainWindow_Closing);
+            KeyDown = new DelegateCommand<KeyEventArgs>(MainWindow_KeyDown);
 
-            MenuSettingsBTClick = new RelayCommand(MenuSettingsBT_Click);
-            MenuFirstSettingsBTClick = new RelayCommand(MenuFirstSettingsBT_Click);
-            MenuLangJapaneseBTClick = new RelayCommand(MenuLangJapaneseBT_Click);
-            MenuLangEnglishBTClick = new RelayCommand(MenuLangEnglishBT_Click);
-            MenuConfigEditorBTClick = new RelayCommand(MenuConfigEditorBT_Click);
-            MenuCheckUpdateBTClick = new RelayCommand(MenuCheckUpdateBT_Click);
-            MenuVersionInfoClick = new RelayCommand(MenuVersionInfo_Click);
+            MenuSettingsBTClick = new DelegateCommand(MenuSettingsBT_Click);
+            MenuFirstSettingsBTClick = new DelegateCommand(MenuFirstSettingsBT_Click);
+            MenuLangJapaneseBTClick = new DelegateCommand(MenuLangJapaneseBT_Click);
+            MenuLangEnglishBTClick = new DelegateCommand(MenuLangEnglishBT_Click);
+            MenuConfigEditorBTClick = new DelegateCommand(MenuConfigEditorBT_Click);
+            MenuCheckUpdateBTClick = new DelegateCommand(MenuCheckUpdateBT_Click);
+            MenuVersionInfoClick = new DelegateCommand(MenuVersionInfo_Click);
 
-            StartBTClick = new RelayCommand(StartBT_Click);
-            StopBTClick = new RelayCommand(StopBT_Click);
-            TelnetBTClick = new RelayCommand(TelnetBT_Click);
-            CommandListBTClick = new RelayCommand(CommandListBT_Click);
+            StartBTClick = new DelegateCommand(StartBT_Click);
+            StopBTClick = new DelegateCommand(StopBT_Click);
+            TelnetBTClick = new DelegateCommand(TelnetBT_Click);
+            CommandListBTClick = new DelegateCommand(CommandListBT_Click);
 
-            PlayerListRefreshBTClick = new RelayCommand(PlayerListRefreshBT_Click);
+            PlayerListRefreshBTClick = new DelegateCommand(PlayerListRefreshBT_Click);
 
-            PlayerContextMenuOpened = new RelayCommand(PlayerContextMenu_Opened);
-            AdminAddBTClick = new RelayCommand(AdminAddBT_Click);
-            AdminRemoveBTClick = new RelayCommand(AdminRemoveBT_Click);
-            WhiteListAddBTClick = new RelayCommand(WhiteListAddBT_Click);
-            WhiteListRemoveBTClick = new RelayCommand(WhiteListRemoveBT_Click);
-            KickBTClick = new RelayCommand(KickBT_Click);
-            BanBTClick = new RelayCommand(BanBT_Click);
-            KillBTClick = new RelayCommand(KillBT_Click);
-            WatchPlayerInfoBTClick = new RelayCommand(WatchPlayerInfoBT_Click);
+            PlayerContextMenuOpened = new DelegateCommand(PlayerContextMenu_Opened);
+            AdminAddBTClick = new DelegateCommand(AdminAddBT_Click);
+            AdminRemoveBTClick = new DelegateCommand(AdminRemoveBT_Click);
+            WhiteListAddBTClick = new DelegateCommand(WhiteListAddBT_Click);
+            WhiteListRemoveBTClick = new DelegateCommand(WhiteListRemoveBT_Click);
+            KickBTClick = new DelegateCommand(KickBT_Click);
+            BanBTClick = new DelegateCommand(BanBT_Click);
+            KillBTClick = new DelegateCommand(KillBT_Click);
+            WatchPlayerInfoBTClick = new DelegateCommand(WatchPlayerInfoBT_Click);
 
-            ChatTextBoxEnterDown = new RelayCommand<string>(ChatTextBoxEnter_Down);
+            ChatTextBoxEnterDown = new DelegateCommand<string>(ChatTextBoxEnter_Down);
 
-            ConsoleTextBoxMouseEnter = new RelayCommand(ConsoleTextBoxMouse_Enter);
-            ConsoleTextBoxMouseLeave = new RelayCommand(ConsoleTextBoxMouse_Leave);
-            DeleteLogBTClick = new RelayCommand(DeleteLogBT_Click);
+            ConsoleTextBoxMouseEnter = new DelegateCommand(ConsoleTextBoxMouse_Enter);
+            ConsoleTextBoxMouseLeave = new DelegateCommand(ConsoleTextBoxMouse_Leave);
+            DeleteLogBTClick = new DelegateCommand(DeleteLogBT_Click);
 
-            CmdTextBoxEnterDown = new RelayCommand<string>(CmdTextBox_EnterDown);
+            CmdTextBoxEnterDown = new DelegateCommand<string>(CmdTextBox_EnterDown);
 
-            GetTimeBTClick = new RelayCommand(GetTimeBT_Click);
-            SetTimeBTClick = new RelayCommand(SetTimeBT_Click);
-            SaveWorldBTClick = new RelayCommand(SaveWorldBT_Click);
+            GetTimeBTClick = new DelegateCommand(GetTimeBT_Click);
+            SetTimeBTClick = new DelegateCommand(SetTimeBT_Click);
+            SaveWorldBTClick = new DelegateCommand(SaveWorldBT_Click);
             #endregion
 
             #region Property Initialize
@@ -223,7 +224,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void MainWindow_Closing()
         {
-            Console.WriteLine("Closing");
+            model.SettingsSave();
         }
         private void MainWindow_KeyDown(KeyEventArgs e)
         {

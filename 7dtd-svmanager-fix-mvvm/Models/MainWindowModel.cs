@@ -317,6 +317,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             //    });
             }
         }
+        public void SettingsSave()
+        {
+            setting.Width = (int)width;
+            setting.Height = (int)height;
+            setting.Address = address;
+            setting.LocalMode = localMode;
+            setting.Port = port;
+            setting.Password = password;
+        }
 
         public void RefreshLabels()
         {

@@ -21,38 +21,38 @@ namespace CommonStyleLib.Models
         public bool IsTelnetLoading { get; protected set; } = false;
         public bool IsDeactivated { get; set; } = false;
 
-        private SolidColorBrush aroundBorderColor = StaticData.ActivatedBorderColor;
+        protected SolidColorBrush aroundBorderColor = StaticData.ActivatedBorderColor;
         public SolidColorBrush AroundBorderColor
         {
             get => aroundBorderColor;
             set => SetProperty(ref aroundBorderColor, value);
         }
-        private double aroundBorderOpacity = 1.0;
+        protected double aroundBorderOpacity = 1.0;
         public double AroundBorderOpacity
         {
             get => aroundBorderOpacity;
             set => SetProperty(ref aroundBorderOpacity, value);
         }
 
-        private double width;
+        protected double width;
         public double Width
         {
             get => width;
             set => SetProperty(ref width, value);
         }
-        private double height;
+        protected double height;
         public double Height
         {
             get => height;
             set => SetProperty(ref height, value);
         }
-        private double top;
+        protected double top;
         public double Top
         {
             get => top;
             set => SetProperty(ref top, value);
         }
-        private double left;
+        protected double left;
         public double Left
         {
             get => left;
