@@ -54,7 +54,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
-                <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_SettingsNameLabel, Mode=OneWay}" Style="{DynamicResource ResourceKey=StatTitle}" />
+                <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=ForceShutdownerResources.UI_Title, Mode=OneWay}" Style="{DynamicResource ResourceKey=StatTitle}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
@@ -69,7 +69,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" Margin="5,0,5,0">
-                    <ListView ItemsSource="{Binding ProcessData}" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <ListView ItemsSource="{Binding ProcessData}" SelectedIndex="{Binding ProcessListSelectedIndex}" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="60" Header="PID" DisplayMemberBinding="{Binding Path=PID}" />

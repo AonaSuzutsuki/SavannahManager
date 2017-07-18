@@ -117,10 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Error" xml:space="preserve">
-    <value>エラー</value>
-    <comment>メッセージ</comment>
-  </data>
   <data name="UI_CloseBT" xml:space="preserve">
     <value>閉じる</value>
     <comment>UI, 強制終了</comment>
@@ -136,5 +132,8 @@
   <data name="UI_NameLabel" xml:space="preserve">
     <value>名前</value>
     <comment>UI</comment>
+  </data>
+  <data name="UI_Title" xml:space="preserve">
+    <value>強制シャットダウン</value>
   </data>
 </root>

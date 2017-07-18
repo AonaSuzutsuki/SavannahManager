@@ -243,12 +243,12 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void MenuLangJapaneseBT_Click()
         {
-            ResourceService.Current.ChangeCulture(ResourceService.Japanese);
+            model.ChangeCulture(ResourceService.Japanese);
             model.RefreshLabels();
         }
         private void MenuLangEnglishBT_Click()
         {
-            ResourceService.Current.ChangeCulture(ResourceService.English);
+            model.ChangeCulture(ResourceService.English);
             model.RefreshLabels();
         }
         private void MenuConfigEditorBT_Click()

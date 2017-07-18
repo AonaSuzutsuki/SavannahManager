@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Collections.ObjectModel;
 using _7dtd_svmanager_fix_mvvm.Settings;
 using CommonStyleLib.Models;
+using LanguageEx;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -326,6 +327,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             setting.Port = port;
             setting.Password = password;
         }
+        public void ChangeCulture(string cultureName)
+        {
+            ResourceService.Current.ChangeCulture(cultureName);
+            setting.CultureName = ResourceService.Current.GetCulture();
+        }
 
         public void RefreshLabels()
         {
@@ -561,7 +567,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             string svPort = svPortConfig == null ? string.Empty : svPortConfig.Value;
 
             var passConfig = configLoader.GetValue("TelnetPassword");
-            string password = passConfig == null ? string.Empty : passConfig.Value;
+            string password = passConfig == null ? "CHANGEME" : passConfig.Value;
             string telnetEnabledString = configLoader.GetValue("TelnetEnabled").Value;
             configLoader.Dispose();
 
