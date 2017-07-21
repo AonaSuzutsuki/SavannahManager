@@ -53,7 +53,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             TelnetBTClick = new DelegateCommand(TelnetBT_Click);
             CommandListBTClick = new DelegateCommand(CommandListBT_Click);
 
-            PlayerListRefreshBTClick = new DelegateCommand(PlayerListRefreshBT_Click);
+            PlayerListRefreshBtClick = new DelegateCommand(PlayerListRefreshBt_Click);
 
             PlayerContextMenuOpened = new DelegateCommand(PlayerContextMenu_Opened);
             AdminAddBTClick = new DelegateCommand(AdminAddBT_Click);
@@ -82,6 +82,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             StartBTEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBTEnabled);
             TelnetBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBTIsEnabled);
             TelnetBTLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBTLabel);
+
+            UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
 
             AdminContextEnabled = model.ToReactivePropertyAsSynchronized(m => m.AdminContextEnabled);
             WhitelistContextEnabled = model.ToReactivePropertyAsSynchronized(m => m.WhitelistContextEnabled);
@@ -137,7 +139,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand TelnetBTClick { get; set; }
         public ICommand CommandListBTClick { get; set; }
 
-        public ICommand PlayerListRefreshBTClick { get; set; }
+        public ICommand PlayerListRefreshBtClick { get; set; }
         
         public ICommand PlayerContextMenuOpened { get; set; }
         public ICommand AdminAddBTClick { get; set; }
@@ -285,9 +287,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         }
 
-        private void PlayerListRefreshBT_Click()
+        private void PlayerListRefreshBt_Click()
         {
-
+            model.PlayerRefresh();
         }
 
         private void PlayerContextMenu_Opened()
@@ -329,7 +331,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         
         private void ChatTextBoxEnter_Down(string e)
         {
-
+            model.SendChat(e);
+            ChatInputText.Value = "";
         }
 
         private void ConsoleTextBoxMouse_Enter()
