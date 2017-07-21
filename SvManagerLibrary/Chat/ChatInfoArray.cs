@@ -28,6 +28,10 @@ namespace SvManagerLibrary.Chat
         {
             _chatData.Add(ChatInfoConverter.ConvertChat(log));
         }
+        public ChatInfo GetLast()
+        {
+            return this[Count - 1];
+        }
 
         public int Count
         {

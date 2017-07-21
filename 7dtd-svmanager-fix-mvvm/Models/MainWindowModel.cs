@@ -15,6 +15,8 @@ using System.Collections.ObjectModel;
 using _7dtd_svmanager_fix_mvvm.Settings;
 using CommonStyleLib.Models;
 using LanguageEx;
+using SvManagerLibrary.Chat;
+using System.Text;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -249,6 +251,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private string appPath = AppInfo.GetAppPath();
         private TelnetClient telnet = new TelnetClient();
+        private ChatInfoArray chatArray = new ChatInfoArray();
 
         private Thread logThread;
 
@@ -750,7 +753,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 try
                 {
-                    if (IsConnected)
+                    if (IsConnected && telnet.Connected)
                     {
                         string log = telnet.Read().Trim('\0');
 
@@ -769,20 +772,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                             AppendConsoleLog(log);
                         }
 
-                        //if (!string.IsNullOrEmpty(log) && !ConsoleIsFocus)
-                        //{
-                        //    this.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-                        //    {
-                        //        ConsoleTextBox.Select(ConsoleTextBox.Text.Length, 0);
-                        //        ConsoleTextBox.ScrollToEnd();
-                        //    }));
-                        //}
-
-                        //if (log.IndexOf("Chat") > -1)
-                        //{
-                        //    //Data.chats.Add(log);
-                        //    SetMainChats(log);
-                        //}
+                        if (log.IndexOf("Chat") > -1)
+                        {
+                            SetMainChats(log);
+                        }
                         //if (log.IndexOf("INF Created player with id=") > -1)
                         //{
                         //    this.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
@@ -825,6 +818,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             Log.LogStream.StreamDisposer();
 
             StopThread();
+        }
+
+        // Chat
+        private void SetMainChats(string text)
+        {
+            chatArray.Add(text);
+            ChatInfo cData = chatArray.GetLast();
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("{0}: {1}\r\n", cData.Name, cData.Message);
+            ChatLogText += sb.ToString();
         }
 
         public void SendCommand(string cmd)
