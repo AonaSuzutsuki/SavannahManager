@@ -260,8 +260,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private string appPath = AppInfo.GetAppPath();
         private TelnetClient telnet = new TelnetClient();
         private ChatInfoArray chatArray = new ChatInfoArray();
-
-        public static Player pList = new Player();
+        
         public static Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
         public static List<int> connectedIds = new List<int>();
 
@@ -844,9 +843,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public void SendChat(string text)
         {
             if (CheckConnected())
-            {
                 Chat.SendChat(telnet, text);
-            }
         }
 
         //
@@ -859,8 +856,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 return;
 
             connectedIds.Clear();
-            pList.SetPlayerInfo(telnet);
-            foreach (PlayerInfo uDetail in pList.Players)
+            var playerInfoArray = Player.SetPlayerInfo(telnet);
+            foreach (PlayerInfo uDetail in playerInfoArray)
                 AddUser(uDetail);
 
             isSended = false;

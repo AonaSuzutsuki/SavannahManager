@@ -9,20 +9,13 @@ namespace SvManagerLibrary.Chat
 
         public ChatInfo this[int index]
         {
-            get
-            {
-                return ((IList<ChatInfo>)_chatData)[index];
-            }
-
-            set
-            {
-                ((IList<ChatInfo>)_chatData)[index] = value;
-            }
+            get => _chatData[index];
+            set => _chatData[index] = value;
         }
 
         public void Add(ChatInfo item)
         {
-            ((IList<ChatInfo>)_chatData).Add(item);
+            _chatData.Add(item);
         }
         public void Add(string log)
         {
@@ -33,31 +26,19 @@ namespace SvManagerLibrary.Chat
             return this[Count - 1];
         }
 
-        public int Count
-        {
-            get
-            {
-                return ((IList<ChatInfo>)_chatData).Count;
-            }
-        }
-        public bool IsReadOnly
-        {
-            get
-            {
-                return ((IList<ChatInfo>)_chatData).IsReadOnly;
-            }
-        }
+        public int Count => _chatData.Count;
+        public bool IsReadOnly => ((IList<ChatInfo>)_chatData).IsReadOnly;
         public void Clear()
         {
-            ((IList<ChatInfo>)_chatData).Clear();
+            _chatData.Clear();
         }
         public bool Contains(ChatInfo item)
         {
-            return ((IList<ChatInfo>)_chatData).Contains(item);
+            return _chatData.Contains(item);
         }
         public void CopyTo(ChatInfo[] array, int arrayIndex)
         {
-            ((IList<ChatInfo>)_chatData).CopyTo(array, arrayIndex);
+            _chatData.CopyTo(array, arrayIndex);
         }
         public IEnumerator<ChatInfo> GetEnumerator()
         {
@@ -65,19 +46,19 @@ namespace SvManagerLibrary.Chat
         }
         public int IndexOf(ChatInfo item)
         {
-            return ((IList<ChatInfo>)_chatData).IndexOf(item);
+            return _chatData.IndexOf(item);
         }
         public void Insert(int index, ChatInfo item)
         {
-            ((IList<ChatInfo>)_chatData).Insert(index, item);
+            _chatData.Insert(index, item);
         }
         public bool Remove(ChatInfo item)
         {
-            return ((IList<ChatInfo>)_chatData).Remove(item);
+            return _chatData.Remove(item);
         }
         public void RemoveAt(int index)
         {
-            ((IList<ChatInfo>)_chatData).RemoveAt(index);
+            _chatData.RemoveAt(index);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

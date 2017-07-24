@@ -78,7 +78,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
                 var slLoader = new SteamLibraryLoader(steamPath + StaticData.SteamLibraryPath);
                 var dirPaths = slLoader.SteamLibraryPathList;
                 foreach (SteamLibraryPath dirPath in dirPaths)
-                    filename = _GetFileName(dirPath.DirPath);
+                    filename = _GetFileName(dirPath.SteamDirPath);
             }
 
             return filename;

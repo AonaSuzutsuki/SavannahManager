@@ -6,10 +6,7 @@ namespace SvManagerLibrary.Chat
     {
         public static void SendChat(TelnetClient telnet, string message)
         {
-            if (!telnet.Connected || telnet == null)
-            {
-                throw new System.NullReferenceException();
-            }
+            TelnetException.CheckTelnetClient(telnet);
 
             telnet.WriteLine("say " + message);
         }
