@@ -20,6 +20,8 @@ using System.Text;
 using SvManagerLibrary.Player;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using SvManagerLibrary.Time;
+using KimamaLib.Extension;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -93,37 +95,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             get => usersList;
             set => SetProperty(ref usersList, value);
         }
-
-        private bool adminContextEnabled;
-        public bool AdminContextEnabled
-        {
-            get => adminContextEnabled;
-            set => SetProperty(ref adminContextEnabled, value);
-        }
-        private bool whitelistContextEnabled;
-        public bool WhitelistContextEnabled
-        {
-            get => whitelistContextEnabled;
-            set => SetProperty(ref whitelistContextEnabled, value);
-        }
-        private bool kickContextEnabled;
-        public bool KickContextEnabled
-        {
-            get => kickContextEnabled;
-            set => SetProperty(ref kickContextEnabled, value);
-        }
-        private bool banContextEnabled;
-        public bool BanContextEnabled
-        {
-            get => banContextEnabled;
-            set => SetProperty(ref banContextEnabled, value);
-        }
-        private bool watchPlayerInfoContextEnabled;
-        public bool WatchPlayerInfoContextEnabled
-        {
-            get => watchPlayerInfoContextEnabled;
-            set => SetProperty(ref watchPlayerInfoContextEnabled, value);
-        }
+        
 
         private string chatLogText;
         public string ChatLogText
@@ -830,6 +802,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             StopThread();
         }
+        private void LogLock()
+        {
+            isSended = true;
+        }
+        private void LogUnlock()
+        {
+            isSended = false;
+        }
 
         //
         // チャット
@@ -851,20 +831,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         //
         public void PlayerRefresh()
         {
-            isSended = true;
             if (!CheckConnected())
                 return;
 
+            LogLock();
             connectedIds.Clear();
             var playerInfoArray = Player.SetPlayerInfo(telnet);
             foreach (PlayerInfo uDetail in playerInfoArray)
                 AddUser(uDetail);
 
-            isSended = false;
+            LogUnlock();
         }
         private void AddUser(PlayerInfo playerInfo)
         {
-            int.TryParse(playerInfo.Id, out int id);
+            int id = playerInfo.Id.ToInt();
             var pDict = playersDictionary;
             var keys = connectedIds;
             if (!pDict.ContainsKey(id))
@@ -919,7 +899,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 var match = reg.Match(sr.ReadLine());
                 if (match.Success == true)
                 {
-                    int.TryParse(match.Groups["entityid"].Value, out int id);
+                    int id = match.Groups["entityid"].Value.ToInt();
                     pDict.Remove(id);
                     keys.Remove(id);
                 }
@@ -932,7 +912,37 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             playersDictionary.Clear();
             UsersList = null;
         }
-        
+
+        // Time
+        public void SetTimeToTextBox()
+        {
+            if (!CheckConnected())
+                return;
+
+            LogLock();
+            var timeInfo = Time.GetTimeFromTelnet(telnet);
+
+            TimeDayText = timeInfo.Day.ToString();
+            TimeHourText = timeInfo.Hour.ToString();
+            TimeMinuteText = timeInfo.Minute.ToString();
+            LogUnlock();
+        }
+        public void SetTimeToGame()
+        {
+            if (!CheckConnected())
+                return;
+
+            var timeInfo = new TimeInfo()
+            {
+                Day = TimeDayText.ToInt(),
+                Hour = TimeHourText.ToInt(),
+                Minute = TimeMinuteText.ToInt()
+
+            };
+            Time.SendTime(telnet, timeInfo);
+        }
+
+
         private void AppendConsoleLog(string text)
         {
             OnAppendConsoleText(new AppendedLogTextEventArgs()
@@ -965,11 +975,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             string log = string.Empty;
             if (stop)
             {
-                isSended = true;
+                LogLock();
                 Thread.Sleep(100);
                 log = telnet.Read().TrimEnd('\0');
                 log += telnet.Read().TrimEnd('\0');
-                isSended = false;
+                LogUnlock();
             }
             return log;
         }

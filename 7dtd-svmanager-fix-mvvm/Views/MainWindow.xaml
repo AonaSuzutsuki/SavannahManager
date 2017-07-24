@@ -121,7 +121,7 @@
                                 <RowDefinition Height="225*" />
                                 <RowDefinition Height="27" />
                             </Grid.RowDefinitions>
-                            <ListView Grid.Row="0" Height="Auto" Width="Auto" Name="UsersList" ItemsSource="{Binding UsersList.Value}" SelectedIndex="{Binding UsersListSelectedIndex.Value}" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                            <ListView Grid.Row="0" Height="Auto" Width="Auto" Name="UsersList" ItemsSource="{Binding UsersList.Value}" SelectedIndex="{Binding UsersListSelectedIndex}" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
                                 <ListView.View>
                                     <GridView>
                                         <!-- 1. id=171, Aona Suzutsuki, pos=(-3125.2, 171.1, 2675.3), rot=(0.0, 0.0, 0.0), remote=True, health=74, deaths=7, zombies=132, players=0, score=98, level=14, steamid=76561198010715714, ip=192.168.1.45, ping=0 -->
@@ -145,19 +145,19 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
 
-                                        <MenuItem Header="Admin" IsEnabled="{Binding AdminContextEnabled.Value}">
+                                        <MenuItem Header="Admin" IsEnabled="{Binding AdminContextEnabled}">
                                             <MenuItem Header="Add" Name="AdminAddBT" Command="{Binding AdminAddBTClick}" />
                                             <MenuItem Header="Remove" Name="AdminRemoveBT" Command="{Binding AdminRemoveBTClick}" />
                                         </MenuItem>
-                                        <MenuItem Header="Whitelist" IsEnabled="{Binding WhitelistContextEnabled.Value}">
+                                        <MenuItem Header="Whitelist" IsEnabled="{Binding WhitelistContextEnabled}">
                                             <MenuItem Header="Add" Name="WhiteListAddBT" Command="{Binding WhiteListAddBTClick}" />
                                             <MenuItem Header="Remove" Name="WhiteListRemoveBT" Command="{Binding WhiteListRemoveBTClick}" />
                                         </MenuItem>
-                                        <MenuItem Header="Kick" Name="KickBT" IsEnabled="{Binding KickContextEnabled.Value}" Command="{Binding KickBTClick}" />
-                                        <MenuItem Header="Ban" Name="BanBT" IsEnabled="{Binding BanContextEnabled.Value}" Command="{Binding BanBTClick}" />
+                                        <MenuItem Header="Kick" Name="KickBT" IsEnabled="{Binding KickContextEnabled}" Command="{Binding KickBTClick}" />
+                                        <MenuItem Header="Ban" Name="BanBT" IsEnabled="{Binding BanContextEnabled}" Command="{Binding BanBTClick}" />
                                         <MenuItem Header="Kill" Name="KillBT" IsEnabled="False" Command="{Binding KillBTClick}" />
                                         <Separator Style="{DynamicResource MLB_Separator}" />
-                                        <MenuItem Header="Watch Player Info" Name="WatchPlayerInfoBT" IsEnabled="{Binding WatchPlayerInfoContextEnabled.Value}" Command="{Binding WatchPlayerInfoBTClick}" />
+                                        <MenuItem Header="Watch Player Info" Name="WatchPlayerInfoBT" IsEnabled="{Binding WatchPlayerInfoContextEnabled}" Command="{Binding WatchPlayerInfoBTClick}" />
                                     </ContextMenu>
                                 </ListView.ContextMenu>
                             </ListView>

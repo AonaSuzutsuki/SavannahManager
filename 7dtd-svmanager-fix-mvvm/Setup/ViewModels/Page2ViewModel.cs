@@ -8,7 +8,7 @@ using CommonStyleLib.ViewModels;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
-    public class Page2ViewModel : NotifyBase
+    public class Page2ViewModel
     {
         Page2 page;
         public Page2ViewModel(Page2 page,Page2Model model)

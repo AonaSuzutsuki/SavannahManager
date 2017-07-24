@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
@@ -11,7 +12,7 @@ using System.Windows.Media;
 
 namespace CommonStyleLib.ViewModels
 {
-    public class ViewModelBase : NotifyBase
+    public class ViewModelBase : BindableBase
     {
         protected Window view;
         private Models.ModelBase modelBase;
@@ -80,46 +81,27 @@ namespace CommonStyleLib.ViewModels
         protected string mainWindowMinimumBTContent = "0";
         public string MainWindowMinimumBTContent
         {
-            set
-            {
-                mainWindowMinimumBTContent = value;
-                OnPropertyChanged(this);
-            }
-            get { return mainWindowMinimumBTContent; }
+            set => SetProperty(ref mainWindowMinimumBTContent, value);
+            get => mainWindowMinimumBTContent;
         }
         protected string mainWindowMaximumBTContent = "1";
         public string MainWindowMaximumBTContent
         {
-            set
-            {
-                mainWindowMaximumBTContent = value;
-                OnPropertyChanged(this);
-            }
-            get { return mainWindowMaximumBTContent; }
+            set => SetProperty(ref mainWindowMaximumBTContent, value);
+            get => mainWindowMaximumBTContent;
         }
         protected string mainWindowCloseBTContent = "r";
         public string MainWindowCloseBTContent
         {
-            set
-            {
-                mainWindowCloseBTContent = value;
-                OnPropertyChanged(this);
-            }
-            get { return mainWindowCloseBTContent; }
+            set => SetProperty(ref mainWindowCloseBTContent, value);
+            get => mainWindowCloseBTContent;
         }
 
         protected Thickness mainWindowMargin = zeroMargin;
         public Thickness MainWindowMargin
         {
-            set
-            {
-                mainWindowMargin = value;
-                OnPropertyChanged(this);
-            }
-            get
-            {
-                return mainWindowMargin;
-            }
+            set => SetProperty(ref mainWindowMargin, value);
+            get => mainWindowMargin;
         }
         #endregion
 

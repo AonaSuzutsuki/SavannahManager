@@ -84,13 +84,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             TelnetBTLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBTLabel);
 
             UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
-
-            AdminContextEnabled = model.ToReactivePropertyAsSynchronized(m => m.AdminContextEnabled);
-            WhitelistContextEnabled = model.ToReactivePropertyAsSynchronized(m => m.WhitelistContextEnabled);
-            KickContextEnabled = model.ToReactivePropertyAsSynchronized(m => m.KickContextEnabled);
-            BanContextEnabled = model.ToReactivePropertyAsSynchronized(m => m.BanContextEnabled);
-            WatchPlayerInfoContextEnabled = model.ToReactivePropertyAsSynchronized(m => m.WatchPlayerInfoContextEnabled);
-
+            
             ChatLogText = model.ObserveProperty(m => m.ChatLogText).ToReactiveProperty();
             ChatInputText = model.ToReactivePropertyAsSynchronized(m => m.ChatInputText);
             
@@ -172,13 +166,43 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ReactiveProperty<string> TelnetBTLabel { get; set; }
         
         public ReactiveProperty<ObservableCollection<UserDetail>> UsersList { get; set; }
-        public ReactiveProperty<int> UsersListSelectedIndex { get; set; }
-        
-        public ReactiveProperty<bool> AdminContextEnabled { get; set; }
-        public ReactiveProperty<bool> WhitelistContextEnabled { get; set; }
-        public ReactiveProperty<bool> KickContextEnabled { get; set; }
-        public ReactiveProperty<bool> BanContextEnabled { get; set; }
-        public ReactiveProperty<bool> WatchPlayerInfoContextEnabled { get; set; }
+        private int usersListSelectedIndex = -1;
+        public int UsersListSelectedIndex
+        {
+            get => usersListSelectedIndex;
+            set => SetProperty(ref usersListSelectedIndex, value);
+        }
+
+        private bool adminContextEnabled;
+        public bool AdminContextEnabled
+        {
+            get => adminContextEnabled;
+            set => SetProperty(ref adminContextEnabled, value);
+        }
+        private bool whitelistContextEnabled;
+        public bool WhitelistContextEnabled
+        {
+            get => whitelistContextEnabled;
+            set => SetProperty(ref whitelistContextEnabled, value);
+        }
+        private bool kickContextEnabled;
+        public bool KickContextEnabled
+        {
+            get => kickContextEnabled;
+            set => SetProperty(ref kickContextEnabled, value);
+        }
+        private bool banContextEnabled;
+        public bool BanContextEnabled
+        {
+            get => banContextEnabled;
+            set => SetProperty(ref banContextEnabled, value);
+        }
+        private bool watchPlayerInfoContextEnabled;
+        public bool WatchPlayerInfoContextEnabled
+        {
+            get => watchPlayerInfoContextEnabled;
+            set => SetProperty(ref watchPlayerInfoContextEnabled, value);
+        }
         
         public ReactiveProperty<string> ChatLogText { get; set; }
         public ReactiveProperty<string> ChatInputText { get; set; }
@@ -187,21 +211,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public string ConsoleLogText
         {
             get => consoleLogText;
-            set
-            {
-                consoleLogText = value;
-                OnPropertyChanged(this);
-            }
+            set => SetProperty(ref consoleLogText, value);
         }
         private string cmdText;
         public string CmdText
         {
             get => cmdText;
-            set
-            {
-                cmdText = value;
-                OnPropertyChanged(this);
-            }
+            set => SetProperty(ref cmdText, value);
         }
         
         public ReactiveProperty<bool> ConnectionPanelIsEnabled { get; set; }
@@ -294,7 +310,23 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void PlayerContextMenu_Opened()
         {
-
+            int index = UsersListSelectedIndex;
+            if (index < 0)
+            {
+                AdminContextEnabled = false;
+                WhitelistContextEnabled = false;
+                KickContextEnabled = false;
+                BanContextEnabled = false;
+                WatchPlayerInfoContextEnabled = false;
+            }
+            else
+            {
+                AdminContextEnabled = true;
+                WhitelistContextEnabled = true;
+                KickContextEnabled = true;
+                BanContextEnabled = true;
+                WatchPlayerInfoContextEnabled = true;
+            }
         }
         private void AdminAddBT_Click()
         {
@@ -345,7 +377,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void DeleteLogBT_Click()
         {
-
+            consoleLog.Clear();
+            ConsoleLogText = "";
         }
 
         private void CmdTextBox_EnterDown(string e)
@@ -356,15 +389,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void GetTimeBT_Click()
         {
-
+            model.SetTimeToTextBox();
         }
         private void SetTimeBT_Click()
         {
-
+            model.SetTimeToGame();
         }
         private void SaveWorldBT_Click()
         {
-
+            model.SendCommand("saveworld");
         }
 
 

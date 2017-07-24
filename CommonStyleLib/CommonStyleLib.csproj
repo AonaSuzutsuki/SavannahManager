@@ -115,8 +115,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="StaticData.cs" />
-    <Compile Include="ViewModels\NotifyBase.cs" />
-    <None Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\Window.cs" />
   </ItemGroup>

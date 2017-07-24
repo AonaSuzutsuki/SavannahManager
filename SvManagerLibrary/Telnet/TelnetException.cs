@@ -13,7 +13,7 @@ namespace SvManagerLibrary.Telnet
             if (telnet == null)
                 throw new NullReferenceException();
             if (!telnet.Connected)
-                throw new System.Net.Sockets.SocketException();
+                throw new System.Net.Sockets.SocketException((int)System.Net.Sockets.SocketError.NotConnected);
         }
     }
 }

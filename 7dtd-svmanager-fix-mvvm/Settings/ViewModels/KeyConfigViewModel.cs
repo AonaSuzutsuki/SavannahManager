@@ -35,11 +35,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         public ReadOnlyObservableCollection<ShortcutKeyForList> KeyList
         {
             get => keyList;
-            set
-            {
-                keyList = value;
-                OnPropertyChanged(this);
-            }
+            set => SetProperty(ref keyList, value);
         }
         
         public ReactiveProperty<int> KeyListSelectedIndex { get; set; }
