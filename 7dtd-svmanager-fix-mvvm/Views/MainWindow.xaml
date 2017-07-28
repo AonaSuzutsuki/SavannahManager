@@ -5,7 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:MyText="clr-namespace:MyTextBox"
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
-        Icon="/Imgs/1.ico"
+        Icon="/CommonStyleLib;component/Resources/1.ico"
         Title="Savannah Manager" Name="_MainWindow" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True">
     <!--xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"-->
 
@@ -50,7 +50,7 @@
             <StackPanel Orientation="Horizontal" Margin="5,0,0,0"
                         HorizontalAlignment="left"
                         VerticalAlignment="Top">
-                <Image Style="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
+                <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
                             <local:InteractiveCommand  Command="{Binding ImageMouseDown}" />
@@ -112,7 +112,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid HorizontalAlignment="Stretch" Margin="0,0,5,0" Width="Auto" Grid.Column="0">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="25">
-                            <Button Name="PlayerListRefreshBT" Width="23" Height="23" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{DynamicResource ResourceKey=RefreshBT}"  Margin="0,0,0,0" Command="{Binding PlayerListRefreshBTClick}" />
+                            <Button Name="PlayerListRefreshBT" Width="23" Height="23" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{DynamicResource ResourceKey=RefreshBT}"  Margin="0,0,0,0" Command="{Binding PlayerListRefreshBtClick}" />
                         </StackPanel>
                         <Grid HorizontalAlignment="Stretch" Margin="0,26,0,0">
                             <Grid.RowDefinitions>
@@ -121,7 +121,7 @@
                                 <RowDefinition Height="225*" />
                                 <RowDefinition Height="27" />
                             </Grid.RowDefinitions>
-                            <ListView Grid.Row="0" Height="Auto" Width="Auto" Name="UsersList" ItemsSource="{Binding UsersList.Value}" SelectedIndex="{Binding UsersListSelectedIndex.Value}" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                            <ListView Grid.Row="0" Height="Auto" Width="Auto" Name="UsersList" ItemsSource="{Binding UsersList.Value}" SelectedIndex="{Binding UsersListSelectedIndex}" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
                                 <ListView.View>
                                     <GridView>
                                         <!-- 1. id=171, Aona Suzutsuki, pos=(-3125.2, 171.1, 2675.3), rot=(0.0, 0.0, 0.0), remote=True, health=74, deaths=7, zombies=132, players=0, score=98, level=14, steamid=76561198010715714, ip=192.168.1.45, ping=0 -->
@@ -145,19 +145,19 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
 
-                                        <MenuItem Header="Admin" IsEnabled="{Binding AdminContextEnabled.Value}">
+                                        <MenuItem Header="Admin" IsEnabled="{Binding AdminContextEnabled}">
                                             <MenuItem Header="Add" Name="AdminAddBT" Command="{Binding AdminAddBTClick}" />
                                             <MenuItem Header="Remove" Name="AdminRemoveBT" Command="{Binding AdminRemoveBTClick}" />
                                         </MenuItem>
-                                        <MenuItem Header="Whitelist" IsEnabled="{Binding WhitelistContextEnabled.Value}">
+                                        <MenuItem Header="Whitelist" IsEnabled="{Binding WhitelistContextEnabled}">
                                             <MenuItem Header="Add" Name="WhiteListAddBT" Command="{Binding WhiteListAddBTClick}" />
                                             <MenuItem Header="Remove" Name="WhiteListRemoveBT" Command="{Binding WhiteListRemoveBTClick}" />
                                         </MenuItem>
-                                        <MenuItem Header="Kick" Name="KickBT" IsEnabled="{Binding KickContextEnabled.Value}" Command="{Binding KickBTClick}" />
-                                        <MenuItem Header="Ban" Name="BanBT" IsEnabled="{Binding BanContextEnabled.Value}" Command="{Binding BanBTClick}" />
+                                        <MenuItem Header="Kick" Name="KickBT" IsEnabled="{Binding KickContextEnabled}" Command="{Binding KickBTClick}" />
+                                        <MenuItem Header="Ban" Name="BanBT" IsEnabled="{Binding BanContextEnabled}" Command="{Binding BanBTClick}" />
                                         <MenuItem Header="Kill" Name="KillBT" IsEnabled="False" Command="{Binding KillBTClick}" />
                                         <Separator Style="{DynamicResource MLB_Separator}" />
-                                        <MenuItem Header="Watch Player Info" Name="WatchPlayerInfoBT" IsEnabled="{Binding WatchPlayerInfoContextEnabled.Value}" Command="{Binding WatchPlayerInfoBTClick}" />
+                                        <MenuItem Header="Watch Player Info" Name="WatchPlayerInfoBT" IsEnabled="{Binding WatchPlayerInfoContextEnabled}" Command="{Binding WatchPlayerInfoBTClick}" />
                                     </ContextMenu>
                                 </ListView.ContextMenu>
                             </ListView>

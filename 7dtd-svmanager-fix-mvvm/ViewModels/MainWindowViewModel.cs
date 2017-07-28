@@ -1,20 +1,15 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Views;
-using ExMessageBox;
-using KimamaLib;
+using CommonStyleLib.ViewModels;
 using LanguageEx;
+using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
@@ -41,46 +36,46 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             this.model = model;
 
             #region Event Initialize
-            Loaded = new RelayCommand(MainWindow_Loaded);
-            Closing = new RelayCommand(MainWindow_Closing);
-            KeyDown = new RelayCommand<KeyEventArgs>(MainWindow_KeyDown);
+            Loaded = new DelegateCommand(MainWindow_Loaded);
+            Closing = new DelegateCommand(MainWindow_Closing);
+            KeyDown = new DelegateCommand<KeyEventArgs>(MainWindow_KeyDown);
 
-            MenuSettingsBTClick = new RelayCommand(MenuSettingsBT_Click);
-            MenuFirstSettingsBTClick = new RelayCommand(MenuFirstSettingsBT_Click);
-            MenuLangJapaneseBTClick = new RelayCommand(MenuLangJapaneseBT_Click);
-            MenuLangEnglishBTClick = new RelayCommand(MenuLangEnglishBT_Click);
-            MenuConfigEditorBTClick = new RelayCommand(MenuConfigEditorBT_Click);
-            MenuCheckUpdateBTClick = new RelayCommand(MenuCheckUpdateBT_Click);
-            MenuVersionInfoClick = new RelayCommand(MenuVersionInfo_Click);
+            MenuSettingsBTClick = new DelegateCommand(MenuSettingsBT_Click);
+            MenuFirstSettingsBTClick = new DelegateCommand(MenuFirstSettingsBT_Click);
+            MenuLangJapaneseBTClick = new DelegateCommand(MenuLangJapaneseBT_Click);
+            MenuLangEnglishBTClick = new DelegateCommand(MenuLangEnglishBT_Click);
+            MenuConfigEditorBTClick = new DelegateCommand(MenuConfigEditorBT_Click);
+            MenuCheckUpdateBTClick = new DelegateCommand(MenuCheckUpdateBT_Click);
+            MenuVersionInfoClick = new DelegateCommand(MenuVersionInfo_Click);
 
-            StartBTClick = new RelayCommand(StartBT_Click);
-            StopBTClick = new RelayCommand(StopBT_Click);
-            TelnetBTClick = new RelayCommand(TelnetBT_Click);
-            CommandListBTClick = new RelayCommand(CommandListBT_Click);
+            StartBTClick = new DelegateCommand(StartBT_Click);
+            StopBTClick = new DelegateCommand(StopBT_Click);
+            TelnetBTClick = new DelegateCommand(TelnetBT_Click);
+            CommandListBTClick = new DelegateCommand(CommandListBT_Click);
 
-            PlayerListRefreshBTClick = new RelayCommand(PlayerListRefreshBT_Click);
+            PlayerListRefreshBtClick = new DelegateCommand(PlayerListRefreshBt_Click);
 
-            PlayerContextMenuOpened = new RelayCommand(PlayerContextMenu_Opened);
-            AdminAddBTClick = new RelayCommand(AdminAddBT_Click);
-            AdminRemoveBTClick = new RelayCommand(AdminRemoveBT_Click);
-            WhiteListAddBTClick = new RelayCommand(WhiteListAddBT_Click);
-            WhiteListRemoveBTClick = new RelayCommand(WhiteListRemoveBT_Click);
-            KickBTClick = new RelayCommand(KickBT_Click);
-            BanBTClick = new RelayCommand(BanBT_Click);
-            KillBTClick = new RelayCommand(KillBT_Click);
-            WatchPlayerInfoBTClick = new RelayCommand(WatchPlayerInfoBT_Click);
+            PlayerContextMenuOpened = new DelegateCommand(PlayerContextMenu_Opened);
+            AdminAddBTClick = new DelegateCommand(AdminAddBT_Click);
+            AdminRemoveBTClick = new DelegateCommand(AdminRemoveBT_Click);
+            WhiteListAddBTClick = new DelegateCommand(WhiteListAddBT_Click);
+            WhiteListRemoveBTClick = new DelegateCommand(WhiteListRemoveBT_Click);
+            KickBTClick = new DelegateCommand(KickBT_Click);
+            BanBTClick = new DelegateCommand(BanBT_Click);
+            KillBTClick = new DelegateCommand(KillBT_Click);
+            WatchPlayerInfoBTClick = new DelegateCommand(WatchPlayerInfoBT_Click);
 
-            ChatTextBoxEnterDown = new RelayCommand<string>(ChatTextBoxEnter_Down);
+            ChatTextBoxEnterDown = new DelegateCommand<string>(ChatTextBoxEnter_Down);
 
-            ConsoleTextBoxMouseEnter = new RelayCommand(ConsoleTextBoxMouse_Enter);
-            ConsoleTextBoxMouseLeave = new RelayCommand(ConsoleTextBoxMouse_Leave);
-            DeleteLogBTClick = new RelayCommand(DeleteLogBT_Click);
+            ConsoleTextBoxMouseEnter = new DelegateCommand(ConsoleTextBoxMouse_Enter);
+            ConsoleTextBoxMouseLeave = new DelegateCommand(ConsoleTextBoxMouse_Leave);
+            DeleteLogBTClick = new DelegateCommand(DeleteLogBT_Click);
 
-            CmdTextBoxEnterDown = new RelayCommand<string>(CmdTextBox_EnterDown);
+            CmdTextBoxEnterDown = new DelegateCommand<string>(CmdTextBox_EnterDown);
 
-            GetTimeBTClick = new RelayCommand(GetTimeBT_Click);
-            SetTimeBTClick = new RelayCommand(SetTimeBT_Click);
-            SaveWorldBTClick = new RelayCommand(SaveWorldBT_Click);
+            GetTimeBTClick = new DelegateCommand(GetTimeBT_Click);
+            SetTimeBTClick = new DelegateCommand(SetTimeBT_Click);
+            SaveWorldBTClick = new DelegateCommand(SaveWorldBT_Click);
             #endregion
 
             #region Property Initialize
@@ -88,12 +83,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             TelnetBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBTIsEnabled);
             TelnetBTLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBTLabel);
 
-            AdminContextEnabled = model.ToReactivePropertyAsSynchronized(m => m.AdminContextEnabled);
-            WhitelistContextEnabled = model.ToReactivePropertyAsSynchronized(m => m.WhitelistContextEnabled);
-            KickContextEnabled = model.ToReactivePropertyAsSynchronized(m => m.KickContextEnabled);
-            BanContextEnabled = model.ToReactivePropertyAsSynchronized(m => m.BanContextEnabled);
-            WatchPlayerInfoContextEnabled = model.ToReactivePropertyAsSynchronized(m => m.WatchPlayerInfoContextEnabled);
-
+            UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
+            
             ChatLogText = model.ObserveProperty(m => m.ChatLogText).ToReactiveProperty();
             ChatInputText = model.ToReactivePropertyAsSynchronized(m => m.ChatInputText);
             
@@ -142,7 +133,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand TelnetBTClick { get; set; }
         public ICommand CommandListBTClick { get; set; }
 
-        public ICommand PlayerListRefreshBTClick { get; set; }
+        public ICommand PlayerListRefreshBtClick { get; set; }
         
         public ICommand PlayerContextMenuOpened { get; set; }
         public ICommand AdminAddBTClick { get; set; }
@@ -175,13 +166,43 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ReactiveProperty<string> TelnetBTLabel { get; set; }
         
         public ReactiveProperty<ObservableCollection<UserDetail>> UsersList { get; set; }
-        public ReactiveProperty<int> UsersListSelectedIndex { get; set; }
-        
-        public ReactiveProperty<bool> AdminContextEnabled { get; set; }
-        public ReactiveProperty<bool> WhitelistContextEnabled { get; set; }
-        public ReactiveProperty<bool> KickContextEnabled { get; set; }
-        public ReactiveProperty<bool> BanContextEnabled { get; set; }
-        public ReactiveProperty<bool> WatchPlayerInfoContextEnabled { get; set; }
+        private int usersListSelectedIndex = -1;
+        public int UsersListSelectedIndex
+        {
+            get => usersListSelectedIndex;
+            set => SetProperty(ref usersListSelectedIndex, value);
+        }
+
+        private bool adminContextEnabled;
+        public bool AdminContextEnabled
+        {
+            get => adminContextEnabled;
+            set => SetProperty(ref adminContextEnabled, value);
+        }
+        private bool whitelistContextEnabled;
+        public bool WhitelistContextEnabled
+        {
+            get => whitelistContextEnabled;
+            set => SetProperty(ref whitelistContextEnabled, value);
+        }
+        private bool kickContextEnabled;
+        public bool KickContextEnabled
+        {
+            get => kickContextEnabled;
+            set => SetProperty(ref kickContextEnabled, value);
+        }
+        private bool banContextEnabled;
+        public bool BanContextEnabled
+        {
+            get => banContextEnabled;
+            set => SetProperty(ref banContextEnabled, value);
+        }
+        private bool watchPlayerInfoContextEnabled;
+        public bool WatchPlayerInfoContextEnabled
+        {
+            get => watchPlayerInfoContextEnabled;
+            set => SetProperty(ref watchPlayerInfoContextEnabled, value);
+        }
         
         public ReactiveProperty<string> ChatLogText { get; set; }
         public ReactiveProperty<string> ChatInputText { get; set; }
@@ -190,21 +211,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public string ConsoleLogText
         {
             get => consoleLogText;
-            set
-            {
-                consoleLogText = value;
-                OnPropertyChanged(this);
-            }
+            set => SetProperty(ref consoleLogText, value);
         }
         private string cmdText;
         public string CmdText
         {
             get => cmdText;
-            set
-            {
-                cmdText = value;
-                OnPropertyChanged(this);
-            }
+            set => SetProperty(ref cmdText, value);
         }
         
         public ReactiveProperty<bool> ConnectionPanelIsEnabled { get; set; }
@@ -229,7 +242,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void MainWindow_Closing()
         {
-            Console.WriteLine("Closing");
+            model.SettingsSave();
         }
         private void MainWindow_KeyDown(KeyEventArgs e)
         {
@@ -248,12 +261,12 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void MenuLangJapaneseBT_Click()
         {
-            ResourceService.Current.ChangeCulture(ResourceService.Japanese);
+            model.ChangeCulture(ResourceService.Japanese);
             model.RefreshLabels();
         }
         private void MenuLangEnglishBT_Click()
         {
-            ResourceService.Current.ChangeCulture(ResourceService.English);
+            model.ChangeCulture(ResourceService.English);
             model.RefreshLabels();
         }
         private void MenuConfigEditorBT_Click()
@@ -290,14 +303,30 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         }
 
-        private void PlayerListRefreshBT_Click()
+        private void PlayerListRefreshBt_Click()
         {
-
+            model.PlayerRefresh();
         }
 
         private void PlayerContextMenu_Opened()
         {
-
+            int index = UsersListSelectedIndex;
+            if (index < 0)
+            {
+                AdminContextEnabled = false;
+                WhitelistContextEnabled = false;
+                KickContextEnabled = false;
+                BanContextEnabled = false;
+                WatchPlayerInfoContextEnabled = false;
+            }
+            else
+            {
+                AdminContextEnabled = true;
+                WhitelistContextEnabled = true;
+                KickContextEnabled = true;
+                BanContextEnabled = true;
+                WatchPlayerInfoContextEnabled = true;
+            }
         }
         private void AdminAddBT_Click()
         {
@@ -334,7 +363,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         
         private void ChatTextBoxEnter_Down(string e)
         {
-
+            model.SendChat(e);
+            ChatInputText.Value = "";
         }
 
         private void ConsoleTextBoxMouse_Enter()
@@ -347,7 +377,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void DeleteLogBT_Click()
         {
-
+            consoleLog.Clear();
+            ConsoleLogText = "";
         }
 
         private void CmdTextBox_EnterDown(string e)
@@ -358,15 +389,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void GetTimeBT_Click()
         {
-
+            model.SetTimeToTextBox();
         }
         private void SetTimeBT_Click()
         {
-
+            model.SetTimeToGame();
         }
         private void SaveWorldBT_Click()
         {
-
+            model.SendCommand("saveworld");
         }
 
 

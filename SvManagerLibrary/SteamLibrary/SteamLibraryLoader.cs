@@ -10,69 +10,44 @@ namespace SvManagerLibrary.SteamLibrary
 {
     public class SteamLibraryPath
     {
-        string dirPath = string.Empty;
-        public string DirPath
+        public string SteamDirPath
         {
-            get
-            {
-                return dirPath;
-            }
+            get;
         }
 
         public SteamLibraryPath(string dirPath)
         {
-            this.dirPath = dirPath;
+            SteamDirPath = dirPath;
         }
     }
     public class SteamLibraryLoader
     {
-        string filePath = string.Empty;
-        public string FilePath
+        public List<SteamLibraryPath> SteamLibraryPathList
         {
-            get
-            {
-                return filePath;
-            }
-
-            set
-            {
-                filePath = value;
-            }
+            get;
+        }
+        
+        public SteamLibraryLoader(string filePath)
+        {
+            SteamLibraryPathList = SetJson(filePath);
         }
 
-        List<SteamLibraryPath> dirList = new List<SteamLibraryPath>();
-        public List<SteamLibraryPath> DirList
+        private static List<SteamLibraryPath> SetJson(string filePath)
         {
-            get
-            {
-                return dirList;
-            }
-        }
-
-        public SteamLibraryLoader() { }
-        public SteamLibraryLoader(string _filePath)
-        {
-            filePath = _filePath;
-        }
-
-        public List<SteamLibraryPath> GetJson()
-        {
+            var dirList = new List<SteamLibraryPath>();
             var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             var sr = new StreamReader(fs);
             while (sr.Peek() > -1)
             {
-                string str = sr.ReadLine();
-
-                string expression = @"^\t""(?<name>.*?)""\t\t""(?<path>.*?)""$";
+                const string expression = @"^\t""(?<name>.*?)""\t\t""(?<path>.*?)""$";
                 var reg = new Regex(expression);
-                Match match = reg.Match(str);
-                if (match.Success == true)
+                var match = reg.Match(sr.ReadLine());
+                if (match.Success)
                 {
                     if (Directory.Exists(match.Groups["path"].Value))
                         dirList.Add(new SteamLibraryPath(match.Groups["path"].Value));
                 }
             }
-
             return dirList;
         }
     }

@@ -1,21 +1,14 @@
-﻿using _7dtd_svmanager_fix_mvvm.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _7dtd_svmanager_fix_mvvm.Models;
-using System.Windows;
-using _7dtd_svmanager_fix_mvvm.Setup.Models;
+﻿using _7dtd_svmanager_fix_mvvm.Setup.Models;
 using Reactive.Bindings;
 using System.Windows.Input;
 using Reactive.Bindings.Extensions;
 using Prism.Commands;
 using _7dtd_svmanager_fix_mvvm.Setup.Views;
+using CommonStyleLib.ViewModels;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
-    public class Page2ViewModel : NotifyBase
+    public class Page2ViewModel
     {
         Page2 page;
         public Page2ViewModel(Page2 page,Page2Model model)
