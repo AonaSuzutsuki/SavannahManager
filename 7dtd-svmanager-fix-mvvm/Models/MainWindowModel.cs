@@ -248,10 +248,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             Width = setting.Width;
             Height = setting.Height;
-            int ScreenWidth = (int)SystemParameters.WorkArea.Width;
-            int ScreenHeight = (int)SystemParameters.WorkArea.Height;
-            Top = (ScreenHeight - Height) / 2;
-            Left = (ScreenWidth - Width) / 2;
+            int screenWidth = (int)SystemParameters.WorkArea.Width;
+            int screenHeight = (int)SystemParameters.WorkArea.Height;
+            Top = (screenHeight - Height) / 2;
+            Left = (screenWidth - Width) / 2;
 
             Address = setting.Address;
             PortText = setting.Port.ToString();
