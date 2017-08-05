@@ -6,6 +6,8 @@ namespace Log
     static class LogStream
     {
 
+        public static bool IsLogGetter { get; set; }
+
         private static FileStream fs = null;
         private static StreamWriter sw = null;
 
@@ -14,17 +16,20 @@ namespace Log
         /// </summary>
         public static void MakeStream(string dirPath)
         {
-            DirectoryInfo di = new DirectoryInfo(KimamaLib.AppInfo.GetAppPath() + @"\logs");
-            if (!di.Exists)
-                di.Create();
-            DateTime dt = DateTime.Now;
-            fs = new FileStream(dirPath +
-                dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
-
-            sw = new StreamWriter(fs, System.Text.Encoding.UTF8)
+            if (IsLogGetter)
             {
-                AutoFlush = true
-            };
+                DirectoryInfo di = new DirectoryInfo(KimamaLib.AppInfo.GetAppPath() + @"\logs");
+                if (!di.Exists)
+                    di.Create();
+                DateTime dt = DateTime.Now;
+                fs = new FileStream(dirPath +
+                    dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+
+                sw = new StreamWriter(fs, System.Text.Encoding.UTF8)
+                {
+                    AutoFlush = true
+                };
+            }
         }
 
         /// <summary>

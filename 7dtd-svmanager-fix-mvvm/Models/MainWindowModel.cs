@@ -16,7 +16,6 @@ using _7dtd_svmanager_fix_mvvm.Settings;
 using CommonStyleLib.Models;
 using LanguageEx;
 using SvManagerLibrary.Chat;
-using System.Text;
 using SvManagerLibrary.Player;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -219,9 +218,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             get => setting.AdminFilePath;
         }
-
-        private bool isLogGetter;
-
+        
         private int consoleTextLength;
         #endregion
 
@@ -263,7 +260,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             PortText = setting.Port.ToString();
             Password = setting.Password;
 
-            isLogGetter = setting.IsLogGetter;
+            Log.LogStream.IsLogGetter = setting.IsLogGetter;
             LocalMode = setting.LocalMode;
             StartBTEnabled = LocalMode;
 
@@ -319,7 +316,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void RefreshLabels()
         {
-            if (CheckConnected())
+            if (IsConnected && RowConnected)
             {
                 TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
             }
@@ -378,7 +375,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             password = checkedValues.Password;
             port = checkedValues.Port;
 
-            if (CheckConnected())
+            if (IsConnected && RowConnected)
             {
                 ExMessageBoxBase.Show(LangResources.Resources.AlreadyConnected, LangResources.CommonResources.Error
                        , ExMessageBoxBase.MessageType.Exclamation);
@@ -465,10 +462,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         telnet.Write(TelnetClient.CR);
                         AppendConsoleLog(SocTelnetSend(password));
 
-                        if (isLogGetter)
-                        {
-                            Log.LogStream.MakeStream(appPath + @"\logs\");
-                        }
+                        Log.LogStream.MakeStream(appPath + @"\logs\");
 
                         LaunchThread();
 
@@ -612,7 +606,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void TelnetConnectOrDisconnect()
         {
-            if (!CheckConnected())
+            if (!IsConnected && !RowConnected)
             {
                 TelnetConnect();
             }
@@ -672,10 +666,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             LaunchThread();
 
-            if (isLogGetter)
-            {
-                Log.LogStream.MakeStream(appPath + @"\logs\");
-            }
+            Log.LogStream.MakeStream(appPath + @"\logs\");
             TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
             LocalModeEnabled = false;
             ConnectionPanelIsEnabled = false;
@@ -739,11 +730,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         {
                             SocTelnetSend("");
                         }
-
-                        if (isLogGetter)
-                        {
-                            Log.LogStream.WriteSteam(log);
-                        }
+                        
+                        Log.LogStream.WriteSteam(log);
 
                         if (!string.IsNullOrEmpty(log))
                         {
@@ -905,6 +893,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             playersDictionary.Clear();
             UsersList = null;
+        }
+        public void ShowPlayerInfo(int index)
+        {
+            var playerInfo = UsersList[index];
+            string msg = playerInfo.ToString();
+            CommonStyleLib.ExMessageBox.ExMessageBoxBase.Show(msg, "Player Info", ExMessageBoxBase.MessageType.Asterisk);
         }
 
         // Time
