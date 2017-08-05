@@ -29,6 +29,12 @@ namespace CommonStyleLib.Models
             set => SetProperty(ref aroundBorderOpacity, value);
         }
 
+        public void SetBorderColor(SolidColorBrush color)
+        {
+            if (!IsDeactivated)
+                AroundBorderColor = color;
+        }
+
         protected double width;
         public double Width
         {

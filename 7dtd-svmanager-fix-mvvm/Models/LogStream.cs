@@ -3,18 +3,18 @@ using System.IO;
 
 namespace Log
 {
-    static class LogStream
+    public class LogStream
     {
 
-        public static bool IsLogGetter { get; set; }
+        public bool IsLogGetter { get; set; }
 
-        private static FileStream fs = null;
-        private static StreamWriter sw = null;
+        private FileStream fs = null;
+        private StreamWriter sw = null;
 
         /// <summary>
         /// Create Instance of LogFile Stream.
         /// </summary>
-        public static void MakeStream(string dirPath)
+        public void MakeStream(string dirPath)
         {
             if (IsLogGetter)
             {
@@ -35,7 +35,7 @@ namespace Log
         /// <summary>
         /// Dispose LogFile Stream.
         /// </summary>
-        public static void StreamDisposer()
+        public void StreamDisposer()
         {
             sw?.Dispose();
             sw = null;
@@ -43,7 +43,7 @@ namespace Log
             fs = null;
         }
 
-        public static void WriteSteam(string text) {
+        public void WriteSteam(string text) {
             sw?.Write(text);
         }
     }

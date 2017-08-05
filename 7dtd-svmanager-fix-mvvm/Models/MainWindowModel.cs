@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using SvManagerLibrary.Time;
 using KimamaLib.Extension;
+using Log;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -94,7 +95,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             get => usersList;
             set => SetProperty(ref usersList, value);
         }
-        
+
 
         private string chatLogText;
         public string ChatLogText
@@ -195,13 +196,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
         }
         public bool IsFailed { get; private set; } = false;
-        
+
         private SettingLoader setting;
         public SettingLoader Setting { get => setting; }
 
         private ShortcutKeyManager shortcutKeyManager;
         public ShortcutKeyManager ShortcutKeyManager { get => shortcutKeyManager; }
-        
+
         private string address = string.Empty;
         private int port = 0;
         private string password = string.Empty;
@@ -218,17 +219,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             get => setting.AdminFilePath;
         }
-        
+
         private int consoleTextLength;
         #endregion
 
         #region Fiels
         private Window view;
 
-        private string appPath = AppInfo.GetAppPath();
+        private LogStream logStream = new LogStream();
         private TelnetClient telnet = new TelnetClient();
         private ChatInfoArray chatArray = new ChatInfoArray();
-        
+
         public static Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
         public static List<int> connectedIds = new List<int>();
 
@@ -241,9 +242,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void Initialize()
         {
-            setting = SettingLoader.Setting = new SettingLoader(appPath + @"\settings.ini");
-            shortcutKeyManager = new ShortcutKeyManager(AppInfo.GetAppPath() + @"\KeyConfig.xml",
-                AppInfo.GetAppPath() + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
+            setting = SettingLoader.Setting = new SettingLoader(StaticData.AppDirectoryPath + @"\settings.ini");
+            shortcutKeyManager = new ShortcutKeyManager(StaticData.AppDirectoryPath + @"\KeyConfig.xml",
+                StaticData.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
 
             Width = setting.Width;
             Height = setting.Height;
@@ -252,15 +253,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             Top = (ScreenHeight - Height) / 2;
             Left = (ScreenWidth - Width) / 2;
 
-            //exeFilePath = setting.ExeFilePath;
-            //adminFilePath = setting.AdminFilePath;
-            //configFilePath = setting.ConfigFilePath;
-
             Address = setting.Address;
             PortText = setting.Port.ToString();
             Password = setting.Password;
 
-            Log.LogStream.IsLogGetter = setting.IsLogGetter;
+            logStream.IsLogGetter = setting.IsLogGetter;
             LocalMode = setting.LocalMode;
             StartBTEnabled = LocalMode;
 
@@ -274,29 +271,29 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             if (setting.IsAutoUpdate)
             {
-            //    Task tasks = Task.Factory.StartNew(() =>
-            //    {
-            //        bool isUpdate = false;
-            //        string versionUrl = SharedData.UpdUrls.VersionUrl;
-            //        var updator = new Updator.Updator(versionUrl, "version.txt", SharedData.UpdUrls.BetaAlpha);
-            //        var updInfo = updator.Check();
-            //        isUpdate = updInfo.isUpdate;
-            //        updator.Delete();
+                //    Task tasks = Task.Factory.StartNew(() =>
+                //    {
+                //        bool isUpdate = false;
+                //        string versionUrl = SharedData.UpdUrls.VersionUrl;
+                //        var updator = new Updator.Updator(versionUrl, "version.txt", SharedData.UpdUrls.BetaAlpha);
+                //        var updInfo = updator.Check();
+                //        isUpdate = updInfo.isUpdate;
+                //        updator.Delete();
 
-            //        if (isUpdate)
-            //        {
-            //            View.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-            //            {
-            //                var dialogResult = ExMessageBoxBase.Show(this, "アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
-            //                    ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
-            //                if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
-            //                {
-            //                    UpdatorForm.UpdForm updFrm = new UpdatorForm.UpdForm();
-            //                    updFrm.ShowDialog();
-            //                }
-            //            }));
-            //        }
-            //    });
+                //        if (isUpdate)
+                //        {
+                //            View.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                //            {
+                //                var dialogResult = ExMessageBoxBase.Show(this, "アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
+                //                    ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+                //                if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
+                //                {
+                //                    UpdatorForm.UpdForm updFrm = new UpdatorForm.UpdForm();
+                //                    updFrm.ShowDialog();
+                //                }
+                //            }));
+                //        }
+                //    });
             }
         }
         public void SettingsSave()
@@ -342,23 +339,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             for (double _i = 1; _i >= 0; _i -= 0.1)
             {
-                //view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-                //{
-                    AroundBorderOpacity = _i;
-                    Thread.Sleep(5);
-                //}));
+                AroundBorderOpacity = _i;
+                Thread.Sleep(5);
             }
-            //view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-            //{
-                AroundBorderColor = color;
-            //}));
+            AroundBorderColor = color;
             for (double _i = 0; _i <= 1; _i += 0.1)
             {
-                //view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-                //{
-                    AroundBorderOpacity = _i;
-                    Thread.Sleep(5);
-                //}));
+                AroundBorderOpacity = _i;
+                Thread.Sleep(5);
             }
         }
 
@@ -382,36 +370,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 return;
             }
 
-            Process p = new Process();
-            p.StartInfo.FileName = ExeFilePath;
-            p.StartInfo.Arguments = @"-quit -batchmode -nographics -configfile=""" + ConfigFilePath + @""" -dedicated";
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.CreateNoWindow = false;
-            p.StartInfo.RedirectStandardInput = false;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.RedirectStandardError = true;
-            p.StartInfo.WorkingDirectory = Path.GetDirectoryName(ExeFilePath);
-
-            try
-            {
-                p.Start();
-            }
-            catch (Win32Exception ex)
-            {
-                ExMessageBoxBase.Show(ex.Message, LangResources.CommonResources.Error
+            var serverProcessManager = new ServerProcessManager(ExeFilePath, ConfigFilePath);
+            Action<string> processFailedAction = (message) => ExMessageBoxBase.Show(message, LangResources.CommonResources.Error
                         , ExMessageBoxBase.MessageType.Exclamation);
+            if (!serverProcessManager.ProcessStart(processFailedAction))
                 return;
-            }
-            
+
             StartBTEnabled = false;
             TelnetBTIsEnabled = false;
             LocalModeEnabled = false;
 
             BottomNewsLabel = LangResources.Resources.UI_WaitingServer;
-            if (!IsDeactivated)
-            {
-                AroundBorderColor = CommonStyleLib.StaticData.ActivatedBorderColor2;
-            }
+            base.SetBorderColor(CommonStyleLib.StaticData.ActivatedBorderColor2);
 
             Task tasks = Task.Factory.StartNew(() =>
             {
@@ -453,16 +423,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                             BottomNewsLabel = LangResources.Resources.UI_FinishedLaunching;
 
-                            if (!IsDeactivated)
-                            {
-                                AroundBorderColor = CommonStyleLib.StaticData.ActivatedBorderColor;
-                            }
+                            base.SetBorderColor(CommonStyleLib.StaticData.ActivatedBorderColor);
                         }));
-                        
+
                         telnet.Write(TelnetClient.CR);
                         AppendConsoleLog(SocTelnetSend(password));
 
-                        Log.LogStream.MakeStream(appPath + @"\logs\");
+                        logStream.MakeStream(StaticData.LogDirectoryPath);
 
                         LaunchThread();
 
@@ -480,7 +447,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 isServerForceStop = true;
                 return;
             }
-            
+
             if (CheckConnected())
             {
                 SocTelnetSend("shutdown");
@@ -592,8 +559,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
 
             // Telnetポート変換チェック
-            int port = 0;
-            if (!int.TryParse(checkValues.TelnetPort, out port))
+            if (!int.TryParse(checkValues.TelnetPort, out int port))
             {
                 ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_Is_Invalid, LangResources.Resources.Port), LangResources.CommonResources.Error
                                    , ExMessageBoxBase.MessageType.Exclamation);
@@ -620,7 +586,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             string address = Address;
             int port = this.port;
             string password = Password;
-            
+
             if (LocalMode)
             {
                 address = "127.0.0.1";
@@ -630,7 +596,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     ExMessageBoxBase.Show(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFile), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
                     return;
                 }
-                
+
                 ICheckedValue checkedValues = GetConfigInfo();
                 if (checkedValues == null) { return; }
 
@@ -666,7 +632,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             LaunchThread();
 
-            Log.LogStream.MakeStream(appPath + @"\logs\");
+            logStream.MakeStream(StaticData.LogDirectoryPath);
             TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
             LocalModeEnabled = false;
             ConnectionPanelIsEnabled = false;
@@ -693,6 +659,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             StartBTEnabled = LocalMode;
 
             PlayerClean();
+
+            logStream.StreamDisposer();
         }
 
         private void LaunchThread()
@@ -730,8 +698,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         {
                             SocTelnetSend("");
                         }
-                        
-                        Log.LogStream.WriteSteam(log);
+
+                        logStream.WriteSteam(log);
 
                         if (!string.IsNullOrEmpty(log))
                         {
@@ -780,7 +748,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 StartBTEnabled = true;
             }
 
-            Log.LogStream.StreamDisposer();
+            logStream.StreamDisposer();
 
             StopThread();
         }
@@ -847,20 +815,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 };
                 pDict.Add(id, uDetail);
                 keys.Add(id);
-            }
-            else
-            {
-                var uDetail = pDict[id];
-                uDetail.ID = playerInfo.Id;
-                uDetail.Level = playerInfo.Level;
-                uDetail.Name = playerInfo.Name;
-                uDetail.Health = playerInfo.Health;
-                uDetail.ZombieKills = playerInfo.ZombieKills;
-                uDetail.PlayerKills = playerInfo.PlayerKills;
-                uDetail.Death = playerInfo.Deaths;
-                uDetail.Score = playerInfo.Score;
-                uDetail.Coord = playerInfo.Coord;
-                uDetail.SteamID = playerInfo.SteamId;
             }
 
             var listdatas = new ObservableCollection<ViewModels.UserDetail>(pDict.Values);
@@ -953,7 +907,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
             return true;
         }
-        private string SocTelnetSend(string cmd, bool stop = false)
+        private string SocTelnetSend(string cmd)
         {
             if (!CheckConnected())
                 return null;
@@ -961,14 +915,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             telnet.Write(cmd);
             telnet.Write(TelnetClient.CRLF);
             string log = string.Empty;
-            if (stop)
-            {
-                LogLock();
-                Thread.Sleep(100);
-                log = telnet.Read().TrimEnd('\0');
-                log += telnet.Read().TrimEnd('\0');
-                LogUnlock();
-            }
+
+            LogLock();
+            Thread.Sleep(100);
+            log = telnet.Read().TrimEnd('\0');
+            log += telnet.Read().TrimEnd('\0');
+            LogUnlock();
+
             return log;
         }
         private void SocTelnetSendNRT(string cmd)

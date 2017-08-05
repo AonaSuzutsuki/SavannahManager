@@ -21,6 +21,7 @@ namespace _7dtd_svmanager_fix_mvvm
         public const string SteamLibraryPath = @"\steamapps\libraryfolders.vdf";
 
         public const string DirectoryPath = @"C:\";
-
+        public static readonly string AppDirectoryPath = KimamaLib.AppInfo.GetAppPath();
+        public static readonly string LogDirectoryPath = AppDirectoryPath + @"\logs\";
     }
 }
