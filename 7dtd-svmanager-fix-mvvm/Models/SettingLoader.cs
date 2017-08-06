@@ -12,6 +12,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 {
     public class SettingLoader
     {
+        /// <summary>
+        /// For sharing instance.
+        /// </summary>
         public static SettingLoader Setting { get; set; }
 
         #region Properties

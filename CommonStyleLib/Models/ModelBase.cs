@@ -1,11 +1,6 @@
 ﻿using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace CommonStyleLib.Models
@@ -32,6 +27,12 @@ namespace CommonStyleLib.Models
         {
             get => aroundBorderOpacity;
             set => SetProperty(ref aroundBorderOpacity, value);
+        }
+
+        public void SetBorderColor(SolidColorBrush color)
+        {
+            if (!IsDeactivated)
+                AroundBorderColor = color;
         }
 
         protected double width;

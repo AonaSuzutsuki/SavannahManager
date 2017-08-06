@@ -26,6 +26,12 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public string Score { get; set; }
         public string Coord { set; get; }
         public string SteamID { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8} {9}\r\n", ID, Level, Name, Health, ZombieKills,
+                PlayerKills, Death, Score, Coord, SteamID);
+        }
     }
 
     public class MainWindowViewModel : ViewModelBase
@@ -358,7 +364,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void WatchPlayerInfoBT_Click()
         {
-
+            model.ShowPlayerInfo(UsersListSelectedIndex);
         }
         
         private void ChatTextBoxEnter_Down(string e)

@@ -3,34 +3,39 @@ using System.IO;
 
 namespace Log
 {
-    static class LogStream
+    public class LogStream
     {
 
-        private static FileStream fs = null;
-        private static StreamWriter sw = null;
+        public bool IsLogGetter { get; set; }
+
+        private FileStream fs = null;
+        private StreamWriter sw = null;
 
         /// <summary>
         /// Create Instance of LogFile Stream.
         /// </summary>
-        public static void MakeStream(string dirPath)
+        public void MakeStream(string dirPath)
         {
-            DirectoryInfo di = new DirectoryInfo(KimamaLib.AppInfo.GetAppPath() + @"\logs");
-            if (!di.Exists)
-                di.Create();
-            DateTime dt = DateTime.Now;
-            fs = new FileStream(dirPath +
-                dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
-
-            sw = new StreamWriter(fs, System.Text.Encoding.UTF8)
+            if (IsLogGetter)
             {
-                AutoFlush = true
-            };
+                DirectoryInfo di = new DirectoryInfo(KimamaLib.AppInfo.GetAppPath() + @"\logs");
+                if (!di.Exists)
+                    di.Create();
+                DateTime dt = DateTime.Now;
+                fs = new FileStream(dirPath +
+                    dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+
+                sw = new StreamWriter(fs, System.Text.Encoding.UTF8)
+                {
+                    AutoFlush = true
+                };
+            }
         }
 
         /// <summary>
         /// Dispose LogFile Stream.
         /// </summary>
-        public static void StreamDisposer()
+        public void StreamDisposer()
         {
             sw?.Dispose();
             sw = null;
@@ -38,7 +43,7 @@ namespace Log
             fs = null;
         }
 
-        public static void WriteSteam(string text) {
+        public void WriteSteam(string text) {
             sw?.Write(text);
         }
     }
