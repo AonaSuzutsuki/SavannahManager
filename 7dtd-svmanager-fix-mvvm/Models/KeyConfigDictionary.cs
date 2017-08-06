@@ -8,14 +8,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 {
     public class KeyConfigDictionary : Dictionary<string, List<string>>
     {
-        public int MaxValueCount { get; private set; }
+        public int MinValueCount { get; private set; } = 0;
 
         public new void Add(string key, List<string> values)
         {
             base.Add(key, values);
 
-            if (MaxValueCount < values.Count)
-                MaxValueCount = values.Count;
+            if (MinValueCount <= 0 || MinValueCount > values.Count)
+                MinValueCount = values.Count;
         }
     }
 }
