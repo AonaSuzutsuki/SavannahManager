@@ -1,0 +1,70 @@
+﻿<?xml version="1.0"?>
+<ServerSettings>
+  <property name="ServerPort" value="26900" choices="" type="string">Port you want the server to listen on.</property>
+  <property name="ServerIsPublic" value="true" choices="true/false" type="combo">Should this server register to master server</property>
+  <property name="ServerName" value="My Game Host" choices="" type="string">Whatever you want the name to be.</property>
+  <property name="ServerPassword" value="" choices="" type="string">Password to gain entry to the server</property>
+  <property name="ServerMaxPlayerCount" value="8" choices="" type="integer">Maximum Concurrent Players</property>
+  <property name="ServerDescription" value="A 7 Days to Die server" choices="" type="string">Whatever you want the description to be.</property>
+  <property name="ServerWebsiteURL" value="" choices="" type="string">Website URL for the server</property>
+
+  <property name="GameWorld" value="Navezgane" choices="Navezgane/MP Wasteland Horde/MP Wasteland Skirmish/MP Wasteland War/Random Gen" type="combo">Navezgane, MP Wasteland Horde, MP Wasteland Skirmish, MP Wasteland War, Random Gen</property>
+  <property name="GameName" value="My Game" choices="" type="string">Whatever you want the game name to be THIS CONTROLS THE RANDOM GENERATION SEED</property>
+  <property name="GameDifficulty" value="2" choices="0/1/2/3/4" type="combo">0 - 4, 0=easiest, 4=hardest</property>
+  <property name="GameMode" value="GameModeSurvivalMP" choices="GameModeSurvivalMP/GameModeSurvivalSP" type="combo">GameModeSurvivalMP, GameModeSurvivalSP (MP has land protection)</property>
+
+  <property name="ZombiesRun" value="0" choices="0/1/2" type="combo">0 = default day/night walk/run, 1 = never run, 2 = always run</property>
+  <property name="BuildCreate" value="false" choices="true/false" type="combo">cheat mode on/off</property>
+  <property name="DayNightLength" value="60" choices="" type="integer">
+    Length of the day.
+    You can set number as realtime minute.
+  </property>
+  <property name="DayLightLength" value="18" choices="" type="integer">
+    Lenght of the sun is up.
+    You can set number as gametime hour.
+  </property>
+  <property name="FriendlyFire" value="false" choices="true/false" type="combo">Can friendly players damage each other (PvP)</property>
+  <property name="PersistentPlayerProfiles" value="true" choices="true/false" type="combo">If disabled a player can join with any selected profile. If true they will join with the last profile they joined with</property>
+
+  <property name="PlayerSafeZoneLevel" value="5" choices="" type="integer">If a player is less or equal this level he will create a safe zone (no enemies) when spawned.</property>
+  <property name="PlayerSafeZoneHours" value="40" choices="" type="integer">Hours in world time this safe zone exists</property>
+  
+  <property name="ControlPanelEnabled" value="true" choices="true/false" type="combo">Enable/Disable the control panel</property>
+  <property name="ControlPanelPort" value="8080" choices="" type="integer">Port of the control panel webpage</property>
+  <property name="ControlPanelPassword" value="CHANGEME" choices="" type="string">Password to gain entry to the control panel</property>
+
+  <property name="TelnetEnabled" value="true" choices="true/false" type="combo">Enable/Disable the telnet</property>
+  <property name="TelnetPort" value="8081" choices="" type="integer">Port of the telnet server</property>
+  <property name="TelnetPassword" value="CHANGEME" choices="" type="string">Password to gain entry to telnet interface</property>
+
+  <property name="DisableNAT" value="true" choices="true/false" type="combo">set this to true if your router doesn't support NAT</property>
+  <property name="AdminFileName" value="serveradmin.xml" choices="" type="string">Server admin file name</property>
+
+  <property name="DropOnDeath" value="0" choices="0/1/2/3" type="combo">0 = everything, 1 = toolbelt only, 2 = backpack only, 3 = delete all </property>
+  <property name="DropOnQuit" value="1" choices="0/1/2/3" type="combo">0 = nothing, 1 = everything, 2 = toolbelt only, 3 = backpack only</property>
+
+  <property name="EnemySenseMemory" value="60" choices="" type="integer">Time, in seconds, that a zombie will pursue something that has been sensed.</property>
+  <property name="EnemySpawnMode" value="3" choices="0/1/2/3/4/5" type="combo">0 = Disabled 0%, 1 = Very Low 50%, 2 = Low 75%, 3 = Medium 100%, 4 = High 125%, 5 = Very High 150%</property>
+  <property name="EnemyDifficulty" value="0" choices="0/1" type="combo">0 = Normal, 1 = Feral</property>
+
+  <property name="NightPercentage" value="35" choices="" type="integer">percentage in whole numbers</property>
+  <property name="BlockDurabilityModifier" value="100" choices="" type="integer">percentage in whole numbers</property>
+
+  <property name="LootAbundance" value="100" choices="" type="integer">percentage in whole numbers</property>
+  <property name="LootRespawnDays" value="7" choices="" type="integer">days in whole numbers</property>
+
+  <property name="LandClaimSize" value="7" choices="" type="integer">Size in blocks that is protected by a keystone</property>
+  <property name="LandClaimDeadZone" value="30" choices="" type="integer">Keystones must be this many blocks apart (unless you are friends with the other player)</property>
+  <property name="LandClaimExpiryTime" value="3" choices="" type="integer">The number of days a player can be offline before their claims expire and are no longer protected</property>
+  <property name="LandClaimDecayMode" value="0" choices="" type="integer">Controls how offline players land claims decay. All claims have full protection for the first 24hrs. 0=Linear, 1=Exponential, 2=Full protection until claim is expired.</property>
+  <property name="LandClaimOnlineDurabilityModifier" value="4" choices="" type="integer">How much protected claim area block hardness is increased when a player is online. 0 means infinite (no damage will ever be taken). Default is 32x</property>
+  <property name="LandClaimOfflineDurabilityModifier" value="4" choices="" type="integer">How much protected claim area block hardness is increased when a player is offline. 0 means infinite (no damage will ever be taken). Default is 32x</property>
+  <property name="AirDropFrequency" value="72" choices="" type="integer">How often airdrop occur in game-hours, 0 == never</property>
+  <property name="AirDropMarker" value="false" choices="true/false" type="combo">Sets if a marker is added to map/compass for air drops.</property>
+
+  <property name="MaxSpawnedAnimals" value="50" choices="" type="integer">Number of animal.</property>
+  <property name="MaxSpawnedZombies" value="60" choices="" type="integer">Making this number too large (more than about 80) may cause servers to run at poor framerates which will effect lag and play quality for clients.</property>
+  <property name="EACEnabled" value="true" choices="true/false" type="combo">Enables/Disables EasyAntiCheat</property>
+
+  <property name="SaveGameFolder" value="" choices="" type="string">use this to override the default save game absolute path</property>
+</ServerSettings>

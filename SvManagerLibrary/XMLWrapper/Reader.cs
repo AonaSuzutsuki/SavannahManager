@@ -13,56 +13,43 @@ namespace SvManagerLibrary.XMLWrapper
     {
         public string XmlPath { get; } = string.Empty;
 
-        private readonly XmlDocument _document;
+        private readonly XmlDocument document = new XmlDocument();
 
         public Reader(string xmlPath)
         {
             XmlPath = xmlPath;
-            _document = new XmlDocument();
-            _document.Load(xmlPath);
+            document.Load(xmlPath);
         }
         public Reader(Stream stream)
         {
-            _document = new XmlDocument();
-            _document.Load(stream);
+            document.Load(stream);
         }
 
         public List<string> GetAttributes(string attribute, string xpath)
         {
-            List<string> values = new List<string>();
+            var values = new List<string>();
 
-            ///items/item/property/property[@name='DegradationMax']
-            XmlNodeList nodeList = _document.SelectNodes(xpath);
-
-            for (int i = 0; i < nodeList.Count; i++)
-            {
-                values.Add((nodeList[i] as XmlElement).GetAttribute(attribute));
-            }
+            // /items/item/property/property[@name='DegradationMax']
+            var nodeList = document.SelectNodes(xpath);
+            foreach (var xmlNode in nodeList)
+                values.Add((xmlNode as XmlElement).GetAttribute(attribute));
 
             return values;
         }
         public string GetAttribute(string attribute, string xpath)
         {
-            ///items/item/property/property[@name='DegradationMax']
-            XmlNodeList nodeList = _document.SelectNodes(xpath);
-
-            string value = string.Empty;
-            if (nodeList.Count > 0)
-            {
-                value = (nodeList[0] as XmlElement).GetAttribute(attribute);
-            }
-            return value;
+            return GetAttributes(attribute, xpath)[0];
         }
 
         public List<string> GetValues(string xpath)
         {
-            List<string> values = new List<string>();
+            var values = new List<string>();
 
-            XmlNodeList nodeList = _document.SelectNodes(xpath);
-            for (int i = 0; i < nodeList.Count; i++)
+            var nodeList = document.SelectNodes(xpath);
+            foreach (var xmlNode in nodeList)
             {
-                string value = (nodeList[i] as XmlElement).InnerText;
-                value = Reader.RemoveSpace(value, true);
+                string value = (xmlNode as XmlElement).InnerText;
+                value = RemoveSpace(value, true);
                 values.Add(value);
             }
 
@@ -70,15 +57,7 @@ namespace SvManagerLibrary.XMLWrapper
         }
         public string GetValue(string xpath)
         {
-            XmlNodeList nodeList = _document.SelectNodes(xpath);
-            
-            string value = string.Empty;
-            if (nodeList.Count > 0)
-            {
-                value = (nodeList[0] as XmlElement).InnerText;
-                value = Reader.RemoveSpace(value, true);
-            }
-            return value;
+            return GetValues(xpath)[0];
         }
 
         private static string RemoveSpace(string text, bool isAddLine = false)

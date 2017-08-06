@@ -1,0 +1,203 @@
+﻿<?xml version="1.0"?>
+<ServerSettings xml:space="default">
+  <property name="ServerPort" value="26900" choices="" type="string">サーバーが待機するポート番号</property>
+  <property name="ServerIsPublic" value="true" choices="true/false" type="combo">サーバーをサーバーリストに表示させるかどうか。</property>
+  <property name="ServerName" value="My Game Host" choices="" type="string">
+    サーバー名。
+    サーバーリストにはこの名前で表示されます。
+  </property>
+  <property name="ServerPassword" value="" choices="" type="string">
+    サーバーパスワード。
+    サーバーに入る際に問われます。
+  </property>
+  <property name="ServerMaxPlayerCount" value="8" choices="" type="integer">参加可能最大人数</property>
+  <property name="ServerDescription" value="A 7 Days to Die server" choices="" type="string">サーバーの説明。</property>
+  <property name="ServerWebsiteURL" value="" choices="" type="string">サーバーのウェブサイト</property>
+
+  <property name="GameWorld" value="Navezgane" choices="Navezgane/MP Wasteland Horde/MP Wasteland Skirmish/MP Wasteland War/Random Gen" type="combo">
+    ワールドの種類。
+    Navezgane, Random Genはサバイバル用マップで、MP Wasteland Horde, MP Wasteland Skirmish, MP Wasteland Warはクリエイティブ用で生成されるらしいです。
+    ちなみに、Random Genは無限に続くランダムマップ。
+  </property>
+  <property name="GameName" value="My Game" choices="" type="string">ワールド名。Random Genの場合シード値になります。</property>
+  <property name="GameDifficulty" value="2" choices="0/1/2/3/4" type="combo">
+    ゲームの難易度。
+    0～4で0が最も易しい、4が最も難しいになります。
+  </property>
+  <property name="GameMode" value="GameModeSurvivalMP" choices="GameModeSurvivalMP/GameModeSurvivalSP" type="combo">
+    ゲームモードです。
+    MPとSPがありますが、MPだとLandClaimが使えるようなるもよう（要検証）
+  </property>
+
+  <property name="ZombiesRun" value="0" choices="0/1/2" type="combo">
+    ゾンビが走るか走らないかの設定。
+    0 = 夜だけ走る
+    1 = 昼夜走らない
+    2 = 昼夜問わず走る
+  </property>
+  <property name="BuildCreate" value="false" choices="true/false" type="combo">
+    いわゆるクリエイティブモード
+    cheatmodeがOnになります。
+  </property>
+  <property name="DayNightLength" value="60" choices="" type="integer">
+    ゲーム内での一日の時間です。
+    リアルタイム指定で、60であればリアルタイム1時間でゲーム内日付が変わります。
+  </property>
+  <property name="DayLightLength" value="18" choices="" type="integer">
+    太陽が出ている時間を設定します。
+    ゲーム内時間で時間刻みで設定することができます。
+    18であればゲーム内時間で18時間太陽が出ています。
+  </property>
+  <property name="PlayerKillingMode" value="3" choices="0/1/2/3" type="combo">
+    プレイヤーキルに関する設定です。
+    0 = プレイヤーキルなし
+    1 = 同盟（フレンド？）のみキルあり
+    2 = フレンド以外キルあり
+    3 = 全員対象
+  </property>
+  <property name="PersistentPlayerProfiles" value="true" choices="true/false" type="combo">
+    参加時にプロフィールを更新するかしないか。
+    trueだと初回参加時のプロフィールを使いまわします。
+    もしユーザーがプロフィールを変更した場合、この値をfalseにしていないと更新されません。
+  </property>
+
+  <property name="PlayerSafeZoneLevel" value="5" choices="" type="integer">
+    プレイヤーのスポーン時に指定されたレベル分だけ敵性生物の出現を停止させます。
+    ただし、このレベルがどの程度の広さを指すかは不明。
+  </property>
+  <property name="PlayerSafeZoneHours" value="40" choices="" type="integer">
+    PlayerSafeZoneLevelの安全が保証される時間
+  </property>
+
+  <property name="ControlPanelEnabled" value="false" choices="true/false" type="combo">
+    ウェブコントロールパネルを有効にするかしないか。
+  </property>
+  <property name="ControlPanelPort" value="8080" choices="" type="integer">
+    ウェブコントロールパネルが待機するポート番号。
+    アクセスする際は「http://ホスト:設定したポート」でアクセスします。
+    サーバーPCで8080で設定したならなら「http://127.0.0.1:8080」
+  </property>
+  <property name="ControlPanelPassword" value="CHANGEME" choices="" type="string">
+    ウェブコントロールパネルにアクセスする際のパスワード。
+  </property>
+
+  <property name="TelnetEnabled" value="true" choices="true/false" type="combo">
+    Telnetを有効にするかしないか。
+    基本的にTelnetでサーバーをコントロールするためtrueにしておきましょう。
+    また、当ソフトではTelnetを用いたコントロールを行うため必ずtrueにしてください。
+  </property>
+  <property name="TelnetPort" value="8081" choices="" type="integer">
+    Telnetが待機するポート番号。
+  </property>
+  <property name="TelnetPassword" value="CHANGEME" choices="" type="string">
+    Telnetにアクセスする際のパスワード。
+  </property>
+
+  <property name="AdminFileName" value="serveradmin.xml" choices="" type="string">
+    Admin情報が記述されたファイルを指定します。
+    相対パスで記述されていますが、おそらく絶対パスも可能です。
+    ちなみに、7Days to Dieの実行ファイルの場所ではなく、「C:\Users\{User Name}\Documents\7 Days To Die\Saves」が作業ディレクトリになります。
+  </property>
+
+  <property name="DropOnDeath" value="0" choices="0/1/2/3" type="combo">
+    死亡した際にアイテムをドロップするかどうか。
+    0 = 全て
+    1 = ツールベルトのみ
+    2 = バックパックのみ
+    3 = 全て消滅させる
+  </property>
+  <property name="DropOnQuit" value="1" choices="0/1/2/3" type="combo">
+    サーバー退出時にアイテムをドロップするかどうか。
+    0 = ドロップしない
+    1 = 全て
+    2 = ツールベルトのみ
+    3 = バックパックのみ
+  </property>
+
+  <property name="EnemySenseMemory" value="60" choices="" type="integer">
+    ゾンビが警戒してから追跡に入るまでの時間。
+  </property>
+  <property name="EnemySpawnMode" value="3" choices="0/1/2/3/4/5" type="combo">
+    敵が出現する割合。
+    0 = 0%
+    1 = 50%
+    2 = 75%
+    3 = 100%
+    4 = 125%
+    5 = 150%
+  </property>
+  <property name="EnemyDifficulty" value="0" choices="0/1" type="combo">
+    1だと石や壁など障害物に隠れても透けて見えているようで、0だと隠れていれば発見されないようです。（匂いなどの外部要因は除く）
+    kamado jp様、情報提供ありがとうございます。
+    
+    0 = Normal
+    1 = Feral
+  </property>
+  
+  <property name="BlockDurabilityModifier" value="100" choices="" type="integer">
+    ブロックの硬さ。
+    100%だと非常に硬いです。
+    20,25%あたりが通常に向いてます。
+  </property>
+
+  <property name="LootAbundance" value="100" choices="" type="integer">
+    一つの探索物から得られる資源の割合。
+  </property>
+  <property name="LootRespawnDays" value="7" choices="" type="integer">
+    資源の復活する期間。
+    ゲーム内日数指定。
+  </property>
+
+  <property name="LandClaimSize" value="7" choices="" type="integer">
+    LandClaimブロックの効果範囲(?)
+  </property>
+  <property name="LandClaimDeadZone" value="30" choices="" type="integer">
+    LandClaimブロックの再配置できない範囲。
+    この範囲内にはLandClaimブロックはおけません。
+  </property>
+  <property name="LandClaimExpiryTime" value="3" choices="" type="integer">
+    LandClaimブロックがオフラインでも機能する日数。
+    効果はあまりわかっていません。
+  </property>
+  <property name="LandClaimDecayMode" value="0" choices="0/1/2" type="combo">
+    LandClaimブロックが衰退していく割合(?)
+    0 = 比例して衰退します。
+    1 = 指数的に衰退する
+    2 = 終了するまで衰退しない.
+  </property>
+  <property name="LandClaimOnlineDurabilityModifier" value="4" choices="" type="integer">
+    LandClaimブロックが所有者がオンライン時に保護するブロックの硬さ。
+    通常の硬さを基準とした倍数で指定します。
+  </property>
+  <property name="LandClaimOfflineDurabilityModifier" value="4" choices="" type="integer">
+    LandClaimブロックが所有者がオフライン時に保護するブロックの硬さ。
+    通常の硬さを基準とした倍数で指定します。
+  </property>
+  <property name="AirDropFrequency" value="72" choices="" type="integer">
+    航空支援の投下する間隔。
+    時間(h)で指定します。
+  </property>
+  <property name="AirDropMarker" value="false" choices="true/false" type="combo">
+    支援物資が投下された時、マップに支援物資の位置を表示します。
+    標準値はfalseです。
+  </property>
+
+  <property name="MaxSpawnedAnimals" value="50" choices="" type="integer">
+    動物の最大湧き数
+  </property>
+  <property name="MaxSpawnedZombies" value="60" choices="" type="integer">
+    ゾンビの最大湧き数。
+    増やしすぎるとメモリ消費が増加するため注意。
+  </property>
+  <property name="EACEnabled" value="true" choices="true/false" type="combo">
+    EasyAntiCheatを有効にするかしないか。
+    EACは主に海賊版対策で用いられます。
+    VACのようにチートを防御するものではないため注意。
+  </property>
+
+  <property name="SaveGameFolder" value="" choices="" type="string">
+    ワールドの保存先ディレクトリパス。
+    絶対パスで指定する。
+    当ソフトでは空の場合このタグは書き込みません。
+  </property>
+</ServerSettings>

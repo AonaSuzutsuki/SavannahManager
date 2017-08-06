@@ -70,6 +70,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Reactive.Core, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.Core.3.1.1\lib\net46\System.Reactive.Core.dll</HintPath>
     </Reference>
@@ -111,14 +112,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ExMessageBox\Views\ExOKMessageBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ExMessageBox\Views\ExYesNoMessageBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Settings\Views\KeyConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -144,8 +137,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Icon.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ForceShutdowner.xaml">
       <SubType>Designer</SubType>
@@ -159,9 +152,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ExMessageBox\Models\ExMessageBoxModel.cs" />
-    <Compile Include="ExMessageBox\ViewModels\ExOKMessageBoxViewModel.cs" />
-    <Compile Include="ExMessageBox\ViewModels\ExYesNoMessageBoxViewModel.cs" />
     <Compile Include="LangResources\CommonResources.en-US.Designer.cs">
       <DependentUpon>CommonResources.en-US.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -173,8 +163,9 @@
       <DependentUpon>CommonResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\ForceShutdownerModel.cs" />
+    <Compile Include="Models\KeyConfigDictionary.cs" />
     <Compile Include="Models\LogStream.cs" />
-    <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\ServerProcessManager.cs" />
     <Compile Include="Settings\Models\KeyConfigModel.cs" />
     <Compile Include="Settings\Models\SettingModel.cs" />
     <Compile Include="Settings\ViewModels\KeyConfigViewModel.cs" />
@@ -202,13 +193,6 @@
       <DependentUpon>Page4.xaml</DependentUpon>
     </Compile>
     <Compile Include="StaticData.cs" />
-    <Compile Include="ExMessageBox\ExMessageBox.cs" />
-    <Compile Include="ExMessageBox\Views\ExOKMessageBox.xaml.cs">
-      <DependentUpon>ExOKMessageBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExMessageBox\Views\ExYesNoMessageBox.xaml.cs">
-      <DependentUpon>ExYesNoMessageBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="LangResources\CmdListResources.Designer.cs">
       <DependentUpon>CmdListResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -284,10 +268,7 @@
     <Compile Include="Models\SettingLoader.cs" />
     <Compile Include="ViewModels\ForceShutdownerViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\NotifyBase.cs" />
-    <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="Settings\ViewModels\SettingWindowViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Setup\Views\InitializeWindow.xaml.cs">
       <DependentUpon>InitializeWindow.xaml</DependentUpon>
     </Compile>
@@ -405,13 +386,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonStyleLib\CommonStyleLib.csproj">
+      <Project>{cf1972e5-2df2-4b7f-96b3-90d9bdb418c3}</Project>
+      <Name>CommonStyleLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">
       <Project>{adb034d1-b0fb-43d0-acac-3f5214cc03d7}</Project>
       <Name>SvManagerLibrary</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Imgs\1.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

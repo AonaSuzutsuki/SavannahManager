@@ -1,10 +1,9 @@
-﻿using SvManagerLibrary.XMLWrapper;
-using System;
+﻿using _7dtd_svmanager_fix_mvvm.Models;
+using CommonStyleLib.Models;
+using SvManagerLibrary.XMLWrapper;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings
@@ -52,56 +51,53 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
         {
             xmlPath = path;
             xmlBasePath = basePath;
-            load(path, basePath);
+            Load(path, basePath);
         }
         
-        private void load(string path, string basePath)
+        private void Load(string path, string basePath)
         {
             if (!File.Exists(basePath)) return;
 
             var xmlBaseReader = new Reader(basePath);
-            List<string> baseNames = xmlBaseReader.GetAttributes("shortcutname", "shortcuts/shortcut");
-            List<string> baseSpecialkeies = xmlBaseReader.GetAttributes("specialkey", "shortcuts/shortcut");
-            List<string> baseMainkeies = xmlBaseReader.GetAttributes("mainkey", "shortcuts/shortcut");
-            List<string> baseDescriptions = xmlBaseReader.GetValues("shortcuts/shortcut");
-            
+            var baseDic = new KeyConfigDictionary()
+            {
+                { "shortcutnames", xmlBaseReader.GetAttributes("shortcutname", "shortcuts/shortcut") },
+                { "specialkeies", xmlBaseReader.GetAttributes("specialkey", "shortcuts/shortcut") },
+                { "mainkeies", xmlBaseReader.GetAttributes("mainkey", "shortcuts/shortcut") },
+                { "descriptions", xmlBaseReader.GetValues("shortcuts/shortcut") }
+            };
+
             var modConverter = new ModifierKeysConverter();
             var keyConverter = new KeyConverter();
-
-            int count = baseNames.Count > baseSpecialkeies.Count ? baseSpecialkeies.Count : baseNames.Count;
-            count = count > baseMainkeies.Count ? baseMainkeies.Count : count;
-            count = count > baseDescriptions.Count ? baseDescriptions.Count : count;
-            for (int i = 0; i < count; ++i)
+            
+            for (int i = 0; i < baseDic.MinValueCount; ++i)
             {
-                ModifierKeys specialKey = (ModifierKeys)modConverter.ConvertFromString(baseSpecialkeies[i]);
-                Key mainKey = (Key)keyConverter.ConvertFromString(baseMainkeies[i]);
-                ShortcutKeies.Add(baseNames[i], new ShortcutKey(baseNames[i], specialKey, mainKey, baseDescriptions[i].TrimEnd('\n').TrimEnd('\r')));
+                ModifierKeys specialKey = (ModifierKeys)modConverter.ConvertFromString(baseDic["specialkeies"][i]);
+                Key mainKey = (Key)keyConverter.ConvertFromString(baseDic["mainkeies"][i]);
+                ShortcutKeies.Add(baseDic["shortcutnames"][i],
+                    new ShortcutKey(baseDic["shortcutnames"][i], specialKey, mainKey, baseDic["descriptions"][i].TrimEnd('\n').TrimEnd('\r')));
             }
 
             if (!File.Exists(path)) return;
 
             var xmlReader = new Reader(path);
-            List<string> names = xmlReader.GetAttributes("shortcutname", "shortcuts/shortcut");
-            List<string> specialkeies = xmlReader.GetAttributes("specialkey", "shortcuts/shortcut");
-            List<string> mainkeies = xmlReader.GetAttributes("mainkey", "shortcuts/shortcut");
-
-            foreach (var item in names.Select((v, i) => new { v, i }))
+            var dic = new KeyConfigDictionary
             {
-                if (ShortcutKeies.ContainsKey(item.v))
-                {
-                    ModifierKeys specialKey;
-                    if (specialkeies[item.i].Equals("None"))
-                    {
-                        specialKey = ModifierKeys.None;
-                    }
-                    else
-                    {
-                        specialKey = (ModifierKeys)modConverter.ConvertFromString(specialkeies[item.i]);
-                    }
-                    Key mainKey = (Key)keyConverter.ConvertFromString(mainkeies[item.i]);
-                    string description = ShortcutKeies[item.v].Description;
-                    ShortcutKeies[item.v] = new ShortcutKey(item.v, specialKey, mainKey, description);
-                }
+                { "shortcutnames", xmlReader.GetAttributes("shortcutname", "shortcuts/shortcut") },
+                { "specialkeies", xmlReader.GetAttributes("specialkey", "shortcuts/shortcut") },
+                { "mainkeies", xmlReader.GetAttributes("mainkey", "shortcuts/shortcut") }
+            };
+
+            for (int i = 0; i < dic.MinValueCount; ++i)
+            {
+                ModifierKeys specialKey;
+                if (dic["specialkeies"][i].Equals("None"))
+                    specialKey = ModifierKeys.None;
+                else
+                    specialKey = (ModifierKeys)modConverter.ConvertFromString(dic["specialkeies"][i]);
+                Key mainKey = (Key)keyConverter.ConvertFromString(dic["mainkeies"][i]);
+                string description = ShortcutKeies[dic["shortcutnames"][i]].Description;
+                ShortcutKeies[dic["shortcutnames"][i]] = new ShortcutKey(dic["shortcutnames"][i], specialKey, mainKey, description);
             }
             return;
         }
@@ -116,11 +112,8 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
         {
             var xmlWriter = new Writer();
             xmlWriter.SetRoot("shortcuts");
-            
-            foreach (ShortcutKey shortcutKey in ShortcutKeies.Values)
-            {
-                xmlWriter.AddElement("shortcut", CreateAttributeInfo(shortcutKey));
-            }
+
+            ShortcutKeies.ForEach((key, value) => xmlWriter.AddElement("shortcut", CreateAttributeInfo(value)));
 
             xmlWriter.Write(xmlPath);
         }

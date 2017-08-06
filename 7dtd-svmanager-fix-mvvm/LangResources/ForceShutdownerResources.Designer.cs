@@ -61,15 +61,6 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
-        ///   エラー に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Error {
-            get {
-                return ResourceManager.GetString("Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   閉じる に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_CloseBT {
@@ -102,6 +93,15 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         public static string UI_NameLabel {
             get {
                 return ResourceManager.GetString("UI_NameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   強制シャットダウン に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Title {
+            get {
+                return ResourceManager.GetString("UI_Title", resourceCulture);
             }
         }
     }

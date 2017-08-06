@@ -8,8 +8,14 @@ namespace SvManagerLibrary.XMLWrapper
     /// </summary>
     public class Writer
     {
-        private XmlDocument _xDocument = new XmlDocument();
-        private XmlElement _xRoot;
+        private XmlDocument xDocument = new XmlDocument();
+        private XmlProcessingInstruction xDeclaration;
+        private XmlElement xRoot;
+
+        public Writer()
+        {
+            xDeclaration = xDocument.CreateProcessingInstruction("xml", "version=\"1.0\"");
+        }
         
         /// <summary>
         /// Set a root.
@@ -17,48 +23,38 @@ namespace SvManagerLibrary.XMLWrapper
         /// <param name="rootName">Root name</param>
         public void SetRoot(string rootName)
         {
-            _xRoot = _xDocument.CreateElement(rootName);
+            xRoot = xDocument.CreateElement(rootName);
         }
+
         /// <summary>
         /// Add an element.
         /// </summary>
         /// <param name="elementName">Element name.</param>
         /// <param name="attributeInfos">Attribute informations.</param>
-        public void AddElement(string elementName, AttributeInfo[] attributeInfos)
+        /// <param name="value">Attribute value.</param>
+        public void AddElement(string elementName, AttributeInfo[] attributeInfos, string value = "")
         {
-            XmlElement xmeta = _xDocument.CreateElement(elementName);
+            XmlElement xmeta = xDocument.CreateElement(elementName);
             foreach (AttributeInfo attributeInfo in attributeInfos)
-            {
                 xmeta.SetAttribute(attributeInfo.Name, attributeInfo.Value);
-            }
-
-            _xRoot.AppendChild(xmeta);
-        }
-        public void AddElement(string elementName, AttributeInfo[] attributeInfos, string value)
-        {
-            XmlElement xmeta = _xDocument.CreateElement(elementName);
-            foreach (AttributeInfo attributeInfo in attributeInfos)
-            {
-                xmeta.SetAttribute(attributeInfo.Name, attributeInfo.Value);
-            }
             xmeta.InnerText = value;
 
-            _xRoot.AppendChild(xmeta);
+            xRoot.AppendChild(xmeta);
         }
-        public void AddElement(string elementName, AttributeInfo attributeInfo)
-        {
-            XmlElement xmeta = _xDocument.CreateElement(elementName);
-            xmeta.SetAttribute(attributeInfo.Name, attributeInfo.Value);
 
-            _xRoot.AppendChild(xmeta);
-        }
-        public void AddElement(string elementName, AttributeInfo attributeInfo, string value)
+        /// <summary>
+        /// Add an element.
+        /// </summary>
+        /// <param name="elementName">Element name.</param>
+        /// <param name="attributeInfo">Attribute information.</param>
+        /// <param name="value">Attribute value.</param>
+        public void AddElement(string elementName, AttributeInfo attributeInfo, string value = "")
         {
-            XmlElement xmeta = _xDocument.CreateElement(elementName);
+            XmlElement xmeta = xDocument.CreateElement(elementName);
             xmeta.SetAttribute(attributeInfo.Name, attributeInfo.Value);
             xmeta.InnerText = value;
 
-            _xRoot.AppendChild(xmeta);
+            xRoot.AppendChild(xmeta);
         }
 
         /// <summary>
@@ -66,30 +62,21 @@ namespace SvManagerLibrary.XMLWrapper
         /// </summary>
         public void Write(string xmlPath)
         {
-            XmlProcessingInstruction xDeclaration = _xDocument.CreateProcessingInstruction("xml", @"version=""1.0""");
-            
-            //宣言の追加
-            _xDocument.AppendChild(xDeclaration);
-            //ServerSettingsの追加
-            _xDocument.AppendChild(_xRoot);
-
-            FileStream _fs = new FileStream(xmlPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
-            _xDocument.Save(_fs);
-            _fs.Dispose();
+            FileStream fs = new FileStream(xmlPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+            Write(fs);
+            fs.Dispose();
         }
         /// <summary>
         /// Write to a file as XML Dcoument.
         /// </summary>
         public void Write(FileStream fileStream)
         {
-            XmlProcessingInstruction xDeclaration = _xDocument.CreateProcessingInstruction("xml", @"version=""1.0""");
-
             //宣言の追加
-            _xDocument.AppendChild(xDeclaration);
+            xDocument.AppendChild(xDeclaration);
             //ServerSettingsの追加
-            _xDocument.AppendChild(_xRoot);
+            xDocument.AppendChild(xRoot);
             
-            _xDocument.Save(fileStream);
+            xDocument.Save(fileStream);
         }
     }
 }

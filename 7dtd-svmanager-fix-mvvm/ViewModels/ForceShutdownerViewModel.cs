@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using _7dtd_svmanager_fix_mvvm.Models;
 using System.Collections.ObjectModel;
 using Reactive.Bindings.Extensions;
 using Reactive.Bindings;
 using System.Windows.Input;
 using Prism.Commands;
+using CommonStyleLib.ViewModels;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -25,7 +21,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             ShutdownBtClick = new DelegateCommand(ShutdownBt_Click);
 
             ProcessData = new ReadOnlyObservableCollection<ProcessTab>(model.ProcessData);
-            ProcessListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.CurrentIndex);
         }
 
         #region EventProperties
@@ -35,7 +30,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         #region Properties
         public ReadOnlyObservableCollection<ProcessTab> ProcessData { get; }
-        public ReactiveProperty<int> ProcessListSelectedIndex { get; set; }
+        public int ProcessListSelectedIndex { get; set; } = -1;
         #endregion
 
         #region Event Methods
@@ -45,7 +40,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void ShutdownBt_Click()
         {
-            model.KillProcess();
+            model.KillProcess(ProcessListSelectedIndex);
+            model.Refresh();
         }
         #endregion
     }

@@ -1,17 +1,11 @@
-﻿using _7dtd_svmanager_fix_mvvm.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _7dtd_svmanager_fix_mvvm.Models;
-using System.Windows;
+﻿using System.Windows;
 using System.Collections.ObjectModel;
 using _7dtd_svmanager_fix_mvvm.Settings.Models;
 using System.Windows.Input;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using CommonStyleLib.ViewModels;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 {
@@ -41,11 +35,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         public ReadOnlyObservableCollection<ShortcutKeyForList> KeyList
         {
             get => keyList;
-            set
-            {
-                keyList = value;
-                OnPropertyChanged(this);
-            }
+            set => SetProperty(ref keyList, value);
         }
         
         public ReactiveProperty<int> KeyListSelectedIndex { get; set; }

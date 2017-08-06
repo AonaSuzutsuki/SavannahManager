@@ -6,24 +6,17 @@ namespace SvManagerLibrary.Player
 {
     public class PlayerInfoArray : IList<PlayerInfo>
     {
-        private readonly List<PlayerInfo> _playerData = new List<PlayerInfo>();
+        private readonly List<PlayerInfo> playerData = new List<PlayerInfo>();
 
         public PlayerInfo this[int index]
         {
-            get
-            {
-                return ((IList<PlayerInfo>)_playerData)[index];
-            }
-
-            set
-            {
-                ((IList<PlayerInfo>)_playerData)[index] = value;
-            }
+            get => playerData[index];
+            set => playerData[index] = value;
         }
 
         public void Add(PlayerInfo item)
         {
-            ((IList<PlayerInfo>)_playerData).Add(item);
+            playerData.Add(item);
         }
         public void Add(string log)
         {
@@ -33,61 +26,50 @@ namespace SvManagerLibrary.Player
                 PlayerInfo uDetail = PlayerInfoConverter.ConvertPlayerDetail(sr.ReadLine());
                 if (uDetail != null)
                 {
-                    _playerData.Add(uDetail);
+                    playerData.Add(uDetail);
                 }
             }
         }
 
-        public int Count
-        {
-            get
-            {
-                return ((IList<PlayerInfo>)_playerData).Count;
-            }
-        }
-        public bool IsReadOnly
-        {
-            get
-            {
-                return ((IList<PlayerInfo>)_playerData).IsReadOnly;
-            }
-        }
+        public int Count => playerData.Count;
+        public bool IsReadOnly => ((IList<PlayerInfo>)playerData).IsReadOnly;
+
         public void Clear()
         {
-            ((IList<PlayerInfo>)_playerData).Clear();
+            playerData.Clear();
         }
         public bool Contains(PlayerInfo item)
         {
-            return ((IList<PlayerInfo>)_playerData).Contains(item);
+            return playerData.Contains(item);
         }
         public void CopyTo(PlayerInfo[] array, int arrayIndex)
         {
-            ((IList<PlayerInfo>)_playerData).CopyTo(array, arrayIndex);
+            playerData.CopyTo(array, arrayIndex);
         }
         public IEnumerator<PlayerInfo> GetEnumerator()
         {
-            return ((IList<PlayerInfo>)_playerData).GetEnumerator();
+            return ((IList<PlayerInfo>)playerData).GetEnumerator();
         }
         public int IndexOf(PlayerInfo item)
         {
-            return ((IList<PlayerInfo>)_playerData).IndexOf(item);
+            return playerData.IndexOf(item);
         }
         public void Insert(int index, PlayerInfo item)
         {
-            ((IList<PlayerInfo>)_playerData).Insert(index, item);
+            playerData.Insert(index, item);
         }
         public bool Remove(PlayerInfo item)
         {
-            return ((IList<PlayerInfo>)_playerData).Remove(item);
+            return playerData.Remove(item);
         }
         public void RemoveAt(int index)
         {
-            ((IList<PlayerInfo>)_playerData).RemoveAt(index);
+            playerData.RemoveAt(index);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IList<PlayerInfo>)_playerData).GetEnumerator();
+            return ((IList<PlayerInfo>)playerData).GetEnumerator();
         }
     }
 }

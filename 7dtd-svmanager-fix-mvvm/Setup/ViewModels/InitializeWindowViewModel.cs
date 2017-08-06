@@ -1,16 +1,10 @@
-﻿using _7dtd_svmanager_fix_mvvm.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _7dtd_svmanager_fix_mvvm.Models;
-using System.Windows;
+﻿using System.Windows;
 using _7dtd_svmanager_fix_mvvm.Setup.Models;
 using Reactive.Bindings;
 using System.Windows.Input;
 using Prism.Commands;
 using Reactive.Bindings.Extensions;
+using CommonStyleLib.ViewModels;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
