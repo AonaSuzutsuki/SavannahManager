@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:views="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
+        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Settings" Height="300" Width="600" ResizeMode="CanMinimize">
@@ -44,7 +44,7 @@
             <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDown">
-                        <views:InteractiveCommand  Command="{Binding ImageMouseDown}" />
+                        <CommonViews:InteractiveCommand  Command="{Binding ImageMouseDown}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Image>
@@ -106,7 +106,7 @@
                         <TextBox Name="InputKeyTextBox" Text="{Binding InputKeyText.Value}" IsReadOnly="True" Grid.Column="0" Width="150">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="KeyDown">
-                                    <views:InteractiveCommand Command="{Binding InputKeyTextBoxKeyDown}" />
+                                    <CommonViews:InteractiveCommand Command="{Binding InputKeyTextBoxKeyDown}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>

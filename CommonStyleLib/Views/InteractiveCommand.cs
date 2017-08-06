@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
-namespace _7dtd_svmanager_fix_mvvm.Views
+namespace CommonStyleLib.Views
 {
     public class InteractiveCommand : TriggerAction<DependencyObject>
     {

@@ -280,7 +280,6 @@
     </Compile>
     <Compile Include="Views\TextBoxBehavior.cs" />
     <Compile Include="Views\Window.cs" />
-    <Compile Include="Views\InteractiveCommand.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
