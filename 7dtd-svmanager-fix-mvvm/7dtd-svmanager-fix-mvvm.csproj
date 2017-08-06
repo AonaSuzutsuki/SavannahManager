@@ -163,6 +163,7 @@
       <DependentUpon>CommonResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\ForceShutdownerModel.cs" />
+    <Compile Include="Models\KeyConfigDictionary.cs" />
     <Compile Include="Models\LogStream.cs" />
     <Compile Include="Models\ServerProcessManager.cs" />
     <Compile Include="Settings\Models\KeyConfigModel.cs" />

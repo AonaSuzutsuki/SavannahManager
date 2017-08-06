@@ -185,7 +185,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         #endregion
 
         #region Properties
-        private bool IsConnected { get; set; }
+        private bool isConnected;
+        private bool IsConnected
+        {
+            get => isConnected && RowConnected;
+            set => isConnected = value;
+        }
         private bool RowConnected
         {
             get
@@ -313,7 +318,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void RefreshLabels()
         {
-            if (IsConnected && RowConnected)
+            if (IsConnected)
             {
                 TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
             }
@@ -363,7 +368,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             password = checkedValues.Password;
             port = checkedValues.Port;
 
-            if (IsConnected && RowConnected)
+            if (IsConnected)
             {
                 ExMessageBoxBase.Show(LangResources.Resources.AlreadyConnected, LangResources.CommonResources.Error
                        , ExMessageBoxBase.MessageType.Exclamation);
@@ -390,22 +395,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 {
                     if (isServerForceStop)
                     {
-                        view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-                        {
-                            TelnetBTIsEnabled = true;
-                            TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
-                            StartBTEnabled = true;
-                            LocalModeEnabled = true;
-                            ConnectionPanelIsEnabled = !LocalMode;
-
-                            BottomNewsLabel = LangResources.Resources.UI_ReadyComplete;
-
-                            AroundBorderColor = CommonStyleLib.StaticData.ActivatedBorderColor;
-                        }));
+                        TelnetBTIsEnabled = true;
+                        TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
+                        StartBTEnabled = true;
+                        LocalModeEnabled = true;
+                        ConnectionPanelIsEnabled = !LocalMode;
+                        BottomNewsLabel = LangResources.Resources.UI_ReadyComplete;
+                        AroundBorderColor = CommonStyleLib.StaticData.ActivatedBorderColor;
 
                         IsTelnetLoading = false;
                         isServerForceStop = false;
-
                         break;
                     }
 
@@ -414,17 +413,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         IsConnected = true;
                         IsTelnetLoading = false;
 
-                        view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-                        {
-                            TelnetBTIsEnabled = true;
-                            TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
-                            LocalModeEnabled = false;
-                            ConnectionPanelIsEnabled = false;
-
-                            BottomNewsLabel = LangResources.Resources.UI_FinishedLaunching;
-
-                            base.SetBorderColor(CommonStyleLib.StaticData.ActivatedBorderColor);
-                        }));
+                        TelnetBTIsEnabled = true;
+                        TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
+                        LocalModeEnabled = false;
+                        ConnectionPanelIsEnabled = false;
+                        BottomNewsLabel = LangResources.Resources.UI_FinishedLaunching;
+                        base.SetBorderColor(CommonStyleLib.StaticData.ActivatedBorderColor);
 
                         telnet.Write(TelnetClient.CR);
                         AppendConsoleLog(SocTelnetSend(password));
@@ -572,7 +566,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void TelnetConnectOrDisconnect()
         {
-            if (!IsConnected && !RowConnected)
+            if (!IsConnected)
             {
                 TelnetConnect();
             }
@@ -603,11 +597,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 password = checkedValues.Password;
                 port = checkedValues.Port;
             }
-
-            //
-            // 空文字チェック
-            //
-
+            
             IsFailed = false;
             if (telnet.Connect(address, port))
             {
@@ -678,11 +668,28 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     logThread.Abort();
         }
 
+        private void TelnetDispose()
+        {
+            telnet.Dispose();
+
+            isStop = false;
+            IsConnected = false;
+            PlayerClean();
+
+            TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
+            LocalModeEnabled = true;
+            ConnectionPanelIsEnabled = !LocalMode;
+            StartBTEnabled = LocalMode;
+
+            logStream.StreamDisposer();
+
+            StopThread();
+        }
         private void LogRead()
         {
             while (true)
             {
-                if (isSended)
+                if (LogLockCheck())
                 {
                     Thread.Sleep(10);
                     continue;
@@ -690,21 +697,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 try
                 {
-                    if (CheckConnected())
+                    if (isConnected)
                     {
                         string log = telnet.Read().Trim('\0');
 
                         if (isStop)
-                        {
                             SocTelnetSend("");
-                        }
 
                         logStream.WriteSteam(log);
-
-                        if (!string.IsNullOrEmpty(log))
-                        {
-                            AppendConsoleLog(log);
-                        }
+                        
+                        AppendConsoleLog(log);
 
                         if (log.IndexOf("Chat") > -1)
                         {
@@ -735,22 +737,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 Thread.Sleep(10);
             }
 
-            telnet.Dispose();
-            isStop = false;
-            PlayerClean();
-            TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
-            LocalModeEnabled = true;
-            ConnectionPanelIsEnabled = !LocalMode;
-            IsConnected = false;
-
-            if (LocalMode)
-            {
-                StartBTEnabled = true;
-            }
-
-            logStream.StreamDisposer();
-
-            StopThread();
+            TelnetDispose();
         }
         private void LogLock()
         {
@@ -759,6 +746,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private void LogUnlock()
         {
             isSended = false;
+        }
+        private bool LogLockCheck()
+        {
+            return isSended;
         }
 
         //
@@ -887,20 +878,23 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private void AppendConsoleLog(string text)
         {
-            OnAppendConsoleText(new AppendedLogTextEventArgs()
+            if (!string.IsNullOrEmpty(text))
             {
-                AppendedLogText = text,
-                MaxLength = consoleTextLength
-            });
+                OnAppendConsoleText(new AppendedLogTextEventArgs()
+                {
+                    AppendedLogText = text,
+                    MaxLength = consoleTextLength
+                });
+            }
         }
 
         public void SendCommand(string cmd)
         {
             SocTelnetSendNRT(cmd);
         }
-        private bool CheckConnected()
+        private bool CheckConnected(bool isAlert = false)
         {
-            if (!IsConnected && !RowConnected)
+            if (!IsConnected)
             {
                 ExMessageBoxBase.Show(LangResources.Resources.HasnotBeConnected, LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
                 return false;
