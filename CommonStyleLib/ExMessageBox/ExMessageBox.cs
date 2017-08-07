@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace CommonStyleLib.ExMessageBox
+namespace CommonLib.ExMessageBox
 {
     public static class ExMessageBoxBase
     {

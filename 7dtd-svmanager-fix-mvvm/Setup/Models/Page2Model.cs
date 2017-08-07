@@ -1,4 +1,4 @@
-﻿using CommonStyleLib.ExMessageBox;
+﻿using CommonLib.ExMessageBox;
 using KimamaLib.File;
 using Microsoft.Win32;
 using Prism.Mvvm;

@@ -1,5 +1,5 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Models;
-using CommonStyleLib.Models;
+using CommonLib.Models;
 using SvManagerLibrary.XMLWrapper;
 using System.Collections.Generic;
 using System.IO;
