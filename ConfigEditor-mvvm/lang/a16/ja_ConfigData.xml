@@ -1,131 +1,131 @@
 ﻿<?xml version="1.0"?>
 <ServerSettings xml:space="default">
-  <property name="ServerPort" value="26900" choices="" type="string">サーバーが待機するポート番号</property>
-  <property name="ServerIsPublic" value="true" choices="true/false" type="combo">サーバーをサーバーリストに表示させるかどうか。</property>
-  <property name="ServerName" value="My Game Host" choices="" type="string">
+  <property name="ServerPort" value="26900" selection="" type="string">サーバーが待機するポート番号</property>
+  <property name="ServerIsPublic" value="true" selection="true/false" type="combo">サーバーをサーバーリストに表示させるかどうか。</property>
+  <property name="ServerName" value="My Game Host" selection="" type="string">
     サーバー名。
     サーバーリストにはこの名前で表示されます。
   </property>
-  <property name="ServerPassword" value="" choices="" type="string">
+  <property name="ServerPassword" value="" selection="" type="string">
     サーバーパスワード。
     サーバーに入る際に問われます。
   </property>
-  <property name="ServerMaxPlayerCount" value="8" choices="" type="integer">参加可能最大人数</property>
-  <property name="ServerReservedSlots" value="0" choices="" type="integer">
+  <property name="ServerMaxPlayerCount" value="8" selection="" type="integer">参加可能最大人数</property>
+  <property name="ServerReservedSlots" value="0" selection="" type="integer">
     Out of the MaxPlayerCount this many slots can only be used by players with a specific permission level
   </property>
-  <property name="ServerReservedSlotsPermission" value="100" choices="" type="integer">
+  <property name="ServerReservedSlotsPermission" value="100" selection="" type="integer">
     Required permission level to use reserved slots above
   </property>
-  <property name="ServerAdminSlots" value="0" choices="" type="integer">
+  <property name="ServerAdminSlots" value="0" selection="" type="integer">
     This many admins can still join even if the server has reached MaxPlayerCount
   </property>
-  <property name="ServerAdminSlotsPermission" value="0" choices="" type="integer">
+  <property name="ServerAdminSlotsPermission" value="0" selection="" type="integer">
     Required permission level to use the admin slots above
   </property>
 
-  <property name="ServerDescription" value="A 7 Days to Die server" choices="" type="string">サーバーの説明。</property>
-  <property name="ServerWebsiteURL" value="" choices="" type="string">サーバーのウェブサイト</property>
-  <property name="ServerDisabledNetworkProtocols" value="UNET" choices="" type="string">
+  <property name="ServerDescription" value="A 7 Days to Die server" selection="" type="string">サーバーの説明。</property>
+  <property name="ServerWebsiteURL" value="" selection="" type="string">サーバーのウェブサイト</property>
+  <property name="ServerDisabledNetworkProtocols" value="UNET" selection="" type="string">
     Unityにおけるネットワークシステムで使わない物がある場合指定すると無効化されるようです。必要性がいまいち感じないのでデフォルトでも問題ないでしょう。
     複数指定の場合はコンマで区切って記述します。 Ex: "unet,steamnetworking"
     原文: Networking protocols that should not be used. Separated by comma. Possible values: UNET, RakNet, SteamNetworking. Ex: "unet,steamnetworking"
   </property>
 
 
-  <property name="GameWorld" value="Navezgane" choices="Navezgane/MP Wasteland Horde/MP Wasteland Skirmish/MP Wasteland War/Random Gen" type="combo">
+  <property name="GameWorld" value="Navezgane" selection="Navezgane/MP Wasteland Horde/MP Wasteland Skirmish/MP Wasteland War/Random Gen" type="combo">
     ワールドの種類。
     Navezgane, Random Genはサバイバル用マップで、MP Wasteland Horde, MP Wasteland Skirmish, MP Wasteland Warはクリエイティブ用で生成されるらしいです。
     ちなみに、Random Genは無限に続くランダムマップ。
   </property>
-  <property name="GameName" value="My Game" choices="" type="string">ワールド名。Random Genの場合シード値になります。</property>
-  <property name="GameDifficulty" value="2" choices="0/1/2/3/4" type="combo">
+  <property name="GameName" value="My Game" selection="" type="string">ワールド名。Random Genの場合シード値になります。</property>
+  <property name="GameDifficulty" value="2" selection="0/1/2/3/4" type="combo">
     ゲームの難易度。
     0～4で0が最も易しい、4が最も難しいになります。
   </property>
-  <property name="GameMode" value="GameModeSurvivalMP" choices="GameModeSurvivalMP/GameModeSurvivalSP" type="combo">
+  <property name="GameMode" value="GameModeSurvivalMP" selection="GameModeSurvivalMP/GameModeSurvivalSP" type="combo">
     ゲームモードです。
     MPとSPがありますが、MPだとLandClaimが使えるようなるもよう（要検証）
   </property>
 
-  <property name="ZombiesRun" value="0" choices="0/1/2" type="combo">
+  <property name="ZombiesRun" value="0" selection="0/1/2" type="combo">
     ゾンビが走るか走らないかの設定。
     0 = 夜だけ走る
     1 = 昼夜走らない
     2 = 昼夜問わず走る
   </property>
-  <property name="BuildCreate" value="false" choices="true/false" type="combo">
+  <property name="BuildCreate" value="false" selection="true/false" type="combo">
     いわゆるクリエイティブモード
     cheatmodeがOnになります。
   </property>
-  <property name="DayNightLength" value="60" choices="" type="integer">
+  <property name="DayNightLength" value="60" selection="" type="integer">
     ゲーム内での一日の時間です。
     リアルタイム指定で、60であればリアルタイム1時間でゲーム内日付が変わります。
   </property>
-  <property name="DayLightLength" value="18" choices="" type="integer">
+  <property name="DayLightLength" value="18" selection="" type="integer">
     太陽が出ている時間を設定します。
     ゲーム内時間で時間刻みで設定することができます。
     18であればゲーム内時間で18時間太陽が出ています。
   </property>
-  <property name="PlayerKillingMode" value="3" choices="0/1/2/3" type="combo">
+  <property name="PlayerKillingMode" value="3" selection="0/1/2/3" type="combo">
     プレイヤーキルに関する設定です。
     0 = プレイヤーキルなし
     1 = 同盟（フレンド？）のみキルあり
     2 = フレンド以外キルあり
     3 = 全員対象
   </property>
-  <property name="PersistentPlayerProfiles" value="false" choices="true/false" type="combo">
+  <property name="PersistentPlayerProfiles" value="false" selection="true/false" type="combo">
     参加時にプロフィールを更新するかしないか。
     trueだと初回参加時のプロフィールを使いまわします。
     もしユーザーがプロフィールを変更した場合、この値をfalseにしていないと更新されません。
   </property>
 
-  <property name="PlayerSafeZoneLevel" value="5" choices="" type="integer">
+  <property name="PlayerSafeZoneLevel" value="5" selection="" type="integer">
     プレイヤーのスポーン時に指定されたレベル分だけ敵性生物の出現を停止させます。
     ただし、このレベルがどの程度の広さを指すかは不明。
   </property>
-  <property name="PlayerSafeZoneHours" value="5" choices="" type="integer">
+  <property name="PlayerSafeZoneHours" value="5" selection="" type="integer">
     PlayerSafeZoneLevelの安全が保証される時間
   </property>
 
-  <property name="ControlPanelEnabled" value="false" choices="true/false" type="combo">
+  <property name="ControlPanelEnabled" value="false" selection="true/false" type="combo">
     ウェブコントロールパネルを有効にするかしないか。
   </property>
-  <property name="ControlPanelPort" value="8080" choices="" type="integer">
+  <property name="ControlPanelPort" value="8080" selection="" type="integer">
     ウェブコントロールパネルが待機するポート番号。
     アクセスする際は「http://ホスト:設定したポート」でアクセスします。
     サーバーPCで8080で設定したならなら「http://127.0.0.1:8080」
   </property>
-  <property name="ControlPanelPassword" value="CHANGEME" choices="" type="string">
+  <property name="ControlPanelPassword" value="CHANGEME" selection="" type="string">
     ウェブコントロールパネルにアクセスする際のパスワード。
   </property>
 
-  <property name="TelnetEnabled" value="true" choices="true/false" type="combo">
+  <property name="TelnetEnabled" value="true" selection="true/false" type="combo">
     Telnetを有効にするかしないか。
     基本的にTelnetでサーバーをコントロールするためtrueにしておきましょう。
     また、当ソフトではTelnetを用いたコントロールを行うため必ずtrueにしてください。
   </property>
-  <property name="TelnetPort" value="8081" choices="" type="integer">
+  <property name="TelnetPort" value="8081" selection="" type="integer">
     Telnetが待機するポート番号。
   </property>
-  <property name="TelnetPassword" value="CHANGEME" choices="" type="string">
+  <property name="TelnetPassword" value="CHANGEME" selection="" type="string">
     Telnetにアクセスする際のパスワード。
   </property>
 
-  <property name="AdminFileName" value="serveradmin.xml" choices="" type="string">
+  <property name="AdminFileName" value="serveradmin.xml" selection="" type="string">
     Admin情報が記述されたファイルを指定します。
     相対パスで記述されていますが、おそらく絶対パスも可能です。
     ちなみに、7Days to Dieの実行ファイルの場所ではなく、「C:\Users\{User Name}\Documents\7 Days To Die\Saves」が作業ディレクトリになります。
   </property>
 
-  <property name="DropOnDeath" value="0" choices="0/1/2/3" type="combo">
+  <property name="DropOnDeath" value="0" selection="0/1/2/3" type="combo">
     死亡した際にアイテムをドロップするかどうか。
     0 = 全て
     1 = ツールベルトのみ
     2 = バックパックのみ
     3 = 全て消滅させる
   </property>
-  <property name="DropOnQuit" value="0" choices="0/1/2/3" type="combo">
+  <property name="DropOnQuit" value="0" selection="0/1/2/3" type="combo">
     サーバー退出時にアイテムをドロップするかどうか。
     0 = ドロップしない
     1 = 全て
@@ -133,13 +133,13 @@
     3 = バックパックのみ
   </property>
 
-  <property name="BloodMoonEnemyCount" value="8" choices="" type="integer">The number of zombies spawned during blood moons per player.</property>
+  <property name="BloodMoonEnemyCount" value="8" selection="" type="integer">The number of zombies spawned during blood moons per player.</property>
 
-  <property name="EnemySpawnMode" value="true" choices="true/false" type="combo">
+  <property name="EnemySpawnMode" value="true" selection="true/false" type="combo">
     敵を出現させるかどうか。
     trueで有効、falseで無効です。
   </property>
-  <property name="EnemyDifficulty" value="0" choices="0/1" type="combo">
+  <property name="EnemyDifficulty" value="0" selection="0/1" type="combo">
     1だと石や壁など障害物に隠れても透けて見えているようで、0だと隠れていれば発見されないようです。（匂いなどの外部要因は除く）
     kamado jp様、情報提供ありがとうございます。
     
@@ -147,85 +147,85 @@
     1 = Feral
   </property>
   
-  <property name="BlockDurabilityModifier" value="100" choices="" type="integer">
+  <property name="BlockDurabilityModifier" value="100" selection="" type="integer">
     ブロックの硬さ。
     100%だと非常に硬いです。
     20,25%あたりが通常に向いてます。
   </property>
 
-  <property name="LootAbundance" value="100" choices="" type="integer">
+  <property name="LootAbundance" value="100" selection="" type="integer">
     一つの探索物から得られる資源の割合。
   </property>
-  <property name="LootRespawnDays" value="30" choices="" type="integer">
+  <property name="LootRespawnDays" value="30" selection="" type="integer">
     資源の復活する期間。
     ゲーム内日数指定。
   </property>
 
-  <property name="LandClaimSize" value="41" choices="" type="integer">
+  <property name="LandClaimSize" value="41" selection="" type="integer">
     LandClaimブロックの効果範囲(?)
   </property>
-  <property name="LandClaimDeadZone" value="30" choices="" type="integer">
+  <property name="LandClaimDeadZone" value="30" selection="" type="integer">
     LandClaimブロックの再配置できない範囲。
     この範囲内にはLandClaimブロックはおけません。
   </property>
-  <property name="LandClaimExpiryTime" value="3" choices="" type="integer">
+  <property name="LandClaimExpiryTime" value="3" selection="" type="integer">
     LandClaimブロックがオフラインでも機能する日数。
     効果はあまりわかっていません。
   </property>
-  <property name="LandClaimDecayMode" value="0" choices="0/1/2" type="combo">
+  <property name="LandClaimDecayMode" value="0" selection="0/1/2" type="combo">
     LandClaimブロックが衰退していく割合(?)
     0 = 比例して衰退します。
     1 = 指数的に衰退する
     2 = 終了するまで衰退しない.
   </property>
-  <property name="LandClaimOnlineDurabilityModifier" value="4" choices="" type="integer">
+  <property name="LandClaimOnlineDurabilityModifier" value="4" selection="" type="integer">
     LandClaimブロックが所有者がオンライン時に保護するブロックの硬さ。
     通常の硬さを基準とした倍数で指定します。
   </property>
-  <property name="LandClaimOfflineDurabilityModifier" value="4" choices="" type="integer">
+  <property name="LandClaimOfflineDurabilityModifier" value="4" selection="" type="integer">
     LandClaimブロックが所有者がオフライン時に保護するブロックの硬さ。
     通常の硬さを基準とした倍数で指定します。
   </property>
-  <property name="AirDropFrequency" value="72" choices="" type="integer">
+  <property name="AirDropFrequency" value="72" selection="" type="integer">
     航空支援の投下する間隔。
     時間(h)で指定します。
   </property>
-  <property name="AirDropMarker" value="false" choices="true/false" type="combo">
+  <property name="AirDropMarker" value="false" selection="true/false" type="combo">
     支援物資が投下された時、マップに支援物資の位置を表示します。
     標準値はfalseです。
   </property>
 
-  <property name="MaxSpawnedAnimals" value="60" choices="" type="integer">
+  <property name="MaxSpawnedAnimals" value="60" selection="" type="integer">
     動物の最大湧き数
   </property>
-  <property name="MaxSpawnedZombies" value="50" choices="" type="integer">
+  <property name="MaxSpawnedZombies" value="50" selection="" type="integer">
     ゾンビの最大湧き数。
     増やしすぎるとメモリ消費が増加するため注意。
   </property>
-  <property name="EACEnabled" value="true" choices="true/false" type="combo">
+  <property name="EACEnabled" value="true" selection="true/false" type="combo">
     EasyAntiCheatを有効にするかしないか。
     EACは主に海賊版対策で用いられます。
     VACのようにチートを防御するものではないため注意。
   </property>
-  <property name="HideCommandExecutionLog" value="0" choices="0/1/2/3" type="combo">
+  <property name="HideCommandExecutionLog" value="0" selection="0/1/2/3" type="combo">
     コマンドを実行した際にログ上にその旨を表示するかどうか。
     0: すべて表示
     1: TelnetあるいはControlPanelからのコマンド実行のみ非表示
     2: [1]に加えてゲームクライアントからのコマンド実行も非表示
     3: すべて非表示
   </property>
-  <property name="MaxUncoveredMapChunksPerPlayer" value="131072" choices="" type="integer">
+  <property name="MaxUncoveredMapChunksPerPlayer" value="131072" selection="" type="integer">
     各プレイヤーがどれだけの範囲でチャンクを描写するかどうかを設定します。 プレイヤーあたりの最大マップファイルサイズは512バイトにこの値を掛けたものです。
     標準値は131072で、ゲーム内で32km²を表します。　最小単位は4096/km²でしょうか。
     原文: Override how many chunks can be uncovered on the ingame map by each player. Resulting max map file size per player is 512 Bytes times this value. Default 131072 means max 32 km² can be uncovered at any time
   </property>
-  <property name="BedrollDeadZoneSize" value="15" choices="" type="integer">
+  <property name="BedrollDeadZoneSize" value="15" selection="" type="integer">
     ベッドロールの安全圏を設定します。このエリア内はゾンビは湧きません。既に無効化されたベッドロールは効果は無いようです。
     原文: Size of bedroll deadzone, no zombies will spawn inside this area, and any cleared sleeper volumes that touch a bedroll deadzone will not spawn after they've been cleared.
   </property>
 
 
-  <property name="SaveGameFolder" value="" choices="" type="string">
+  <property name="SaveGameFolder" value="" selection="" type="string">
     ワールドの保存先ディレクトリパス。
     絶対パスで指定する。
     当ソフトでは空の場合このタグは書き込みません。

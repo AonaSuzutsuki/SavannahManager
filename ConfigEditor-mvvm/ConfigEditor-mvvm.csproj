@@ -109,28 +109,37 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="LangResources\CommonResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MainWindowModel.cs" />
+    <Compile Include="Models\TemplateLoader.cs" />
+    <Compile Include="StaticData.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LangResources\ResourceService.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Page Include="Styles\Icon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="LangResources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -140,8 +149,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+    <EmbeddedResource Include="LangResources\CommonResources.en-US.resx" />
+    <EmbeddedResource Include="LangResources\CommonResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LangResources\Resources.en-US.resx" />
+    <EmbeddedResource Include="LangResources\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -154,14 +169,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Views\" />
+    <Content Include="lang\VersionList.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CommonStyleLib\CommonStyleLib.csproj">
+    <ProjectReference Include="..\CommonStyleLib\CommonLib.csproj">
       <Project>{cf1972e5-2df2-4b7f-96b3-90d9bdb418c3}</Project>
-      <Name>CommonStyleLib</Name>
+      <Name>CommonLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">
       <Project>{adb034d1-b0fb-43d0-acac-3f5214cc03d7}</Project>
@@ -169,22 +184,54 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="lang\a11.6\en_ConfigData.xml" />
-    <Resource Include="lang\a11.6\ja_ConfigData.xml" />
-    <Resource Include="lang\a12.5\en_ConfigData.xml" />
-    <Resource Include="lang\a12.5\ja_ConfigData.xml" />
-    <Resource Include="lang\a12\en_ConfigData.xml" />
-    <Resource Include="lang\a12\ja_ConfigData.xml" />
-    <Resource Include="lang\a13\en_ConfigData.xml" />
-    <Resource Include="lang\a13\ja_ConfigData.xml" />
-    <Resource Include="lang\a14.6\en_ConfigData.xml" />
-    <Resource Include="lang\a14.6\ja_ConfigData.xml" />
-    <Resource Include="lang\a14.7\en_ConfigData.xml" />
-    <Resource Include="lang\a14.7\ja_ConfigData.xml" />
-    <Resource Include="lang\a15\en_ConfigData.xml" />
-    <Resource Include="lang\a15\ja_ConfigData.xml" />
-    <Resource Include="lang\a16\en_ConfigData.xml" />
-    <Resource Include="lang\a16\ja_ConfigData.xml" />
+    <Content Include="lang\a11.6\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a11.6\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a12.5\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a12.5\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a12\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a12\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a13\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a13\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a14.6\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a14.6\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a14.7\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a14.7\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a15\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a15\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a16\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a16\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
