@@ -1,5 +1,5 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Models;
-using CommonStyleLib.Models;
+using CommonLib.Models;
 using System.IO;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings.Models

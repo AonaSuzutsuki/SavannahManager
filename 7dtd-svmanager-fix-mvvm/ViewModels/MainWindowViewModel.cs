@@ -1,5 +1,5 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Views;
-using CommonStyleLib.ViewModels;
+using CommonLib.ViewModels;
 using LanguageEx;
 using Prism.Commands;
 using Reactive.Bindings;

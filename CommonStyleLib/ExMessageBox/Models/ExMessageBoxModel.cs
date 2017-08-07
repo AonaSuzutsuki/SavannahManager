@@ -1,8 +1,8 @@
-﻿using CommonStyleLib.Models;
+﻿using CommonLib.Models;
 using System;
-using static CommonStyleLib.ExMessageBox.ExMessageBoxBase;
+using static CommonLib.ExMessageBox.ExMessageBoxBase;
 
-namespace CommonStyleLib.ExMessageBox.Models
+namespace CommonLib.ExMessageBox.Models
 {
     public class ExMassageBoxModel : ModelBase
     {

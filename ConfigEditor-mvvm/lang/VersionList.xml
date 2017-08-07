@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <configs>
+    <config version="a11.6">lang\a11.6</config>
+    <config version="a12">lang\a12</config>
+    <config version="a12.5">lang\a12.5</config>
+    <config version="a13">lang\a13</config>
+    <config version="a14.6">lang\a14.6</config>
+    <config version="a14.7">lang\a14.7</config>
+    <config version="a15">lang\a15</config>
+    <config version="a16">lang\a16</config>
+  </configs>
+</root>

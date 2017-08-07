@@ -4,8 +4,8 @@
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:MyText="clr-namespace:MyTextBox"
-        xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
-        Icon="/CommonStyleLib;component/Resources/1.ico"
+        xmlns:CommonViews="clr-namespace:CommonLib.Views;assembly=CommonLib"
+        Icon="/CommonLib;component/Resources/1.ico"
         Title="Savannah Manager" Name="_MainWindow" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True">
     <!--xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"-->
 
@@ -23,7 +23,7 @@
             <i:InvokeCommandAction Command="{Binding StateChanged}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="KeyDown">
-            <local:InvokeDelegateCommandAction Command="{Binding KeyDown}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}" />
+            <CommonViews:InvokeDelegateCommandAction Command="{Binding KeyDown}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -53,7 +53,7 @@
                 <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
-                            <local:InteractiveCommand  Command="{Binding ImageMouseDown}" />
+                            <CommonViews:InteractiveCommand  Command="{Binding ImageMouseDown}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
@@ -141,7 +141,7 @@
                                     <ContextMenu>
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Opened">
-                                                <local:InteractiveCommand Command="{Binding PlayerContextMenuOpened}" />
+                                                <CommonViews:InteractiveCommand Command="{Binding PlayerContextMenuOpened}" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
 
@@ -178,10 +178,10 @@
                             <TextBox Text="{Binding ConsoleLogText, Mode=OneWay}" Name="ConsoleTextBox" AcceptsReturn="True" TextWrapping="NoWrap" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseEnter">
-                                        <local:InteractiveCommand  Command="{Binding ConsoleTextBoxMouseEnter}" />
+                                        <CommonViews:InteractiveCommand  Command="{Binding ConsoleTextBoxMouseEnter}" />
                                     </i:EventTrigger>
                                     <i:EventTrigger EventName="MouseLeave">
-                                        <local:InteractiveCommand  Command="{Binding ConsoleTextBoxMouseLeave}" />
+                                        <CommonViews:InteractiveCommand  Command="{Binding ConsoleTextBoxMouseLeave}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <TextBox.ContextMenu>
@@ -198,7 +198,7 @@
                                 <ListBox Name="listBoxTarget" IsTextSearchEnabled="True">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="KeyDown">
-                                            <local:InteractiveCommand  Command="{Binding listBoxTargetKeyDown}" />
+                                            <CommonViews:InteractiveCommand  Command="{Binding listBoxTargetKeyDown}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </ListBox>
