@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,6 +24,32 @@ namespace ConfigEditor_mvvm.Views
         public MainWindow()
         {
             InitializeComponent();
+
+            var model = new Models.MainWindowModel();
+            var vm = new ViewModels.MainWindowViewModel(this, model);
+            DataContext = vm;
+        }
+
+        private static readonly FieldInfo _menuDropAlignmentField;
+        static MainWindow()
+        {
+            _menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+
+            System.Diagnostics.Debug.Assert(_menuDropAlignmentField != null);
+
+            EnsureStandardPopupAlignment();
+            SystemParameters.StaticPropertyChanged += SystemParameters_StaticPropertyChanged;
+        }
+        private static void SystemParameters_StaticPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            EnsureStandardPopupAlignment();
+        }
+        private static void EnsureStandardPopupAlignment()
+        {
+            if (SystemParameters.MenuDropAlignment && _menuDropAlignmentField != null)
+            {
+                _menuDropAlignmentField.SetValue(null, false);
+            }
         }
     }
 }
