@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:CommonViews="clr-namespace:CommonLib.Views;assembly=CommonLib"
         xmlns:app="clr-namespace:LanguageEx"
         mc:Ignorable="d"
-        Icon="/CommonStyleLib;component/Resources/1.ico"
+        Icon="/CommonLib;component/Resources/1.ico"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True" ResizeMode="CanResize"
         Title="Config Editor" Height="500" Width="700">
@@ -69,6 +69,107 @@
                 <Button Name="MainMaximumBT" Content="{Binding MainWindowMaximumBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMaximumBTClick}" />
                 <Button Name="MainWindowCloseBT" Content="{Binding MainWindowCloseBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBTClick}" />
             </StackPanel>
+
+            <StackPanel Margin="1,25,1,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                <Menu IsMainMenu="True" Name="Menu" Height="25" Padding="3" VerticalAlignment="Top">
+                    <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_FileBT, Mode=OneWay}">
+
+                        <MenuItem Name="NewFileBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_NewFileBT, Mode=OneWay}" Command="{Binding NewFileBtClicked}" />
+
+                        <Separator Style="{DynamicResource MLB_Separator}" />
+
+                        <MenuItem Name="OpenBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_OpenBT, Mode=OneWay}" Command="{Binding OpenBtClicked}" />
+                        <MenuItem Name="SaveAsBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_SaveAsBT, Mode=OneWay}" Command="{Binding SaveAsBtClicked}" />
+                        <MenuItem Name="SaveBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_SaveBT, Mode=OneWay}" IsEnabled="{Binding SaveBTEnabled}" Command="{Binding SaveBtClicked}" />
+
+                        <Separator Style="{DynamicResource MLB_Separator}" />
+
+                        <MenuItem Name="MenuExitBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ExitBT, Mode=OneWay}" Command="{Binding MainWindowCloseBTClick}" />
+
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+
+            <StackPanel Margin="10,55,10,0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25">
+                <Label Content="Version " Padding="2" Foreground="White" />
+                <ComboBox Name="VersionList" ItemsSource="{Binding VersionList, Mode=OneWay}" SelectedIndex="{Binding VersionListSelectedIndex.Value}" Width="120">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding VersionsListSelectionChanged}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </StackPanel>
+
+            <Grid Margin="5,85,5,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="350" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ListView Grid.Row="0" Height="Auto" Width="Auto" Name="ConfigsList" ItemsSource="{Binding ConfigList, Mode=OneWay}" SelectedIndex="{Binding ConfigListSelectedIndex.Value}" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding ConfigListSelectionChanged}" CommandParameter="{Binding Path=SelectedIndex, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="220" Header="Properties" DisplayMemberBinding="{Binding Path=Property}" />
+                            <GridViewColumn Width="110" Header="Value" DisplayMemberBinding="{Binding Path=Value}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <Grid Margin="10" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Vertical">
+                        <Grid>
+                            <Label Content="Name"  Foreground="White"/>
+                            <TextBlock Text="{Binding NameLabel.Value}" Foreground="#e0ffff" FontFamily="Script" FontWeight="Bold" Margin="25,25,0,0" TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid>
+                            <Label Content="Description"  Foreground="White"/>
+                            <TextBlock Text="{Binding DescriptionLabel.Value}" Foreground="#e0ffff" FontFamily="Scrip" FontSize="12" FontWeight="Bold" Margin="25,25,0,0" TextWrapping="Wrap" />
+                        </Grid>
+                    </StackPanel>
+
+                    <Grid Grid.Row="1">
+                        <ComboBox ItemsSource="{Binding ValueList.Value}" Visibility="{Binding ValueListVisibility.Value}" SelectedItem="{Binding ValueListSelectedItem.Value}" SelectedIndex="{Binding ValueListSelectedIndex.Value}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding ValuesListSelectionChanged}" CommandParameter="{Binding Path=SelectedIndex, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter
+                Property="HorizontalContentAlignment"
+                Value="Left" />
+                                    <Setter
+                Property="VerticalContentAlignment"
+                Value="Center" />
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
+                        <TextBox Text="{Binding ValueText.Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ValueTextBoxVisibility.Value}" VerticalContentAlignment="Center">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="TextChanged">
+                                    <i:InvokeCommandAction Command="{Binding ValueTextTextChanged}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+
+                </Grid>
+            </Grid>
 
         </Grid>
     </Grid>

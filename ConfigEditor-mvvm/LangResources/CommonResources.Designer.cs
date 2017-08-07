@@ -59,5 +59,14 @@ namespace ConfigEditor_mvvm.LangResources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   ja に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
     }
 }

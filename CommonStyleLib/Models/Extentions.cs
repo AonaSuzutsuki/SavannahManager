@@ -15,7 +15,7 @@ namespace CommonLib.Models
                 act?.Invoke(val.Key, val.Value);
         }
 
-        public static void ForEach<TValue>(this List<TValue> list, Action<int, TValue> act)
+        public static void ForEachInIndex<TValue>(this List<TValue> list, Action<int, TValue> act)
         {
             foreach (var item in list.Select((v, i) => new { v, i }))
                 act?.Invoke(item.i, item.v);

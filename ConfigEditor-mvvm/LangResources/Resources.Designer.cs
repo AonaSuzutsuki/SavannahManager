@@ -59,5 +59,59 @@ namespace ConfigEditor_mvvm.LangResources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   終了(_X) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_ExitBT {
+            get {
+                return ResourceManager.GetString("UI_ExitBT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ファイル(_F) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_FileBT {
+            get {
+                return ResourceManager.GetString("UI_FileBT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   新規作成 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_NewFileBT {
+            get {
+                return ResourceManager.GetString("UI_NewFileBT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   開く に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_OpenBT {
+            get {
+                return ResourceManager.GetString("UI_OpenBT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   名前を付けて保存 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_SaveAsBT {
+            get {
+                return ResourceManager.GetString("UI_SaveAsBT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   上書き保存 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_SaveBT {
+            get {
+                return ResourceManager.GetString("UI_SaveBT", resourceCulture);
+            }
+        }
     }
 }
