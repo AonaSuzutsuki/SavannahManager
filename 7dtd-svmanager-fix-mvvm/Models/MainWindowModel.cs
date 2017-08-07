@@ -201,6 +201,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
         }
         public bool IsFailed { get; private set; } = false;
+        public bool IsTelnetLoading { get; protected set; } = false;
 
         private SettingLoader setting;
         public SettingLoader Setting { get => setting; }
@@ -244,6 +245,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private bool isServerForceStop = false;
         private bool isStop;
         #endregion
+
+        public override void Activated()
+        {
+            base.Activated();
+
+            if (!IsTelnetLoading)
+                AroundBorderColor = CommonStyleLib.StaticData.ActivatedBorderColor;
+            else
+                AroundBorderColor = CommonStyleLib.StaticData.ActivatedBorderColor2;
+        }
 
         public void Initialize()
         {

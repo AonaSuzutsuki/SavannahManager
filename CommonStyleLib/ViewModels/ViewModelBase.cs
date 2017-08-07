@@ -108,20 +108,11 @@ namespace CommonStyleLib.ViewModels
         #region EventMethods
         protected void MainWindow_Activated()
         {
-            modelBase.IsDeactivated = false;
-            if (!modelBase.IsTelnetLoading)
-            {
-                AroundBorderColor.Value = StaticData.ActivatedBorderColor;
-            }
-            else
-            {
-                AroundBorderColor.Value = StaticData.ActivatedBorderColor2;
-            }
+            modelBase.Activated();
         }
         protected void MainWindow_Deactivated()
         {
-            modelBase.IsDeactivated = true;
-            AroundBorderColor.Value = StaticData.DeactivatedBorderColor;
+            modelBase.Deactivated();
         }
 
         protected void Image_MouseDown(MouseEventArgs e)
