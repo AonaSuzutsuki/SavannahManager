@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows;
 
-namespace CommonStyleLib.Views
+namespace CommonLib.Views
 {
     [SuppressUnmanagedCodeSecurity]
     public static class WindowCommands

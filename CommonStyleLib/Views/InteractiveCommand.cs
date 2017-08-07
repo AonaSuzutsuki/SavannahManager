@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
-namespace CommonStyleLib.Views
+namespace CommonLib.Views
 {
     public class InteractiveCommand : TriggerAction<DependencyObject>
     {

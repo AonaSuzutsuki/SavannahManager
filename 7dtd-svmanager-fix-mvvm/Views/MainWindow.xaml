@@ -4,8 +4,8 @@
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:MyText="clr-namespace:MyTextBox"
-        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
-        Icon="/CommonStyleLib;component/Resources/1.ico"
+        xmlns:CommonViews="clr-namespace:CommonLib.Views;assembly=CommonLib"
+        Icon="/CommonLib;component/Resources/1.ico"
         Title="Savannah Manager" Name="_MainWindow" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True">
     <!--xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"-->
 

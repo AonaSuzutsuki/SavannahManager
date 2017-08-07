@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Interop;
-using static CommonStyleLib.ExMessageBox.ExMessageBoxBase;
+using static CommonLib.ExMessageBox.ExMessageBoxBase;
 
-namespace CommonStyleLib.ExMessageBox.Views
+namespace CommonLib.ExMessageBox.Views
 {
     /// <summary>
     /// ExYesNoMessageBox.xaml の相互作用ロジック

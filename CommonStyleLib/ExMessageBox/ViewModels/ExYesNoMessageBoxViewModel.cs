@@ -1,11 +1,11 @@
 ﻿using Reactive.Bindings;
 using System.Windows.Input;
-using CommonStyleLib.ExMessageBox.Models;
+using CommonLib.ExMessageBox.Models;
 using Reactive.Bindings.Extensions;
 using Prism.Commands;
-using CommonStyleLib.ViewModels;
+using CommonLib.ViewModels;
 
-namespace CommonStyleLib.ExMessageBox.ViewModels
+namespace CommonLib.ExMessageBox.ViewModels
 {
     public class ExYesNoMessageBoxViewModel : ViewModelBase
     {

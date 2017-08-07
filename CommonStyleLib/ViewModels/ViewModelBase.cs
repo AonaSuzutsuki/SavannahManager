@@ -10,7 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace CommonStyleLib.ViewModels
+namespace CommonLib.ViewModels
 {
     public class ViewModelBase : BindableBase
     {
