@@ -12,8 +12,7 @@ namespace CommonStyleLib.Models
         {
             PropertyChanged?.Invoke(sender, new PropertyChangedEventArgs(propertyName));
         }
-
-        public bool IsTelnetLoading { get; protected set; } = false;
+        
         public bool IsDeactivated { get; set; } = false;
 
         protected SolidColorBrush aroundBorderColor = StaticData.ActivatedBorderColor;
@@ -33,6 +32,16 @@ namespace CommonStyleLib.Models
         {
             if (!IsDeactivated)
                 AroundBorderColor = color;
+        }
+        public virtual void Activated()
+        {
+            IsDeactivated = false;
+            AroundBorderColor = StaticData.ActivatedBorderColor;
+        }
+        public void Deactivated()
+        {
+            IsDeactivated = true;
+            AroundBorderColor = StaticData.DeactivatedBorderColor;
         }
 
         protected double width;
