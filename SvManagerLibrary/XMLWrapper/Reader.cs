@@ -41,7 +41,7 @@ namespace SvManagerLibrary.XMLWrapper
             return GetAttributes(attribute, xpath)[0];
         }
 
-        public List<string> GetValues(string xpath)
+        public List<string> GetValues(string xpath, bool enableLineBreak = true)
         {
             var values = new List<string>();
 
@@ -49,7 +49,7 @@ namespace SvManagerLibrary.XMLWrapper
             foreach (var xmlNode in nodeList)
             {
                 string value = (xmlNode as XmlElement).InnerText;
-                value = RemoveSpace(value, true);
+                value = RemoveSpace(value, enableLineBreak);
                 values.Add(value);
             }
 
