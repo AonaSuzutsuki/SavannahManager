@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:CommonViews="clr-namespace:CommonLib.Views;assembly=CommonLib"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Settings" Height="300" Width="600" ResizeMode="CanMinimize">

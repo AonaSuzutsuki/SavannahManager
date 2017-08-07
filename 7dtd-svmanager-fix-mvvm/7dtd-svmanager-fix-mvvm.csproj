@@ -321,9 +321,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CommonStyleLib\CommonStyleLib.csproj">
+    <ProjectReference Include="..\CommonStyleLib\CommonLib.csproj">
       <Project>{cf1972e5-2df2-4b7f-96b3-90d9bdb418c3}</Project>
-      <Name>CommonStyleLib</Name>
+      <Name>CommonLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">
       <Project>{adb034d1-b0fb-43d0-acac-3f5214cc03d7}</Project>

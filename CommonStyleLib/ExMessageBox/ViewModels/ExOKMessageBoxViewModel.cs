@@ -1,11 +1,11 @@
-﻿using CommonStyleLib.ExMessageBox.Models;
-using CommonStyleLib.ViewModels;
+﻿using CommonLib.ExMessageBox.Models;
+using CommonLib.ViewModels;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Windows.Input;
 
-namespace CommonStyleLib.ExMessageBox.ViewModels
+namespace CommonLib.ExMessageBox.ViewModels
 {
     public class ExOKMassageBoxViewModel : ViewModelBase
     {

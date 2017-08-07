@@ -7,8 +7,8 @@
     <ProjectGuid>{CF1972E5-2DF2-4B7F-96B3-90D9BDB418C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CommonStyleLib</RootNamespace>
-    <AssemblyName>CommonStyleLib</AssemblyName>
+    <RootNamespace>CommonLib</RootNamespace>
+    <AssemblyName>CommonLib</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

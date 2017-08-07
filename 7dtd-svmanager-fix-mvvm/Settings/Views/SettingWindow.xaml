@@ -4,7 +4,7 @@
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:MyText="clr-namespace:MyTextBox"
-        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:CommonViews="clr-namespace:CommonLib.Views;assembly=CommonLib"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Settings" Height="300" Width="400" ResizeMode="CanMinimize">

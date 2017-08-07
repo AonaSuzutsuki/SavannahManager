@@ -4,7 +4,7 @@ using System.Windows.Input;
 using Reactive.Bindings.Extensions;
 using Prism.Commands;
 using _7dtd_svmanager_fix_mvvm.Setup.Views;
-using CommonStyleLib.ViewModels;
+using CommonLib.ViewModels;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
