@@ -24,6 +24,8 @@ namespace ConfigEditor_mvvm.ViewModels
 
             #region Event Initialize
             Loaded = new DelegateCommand(MainWindow_Loaded);
+            KeyDown = new DelegateCommand<KeyEventArgs>(MainWindow_KeyDown);
+
             NewFileBtClicked = new DelegateCommand(NewFileBt_Clicked);
             OpenBtClicked = new DelegateCommand(OpenBt_Clicked);
             SaveAsBtClicked = new DelegateCommand(SaveAsBt_Clicked);
@@ -68,6 +70,8 @@ namespace ConfigEditor_mvvm.ViewModels
         public ReactiveProperty<ObservableCollection<ConfigListInfo>> ConfigList { get; set; }
         public ReactiveProperty<int> ConfigListSelectedIndex { get; set; }
 
+        public ReactiveProperty<bool> SaveBTEnabled { get; set; }
+
         public ReactiveProperty<string> NameLabel { get; set; }
         public ReactiveProperty<string> DescriptionLabel { get; set; }
 
@@ -83,6 +87,7 @@ namespace ConfigEditor_mvvm.ViewModels
 
         #region Event Properties
         public ICommand Loaded { get; set; }
+        public ICommand KeyDown { get; set; }
 
         public ICommand NewFileBtClicked { get; }
         public ICommand OpenBtClicked { get; }
@@ -100,6 +105,10 @@ namespace ConfigEditor_mvvm.ViewModels
         public void MainWindow_Loaded()
         {
             model.Initialize();
+        }
+        public void MainWindow_KeyDown(KeyEventArgs e)
+        {
+            model.ShortcutKey(e);
         }
 
         public void NewFileBt_Clicked()

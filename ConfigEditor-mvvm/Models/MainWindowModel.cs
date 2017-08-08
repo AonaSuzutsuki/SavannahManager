@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ConfigEditor_mvvm.Models
 {
@@ -147,6 +148,17 @@ namespace ConfigEditor_mvvm.Models
             VersionListSelectedIndex = VersionList.Count - 1;
         }
 
+        public void ShortcutKey(KeyEventArgs e)
+        {
+            ModifierKeys modKey = Keyboard.Modifiers;
+            Key mainKey = e.Key;
+
+            if (modKey == ModifierKeys.Control && mainKey == Key.S)
+            {
+                Save();
+            }
+        }
+
         public void LoadToConfigList()
         {
             if (VersionListSelectedIndex < 0) return;
@@ -259,6 +271,19 @@ namespace ConfigEditor_mvvm.Models
             var configListInfo = ConfigList[index];
             configListInfo.Value = value;
             IsModified = true;
+        }
+
+        public void Save()
+        {
+            configLoader.Clear();
+            foreach (var configListInfo in ConfigList)
+            {
+                if (configListInfo.Property.Equals("SaveGameFolder") && string.IsNullOrEmpty(configListInfo.Value))
+                    continue;
+                configLoader.AddValue(configListInfo.Property, configListInfo.Value);
+            }
+
+            configLoader.Write();
         }
     }
 }
