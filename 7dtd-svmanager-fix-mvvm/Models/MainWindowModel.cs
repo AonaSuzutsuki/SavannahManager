@@ -453,7 +453,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 return;
             }
 
-            if (CheckConnected())
+            if (IsConnected)
             {
                 SocTelnetSend("shutdown");
                 isStop = true;
@@ -517,7 +517,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var passConfig = configLoader.GetValue("TelnetPassword");
             string password = passConfig == null ? "CHANGEME" : passConfig.Value;
             string telnetEnabledString = configLoader.GetValue("TelnetEnabled").Value;
-            configLoader.Dispose();
 
             ICheckValue checkValues = new CheckValue()
             {
@@ -708,12 +707,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 try
                 {
-                    if (isConnected)
+                    if (IsConnected)
                     {
                         string log = telnet.Read().Trim('\0');
 
                         if (isStop)
-                            SocTelnetSend("");
+                            SocTelnetSendDirect("");
 
                         logStream.WriteSteam(log);
                         
@@ -907,18 +906,25 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!IsConnected)
             {
-                ExMessageBoxBase.Show(LangResources.Resources.HasnotBeConnected, LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                view.Dispatcher.Invoke(() =>
+                {
+                    ExMessageBoxBase.Show(LangResources.Resources.HasnotBeConnected, LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                });
                 return false;
             }
             return true;
+        }
+        private void SocTelnetSendDirect(string cmd)
+        {
+            telnet.Write(cmd);
+            telnet.Write(TelnetClient.CRLF);
         }
         private string SocTelnetSend(string cmd)
         {
             if (!CheckConnected())
                 return null;
 
-            telnet.Write(cmd);
-            telnet.Write(TelnetClient.CRLF);
+            SocTelnetSendDirect(cmd);
             string log = string.Empty;
 
             LogLock();
@@ -934,8 +940,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (!CheckConnected())
                 return;
 
-            telnet.Write(cmd);
-            telnet.Write(TelnetClient.CRLF);
+            SocTelnetSendDirect(cmd);
         }
     }
 }
