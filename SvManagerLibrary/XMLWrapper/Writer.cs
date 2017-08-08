@@ -32,12 +32,13 @@ namespace SvManagerLibrary.XMLWrapper
         /// <param name="elementName">Element name.</param>
         /// <param name="attributeInfos">Attribute informations.</param>
         /// <param name="value">Attribute value.</param>
-        public void AddElement(string elementName, AttributeInfo[] attributeInfos, string value = "")
+        public void AddElement(string elementName, AttributeInfo[] attributeInfos, string value = null)
         {
             XmlElement xmeta = xDocument.CreateElement(elementName);
             foreach (AttributeInfo attributeInfo in attributeInfos)
                 xmeta.SetAttribute(attributeInfo.Name, attributeInfo.Value);
-            xmeta.InnerText = value;
+            if (!string.IsNullOrEmpty(value))
+                xmeta.InnerText = value;
 
             xRoot.AppendChild(xmeta);
         }
@@ -48,11 +49,12 @@ namespace SvManagerLibrary.XMLWrapper
         /// <param name="elementName">Element name.</param>
         /// <param name="attributeInfo">Attribute information.</param>
         /// <param name="value">Attribute value.</param>
-        public void AddElement(string elementName, AttributeInfo attributeInfo, string value = "")
+        public void AddElement(string elementName, AttributeInfo attributeInfo, string value = null)
         {
             XmlElement xmeta = xDocument.CreateElement(elementName);
             xmeta.SetAttribute(attributeInfo.Name, attributeInfo.Value);
-            xmeta.InnerText = value;
+            if (!string.IsNullOrEmpty(value))
+                xmeta.InnerText = value;
 
             xRoot.AppendChild(xmeta);
         }
@@ -62,7 +64,7 @@ namespace SvManagerLibrary.XMLWrapper
         /// </summary>
         public void Write(string xmlPath)
         {
-            FileStream fs = new FileStream(xmlPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+            FileStream fs = new FileStream(xmlPath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
             Write(fs);
             fs.Dispose();
         }

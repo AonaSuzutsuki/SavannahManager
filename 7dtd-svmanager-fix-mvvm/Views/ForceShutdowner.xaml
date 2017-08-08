@@ -13,9 +13,6 @@
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding Loaded}" />
         </i:EventTrigger>
-        <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction Command="{Binding Closing}" />
-        </i:EventTrigger>
         <i:EventTrigger EventName="Activated">
             <i:InvokeCommandAction Command="{Binding Activated}" />
         </i:EventTrigger>
