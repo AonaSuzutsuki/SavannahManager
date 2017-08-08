@@ -20,7 +20,7 @@ namespace ConfigEditor_mvvm.Models
         {
             Reader xmlReader = new Reader(StaticData.VersionListPath);
             VersionListLoad(xmlReader);
-            TemplateLoad(lang, xmlReader);
+            TemplateLoad(lang);
         }
 
         private void VersionListLoad(Reader xmlReader)
@@ -29,7 +29,7 @@ namespace ConfigEditor_mvvm.Models
             VersionPathList = xmlReader.GetValues("/root/configs/config", false);
         }
 
-        private void TemplateLoad(string lang, Reader xmlReader)
+        private void TemplateLoad(string lang)
         {
             VersionPathList.ForEachInIndex((index, path) =>
             {
@@ -78,16 +78,21 @@ namespace ConfigEditor_mvvm.Models
         public Dictionary<string, ConfigListInfo> GetConfigDictionary(string version)
         {
             if (templateData.ContainsKey(version))
-                return templateData[version];
+            {
+                var dic = new Dictionary<string, ConfigListInfo>();
+                templateData[version].ForEach((key, val) => dic.Add(key, val.Clone() as ConfigListInfo));
+
+                return dic;
+            }
             else
                 return null;
         }
-        public List<ConfigListInfo> GetConfigList(string version)
+        public ConfigListInfo[] GetConfigList(string version)
         {
             var dic = GetConfigDictionary(version);
             var list = new List<ConfigListInfo>();
             dic.ForEach((key, configInfo) => list.Add(configInfo));
-            return list;
+            return list.ToArray();
         }
     }
 }

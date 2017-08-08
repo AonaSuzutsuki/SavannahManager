@@ -4,16 +4,16 @@ using System.IO;
 
 namespace SvManagerLibrary.Config
 {
-    public class ConfigLoader : IDisposable
+    public class ConfigLoader
     {
-        private FileStream fs;
+        private string fileName;
         private XMLWrapper.Reader reader;
 
         private Dictionary<string, ConfigInfo> configs = new Dictionary<string, ConfigInfo>();
 
         public ConfigLoader(string path, bool newFile = false)
         {
-            fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+            fileName = path;
             if (!newFile)
             {
                 Load();
@@ -24,19 +24,22 @@ namespace SvManagerLibrary.Config
         {
             try
             {
-                reader = new XMLWrapper.Reader(fs);
-                List<string> names = reader.GetAttributes("name", "ServerSettings/property");
-                List<string> values = reader.GetAttributes("value", "ServerSettings/property");
-
-                int length = names.Count > values.Count ? values.Count : names.Count;
-                for (int i = 0; i < length; ++i)
+                using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
                 {
-                    ConfigInfo configInfo = new ConfigInfo()
+                    reader = new XMLWrapper.Reader(fs);
+                    List<string> names = reader.GetAttributes("name", "ServerSettings/property");
+                    List<string> values = reader.GetAttributes("value", "ServerSettings/property");
+
+                    int length = names.Count > values.Count ? values.Count : names.Count;
+                    for (int i = 0; i < length; ++i)
                     {
-                        PropertyName = names[i],
-                        Value = values[i],
-                    };
-                    configs.Add(names[i], configInfo);
+                        ConfigInfo configInfo = new ConfigInfo()
+                        {
+                            PropertyName = names[i],
+                            Value = values[i],
+                        };
+                        configs.Add(names[i], configInfo);
+                    }
                 }
             }
             catch
@@ -78,6 +81,17 @@ namespace SvManagerLibrary.Config
 
             return false;
         }
+        public void ChangeOrAddValue(string propertyName, string value)
+        {
+            if (!ChangeValue(propertyName, value))
+            {
+                configs.Add(propertyName, new ConfigInfo()
+                {
+                    PropertyName = propertyName,
+                    Value = value
+                });
+            }
+        }
         public ConfigInfo GetValue(string propertyName)
         {
             if (configs.ContainsKey(propertyName))
@@ -86,6 +100,12 @@ namespace SvManagerLibrary.Config
             }
             return null;
         }
+
+        public void Clear()
+        {
+            configs.Clear();
+        }
+
         public Dictionary<string, ConfigInfo> GetAll()
         {
             return configs;
@@ -93,30 +113,28 @@ namespace SvManagerLibrary.Config
 
         public void Write()
         {
-            XMLWrapper.Writer writer = new XMLWrapper.Writer();
-            writer.SetRoot("ServerSettings");
-            foreach (ConfigInfo configInfo in configs.Values)
+            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
             {
-                XMLWrapper.AttributeInfo[] attributeInfo = new XMLWrapper.AttributeInfo[2];
-                attributeInfo[0] = new XMLWrapper.AttributeInfo()
+                XMLWrapper.Writer writer = new XMLWrapper.Writer();
+                writer.SetRoot("ServerSettings");
+                foreach (ConfigInfo configInfo in configs.Values)
                 {
-                    Name = "name",
-                    Value = configInfo.PropertyName,
-                };
-                attributeInfo[1] = new XMLWrapper.AttributeInfo()
-                {
-                    Name = "value",
-                    Value = configInfo.Value,
-                };
+                    XMLWrapper.AttributeInfo[] attributeInfo = new XMLWrapper.AttributeInfo[2];
+                    attributeInfo[0] = new XMLWrapper.AttributeInfo()
+                    {
+                        Name = "name",
+                        Value = configInfo.PropertyName,
+                    };
+                    attributeInfo[1] = new XMLWrapper.AttributeInfo()
+                    {
+                        Name = "value",
+                        Value = configInfo.Value,
+                    };
 
-                writer.AddElement("property", attributeInfo);
+                    writer.AddElement("property", attributeInfo);
+                }
+                writer.Write(fs);
             }
-            writer.Write(fs);
-        }
-
-        public void Dispose()
-        {
-            ((IDisposable)fs).Dispose();
         }
     }
 }
