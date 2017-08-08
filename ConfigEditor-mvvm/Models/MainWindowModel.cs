@@ -1,4 +1,5 @@
 ﻿using CommonLib.Models;
+using Prism.Mvvm;
 using SvManagerLibrary.Config;
 using SvManagerLibrary.XMLWrapper;
 using System;
@@ -18,10 +19,15 @@ namespace ConfigEditor_mvvm.Models
         Integer,
         Combo
     }
-    public class ConfigListInfo
+    public class ConfigListInfo : BindableBase
     {
         public string Property { get; set; }
-        public string Value { get; set; }
+        private string value;
+        public string Value
+        {
+            get => value;
+            set => SetProperty(ref this.value, value);
+        }
         public string[] Selection { get; set; }
         public ConfigType Type { get; set; }
         public string Description { get; set; }
@@ -30,8 +36,20 @@ namespace ConfigEditor_mvvm.Models
     public class MainWindowModel : ModelBase
     {
         #region Public Property
+        private Visibility modifiedVisibility = Visibility.Hidden;
+        public Visibility ModifiedVisibility
+        {
+            get => modifiedVisibility;
+            set => SetProperty(ref modifiedVisibility, value);
+        }
+
         public ObservableCollection<string> VersionList = new ObservableCollection<string>();
-        public ObservableCollection<ConfigListInfo> ConfigList = new ObservableCollection<ConfigListInfo>();
+        private ObservableCollection<ConfigListInfo> configList = new ObservableCollection<ConfigListInfo>();
+        public ObservableCollection<ConfigListInfo> ConfigList
+        {
+            get => configList;
+            set => SetProperty(ref configList, value);
+        }
         public ObservableCollection<string> ValueList { get; set; } = new ObservableCollection<string>();
 
         private int versionListSelectedIndex;
@@ -91,11 +109,29 @@ namespace ConfigEditor_mvvm.Models
         }
         #endregion
 
+        #region Properties
+        private bool isModified = false;
+        private bool IsModified
+        {
+            get => isModified;
+            set
+            {
+                isModified = value;
+                if (value)
+                    ModifiedVisibility = Visibility.Visible;
+                else
+                    ModifiedVisibility = Visibility.Hidden;
+            }
+        }
+        #endregion
+
         #region Fields
         private ConfigLoader configLoader;
         private TemplateLoader templateLoader;
-        #endregion
 
+        // ロード時のイベント回避
+        private bool isSetConfig = false;
+        #endregion
 
         public void Initialize()
         {
@@ -105,15 +141,13 @@ namespace ConfigEditor_mvvm.Models
 
             string[] cmds = Environment.GetCommandLineArgs();
             if (cmds.Length > 1)
-            {
                 configLoader = new ConfigLoader(cmds[1]);
-            }
 
             // Select Version
             VersionListSelectedIndex = VersionList.Count - 1;
         }
 
-        public void Load()
+        public void LoadToConfigList()
         {
             if (VersionListSelectedIndex < 0) return;
 
@@ -176,6 +210,8 @@ namespace ConfigEditor_mvvm.Models
             if (ConfigListSelectedIndex < 0) return;
             var configListInfo = ConfigList[ConfigListSelectedIndex];
 
+            isSetConfig = true;
+            ValueListSelectedIndex = -1;
             ValueList.Clear();
 
             NameLabel = configListInfo.Property;
@@ -201,6 +237,28 @@ namespace ConfigEditor_mvvm.Models
                 ValueListVisibility = Visibility.Hidden;
                 ValueTextBoxVisibility = Visibility.Visible;
             }
+        }
+
+        public void ChangeValue(ConfigType confType)
+        {
+            if (isSetConfig)
+            {
+                isSetConfig = false;
+                return;
+            }
+
+            string value = ValueText;
+            if (confType == ConfigType.Combo)
+            {
+                if (ValueListSelectedIndex < 0) return;
+                value = ValueList[ValueListSelectedIndex];
+            }
+
+            if (ConfigListSelectedIndex < 0) return;
+            var index = ConfigListSelectedIndex;
+            var configListInfo = ConfigList[index];
+            configListInfo.Value = value;
+            IsModified = true;
         }
     }
 }

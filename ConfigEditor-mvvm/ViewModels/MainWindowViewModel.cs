@@ -35,8 +35,11 @@ namespace ConfigEditor_mvvm.ViewModels
             ValueTextTextChanged = new DelegateCommand(ValueTextText_Changed);
             #endregion
 
+            #region Propertiy Initialize
+            ModifiedVisibility = model.ToReactivePropertyAsSynchronized(m => m.ModifiedVisibility);
+
             VersionList = model.VersionList.ToReadOnlyReactiveCollection(x => x);
-            ConfigList = model.ConfigList.ToReadOnlyReactiveCollection(x => x);
+            ConfigList = model.ToReactivePropertyAsSynchronized(m => m.ConfigList);
             ValueList = model.ToReactivePropertyAsSynchronized(m => m.ValueList);
             VersionListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.VersionListSelectedIndex);
             ConfigListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.ConfigListSelectedIndex);
@@ -48,6 +51,7 @@ namespace ConfigEditor_mvvm.ViewModels
             ValueText = model.ToReactivePropertyAsSynchronized(m => m.ValueText);
             ValueListVisibility = model.ToReactivePropertyAsSynchronized(m => m.ValueListVisibility);
             ValueTextBoxVisibility = model.ToReactivePropertyAsSynchronized(m => m.ValueTextBoxVisibility);
+            #endregion
 
             if (Loaded != null && Loaded.CanExecute(null))
             {
@@ -56,12 +60,14 @@ namespace ConfigEditor_mvvm.ViewModels
         }
 
         #region Properties
+        public ReactiveProperty<Visibility> ModifiedVisibility { get; set; }
+
         public ReadOnlyCollection<string> VersionList { get; }
         public ReactiveProperty<int> VersionListSelectedIndex { get; set; }
 
-        public ReadOnlyCollection<ConfigListInfo> ConfigList { get; }
+        public ReactiveProperty<ObservableCollection<ConfigListInfo>> ConfigList { get; set; }
         public ReactiveProperty<int> ConfigListSelectedIndex { get; set; }
-        
+
         public ReactiveProperty<string> NameLabel { get; set; }
         public ReactiveProperty<string> DescriptionLabel { get; set; }
 
@@ -115,7 +121,7 @@ namespace ConfigEditor_mvvm.ViewModels
 
         public void VersionsList_SelectionChanged()
         {
-            model.Load();
+            model.LoadToConfigList();
         }
         public void ConfigList_SelectionChanged()
         {
@@ -123,10 +129,11 @@ namespace ConfigEditor_mvvm.ViewModels
         }
         public void ValueList_SelectionChanged()
         {
+            model.ChangeValue(ConfigType.Combo);
         }
         public void ValueTextText_Changed()
         {
-            Console.WriteLine("ValueTextText_Changed");
+            model.ChangeValue(ConfigType.String);
         }
         #endregion
     }

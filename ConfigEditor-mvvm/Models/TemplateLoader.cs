@@ -20,7 +20,7 @@ namespace ConfigEditor_mvvm.Models
         {
             Reader xmlReader = new Reader(StaticData.VersionListPath);
             VersionListLoad(xmlReader);
-            TemplateLoad(lang, xmlReader);
+            TemplateLoad(lang);
         }
 
         private void VersionListLoad(Reader xmlReader)
@@ -29,7 +29,7 @@ namespace ConfigEditor_mvvm.Models
             VersionPathList = xmlReader.GetValues("/root/configs/config", false);
         }
 
-        private void TemplateLoad(string lang, Reader xmlReader)
+        private void TemplateLoad(string lang)
         {
             VersionPathList.ForEachInIndex((index, path) =>
             {
