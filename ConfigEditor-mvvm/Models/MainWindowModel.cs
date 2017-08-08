@@ -1,4 +1,5 @@
 ﻿using CommonLib.Models;
+using CommonLib.Extentions;
 using KimamaLib.File;
 using Prism.Mvvm;
 using SvManagerLibrary.Config;
@@ -45,6 +46,9 @@ namespace ConfigEditor_mvvm.Models
     {
         #region Public Property
         private Visibility modifiedVisibility = Visibility.Hidden;
+        /// <summary>
+        /// タイトルの編集マークを表示するかどうか
+        /// </summary>
         public Visibility ModifiedVisibility
         {
             get => modifiedVisibility;
@@ -52,40 +56,55 @@ namespace ConfigEditor_mvvm.Models
         }
 
         private bool saveBtEnabled;
+        /// <summary>
+        /// 保存ボタンを有効にするかどうか
+        /// </summary>
         public bool SaveBtEnabled
         {
             get => saveBtEnabled;
             set => SetProperty(ref saveBtEnabled, value);
         }
 
+        /// <summary>
+        /// バージョンコンボボックスの本体
+        /// </summary>
         public ObservableCollection<string> VersionList = new ObservableCollection<string>();
         private ObservableCollection<ConfigListInfo> configList = new ObservableCollection<ConfigListInfo>();
+        /// <summary>
+        /// コンフィグリストビューの本体及び管理データ用リスト
+        /// </summary>
         public ObservableCollection<ConfigListInfo> ConfigList
         {
             get => configList;
             set => SetProperty(ref configList, value);
         }
+        /// <summary>
+        /// 値候補リストの本体
+        /// </summary>
         public ObservableCollection<string> ValueList { get; set; } = new ObservableCollection<string>();
 
         private int versionListSelectedIndex;
+        /// <summary>
+        /// バージョンコンボボックスの選択されているインデックス値或いはその設定
+        /// </summary>
         public int VersionListSelectedIndex
         {
             get => versionListSelectedIndex;
             set => SetProperty(ref versionListSelectedIndex, value);
         }
         private int configListSelectedIndex;
+        /// <summary>
+        /// コンフィグリストの選択されているインデックス値或いはその設定
+        /// </summary>
         public int ConfigListSelectedIndex
         {
             get => configListSelectedIndex;
             set => SetProperty(ref configListSelectedIndex, value);
         }
-        private string valueListSelectedItem;
-        public string ValueListSelectedItem
-        {
-            get => valueListSelectedItem;
-            set => SetProperty(ref valueListSelectedItem, value);
-        }
         private int valueListSelectedIndex;
+        /// <summary>
+        /// 値候補リストの選択されているインデックス値或いはその設定
+        /// </summary>
         public int ValueListSelectedIndex
         {
             get => valueListSelectedIndex;
@@ -93,30 +112,47 @@ namespace ConfigEditor_mvvm.Models
         }
 
         private string nameLabel;
+        /// <summary>
+        /// プロパティ名の表示値
+        /// </summary>
         public string NameLabel
         {
             get => nameLabel;
             set => SetProperty(ref nameLabel, value);
         }
         private string descriptionLabel;
+        /// <summary>
+        /// 説明の表示値
+        /// </summary>
         public string DescriptionLabel
         {
             get => descriptionLabel;
             set => SetProperty(ref descriptionLabel, value);
         }
+
         private string valueText;
+        /// <summary>
+        /// コンフィグの値を取得または設定
+        /// </summary>
         public string ValueText
         {
             get => valueText;
             set => SetProperty(ref valueText, value);
         }
+
         private Visibility valueListVisibility = Visibility.Hidden;
+        /// <summary>
+        /// 値候補リストの表示するかどうか
+        /// </summary>
         public Visibility ValueListVisibility
         {
             get => valueListVisibility;
             set => SetProperty(ref valueListVisibility, value);
         }
         private Visibility valueTextBoxVisibility = Visibility.Hidden;
+        /// <summary>
+        /// 値設定用テキストボックスを表示するかどうか
+        /// </summary>
         public Visibility ValueTextBoxVisibility
         {
             get => valueTextBoxVisibility;
@@ -126,6 +162,11 @@ namespace ConfigEditor_mvvm.Models
 
         #region Properties
         private bool isModified = false;
+        /// <summary>
+        /// 編集されたかどうかを表します。またタイトルのマークの有無も同時に変更します。
+        /// true: 編集済
+        /// false: 無編集
+        /// </summary>
         private bool IsModified
         {
             get => isModified;
@@ -149,6 +190,9 @@ namespace ConfigEditor_mvvm.Models
         private bool isSetConfig = false;
         #endregion
 
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
         public void Initialize()
         {
             settingLoader = new SettingLoader(StaticData.SettingFilePath);
@@ -165,9 +209,13 @@ namespace ConfigEditor_mvvm.Models
             VersionListSelectedIndex = VersionList.Count - 1;
         }
 
-        public void ShortcutKey(KeyEventArgs e)
+        /// <summary>
+        /// ショートカットキーの処理
+        /// </summary>
+        /// <param name="e">キーの入力値</param>
+        /// <param name="modKey">特殊キーの入力値/param>
+        public void ShortcutKey(KeyEventArgs e, ModifierKeys modKey)
         {
-            ModifierKeys modKey = Keyboard.Modifiers;
             Key mainKey = e.Key;
 
             if (modKey == ModifierKeys.Control && mainKey == Key.S)
@@ -176,11 +224,17 @@ namespace ConfigEditor_mvvm.Models
             }
         }
 
+        /// <summary>
+        /// 新規ファイルを読み込む
+        /// </summary>
         public void LoadNewData()
         {
             configLoader = null;
             LoadToConfigList();
         }
+        /// <summary>
+        /// 任意のファイルの選択とロード処理
+        /// </summary>
         public void OpenFile()
         {
             var dirName = settingLoader.OpenDirectoryPath;
@@ -194,6 +248,9 @@ namespace ConfigEditor_mvvm.Models
             }
         }
 
+        /// <summary>
+        /// コンフィグのロードと描写
+        /// </summary>
         public void LoadToConfigList()
         {
             if (VersionListSelectedIndex < 0) return;
@@ -226,7 +283,7 @@ namespace ConfigEditor_mvvm.Models
                 }
 
                 // templateにあるがコンフィグファイルにないものを追加
-                string[] nRepetitions = StringExceptWith(templateKeys.ToArray(), keys.ToArray());
+                string[] nRepetitions = templateKeys.ToArray().ArrayExcept(keys.ToArray());
                 foreach (string key in nRepetitions)
                 {
                     if (templateDic.ContainsKey(key))
@@ -239,22 +296,10 @@ namespace ConfigEditor_mvvm.Models
                 SaveBtEnabled = true;
             }
         }
-        private string[] StringExceptWith(string[] ary1, string[] ary2)
-        {
-            //HashSetに変換する
-            HashSet<string> hs1 = new HashSet<string>(ary1);
-            HashSet<string> hs2 = new HashSet<string>(ary2);
 
-            // h1にのみ存在する要素を取得
-            var query1 = new HashSet<string>(hs1.Intersect(hs2));
-            var query2 = new HashSet<string>(hs1.Except(query1));
-
-            //配列に変換する
-            string[] resultArray = new string[query2.Count];
-            query2.CopyTo(resultArray, 0);
-            return resultArray;
-        }
-
+        /// <summary>
+        /// 選択されているコンフィグの設定と描写
+        /// </summary>
         public void SetConfigProperty()
         {
             if (ConfigListSelectedIndex < 0) return;
@@ -289,6 +334,10 @@ namespace ConfigEditor_mvvm.Models
             }
         }
 
+        /// <summary>
+        /// コンフィグ値の変更
+        /// </summary>
+        /// <param name="confType"></param>
         public void ChangeValue(ConfigType confType)
         {
             if (isSetConfig)
@@ -311,6 +360,10 @@ namespace ConfigEditor_mvvm.Models
             IsModified = true;
         }
         
+        /// <summary>
+        /// 名前をつけて保存の際のファイル選択とパスの取得
+        /// </summary>
+        /// <returns></returns>
         private bool SelectFileOnSaveAs()
         {
             var dirName = settingLoader.OpenDirectoryPath;
@@ -324,11 +377,17 @@ namespace ConfigEditor_mvvm.Models
             }
             return false;
         }
+        /// <summary>
+        /// 名前をつけて保存
+        /// </summary>
         public void SaveAs()
         {
             if (SelectFileOnSaveAs())
                 Save();
         }
+        /// <summary>
+        /// 上書き保存、ファイルが選択されていない場合は名前をつけて保存
+        /// </summary>
         public void Save()
         {
             if (configLoader == null)
