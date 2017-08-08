@@ -46,7 +46,6 @@ namespace ConfigEditor_mvvm.ViewModels
             ValueList = model.ToReactivePropertyAsSynchronized(m => m.ValueList);
             VersionListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.VersionListSelectedIndex);
             ConfigListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.ConfigListSelectedIndex);
-            ValueListSelectedItem = model.ToReactivePropertyAsSynchronized(m => m.ValueListSelectedItem);
             ValueListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.ValueListSelectedIndex);
 
             NameLabel = model.ToReactivePropertyAsSynchronized(m => m.NameLabel);
@@ -69,14 +68,21 @@ namespace ConfigEditor_mvvm.ViewModels
         public ReadOnlyCollection<string> VersionList { get; }
         public ReactiveProperty<int> VersionListSelectedIndex { get; set; }
 
+        /// <summary>
+        /// コンフィグリストの仲介プロパティ
+        /// ReacOnlyCollectionでは反応遅れにより正しく動作せず。
+        /// </summary>
         public ReactiveProperty<ObservableCollection<ConfigListInfo>> ConfigList { get; set; }
         public ReactiveProperty<int> ConfigListSelectedIndex { get; set; }
 
         public ReactiveProperty<string> NameLabel { get; set; }
         public ReactiveProperty<string> DescriptionLabel { get; set; }
 
+        /// <summary>
+        /// バリューリストの仲介プロパティ
+        /// ReacOnlyCollectionでは反応遅れにより正しく動作せず。
+        /// </summary>
         public ReactiveProperty<ObservableCollection<string>> ValueList { get; set; }
-        public ReactiveProperty<string> ValueListSelectedItem { get; set; }
         public ReactiveProperty<int> ValueListSelectedIndex { get; set; }
 
         public ReactiveProperty<string> ValueText { get; set; }
@@ -108,7 +114,7 @@ namespace ConfigEditor_mvvm.ViewModels
         }
         public void MainWindow_KeyDown(KeyEventArgs e)
         {
-            model.ShortcutKey(e);
+            model.ShortcutKey(e, Keyboard.Modifiers);
         }
 
         public void NewFileBt_Clicked()
