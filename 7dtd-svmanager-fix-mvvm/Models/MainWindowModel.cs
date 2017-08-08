@@ -258,7 +258,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void Initialize()
         {
-            setting = SettingLoader.Setting = new SettingLoader(StaticData.AppDirectoryPath + @"\settings.ini");
+            setting = SettingLoader.Setting = new SettingLoader(StaticData.SettingFilePath);
             shortcutKeyManager = new ShortcutKeyManager(StaticData.AppDirectoryPath + @"\KeyConfig.xml",
                 StaticData.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
 

@@ -48,7 +48,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
         {
             string filter = LangResources.SetupResource.Filter_XmlFile;
             string directoryPath = StaticData.DirectoryPath;
-            string filename = FileSelector.GetFilePath(directoryPath, filter, "serverconfig.xml");
+            string filename = FileSelector.GetFilePath(directoryPath, filter, "serverconfig.xml", FileSelector.FileSelectorType.Read);
 
             ServerConfigPathText = filename;
         }
