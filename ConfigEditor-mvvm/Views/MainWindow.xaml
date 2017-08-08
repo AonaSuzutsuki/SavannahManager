@@ -56,7 +56,7 @@
                 <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
-                            <CommonViews:InteractiveCommand  Command="{Binding ImageMouseDown}" />
+                            <CommonViews:InvokeDelegateCommandAction  Command="{Binding ImageMouseDown}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
@@ -142,7 +142,7 @@
                     </StackPanel>
 
                     <Grid Grid.Row="1">
-                        <ComboBox ItemsSource="{Binding ValueList.Value}" Visibility="{Binding ValueListVisibility.Value}" SelectedItem="{Binding ValueListSelectedItem.Value}" SelectedIndex="{Binding ValueListSelectedIndex.Value}">
+                        <ComboBox ItemsSource="{Binding ValueList.Value}" Visibility="{Binding ValueListVisibility.Value}" SelectedIndex="{Binding ValueListSelectedIndex.Value}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
                                     <i:InvokeCommandAction Command="{Binding ValueListSelectionChanged}" CommandParameter="{Binding Path=SelectedIndex, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" />
