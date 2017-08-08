@@ -1,10 +1,12 @@
 ﻿using CommonLib.Models;
+using KimamaLib.File;
 using Prism.Mvvm;
 using SvManagerLibrary.Config;
 using SvManagerLibrary.XMLWrapper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +22,7 @@ namespace ConfigEditor_mvvm.Models
         Integer,
         Combo
     }
-    public class ConfigListInfo : BindableBase
+    public class ConfigListInfo : BindableBase, ICloneable
     {
         public string Property { get; set; }
         private string value;
@@ -32,6 +34,11 @@ namespace ConfigEditor_mvvm.Models
         public string[] Selection { get; set; }
         public ConfigType Type { get; set; }
         public string Description { get; set; }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 
     public class MainWindowModel : ModelBase
@@ -42,6 +49,13 @@ namespace ConfigEditor_mvvm.Models
         {
             get => modifiedVisibility;
             set => SetProperty(ref modifiedVisibility, value);
+        }
+
+        private bool saveBtEnabled;
+        public bool SaveBtEnabled
+        {
+            get => saveBtEnabled;
+            set => SetProperty(ref saveBtEnabled, value);
         }
 
         public ObservableCollection<string> VersionList = new ObservableCollection<string>();
@@ -127,6 +141,7 @@ namespace ConfigEditor_mvvm.Models
         #endregion
 
         #region Fields
+        private SettingLoader settingLoader;
         private ConfigLoader configLoader;
         private TemplateLoader templateLoader;
 
@@ -136,6 +151,8 @@ namespace ConfigEditor_mvvm.Models
 
         public void Initialize()
         {
+            settingLoader = new SettingLoader(StaticData.SettingFilePath);
+
             var language = LangResources.CommonResources.Language;
             templateLoader = new TemplateLoader(language, StaticData.VersionListPath);
             VersionList.AddAll(templateLoader.VersionList);
@@ -159,6 +176,24 @@ namespace ConfigEditor_mvvm.Models
             }
         }
 
+        public void LoadNewData()
+        {
+            configLoader = null;
+            LoadToConfigList();
+        }
+        public void OpenFile()
+        {
+            var dirName = settingLoader.OpenDirectoryPath;
+            var filePath = FileSelector.GetFilePath(dirName, 
+                LangResources.CommonResources.Filter_XmlFile, StaticData.ServerConfigFileName, FileSelector.FileSelectorType.Read);
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                configLoader = new ConfigLoader(filePath);
+                LoadToConfigList();
+                settingLoader.OpenDirectoryPath = Path.GetDirectoryName(filePath);
+            }
+        }
+
         public void LoadToConfigList()
         {
             if (VersionListSelectedIndex < 0) return;
@@ -167,8 +202,9 @@ namespace ConfigEditor_mvvm.Models
             var version = VersionList[VersionListSelectedIndex];
             if (configLoader == null)
             {
-                var list = templateLoader.GetConfigList(version);
+                var list = new List<ConfigListInfo>(templateLoader.GetConfigList(version));
                 ConfigList.AddAll(list);
+                SaveBtEnabled = false;
             }
             else
             {
@@ -199,6 +235,8 @@ namespace ConfigEditor_mvvm.Models
                         ConfigList.Add(configListInfo);
                     }
                 }
+
+                SaveBtEnabled = true;
             }
         }
         private string[] StringExceptWith(string[] ary1, string[] ary2)
@@ -272,9 +310,32 @@ namespace ConfigEditor_mvvm.Models
             configListInfo.Value = value;
             IsModified = true;
         }
-
+        
+        private bool SelectFileOnSaveAs()
+        {
+            var dirName = settingLoader.OpenDirectoryPath;
+            var filePath = FileSelector.GetFilePath(dirName,
+                LangResources.CommonResources.Filter_XmlFile, StaticData.ServerConfigFileName, FileSelector.FileSelectorType.Write);
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                configLoader = new ConfigLoader(filePath, true);
+                SaveBtEnabled = true;
+                return true;
+            }
+            return false;
+        }
+        public void SaveAs()
+        {
+            if (SelectFileOnSaveAs())
+                Save();
+        }
         public void Save()
         {
+            if (configLoader == null)
+            {
+                if (!SelectFileOnSaveAs()) return;
+            }
+
             configLoader.Clear();
             foreach (var configListInfo in ConfigList)
             {
@@ -284,6 +345,7 @@ namespace ConfigEditor_mvvm.Models
             }
 
             configLoader.Write();
+            IsModified = false;
         }
     }
 }

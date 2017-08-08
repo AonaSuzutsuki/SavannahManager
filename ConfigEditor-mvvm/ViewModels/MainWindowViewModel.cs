@@ -39,6 +39,7 @@ namespace ConfigEditor_mvvm.ViewModels
 
             #region Propertiy Initialize
             ModifiedVisibility = model.ToReactivePropertyAsSynchronized(m => m.ModifiedVisibility);
+            SaveBtEnabled = model.ToReactivePropertyAsSynchronized(m => m.SaveBtEnabled);
 
             VersionList = model.VersionList.ToReadOnlyReactiveCollection(x => x);
             ConfigList = model.ToReactivePropertyAsSynchronized(m => m.ConfigList);
@@ -63,14 +64,13 @@ namespace ConfigEditor_mvvm.ViewModels
 
         #region Properties
         public ReactiveProperty<Visibility> ModifiedVisibility { get; set; }
+        public ReactiveProperty<bool> SaveBtEnabled { get; set; }
 
         public ReadOnlyCollection<string> VersionList { get; }
         public ReactiveProperty<int> VersionListSelectedIndex { get; set; }
 
         public ReactiveProperty<ObservableCollection<ConfigListInfo>> ConfigList { get; set; }
         public ReactiveProperty<int> ConfigListSelectedIndex { get; set; }
-
-        public ReactiveProperty<bool> SaveBTEnabled { get; set; }
 
         public ReactiveProperty<string> NameLabel { get; set; }
         public ReactiveProperty<string> DescriptionLabel { get; set; }
@@ -113,19 +113,19 @@ namespace ConfigEditor_mvvm.ViewModels
 
         public void NewFileBt_Clicked()
         {
-
+            model.LoadNewData();
         }
         public void OpenBt_Clicked()
         {
-
+            model.OpenFile();
         }
         public void SaveAsBt_Clicked()
         {
-
+            model.SaveAs();
         }
         public void SaveBt_Clicked()
         {
-
+            model.Save();
         }
 
         public void VersionsList_SelectionChanged()

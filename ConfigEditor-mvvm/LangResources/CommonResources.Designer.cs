@@ -61,6 +61,15 @@ namespace ConfigEditor_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   XMLファイル (*.xml)|*.xml|すべてのファイル(*.*)|*.* に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Filter_XmlFile {
+            get {
+                return ResourceManager.GetString("Filter_XmlFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ja に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Language {
