@@ -53,7 +53,7 @@
                 <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
-                            <CommonViews:InteractiveCommand  Command="{Binding ImageMouseDown}" />
+                            <CommonViews:InvokeDelegateCommandAction  Command="{Binding ImageMouseDown}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
@@ -141,7 +141,7 @@
                                     <ContextMenu>
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Opened">
-                                                <CommonViews:InteractiveCommand Command="{Binding PlayerContextMenuOpened}" />
+                                                <CommonViews:InvokeDelegateCommandAction Command="{Binding PlayerContextMenuOpened}" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
 
@@ -178,10 +178,10 @@
                             <TextBox Text="{Binding ConsoleLogText, Mode=OneWay}" Name="ConsoleTextBox" AcceptsReturn="True" TextWrapping="NoWrap" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseEnter">
-                                        <CommonViews:InteractiveCommand  Command="{Binding ConsoleTextBoxMouseEnter}" />
+                                        <CommonViews:InvokeDelegateCommandAction  Command="{Binding ConsoleTextBoxMouseEnter}" />
                                     </i:EventTrigger>
                                     <i:EventTrigger EventName="MouseLeave">
-                                        <CommonViews:InteractiveCommand  Command="{Binding ConsoleTextBoxMouseLeave}" />
+                                        <CommonViews:InvokeDelegateCommandAction  Command="{Binding ConsoleTextBoxMouseLeave}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <TextBox.ContextMenu>
@@ -198,7 +198,7 @@
                                 <ListBox Name="listBoxTarget" IsTextSearchEnabled="True">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="KeyDown">
-                                            <CommonViews:InteractiveCommand  Command="{Binding listBoxTargetKeyDown}" />
+                                            <CommonViews:InvokeDelegateCommandAction  Command="{Binding listBoxTargetKeyDown}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </ListBox>
