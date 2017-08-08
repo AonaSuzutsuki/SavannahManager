@@ -1,5 +1,6 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Models;
 using CommonLib.Models;
+using KimamaLib.File;
 using System.IO;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings.Models
@@ -133,7 +134,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
                     directoryPath = di.FullName;
                 }
             }
-            return KimamaLib.File.FileSelector.GetFilePath(directoryPath, filter, fileName);
+            return FileSelector.GetFilePath(directoryPath, filter, fileName, FileSelector.FileSelectorType.Read);
         }
     }
 }

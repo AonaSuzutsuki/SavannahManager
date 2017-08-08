@@ -61,6 +61,7 @@
                     </i:Interaction.Triggers>
                 </Image>
                 <Label Content="Config Editor" Style="{DynamicResource ResourceKey=StatTitle}" />
+                <Label Content="*" Visibility="{Binding ModifiedVisibility.Value}" Style="{DynamicResource ResourceKey=StatTitle}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
@@ -80,7 +81,7 @@
 
                         <MenuItem Name="OpenBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_OpenBT, Mode=OneWay}" Command="{Binding OpenBtClicked}" />
                         <MenuItem Name="SaveAsBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_SaveAsBT, Mode=OneWay}" Command="{Binding SaveAsBtClicked}" />
-                        <MenuItem Name="SaveBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_SaveBT, Mode=OneWay}" IsEnabled="{Binding SaveBTEnabled}" Command="{Binding SaveBtClicked}" />
+                        <MenuItem Name="SaveBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_SaveBT, Mode=OneWay}" IsEnabled="{Binding SaveBtEnabled.Value}" Command="{Binding SaveBtClicked}" />
 
                         <Separator Style="{DynamicResource MLB_Separator}" />
 
@@ -107,7 +108,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <ListView Grid.Row="0" Height="Auto" Width="Auto" Name="ConfigsList" ItemsSource="{Binding ConfigList, Mode=OneWay}" SelectedIndex="{Binding ConfigListSelectedIndex.Value}" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                <ListView Grid.Row="0" Height="Auto" Width="Auto" Name="ConfigsList" ItemsSource="{Binding ConfigList.Value}" SelectedIndex="{Binding ConfigListSelectedIndex.Value}" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding ConfigListSelectionChanged}" CommandParameter="{Binding Path=SelectedIndex, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
@@ -144,7 +145,7 @@
                         <ComboBox ItemsSource="{Binding ValueList.Value}" Visibility="{Binding ValueListVisibility.Value}" SelectedItem="{Binding ValueListSelectedItem.Value}" SelectedIndex="{Binding ValueListSelectedIndex.Value}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
-                                    <i:InvokeCommandAction Command="{Binding ValuesListSelectionChanged}" CommandParameter="{Binding Path=SelectedIndex, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" />
+                                    <i:InvokeCommandAction Command="{Binding ValueListSelectionChanged}" CommandParameter="{Binding Path=SelectedIndex, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             
