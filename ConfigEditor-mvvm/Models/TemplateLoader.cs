@@ -7,28 +7,29 @@ namespace ConfigEditor_mvvm.Models
     public class TemplateLoader
     {
         /// <summary>
-        /// バージョン一覧を管理します。
+        /// Get managed version list.
         /// </summary>
         public List<string> VersionList { get; private set; }
 
         private List<string> versionPathList;
         /// <summary>
-        /// &lt;バージョン, &lt;プロパティ名, テンプレート要素&gt;&gt;
+        /// Manage template data.
+        /// &lt;Version, &lt;PropertyName, Element&gt;&gt;
         /// </summary>
         private Dictionary<string, Dictionary<string, ConfigListInfo>> templateData = new Dictionary<string, Dictionary<string, ConfigListInfo>>();
 
         /// <summary>
-        /// テンプレートファイルの読み込みを行います。
+        /// Load template files.
         /// </summary>
-        /// <param name="lang">言語名</param>
-        /// <param name="templateListPath">テンプレートリストを管理するファイルのパス</param>
+        /// <param name="lang">Language Name</param>
+        /// <param name="templateListPath">File path of managed template list</param>
         public TemplateLoader(string lang, string templateListPath)
         {
             VersionListLoad();
             TemplateLoad(lang);
         }
         /// <summary>
-        /// バージョンリストをロードします。
+        /// Load version list.
         /// </summary>
         private void VersionListLoad()
         {
@@ -38,7 +39,7 @@ namespace ConfigEditor_mvvm.Models
         }
 
         /// <summary>
-        /// テンプレートをロードします。
+        /// Load template files. Main process.
         /// </summary>
         /// <param name="lang">言語名</param>
         private void TemplateLoad(string lang)
@@ -70,9 +71,9 @@ namespace ConfigEditor_mvvm.Models
             });
         }
         /// <summary>
-        /// 文字列をConfigTypeへ変換します。
+        /// Convert string to ConfigType.
         /// </summary>
-        /// <param name="stype">ConfigTypeと対応する文字列</param>
+        /// <param name="stype">String corresponding to ConfigType</param>
         /// <returns></returns>
         private ConfigType ConvertConfigType(string stype)
         {
@@ -93,10 +94,10 @@ namespace ConfigEditor_mvvm.Models
         }
 
         /// <summary>
-        /// バージョン別にテンプレートディクショナリを複製して返します。
+        /// Duplicate and return the template dictionary by version.
         /// </summary>
-        /// <param name="version">バージョン</param>
-        /// <returns>バージョン別のテンプレートディクショナリ</returns>
+        /// <param name="version">Version</param>
+        /// <returns>Template dictionary by version</returns>
         public Dictionary<string, ConfigListInfo> GetConfigDictionary(string version)
         {
             if (templateData.ContainsKey(version))
@@ -110,10 +111,10 @@ namespace ConfigEditor_mvvm.Models
                 return null;
         }
         /// <summary>
-        /// バージョン別のテンプレート配列を複製して返します。
+        /// Duplicate and return the template array by version.
         /// </summary>
-        /// <param name="version">バージョン</param>
-        /// <returns>バージョンのテンプレート配列</returns>
+        /// <param name="version">Version</param>
+        /// <returns>Template array by version</returns>
         public ConfigListInfo[] GetConfigList(string version)
         {
             var dic = GetConfigDictionary(version);
