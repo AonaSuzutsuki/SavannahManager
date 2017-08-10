@@ -93,7 +93,7 @@
 
             <StackPanel Margin="10,55,10,0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25">
                 <Label Content="Version " Padding="2" Foreground="White" />
-                <ComboBox Name="VersionList" ItemsSource="{Binding VersionList, Mode=OneWay}" SelectedIndex="{Binding VersionListSelectedIndex.Value}" Width="120">
+                <ComboBox Name="VersionList" ItemsSource="{Binding VersionList.Value, Mode=OneWay}" SelectedIndex="{Binding VersionListSelectedIndex.Value}" Width="120">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding VersionsListSelectionChanged}" />

@@ -41,9 +41,9 @@ namespace ConfigEditor_mvvm.ViewModels
             ModifiedVisibility = model.ToReactivePropertyAsSynchronized(m => m.ModifiedVisibility);
             SaveBtEnabled = model.ToReactivePropertyAsSynchronized(m => m.SaveBtEnabled);
 
-            VersionList = model.VersionList.ToReadOnlyReactiveCollection(x => x);
-            ConfigList = model.ToReactivePropertyAsSynchronized(m => m.ConfigList);
-            ValueList = model.ToReactivePropertyAsSynchronized(m => m.ValueList);
+            VersionList = model.ObserveProperty(m => m.VersionList).ToReactiveProperty();
+            ConfigList = model.ObserveProperty(m => m.ConfigList).ToReactiveProperty();
+            ValueList = model.ObserveProperty(m => m.ValueList).ToReactiveProperty();
             VersionListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.VersionListSelectedIndex);
             ConfigListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.ConfigListSelectedIndex);
             ValueListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.ValueListSelectedIndex);
@@ -65,24 +65,22 @@ namespace ConfigEditor_mvvm.ViewModels
         public ReactiveProperty<Visibility> ModifiedVisibility { get; set; }
         public ReactiveProperty<bool> SaveBtEnabled { get; set; }
 
-        public ReadOnlyCollection<string> VersionList { get; }
+        public ReactiveProperty<ObservableCollection<string>> VersionList { get; }
         public ReactiveProperty<int> VersionListSelectedIndex { get; set; }
 
         /// <summary>
-        /// コンフィグリストの仲介プロパティ
-        /// ReacOnlyCollectionでは反応遅れにより正しく動作せず。
+        /// It is an intermediary property of the Config list.
         /// </summary>
-        public ReactiveProperty<ObservableCollection<ConfigListInfo>> ConfigList { get; set; }
+        public ReactiveProperty<ObservableCollection<ConfigListInfo>> ConfigList { get; }
         public ReactiveProperty<int> ConfigListSelectedIndex { get; set; }
 
         public ReactiveProperty<string> NameLabel { get; set; }
         public ReactiveProperty<string> DescriptionLabel { get; set; }
 
         /// <summary>
-        /// バリューリストの仲介プロパティ
-        /// ReacOnlyCollectionでは反応遅れにより正しく動作せず。
+        /// It is an intermediary property of the Value list.
         /// </summary>
-        public ReactiveProperty<ObservableCollection<string>> ValueList { get; set; }
+        public ReactiveProperty<ObservableCollection<string>> ValueList { get; }
         public ReactiveProperty<int> ValueListSelectedIndex { get; set; }
 
         public ReactiveProperty<string> ValueText { get; set; }
@@ -110,7 +108,6 @@ namespace ConfigEditor_mvvm.ViewModels
         #region Event Methods
         public void MainWindow_Loaded()
         {
-            model.Initialize();
         }
         public void MainWindow_KeyDown(KeyEventArgs e)
         {
