@@ -1,7 +1,6 @@
 ﻿using CommonLib.Models;
 using CommonLib.Extentions;
 using KimamaLib.File;
-using Prism.Mvvm;
 using SvManagerLibrary.Config;
 using SvManagerLibrary.XMLWrapper;
 using System;
@@ -16,32 +15,6 @@ using System.Windows.Input;
 
 namespace ConfigEditor_mvvm.Models
 {
-    public enum ConfigType
-    {
-        none,
-        String,
-        Integer,
-        Combo
-    }
-    public class ConfigListInfo : BindableBase, ICloneable
-    {
-        public string Property { get; set; }
-        private string value;
-        public string Value
-        {
-            get => value;
-            set => SetProperty(ref this.value, value);
-        }
-        public string[] Selection { get; set; }
-        public ConfigType Type { get; set; }
-        public string Description { get; set; }
-
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
-    }
-
     public class MainWindowModel : ModelBase
     {
         #region Public Property
