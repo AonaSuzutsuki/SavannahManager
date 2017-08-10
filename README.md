@@ -41,5 +41,5 @@ set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\
 ```
 3. Build with MSBuild.
 ```sh
-msbuild SavannahManager.sln /t:Clean;Build /p:Configuration=Release /p:PlatformTarget=x86 /p:OutputPath=bin
+msbuild SavannahManager.sln /t:Clean;Build /p:Configuration=Release /p:PlatformTarget=x86
 ```
