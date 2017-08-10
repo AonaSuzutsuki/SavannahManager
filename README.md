@@ -23,7 +23,8 @@ Thank you very much.
 ## Visual Studio 2017
 ### Steps
 1. Open SavannahManager.sln.
-2. 
+2. Set a target to x86.
+3. Click Build on Menu.
 
 ## MSBuild (without Visual Studio 2017)
 ### Required Tools
