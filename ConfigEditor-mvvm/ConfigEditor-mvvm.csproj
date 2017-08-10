@@ -114,6 +114,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CommonResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConfigListInfo.cs" />
+    <Compile Include="Models\ConfigType.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\SettingLoader.cs" />
     <Compile Include="Models\TemplateLoader.cs" />
