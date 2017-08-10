@@ -1,7 +1,6 @@
 ﻿using CommonLib.Models;
 using CommonLib.Extentions;
 using KimamaLib.File;
-using Prism.Mvvm;
 using SvManagerLibrary.Config;
 using SvManagerLibrary.XMLWrapper;
 using System;
@@ -16,38 +15,12 @@ using System.Windows.Input;
 
 namespace ConfigEditor_mvvm.Models
 {
-    public enum ConfigType
-    {
-        none,
-        String,
-        Integer,
-        Combo
-    }
-    public class ConfigListInfo : BindableBase, ICloneable
-    {
-        public string Property { get; set; }
-        private string value;
-        public string Value
-        {
-            get => value;
-            set => SetProperty(ref this.value, value);
-        }
-        public string[] Selection { get; set; }
-        public ConfigType Type { get; set; }
-        public string Description { get; set; }
-
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
-    }
-
     public class MainWindowModel : ModelBase
     {
         #region Public Property
         private Visibility modifiedVisibility = Visibility.Hidden;
         /// <summary>
-        /// タイトルの編集マークを表示するかどうか
+        /// Set or get the presence or absence of the edit mark of the title.
         /// </summary>
         public Visibility ModifiedVisibility
         {
@@ -57,7 +30,7 @@ namespace ConfigEditor_mvvm.Models
 
         private bool saveBtEnabled;
         /// <summary>
-        /// 保存ボタンを有効にするかどうか
+        /// Set or get enable / disable of save button.
         /// </summary>
         public bool SaveBtEnabled
         {
@@ -65,27 +38,37 @@ namespace ConfigEditor_mvvm.Models
             set => SetProperty(ref saveBtEnabled, value);
         }
 
+        private ObservableCollection<string> versionList;
         /// <summary>
-        /// バージョンコンボボックスの本体
+        /// Set or get the body of the Version combo box.
         /// </summary>
-        public ObservableCollection<string> VersionList = new ObservableCollection<string>();
-        private ObservableCollection<ConfigListInfo> configList = new ObservableCollection<ConfigListInfo>();
+        public ObservableCollection<string> VersionList
+        {
+            get => versionList;
+            set => SetProperty(ref versionList, value);
+        }
+        private ObservableCollection<ConfigListInfo> configList;
         /// <summary>
-        /// コンフィグリストビューの本体及び管理データ用リスト
+        /// Set or get the body of the ConfigList and list for management.
         /// </summary>
         public ObservableCollection<ConfigListInfo> ConfigList
         {
             get => configList;
             set => SetProperty(ref configList, value);
         }
+        private ObservableCollection<string> valueList;
         /// <summary>
-        /// 値候補リストの本体
+        /// Set or get body of value candidate list.
         /// </summary>
-        public ObservableCollection<string> ValueList { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> ValueList
+        {
+            get => valueList;
+            set => SetProperty(ref valueList, value);
+        }
 
         private int versionListSelectedIndex;
         /// <summary>
-        /// バージョンコンボボックスの選択されているインデックス値或いはその設定
+        /// Set or get the selected index value of the Version combo box.
         /// </summary>
         public int VersionListSelectedIndex
         {
@@ -94,7 +77,7 @@ namespace ConfigEditor_mvvm.Models
         }
         private int configListSelectedIndex;
         /// <summary>
-        /// コンフィグリストの選択されているインデックス値或いはその設定
+        /// Set or get the selected index value of the ConfigList.
         /// </summary>
         public int ConfigListSelectedIndex
         {
@@ -103,7 +86,7 @@ namespace ConfigEditor_mvvm.Models
         }
         private int valueListSelectedIndex;
         /// <summary>
-        /// 値候補リストの選択されているインデックス値或いはその設定
+        /// Set or get the selected index value of the Value candidate list.
         /// </summary>
         public int ValueListSelectedIndex
         {
@@ -113,7 +96,7 @@ namespace ConfigEditor_mvvm.Models
 
         private string nameLabel;
         /// <summary>
-        /// プロパティ名の表示値
+        /// Set or get displaied property name.
         /// </summary>
         public string NameLabel
         {
@@ -122,7 +105,7 @@ namespace ConfigEditor_mvvm.Models
         }
         private string descriptionLabel;
         /// <summary>
-        /// 説明の表示値
+        /// Set or get displaied description label.
         /// </summary>
         public string DescriptionLabel
         {
@@ -132,7 +115,7 @@ namespace ConfigEditor_mvvm.Models
 
         private string valueText;
         /// <summary>
-        /// コンフィグの値を取得または設定
+        /// Set or get displaied config value.
         /// </summary>
         public string ValueText
         {
@@ -142,7 +125,7 @@ namespace ConfigEditor_mvvm.Models
 
         private Visibility valueListVisibility = Visibility.Hidden;
         /// <summary>
-        /// 値候補リストの表示するかどうか
+        /// Set or get whether to display value candidate list.
         /// </summary>
         public Visibility ValueListVisibility
         {
@@ -151,7 +134,7 @@ namespace ConfigEditor_mvvm.Models
         }
         private Visibility valueTextBoxVisibility = Visibility.Hidden;
         /// <summary>
-        /// 値設定用テキストボックスを表示するかどうか
+        /// Set or get whether to display text box for value setting.
         /// </summary>
         public Visibility ValueTextBoxVisibility
         {
@@ -163,9 +146,9 @@ namespace ConfigEditor_mvvm.Models
         #region Properties
         private bool isModified = false;
         /// <summary>
-        /// 編集されたかどうかを表します。またタイトルのマークの有無も同時に変更します。
-        /// true: 編集済
-        /// false: 無編集
+        /// Set or get the state of editing. Also change the presence or absence of the title mark.
+        /// true: Edited
+        /// false: No editing
         /// </summary>
         private bool IsModified
         {
@@ -186,15 +169,19 @@ namespace ConfigEditor_mvvm.Models
         private ConfigLoader configLoader;
         private TemplateLoader templateLoader;
 
-        // ロード時のイベント回避
+        // Event avoidance at loading
         private bool isSetConfig = false;
         #endregion
 
         /// <summary>
-        /// 初期化処理
+        /// Perform initialization processing.
         /// </summary>
-        public void Initialize()
+        public MainWindowModel()
         {
+            VersionList = new ObservableCollection<string>();
+            ConfigList = new ObservableCollection<ConfigListInfo>();
+            ValueList = new ObservableCollection<string>();
+
             settingLoader = new SettingLoader(StaticData.SettingFilePath);
 
             var language = LangResources.CommonResources.Language;
@@ -207,13 +194,14 @@ namespace ConfigEditor_mvvm.Models
 
             // Select Version
             VersionListSelectedIndex = VersionList.Count - 1;
+            LoadToConfigList();
         }
 
         /// <summary>
-        /// ショートカットキーの処理
+        /// Process shortcut keys.
         /// </summary>
-        /// <param name="e">キーの入力値</param>
-        /// <param name="modKey">特殊キーの入力値/param>
+        /// <param name="e">input value of key</param>
+        /// <param name="modKey">input value of modifier key/param>
         public void ShortcutKey(KeyEventArgs e, ModifierKeys modKey)
         {
             Key mainKey = e.Key;
@@ -225,7 +213,7 @@ namespace ConfigEditor_mvvm.Models
         }
 
         /// <summary>
-        /// 新規ファイルを読み込む
+        /// Load New Data.
         /// </summary>
         public void LoadNewData()
         {
@@ -233,7 +221,7 @@ namespace ConfigEditor_mvvm.Models
             LoadToConfigList();
         }
         /// <summary>
-        /// 任意のファイルの選択とロード処理
+        /// Perform arbitrary file selection and load processing.
         /// </summary>
         public void OpenFile()
         {
@@ -249,7 +237,7 @@ namespace ConfigEditor_mvvm.Models
         }
 
         /// <summary>
-        /// コンフィグのロードと描写
+        /// Load and display config.
         /// </summary>
         public void LoadToConfigList()
         {
@@ -298,7 +286,7 @@ namespace ConfigEditor_mvvm.Models
         }
 
         /// <summary>
-        /// 選択されているコンフィグの設定と描写
+        /// Configure and display the selected config.
         /// </summary>
         public void SetConfigProperty()
         {
@@ -335,7 +323,7 @@ namespace ConfigEditor_mvvm.Models
         }
 
         /// <summary>
-        /// コンフィグ値の変更
+        /// Change config value.
         /// </summary>
         /// <param name="confType"></param>
         public void ChangeValue(ConfigType confType)
@@ -359,9 +347,9 @@ namespace ConfigEditor_mvvm.Models
             configListInfo.Value = value;
             IsModified = true;
         }
-        
+
         /// <summary>
-        /// 名前をつけて保存の際のファイル選択とパスの取得
+        /// Get file selection and path for SaveAs.
         /// </summary>
         /// <returns></returns>
         private bool SelectFileOnSaveAs()
@@ -378,7 +366,7 @@ namespace ConfigEditor_mvvm.Models
             return false;
         }
         /// <summary>
-        /// 名前をつけて保存
+        /// SaveAs
         /// </summary>
         public void SaveAs()
         {
@@ -386,7 +374,7 @@ namespace ConfigEditor_mvvm.Models
                 Save();
         }
         /// <summary>
-        /// 上書き保存、ファイルが選択されていない場合は名前をつけて保存
+        /// Overwrite save. If no file is selected, do SaveAs.
         /// </summary>
         public void Save()
         {
