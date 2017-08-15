@@ -211,7 +211,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             localMode = iniLoader.GetValue("MAIN", "LOCALMODE", true);
 
-            cultureName = iniLoader.GetValue("MAIN", "CULTURE", ResourceService.Current.GetCulture());
+            cultureName = iniLoader.GetValue("MAIN", "CULTURE", ResourceService.Current.Culture);
             ResourceService.Current.ChangeCulture(cultureName);
 
             consoleTextLength = iniLoader.GetValue("SERVER", "CONSOLELOGLENGTH", 262144);

@@ -324,7 +324,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public void ChangeCulture(string cultureName)
         {
             ResourceService.Current.ChangeCulture(cultureName);
-            setting.CultureName = ResourceService.Current.GetCulture();
+            setting.CultureName = ResourceService.Current.Culture;
         }
 
         public void RefreshLabels()

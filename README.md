@@ -43,3 +43,14 @@ set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\
 ```sh
 msbuild SavannahManager.sln /t:Clean;Build /p:Configuration=Release /p:PlatformTarget=x86
 ```
+
+# Donation
+BTC: 12QCTgYctyL8bo2epeGKLEs6XEERrisPd9  
+ETH: 0xa2be4ff82f5a59184e21b3d9e7febdac2e3e2839  
+ZEC: t1MEUZhdpWwCeoHck67sUteQJafJhQPoRP5  
+MONA: MN67PumimZaV7Y9bTyfDVCmdYbWaFb1YH2  
+ZNY: ZfbDqN81h3wHTMaSupDAKQTguL8fcQyHUY  
+
+Thank you for using.  
+It would be greatly appreciated if you could donate to the activities.  
+I will use it to motivation maintenance and activity expenses.  
