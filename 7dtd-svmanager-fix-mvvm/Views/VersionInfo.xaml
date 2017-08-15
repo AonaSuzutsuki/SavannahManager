@@ -81,7 +81,7 @@
                     </StackPanel>
 
                     <StackPanel Margin="0,20,0,0">
-                        <Label Content="Donate: " />
+                        <Label Content="Donation: " />
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="30,0,0,0">
                             <StackPanel VerticalAlignment="Center">
                                 <Label Content="BTC: " />
