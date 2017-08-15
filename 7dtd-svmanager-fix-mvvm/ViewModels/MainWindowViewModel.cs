@@ -285,7 +285,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void MenuVersionInfo_Click()
         {
-
+            var verInfo = new VersionInfo();
+            verInfo.ShowDialog();
         }
 
         private void StartBT_Click()
