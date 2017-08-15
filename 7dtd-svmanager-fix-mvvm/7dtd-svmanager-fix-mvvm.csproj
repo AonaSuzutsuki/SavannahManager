@@ -38,10 +38,12 @@
     <OutputPath>bin\x86\Debug\</OutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\Release\</OutputPath>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -141,6 +143,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\LinkLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ForceShutdowner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -158,10 +164,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CommonResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="LangResources\VersionInfoResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VersionInfoResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\ForceShutdownerModel.cs" />
     <Compile Include="Models\KeyConfigDictionary.cs" />
     <Compile Include="Models\LogStream.cs" />
     <Compile Include="Models\ServerProcessManager.cs" />
+    <Compile Include="Models\VersionInfoModel.cs" />
     <Compile Include="Settings\Models\KeyConfigModel.cs" />
     <Compile Include="Settings\Models\SettingModel.cs" />
     <Compile Include="Settings\ViewModels\KeyConfigViewModel.cs" />
@@ -225,7 +237,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Models\MainWindowModel.cs" />
-    <Compile Include="Models\ResourceService.cs" />
+    <Compile Include="LangResources\ResourceService.cs" />
     <Compile Include="Models\SettingLoader.cs" />
     <Compile Include="ViewModels\ForceShutdownerViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -236,16 +248,24 @@
     <Compile Include="Settings\Views\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\VersionInfoViewModel.cs" />
     <Compile Include="Views\ForceShutdowner.xaml.cs">
       <DependentUpon>ForceShutdowner.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TextBoxBehavior.cs" />
+    <Compile Include="Views\VersionInfo.xaml.cs">
+      <DependentUpon>VersionInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Window.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Settings\Views\SettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VersionInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -299,6 +319,11 @@
     <EmbeddedResource Include="LangResources\UpdResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>UpdResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LangResources\VersionInfoResources.en-US.resx" />
+    <EmbeddedResource Include="LangResources\VersionInfoResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>VersionInfoResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="move.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

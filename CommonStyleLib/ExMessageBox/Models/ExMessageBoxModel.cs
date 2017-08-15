@@ -56,7 +56,7 @@ namespace CommonLib.ExMessageBox.Models
                     System.Media.SystemSounds.Hand.Play();
                     break;
                 case MessageType.Question:
-                    System.Media.SystemSounds.Question.Play();
+                    System.Media.SystemSounds.Asterisk.Play();
                     break;
             }
         }
