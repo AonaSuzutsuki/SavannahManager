@@ -58,6 +58,14 @@ namespace SvManagerLibrary.XMLWrapper
 
             xRoot.AppendChild(xmeta);
         }
+        public void AddElement(string elementName, string value = null)
+        {
+            XmlElement xmeta = xDocument.CreateElement(elementName);
+            if (!string.IsNullOrEmpty(value))
+                xmeta.InnerText = value;
+
+            xRoot.AppendChild(xmeta);
+        }
 
         /// <summary>
         /// Write to a file as XML Dcoument.
