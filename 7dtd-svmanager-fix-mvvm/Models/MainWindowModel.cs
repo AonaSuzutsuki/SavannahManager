@@ -22,6 +22,7 @@ using System.Text.RegularExpressions;
 using SvManagerLibrary.Time;
 using KimamaLib.Extension;
 using Log;
+using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -972,16 +973,47 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var playerInfo = UsersList[index];
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
 
-            var add = new PlayerController.Views.Pages.AdminAdd(this, name);
-            var playerBase = new PlayerController.Views.PlayerBase("Add", add);
+            var adminAdd = new AdminAdd(this, AddType.Type.Admin, name);
+            var playerBase = new PlayerController.Views.PlayerBase("Add", adminAdd);
             playerBase.ShowDialog();
+        }
+        public void RemoveAdmin(int index)
+        {
+            var playerId = UsersList[index].ID;
+            if (string.IsNullOrEmpty(playerId))
+            {
+                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                return;
+            }
+
+            SocTelnetSendNRT("admin remove " + playerId);
+        }
+        public void AddWhitelist(int index)
+        {
+            var playerInfo = UsersList[index];
+            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+
+            var whitelistAdd = new AdminAdd(this, AddType.Type.Whitelist, name);
+            var playerBase = new PlayerController.Views.PlayerBase("Whitelist", whitelistAdd);
+            playerBase.ShowDialog();
+        }
+        public void RemoveWhitelist(int index)
+        {
+            var playerId = UsersList[index].ID;
+            if (string.IsNullOrEmpty(playerId))
+            {
+                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                return;
+            }
+
+            SocTelnetSendNRT("whitelist remove " + playerId);
         }
         public void AddBan(int index)
         {
             var playerInfo = UsersList[index];
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
 
-            var ban = new PlayerController.Views.Pages.Ban(this, name);
+            var ban = new Ban(this, name);
             var playerBase = new PlayerController.Views.PlayerBase("Ban", ban);
             playerBase.ShowDialog();
         }

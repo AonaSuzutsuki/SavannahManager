@@ -37,12 +37,15 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
         }
 
         #region Fiels
+        public string commandHead;
         private IMainWindowTelnet telnet;
         #endregion
 
-        public AdminAddModel(IMainWindowTelnet telnet)
+        public AdminAddModel(IMainWindowTelnet telnet, AddType addType)
         {
             this.telnet = telnet;
+
+            commandHead = addType.ToCommand();
         }
         
         public void AddAdmin()
@@ -53,7 +56,9 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
                 return;
             }
 
-            if (!telnet.SocTelnetSendNRT("admin add " + Name + " " + Permission.ToString()))
+            string cmd = string.Format("{0} add {1} {2}", commandHead, Name, Permission.ToString());
+            bool isSended = telnet.SocTelnetSendNRT(cmd);
+            if (!isSended)
                 return;
 
             OnEnded(new EventArgs());

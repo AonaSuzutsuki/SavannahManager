@@ -9,6 +9,38 @@ using System.Windows.Controls;
 
 namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages
 {
+    public class AddType
+    {
+        public enum Type
+        {
+            Admin,
+            Whitelist,
+        }
+
+        private Type type;
+        public AddType(Type type)
+        {
+            this.type = type;
+        }
+
+        public string ToCommand()
+        {
+            string command = default;
+            switch (type)
+            {
+                case Type.Admin:
+                    command = "admin";
+                    break;
+                case Type.Whitelist:
+                    command = "whitelist";
+                    break;
+            }
+
+            return command;
+        }
+    }
+    
+
     /// <summary>
     /// Add.xaml の相互作用ロジック
     /// </summary>
@@ -25,11 +57,11 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages
         #region Fiels
         #endregion
 
-        public AdminAdd(IMainWindowTelnet telnet, string playerID = "")
+        public AdminAdd(IMainWindowTelnet telnet, AddType.Type addType, string playerID = "")
         {
             InitializeComponent();
-
-            var model = new AdminAddModel(telnet);
+            
+            var model = new AdminAddModel(telnet, new AddType(addType));
             model.Ended += Model_Ended;
 
             var vm = new AdminAddViewModel(model);

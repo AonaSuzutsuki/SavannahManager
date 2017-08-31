@@ -341,11 +341,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void AdminRemoveBT_Click()
         {
-
+            model.RemoveAdmin(UsersListSelectedIndex);
         }
         private void WhiteListAddBT_Click()
         {
-
+            model.AddWhitelist(UsersListSelectedIndex);
         }
         private void WhiteListRemoveBT_Click()
         {
