@@ -119,7 +119,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="PlayerController\Views\Pages\Add.xaml">
+    <Page Include="PlayerController\Views\Pages\AdminAdd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -191,14 +191,14 @@
     <Compile Include="Models\LogStream.cs" />
     <Compile Include="Models\ServerProcessManager.cs" />
     <Compile Include="Models\VersionInfoModel.cs" />
-    <Compile Include="PlayerController\Models\Pages\AddModel.cs" />
+    <Compile Include="PlayerController\Models\Pages\AdminAddModel.cs" />
     <Compile Include="PlayerController\Models\Pages\BanModel.cs" />
     <Compile Include="PlayerController\Models\PlayerBaseModel.cs" />
-    <Compile Include="PlayerController\ViewModels\Pages\AddViewModel.cs" />
+    <Compile Include="PlayerController\ViewModels\Pages\AdminAddViewModel.cs" />
     <Compile Include="PlayerController\ViewModels\Pages\BanViewModel.cs" />
     <Compile Include="PlayerController\ViewModels\PlayerBaseViewModel.cs" />
-    <Compile Include="PlayerController\Views\Pages\Add.xaml.cs">
-      <DependentUpon>Add.xaml</DependentUpon>
+    <Compile Include="PlayerController\Views\Pages\AdminAdd.xaml.cs">
+      <DependentUpon>AdminAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlayerController\Views\Pages\Ban.xaml.cs">
       <DependentUpon>Ban.xaml</DependentUpon>

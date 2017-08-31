@@ -12,7 +12,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages
     /// <summary>
     /// Add.xaml の相互作用ロジック
     /// </summary>
-    public partial class Add : Page, IPlayerPage
+    public partial class AdminAdd : Page, IPlayerPage
     {
         #region EndedEvent
         public event EventHandler Ended;
@@ -25,14 +25,14 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages
         #region Fiels
         #endregion
 
-        public Add(IMainWindowTelnet telnet, string playerID = "")
+        public AdminAdd(IMainWindowTelnet telnet, string playerID = "")
         {
             InitializeComponent();
 
-            var model = new AddModel(telnet);
+            var model = new AdminAddModel(telnet);
             model.Ended += Model_Ended;
 
-            var vm = new AddViewModel(model);
+            var vm = new AdminAddViewModel(model);
             DataContext = vm;
 
             model.Name = playerID;

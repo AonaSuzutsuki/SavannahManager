@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
 {
-    public class AddModel : BindableBase, IPlayerPage
+    public class AdminAddModel : BindableBase, IPlayerPage
     {
         #region EndedEvent
         public event EventHandler Ended;
@@ -40,7 +40,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
         private IMainWindowTelnet telnet;
         #endregion
 
-        public AddModel(IMainWindowTelnet telnet)
+        public AdminAddModel(IMainWindowTelnet telnet)
         {
             this.telnet = telnet;
         }

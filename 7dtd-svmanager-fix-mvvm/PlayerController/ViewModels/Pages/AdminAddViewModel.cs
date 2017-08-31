@@ -13,10 +13,10 @@ using System.Windows.Input;
 
 namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels.Pages
 {
-    public class AddViewModel : BindableBase
+    public class AdminAddViewModel : BindableBase
     {
-        private AddModel model;
-        public AddViewModel(AddModel model)
+        private AdminAddModel model;
+        public AdminAddViewModel(AdminAddModel model)
         {
             this.model = model;
 

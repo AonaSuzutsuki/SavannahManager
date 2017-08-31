@@ -972,7 +972,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var playerInfo = UsersList[index];
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
 
-            var add = new PlayerController.Views.Pages.Add(this, name);
+            var add = new PlayerController.Views.Pages.AdminAdd(this, name);
             var playerBase = new PlayerController.Views.PlayerBase("Add", add);
             playerBase.ShowDialog();
         }
