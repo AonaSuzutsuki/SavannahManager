@@ -323,7 +323,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 PlayerKills = "0",
                 Score = "0",
                 SteamId = "0",
-                ZombieKills = "0"
+                ZombieKills = "0",
             });
         }
         public void SettingsSave()
@@ -912,6 +912,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
         }
 
+        /*
+         * Common Telnet Methods
+         */
         public void SendCommand(string cmd)
         {
             SocTelnetSendNRT(cmd);
@@ -949,6 +952,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             return log;
         }
+
         public bool SocTelnetSendNRT(string cmd)
         {
             if (!CheckConnected())
