@@ -357,7 +357,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void BanBT_Click()
         {
-
+            model.AddBan(UsersListSelectedIndex);
         }
         private void KillBT_Click()
         {

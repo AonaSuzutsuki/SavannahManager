@@ -26,15 +26,15 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views
             InitializeComponent();
 
             var model = new Models.PlayerBaseModel();
-            var vm = new ViewModels.PlayerBaseViewModel(this, model);
+            var vm = new ViewModels.PlayerBaseViewModel(this, model)
+            {
+                WindowTitle = windowTitle
+            };
             DataContext = vm;
-
-            vm.WindowTitle = windowTitle;
 
             page.Ended += Page_Ended;
 
-            NavigationService navi;
-            navi = MainFrame.NavigationService;
+            NavigationService navi = MainFrame.NavigationService;
             navi.Navigate(page);
         }
 

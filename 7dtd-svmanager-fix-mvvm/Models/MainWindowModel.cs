@@ -976,5 +976,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var playerBase = new PlayerController.Views.PlayerBase("Add", add);
             playerBase.ShowDialog();
         }
+        public void AddBan(int index)
+        {
+            var playerInfo = UsersList[index];
+            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+
+            var ban = new PlayerController.Views.Pages.Ban(this, name);
+            var playerBase = new PlayerController.Views.PlayerBase("Ban", ban);
+            playerBase.ShowDialog();
+        }
     }
 }

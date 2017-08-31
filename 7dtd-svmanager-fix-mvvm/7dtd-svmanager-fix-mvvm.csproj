@@ -123,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="PlayerController\Views\Pages\Ban.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="PlayerController\Views\PlayerBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -188,11 +192,16 @@
     <Compile Include="Models\ServerProcessManager.cs" />
     <Compile Include="Models\VersionInfoModel.cs" />
     <Compile Include="PlayerController\Models\Pages\AddModel.cs" />
+    <Compile Include="PlayerController\Models\Pages\BanModel.cs" />
     <Compile Include="PlayerController\Models\PlayerBaseModel.cs" />
     <Compile Include="PlayerController\ViewModels\Pages\AddViewModel.cs" />
+    <Compile Include="PlayerController\ViewModels\Pages\BanViewModel.cs" />
     <Compile Include="PlayerController\ViewModels\PlayerBaseViewModel.cs" />
     <Compile Include="PlayerController\Views\Pages\Add.xaml.cs">
       <DependentUpon>Add.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlayerController\Views\Pages\Ban.xaml.cs">
+      <DependentUpon>Ban.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlayerController\Views\Pages\IPlayerPage.cs" />
     <Compile Include="PlayerController\Views\PlayerBase.xaml.cs">
