@@ -119,6 +119,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="PlayerController\Views\Pages\Add.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PlayerController\Views\PlayerBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Settings\Views\KeyConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -174,10 +182,22 @@
       <DependentUpon>VersionInfoResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\ForceShutdownerModel.cs" />
+    <Compile Include="Models\IMainWindowTelnet.cs" />
     <Compile Include="Models\KeyConfigDictionary.cs" />
     <Compile Include="Models\LogStream.cs" />
     <Compile Include="Models\ServerProcessManager.cs" />
     <Compile Include="Models\VersionInfoModel.cs" />
+    <Compile Include="PlayerController\Models\Pages\AddModel.cs" />
+    <Compile Include="PlayerController\Models\PlayerBaseModel.cs" />
+    <Compile Include="PlayerController\ViewModels\Pages\AddViewModel.cs" />
+    <Compile Include="PlayerController\ViewModels\PlayerBaseViewModel.cs" />
+    <Compile Include="PlayerController\Views\Pages\Add.xaml.cs">
+      <DependentUpon>Add.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlayerController\Views\Pages\IPlayerPage.cs" />
+    <Compile Include="PlayerController\Views\PlayerBase.xaml.cs">
+      <DependentUpon>PlayerBase.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings\Models\KeyConfigModel.cs" />
     <Compile Include="Settings\Models\SettingModel.cs" />
     <Compile Include="Settings\ViewModels\KeyConfigViewModel.cs" />
@@ -360,8 +380,6 @@
       <Name>SvManagerLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="PlayerControll\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

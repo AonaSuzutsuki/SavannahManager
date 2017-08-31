@@ -337,7 +337,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void AdminAddBT_Click()
         {
-
+            model.AddAdmin(UsersListSelectedIndex);
         }
         private void AdminRemoveBT_Click()
         {

@@ -48,7 +48,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         int Port { get; }
     }
 
-    public class MainWindowModel : ModelBase
+    public class MainWindowModel : ModelBase, IMainWindowTelnet
     {
         public MainWindowModel(Window view)
         {
@@ -311,6 +311,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 //        }
                 //    });
             }
+
+            AddUser(new PlayerInfo()
+            {
+                Id = "171",
+                Name = "test",
+                Level = "1",
+                Coord = "0",
+                Deaths = "0",
+                Health = "0",
+                PlayerKills = "0",
+                Score = "0",
+                SteamId = "0",
+                ZombieKills = "0"
+            });
         }
         public void SettingsSave()
         {
@@ -935,12 +949,28 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             return log;
         }
-        private void SocTelnetSendNRT(string cmd)
+        public bool SocTelnetSendNRT(string cmd)
         {
             if (!CheckConnected())
-                return;
+                return false;
 
             SocTelnetSendDirect(cmd);
+            return true;
+        }
+
+
+
+        /*
+         * Player Command
+         */
+        public void AddAdmin(int index)
+        {
+            var playerInfo = UsersList[index];
+            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+
+            var add = new PlayerController.Views.Pages.Add(this, name);
+            var playerBase = new PlayerController.Views.PlayerBase("Add", add);
+            playerBase.ShowDialog();
         }
     }
 }
