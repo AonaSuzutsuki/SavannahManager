@@ -23,7 +23,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels.Pages
             NameText = model.ToReactivePropertyAsSynchronized(m => m.Name);
             PermissionText = model.ToReactivePropertyAsSynchronized(m => m.Permission);
 
-            AddBtClicked = new DelegateCommand(model.AdminAdd);
+            AddBtClicked = new DelegateCommand(model.AddAdmin);
             CancelBtClicked = new DelegateCommand(model.Cancel);
         }
 

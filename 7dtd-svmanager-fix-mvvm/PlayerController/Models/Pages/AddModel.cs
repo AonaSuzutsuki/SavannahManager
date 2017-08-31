@@ -14,6 +14,14 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
 {
     public class AddModel : BindableBase, IPlayerPage
     {
+        #region EndedEvent
+        public event EventHandler Ended;
+        protected virtual void OnEnded(EventArgs e)
+        {
+            Ended?.Invoke(this, e);
+        }
+        #endregion
+
         private string name = default;
         public string Name
         {
@@ -36,18 +44,12 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
         {
             this.telnet = telnet;
         }
-
-        public event EventHandler Ended;
-        protected virtual void OnEnded(EventArgs e)
-        {
-            Ended?.Invoke(this, e);
-        }
-
-        public void AdminAdd()
+        
+        public void AddAdmin()
         {
             if (string.IsNullOrEmpty(Name))
             {
-                ExMessageBoxBase.Show(LangResources.Resources._0_is_Empty, LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
                 return;
             }
 
