@@ -32,13 +32,18 @@ namespace SvManagerLibrary.XMLWrapper
             // /items/item/property/property[@name='DegradationMax']
             var nodeList = document.SelectNodes(xpath);
             foreach (var xmlNode in nodeList)
-                values.Add((xmlNode as XmlElement).GetAttribute(attribute));
+            {
+                var attr = (xmlNode as XmlElement).GetAttribute(attribute);
+                if (!string.IsNullOrEmpty(attr))
+                    values.Add(attr);
+            }
 
             return values;
         }
         public string GetAttribute(string attribute, string xpath)
         {
-            return GetAttributes(attribute, xpath)[0];
+            var attributes = GetAttributes(attribute, xpath);
+            return attributes.Count < 1 ? string.Empty : attributes[0];
         }
 
         public List<string> GetValues(string xpath, bool enableLineBreak = true)
@@ -55,9 +60,10 @@ namespace SvManagerLibrary.XMLWrapper
 
             return values;
         }
-        public string GetValue(string xpath)
+        public string GetValue(string xpath, bool enableLineBreak = true)
         {
-            return GetValues(xpath)[0];
+            var values = GetValues(xpath, enableLineBreak);
+            return values.Count < 1 ? default : values[0];
         }
 
         private static string RemoveSpace(string text, bool isAddLine = false)
