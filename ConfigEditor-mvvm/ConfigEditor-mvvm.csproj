@@ -7,7 +7,7 @@
     <ProjectGuid>{BC540253-94E1-4384-8174-4AC19D44B148}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ConfigEditor_mvvm</RootNamespace>
-    <AssemblyName>ConfigEditor-mvvm</AssemblyName>
+    <AssemblyName>ConfigEditor</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -243,4 +243,24 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>SET MainProjectName=7dtd-svmanager-fix-mvvm
+copy /y "$(TargetPath)" "$(SolutionDir)%25MainProjectName%25\$(OutDir)\$(TargetFileName)"
+copy /y "$(TargetDir)\$(TargetFileName).config" "$(SolutionDir)%25MainProjectName%25\$(OutDir)\$(TargetFileName).config"
+
+if exist "$(SolutionDir)%25MainProjectName%25\$(OutDir)lang" (
+    echo ""
+) else (
+    mkdir "$(SolutionDir)%25MainProjectName%25\$(OutDir)lang"
+)
+
+if exist "$(SolutionDir)%25MainProjectName%25\$(OutDir)en-US" (
+    echo ""
+) else (
+    mkdir "$(SolutionDir)%25MainProjectName%25\$(OutDir)en-US"
+)
+
+xcopy "$(TargetDir)lang" "$(SolutionDir)%25MainProjectName%25\$(OutDir)lang" /E /Y
+xcopy "$(TargetDir)en-US" "$(SolutionDir)%25MainProjectName%25\$(OutDir)en-US" /E /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>
