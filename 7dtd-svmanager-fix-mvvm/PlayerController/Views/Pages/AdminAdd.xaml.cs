@@ -60,14 +60,15 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages
         public AdminAdd(IMainWindowTelnet telnet, AddType.Type addType, string playerID = "")
         {
             InitializeComponent();
-            
-            var model = new AdminAddModel(telnet, new AddType(addType));
+
+            var model = new AdminAddModel(telnet, new AddType(addType))
+            {
+                Name = playerID
+            };
             model.Ended += Model_Ended;
 
             var vm = new AdminAddViewModel(model);
             DataContext = vm;
-
-            model.Name = playerID;
         }
 
         private void Model_Ended(object sender, EventArgs e)
