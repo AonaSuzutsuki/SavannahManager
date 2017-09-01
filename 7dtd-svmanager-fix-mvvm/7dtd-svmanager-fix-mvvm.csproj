@@ -249,7 +249,7 @@
     <Compile Include="Setup\Views\Page4.xaml.cs">
       <DependentUpon>Page4.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StaticData.cs" />
+    <Compile Include="ConstantValues.cs" />
     <Compile Include="LangResources\CmdListResources.Designer.cs">
       <DependentUpon>CmdListResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>

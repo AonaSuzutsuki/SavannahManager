@@ -80,7 +80,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 iniLoader.SetValue("MAIN", "ADDRESS", value);
             }
         }
-        private int port = StaticData.Port;
+        private int port = ConstantValues.Port;
         public int Port
         {
             get => port;
@@ -203,7 +203,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             if (!int.TryParse(iniLoader.GetValue("MAIN", "PORT", ""), out int port))
             {
-                port = StaticData.Port;
+                port = ConstantValues.Port;
             }
             this.port = port;
 

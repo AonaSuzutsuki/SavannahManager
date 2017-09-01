@@ -106,26 +106,26 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
 
         public void GetServerFilePath()
         {
-            string exeFilePath = GetFilePath(this.exeFilePath, LangResources.SettingsResources.Filter_ExcutableFile, StaticData.ServerClientName);
+            string exeFilePath = GetFilePath(this.exeFilePath, LangResources.SettingsResources.Filter_ExcutableFile, ConstantValues.ServerClientName);
             if (!string.IsNullOrEmpty(exeFilePath))
                 ExeFilePath = exeFilePath;
         }
         public void GetConfFilePath()
         {
-            string confFilePath = GetFilePath(this.configFilePath, LangResources.SettingsResources.Filter_XmlFile, StaticData.ServerConfigName);
+            string confFilePath = GetFilePath(this.configFilePath, LangResources.SettingsResources.Filter_XmlFile, ConstantValues.ServerConfigName);
             if (!string.IsNullOrEmpty(confFilePath))
                 ConfigFilePath = confFilePath;
         }
         public void GetAdminFilePath()
         {
-            string adminFilePath = GetFilePath(this.adminFilePath, LangResources.SettingsResources.Filter_XmlFile, StaticData.ServerConfigName);
+            string adminFilePath = GetFilePath(this.adminFilePath, LangResources.SettingsResources.Filter_XmlFile, ConstantValues.ServerConfigName);
             if (!string.IsNullOrEmpty(adminFilePath))
                 AdminFilePath = adminFilePath;
         }
 
         private string GetFilePath(string filePathForDir, string filter, string fileName)
         {
-            string directoryPath = StaticData.DirectoryPath;
+            string directoryPath = ConstantValues.DirectoryPath;
             if (!string.IsNullOrEmpty(filePathForDir))
             {
                 DirectoryInfo di = new DirectoryInfo(System.IO.Path.GetDirectoryName(filePathForDir));

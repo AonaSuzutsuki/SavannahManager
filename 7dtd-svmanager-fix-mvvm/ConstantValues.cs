@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace _7dtd_svmanager_fix_mvvm
 {
-    public static class StaticData
+    public static class ConstantValues
     {
         public const int Port = 8081;
 
