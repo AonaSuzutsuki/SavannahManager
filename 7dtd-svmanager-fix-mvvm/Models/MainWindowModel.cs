@@ -22,6 +22,7 @@ using System.Text.RegularExpressions;
 using SvManagerLibrary.Time;
 using KimamaLib.Extension;
 using Log;
+using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -48,7 +49,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         int Port { get; }
     }
 
-    public class MainWindowModel : ModelBase
+    public class MainWindowModel : ModelBase, IMainWindowTelnet
     {
         public MainWindowModel(Window view)
         {
@@ -311,6 +312,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 //        }
                 //    });
             }
+
+            AddUser(new PlayerInfo()
+            {
+                Id = "171",
+                Name = "test",
+                Level = "1",
+                Coord = "0",
+                Deaths = "0",
+                Health = "0",
+                PlayerKills = "0",
+                Score = "0",
+                SteamId = "0",
+                ZombieKills = "0",
+            });
         }
         public void SettingsSave()
         {
@@ -898,6 +913,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
         }
 
+        /*
+         * Common Telnet Methods
+         */
         public void SendCommand(string cmd)
         {
             SocTelnetSendNRT(cmd);
@@ -935,12 +953,78 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             return log;
         }
-        private void SocTelnetSendNRT(string cmd)
+
+        public bool SocTelnetSendNRT(string cmd)
         {
             if (!CheckConnected())
-                return;
+                return false;
 
             SocTelnetSendDirect(cmd);
+            return true;
+        }
+
+
+
+        /*
+         * Player Command
+         */
+        public void AddAdmin(int index)
+        {
+            var playerInfo = UsersList[index];
+            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+
+            var adminAdd = new AdminAdd(this, AddType.Type.Admin, name);
+            var playerBase = new PlayerController.Views.PlayerBase("Add", adminAdd);
+            playerBase.ShowDialog();
+        }
+        public void RemoveAdmin(int index)
+        {
+            var playerId = UsersList[index].ID;
+            if (string.IsNullOrEmpty(playerId))
+            {
+                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                return;
+            }
+
+            SocTelnetSendNRT("admin remove " + playerId);
+        }
+        public void AddWhitelist(int index)
+        {
+            var playerInfo = UsersList[index];
+            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+
+            var whitelistAdd = new AdminAdd(this, AddType.Type.Whitelist, name);
+            var playerBase = new PlayerController.Views.PlayerBase("Whitelist", whitelistAdd);
+            playerBase.ShowDialog();
+        }
+        public void RemoveWhitelist(int index)
+        {
+            var playerId = UsersList[index].ID;
+            if (string.IsNullOrEmpty(playerId))
+            {
+                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                return;
+            }
+
+            SocTelnetSendNRT("whitelist remove " + playerId);
+        }
+        public void AddBan(int index)
+        {
+            var playerInfo = UsersList[index];
+            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+
+            var ban = new Ban(this, name);
+            var playerBase = new PlayerController.Views.PlayerBase("Ban", ban);
+            playerBase.ShowDialog();
+        }
+        public void Kick(int index)
+        {
+            var playerInfo = UsersList[index];
+            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+
+            var kick = new Kick(this, name);
+            var playerBase = new PlayerController.Views.PlayerBase("Kick", kick);
+            playerBase.ShowDialog();
         }
     }
 }

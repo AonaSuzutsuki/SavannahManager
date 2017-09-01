@@ -337,27 +337,27 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void AdminAddBT_Click()
         {
-
+            model.AddAdmin(UsersListSelectedIndex);
         }
         private void AdminRemoveBT_Click()
         {
-
+            model.RemoveAdmin(UsersListSelectedIndex);
         }
         private void WhiteListAddBT_Click()
         {
-
+            model.AddWhitelist(UsersListSelectedIndex);
         }
         private void WhiteListRemoveBT_Click()
         {
-
+            model.RemoveWhitelist(UsersListSelectedIndex);
         }
         private void KickBT_Click()
         {
-
+            model.Kick(UsersListSelectedIndex);
         }
         private void BanBT_Click()
         {
-
+            model.AddBan(UsersListSelectedIndex);
         }
         private void KillBT_Click()
         {
