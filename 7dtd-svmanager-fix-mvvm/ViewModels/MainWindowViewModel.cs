@@ -349,11 +349,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void WhiteListRemoveBT_Click()
         {
-
+            model.RemoveWhitelist(UsersListSelectedIndex);
         }
         private void KickBT_Click()
         {
-
+            model.Kick(UsersListSelectedIndex);
         }
         private void BanBT_Click()
         {

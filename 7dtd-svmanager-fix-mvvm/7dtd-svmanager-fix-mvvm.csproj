@@ -127,6 +127,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="PlayerController\Views\Pages\Kick.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="PlayerController\Views\PlayerBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -193,9 +197,11 @@
     <Compile Include="Models\VersionInfoModel.cs" />
     <Compile Include="PlayerController\Models\Pages\AdminAddModel.cs" />
     <Compile Include="PlayerController\Models\Pages\BanModel.cs" />
+    <Compile Include="PlayerController\Models\Pages\KickModel.cs" />
     <Compile Include="PlayerController\Models\PlayerBaseModel.cs" />
     <Compile Include="PlayerController\ViewModels\Pages\AdminAddViewModel.cs" />
     <Compile Include="PlayerController\ViewModels\Pages\BanViewModel.cs" />
+    <Compile Include="PlayerController\ViewModels\Pages\KickViewModel.cs" />
     <Compile Include="PlayerController\ViewModels\PlayerBaseViewModel.cs" />
     <Compile Include="PlayerController\Views\Pages\AdminAdd.xaml.cs">
       <DependentUpon>AdminAdd.xaml</DependentUpon>
@@ -204,6 +210,9 @@
       <DependentUpon>Ban.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlayerController\Views\Pages\IPlayerPage.cs" />
+    <Compile Include="PlayerController\Views\Pages\Kick.xaml.cs">
+      <DependentUpon>Kick.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlayerController\Views\PlayerBase.xaml.cs">
       <DependentUpon>PlayerBase.xaml</DependentUpon>
     </Compile>

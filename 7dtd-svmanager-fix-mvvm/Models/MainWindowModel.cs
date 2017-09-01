@@ -1017,5 +1017,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var playerBase = new PlayerController.Views.PlayerBase("Ban", ban);
             playerBase.ShowDialog();
         }
+        public void Kick(int index)
+        {
+            var playerInfo = UsersList[index];
+            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+
+            var kick = new Kick(this, name);
+            var playerBase = new PlayerController.Views.PlayerBase("Kick", kick);
+            playerBase.ShowDialog();
+        }
     }
 }
