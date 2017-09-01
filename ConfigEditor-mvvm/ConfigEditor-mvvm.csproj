@@ -39,21 +39,27 @@
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\Debug\</OutputPath>
     <LangVersion>latest</LangVersion>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\Release\</OutputPath>
     <LangVersion>latest</LangVersion>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Debug\</OutputPath>
     <LangVersion>latest</LangVersion>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Release\</OutputPath>
     <LangVersion>latest</LangVersion>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="KimamaLib">
@@ -244,7 +250,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>SET MainProjectName=7dtd-svmanager-fix-mvvm
+    <PostBuildEvent># For Debug
+SET MainProjectName=7dtd-svmanager-fix-mvvm
 copy /y "$(TargetPath)" "$(SolutionDir)%25MainProjectName%25\$(OutDir)\$(TargetFileName)"
 copy /y "$(TargetDir)\$(TargetFileName).config" "$(SolutionDir)%25MainProjectName%25\$(OutDir)\$(TargetFileName).config"
 
@@ -261,6 +268,34 @@ if exist "$(SolutionDir)%25MainProjectName%25\$(OutDir)en-US" (
 )
 
 xcopy "$(TargetDir)lang" "$(SolutionDir)%25MainProjectName%25\$(OutDir)lang" /E /Y
-xcopy "$(TargetDir)en-US" "$(SolutionDir)%25MainProjectName%25\$(OutDir)en-US" /E /Y</PostBuildEvent>
+xcopy "$(TargetDir)en-US" "$(SolutionDir)%25MainProjectName%25\$(OutDir)en-US" /E /Y
+
+
+
+# For Release
+SET BinDir=$(SolutionDir)\bin
+if exist "%25BinDir%25" (
+    echo ""
+) else (
+    mkdir "%25BinDir%25"
+)
+
+copy /y "$(TargetPath)" "%25BinDir%25\$(TargetFileName)"
+copy /y "$(TargetDir)\$(TargetFileName).config" "%25BinDir%25\$(TargetFileName).config"
+
+if exist "%25BinDir%25\lang" (
+    echo ""
+) else (
+    mkdir "%25BinDir%25\lang"
+)
+
+if exist "%25BinDir%25\en-US" (
+    echo ""
+) else (
+    mkdir "%25BinDir%25\en-US"
+)
+
+xcopy "$(TargetDir)lang" "%25BinDir%25\lang" /E /Y
+xcopy "$(TargetDir)en-US" "%25BinDir%25\en-US" /E /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
