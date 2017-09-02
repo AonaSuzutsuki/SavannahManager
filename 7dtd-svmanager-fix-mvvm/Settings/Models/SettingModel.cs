@@ -125,7 +125,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
 
         private string GetFilePath(string filePathForDir, string filter, string fileName)
         {
-            string directoryPath = ConstantValues.DirectoryPath;
+            string directoryPath = ConstantValues.DefaultDirectoryPath;
             if (!string.IsNullOrEmpty(filePathForDir))
             {
                 DirectoryInfo di = new DirectoryInfo(System.IO.Path.GetDirectoryName(filePathForDir));

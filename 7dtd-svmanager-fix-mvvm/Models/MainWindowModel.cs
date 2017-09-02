@@ -1026,5 +1026,34 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var playerBase = new PlayerController.Views.PlayerBase("Kick", kick);
             playerBase.ShowDialog();
         }
+
+
+        /*
+         * ConfigEditor
+         */
+        public void RunConfigEditor()
+        {
+            var act = new Action<string>((arg) =>
+            {
+                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_not_found, arg), LangResources.CommonResources.Error,
+                    ExMessageBoxBase.MessageType.Exclamation);
+            });
+
+            var configFilePath = Setting.ConfigFilePath;
+            bool isEmpty = string.IsNullOrEmpty(configFilePath);
+            bool isExists = new FileInfo(configFilePath).Exists;
+
+            if (isEmpty || !isExists)
+            {
+                act(LangResources.Resources.ConfigFile);
+                return;
+            }
+
+            var fi = new FileInfo(ConstantValues.ConfigEditorFilePath);
+            if (fi.Exists)
+                Process.Start(fi.FullName, "\"" + configFilePath + "\"");
+            else
+                act(LangResources.Resources.ConfigEditor);
+        }
     }
 }

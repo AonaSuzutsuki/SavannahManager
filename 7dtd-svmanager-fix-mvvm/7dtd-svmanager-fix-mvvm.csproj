@@ -210,6 +210,7 @@
     <Compile Include="PlayerController\ViewModels\Pages\BanViewModel.cs" />
     <Compile Include="PlayerController\ViewModels\Pages\KickViewModel.cs" />
     <Compile Include="PlayerController\ViewModels\PlayerBaseViewModel.cs" />
+    <Compile Include="PlayerController\Views\Pages\AddType.cs" />
     <Compile Include="PlayerController\Views\Pages\AdminAdd.xaml.cs">
       <DependentUpon>AdminAdd.xaml</DependentUpon>
     </Compile>
@@ -301,7 +302,7 @@
     <Compile Include="Views\ForceShutdowner.xaml.cs">
       <DependentUpon>ForceShutdowner.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TextBoxBehavior.cs" />
+    <Compile Include="Views\NumTextBehavior.cs" />
     <Compile Include="Views\VersionInfo.xaml.cs">
       <DependentUpon>VersionInfo.xaml</DependentUpon>
     </Compile>

@@ -42,7 +42,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
         public void SelectAndGetFilePath()
         {
             string filter = LangResources.SetupResource.Filter_ExcutableFile;
-            string directoryPath = ConstantValues.DirectoryPath;
+            string directoryPath = ConstantValues.DefaultDirectoryPath;
             string filename = FileSelector.GetFilePath(directoryPath, filter, "7DaysToDieServer.exe", FileSelector.FileSelectorType.Read);
 
             ServerFilePathText = filename;

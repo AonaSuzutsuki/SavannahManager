@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:MyText="clr-namespace:MyTextBox"
+        xmlns:NumText="clr-namespace:NumTextBox"
         xmlns:CommonViews="clr-namespace:CommonLib.Views;assembly=CommonLib"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
