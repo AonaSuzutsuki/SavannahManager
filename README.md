@@ -52,5 +52,5 @@ MONA: MN67PumimZaV7Y9bTyfDVCmdYbWaFb1YH2
 ZNY: ZfbDqN81h3wHTMaSupDAKQTguL8fcQyHUY  
 
 Thank you for using.  
-It would be greatly appreciated if you could donate to the activities.  
+I'd appreciate your donating to the activities.  
 I will use it to motivation maintenance and activity expenses.  
