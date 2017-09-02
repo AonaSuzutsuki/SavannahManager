@@ -35,7 +35,7 @@ Thank you very much.
 ```sh
 cd /D D:\Develop\Git\SavannahManager
 ```
-2. Set through MSBuild's path.
+2. Set MSBuild's path.
 ```sh
 set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin;%PATH%
 ```
