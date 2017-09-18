@@ -277,7 +277,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void MenuConfigEditorBT_Click()
         {
-
+            model.RunConfigEditor();
         }
         private void MenuCheckUpdateBT_Click()
         {

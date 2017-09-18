@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
-namespace MyTextBox
+namespace NumTextBox
 {
     public class NumTextBehavior : Behavior<TextBox>
     {
