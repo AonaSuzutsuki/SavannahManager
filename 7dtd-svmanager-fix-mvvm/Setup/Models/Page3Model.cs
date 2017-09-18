@@ -47,7 +47,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
         public void SelectAndGetFilePath()
         {
             string filter = LangResources.SetupResource.Filter_XmlFile;
-            string directoryPath = StaticData.DirectoryPath;
+            string directoryPath = ConstantValues.DefaultDirectoryPath;
             string filename = FileSelector.GetFilePath(directoryPath, filter, "serverconfig.xml", FileSelector.FileSelectorType.Read);
 
             ServerConfigPathText = filename;
@@ -55,10 +55,10 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
         public void AutoSearchAndGetFilePath()
         {
             string steamPath = string.Empty;
-            using (var rKey = Registry.CurrentUser.OpenSubKey(StaticData.RegSteamPath))
+            using (var rKey = Registry.CurrentUser.OpenSubKey(ConstantValues.RegSteamPath))
             {
                 if (rKey == null) return; // Steamが未インストール
-                steamPath = (string)rKey.GetValue(StaticData.RegSteamKey);
+                steamPath = (string)rKey.GetValue(ConstantValues.RegSteamKey);
             }
 
             string filename = GetFileName(steamPath);
@@ -75,7 +75,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
 
             if (string.IsNullOrEmpty(filename))
             {
-                var slLoader = new SteamLibraryLoader(steamPath + StaticData.SteamLibraryPath);
+                var slLoader = new SteamLibraryLoader(steamPath + ConstantValues.SteamLibraryPath);
                 var dirPaths = slLoader.SteamLibraryPathList;
                 foreach (SteamLibraryPath dirPath in dirPaths)
                     filename = _GetFileName(dirPath.SteamDirPath);
@@ -85,9 +85,9 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
         }
         private string _GetFileName(string steamPath)
         {
-            var filename = GetSvPath(steamPath + StaticData.ServerClientPath, StaticData.ServerConfigName);
+            var filename = GetSvPath(steamPath + ConstantValues.ServerClientPath, ConstantValues.ServerConfigName);
             if (string.IsNullOrEmpty(filename))
-                filename = GetSvPath(steamPath + StaticData.GameClientPath, StaticData.ServerConfigName);
+                filename = GetSvPath(steamPath + ConstantValues.GameClientPath, ConstantValues.ServerConfigName);
             return filename;
         }
         private string GetSvPath(string dirPath, string exeName)

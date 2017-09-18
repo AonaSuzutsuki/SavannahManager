@@ -259,9 +259,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void Initialize()
         {
-            setting = SettingLoader.Setting = new SettingLoader(StaticData.SettingFilePath);
-            shortcutKeyManager = new ShortcutKeyManager(StaticData.AppDirectoryPath + @"\KeyConfig.xml",
-                StaticData.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
+            setting = SettingLoader.Setting = new SettingLoader(ConstantValues.SettingFilePath);
+            shortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
+                ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
 
             Width = setting.Width;
             Height = setting.Height;
@@ -449,7 +449,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         telnet.Write(TelnetClient.CR);
                         AppendConsoleLog(SocTelnetSend(password));
 
-                        logStream.MakeStream(StaticData.LogDirectoryPath);
+                        logStream.MakeStream(ConstantValues.LogDirectoryPath);
 
                         LaunchThread();
 
@@ -647,7 +647,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             LaunchThread();
 
-            logStream.MakeStream(StaticData.LogDirectoryPath);
+            logStream.MakeStream(ConstantValues.LogDirectoryPath);
             TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
             LocalModeEnabled = false;
             ConnectionPanelIsEnabled = false;
@@ -1025,6 +1025,35 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var kick = new Kick(this, name);
             var playerBase = new PlayerController.Views.PlayerBase("Kick", kick);
             playerBase.ShowDialog();
+        }
+
+
+        /*
+         * ConfigEditor
+         */
+        public void RunConfigEditor()
+        {
+            var act = new Action<string>((arg) =>
+            {
+                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_not_found, arg), LangResources.CommonResources.Error,
+                    ExMessageBoxBase.MessageType.Exclamation);
+            });
+
+            var configFilePath = Setting.ConfigFilePath;
+            bool isEmpty = string.IsNullOrEmpty(configFilePath);
+            bool isExists = new FileInfo(configFilePath).Exists;
+
+            if (isEmpty || !isExists)
+            {
+                act(LangResources.Resources.ConfigFile);
+                return;
+            }
+
+            var fi = new FileInfo(ConstantValues.ConfigEditorFilePath);
+            if (fi.Exists)
+                Process.Start(fi.FullName, "\"" + configFilePath + "\"");
+            else
+                act(LangResources.Resources.ConfigEditor);
         }
     }
 }

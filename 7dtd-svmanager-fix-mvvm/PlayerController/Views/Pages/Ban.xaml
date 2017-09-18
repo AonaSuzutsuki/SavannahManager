@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:app="clr-namespace:LanguageEx"
-      xmlns:MyText="clr-namespace:MyTextBox"
+      xmlns:NumText="clr-namespace:NumTextBox"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
@@ -44,7 +44,7 @@
                 <Label Grid.Column="0" Content="Duration" Foreground="White" Padding="2" VerticalAlignment="Top" />
                 <TextBox Text="{Binding Duration.Value}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Height="24">
                     <i:Interaction.Behaviors>
-                        <MyText:NumTextBehavior />
+                        <NumText:NumTextBehavior />
                     </i:Interaction.Behaviors>
                 </TextBox>
                 <ComboBox ItemsSource="{Binding DurationUnitList, Mode=OneWay}" SelectedIndex="{Binding DurationUnitListSelectedIndex, Mode=OneWayToSource}" Grid.Column="2" Width="120" Height="24" Margin="0,0,120,0" />
