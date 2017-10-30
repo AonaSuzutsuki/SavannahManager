@@ -313,19 +313,19 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 //    });
             }
 
-            AddUser(new PlayerInfo()
-            {
-                Id = "171",
-                Name = "test",
-                Level = "1",
-                Coord = "0",
-                Deaths = "0",
-                Health = "0",
-                PlayerKills = "0",
-                Score = "0",
-                SteamId = "0",
-                ZombieKills = "0",
-            });
+            //AddUser(new PlayerInfo()
+            //{
+            //    Id = "171",
+            //    Name = "test",
+            //    Level = "1",
+            //    Coord = "0",
+            //    Deaths = "0",
+            //    Health = "0",
+            //    PlayerKills = "0",
+            //    Score = "0",
+            //    SteamId = "0",
+            //    ZombieKills = "0",
+            //});
         }
         public void SettingsSave()
         {
