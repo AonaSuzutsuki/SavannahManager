@@ -375,9 +375,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>VersionInfoResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="move.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -406,7 +403,9 @@
       <Name>SvManagerLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="ToDo.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent># For Release

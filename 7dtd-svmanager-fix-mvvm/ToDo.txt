@@ -1,0 +1,1 @@
+﻿1. ServerDisabledNetworkProtocolsの値を空にするとズレるバグを調査
