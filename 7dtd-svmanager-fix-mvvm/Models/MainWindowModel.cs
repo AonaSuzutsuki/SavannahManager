@@ -802,6 +802,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             LogLock();
             connectedIds.Clear();
+            playersDictionary.Clear();
             var playerInfoArray = Player.SetPlayerInfo(telnet);
             foreach (PlayerInfo uDetail in playerInfoArray)
                 AddUser(uDetail);
