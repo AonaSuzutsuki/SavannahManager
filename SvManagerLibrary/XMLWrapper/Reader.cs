@@ -25,7 +25,7 @@ namespace SvManagerLibrary.XMLWrapper
             document.Load(stream);
         }
 
-        public List<string> GetAttributes(string attribute, string xpath)
+        public List<string> GetAttributes(string attribute, string xpath, bool isContainNoValue = false)
         {
             var values = new List<string>();
 
@@ -34,8 +34,15 @@ namespace SvManagerLibrary.XMLWrapper
             foreach (var xmlNode in nodeList)
             {
                 var attr = (xmlNode as XmlElement).GetAttribute(attribute);
-                if (!string.IsNullOrEmpty(attr))
+                if (isContainNoValue)
+                {
                     values.Add(attr);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(attr))
+                        values.Add(attr);
+                }
             }
 
             return values;

@@ -252,7 +252,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void MainWindow_KeyDown(KeyEventArgs e)
         {
-            Console.WriteLine(e.Key);
+            model.PushShortcutKey(e.Key);
         }
 
         private void MenuSettingsBT_Click()
@@ -295,11 +295,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void StopBT_Click()
         {
-            model.ServerStop(() =>
-            {
-                ForceShutdowner fs = new ForceShutdowner();
-                fs.ShowDialog();
-            });
+            model.ServerStop();
         }
         private void TelnetBT_Click()
         {
