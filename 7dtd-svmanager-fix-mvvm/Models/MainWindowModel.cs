@@ -23,6 +23,8 @@ using SvManagerLibrary.Time;
 using KimamaLib.Extension;
 using Log;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
+using System.Windows.Input;
+using _7dtd_svmanager_fix_mvvm.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -460,7 +462,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 }
             });
         }
-        public void ServerStop(Action shutdownOpener)
+        public void ServerStop()
         {
             if (IsTelnetLoading)
             {
@@ -478,7 +480,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
             else
             {
-                shutdownOpener();
+                ForceShutdowner fs = new ForceShutdowner();
+                fs.ShowDialog();
             }
         }
 
@@ -1055,6 +1058,35 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 Process.Start(fi.FullName, "\"" + configFilePath + "\"");
             else
                 act(LangResources.Resources.ConfigEditor);
+        }
+
+
+        /*
+         * Shortcut Key
+         */
+         public void PushShortcutKey(Key key)
+        {
+            if (shortcutKeyManager.IsPushed("StartServerKey", Keyboard.Modifiers, key))
+            {
+                if (!IsConnected)
+                    ServerStart();
+            }
+            else if (shortcutKeyManager.IsPushed("StopServerKey", Keyboard.Modifiers, key))
+            {
+                ServerStop();
+            }
+            else if (shortcutKeyManager.IsPushed("ConTelnetKey", Keyboard.Modifiers, key))
+            {
+                if (!IsConnected)
+                    TelnetConnect();
+            }
+            else if (shortcutKeyManager.IsPushed("DisConTelnetKey", Keyboard.Modifiers, key))
+            {
+                if (IsConnected)
+                {
+                    TelnetDisconnect();
+                }
+            }
         }
     }
 }
