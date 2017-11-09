@@ -23,6 +23,8 @@ using SvManagerLibrary.Time;
 using KimamaLib.Extension;
 using Log;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
+using System.Windows.Input;
+using _7dtd_svmanager_fix_mvvm.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -259,7 +261,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void Initialize()
         {
-            setting = SettingLoader.Setting = new SettingLoader(ConstantValues.SettingFilePath);
+            setting = SettingLoader.Setting;
             shortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
                 ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
 
@@ -313,19 +315,19 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 //    });
             }
 
-            AddUser(new PlayerInfo()
-            {
-                Id = "171",
-                Name = "test",
-                Level = "1",
-                Coord = "0",
-                Deaths = "0",
-                Health = "0",
-                PlayerKills = "0",
-                Score = "0",
-                SteamId = "0",
-                ZombieKills = "0",
-            });
+            //AddUser(new PlayerInfo()
+            //{
+            //    Id = "171",
+            //    Name = "test",
+            //    Level = "1",
+            //    Coord = "0",
+            //    Deaths = "0",
+            //    Health = "0",
+            //    PlayerKills = "0",
+            //    Score = "0",
+            //    SteamId = "0",
+            //    ZombieKills = "0",
+            //});
         }
         public void SettingsSave()
         {
@@ -460,7 +462,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 }
             });
         }
-        public void ServerStop(Action shutdownOpener)
+        public void ServerStop()
         {
             if (IsTelnetLoading)
             {
@@ -478,7 +480,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
             else
             {
-                shutdownOpener();
+                ForceShutdowner fs = new ForceShutdowner();
+                fs.ShowDialog();
             }
         }
 
@@ -802,6 +805,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             LogLock();
             connectedIds.Clear();
+            playersDictionary.Clear();
             var playerInfoArray = Player.SetPlayerInfo(telnet);
             foreach (PlayerInfo uDetail in playerInfoArray)
                 AddUser(uDetail);
@@ -1054,6 +1058,35 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 Process.Start(fi.FullName, "\"" + configFilePath + "\"");
             else
                 act(LangResources.Resources.ConfigEditor);
+        }
+
+
+        /*
+         * Shortcut Key
+         */
+         public void PushShortcutKey(Key key)
+        {
+            if (shortcutKeyManager.IsPushed("StartServerKey", Keyboard.Modifiers, key))
+            {
+                if (!IsConnected)
+                    ServerStart();
+            }
+            else if (shortcutKeyManager.IsPushed("StopServerKey", Keyboard.Modifiers, key))
+            {
+                ServerStop();
+            }
+            else if (shortcutKeyManager.IsPushed("ConTelnetKey", Keyboard.Modifiers, key))
+            {
+                if (!IsConnected)
+                    TelnetConnect();
+            }
+            else if (shortcutKeyManager.IsPushed("DisConTelnetKey", Keyboard.Modifiers, key))
+            {
+                if (IsConnected)
+                {
+                    TelnetDisconnect();
+                }
+            }
         }
     }
 }

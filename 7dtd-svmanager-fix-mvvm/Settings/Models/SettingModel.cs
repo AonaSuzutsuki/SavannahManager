@@ -47,6 +47,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
             get => consoleLength.ToString();
             set
             {
+                int.TryParse(value, out consoleLength);
                 base.OnPropertyChanged(this);
             }
         }

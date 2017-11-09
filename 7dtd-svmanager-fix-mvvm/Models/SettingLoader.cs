@@ -15,7 +15,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         /// <summary>
         /// For sharing instance.
         /// </summary>
-        public static SettingLoader Setting { get; set; }
+        public static SettingLoader Setting { private set; get; }
+
+        static SettingLoader()
+        {
+            Setting = new SettingLoader(ConstantValues.SettingFilePath);
+        }
 
         #region Properties
         private int width = CommonLib.StaticData.Width;
