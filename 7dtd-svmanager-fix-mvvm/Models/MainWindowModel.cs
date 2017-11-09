@@ -259,7 +259,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void Initialize()
         {
-            setting = SettingLoader.Setting = new SettingLoader(ConstantValues.SettingFilePath);
+            setting = SettingLoader.Setting;
             shortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
                 ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
 
