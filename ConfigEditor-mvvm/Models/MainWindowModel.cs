@@ -190,7 +190,11 @@ namespace ConfigEditor_mvvm.Models
 
             string[] cmds = Environment.GetCommandLineArgs();
             if (cmds.Length > 1)
-                configLoader = new ConfigLoader(cmds[1]);
+            {
+                string filePath = cmds[1];
+                if (File.Exists(filePath))
+                    configLoader = new ConfigLoader(cmds[1]);
+            }
 
             // Select Version
             VersionListSelectedIndex = VersionList.Count - 1;
