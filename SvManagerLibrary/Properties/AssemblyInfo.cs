@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SvManagerLibrary")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Kimama Lab")]
 [assembly: AssemblyProduct("SvManagerLibrary")]
 [assembly: AssemblyCopyright("Copyright (C) Aona Suzutsuki 2014 - 2017")]
 [assembly: AssemblyTrademark("")]

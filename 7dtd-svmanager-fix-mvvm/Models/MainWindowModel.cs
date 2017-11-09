@@ -1037,6 +1037,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
          */
         public void RunConfigEditor()
         {
+            string cfgArg = string.Empty;
+
             var act = new Action<string>((arg) =>
             {
                 ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_not_found, arg), LangResources.CommonResources.Error,
@@ -1045,17 +1047,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             var configFilePath = Setting.ConfigFilePath;
             bool isEmpty = string.IsNullOrEmpty(configFilePath);
-            bool isExists = new FileInfo(configFilePath).Exists;
+            bool isExists = isEmpty ? false : new FileInfo(configFilePath).Exists;
 
-            if (isEmpty || !isExists)
+            if (isExists)
             {
-                act(LangResources.Resources.ConfigFile);
-                return;
+                cfgArg = "\"" + configFilePath + "\"";
             }
 
             var fi = new FileInfo(ConstantValues.ConfigEditorFilePath);
             if (fi.Exists)
-                Process.Start(fi.FullName, "\"" + configFilePath + "\"");
+                Process.Start(fi.FullName, cfgArg);
             else
                 act(LangResources.Resources.ConfigEditor);
         }
