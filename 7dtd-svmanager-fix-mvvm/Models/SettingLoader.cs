@@ -1,12 +1,5 @@
-﻿using KimamaLib;
-using KimamaLib.Ini;
+﻿using CommonLib.Ini;
 using LanguageEx;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
