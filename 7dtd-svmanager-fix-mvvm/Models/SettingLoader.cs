@@ -129,7 +129,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
         }
 
-        private int consoleTextLength = 262144;
+        private int consoleTextLength = 32768;
         public int ConsoleTextLength
         {
             get => consoleTextLength;
@@ -219,7 +219,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             cultureName = iniLoader.GetValue("MAIN", "CULTURE", ResourceService.Current.Culture);
             ResourceService.Current.ChangeCulture(cultureName);
 
-            consoleTextLength = iniLoader.GetValue("SERVER", "CONSOLELOGLENGTH", 262144);
+            consoleTextLength = iniLoader.GetValue("SERVER", "CONSOLELOGLENGTH", consoleTextLength);
 
             isBetaMode = iniLoader.GetValue("SERVER", "BETAMODE", false);
 
