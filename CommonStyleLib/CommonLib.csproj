@@ -126,7 +126,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StaticData.cs" />
+    <Compile Include="ConstantValues.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\InteractiveCommand.cs" />
     <Compile Include="Views\Window.cs" />

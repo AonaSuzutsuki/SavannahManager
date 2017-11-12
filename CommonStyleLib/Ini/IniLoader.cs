@@ -9,23 +9,23 @@ namespace CommonLib.Ini
         {
             this.fileFullPath = fileFullPath;
         }
+        
+        public string GetValue(string className, string keyName, string noValue)
+        {
+            return IniFileHandler.GetString(className, keyName, noValue, fileFullPath);
+        }
+        public int GetValue(string className, string keyName, int noValue)
+        {
+            return IniFileHandler.GetInteger(className, keyName, noValue, fileFullPath);
+        }
+        public bool GetValue(string className, string keyName, bool noValue)
+        {
+            return IniFileHandler.GetBoolean(className, keyName, noValue, fileFullPath);
+        }
 
-        public string GetValue(string ClassName, string KeyName, string NoValue)
+        public void SetValue<T>(string className, string keyName, T value)
         {
-            return IniFileHandler.GetString(ClassName, KeyName, NoValue, fileFullPath);
-        }
-        public int GetValue(string ClassName, string KeyName, int NoValue)
-        {
-            return IniFileHandler.GetInteger(ClassName, KeyName, NoValue, fileFullPath);
-        }
-        public bool GetValue(string ClassName, string KeyName, bool NoValue)
-        {
-            return IniFileHandler.GetBoolean(ClassName, KeyName, NoValue, fileFullPath);
-        }
-
-        public void SetValue(string ClassName, string KeyName, object BodyName)
-        {
-            IniFileHandler.WriteString(ClassName, KeyName, BodyName.ToString(), fileFullPath);
+            IniFileHandler.WriteString(className, keyName, value.ToString(), fileFullPath);
         }
     }
 }

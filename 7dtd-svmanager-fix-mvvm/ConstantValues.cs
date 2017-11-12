@@ -10,6 +10,8 @@ namespace _7dtd_svmanager_fix_mvvm
     public static class ConstantValues
     {
         public const int DefaultPort = 8081;
+        public const int Width = 900;
+        public const int Height = 550;
 
         public const string SteamLibraryPath = @"\steamapps\libraryfolders.vdf";
         public const string RegSteamPath = "SOFTWARE\\Valve\\Steam";

@@ -15,7 +15,7 @@ namespace CommonLib.Models
         
         public bool IsDeactivated { get; set; } = false;
 
-        protected SolidColorBrush aroundBorderColor = StaticData.ActivatedBorderColor;
+        protected SolidColorBrush aroundBorderColor = ConstantValues.ActivatedBorderColor;
         public SolidColorBrush AroundBorderColor
         {
             get => aroundBorderColor;
@@ -36,12 +36,12 @@ namespace CommonLib.Models
         public virtual void Activated()
         {
             IsDeactivated = false;
-            AroundBorderColor = StaticData.ActivatedBorderColor;
+            AroundBorderColor = ConstantValues.ActivatedBorderColor;
         }
         public void Deactivated()
         {
             IsDeactivated = true;
-            AroundBorderColor = StaticData.DeactivatedBorderColor;
+            AroundBorderColor = ConstantValues.DeactivatedBorderColor;
         }
 
         protected double width;

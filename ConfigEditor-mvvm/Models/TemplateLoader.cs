@@ -33,7 +33,7 @@ namespace ConfigEditor_mvvm.Models
         /// </summary>
         private void VersionListLoad()
         {
-            var xmlReader = new Reader(StaticData.VersionListPath);
+            var xmlReader = new Reader(ConstantValues.VersionListPath);
             VersionList = xmlReader.GetAttributes("version", "/root/configs/config");
             versionPathList = xmlReader.GetValues("/root/configs/config", false);
         }
@@ -48,7 +48,7 @@ namespace ConfigEditor_mvvm.Models
             {
                 var version = VersionList[index];
                 var dic = new Dictionary<string, ConfigListInfo>();
-                var baseReader = new Reader(string.Format(StaticData.BaseTemplateFileName, path, lang));
+                var baseReader = new Reader(string.Format(ConstantValues.BaseTemplateFileName, path, lang));
                 var names = baseReader.GetAttributes("name", "/ServerSettings/property");
                 names.ForEach((name) =>
                 {

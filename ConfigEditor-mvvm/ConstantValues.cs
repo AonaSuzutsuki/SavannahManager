@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConfigEditor_mvvm
 {
-    public static class StaticData
+    public static class ConstantValues
     {
         /// <summary>
         /// Execution file absolutely path.

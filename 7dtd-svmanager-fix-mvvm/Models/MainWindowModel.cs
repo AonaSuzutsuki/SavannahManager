@@ -254,14 +254,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             base.Activated();
 
             if (!IsTelnetLoading)
-                AroundBorderColor = CommonLib.StaticData.ActivatedBorderColor;
+                AroundBorderColor = CommonLib.ConstantValues.ActivatedBorderColor;
             else
-                AroundBorderColor = CommonLib.StaticData.ActivatedBorderColor2;
+                AroundBorderColor = CommonLib.ConstantValues.ActivatedBorderColor2;
         }
 
         public void Initialize()
         {
-            setting = SettingLoader.Setting;
+            setting = SettingLoader.SettingInstance;
             shortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
                 ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
 
@@ -414,7 +414,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             LocalModeEnabled = false;
 
             BottomNewsLabel = LangResources.Resources.UI_WaitingServer;
-            base.SetBorderColor(CommonLib.StaticData.ActivatedBorderColor2);
+            base.SetBorderColor(CommonLib.ConstantValues.ActivatedBorderColor2);
 
             Task tasks = Task.Factory.StartNew(() =>
             {
@@ -429,7 +429,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         LocalModeEnabled = true;
                         ConnectionPanelIsEnabled = !LocalMode;
                         BottomNewsLabel = LangResources.Resources.UI_ReadyComplete;
-                        AroundBorderColor = CommonLib.StaticData.ActivatedBorderColor;
+                        AroundBorderColor = CommonLib.ConstantValues.ActivatedBorderColor;
 
                         IsTelnetLoading = false;
                         isServerForceStop = false;
@@ -446,7 +446,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         LocalModeEnabled = false;
                         ConnectionPanelIsEnabled = false;
                         BottomNewsLabel = LangResources.Resources.UI_FinishedLaunching;
-                        base.SetBorderColor(CommonLib.StaticData.ActivatedBorderColor);
+                        base.SetBorderColor(CommonLib.ConstantValues.ActivatedBorderColor);
 
                         telnet.Write(TelnetClient.CR);
                         AppendConsoleLog(SocTelnetSend(password));
@@ -641,8 +641,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 Task tasks = Task.Factory.StartNew(() =>
                 {
-                    FeedColorChange(CommonLib.StaticData.ActivatedBorderColor2);
-                    FeedColorChange(CommonLib.StaticData.ActivatedBorderColor);
+                    FeedColorChange(CommonLib.ConstantValues.ActivatedBorderColor2);
+                    FeedColorChange(CommonLib.ConstantValues.ActivatedBorderColor);
                 });
 
                 return;
