@@ -52,9 +52,6 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KimamaLib">
-      <HintPath>..\Lib\x86\KimamaLib.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Expression.Drawing.3.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
     </Reference>
@@ -103,6 +100,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppInfo.cs" />
     <Compile Include="ExMessageBox\ExMessageBox.cs" />
     <Compile Include="ExMessageBox\Models\ExMessageBoxModel.cs" />
     <Compile Include="ExMessageBox\ViewModels\ExOKMessageBoxViewModel.cs" />
@@ -117,6 +115,8 @@
     <Compile Include="Extentions\DictionaryExtentions.cs" />
     <Compile Include="Extentions\ListExtentions.cs" />
     <Compile Include="Extentions\ObservableCollectionExtentions.cs" />
+    <Compile Include="Extentions\StringExtensions.cs" />
+    <Compile Include="File\FileSelector.cs" />
     <Compile Include="Ini\IniFileHandler.cs" />
     <Compile Include="Ini\IniLoader.cs" />
     <Compile Include="Models\ModelBase.cs" />
@@ -141,6 +141,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ExMessageBox\Views\ExYesNoMessageBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Main.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
