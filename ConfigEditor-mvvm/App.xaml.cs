@@ -1,4 +1,5 @@
-﻿using ConfigEditor_mvvm.Views;
+﻿using CommonLib;
+using ConfigEditor_mvvm.Views;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -29,7 +30,7 @@ namespace ConfigEditor_mvvm
             MessageBox.Show(mes, "予期せぬエラー", MessageBoxButton.OK, MessageBoxImage.Error);
 
             DateTime dt = DateTime.Now;
-            OutToFile(KimamaLib.AppInfo.GetAppPath() + @"\configeditor-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
+            OutToFile(AppInfo.GetAppPath() + @"\configeditor-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
 
             e.Handled = true;
             Shutdown();

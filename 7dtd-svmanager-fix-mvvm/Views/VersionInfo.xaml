@@ -35,7 +35,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/Icon.xaml" />
                 <ResourceDictionary Source="/Styles/LinkLabel.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/KimamaLib;component/Styles/Main.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonLib;component/Styles/Main.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

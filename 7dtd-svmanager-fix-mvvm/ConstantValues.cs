@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
+﻿using CommonLib;
 
 namespace _7dtd_svmanager_fix_mvvm
 {
@@ -25,7 +20,7 @@ namespace _7dtd_svmanager_fix_mvvm
 
         public const string DefaultDirectoryPath = @"C:\";
 
-        public static readonly string AppDirectoryPath = KimamaLib.AppInfo.GetAppPath();
+        public static readonly string AppDirectoryPath = AppInfo.GetAppPath();
         public static readonly string LogDirectoryPath = AppDirectoryPath + @"\logs\";
         public static readonly string SettingFilePath = AppDirectoryPath + @"\settings.ini";
         public static readonly string ConfigEditorFilePath = AppDirectoryPath + @"\ConfigEditor.exe";
