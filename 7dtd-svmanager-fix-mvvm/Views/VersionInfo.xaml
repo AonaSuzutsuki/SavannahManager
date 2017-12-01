@@ -51,7 +51,7 @@
                 <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
-                            <CommonViews:InvokeDelegateCommandAction  Command="{Binding ImageMouseDown}" />
+                            <CommonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>

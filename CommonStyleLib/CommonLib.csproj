@@ -129,6 +129,7 @@
     <Compile Include="ConstantValues.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\InteractiveCommand.cs" />
+    <Compile Include="Views\InvokeDelegateCommandAction.cs" />
     <Compile Include="Views\Window.cs" />
   </ItemGroup>
   <ItemGroup>
