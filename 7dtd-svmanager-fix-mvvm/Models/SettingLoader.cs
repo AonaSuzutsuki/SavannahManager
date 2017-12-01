@@ -3,20 +3,20 @@ using LanguageEx;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
-    public class SettingLoader
+    public sealed class SettingLoader
     {
         /// <summary>
-        /// For sharing instance.
+        /// Singleton SettingLoader instance for all.
         /// </summary>
-        public static SettingLoader Setting { private set; get; }
+        public static SettingLoader SettingInstance { private set; get; }
 
         static SettingLoader()
         {
-            Setting = new SettingLoader(ConstantValues.SettingFilePath);
+            SettingInstance = new SettingLoader(ConstantValues.SettingFilePath);
         }
 
         #region Properties
-        private int width = CommonLib.StaticData.Width;
+        private int width = ConstantValues.Width;
         public int Width
         {
             get => width;
@@ -26,7 +26,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 iniLoader.SetValue("MAIN", "WIDTH", value);
             }
         }
-        private int height = CommonLib.StaticData.Height;
+        private int height = ConstantValues.Height;
         public int Height
         {
             get => height;
@@ -188,8 +188,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private void Load()
         {
-            if (!int.TryParse(iniLoader.GetValue("MAIN", "WIDTH", "900"), out int width)) { width = CommonLib.StaticData.Width; }
-            if (!int.TryParse(iniLoader.GetValue("MAIN", "HEIGHT", "550"), out int height)) { height = CommonLib.StaticData.Height; }
+            if (!int.TryParse(iniLoader.GetValue("MAIN", "WIDTH", "900"), out int width)) { width = ConstantValues.Width; }
+            if (!int.TryParse(iniLoader.GetValue("MAIN", "HEIGHT", "550"), out int height)) { height = ConstantValues.Height; }
             this.width = width;
             this.height = height;
 

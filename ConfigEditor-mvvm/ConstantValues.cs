@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace ConfigEditor_mvvm
 {
-    public static class StaticData
+    public static class ConstantValues
     {
         /// <summary>
         /// Execution file absolutely path.
         /// </summary>
-        public static readonly string AppDirectoryPath = KimamaLib.AppInfo.GetAppPath();
+        public static readonly string AppDirectoryPath = AppInfo.GetAppPath();
         /// <summary>
         /// Path of managing versionList.
         /// </summary>

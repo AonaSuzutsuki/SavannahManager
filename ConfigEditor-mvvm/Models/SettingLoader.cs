@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommonLib.Ini;
 
 namespace ConfigEditor_mvvm.Models
 {
@@ -21,11 +17,11 @@ namespace ConfigEditor_mvvm.Models
             }
         }
 
-        KimamaLib.Ini.IniLoader iniLoader;
+        IniLoader iniLoader;
 
         public SettingLoader(string fileName)
         {
-            iniLoader = new KimamaLib.Ini.IniLoader(fileName);
+            iniLoader = new IniLoader(fileName);
             OpenDirectoryPath = iniLoader.GetValue("CONFIGEDITOR", "DIRPATH", DirectoryPath);
         }
     }

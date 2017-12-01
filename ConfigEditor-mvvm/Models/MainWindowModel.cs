@@ -2,14 +2,11 @@
 using CommonLib.Extentions;
 using KimamaLib.File;
 using SvManagerLibrary.Config;
-using SvManagerLibrary.XMLWrapper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -182,10 +179,10 @@ namespace ConfigEditor_mvvm.Models
             ConfigList = new ObservableCollection<ConfigListInfo>();
             ValueList = new ObservableCollection<string>();
 
-            settingLoader = new SettingLoader(StaticData.SettingFilePath);
+            settingLoader = new SettingLoader(ConstantValues.SettingFilePath);
 
             var language = LangResources.CommonResources.Language;
-            templateLoader = new TemplateLoader(language, StaticData.VersionListPath);
+            templateLoader = new TemplateLoader(language, ConstantValues.VersionListPath);
             VersionList.AddAll(templateLoader.VersionList);
 
             string[] cmds = Environment.GetCommandLineArgs();
@@ -231,7 +228,7 @@ namespace ConfigEditor_mvvm.Models
         {
             var dirName = settingLoader.OpenDirectoryPath;
             var filePath = FileSelector.GetFilePath(dirName, 
-                LangResources.CommonResources.Filter_XmlFile, StaticData.ServerConfigFileName, FileSelector.FileSelectorType.Read);
+                LangResources.CommonResources.Filter_XmlFile, ConstantValues.ServerConfigFileName, FileSelector.FileSelectorType.Read);
             if (!string.IsNullOrEmpty(filePath))
             {
                 configLoader = new ConfigLoader(filePath);
@@ -360,7 +357,7 @@ namespace ConfigEditor_mvvm.Models
         {
             var dirName = settingLoader.OpenDirectoryPath;
             var filePath = FileSelector.GetFilePath(dirName,
-                LangResources.CommonResources.Filter_XmlFile, StaticData.ServerConfigFileName, FileSelector.FileSelectorType.Write);
+                LangResources.CommonResources.Filter_XmlFile, ConstantValues.ServerConfigFileName, FileSelector.FileSelectorType.Write);
             if (!string.IsNullOrEmpty(filePath))
             {
                 configLoader = new ConfigLoader(filePath, true);

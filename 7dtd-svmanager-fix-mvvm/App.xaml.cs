@@ -1,11 +1,7 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Views;
+using CommonLib;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -29,7 +25,7 @@ namespace _7dtd_svmanager_fix_mvvm
             MessageBox.Show(mes, "予期せぬエラー", MessageBoxButton.OK, MessageBoxImage.Error);
 
             DateTime dt = DateTime.Now;
-            OutToFile(KimamaLib.AppInfo.GetAppPath() + @"\error-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
+            OutToFile(AppInfo.GetAppPath() + @"\error-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
             
             e.Handled = true;
             Shutdown();

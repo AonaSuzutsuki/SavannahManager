@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
+﻿using CommonLib;
 
 namespace _7dtd_svmanager_fix_mvvm
 {
     public static class ConstantValues
     {
         public const int DefaultPort = 8081;
+        public const int Width = 900;
+        public const int Height = 550;
 
         public const string SteamLibraryPath = @"\steamapps\libraryfolders.vdf";
         public const string RegSteamPath = "SOFTWARE\\Valve\\Steam";
@@ -23,7 +20,7 @@ namespace _7dtd_svmanager_fix_mvvm
 
         public const string DefaultDirectoryPath = @"C:\";
 
-        public static readonly string AppDirectoryPath = KimamaLib.AppInfo.GetAppPath();
+        public static readonly string AppDirectoryPath = AppInfo.GetAppPath();
         public static readonly string LogDirectoryPath = AppDirectoryPath + @"\logs\";
         public static readonly string SettingFilePath = AppDirectoryPath + @"\settings.ini";
         public static readonly string ConfigEditorFilePath = AppDirectoryPath + @"\ConfigEditor.exe";

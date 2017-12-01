@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonLib;
+using System;
 using System.IO;
 
 namespace Log
@@ -18,7 +19,7 @@ namespace Log
         {
             if (IsLogGetter)
             {
-                DirectoryInfo di = new DirectoryInfo(KimamaLib.AppInfo.GetAppPath() + @"\logs");
+                DirectoryInfo di = new DirectoryInfo(AppInfo.GetAppPath() + @"\logs");
                 if (!di.Exists)
                     di.Create();
                 DateTime dt = DateTime.Now;
