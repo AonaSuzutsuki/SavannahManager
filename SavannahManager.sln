@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7dtd-svmanager-fix-mvvm", "7dtd-svmanager-fix-mvvm\7dtd-svmanager-fix-mvvm.csproj", "{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SvManagerLibrary", "SvManagerLibrary\SvManagerLibrary.csproj", "{ADB034D1-B0FB-43D0-ACAC-3F5214CC03D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigEditor-mvvm", "ConfigEditor-mvvm\ConfigEditor-mvvm.csproj", "{BC540253-94E1-4384-8174-4AC19D44B148}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLib", "CommonStyleLib\CommonLib.csproj", "{CF1972E5-2DF2-4B7F-96B3-90D9BDB418C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigFileViewer", "ConfigFileViewer\ConfigFileViewer.csproj", "{E1165D5E-8784-4A68-B79E-8408E5F295F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigEditor-mvvm", "ConfigEditor-mvvm\ConfigEditor-mvvm.csproj", "{BC540253-94E1-4384-8174-4AC19D44B148}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,18 +47,6 @@ Global
 		{ADB034D1-B0FB-43D0-ACAC-3F5214CC03D7}.Release|x64.Build.0 = Release|x64
 		{ADB034D1-B0FB-43D0-ACAC-3F5214CC03D7}.Release|x86.ActiveCfg = Release|x86
 		{ADB034D1-B0FB-43D0-ACAC-3F5214CC03D7}.Release|x86.Build.0 = Release|x86
-		{BC540253-94E1-4384-8174-4AC19D44B148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC540253-94E1-4384-8174-4AC19D44B148}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC540253-94E1-4384-8174-4AC19D44B148}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{BC540253-94E1-4384-8174-4AC19D44B148}.Debug|x64.Build.0 = Debug|Any CPU
-		{BC540253-94E1-4384-8174-4AC19D44B148}.Debug|x86.ActiveCfg = Debug|x86
-		{BC540253-94E1-4384-8174-4AC19D44B148}.Debug|x86.Build.0 = Debug|x86
-		{BC540253-94E1-4384-8174-4AC19D44B148}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC540253-94E1-4384-8174-4AC19D44B148}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC540253-94E1-4384-8174-4AC19D44B148}.Release|x64.ActiveCfg = Release|Any CPU
-		{BC540253-94E1-4384-8174-4AC19D44B148}.Release|x64.Build.0 = Release|Any CPU
-		{BC540253-94E1-4384-8174-4AC19D44B148}.Release|x86.ActiveCfg = Release|x86
-		{BC540253-94E1-4384-8174-4AC19D44B148}.Release|x86.Build.0 = Release|x86
 		{CF1972E5-2DF2-4B7F-96B3-90D9BDB418C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF1972E5-2DF2-4B7F-96B3-90D9BDB418C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF1972E5-2DF2-4B7F-96B3-90D9BDB418C3}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -83,6 +71,18 @@ Global
 		{E1165D5E-8784-4A68-B79E-8408E5F295F8}.Release|x64.Build.0 = Release|Any CPU
 		{E1165D5E-8784-4A68-B79E-8408E5F295F8}.Release|x86.ActiveCfg = Release|x86
 		{E1165D5E-8784-4A68-B79E-8408E5F295F8}.Release|x86.Build.0 = Release|x86
+		{BC540253-94E1-4384-8174-4AC19D44B148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC540253-94E1-4384-8174-4AC19D44B148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC540253-94E1-4384-8174-4AC19D44B148}.Debug|x64.ActiveCfg = Debug|x64
+		{BC540253-94E1-4384-8174-4AC19D44B148}.Debug|x64.Build.0 = Debug|x64
+		{BC540253-94E1-4384-8174-4AC19D44B148}.Debug|x86.ActiveCfg = Debug|x86
+		{BC540253-94E1-4384-8174-4AC19D44B148}.Debug|x86.Build.0 = Debug|x86
+		{BC540253-94E1-4384-8174-4AC19D44B148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC540253-94E1-4384-8174-4AC19D44B148}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC540253-94E1-4384-8174-4AC19D44B148}.Release|x64.ActiveCfg = Release|x64
+		{BC540253-94E1-4384-8174-4AC19D44B148}.Release|x64.Build.0 = Release|x64
+		{BC540253-94E1-4384-8174-4AC19D44B148}.Release|x86.ActiveCfg = Release|x86
+		{BC540253-94E1-4384-8174-4AC19D44B148}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

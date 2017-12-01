@@ -62,9 +62,6 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KimamaLib">
-      <HintPath>..\Lib\x86\KimamaLib.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Expression.Drawing.3.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
     </Reference>
@@ -131,7 +128,7 @@
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\SettingLoader.cs" />
     <Compile Include="Models\TemplateLoader.cs" />
-    <Compile Include="StaticData.cs" />
+    <Compile Include="ConstantValues.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -141,10 +138,6 @@
     </Compile>
     <Compile Include="LangResources\ResourceService.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Page Include="Styles\Icon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -247,6 +240,9 @@
     <Content Include="lang\a16\ja_ConfigData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Styles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -15,7 +15,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/KimamaLib;component/Styles/Main.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonLib;component/Styles/Main.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
