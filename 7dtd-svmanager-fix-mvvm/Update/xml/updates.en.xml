@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<updates>
+  <update version="1.0.17.17b">
+    1. Fixed templates on ConfigEditor
+    　Fixed english version template.
+  </update>
+  <update version="1.0.16.16b">
+    1. Fixed templates on ConfigEditor
+    　Fixed an issue that the server could not be started by new file.
+  </update>
+  <update version="1.0.15.15b">
+    1. Added data on ConfigEditor for a16.
+  </update>
+  <update version="1.0.14.14b">
+    1. Fixed a bug that header information is not displayed in player list.
+  </update>
+  <update version="1.0.13.13b">
+    1. Added a function of shortcut key.
+  </update>
+  <update version="1.0.12.12b">
+    1. Fixed an issue that player acquisition and time acquisition do not work well.
+    2. Added an option to check for updates at startup.
+  </update>
+  <update version="1.0.11.11b">
+    1. Fixed an issue is displaying Start Button when you push "Connect with Telnet" button
+    2. Changed copyright year.
+    3. Added a button to select file on initializing window.
+  </update>
+  <update version="1.0.10.10b">
+    1. Fixed an issue get an error when there are decimals in window size of settings.
+  </update>
+  <update version="1.0.9.9b">
+    1. Added a15 settings file for ConfigEditor.
+  </update>
+  <update version="1.0.8.8b">
+    1. Fixed an issue which could not get chat.
+
+    2. Fixed an issue which initial version was old on ConfigEditor.
+
+    3. Added Updater.
+
+    4. Preparing for the next update.
+  </update>
+  <update version="1.0.7.7b">
+    1. Fixed an issue that could not open Admin window.
+
+    2. Fixed an issue that get an error when select data there is not in the item on ConfigEditor.
+  </update>
+  <update version="1.0.6.6b">
+    1. Added an initialize setting.
+
+    2. Added a button to remove logs.
+
+    3. Added a14 file of ConfigEditor
+  </update>
+  <update version="1.0.5.5b">
+    1. Reduced a length of log and added a function to set your length.
+  </update>
+  <update version="1.0.4.4b">
+    1. Changed a way to write console log
+  </update>
+  <update version="1.0.3.3b">
+    1. Support functions to get and set time in game.
+
+    2. Changed a code to using public library.
+
+    3. Reduced using thread.
+
+    4. Fixed Telnet.
+  </update>
+  <update version="1.0.2.2b">
+    1. Fixed some issues.
+
+    2. Fixed Config Editor
+
+    3. Support in English.
+  </update>
+  <update version="1.0.1.1b">
+    1. FIxed an issue that selecting path function didnt work.
+
+    2. Fixed an issue that clear path on setting then click cancel button.
+
+    3. Added a function to hide the password
+
+    4. Added Command list
+
+    5. Remake ConfigEditor
+  </update>
+  <update version="1.0.0.0b">
+    Savannah Manager 2 was released.
+  </update>
+</updates>

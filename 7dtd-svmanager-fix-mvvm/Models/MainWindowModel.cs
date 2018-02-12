@@ -288,14 +288,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             if (setting.IsAutoUpdate)
             {
-                bool avalableUpd = await Update.Models.UpdateManager.CheckUpdateAsync(ConstantValues.VersionUrl);
-                if (avalableUpd)
+                (bool, string) avalableUpd = await Update.Models.UpdateManager.CheckUpdateAsync(Update.Models.UpdateLink.GetInstance.VersionUrl, ConstantValues.Version);
+                if (avalableUpd.Item1)
                 {
                     var dialogResult = ExMessageBoxBase.Show("アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
                             ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
                     if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
                     {
-
+                        var updForm = new Update.Views.UpdForm();
+                        updForm.Show();
                     }
                 }
 

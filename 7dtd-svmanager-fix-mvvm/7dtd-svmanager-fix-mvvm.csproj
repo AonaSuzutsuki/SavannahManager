@@ -81,6 +81,14 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+    </Reference>
     <Reference Include="System.Reactive.Core, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.Core.3.1.1\lib\net46\System.Reactive.Core.dll</HintPath>
     </Reference>
@@ -163,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\LinkLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Update\Views\UpdForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -281,7 +293,14 @@
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="LangResources\ResourceService.cs" />
     <Compile Include="Models\SettingLoader.cs" />
+    <Compile Include="Update\Models\Archive.cs" />
+    <Compile Include="Update\Models\UpdateLink.cs" />
     <Compile Include="Update\Models\UpdateManager.cs" />
+    <Compile Include="Update\Models\UpdFormModel.cs" />
+    <Compile Include="Update\ViewModels\UpdFormViewModel.cs" />
+    <Compile Include="Update\Views\UpdForm.xaml.cs">
+      <DependentUpon>UpdForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ForceShutdownerViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Settings\ViewModels\SettingWindowViewModel.cs" />
@@ -400,8 +419,13 @@
     <Resource Include="ToDo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Update\ViewModels\" />
-    <Folder Include="Update\Views\" />
+    <Resource Include="Update\xml\updates.en.xml" />
+    <Resource Include="Update\xml\updates.ja.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="update.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
