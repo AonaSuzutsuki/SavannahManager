@@ -281,6 +281,7 @@
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="LangResources\ResourceService.cs" />
     <Compile Include="Models\SettingLoader.cs" />
+    <Compile Include="Update\Models\UpdateManager.cs" />
     <Compile Include="ViewModels\ForceShutdownerViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Settings\ViewModels\SettingWindowViewModel.cs" />
@@ -397,6 +398,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ToDo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Update\ViewModels\" />
+    <Folder Include="Update\Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

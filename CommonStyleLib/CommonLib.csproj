@@ -117,6 +117,7 @@
     <Compile Include="Extentions\ObservableCollectionExtentions.cs" />
     <Compile Include="Extentions\StringExtensions.cs" />
     <Compile Include="File\FileSelector.cs" />
+    <Compile Include="File\Version.cs" />
     <Compile Include="Ini\IniFileHandler.cs" />
     <Compile Include="Ini\IniLoader.cs" />
     <Compile Include="Models\ModelBase.cs" />

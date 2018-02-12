@@ -23,10 +23,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void SetVersion()
         {
-            var asm = Assembly.GetExecutingAssembly();
-            var ver = asm.GetName().Version;
+            //var asm = Assembly.GetExecutingAssembly();
+            //var ver = asm.GetName().Version;
 
-            Version = ver.ToString() + "b";
+            Version = ConstantValues.Version; //ver.ToString() + "b";
         }
 
         public void SetAddressToClipboard(string addr)

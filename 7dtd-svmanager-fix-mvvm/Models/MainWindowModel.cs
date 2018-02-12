@@ -257,7 +257,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 AroundBorderColor = CommonLib.ConstantValues.ActivatedBorderColor2;
         }
 
-        public void Initialize()
+        public async void Initialize()
         {
             setting = SettingLoader.SettingInstance;
             shortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
@@ -288,29 +288,33 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             if (setting.IsAutoUpdate)
             {
-                //    Task tasks = Task.Factory.StartNew(() =>
-                //    {
-                //        bool isUpdate = false;
-                //        string versionUrl = SharedData.UpdUrls.VersionUrl;
-                //        var updator = new Updator.Updator(versionUrl, "version.txt", SharedData.UpdUrls.BetaAlpha);
-                //        var updInfo = updator.Check();
-                //        isUpdate = updInfo.isUpdate;
-                //        updator.Delete();
+                bool avalableUpd = await Update.Models.UpdateManager.CheckUpdateAsync(ConstantValues.VersionUrl);
+                if (avalableUpd)
+                {
+                    var dialogResult = ExMessageBoxBase.Show("アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
+                            ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+                    if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
+                    {
 
-                //        if (isUpdate)
+                    }
+                }
+
+                //Task task = Task.Factory.StartNew(() =>
+                //{
+                //    bool avalableUpd = Update.Models.UpdateManager.CheckUpdate(ConstantValues.VersionUrl);
+                //    if (avalableUpd)
+                //    {
+                //        view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
                 //        {
-                //            View.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                //            var dialogResult = ExMessageBoxBase.Show("アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
+                //                ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+                //            if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
                 //            {
-                //                var dialogResult = ExMessageBoxBase.Show(this, "アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
-                //                    ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
-                //                if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
-                //                {
-                //                    UpdatorForm.UpdForm updFrm = new UpdatorForm.UpdForm();
-                //                    updFrm.ShowDialog();
-                //                }
-                //            }));
-                //        }
-                //    });
+
+                //            }
+                //        }));
+                //    }
+                //});
             }
 
             //AddUser(new PlayerInfo()
