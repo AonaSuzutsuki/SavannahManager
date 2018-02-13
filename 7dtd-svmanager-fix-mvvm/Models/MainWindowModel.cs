@@ -3,26 +3,26 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using CommonLib.ExMessageBox;
 using System.Diagnostics;
-using SvManagerLibrary.Config;
-using SvManagerLibrary.Telnet;
 using System.Threading;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
-using _7dtd_svmanager_fix_mvvm.Settings;
-using CommonLib.Models;
-using LanguageEx;
-using SvManagerLibrary.Chat;
-using SvManagerLibrary.Player;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using SvManagerLibrary.Time;
-using Log;
-using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
 using System.Windows.Input;
+using LanguageEx;
+using Log;
 using _7dtd_svmanager_fix_mvvm.Views;
+using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
+using _7dtd_svmanager_fix_mvvm.Settings;
 using CommonLib.Extensions;
+using CommonLib.Models;
+using CommonLib.ExMessageBox;
+using SvManagerLibrary.Time;
+using SvManagerLibrary.Config;
+using SvManagerLibrary.Telnet;
+using SvManagerLibrary.Chat;
+using SvManagerLibrary.Player;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -257,7 +257,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 AroundBorderColor = CommonLib.ConstantValues.ActivatedBorderColor2;
         }
 
-        public void Initialize()
+        public async void Initialize()
         {
             setting = SettingLoader.SettingInstance;
             shortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
@@ -288,29 +288,34 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             if (setting.IsAutoUpdate)
             {
-                //    Task tasks = Task.Factory.StartNew(() =>
-                //    {
-                //        bool isUpdate = false;
-                //        string versionUrl = SharedData.UpdUrls.VersionUrl;
-                //        var updator = new Updator.Updator(versionUrl, "version.txt", SharedData.UpdUrls.BetaAlpha);
-                //        var updInfo = updator.Check();
-                //        isUpdate = updInfo.isUpdate;
-                //        updator.Delete();
+                (bool, string) avalableUpd = await Update.Models.UpdateManager.CheckUpdateAsync(Update.Models.UpdateLink.GetInstance.VersionUrl, ConstantValues.Version);
+                if (avalableUpd.Item1)
+                {
+                    var dialogResult = ExMessageBoxBase.Show("アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
+                            ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+                    if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
+                    {
+                        var updForm = new Update.Views.UpdForm();
+                        updForm.Show();
+                    }
+                }
 
-                //        if (isUpdate)
+                //Task task = Task.Factory.StartNew(() =>
+                //{
+                //    bool avalableUpd = Update.Models.UpdateManager.CheckUpdate(ConstantValues.VersionUrl);
+                //    if (avalableUpd)
+                //    {
+                //        view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
                 //        {
-                //            View.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                //            var dialogResult = ExMessageBoxBase.Show("アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
+                //                ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+                //            if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
                 //            {
-                //                var dialogResult = ExMessageBoxBase.Show(this, "アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
-                //                    ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
-                //                if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
-                //                {
-                //                    UpdatorForm.UpdForm updFrm = new UpdatorForm.UpdForm();
-                //                    updFrm.ShowDialog();
-                //                }
-                //            }));
-                //        }
-                //    });
+
+                //            }
+                //        }));
+                //    }
+                //});
             }
 
             //AddUser(new PlayerInfo()
@@ -380,6 +385,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 Thread.Sleep(5);
             }
         }
+
+
 
         public void ServerStart()
         {
@@ -1031,7 +1038,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
 
         /*
-         * ConfigEditor
+         * Menu
          */
         public void RunConfigEditor()
         {
@@ -1057,6 +1064,26 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 Process.Start(fi.FullName, cfgArg);
             else
                 act(LangResources.Resources.ConfigEditor);
+        }
+        public void ShowSettings()
+        {
+            var setWin = new Settings.Views.SettingWindow(Setting, ShortcutKeyManager);
+            setWin.ShowDialog();
+        }
+        public void ShowInitialize()
+        {
+            var initializeWindow = new Setup.Views.InitializeWindow(Setting);
+            initializeWindow.ShowDialog();
+        }
+        public void ShowUpdForm()
+        {
+            var updForm = new Update.Views.UpdForm();
+            updForm.Show();
+        }
+        public void ShowVersionForm()
+        {
+            var verInfo = new VersionInfo();
+            verInfo.ShowDialog();
         }
 
 

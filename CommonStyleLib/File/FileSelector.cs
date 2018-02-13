@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KimamaLib.File
+namespace CommonLib.File
 {
     public class FileSelector
     {

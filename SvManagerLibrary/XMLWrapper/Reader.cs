@@ -15,10 +15,17 @@ namespace SvManagerLibrary.XMLWrapper
 
         private readonly XmlDocument document = new XmlDocument();
 
-        public Reader(string xmlPath)
+        public Reader(string xmlPath, bool isFile = true)
         {
-            XmlPath = xmlPath;
-            document.Load(xmlPath);
+            if (isFile)
+            {
+                XmlPath = xmlPath;
+                document.Load(xmlPath);
+            }
+            else
+            {
+                document.LoadXml(xmlPath);
+            }
         }
         public Reader(Stream stream)
         {
@@ -77,7 +84,7 @@ namespace SvManagerLibrary.XMLWrapper
         {
             var sb = new StringBuilder();
 
-            const string expression = "^ *(?<text>.*?)$";
+            const string expression = "^ *(?<text>.*)$";
             var reg = new Regex(expression);
             var sr = new StringReader(text);
             while (sr.Peek() > -1)

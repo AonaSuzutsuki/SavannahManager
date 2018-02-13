@@ -257,13 +257,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void MenuSettingsBT_Click()
         {
-            var setWin = new Settings.Views.SettingWindow(model.Setting, model.ShortcutKeyManager);
-            setWin.ShowDialog();
+            model.ShowSettings();
         }
         private void MenuFirstSettingsBT_Click()
         {
-            var initializeWindow = new Setup.Views.InitializeWindow(model.Setting);
-            initializeWindow.ShowDialog();
+            model.ShowInitialize();
         }
         private void MenuLangJapaneseBT_Click()
         {
@@ -281,12 +279,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void MenuCheckUpdateBT_Click()
         {
-
+            model.ShowUpdForm();
         }
         private void MenuVersionInfo_Click()
         {
-            var verInfo = new VersionInfo();
-            verInfo.ShowDialog();
+            model.ShowVersionForm();
         }
 
         private void StartBT_Click()
