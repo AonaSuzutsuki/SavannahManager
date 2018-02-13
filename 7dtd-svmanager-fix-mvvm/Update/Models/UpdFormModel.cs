@@ -92,6 +92,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
             if (VersionList.Count > 0)
                 VersionListSelectedIndex = 0;
+            ShowDetails(0);
 
             loading.Close();
         }
