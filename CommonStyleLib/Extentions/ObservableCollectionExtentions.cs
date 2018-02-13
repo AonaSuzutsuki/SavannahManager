@@ -5,9 +5,10 @@ namespace CommonLib.Extentions
 {
     public static class ObservableCollectionExtentions
     {
-        public static void AddAll<TValue>(this ObservableCollection<TValue> collection, List<TValue> list)
+        public static void AddAll<TValue>(this ObservableCollection<TValue> collection, IEnumerable<TValue> list)
         {
-            list.ForEach((val) => collection.Add(val));
+            foreach (var elem in list)
+                collection.Add(elem);
         }
     }
 }

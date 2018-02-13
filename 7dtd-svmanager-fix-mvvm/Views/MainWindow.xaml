@@ -83,7 +83,7 @@
                         <MenuItem Header="Config Editor" Name="ConfigEditorBT" Command="{Binding MenuConfigEditorBTClick}" />
                     </MenuItem>
                     <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_HelpBT, Mode=OneWay}" IsEnabled="True">
-                        <MenuItem IsEnabled="False" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_UpdateCheckBT, Mode=OneWay}" Name="MenuCheckUpdateBT" Command="{Binding MenuCheckUpdateBTClick}" />
+                        <MenuItem IsEnabled="True" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_UpdateCheckBT, Mode=OneWay}" Name="MenuCheckUpdateBT" Command="{Binding MenuCheckUpdateBTClick}" />
                         <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_VersionBT, Mode=OneWay}" Name="MenuVersionInfo" Command="{Binding MenuVersionInfoClick}" />
                     </MenuItem>
                 </Menu>
@@ -141,7 +141,7 @@
                                     <ContextMenu>
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Opened">
-                                                <CommonViews:InvokeDelegateCommandAction Command="{Binding PlayerContextMenuOpened}" />
+                                                <i:InvokeCommandAction Command="{Binding PlayerContextMenuOpened}" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
 
@@ -178,10 +178,10 @@
                             <TextBox Text="{Binding ConsoleLogText, Mode=OneWay}" Name="ConsoleTextBox" AcceptsReturn="True" TextWrapping="NoWrap" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseEnter">
-                                        <CommonViews:InvokeDelegateCommandAction  Command="{Binding ConsoleTextBoxMouseEnter}" />
+                                        <i:InvokeCommandAction  Command="{Binding ConsoleTextBoxMouseEnter}" />
                                     </i:EventTrigger>
                                     <i:EventTrigger EventName="MouseLeave">
-                                        <CommonViews:InvokeDelegateCommandAction  Command="{Binding ConsoleTextBoxMouseLeave}" />
+                                        <i:InvokeCommandAction  Command="{Binding ConsoleTextBoxMouseLeave}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <TextBox.ContextMenu>
