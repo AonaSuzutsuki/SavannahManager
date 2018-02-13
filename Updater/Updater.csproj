@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BC540253-94E1-4384-8174-4AC19D44B148}</ProjectGuid>
+    <ProjectGuid>{08707246-F4EE-46FF-A2DE-1D9924B4706D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ConfigEditor_mvvm</RootNamespace>
-    <AssemblyName>ConfigEditor</AssemblyName>
+    <RootNamespace>Updater</RootNamespace>
+    <AssemblyName>update</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -23,7 +24,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,33 +33,22 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <LangVersion>latest</LangVersion>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\Release\</OutputPath>
-    <LangVersion>latest</LangVersion>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <LangVersion>latest</LangVersion>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Release\</OutputPath>
-    <LangVersion>latest</LangVersion>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -77,6 +66,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Reactive.Core, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.Core.3.1.1\lib\net46\System.Reactive.Core.dll</HintPath>
     </Reference>
@@ -92,7 +83,6 @@
     <Reference Include="System.Reactive.Windows.Threading, Version=3.0.1000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.Windows.Threading.3.1.1\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -118,30 +108,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="LangResources\CommonResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommonResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ConfigListInfo.cs" />
-    <Compile Include="Models\ConfigType.cs" />
-    <Compile Include="Models\MainWindowModel.cs" />
-    <Compile Include="Models\SettingLoader.cs" />
-    <Compile Include="Models\TemplateLoader.cs" />
-    <Compile Include="ConstantValues.cs" />
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LangResources\ResourceService.cs" />
+    <Compile Include="ConstantValues.cs" />
+    <Compile Include="Models\Archive.cs" />
+    <Compile Include="Models\MainWindowModel.cs" />
+    <Compile Include="Models\UpdateInfo.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Page Include="Views\MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -157,14 +140,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="LangResources\CommonResources.en-US.resx" />
-    <EmbeddedResource Include="LangResources\CommonResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LangResources\Resources.en-US.resx" />
     <EmbeddedResource Include="LangResources\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -177,121 +154,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lang\VersionList.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\CommonStyleLib\CommonLib.csproj">
       <Project>{cf1972e5-2df2-4b7f-96b3-90d9bdb418c3}</Project>
       <Name>CommonLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">
-      <Project>{adb034d1-b0fb-43d0-acac-3f5214cc03d7}</Project>
-      <Name>SvManagerLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="lang\a11.6\en_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a11.6\ja_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a12.5\en_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a12.5\ja_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a12\en_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a12\ja_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a13\en_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a13\ja_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a14.6\en_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a14.6\ja_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a14.7\en_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a14.7\ja_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a15\en_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a15\ja_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a16\en_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lang\a16\ja_ConfigData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Styles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent># For Debug
-SET MainProjectName=7dtd-svmanager-fix-mvvm
-copy /y "$(TargetPath)" "$(SolutionDir)%25MainProjectName%25\$(OutDir)\$(TargetFileName)"
-copy /y "$(TargetDir)\$(TargetFileName).config" "$(SolutionDir)%25MainProjectName%25\$(OutDir)\$(TargetFileName).config"
-
-if exist "$(SolutionDir)%25MainProjectName%25\$(OutDir)lang" (
+    <PostBuildEvent>SET TargetUpdateDir=$(SolutionDir)7dtd-svmanager-fix-mvvm\$(OutDir)\Updater
+if exist "%25TargetUpdateDir%25" (
     echo ""
 ) else (
-    mkdir "$(SolutionDir)%25MainProjectName%25\$(OutDir)lang"
+    mkdir "%25TargetUpdateDir%25"
 )
-
-if exist "$(SolutionDir)%25MainProjectName%25\$(OutDir)en-US" (
-    echo ""
-) else (
-    mkdir "$(SolutionDir)%25MainProjectName%25\$(OutDir)en-US"
-)
-
-xcopy "$(TargetDir)lang" "$(SolutionDir)%25MainProjectName%25\$(OutDir)lang" /E /Y
-xcopy "$(TargetDir)en-US" "$(SolutionDir)%25MainProjectName%25\$(OutDir)en-US" /E /Y
-
-
-
-# For Release
-SET BinDir=$(SolutionDir)\bin
-if exist "%25BinDir%25" (
-    echo ""
-) else (
-    mkdir "%25BinDir%25"
-)
-
-copy /y "$(TargetPath)" "%25BinDir%25\$(TargetFileName)"
-copy /y "$(TargetDir)\$(TargetFileName).config" "%25BinDir%25\$(TargetFileName).config"
-
-if exist "%25BinDir%25\lang" (
-    echo ""
-) else (
-    mkdir "%25BinDir%25\lang"
-)
-
-if exist "%25BinDir%25\en-US" (
-    echo ""
-) else (
-    mkdir "%25BinDir%25\en-US"
-)
-
-xcopy "$(TargetDir)lang" "%25BinDir%25\lang" /E /Y
-xcopy "$(TargetDir)en-US" "%25BinDir%25\en-US" /E /Y</PostBuildEvent>
+copy /y "$(TargetPath)" "%25TargetUpdateDir%25\$(TargetFileName)"
+copy /y "$(TargetPath).config" "%25TargetUpdateDir%25\$(TargetFileName).config"
+xcopy "$(TargetDir)*.dll" "%25TargetUpdateDir%25\" /E /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

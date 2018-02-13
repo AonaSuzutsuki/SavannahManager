@@ -19,6 +19,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         private UpdateManager updManager = null;
 
         private ObservableCollection<string> versionList = new ObservableCollection<string>();
+        private int versionListSelectedIndex = -1;
 
         private bool canUpdate = false;
         private bool canCancel = true;
@@ -33,6 +34,11 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         {
             get => versionList;
             set => SetProperty(ref versionList, value);
+        }
+        public int VersionListSelectedIndex
+        {
+            get => versionListSelectedIndex;
+            set => SetProperty(ref versionListSelectedIndex, value);
         }
 
         public bool CanUpdate
@@ -72,7 +78,10 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         private void Initialize()
         {
-            CurrentVersion = CommonLib.File.Version.GetVersion();
+            var loading = new Views.Loading();
+            loading.Show();
+
+            CurrentVersion = ConstantValues.Version;
 
             CanCancel = false;
             updManager = new UpdateManager(updLink, ConstantValues.UpdatorFilePath);
@@ -80,6 +89,11 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             LatestVersion = updManager.Version;
             VersionList.AddAll(updManager.Updates.Keys);
             CanCancel = true;
+
+            if (VersionList.Count > 0)
+                VersionListSelectedIndex = 0;
+
+            loading.Close();
         }
 
         public void ShowDetails(int index)
@@ -115,7 +129,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             {
                 StartInfo = new System.Diagnostics.ProcessStartInfo()
                 {
-                    FileName = ConstantValues.AppDirectoryPath + @"\update.exe",
+                    FileName = ConstantValues.UpdatorFilePath,
                     Arguments = id.ToString() + " " + "SavannahManager2.exe" + " " + @"""" + updLink.MainPath + @""""
                 }
             };

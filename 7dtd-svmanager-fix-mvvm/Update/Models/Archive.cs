@@ -13,7 +13,17 @@ namespace Archive
             {
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    entry.ExtractToFile(Path.Combine(extractDirPath, entry.FullName), true);
+                    var outPath = entry.FullName;
+                    if (outPath.EndsWith("/"))
+                    {
+                        var di = new DirectoryInfo(extractDirPath + @"\" + outPath);
+                        if (!di.Exists)
+                            di.Create();
+                    }
+                    else
+                    {
+                        entry.ExtractToFile(Path.Combine(extractDirPath, entry.FullName), true);
+                    }
                 }
             }
         }

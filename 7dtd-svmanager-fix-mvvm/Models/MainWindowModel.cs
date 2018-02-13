@@ -386,6 +386,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
         }
 
+
+
         public void ServerStart()
         {
             if (!FileExistCheck()) return;
@@ -1036,7 +1038,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
 
         /*
-         * ConfigEditor
+         * Menu
          */
         public void RunConfigEditor()
         {
@@ -1062,6 +1064,26 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 Process.Start(fi.FullName, cfgArg);
             else
                 act(LangResources.Resources.ConfigEditor);
+        }
+        public void ShowSettings()
+        {
+            var setWin = new Settings.Views.SettingWindow(Setting, ShortcutKeyManager);
+            setWin.ShowDialog();
+        }
+        public void ShowInitialize()
+        {
+            var initializeWindow = new Setup.Views.InitializeWindow(Setting);
+            initializeWindow.ShowDialog();
+        }
+        public void ShowUpdForm()
+        {
+            var updForm = new Update.Views.UpdForm();
+            updForm.Show();
+        }
+        public void ShowVersionForm()
+        {
+            var verInfo = new VersionInfo();
+            verInfo.ShowDialog();
         }
 
 

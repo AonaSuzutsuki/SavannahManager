@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.1.18.1b">
+    1. Fixed an issue that crash when click icon on window..
+    2. Included Styles and some codes of KimamaLib and Excluded KimamaLib.
+    3. Fixed an issue that crash when open the alert window.
+  </update>
+  <update version="2.1.17.0b">
+    1. Fixed a bug that shift if empty property was found in ConfigEditor.
+    2. Fixed a bug that server startup and Telnet are not worked correctly by it.
+  </update>
   <update version="1.0.17.17b">
     1. Fixed templates on ConfigEditor
     　Fixed english version template.

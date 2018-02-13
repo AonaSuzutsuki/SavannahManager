@@ -24,7 +24,7 @@ namespace _7dtd_svmanager_fix_mvvm
         public static readonly string LogDirectoryPath = AppDirectoryPath + @"\logs\";
         public static readonly string SettingFilePath = AppDirectoryPath + @"\settings.ini";
         public static readonly string ConfigEditorFilePath = AppDirectoryPath + @"\ConfigEditor.exe";
-        public static readonly string UpdatorFilePath = AppDirectoryPath + @"\update.exe";
+        public static readonly string UpdatorFilePath = AppDirectoryPath + @"\Updater\update.exe";
 
         public static string Version => CommonLib.File.Version.GetVersion() + "b";
     }

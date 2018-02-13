@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.1.18.1b">
+    1. アイコンをクリックすると落ちるバグを修正
+    2. KimamaLibのコードを全て移植してライブラリを除去
+    3. アラートウィンドウが出ると落ちるバグを修正
+  </update>
+  <update version="2.1.17.0b">
+    1. Config Editorにて空のプロパティがあるとズレる不具合を修正
+    2. それにともなってサーバ起動やTelnetが正しく動作しない問題を修正
+  </update>
   <update version="1.0.17.17b">
     1. ConfigEditorのテンプレートを修正
     　英語版のテンプレートを修正

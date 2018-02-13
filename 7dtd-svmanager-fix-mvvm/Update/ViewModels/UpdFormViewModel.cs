@@ -23,6 +23,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             this.model = model;
 
             VersionListView = model.ToReactivePropertyAsSynchronized(m => m.VersionList);
+            VersionListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.VersionListSelectedIndex);
             UpdateBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.CanUpdate);
             CancelBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.CanCancel);
             DetailText = model.ToReactivePropertyAsSynchronized(m => m.DetailText);

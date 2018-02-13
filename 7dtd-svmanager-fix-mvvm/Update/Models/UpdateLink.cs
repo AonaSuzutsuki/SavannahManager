@@ -18,11 +18,11 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         private UpdateLink()
         {
-            VersionUrl = "http://kimamalab.azurewebsites.net/updates/SavannahManager2/version.txt";
-            XmlUrl = "http://kimamalab.azurewebsites.net/updates/SavannahManager2/details/" + LangResources.UpdResources.Updater_XMLNAME;
-            UpdVersionUrl = "http://kimamalab.azurewebsites.net/updates/SavannahManager2/version.updater.txt";
-            UpPath = "http://kimamalab.azurewebsites.net/updates/SavannahManager2/update.zip";
-            MainPath = "http://kimamalab.azurewebsites.net/updates/SavannahManager2/SavannahManager.zip";
+            VersionUrl = "http://kimamalab.azurewebsites.net/updates/SavannahManager3/version.txt";
+            XmlUrl = "http://kimamalab.azurewebsites.net/updates/SavannahManager3/details/" + LangResources.UpdResources.Updater_XMLNAME;
+            UpdVersionUrl = "http://kimamalab.azurewebsites.net/updates/SavannahManager3/version.updater.txt";
+            UpPath = "http://kimamalab.azurewebsites.net/updates/SavannahManager3/update.zip";
+            MainPath = "http://kimamalab.azurewebsites.net/updates/SavannahManager3/SavannahManager.zip";
         }
     }
 }
