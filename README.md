@@ -47,7 +47,8 @@ msbuild SavannahManager.sln /t:Clean;Build /p:Configuration=Release /p:PlatformT
 # Donation
 BTC: 1DgYbNmZ4Ka3rcFWVUXvaPDiwcSUckKvFU  
 ETH: 0xa2be4ff82f5a59184e21b3d9e7febdac2e3e2839  
-ZEC: t1HvGyCp9Lhf1iVJsvKuYk58YpxWdpcg78k  
+DOGE: DPQPwrjQXZndguKppSpiTiP21bFYzhuaUY  
+ZEC: t1Lymbs1FFmDqrLnkoYxPt1nmhfbuHkcWev  
 MONA: MN67PumimZaV7Y9bTyfDVCmdYbWaFb1YH2  
 ZNY: ZfbDqN81h3wHTMaSupDAKQTguL8fcQyHUY  
 
