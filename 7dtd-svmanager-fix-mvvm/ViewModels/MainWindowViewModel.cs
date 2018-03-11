@@ -42,7 +42,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             this.model = model;
 
             #region Event Initialize
-            Loaded = new DelegateCommand(MainWindow_Loaded);
+            //Loaded = new DelegateCommand(MainWindow_Loaded);
             Closing = new DelegateCommand(MainWindow_Closing);
             KeyDown = new DelegateCommand<KeyEventArgs>(MainWindow_KeyDown);
 
@@ -107,11 +107,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             BottomNewsLabel = model.ToReactivePropertyAsSynchronized(m => m.BottomNewsLabel);
             #endregion
-            
-            if (Loaded != null && Loaded.CanExecute(null))
-            {
-                Loaded?.Execute(null);
-            }
+
+            DoLoaded();
         }
         
         #region Fields
@@ -122,7 +119,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region EventProperties
-        public ICommand Loaded { get; set; }
+        // public ICommand Loaded { get; set; }
         public ICommand Closing { get; set; }
         public ICommand KeyDown { get; set; }
 
@@ -241,7 +238,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region EventMethods
-        private void MainWindow_Loaded()
+        protected override void MainWindow_Loaded()
         {
             model.Initialize();
             model.RefreshLabels();
