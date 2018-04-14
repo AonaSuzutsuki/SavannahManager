@@ -240,6 +240,18 @@
                                                 </Grid>
                                             </Grid>
                                         </TabItem>
+
+                                        <TabItem Header="IP">
+                                            <Grid Margin="5">
+                                                <StackPanel>
+                                                    <Label Content="IP Address Checker" />
+                                                    <Button Grid.Column="2" Content="Open" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding GetIpClicked}" />
+
+                                                    <Label Content="Port Checker" />
+                                                    <Button Grid.Column="2" Content="Open" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding CheckPortClicked}" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </TabItem>
                                     </TabControl>
 
                                 </Grid>

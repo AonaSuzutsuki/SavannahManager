@@ -972,6 +972,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             return true;
         }
 
+        public void OpenGetIpAddress()
+        {
+            var ipAddressGetter = new IpAddressGetter();
+            ipAddressGetter.Show();
+        }
+        public void OpenPortCheck()
+        {
+            var portCheck = new PortCheck();
+            portCheck.Show();
+        }
+
 
 
         /*

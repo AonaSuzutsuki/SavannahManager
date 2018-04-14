@@ -82,6 +82,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             GetTimeBTClick = new DelegateCommand(GetTimeBT_Click);
             SetTimeBTClick = new DelegateCommand(SetTimeBT_Click);
             SaveWorldBTClick = new DelegateCommand(SaveWorldBT_Click);
+
+            GetIpClicked = new DelegateCommand(GetIp_Clicked);
+            CheckPortClicked = new DelegateCommand(CheckPort_Clicked);
             #endregion
 
             #region Property Initialize
@@ -159,6 +162,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand GetTimeBTClick { get; set; }
         public ICommand SetTimeBTClick { get; set; }
         public ICommand SaveWorldBTClick { get; set; }
+
+        public ICommand GetIpClicked { get; set; }
+        public ICommand CheckPortClicked { get; set; }
         #endregion
 
         #region Properties
@@ -395,6 +401,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void SaveWorldBT_Click()
         {
             model.SendCommand("saveworld");
+        }
+
+        private void GetIp_Clicked()
+        {
+            model.OpenGetIpAddress();
+        }
+        private void CheckPort_Clicked()
+        {
+            model.OpenPortCheck();
         }
 
 
