@@ -60,7 +60,7 @@
                                 <ColumnDefinition Width="70" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Text="{Binding ExternalIpAddress}" IsReadOnly="True" />
+                            <TextBox Text="{Binding ExternalIpAddress.Value}" IsReadOnly="True" />
                             <Button Grid.Column="2" Content="Copy" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding GetIpClicked}" />
                         </Grid>
 
@@ -73,7 +73,7 @@
                                 <ColumnDefinition Width="70" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Text="{Binding LocalIpAddress}" IsReadOnly="True" />
+                            <TextBox Text="{Binding LocalIpAddress.Value}" IsReadOnly="True" />
                             <Button Grid.Column="2" Content="Copy" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding GetIpClicked}" />
                         </Grid>
                     </StackPanel>

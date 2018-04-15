@@ -1,4 +1,6 @@
-﻿using System;
+﻿using _7dtd_svmanager_fix_mvvm.Models;
+using _7dtd_svmanager_fix_mvvm.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,10 @@ namespace _7dtd_svmanager_fix_mvvm.Views
         public PortCheck()
         {
             InitializeComponent();
+
+            var model = new PortCheckModel();
+            var vm = new PortCheckViewModel(this, model);
+            this.DataContext = vm;
         }
     }
 }

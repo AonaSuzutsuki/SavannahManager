@@ -14,39 +14,41 @@ using System.Windows.Input;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
-    public class IpAddressGetterViewModel : ViewModelBase
+    public class PortCheckViewModel : ViewModelBase
     {
-        public IpAddressGetterViewModel(Window view, IpAddressGetterModel model) : base(view, model)
+        public PortCheckViewModel(Window view, PortCheckModel model) : base(view, model)
         {
             this.model = model;
 
             #region EventInitialize
-            GetIpClicked = new DelegateCommand(GetIp_Clicked);
+            CheckClicked = new DelegateCommand(Check_Clicked);
             #endregion
 
             #region PropertyInitialize
             ExternalIpAddress = model.ToReactivePropertyAsSynchronized(m => m.ExternalIpAddress);
-            LocalIpAddress = model.ToReactivePropertyAsSynchronized(m => m.LocalIpAddress);
+            Port = model.ToReactivePropertyAsSynchronized(m => m.PortText);
+            StatusLabel = model.ToReactivePropertyAsSynchronized(m => m.StatusLabel);
             #endregion
         }
 
         #region Fields
-        private IpAddressGetterModel model;
+        private PortCheckModel model;
         #endregion
 
         #region Properties
         public ReactiveProperty<string> ExternalIpAddress { get; set; }
-        public ReactiveProperty<string> LocalIpAddress { get; set; }
+        public ReactiveProperty<string> Port { get; set; }
+        public ReactiveProperty<string> StatusLabel { get; set; }
         #endregion
 
         #region EventProperties
-        public ICommand GetIpClicked { get; set; }
+        public ICommand CheckClicked { get; set; }
         #endregion
 
         #region EventMethods
-        private void GetIp_Clicked()
+        private void Check_Clicked()
         {
-            model.SetIpAddress();
+            model.CheckPort();
         }
         #endregion
     }

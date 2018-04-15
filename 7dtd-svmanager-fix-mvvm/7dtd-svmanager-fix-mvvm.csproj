@@ -208,10 +208,13 @@
     </Compile>
     <Compile Include="Models\ForceShutdownerModel.cs" />
     <Compile Include="Models\IMainWindowTelnet.cs" />
+    <Compile Include="Models\IpAddressManager.cs" />
     <Compile Include="Models\IpAddressGetterModel.cs" />
     <Compile Include="Models\JsonLoader.cs" />
     <Compile Include="Models\KeyConfigDictionary.cs" />
     <Compile Include="Models\LogStream.cs" />
+    <Compile Include="Models\PortChecker.cs" />
+    <Compile Include="Models\PortCheckModel.cs" />
     <Compile Include="Models\ServerProcessManager.cs" />
     <Compile Include="Models\VersionInfoModel.cs" />
     <Compile Include="PlayerController\Models\Pages\AdminAddModel.cs" />
@@ -324,6 +327,7 @@
     <Compile Include="Settings\Views\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\PortCheckViewModel.cs" />
     <Compile Include="ViewModels\VersionInfoViewModel.cs" />
     <Compile Include="Views\ForceShutdowner.xaml.cs">
       <DependentUpon>ForceShutdowner.xaml</DependentUpon>

@@ -53,14 +53,14 @@
                 <Grid Margin="10">
                     <StackPanel>
                         <Label Content="IP or Hostname" />
-                        <TextBox Text="{Binding ExternalIpAddress}" IsReadOnly="True" />
+                        <TextBox Text="{Binding ExternalIpAddress.Value}" />
 
                         <Label Content="Port" />
-                        <TextBox Text="{Binding LocalIpAddress}" IsReadOnly="True" />
+                        <TextBox Text="{Binding Port.Value}" />
                     </StackPanel>
 
-                    <Label Content="Not Opened!" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-                    <Button Content="Check" Width="70" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{DynamicResource FlatButton}" Command="{Binding GetIpClicked}" />
+                    <Label Content="{Binding StatusLabel.Value}" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                    <Button Content="Check" Width="70" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{DynamicResource FlatButton}" Command="{Binding CheckClicked}" />
 
                 </Grid>
             </Grid>

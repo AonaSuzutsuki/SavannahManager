@@ -12,8 +12,26 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void SetIpAddress()
         {
-            var jsonLoader = new JsonLoader("https://aonsztk.xyz/api/?mode=externalip");
-            Console.WriteLine(jsonLoader.ToString());
+            ExternalIpAddress = IpAddressManager.GetExternalIpAddress("https://aonsztk.xyz/api/?mode=externalip");
+            LocalIpAddress = IpAddressManager.GetLocalIPAddress();
         }
+
+        #region Fields
+        private string externalIpAddress;
+        private string localIpAddress;
+        #endregion
+
+        #region Properties
+        public string ExternalIpAddress
+        {
+            get => externalIpAddress;
+            set => SetProperty(ref externalIpAddress, value);
+        }
+        public string LocalIpAddress
+        {
+            get => localIpAddress;
+            set => SetProperty(ref localIpAddress, value);
+        }
+        #endregion
     }
 }

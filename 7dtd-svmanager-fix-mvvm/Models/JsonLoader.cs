@@ -15,7 +15,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 {
     public class JsonLoader
     {
-        public List<Dictionary<string, string>> Nodes { private set; get; } = new List<Dictionary<string, string>>();
+        private List<Dictionary<string, string>> nodes = new List<Dictionary<string, string>>();
 
         public JsonLoader(string url, bool localFile = false)
         {
@@ -38,12 +38,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 json = Encoding.UTF8.GetString(data);
             }
 
-            json = decodeEncodedNonAsciiCharacters(json);
+            json = DecodeEncodedNonAsciiCharacters(json);
 
-            decode(json, "root");
+            Decode(json, "root");
         }
 
-        private void decode(string json, string xpath = "root/item")
+        private void Decode(string json, string xpath = "root/item")
         {
             XmlDictionaryReader xmlReader = JsonReaderWriterFactory.CreateJsonReader(
                         Encoding.UTF8.GetBytes(json), XmlDictionaryReaderQuotas.Max);
@@ -56,18 +56,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             foreach (XmlNode node in itemNodes)
             {
                 var dic = new Dictionary<string, string>();
-                handleNode(node, dic);
-                Nodes.Add(dic);
+                HandleNode(node, dic);
+                nodes.Add(dic);
             }
         }
 
-        private void handleNode(XmlNode node, Dictionary<string, string> dic)
+        private void HandleNode(XmlNode node, Dictionary<string, string> dic)
         {
             if (node.HasChildNodes)
             {
                 foreach (XmlNode child in node.ChildNodes)
                 {
-                    handleNode(child, dic);
+                    HandleNode(child, dic);
                 }
             }
             else
@@ -79,7 +79,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     dic.Add(name, value);
             }
         }
-        private string decodeEncodedNonAsciiCharacters(string value)
+        private string DecodeEncodedNonAsciiCharacters(string value)
         {
             return Regex.Replace(value, @"\\u(?<Value>[a-zA-Z0-9]{4})", m => {
                 return ((char)int.Parse(m.Groups["Value"].Value, NumberStyles.HexNumber)).ToString();
@@ -88,8 +88,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public string GetValue(int index, string key)
         {
-            if (Nodes.Count < index || index < 0) return null;
-            var dic = Nodes[index];
+            if (nodes.Count < index || index < 0) return null;
+            var dic = nodes[index];
             foreach (KeyValuePair<string, string> pair in dic)
             {
                 if (pair.Key.Equals(key)) return pair.Value;
@@ -100,7 +100,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach (Dictionary<string, string> dic in Nodes)
+            foreach (Dictionary<string, string> dic in nodes)
             {
                 foreach (KeyValuePair<string, string> pair in dic)
                 {
