@@ -32,7 +32,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region EventProperties
-        public ICommand Loaded { get; set; }
         public ICommand DonateBtClicked { get; set; }
         #endregion
 

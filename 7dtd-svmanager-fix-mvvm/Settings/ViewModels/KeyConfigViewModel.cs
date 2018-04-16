@@ -45,8 +45,6 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         public ReactiveProperty<string> InputKeyText { get; set; }
 
         #region EventProperties
-        public ICommand Loaded { get; }
-        
         public ICommand KeyListSelectionChanged { get; }
 
         public ICommand DeleteCurrentKeyBtClick { get; }

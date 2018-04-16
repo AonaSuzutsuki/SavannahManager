@@ -31,10 +31,7 @@ namespace Updater.ViewModels
             Loaded = new DelegateCommand(MainWindow_Loaded);
             Closed = new DelegateCommand(MainWindow_Closed);
 
-            if (Loaded != null && Loaded.CanExecute(null))
-            {
-                Loaded?.Execute(null);
-            }
+            DoLoaded();
         }
 
         #region Properties
@@ -48,12 +45,11 @@ namespace Updater.ViewModels
         #endregion
 
         #region EventProperties
-        public ICommand Loaded { get; set; }
         public ICommand Closed { get; set; }
         #endregion
 
         #region EventMethods
-        public void MainWindow_Loaded()
+        protected override void MainWindow_Loaded()
         {
             model.Update();
         }

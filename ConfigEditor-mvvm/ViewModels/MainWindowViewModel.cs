@@ -90,7 +90,6 @@ namespace ConfigEditor_mvvm.ViewModels
         #endregion
 
         #region Event Properties
-        public ICommand Loaded { get; set; }
         public ICommand KeyDown { get; set; }
 
         public ICommand NewFileBtClicked { get; }
@@ -106,9 +105,6 @@ namespace ConfigEditor_mvvm.ViewModels
         #endregion
 
         #region Event Methods
-        public void MainWindow_Loaded()
-        {
-        }
         public void MainWindow_KeyDown(KeyEventArgs e)
         {
             model.ShortcutKey(e, Keyboard.Modifiers);
