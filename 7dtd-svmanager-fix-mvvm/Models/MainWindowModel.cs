@@ -288,7 +288,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             if (setting.IsAutoUpdate)
             {
-                (bool, string) avalableUpd = await Update.Models.UpdateManager.CheckUpdateAsync(Update.Models.UpdateLink.GetInstance.VersionUrl, ConstantValues.Version);
+                (bool, string) avalableUpd = await Update.Models.UpdateManager.CheckUpdateAsync(new Update.Models.UpdateLink().VersionUrl, ConstantValues.Version);
                 if (avalableUpd.Item1)
                 {
                     var dialogResult = ExMessageBoxBase.Show("アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",

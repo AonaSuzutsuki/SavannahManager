@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.1.20.3b">
+    1. Fixed an issue not to show English on updator detail.
+  </update>
   <update version="2.1.19.2b">
     1. Added an updator.
     2. Added a system to get external and local ip address.
