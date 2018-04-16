@@ -22,11 +22,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             #region EventInitialize
             GetIpClicked = new DelegateCommand(GetIp_Clicked);
+            CopyClicked = new DelegateCommand<string>(Copy_Clicked);
             #endregion
 
             #region PropertyInitialize
             ExternalIpAddress = model.ToReactivePropertyAsSynchronized(m => m.ExternalIpAddress);
             LocalIpAddress = model.ToReactivePropertyAsSynchronized(m => m.LocalIpAddress);
+            StatusLabel = model.ToReactivePropertyAsSynchronized(m => m.StatusLabel);
             #endregion
         }
 
@@ -37,16 +39,23 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #region Properties
         public ReactiveProperty<string> ExternalIpAddress { get; set; }
         public ReactiveProperty<string> LocalIpAddress { get; set; }
+        public ReactiveProperty<string> StatusLabel { get; set; }
         #endregion
 
         #region EventProperties
         public ICommand GetIpClicked { get; set; }
+        public ICommand CopyClicked { get; set; }
         #endregion
 
         #region EventMethods
         private void GetIp_Clicked()
         {
             model.SetIpAddress();
+        }
+
+        private void Copy_Clicked(string text)
+        {
+            model.CopyClipboard(text);
         }
         #endregion
     }
