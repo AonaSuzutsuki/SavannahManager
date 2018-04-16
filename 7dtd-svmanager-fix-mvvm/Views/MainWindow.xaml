@@ -5,7 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:NumText="clr-namespace:NumTextBox"
         xmlns:CommonViews="clr-namespace:CommonLib.Views;assembly=CommonLib"
-        Icon="/CommonLib;component/Resources/1.ico"
+        Icon="pack://application:,,,/CommonLib;component/Resources/1.ico"
         Title="Savannah Manager" Name="_MainWindow" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True">
     <!--xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"-->
 
@@ -238,6 +238,18 @@
                                                         <TextBox Text="{Binding TelnetPasswordText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" Style="{StaticResource PasswordStyle}" />
                                                     </StackPanel>
                                                 </Grid>
+                                            </Grid>
+                                        </TabItem>
+
+                                        <TabItem Header="IP">
+                                            <Grid Margin="5">
+                                                <StackPanel>
+                                                    <Label Content="IP Address Checker" />
+                                                    <Button Grid.Column="2" Content="Open" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding GetIpClicked}" />
+
+                                                    <Label Content="Port Checker" />
+                                                    <Button Grid.Column="2" Content="Open" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding CheckPortClicked}" />
+                                                </StackPanel>
                                             </Grid>
                                         </TabItem>
                                     </TabControl>
