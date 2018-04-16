@@ -15,7 +15,6 @@ using Log;
 using _7dtd_svmanager_fix_mvvm.Views;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
 using _7dtd_svmanager_fix_mvvm.Settings;
-using CommonLib.Extensions;
 using CommonLib.Models;
 using CommonLib.ExMessageBox;
 using SvManagerLibrary.Time;
@@ -23,6 +22,7 @@ using SvManagerLibrary.Config;
 using SvManagerLibrary.Telnet;
 using SvManagerLibrary.Chat;
 using SvManagerLibrary.Player;
+using CommonLib.Extentions;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {

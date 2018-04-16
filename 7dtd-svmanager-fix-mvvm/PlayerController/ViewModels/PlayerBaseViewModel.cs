@@ -22,7 +22,6 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels
 
 
         #region EventProperties
-        public ICommand Loaded { get; }
         #endregion
 
         #region Properties

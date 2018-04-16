@@ -24,7 +24,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
 
         #region EventProperties
-        public ICommand Loaded { get; }
         public ICommand ShutdownBtClick { get; }
         #endregion
 
