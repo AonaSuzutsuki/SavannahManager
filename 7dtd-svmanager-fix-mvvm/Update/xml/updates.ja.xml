@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.1.19.2b">
+    1. アップデータを追加
+    2. グローバルIPとローカルIPを取得するシステムを追加
+    3. ポート開放のチェックを行うシステムを追加
+  </update>
   <update version="2.1.18.1b">
     1. アイコンをクリックすると落ちるバグを修正
     2. KimamaLibのコードを全て移植してライブラリを除去
