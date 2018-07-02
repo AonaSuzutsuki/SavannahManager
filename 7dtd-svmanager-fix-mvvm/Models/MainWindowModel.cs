@@ -49,7 +49,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         int Port { get; }
     }
 
-    public class MainWindowModel : ModelBase, IMainWindowTelnet
+    public class MainWindowModel : ModelBase, IMainWindowTelnet, IDisposable
     {
         public MainWindowModel(Window view)
         {
@@ -1124,6 +1124,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     TelnetDisconnect();
                 }
             }
+        }
+
+
+
+        public void Dispose()
+        {
+            try
+            {
+                logThread?.Abort();
+                telnet?.Dispose();
+            }
+            catch { }
         }
     }
 }

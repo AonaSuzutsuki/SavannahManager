@@ -12,10 +12,12 @@ namespace _7dtd_svmanager_fix_mvvm
     /// </summary>
     public partial class App : Application
     {
+        private IDisposable mainWindow;
         private void MyApp_Startup(object sender, StartupEventArgs e)
         {
-            Window mw = new MainWindow();
-            mw.Show();
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.mainWindow = mainWindow;
         }
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -26,7 +28,9 @@ namespace _7dtd_svmanager_fix_mvvm
 
             DateTime dt = DateTime.Now;
             OutToFile(AppInfo.GetAppPath() + @"\error-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
-            
+
+            mainWindow.Dispose();
+
             e.Handled = true;
             Shutdown();
         }
