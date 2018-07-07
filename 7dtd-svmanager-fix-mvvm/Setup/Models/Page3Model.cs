@@ -75,10 +75,17 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
 
             if (string.IsNullOrEmpty(filename))
             {
-                var slLoader = new SteamLibraryLoader(steamPath + ConstantValues.SteamLibraryPath);
-                var dirPaths = slLoader.SteamLibraryPathList;
-                foreach (SteamLibraryPath dirPath in dirPaths)
-                    filename = _GetFileName(dirPath.SteamDirPath);
+                try
+                {
+                    var slLoader = new SteamLibraryLoader(steamPath + ConstantValues.SteamLibraryPath);
+                    var dirPaths = slLoader.SteamLibraryPathList;
+                    foreach (SteamLibraryPath dirPath in dirPaths)
+                        filename = _GetFileName(dirPath.SteamDirPath);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
 
             return filename;

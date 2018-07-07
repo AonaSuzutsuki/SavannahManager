@@ -20,8 +20,9 @@ namespace _7dtd_svmanager_fix_mvvm.Views
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDisposable
     {
+        private IDisposable model;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +33,12 @@ namespace _7dtd_svmanager_fix_mvvm.Views
                 ConsoleTextBox = ConsoleTextBox
             };
             DataContext = vm;
+            this.model = model;
+        }
+
+        public void Dispose()
+        {
+            model?.Dispose();
         }
 
         private static readonly FieldInfo _menuDropAlignmentField;
