@@ -2,6 +2,8 @@
 <updates>
   <update version="2.1.20.3b">
     1. Fixed an issue not to show English on updator detail.
+    2. Fixed a bug that the process was not killed due to forced termination due to error.
+    3. Fixed a bug that crashes in the initializer if Steam is not installed.
   </update>
   <update version="2.1.19.2b">
     1. Added an updator.
