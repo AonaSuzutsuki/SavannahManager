@@ -40,6 +40,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         #endregion
 
+        public void AutoSetIpAddress()
+        {
+            var ip = IpAddressManager.GetExternalIpAddress(ConstantValues.ExternalIpUrl);
+            ExternalIpAddress = ip;
+        }
+
         public void CheckPort()
         {
             var portChecker = new PortChecker(ExternalIpAddress, port);

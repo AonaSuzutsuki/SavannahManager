@@ -20,6 +20,8 @@ namespace _7dtd_svmanager_fix_mvvm
 
         public const string DefaultDirectoryPath = @"C:\";
 
+        public const string ExternalIpUrl = "https://aonsztk.xyz/api/?mode=externalip";
+
         public static readonly string AppDirectoryPath = AppInfo.GetAppPath();
         public static readonly string LogDirectoryPath = AppDirectoryPath + @"\logs\";
         public static readonly string SettingFilePath = AppDirectoryPath + @"\settings.ini";

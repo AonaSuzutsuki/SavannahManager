@@ -38,7 +38,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void SetIpAddress()
         {
-            ExternalIpAddress = IpAddressManager.GetExternalIpAddress("https://aonsztk.xyz/api/?mode=externalip");
+            ExternalIpAddress = IpAddressManager.GetExternalIpAddress(ConstantValues.ExternalIpUrl);
             LocalIpAddress = IpAddressManager.GetLocalIPAddress();
         }
 

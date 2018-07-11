@@ -21,6 +21,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             this.model = model;
 
             #region EventInitialize
+            AutoSetClicked = new DelegateCommand(AutoSet_Clicked);
             CheckClicked = new DelegateCommand(Check_Clicked);
             #endregion
 
@@ -42,10 +43,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region EventProperties
+        public ICommand AutoSetClicked { get; set; }
         public ICommand CheckClicked { get; set; }
         #endregion
 
         #region EventMethods
+        private void AutoSet_Clicked()
+        {
+            model.AutoSetIpAddress();
+        }
         private void Check_Clicked()
         {
             model.CheckPort();

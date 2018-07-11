@@ -53,7 +53,16 @@
                 <Grid Margin="10">
                     <StackPanel>
                         <Label Content="IP or Hostname" />
-                        <TextBox Text="{Binding ExternalIpAddress.Value}" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="70" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBox Text="{Binding ExternalIpAddress.Value}" />
+                            <Button Grid.Column="2" Content="Auto Set" Command="{Binding AutoSetClicked}" Style="{DynamicResource FlatButton}" />
+                        </Grid>
 
                         <Label Content="Port" />
                         <TextBox Text="{Binding Port.Value}" />
