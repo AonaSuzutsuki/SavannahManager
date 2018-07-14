@@ -899,14 +899,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (!CheckConnected())
                 return;
 
-            var timeInfo = new TimeInfo()
+            var dialogResult = ExMessageBoxBase.Show(LangResources.Resources.DoYouChangeTime, LangResources.Resources.Warning, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+            if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
             {
-                Day = TimeDayText.ToInt(),
-                Hour = TimeHourText.ToInt(),
-                Minute = TimeMinuteText.ToInt()
+                var timeInfo = new TimeInfo()
+                {
+                    Day = TimeDayText.ToInt(),
+                    Hour = TimeHourText.ToInt(),
+                    Minute = TimeMinuteText.ToInt()
 
-            };
-            Time.SendTime(telnet, timeInfo);
+                };
+                Time.SendTime(telnet, timeInfo);
+            }
         }
 
 
