@@ -1,6 +1,6 @@
-﻿using CommonLib.Models;
-using CommonLib.Extentions;
-using CommonLib.File;
+﻿using CommonStyleLib.Models;
+using CommonExtensionLib.Extensions;
+using CommonStyleLib.File;
 using SvManagerLibrary.Config;
 using System;
 using System.Collections.Generic;

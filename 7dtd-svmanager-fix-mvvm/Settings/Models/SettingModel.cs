@@ -1,6 +1,6 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Models;
-using CommonLib.Models;
-using CommonLib.File;
+using CommonStyleLib.Models;
+using CommonStyleLib.File;
 using System.IO;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings.Models

@@ -1,5 +1,5 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Views;
-using CommonLib;
+using CommonCoreLib;
 using System;
 using System.IO;
 using System.Windows;

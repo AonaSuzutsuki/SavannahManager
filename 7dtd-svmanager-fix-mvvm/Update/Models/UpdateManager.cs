@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using CommonLib.File;
+using CommonStyleLib.File;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.Models
 {
@@ -22,7 +22,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             (bool, string) ret = CheckUpdate(updLink.VersionUrl, ConstantValues.Version);
             IsUpdate = ret.Item1;
             Version = ret.Item2;
-            ret = CheckUpdate(updLink.UpdVersionUrl, CommonLib.File.Version.GetVersion(updFilePath));
+            ret = CheckUpdate(updLink.UpdVersionUrl, CommonCoreLib.File.Version.GetVersion(updFilePath));
             IsUpdUpdate = ret.Item1;
 
             byte[] data;

@@ -1,5 +1,5 @@
-﻿using CommonLib.Models;
-using CommonLib.ViewModels;
+﻿using CommonStyleLib.Models;
+using CommonStyleLib.ViewModels;
 using Prism.Commands;
 using Reactive.Bindings;
 using System;

@@ -1,5 +1,5 @@
-﻿using CommonLib.Models;
-using CommonLib.Extentions;
+﻿using CommonStyleLib.Models;
+using CommonExtensionLib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

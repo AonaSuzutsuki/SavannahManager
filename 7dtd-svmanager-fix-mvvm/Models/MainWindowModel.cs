@@ -15,14 +15,14 @@ using Log;
 using _7dtd_svmanager_fix_mvvm.Views;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
 using _7dtd_svmanager_fix_mvvm.Settings;
-using CommonLib.Models;
-using CommonLib.ExMessageBox;
+using CommonStyleLib.Models;
+using CommonStyleLib.ExMessageBox;
 using SvManagerLibrary.Time;
 using SvManagerLibrary.Config;
 using SvManagerLibrary.Telnet;
 using SvManagerLibrary.Chat;
 using SvManagerLibrary.Player;
-using CommonLib.Extentions;
+using CommonExtensionLib.Extensions;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -252,9 +252,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             base.Activated();
 
             if (!IsTelnetLoading)
-                AroundBorderColor = CommonLib.ConstantValues.ActivatedBorderColor;
+                AroundBorderColor = CommonStyleLib.ConstantValues.ActivatedBorderColor;
             else
-                AroundBorderColor = CommonLib.ConstantValues.ActivatedBorderColor2;
+                AroundBorderColor = CommonStyleLib.ConstantValues.ActivatedBorderColor2;
         }
 
         public async void Initialize()
@@ -405,7 +405,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             LocalModeEnabled = false;
 
             BottomNewsLabel = LangResources.Resources.UI_WaitingServer;
-            base.SetBorderColor(CommonLib.ConstantValues.ActivatedBorderColor2);
+            base.SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
 
             Task tasks = Task.Factory.StartNew(() =>
             {
@@ -420,7 +420,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         LocalModeEnabled = true;
                         ConnectionPanelIsEnabled = !LocalMode;
                         BottomNewsLabel = LangResources.Resources.UI_ReadyComplete;
-                        AroundBorderColor = CommonLib.ConstantValues.ActivatedBorderColor;
+                        AroundBorderColor = CommonStyleLib.ConstantValues.ActivatedBorderColor;
 
                         IsTelnetLoading = false;
                         isServerForceStop = false;
@@ -437,7 +437,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         LocalModeEnabled = false;
                         ConnectionPanelIsEnabled = false;
                         BottomNewsLabel = LangResources.Resources.UI_FinishedLaunching;
-                        base.SetBorderColor(CommonLib.ConstantValues.ActivatedBorderColor);
+                        base.SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor);
 
                         telnet.Write(TelnetClient.CR);
                         AppendConsoleLog(SocTelnetSend(password));
@@ -632,8 +632,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 Task tasks = Task.Factory.StartNew(() =>
                 {
-                    FeedColorChange(CommonLib.ConstantValues.ActivatedBorderColor2);
-                    FeedColorChange(CommonLib.ConstantValues.ActivatedBorderColor);
+                    FeedColorChange(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
+                    FeedColorChange(CommonStyleLib.ConstantValues.ActivatedBorderColor);
                 });
 
                 return;
@@ -863,7 +863,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             var playerInfo = UsersList[index];
             string msg = playerInfo.ToString();
-            CommonLib.ExMessageBox.ExMessageBoxBase.Show(msg, "Player Info", ExMessageBoxBase.MessageType.Asterisk);
+            ExMessageBoxBase.Show(msg, "Player Info", ExMessageBoxBase.MessageType.Asterisk);
         }
 
         // Time

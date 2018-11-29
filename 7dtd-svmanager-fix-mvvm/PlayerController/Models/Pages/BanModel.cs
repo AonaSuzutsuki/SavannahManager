@@ -1,6 +1,6 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Models;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
-using CommonLib.ExMessageBox;
+using CommonStyleLib.ExMessageBox;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;

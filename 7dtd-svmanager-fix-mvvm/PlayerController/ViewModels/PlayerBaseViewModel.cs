@@ -1,5 +1,5 @@
 ﻿using _7dtd_svmanager_fix_mvvm.PlayerController.Models;
-using CommonLib.ViewModels;
+using CommonStyleLib.ViewModels;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;

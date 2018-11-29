@@ -1,6 +1,6 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Update.Models;
-using CommonLib.Models;
-using CommonLib.ViewModels;
+using CommonStyleLib.Models;
+using CommonStyleLib.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

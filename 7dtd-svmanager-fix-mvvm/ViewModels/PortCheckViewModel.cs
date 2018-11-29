@@ -1,6 +1,6 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Models;
-using CommonLib.Models;
-using CommonLib.ViewModels;
+using CommonStyleLib.Models;
+using CommonStyleLib.ViewModels;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
