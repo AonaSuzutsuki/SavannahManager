@@ -193,7 +193,7 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_UpdateLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                                    <CheckBox IsEnabled="False" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_AutoCheckUpdLabel, Mode=OneWay}" Grid.Row="1" IsChecked="{Binding IsAutoUpdateChecked.Value}" />
+                                    <CheckBox IsEnabled="True" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_AutoCheckUpdLabel, Mode=OneWay}" Grid.Row="1" IsChecked="{Binding IsAutoUpdateChecked.Value}" />
                                 </Grid>
 
                             </StackPanel>
