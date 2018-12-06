@@ -149,8 +149,6 @@
   
   <property name="BlockDurabilityModifier" value="100" selection="" type="integer">
     ブロックの硬さ。
-    100%だと非常に硬いです。
-    20,25%あたりが通常に向いてます。
   </property>
 
   <property name="LootAbundance" value="100" selection="" type="integer">
