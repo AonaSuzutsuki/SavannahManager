@@ -55,3 +55,7 @@ ZNY: ZfbDqN81h3wHTMaSupDAKQTguL8fcQyHUY
 Thank you for using.  
 I'd appreciate your donating to the activities.  
 I will use it to motivation maintenance and activity expenses.  
+
+# Special Thanks
+ReactiveProperty:   Copyright (c) 2018 neuecc, xin9le, okazuki  
+Prism.Core:         Copyright (c) .NET Foundation
