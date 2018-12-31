@@ -1,4 +1,4 @@
-﻿using CommonLib.File;
+﻿using CommonStyleLib.File;
 using Microsoft.Win32;
 using Prism.Mvvm;
 using SvManagerLibrary.SteamLibrary;

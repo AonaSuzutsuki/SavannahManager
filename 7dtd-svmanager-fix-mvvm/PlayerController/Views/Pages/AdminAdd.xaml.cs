@@ -1,7 +1,7 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Models;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages;
 using _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels.Pages;
-using CommonLib.ExMessageBox;
+using CommonStyleLib.ExMessageBox;
 using SvManagerLibrary.Telnet;
 using System;
 using System.Windows;

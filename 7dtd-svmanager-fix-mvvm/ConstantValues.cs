@@ -1,4 +1,4 @@
-﻿using CommonLib;
+﻿using CommonCoreLib;
 
 namespace _7dtd_svmanager_fix_mvvm
 {
@@ -20,12 +20,14 @@ namespace _7dtd_svmanager_fix_mvvm
 
         public const string DefaultDirectoryPath = @"C:\";
 
+        public const string ExternalIpUrl = "https://aonsztk.xyz/api/?mode=externalip";
+
         public static readonly string AppDirectoryPath = AppInfo.GetAppPath();
         public static readonly string LogDirectoryPath = AppDirectoryPath + @"\logs\";
         public static readonly string SettingFilePath = AppDirectoryPath + @"\settings.ini";
         public static readonly string ConfigEditorFilePath = AppDirectoryPath + @"\ConfigEditor.exe";
         public static readonly string UpdatorFilePath = AppDirectoryPath + @"\Updater\update.exe";
 
-        public static string Version => CommonLib.File.Version.GetVersion() + "b";
+        public static string Version => CommonCoreLib.File.Version.GetVersion() + "b";
     }
 }

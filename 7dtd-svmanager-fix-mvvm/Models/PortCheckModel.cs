@@ -1,4 +1,4 @@
-﻿using CommonLib.Models;
+﻿using CommonStyleLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +39,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             set => SetProperty(ref statusLabel, value);
         }
         #endregion
+
+        public void AutoSetIpAddress()
+        {
+            var ip = IpAddressManager.GetExternalIpAddress(ConstantValues.ExternalIpUrl);
+            ExternalIpAddress = ip;
+        }
 
         public void CheckPort()
         {

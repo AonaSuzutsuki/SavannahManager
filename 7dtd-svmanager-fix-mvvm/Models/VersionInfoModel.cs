@@ -1,6 +1,6 @@
 ﻿using _7dtd_svmanager_fix_mvvm.LangResources;
-using CommonLib.ExMessageBox;
-using CommonLib.Models;
+using CommonStyleLib.ExMessageBox;
+using CommonStyleLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
