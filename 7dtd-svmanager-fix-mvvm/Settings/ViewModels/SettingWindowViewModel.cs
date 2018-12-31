@@ -1,5 +1,5 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Settings.Models;
-using CommonLib.ViewModels;
+using CommonStyleLib.ViewModels;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -51,8 +51,6 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         #endregion
 
         #region Event Properties
-        public ICommand Closing { get; set; }
-
         public ICommand GetSvFilePathBtClick { get; set; }
         public ICommand GetConfFilePathBtClick { get; set; }
         public ICommand GetAdminFilePathBtClick { get; set; }

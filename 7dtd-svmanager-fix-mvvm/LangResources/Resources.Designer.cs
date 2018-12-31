@@ -19,7 +19,7 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -156,6 +156,15 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         public static string Culture_Lang {
             get {
                 return ResourceManager.GetString("Culture_Lang", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   時間を変更します。よろしいですか？ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DoYouChangeTime {
+            get {
+                return ResourceManager.GetString("DoYouChangeTime", resourceCulture);
             }
         }
         
@@ -597,6 +606,15 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         public static string UI_ZombieKillsLabel {
             get {
                 return ResourceManager.GetString("UI_ZombieKillsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   警告 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
     }

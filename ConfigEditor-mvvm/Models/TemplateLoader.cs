@@ -1,6 +1,6 @@
 ﻿using SvManagerLibrary.XMLWrapper;
 using System.Collections.Generic;
-using CommonLib.Extentions;
+using CommonExtensionLib.Extensions;
 
 namespace ConfigEditor_mvvm.Models
 {

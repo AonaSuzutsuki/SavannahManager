@@ -1,4 +1,4 @@
-﻿using CommonLib.Ini;
+﻿using CommonCoreLib.Ini;
 
 namespace ConfigEditor_mvvm.Models
 {

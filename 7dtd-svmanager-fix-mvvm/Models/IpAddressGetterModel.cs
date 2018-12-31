@@ -1,5 +1,5 @@
-﻿using CommonLib.Models;
-using CommonLib.Extentions;
+﻿using CommonStyleLib.Models;
+using CommonExtensionLib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +38,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void SetIpAddress()
         {
-            ExternalIpAddress = IpAddressManager.GetExternalIpAddress("https://aonsztk.xyz/api/?mode=externalip");
+            ExternalIpAddress = IpAddressManager.GetExternalIpAddress(ConstantValues.ExternalIpUrl);
             LocalIpAddress = IpAddressManager.GetLocalIPAddress();
         }
 

@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:CommonViews="clr-namespace:CommonLib.Views;assembly=CommonLib"
+        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:app="clr-namespace:LanguageEx"
         mc:Ignorable="d"
-        Icon="/CommonLib;component/Resources/1.ico"
+        Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True" ResizeMode="CanResize"
         Title="Config Editor" Height="500" Width="700">
@@ -39,8 +39,8 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/CommonLib;component/Styles/Icon.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/CommonLib;component/Styles/Main.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

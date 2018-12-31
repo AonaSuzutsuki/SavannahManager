@@ -4,7 +4,7 @@
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:NumText="clr-namespace:NumTextBox"
-        xmlns:CommonViews="clr-namespace:CommonLib.Views;assembly=CommonLib"
+        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Settings" Height="300" Width="400" ResizeMode="CanMinimize">
@@ -30,8 +30,8 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/CommonLib;component/Styles/Icon.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/CommonLib;component/Styles/Main.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -193,7 +193,7 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_UpdateLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                                    <CheckBox IsEnabled="False" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_AutoCheckUpdLabel, Mode=OneWay}" Grid.Row="1" IsChecked="{Binding IsAutoUpdateChecked.Value}" />
+                                    <CheckBox IsEnabled="True" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_AutoCheckUpdLabel, Mode=OneWay}" Grid.Row="1" IsChecked="{Binding IsAutoUpdateChecked.Value}" />
                                 </Grid>
 
                             </StackPanel>

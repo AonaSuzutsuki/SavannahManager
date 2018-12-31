@@ -1,10 +1,10 @@
-﻿using CommonLib.ViewModels;
+﻿using CommonStyleLib.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommonLib.Models;
+using CommonStyleLib.Models;
 using System.Windows;
 using _7dtd_svmanager_fix_mvvm.Models;
 using System.Windows.Input;

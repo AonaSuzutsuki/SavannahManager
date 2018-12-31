@@ -349,4 +349,12 @@
     <value>Coord</value>
     <comment>UI</comment>
   </data>
+  <data name="DoYouChangeTime" xml:space="preserve">
+    <value>Are you sure you want to change time?</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+    <comment>メッセージ</comment>
+  </data>
 </root>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:CommonViews="clr-namespace:CommonLib.Views;assembly=CommonLib"
+        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Update Form" Height="400" Width="600" ResizeMode="CanResize">
@@ -28,8 +28,9 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/CommonLib;component/Styles/Icon.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/CommonLib;component/Styles/Main.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/ListBoxStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -68,7 +69,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <ListBox Name="VersionList" ItemsSource="{Binding VersionListView.Value}" SelectedIndex="{Binding VersionListSelectedIndex.Value}">
+                <ListBox Name="VersionList" ItemsSource="{Binding VersionListView.Value}" SelectedIndex="{Binding VersionListSelectedIndex.Value}" Style="{DynamicResource NonGridListBox}" ItemContainerStyle="{DynamicResource CustomListBoxItem}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding VersionList_SelectionChanged}" CommandParameter="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" />

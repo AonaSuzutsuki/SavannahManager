@@ -1,4 +1,4 @@
-﻿using CommonLib.Ini;
+﻿using CommonCoreLib.Ini;
 using LanguageEx;
 
 namespace _7dtd_svmanager_fix_mvvm.Models

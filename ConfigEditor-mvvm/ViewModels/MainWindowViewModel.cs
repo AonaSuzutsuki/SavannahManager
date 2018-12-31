@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using CommonLib.Models;
-using CommonLib.ViewModels;
+using CommonStyleLib.Models;
+using CommonStyleLib.ViewModels;
 using System.Windows.Input;
 using Reactive.Bindings;
 using System.Collections.ObjectModel;
@@ -90,8 +90,6 @@ namespace ConfigEditor_mvvm.ViewModels
         #endregion
 
         #region Event Properties
-        public ICommand KeyDown { get; set; }
-
         public ICommand NewFileBtClicked { get; }
         public ICommand OpenBtClicked { get; }
         public ICommand SaveAsBtClicked { get; }
@@ -105,7 +103,7 @@ namespace ConfigEditor_mvvm.ViewModels
         #endregion
 
         #region Event Methods
-        public void MainWindow_KeyDown(KeyEventArgs e)
+        protected override void MainWindow_KeyDown(KeyEventArgs e)
         {
             model.ShortcutKey(e, Keyboard.Modifiers);
         }

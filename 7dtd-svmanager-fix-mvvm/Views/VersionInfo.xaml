@@ -7,7 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:NumText="clr-namespace:NumTextBox"
-        xmlns:CommonViews="clr-namespace:CommonLib.Views;assembly=CommonLib"
+        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Settings" Height="400" Width="550" ResizeMode="CanMinimize">
@@ -33,9 +33,9 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/CommonLib;component/Styles/Icon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="/Styles/LinkLabel.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/CommonLib;component/Styles/Main.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

@@ -1,6 +1,6 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Models;
 using _7dtd_svmanager_fix_mvvm.Setup.Views;
-using CommonLib.Models;
+using CommonStyleLib.Models;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;

@@ -1,4 +1,4 @@
-﻿using CommonLib;
+﻿using CommonCoreLib;
 using ConfigEditor_mvvm.Views;
 using System;
 using System.Collections.Generic;

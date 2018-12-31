@@ -1,5 +1,5 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Views;
-using CommonLib.ViewModels;
+using CommonStyleLib.ViewModels;
 using LanguageEx;
 using Prism.Commands;
 using Reactive.Bindings;
@@ -122,10 +122,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region EventProperties
-        // public ICommand Loaded { get; set; }
-        public ICommand Closing { get; set; }
-        public ICommand KeyDown { get; set; }
-
         public ICommand MenuSettingsBTClick { get; set; }
         public ICommand MenuFirstSettingsBTClick { get; set; }
         public ICommand MenuLangJapaneseBTClick { get; set; }
@@ -249,11 +245,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             model.Initialize();
             model.RefreshLabels();
         }
-        private void MainWindow_Closing()
+        protected override void MainWindow_Closing()
         {
             model.SettingsSave();
         }
-        private void MainWindow_KeyDown(KeyEventArgs e)
+        protected override void MainWindow_KeyDown(KeyEventArgs e)
         {
             model.PushShortcutKey(e.Key);
         }

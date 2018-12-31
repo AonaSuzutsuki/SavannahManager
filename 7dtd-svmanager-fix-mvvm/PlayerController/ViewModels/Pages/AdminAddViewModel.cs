@@ -1,5 +1,5 @@
 ﻿using _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages;
-using CommonLib.ViewModels;
+using CommonStyleLib.ViewModels;
 using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
