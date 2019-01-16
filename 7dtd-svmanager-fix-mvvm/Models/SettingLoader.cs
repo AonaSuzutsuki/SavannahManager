@@ -166,7 +166,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
         }
 
-        private bool isAutoUpdate = true;
+        private bool isAutoUpdate = false;
         public bool IsAutoUpdate
         {
             get => isAutoUpdate;
@@ -220,7 +220,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             isFirstBoot = iniLoader.GetValue("MAIN", "FIRSTBOOT", true);
 
-            isAutoUpdate = iniLoader.GetValue("SERVER", "AUTOCHECK", false);
+            isAutoUpdate = iniLoader.GetValue("MAIN", "AUTOCHECK", true);
         }
     }
 }
