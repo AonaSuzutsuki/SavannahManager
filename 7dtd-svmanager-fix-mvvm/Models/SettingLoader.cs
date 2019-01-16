@@ -220,7 +220,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             isFirstBoot = iniLoader.GetValue("MAIN", "FIRSTBOOT", true);
 
-            isAutoUpdate = iniLoader.GetValue("SERVER", "AUTOCHECK", true);
+            isAutoUpdate = iniLoader.GetValue("SERVER", "AUTOCHECK", false);
         }
     }
 }
