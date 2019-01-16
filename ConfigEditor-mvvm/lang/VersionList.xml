@@ -9,5 +9,7 @@
     <config version="a14.7">lang\a14.7</config>
     <config version="a15">lang\a15</config>
     <config version="a16">lang\a16</config>
+    <config version="a17b">lang\a17b</config>
+    <config version="a17">lang\a17</config>
   </configs>
 </root>

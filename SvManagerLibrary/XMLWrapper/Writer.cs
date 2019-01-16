@@ -79,14 +79,14 @@ namespace SvManagerLibrary.XMLWrapper
         /// <summary>
         /// Write to a file as XML Dcoument.
         /// </summary>
-        public void Write(FileStream fileStream)
+        public void Write(Stream stream)
         {
             //宣言の追加
             xDocument.AppendChild(xDeclaration);
             //ServerSettingsの追加
             xDocument.AppendChild(xRoot);
             
-            xDocument.Save(fileStream);
+            xDocument.Save(stream);
         }
     }
 }
