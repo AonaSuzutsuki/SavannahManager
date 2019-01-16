@@ -58,7 +58,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
             get => isBetaMode;
             set => base.SetProperty(ref isBetaMode, value);
         }
-        private bool isAutoUpdate = false;
+        private bool isAutoUpdate = true;
         public bool IsAutoUpdate
         {
             get => isAutoUpdate;
