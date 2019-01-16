@@ -47,10 +47,22 @@
     2 = 常に走る
     ただしフェラルゾンビは常に走ります。
   </property>
-  <property name="ZombieMove" value="0" selection="0/1/2/3/4" type="combo">0-4 (walk, jog, run, sprint, nightmare)</property>
-  <property name="ZombieMoveNight" value="3" selection="0/1/2/3/4" type="combo">0-4 (walk, jog, run, sprint, nightmare)</property>
-  <property name="ZombieFeralMove" value="3" selection="0/1/2/3/4" type="combo">0-4 (walk, jog, run, sprint, nightmare)</property>
-  <property name="ZombieBMMove" value="3" selection="0/1/2/3/4" type="combo">0-4 (walk, jog, run, sprint, nightmare)</property>
+  <property name="ZombieMove" value="0" selection="0/1/2/3/4" type="combo">
+    おそらく昼のゾンビの速度の設定？
+    0-4 (walk, jog, run, sprint, nightmare)
+  </property>
+  <property name="ZombieMoveNight" value="3" selection="0/1/2/3/4" type="combo">
+    おそらく夜のゾンビの速度の設定？
+    0-4 (walk, jog, run, sprint, nightmare)
+  </property>
+  <property name="ZombieFeralMove" value="3" selection="0/1/2/3/4" type="combo">
+    おそらくフェラルゾンビの速度の設定？
+    0-4 (walk, jog, run, sprint, nightmare)
+  </property>
+  <property name="ZombieBMMove" value="3" selection="0/1/2/3/4" type="combo">
+    不明。
+    0-4 (walk, jog, run, sprint, nightmare)
+  </property>
   <property name="BuildCreate" value="false" selection="true/false" type="combo">チートモードを有効にするかどうかを設定します。</property>
   <property name="DayNightLength" value="60" selection="" type="integer">１日の時間をリアルタイムで何分とするかを設定します。</property>
   <property name="DayLightLength" value="18" selection="" type="integer">ゲーム無い時間で昼の時間を設定します。こちらはリアルタイムではないので要注意。</property>
@@ -165,7 +177,9 @@
     ゾンビの最大湧き数。
     増やしすぎるとメモリ消費やCPU消費が増加するため注意。
   </property>
-    <property name="MaxSpawnedAnimals" value="50">???</property>
+  <property name="MaxSpawnedAnimals" value="50">
+    動物の最大湧き数。
+  </property>
   <property name="EACEnabled" value="true" selection="true/false" type="combo">
     EasyAntiCheatを有効にするかしないか。
     EACは主に海賊版対策で用いら、VACのようにチートを防御するものではないらしいため注意。
