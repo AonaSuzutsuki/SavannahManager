@@ -21,10 +21,6 @@
   <property name="GameMode" value="GameModeSurvival" selection="GameModeSurvival" type="combo">GameModeSurvival</property>
   
   <property name="ZombiesRun" value="0" selection="0/1/2" type="combo">0 = default day/night walk/run, 1 = never run, 2 = always run; this setting ONLY affects regular zombies, some zombies like ferals always run</property>
-  <property name="ZombieMove" value="0" selection="0/1/2/3/4" type="combo">0-4 (walk, jog, run, sprint, nightmare)</property>
-  <property name="ZombieMoveNight" value="3" selection="0/1/2/3/4" type="combo">0-4 (walk, jog, run, sprint, nightmare)</property>
-  <property name="ZombieFeralMove" value="3" selection="0/1/2/3/4" type="combo">0-4 (walk, jog, run, sprint, nightmare)</property>
-  <property name="ZombieBMMove" value="3" selection="0/1/2/3/4" type="combo">0-4 (walk, jog, run, sprint, nightmare)</property>
   <property name="BuildCreate" value="false" selection="true/false" type="combo">cheat mode on/off</property>
   <property name="DayNightLength" value="60" selection="" type="integer">real time minutes per in game day: 60 minutes</property>
   <property name="DayLightLength" value="18" selection="" type="integer">in game hours the sun shines per day: 18 hours day light per in game day</property>
@@ -74,7 +70,6 @@
   <property name="AirDropMarker" value="false" selection="true/false" type="combo">Sets if a marker is added to map/compass for air drops.</property>
   
   <property name="MaxSpawnedZombies" value="60" selection="" type="integer">Making this number too large (more than about 80) may cause servers to run at poor framerates which will effect lag and play quality for clients.</property>
-  <property name="MaxSpawnedAnimals" value="50"></property>
   <property name="EACEnabled" value="true" selection="true/false" type="combo">Enables/Disables EasyAntiCheat</property>
   <property name="HideCommandExecutionLog" value="0" selection="" type="integer">Hide logging of command execution. 0 = show everything, 1 = hide only from Telnet/ControlPanel, 2 = also hide from remote game clients, 3 = hide everything</property>
   <property name="MaxUncoveredMapChunksPerPlayer" value="131072" selection="" type="integer">Override how many chunks can be uncovered on the ingame map by each player. Resulting max map file size limit per player is (x * 512 Bytes), uncovered area is (x * 256 m2). Default 131072 means max 32 km2 can be uncovered at any time</property>
