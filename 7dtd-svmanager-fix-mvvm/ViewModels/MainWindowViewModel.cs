@@ -250,6 +250,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         protected override void MainWindow_Closing()
         {
             model.SettingsSave();
+            model.Dispose();
         }
         protected override void MainWindow_KeyDown(KeyEventArgs e)
         {
