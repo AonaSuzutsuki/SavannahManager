@@ -780,10 +780,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             ChatInfo cData = chatArray.GetLast();
             ChatLogText += string.Format("{0}: {1}\r\n", cData.Name, cData.Message);
         }
-        public void SendChat(string text)
+        public void SendChat(string text, Action act)
         {
             if (CheckConnected())
                 Chat.SendChat(telnet, text);
+            act();
         }
 
         //

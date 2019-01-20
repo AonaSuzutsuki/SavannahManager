@@ -7,8 +7,9 @@ namespace SvManagerLibrary.Chat
     {
         public static ChatInfo ConvertChat(string text)
         {
+            //2019-01-19T16:14:21 140.048 INF Chat (from '-non-player-', entity id '-1', to 'Global'): 'Server': test
             var chatData = new ChatInfo();
-            const string expression = "^(?<date>.*?) (.*?) INF Chat: '(?<name>.*?)': (?<chat>.*?)$";
+            const string expression = "^([0-9a-zA-Z:-]+) ([0-9.]+?) INF Chat \\(.*\\): '(?<name>.*)': (?<chat>.*)$"; // "^(?<date>.*?) (.*?) INF Chat: '(?<name>.*?)': (?<chat>.*?)$";
             var reg = new Regex(expression);
             var sr = new StringReader(text);
 
