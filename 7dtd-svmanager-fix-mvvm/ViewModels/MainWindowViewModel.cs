@@ -36,9 +36,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
     public class MainWindowViewModel : ViewModelBase
     {
-        public MainWindowViewModel(Window view, Models.MainWindowModel model) : base(view, model)
+        public MainWindowViewModel(MainWindow view, Models.MainWindowModel model) : base(view, model)
         {
             model.AppendConsoleText += Model_AppendConsoleText;
+            this.view = view;
             this.model = model;
 
             #region Event Initialize
@@ -113,8 +114,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             DoLoaded();
         }
-        
+
         #region Fields
+        MainWindow view;
         Models.MainWindowModel model;
         StringBuilder consoleLog = new StringBuilder();
 
@@ -248,6 +250,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         protected override void MainWindow_Closing()
         {
             model.SettingsSave();
+            model.Dispose();
         }
         protected override void MainWindow_KeyDown(KeyEventArgs e)
         {
@@ -362,8 +365,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         
         private void ChatTextBoxEnter_Down(string e)
         {
-            model.SendChat(e);
-            ChatInputText.Value = "";
+            model.SendChat(e, () => view.ChatTextBox.Text = "");
         }
 
         private void ConsoleTextBoxMouse_Enter()

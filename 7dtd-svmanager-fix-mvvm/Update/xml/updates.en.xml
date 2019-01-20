@@ -1,5 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.1.23.6b">
+    1. fixed that remove chat text after input chat.
+    2. fixed that dispose all when application exited.
+    3. fixed an issue that not be able to get chat message on a17.
+  </update>
+  <update version="2.1.22.5b">
+    1. Update template configs for a17.
+  </update>
+  <update version="2.1.21.4b">
+    1. Update some libs.
+    2. Changed version of .Net Framework to 4.7.1.
+    3. Provisional support to a17.
+     3.1 Changed to the method of copying config to executable file location.
+  </update>
   <update version="2.1.20.3b">
     1. Fixed an issue not to show English on updator detail.
     2. Fixed a bug that the process was not killed due to forced termination due to error.
