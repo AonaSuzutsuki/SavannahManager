@@ -6,7 +6,7 @@
   <property name="ServerPassword" value="" selection="" type="string">Password to gain entry to the server</property>
   <property name="ServerMaxPlayerCount" value="8" selection="" type="integer">Maximum Concurrent Players</property>
   <property name="ServerReservedSlots" value="0" selection="" type="integer">Out of the MaxPlayerCount this many slots can only be used by players with a specific permission level</property>
-  <property name="ServerReservedSlotsPermission" value="100" selection="" type="">Required permission level to use reserved slots above</property>
+  <property name="ServerReservedSlotsPermission" value="100" selection="" type="integer">Required permission level to use reserved slots above</property>
   <property name="ServerAdminSlots" value="0" selection="" type="integer">This many admins can still join even if the server has reached MaxPlayerCount</property>
   <property name="ServerAdminSlotsPermission" value="0" selection="" type="integer">Required permission level to use the admin slots above</property>
   <property name="ServerDescription" value="A 7 Days to Die server" selection="" type="string">Whatever you want the server description to be, will be shown in the server browser.</property>
@@ -74,7 +74,7 @@
   <property name="AirDropMarker" value="false" selection="true/false" type="combo">Sets if a marker is added to map/compass for air drops.</property>
   
   <property name="MaxSpawnedZombies" value="60" selection="" type="integer">Making this number too large (more than about 80) may cause servers to run at poor framerates which will effect lag and play quality for clients.</property>
-  <property name="MaxSpawnedAnimals" value="50"></property>
+  <property name="MaxSpawnedAnimals" value="50" selection="" type="integer">If your server has a large number of players you can increase this limit to add more wildlife. Animals don't consume as much CPU as zombies. NOTE: That this doesn't cause more animals to spawn arbitrarily: The biome spawning system only spawns a certain number of animals in a given area, but if you have lots of players that are all spread out then you may be hitting the limit and can increase it.</property>
   <property name="EACEnabled" value="true" selection="true/false" type="combo">Enables/Disables EasyAntiCheat</property>
   <property name="HideCommandExecutionLog" value="0" selection="" type="integer">Hide logging of command execution. 0 = show everything, 1 = hide only from Telnet/ControlPanel, 2 = also hide from remote game clients, 3 = hide everything</property>
   <property name="MaxUncoveredMapChunksPerPlayer" value="131072" selection="" type="integer">Override how many chunks can be uncovered on the ingame map by each player. Resulting max map file size limit per player is (x * 512 Bytes), uncovered area is (x * 256 m2). Default 131072 means max 32 km2 can be uncovered at any time</property>
