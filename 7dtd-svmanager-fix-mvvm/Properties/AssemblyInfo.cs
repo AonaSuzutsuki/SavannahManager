@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Kimama Lab")]
 [assembly: AssemblyProduct("Savannah Manager")]
-[assembly: AssemblyCopyright("Copyright (C) Aona Suzutsuki 2014 - 2018")]
+[assembly: AssemblyCopyright("Copyright (C) Aona Suzutsuki 2014 - 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,7 +51,7 @@ using System.Windows;
 // すべての値を指定するか、次を使用してビルド番号とリビジョン番号を既定に設定できます
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.1.23.6")]
-[assembly: AssemblyFileVersion("2.1.23.6")]
+[assembly: AssemblyVersion("2.1.24.7")]
+[assembly: AssemblyFileVersion("2.1.24.7")]
 [assembly: Guid("0390F43C-5BCB-4973-B0F7-E98EBECC0102")]
 

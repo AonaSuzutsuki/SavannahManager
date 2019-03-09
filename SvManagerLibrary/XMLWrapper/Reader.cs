@@ -60,7 +60,7 @@ namespace SvManagerLibrary.XMLWrapper
             return attributes.Count < 1 ? string.Empty : attributes[0];
         }
 
-        public List<string> GetValues(string xpath, bool enableLineBreak = true)
+        public List<string> GetValues(string xpath, bool enableLineBreak = true, bool isRemoveSpace = true)
         {
             var values = new List<string>();
 
@@ -68,15 +68,16 @@ namespace SvManagerLibrary.XMLWrapper
             foreach (var xmlNode in nodeList)
             {
                 string value = (xmlNode as XmlElement).InnerText;
-                value = RemoveSpace(value, enableLineBreak);
+                if (isRemoveSpace)
+                    value = RemoveSpace(value, enableLineBreak);
                 values.Add(value);
             }
 
             return values;
         }
-        public string GetValue(string xpath, bool enableLineBreak = true)
+        public string GetValue(string xpath, bool enableLineBreak = true, bool isRemoveSpace = true)
         {
-            var values = GetValues(xpath, enableLineBreak);
+            var values = GetValues(xpath, enableLineBreak, isRemoveSpace);
             return values.Count < 1 ? default : values[0];
         }
 
