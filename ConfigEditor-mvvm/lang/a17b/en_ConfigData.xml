@@ -6,7 +6,7 @@
   <property name="ServerPassword" value="" selection="" type="string">Password to gain entry to the server</property>
   <property name="ServerMaxPlayerCount" value="8" selection="" type="integer">Maximum Concurrent Players</property>
   <property name="ServerReservedSlots" value="0" selection="" type="integer">Out of the MaxPlayerCount this many slots can only be used by players with a specific permission level</property>
-  <property name="ServerReservedSlotsPermission" value="100" selection="" type="">Required permission level to use reserved slots above</property>
+  <property name="ServerReservedSlotsPermission" value="100" selection="" type="integer">Required permission level to use reserved slots above</property>
   <property name="ServerAdminSlots" value="0" selection="" type="integer">This many admins can still join even if the server has reached MaxPlayerCount</property>
   <property name="ServerAdminSlotsPermission" value="0" selection="" type="integer">Required permission level to use the admin slots above</property>
   <property name="ServerDescription" value="A 7 Days to Die server" selection="" type="string">Whatever you want the server description to be, will be shown in the server browser.</property>

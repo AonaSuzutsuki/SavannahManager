@@ -13,7 +13,7 @@
   </property>
   <property name="ServerMaxPlayerCount" value="8" selection="" type="integer">参加できる最大人数を設定します。</property>
   <property name="ServerReservedSlots" value="0" selection="" type="integer">Out of the MaxPlayerCount this many slots can only be used by players with a specific permission level</property>
-  <property name="ServerReservedSlotsPermission" value="100" selection="" type="">Required permission level to use reserved slots above</property>
+  <property name="ServerReservedSlotsPermission" value="100" selection="" type="integer">Required permission level to use reserved slots above</property>
   <property name="ServerAdminSlots" value="0" selection="" type="integer">This many admins can still join even if the server has reached MaxPlayerCount</property>
   <property name="ServerAdminSlotsPermission" value="0" selection="" type="integer">Required permission level to use the admin slots above</property>
   <property name="ServerDescription" value="A 7 Days to Die server" selection="" type="string">サーバーの説明を設定します。</property>
@@ -177,7 +177,7 @@
     ゾンビの最大湧き数。
     増やしすぎるとメモリ消費やCPU消費が増加するため注意。
   </property>
-  <property name="MaxSpawnedAnimals" value="50">
+  <property name="MaxSpawnedAnimals" value="50" selection="" type="integer">
     動物の最大湧き数。
   </property>
   <property name="EACEnabled" value="true" selection="true/false" type="combo">

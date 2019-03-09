@@ -7,7 +7,8 @@
     2 = 公開, 1 = フレンドリストのみ, 0 = 表示させない.
   </property>
   <property name="ServerName" value="My Game Host" selection="" type="string">
-    サーバー名を設定します。サーバーリストにはこの名前で表示されます。</property>
+    サーバー名を設定します。サーバーリストにはこの名前で表示されます。
+  </property>
   <property name="ServerPassword" value="" selection="" type="string">
     サーバーパスワードを設定します。サーバーに入る際に問われます。
   </property>
@@ -46,6 +47,22 @@
     1 = 常に走らない
     2 = 常に走る
     ただしフェラルゾンビは常に走ります。
+  </property>
+  <property name="ZombieMove" value="0" selection="0/1/2/3/4" type="combo">
+    おそらく昼のゾンビの速度の設定？
+    0-4 (walk, jog, run, sprint, nightmare)
+  </property>
+  <property name="ZombieMoveNight" value="3" selection="0/1/2/3/4" type="combo">
+    おそらく夜のゾンビの速度の設定？
+    0-4 (walk, jog, run, sprint, nightmare)
+  </property>
+  <property name="ZombieFeralMove" value="3" selection="0/1/2/3/4" type="combo">
+    おそらくフェラルゾンビの速度の設定？
+    0-4 (walk, jog, run, sprint, nightmare)
+  </property>
+  <property name="ZombieBMMove" value="3" selection="0/1/2/3/4" type="combo">
+    不明。
+    0-4 (walk, jog, run, sprint, nightmare)
   </property>
   <property name="BuildCreate" value="false" selection="true/false" type="combo">チートモードを有効にするかどうかを設定します。</property>
   <property name="DayNightLength" value="60" selection="" type="integer">１日の時間をリアルタイムで何分とするかを設定します。</property>
@@ -125,7 +142,7 @@
   <property name="EnemySpawnMode" value="true" selection="true/false" type="combo">敵を出現させるかどうか。</property>
   <property name="EnemyDifficulty" value="0" selection="0/1" type="combo">
     通常の敵をノーマルモードにするかフェラルにするかどうかの設定？未検証なので不明。
-    
+
     0 = Normal
     1 = Feral
   </property>
@@ -161,6 +178,9 @@
     ゾンビの最大湧き数。
     増やしすぎるとメモリ消費やCPU消費が増加するため注意。
   </property>
+  <property name="MaxSpawnedAnimals" value="50" selection="" type="integer">
+    動物の最大湧き数。
+  </property>
   <property name="EACEnabled" value="true" selection="true/false" type="combo">
     EasyAntiCheatを有効にするかしないか。
     EACは主に海賊版対策で用いら、VACのようにチートを防御するものではないらしいため注意。
@@ -169,10 +189,12 @@
   <property name="MaxUncoveredMapChunksPerPlayer" value="131072" selection="" type="integer">
     各プレイヤーがどれだけの範囲でチャンクを描写するかどうかを設定します。 プレイヤーあたりの最大マップファイルサイズは512バイトにこの値を掛けたものです。
     標準値は131072で、ゲーム内で32km²を表します。　最小単位は4096/km²でしょうか。
-    原文 => Override how many chunks can be uncovered on the ingame map by each player. Resulting max map file size limit per player is (x * 512 Bytes), uncovered area is (x * 256 m2). Default 131072 means max 32 km2 can be uncovered at any time</property>
+    原文 => Override how many chunks can be uncovered on the ingame map by each player. Resulting max map file size limit per player is (x * 512 Bytes), uncovered area is (x * 256 m2). Default 131072 means max 32 km2 can be uncovered at any time
+  </property>
   <property name="BedrollDeadZoneSize" value="15" selection="" type="integer">
     ベッドロールの安全圏を設定します。このエリア内はゾンビは湧きません。既に無効化されたベッドロールは効果は無いようです。
-    原文 => Size of bedroll deadzone, no zombies will spawn inside this area, and any cleared sleeper volumes that touch a bedroll deadzone will not spawn after they've been cleared.</property>
+    原文 => Size of bedroll deadzone, no zombies will spawn inside this area, and any cleared sleeper volumes that touch a bedroll deadzone will not spawn after they've been cleared.
+  </property>
   <property name="ServerLoginConfirmationText" value="" selection="" type="string">
     サーバに入室した際に初めに表示させるメッセージ文です。
   </property>
