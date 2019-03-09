@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.1.25.8b">
+    1. ConfigEditorで発生するエラーを修正しました。
+  </update>
   <update version="2.1.24.7b">
     1. ConfigEditorのa17.2のテンプレートを修正しました。
   </update>
