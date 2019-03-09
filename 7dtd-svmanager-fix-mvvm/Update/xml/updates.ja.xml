@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.1.24.7b">
+    1. ConfigEditorのa17.2のテンプレートを修正しました。
+  </update>
   <update version="2.1.23.6b">
     1. チャット送信後に入力内容を削除するよう修正
     2. アプリケーション終了時にすべてのオブジェクトを解放するよう修正
