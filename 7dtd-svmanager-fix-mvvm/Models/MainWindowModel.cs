@@ -231,14 +231,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         #endregion
 
         #region Fiels
-        private Window view;
+        private readonly Window view;
 
         private LogStream logStream = new LogStream();
         private TelnetClient telnet = new TelnetClient();
         private ChatInfoArray chatArray = new ChatInfoArray();
 
-        public static Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
-        public static List<int> connectedIds = new List<int>();
+        public Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
+        public List<int> connectedIds = new List<int>();
 
         private Thread logThread;
 
@@ -611,7 +611,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 }
 
                 ICheckedValue checkedValues = GetConfigInfo();
-                if (checkedValues == null) { return; }
+                if (checkedValues == null)
+                    return;
 
                 password = checkedValues.Password;
                 port = checkedValues.Port;
@@ -630,7 +631,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 IsFailed = true;
 
-                Task tasks = Task.Factory.StartNew(() =>
+                _ = Task.Factory.StartNew(() =>
                 {
                     FeedColorChange(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
                     FeedColorChange(CommonStyleLib.ConstantValues.ActivatedBorderColor);
