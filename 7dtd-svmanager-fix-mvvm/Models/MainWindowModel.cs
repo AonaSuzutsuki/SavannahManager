@@ -712,7 +712,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         //
         private void AddChatText(string text)
         {
-            chatArray.Add(text);
+            chatArray.AddMultiLine(text);
             ChatInfo cData = chatArray.GetLast();
             ChatLogText += string.Format("{0}: {1}\r\n", cData.Name, cData.Message);
         }

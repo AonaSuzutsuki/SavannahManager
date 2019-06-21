@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SvManagerLibrary.Chat
 {
@@ -20,6 +21,16 @@ namespace SvManagerLibrary.Chat
         public void Add(string log)
         {
             _chatData.Add(ChatInfoConverter.ConvertChat(log));
+        }
+        public void AddMultiLine(string log)
+        {
+            using (var sr = new StringReader(log))
+            {
+                while (sr.Peek() > 0)
+                {
+                    Add(sr.ReadLine());
+                }
+            }
         }
         public ChatInfo GetLast()
         {

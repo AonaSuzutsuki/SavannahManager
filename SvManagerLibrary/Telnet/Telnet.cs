@@ -145,6 +145,7 @@ namespace SvManagerLibrary.Telnet
                     var log = Read()?.TrimEnd('\0');
                     if (!string.IsNullOrEmpty(log))
                         OnReaded(new TelnetReadedEventArgs() { IpAddress = end.Address.ToString(), Log = log });
+                    Thread.Sleep(10);
                 }
                 OnFinished(new TelnetReadedEventArgs() { IpAddress = end.Address.ToString() });
             });
