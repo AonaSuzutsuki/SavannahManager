@@ -36,9 +36,11 @@ namespace SvManagerLibrary.Time
         {
             TelnetException.CheckTelnetClient(telnet);
 
+            telnet.DestructionEvent = true;
             telnet.WriteLine("gt");
             System.Threading.Thread.Sleep(100);
             string log = telnet.Read().TrimEnd('\0');
+            telnet.DestructionEvent = false;
             return ConvertTime(log);
         }
         public static void SendTime(TelnetClient telnet, TimeInfo timeInfo)
