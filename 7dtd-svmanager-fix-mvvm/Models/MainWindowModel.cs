@@ -239,7 +239,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public List<int> connectedIds = new List<int>();
 
         private bool isServerForceStop = false;
-        private bool isStop;
         #endregion
 
         public void InitializeTelnet()
@@ -486,7 +485,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (IsConnected)
             {
                 SocTelnetSend("shutdown");
-                isStop = true;
 
                 TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
                 StartBTEnabled = true;
@@ -691,21 +689,21 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             logStream.StreamDisposer();
         }
 
-        private void TelnetDispose()
-        {
-            telnet.Dispose();
+        //private void TelnetDispose()
+        //{
+        //    telnet.Dispose();
 
-            isStop = false;
-            IsConnected = false;
-            PlayerClean();
+        //    isStop = false;
+        //    IsConnected = false;
+        //    PlayerClean();
 
-            TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
-            LocalModeEnabled = true;
-            ConnectionPanelIsEnabled = !LocalMode;
-            StartBTEnabled = LocalMode;
+        //    TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
+        //    LocalModeEnabled = true;
+        //    ConnectionPanelIsEnabled = !LocalMode;
+        //    StartBTEnabled = LocalMode;
 
-            logStream.StreamDisposer();
-        }
+        //    logStream.StreamDisposer();
+        //}
 
         //
         // チャット
