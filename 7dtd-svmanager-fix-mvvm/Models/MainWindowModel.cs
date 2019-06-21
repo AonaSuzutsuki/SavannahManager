@@ -54,6 +54,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public MainWindowModel(Window view)
         {
             this.view = view;
+
+            InitializeTelnet();
         }
 
         #region AppendedLogTextEvent
@@ -234,18 +236,52 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private readonly Window view;
 
         private LogStream logStream = new LogStream();
-        private TelnetClient telnet = new TelnetClient();
+        private TelnetClient telnet;
         private ChatInfoArray chatArray = new ChatInfoArray();
 
         public Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
         public List<int> connectedIds = new List<int>();
 
-        private Thread logThread;
-
-        private bool isSended = false;
         private bool isServerForceStop = false;
         private bool isStop;
         #endregion
+
+        public void InitializeTelnet()
+        {
+            if (telnet == null)
+            {
+                telnet = new TelnetClient();
+                telnet.Readed += Telnet_Readed;
+            }
+        }
+
+        private void Telnet_Readed(object sender, TelnetClient.TelnetReadedEventArgs e)
+        {
+            string log = "{0}\r\n".FormatString(e.Log);
+
+            if (isStop)
+                SocTelnetSendDirect("");
+
+            logStream.WriteSteam(log);
+
+            AppendConsoleLog(log);
+
+            if (log.IndexOf("Chat") > -1)
+            {
+                AddChatText(log);
+            }
+            if (log.IndexOf("INF Created player with id=") > -1)
+            {
+                view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                {
+                    PlayerRefresh();
+                }));
+            }
+            if (log.IndexOf("INF Player disconnected") > -1)
+            {
+                RemoveUser(log);
+            }
+        }
 
         public override void Activated()
         {
@@ -444,8 +480,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                         logStream.MakeStream(ConstantValues.LogDirectoryPath);
 
-                        LaunchThread();
-
                         break;
                     }
 
@@ -640,8 +674,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 return;
             }
 
-            LaunchThread();
-
             logStream.MakeStream(ConstantValues.LogDirectoryPath);
             TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
             LocalModeEnabled = false;
@@ -650,8 +682,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         private void TelnetDisconnect()
         {
-            StopThread();
-
             try
             {
                 SocTelnetSendNRT("exit");
@@ -673,21 +703,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             logStream.StreamDisposer();
         }
 
-        private void LaunchThread()
-        {
-            logThread = new Thread(LogRead)
-            {
-                Priority = ThreadPriority.Highest
-            };
-            logThread.Start();
-        }
-        private void StopThread()
-        {
-            if (logThread != null)
-                if (logThread.IsAlive)
-                    logThread.Abort();
-        }
-
         private void TelnetDispose()
         {
             telnet.Dispose();
@@ -702,74 +717,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             StartBTEnabled = LocalMode;
 
             logStream.StreamDisposer();
-
-            StopThread();
-        }
-        private void LogRead()
-        {
-            while (true)
-            {
-                if (LogLockCheck())
-                {
-                    Thread.Sleep(10);
-                    continue;
-                }
-
-                try
-                {
-                    if (IsConnected)
-                    {
-                        string log = telnet.Read().Trim('\0');
-
-                        if (isStop)
-                            SocTelnetSendDirect("");
-
-                        logStream.WriteSteam(log);
-                        
-                        AppendConsoleLog(log);
-
-                        if (log.IndexOf("Chat") > -1)
-                        {
-                            AddChatText(log);
-                        }
-                        if (log.IndexOf("INF Created player with id=") > -1)
-                        {
-                            view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-                            {
-                                PlayerRefresh();
-                            }));
-                        }
-                        if (log.IndexOf("INF Player disconnected") > -1)
-                        {
-                            RemoveUser(log);
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                catch (System.Net.Sockets.SocketException)
-                {
-                    break;
-                }
-
-                Thread.Sleep(10);
-            }
-
-            TelnetDispose();
-        }
-        private void LogLock()
-        {
-            isSended = true;
-        }
-        private void LogUnlock()
-        {
-            isSended = false;
-        }
-        private bool LogLockCheck()
-        {
-            return isSended;
         }
 
         //
@@ -796,14 +743,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (!CheckConnected())
                 return;
 
-            LogLock();
             connectedIds.Clear();
             playersDictionary.Clear();
             var playerInfoArray = Player.SetPlayerInfo(telnet);
             foreach (PlayerInfo uDetail in playerInfoArray)
                 AddUser(uDetail);
-
-            LogUnlock();
         }
         private void AddUser(PlayerInfo playerInfo)
         {
@@ -874,13 +818,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (!CheckConnected())
                 return;
 
-            LogLock();
             var timeInfo = Time.GetTimeFromTelnet(telnet);
 
             TimeDayText = timeInfo.Day.ToString();
             TimeHourText = timeInfo.Hour.ToString();
             TimeMinuteText = timeInfo.Minute.ToString();
-            LogUnlock();
         }
         public void SetTimeToGame()
         {
@@ -946,11 +888,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             SocTelnetSendDirect(cmd);
             string log = string.Empty;
 
-            LogLock();
             Thread.Sleep(100);
             log = telnet.Read().TrimEnd('\0');
             log += telnet.Read().TrimEnd('\0');
-            LogUnlock();
 
             return log;
         }
@@ -1124,7 +1064,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             try
             {
-                logThread?.Abort();
                 telnet?.Dispose();
             }
             catch { }
