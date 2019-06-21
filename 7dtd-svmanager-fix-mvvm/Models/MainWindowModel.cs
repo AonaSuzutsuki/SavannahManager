@@ -233,7 +233,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private readonly LogStream logStream = new LogStream();
         private TelnetClient telnet;
-        private readonly ChatInfoArray chatArray = new ChatInfoArray();
+        private readonly List<ChatInfo> chatArray = new List<ChatInfo>();
 
         public Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
         public List<int> connectedIds = new List<int>();
@@ -713,7 +713,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private void AddChatText(string text)
         {
             chatArray.AddMultiLine(text);
-            ChatInfo cData = chatArray.GetLast();
+            var cData = chatArray.GetLast();
             ChatLogText += string.Format("{0}: {1}\r\n", cData.Name, cData.Message);
         }
         public void SendChat(string text, Action act)

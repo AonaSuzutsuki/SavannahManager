@@ -64,7 +64,7 @@
   <ItemGroup>
     <Compile Include="Chat\Chat.cs" />
     <Compile Include="Chat\ChatInfo.cs" />
-    <Compile Include="Chat\ChatInfoArray.cs" />
+    <Compile Include="Chat\ChatInfoListExtension.cs" />
     <Compile Include="Chat\ChatInfoConverter.cs" />
     <Compile Include="Collections\ObservableDictionary.cs" />
     <Compile Include="Config\ConfigLoader.cs" />
