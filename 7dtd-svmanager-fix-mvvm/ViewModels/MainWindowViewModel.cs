@@ -116,7 +116,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
 
         #region Fields
-        MainWindow view;
+        new MainWindow view;
         Models.MainWindowModel model;
         StringBuilder consoleLog = new StringBuilder();
 
