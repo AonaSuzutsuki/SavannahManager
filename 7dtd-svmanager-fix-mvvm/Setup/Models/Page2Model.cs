@@ -68,14 +68,14 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
 
         private string GetFileName(string steamPath)
         {
-            string filename = _GetFileName(steamPath, ConstantValues.ServerClientPath, ConstantValues.ServerClientName);
+            string filename = GetFileName(steamPath, ConstantValues.ServerClientPath, ConstantValues.ServerClientName);
 
             if (string.IsNullOrEmpty(filename))
-                filename = _GetFileName(steamPath, ConstantValues.GameClientPath, ConstantValues.GameClientName);
+                filename = GetFileName(steamPath, ConstantValues.GameClientPath, ConstantValues.GameClientName);
 
             return filename;
         }
-        private string _GetFileName(string steamPath, string target, string name)
+        private string GetFileName(string steamPath, string target, string name)
         {
             string filename = GetSvPath(steamPath + target, name);
 
