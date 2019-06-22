@@ -74,6 +74,7 @@
     <Compile Include="Player\PlayerInfoArray.cs" />
     <Compile Include="Player\PlayerInfoConverter.cs" />
     <Compile Include="SteamLibrary\SteamLibraryLoader.cs" />
+    <Compile Include="Telnet\ITelnetClient.cs" />
     <Compile Include="Telnet\Telnet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Telnet\TelnetException.cs" />

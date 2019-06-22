@@ -8,7 +8,9 @@ namespace SvManagerLibrary.Chat
     {
         public static void Add(this List<ChatInfo> list, string log)
         {
-            list.Add(ChatInfoConverter.ConvertChat(log));
+            var elem = ChatInfoConverter.ConvertChat(log);
+            if (!ChatInfo.IsNullOrEmpty(elem))
+                list.Add(elem);
         }
         public static void AddMultiLine(this List<ChatInfo> list, string log)
         {

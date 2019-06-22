@@ -4,7 +4,7 @@ namespace SvManagerLibrary.Player
 {
     public class Player
     {
-        public static PlayerInfoArray SetPlayerInfo(TelnetClient telnet)
+        public static PlayerInfoArray SetPlayerInfo(ITelnetClient telnet)
         {
             TelnetException.CheckTelnetClient(telnet);
 

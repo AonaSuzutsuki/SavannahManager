@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SvManagerLibrary.Telnet
 {
 
-    public class TelnetClient : IDisposable
+    public class TelnetClient : IDisposable, ITelnetClient
     {
         #region StaticMember
         /// <summary>
@@ -80,9 +80,9 @@ namespace SvManagerLibrary.Telnet
             }
         }
 
-        public bool DestructionEvent = false;
+        public bool DestructionEvent { get; set; } = false;
 
-        public Socket clientSocket;
+        private Socket clientSocket;
 
         public void LockAction(Action<Socket> action)
         {
