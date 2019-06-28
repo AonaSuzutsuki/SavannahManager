@@ -40,8 +40,9 @@ namespace SvManagerLibrary.Time.Tests
 
             var mock = new Moq.Mock<ITelnetClient>();
             mock.Setup(x => x.Read()).Returns(text);
+            mock.Setup(x => x.Connected).Returns(true);
 
-            var act = Time.ConvertTime(text);
+            var act = Time.GetTimeFromTelnet(mock.Object);
 
             Assert.AreEqual(exp, act);
         }

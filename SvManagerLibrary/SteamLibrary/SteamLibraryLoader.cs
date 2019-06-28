@@ -16,6 +16,17 @@ namespace SvManagerLibrary.SteamLibrary
         {
             SteamDirPath = dirPath;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is SteamLibraryPath path &&
+                   SteamDirPath == path.SteamDirPath;
+        }
+
+        public override int GetHashCode()
+        {
+            return -786403207 + EqualityComparer<string>.Default.GetHashCode(SteamDirPath);
+        }
     }
     public class SteamLibraryLoader
     {
@@ -34,13 +45,13 @@ namespace SvManagerLibrary.SteamLibrary
                 var sr = new StreamReader(fs);
                 while (sr.Peek() > -1)
                 {
-                    const string expression = @"^\t""(?<name>.*?)""\t\t""(?<path>.*?)""$";
+                    const string expression = @"^\t""[0-9]+""\t\t""(?<path>.*?)""$";
                     var reg = new Regex(expression);
-                    var match = reg.Match(sr.ReadLine());
+                    var line = sr.ReadLine();
+                    var match = reg.Match(line);
                     if (match.Success)
                     {
-                        if (Directory.Exists(match.Groups["path"].Value))
-                            dirList.Add(new SteamLibraryPath(match.Groups["path"].Value));
+                        dirList.Add(new SteamLibraryPath(match.Groups["path"].Value.Replace("\\\\", "\\")));
                     }
                 }
                 return dirList;
