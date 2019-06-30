@@ -753,7 +753,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     Death = playerInfo.Deaths,
                     Score = playerInfo.Score,
                     Coord = playerInfo.Coord,
-                    SteamID = playerInfo.SteamId,
+                    SteamId = playerInfo.SteamId,
 
                 };
                 pDict.Add(id, uDetail);
@@ -971,28 +971,19 @@ namespace _7dtd_svmanager_fix_mvvm.Models
          */
         public void RunConfigEditor()
         {
-            string cfgArg = string.Empty;
-
-            var act = new Action<string>((arg) =>
-            {
-                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_not_found, arg), LangResources.CommonResources.Error,
-                    ExMessageBoxBase.MessageType.Exclamation);
-            });
-
+            var cfgArg = string.Empty;
             var configFilePath = Setting.ConfigFilePath;
-            bool isEmpty = string.IsNullOrEmpty(configFilePath);
-            bool isExists = isEmpty ? false : new FileInfo(configFilePath).Exists;
+            var isExists = !string.IsNullOrEmpty(configFilePath) && new FileInfo(configFilePath).Exists;
 
             if (isExists)
-            {
-                cfgArg = "\"" + configFilePath + "\"";
-            }
+                cfgArg = "\"{0}\"".FormatString(configFilePath);
 
             var fi = new FileInfo(ConstantValues.ConfigEditorFilePath);
             if (fi.Exists)
                 Process.Start(fi.FullName, cfgArg);
             else
-                act(LangResources.Resources.ConfigEditor);
+                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_not_found, LangResources.Resources.ConfigEditor),
+                    LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
         }
         public void ShowSettings()
         {
