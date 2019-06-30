@@ -49,5 +49,67 @@ namespace SvManagerLibrary.XMLWrapper.Tests
                 Assert.AreEqual(exp, act);
             }
         }
+
+        [TestMethod()]
+        public void AddElementTest()
+        {
+            var exp = "<?xml version=\"1.0\"?>\r\n" +
+                      "<root>\r\n" +
+                      "  <item attribute=\"attr\" />\r\n" +
+                      "  <item attribute=\"attr2\">value</item>\r\n" +
+                      "</root>\r\n";
+
+            var writer = new Writer();
+            writer.SetRoot("root");
+            writer.AddElement("item", new AttributeInfo
+            {
+                Name = "attribute",
+                Value = "attr"
+            });
+            writer.AddElement("item", new AttributeInfo
+            {
+                Name = "attribute",
+                Value = "attr2"
+            }, "value");
+
+            using (var stream = new MemoryStream())
+            {
+                writer.Write(stream);
+                stream.Seek(0, SeekOrigin.Begin);
+
+                var buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, buffer.Length);
+                var act = Encoding.UTF8.GetString(buffer) + "\r\n";
+
+                Assert.AreEqual(exp, act);
+            }
+        }
+
+        [TestMethod()]
+        public void AddElementNoAttributeTest()
+        {
+            var exp = "<?xml version=\"1.0\"?>\r\n" +
+                      "<root>\r\n" +
+                      "  <item />\r\n" +
+                      "  <item>value</item>\r\n" +
+                      "</root>\r\n";
+
+            var writer = new Writer();
+            writer.SetRoot("root");
+            writer.AddElement("item");
+            writer.AddElement("item", "value");
+
+            using (var stream = new MemoryStream())
+            {
+                writer.Write(stream);
+                stream.Seek(0, SeekOrigin.Begin);
+
+                var buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, buffer.Length);
+                var act = Encoding.UTF8.GetString(buffer) + "\r\n";
+
+                Assert.AreEqual(exp, act);
+            }
+        }
     }
 }
