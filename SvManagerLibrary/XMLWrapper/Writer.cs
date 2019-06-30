@@ -72,7 +72,7 @@ namespace SvManagerLibrary.XMLWrapper
         /// </summary>
         public void Write(string xmlPath)
         {
-            FileStream fs = new FileStream(xmlPath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+            var fs = new FileStream(xmlPath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
             Write(fs);
             fs.Dispose();
         }

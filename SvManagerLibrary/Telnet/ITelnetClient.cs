@@ -14,15 +14,13 @@ namespace SvManagerLibrary.Telnet
         int ReceiveBufferSize { get; set; }
         int ReceiveTimeout { get; set; }
 
-        event TelnetClient.TelnetReadedEventHandler Finished;
-        event TelnetClient.TelnetReadedEventHandler Readed;
-        event TelnetClient.TelnetReadedEventHandler Started;
+        event TelnetClient.TelnetReadEventHandler Finished;
+        event TelnetClient.TelnetReadEventHandler ReadEvent;
+        event TelnetClient.TelnetReadEventHandler Started;
 
         bool Connect(string address, int port);
         void Dispose();
         Task HandleTcp(IPEndPoint end);
-        void LockAction(Action<Socket> action);
-        T LockFunction<T>(Func<Socket, T> func);
         string Read();
         int Write(byte[] data);
         int Write(string cmd);

@@ -13,36 +13,36 @@ namespace SvManagerLibrary.Telnet
         /// <summary>
         /// Carriage Return.
         /// </summary>
-        public static byte[] CR { get; } = { 0x0D };
+        public static byte[] Cr { get; } = { 0x0D };
         /// <summary>
         /// Line Feed.
         /// </summary>
-        public static byte[] LF { get; } = { 0x0A };
+        public static byte[] Lf { get; } = { 0x0A };
         /// <summary>
         /// Carriage Return & Line Feed.
         /// </summary>
-        public static byte[] CRLF { get; } = { 0x0D, 0x0A };
+        public static byte[] Crlf { get; } = { 0x0D, 0x0A };
         #endregion
 
         #region ReadedEvent
-        public class TelnetReadedEventArgs : EventArgs
+        public class TelnetReadEventArgs : EventArgs
         {
             public string IpAddress;
             public string Log;
         }
-        public delegate void TelnetReadedEventHandler(object sender, TelnetReadedEventArgs e);
-        public event TelnetReadedEventHandler Readed;
-        public event TelnetReadedEventHandler Started;
-        public event TelnetReadedEventHandler Finished;
-        protected virtual void OnReaded(TelnetReadedEventArgs e)
+        public delegate void TelnetReadEventHandler(object sender, TelnetReadEventArgs e);
+        public event TelnetReadEventHandler ReadEvent;
+        public event TelnetReadEventHandler Started;
+        public event TelnetReadEventHandler Finished;
+        protected virtual void OnRead(TelnetReadEventArgs e)
         {
-            Readed?.Invoke(this, e);
+            ReadEvent?.Invoke(this, e);
         }
-        protected virtual void OnStarted(TelnetReadedEventArgs e)
+        protected virtual void OnStarted(TelnetReadEventArgs e)
         {
             Started?.Invoke(this, e);
         }
-        protected virtual void OnFinished(TelnetReadedEventArgs e)
+        protected virtual void OnFinished(TelnetReadEventArgs e)
         {
             Finished?.Invoke(this, e);
         }
@@ -70,13 +70,9 @@ namespace SvManagerLibrary.Telnet
         {
             get
             {
-                bool isPoll = clientSocket != null ? clientSocket.Poll(0, SelectMode.SelectRead) : false;
-                bool isAvailable = clientSocket != null ? clientSocket.Available == 0 : false;
-                if (isPoll & isAvailable)
-                {
-                    return false;
-                }
-                return true;
+                var isPoll = clientSocket?.Poll(0, SelectMode.SelectRead) ?? false;
+                var isAvailable = clientSocket != null && clientSocket.Available == 0;
+                return !(isPoll & isAvailable);
             }
         }
 
@@ -84,27 +80,22 @@ namespace SvManagerLibrary.Telnet
 
         private Socket clientSocket;
 
-        public void LockAction(Action<Socket> action)
+        private void LockAction(Action<Socket> action)
         {
-            if (clientSocket != null)
+            if (clientSocket == null) return;
+            lock (clientSocket)
             {
-                lock (clientSocket)
-                {
-                    action(clientSocket);
-                }
+                action(clientSocket);
             }
         }
 
-        public T LockFunction<T>(Func<Socket, T> func)
+        private T LockFunction<T>(Func<Socket, T> func)
         {
-            if (clientSocket != null)
+            if (clientSocket == null) return default;
+            lock (clientSocket)
             {
-                lock (clientSocket)
-                {
-                    return func(clientSocket);
-                }
+                return func(clientSocket);
             }
-            return default;
         }
 
         public bool Connect(string address, int port)
@@ -121,8 +112,8 @@ namespace SvManagerLibrary.Telnet
                 clientSocket.Connect(address, port);
 
                 var endPoint = (IPEndPoint)clientSocket.RemoteEndPoint;
-                OnStarted(new TelnetReadedEventArgs() { IpAddress = endPoint.Address.ToString() });
-                if (Readed != null)
+                OnStarted(new TelnetReadEventArgs() { IpAddress = endPoint.Address.ToString() });
+                if (ReadEvent != null)
                     _ = HandleTcp(endPoint);
                 return true;
             }
@@ -144,10 +135,10 @@ namespace SvManagerLibrary.Telnet
 
                     var log = Read()?.TrimEnd('\0');
                     if (!string.IsNullOrEmpty(log))
-                        OnReaded(new TelnetReadedEventArgs() { IpAddress = end.Address.ToString(), Log = log });
+                        OnRead(new TelnetReadEventArgs() { IpAddress = end.Address.ToString(), Log = log });
                     Thread.Sleep(10);
                 }
-                OnFinished(new TelnetReadedEventArgs() { IpAddress = end.Address.ToString() });
+                OnFinished(new TelnetReadEventArgs() { IpAddress = end.Address.ToString() });
             });
         }
 
@@ -155,23 +146,16 @@ namespace SvManagerLibrary.Telnet
         {
             return LockFunction((socket) =>
             {
-                if (socket != null)
-                {
-                    byte[] bytes = new byte[socket.ReceiveBufferSize];
-                    if (Connected)
-                    {
-                        if (socket.Available > 0)
-                        {
-                            _ = socket.Receive(bytes, SocketFlags.None);
-                            string returnstr = Encoding.GetString(bytes);
+                if (socket == null) return null;
+                if (!Connected) return string.Empty;
+                if (socket.Available <= 0) return string.Empty;
 
-                            return returnstr;
-                        }
-                    }
+                var bytes = new byte[socket.ReceiveBufferSize];
+                _ = socket.Receive(bytes, SocketFlags.None);
+                var returner = Encoding.GetString(bytes);
 
-                    return string.Empty;
-                }
-                return null;
+                return returner;
+
             });
         }
 
@@ -182,8 +166,8 @@ namespace SvManagerLibrary.Telnet
         /// <returns>Length of sent byte</returns>
         public int Write(string cmd)
         {
-            byte[] data = Encoding.GetBytes(cmd);
-            int sendByte = Write(data);
+            var data = Encoding.GetBytes(cmd);
+            var sendByte = Write(data);
 
             return sendByte;
         }
@@ -195,7 +179,7 @@ namespace SvManagerLibrary.Telnet
         /// <returns>Length of sent byte</returns>
         public int Write(byte[] data)
         {
-            int sendByte = clientSocket.Send(data, data.Length, SocketFlags.None);
+            var sendByte = clientSocket.Send(data, data.Length, SocketFlags.None);
 
             return sendByte;
         }
@@ -207,8 +191,8 @@ namespace SvManagerLibrary.Telnet
         /// <returns>Length of sent byte</returns>
         public int WriteLine(string cmd)
         {
-            byte[] data = Encoding.GetBytes(cmd);
-            int sendByte = WriteLine(data);
+            var data = Encoding.GetBytes(cmd);
+            var sendByte = WriteLine(data);
 
             return sendByte;
         }
@@ -220,10 +204,9 @@ namespace SvManagerLibrary.Telnet
         /// <returns>Length of sent byte</returns>
         public int WriteLine(byte[] data)
         {
-            int sendByte = clientSocket.Send(data, data.Length, SocketFlags.None);
+            var sendByte = clientSocket.Send(data, data.Length, SocketFlags.None);
 
-            byte[] newLine = { 0x0D, 0x0A };
-            clientSocket.Send(newLine, newLine.Length, SocketFlags.None);
+            clientSocket.Send(Crlf, Crlf.Length, SocketFlags.None);
 
             return sendByte;
         }
@@ -232,24 +215,21 @@ namespace SvManagerLibrary.Telnet
         private bool _disposedValue = false;
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    LockAction((socket) =>
-                    {
-                        if (socket != null)
-                        {
-                            socket.Shutdown(SocketShutdown.Both);
-                            socket.Disconnect(false);
-                            socket.Dispose();
-                            clientSocket = null;
-                        }
-                    });
-                }
+            if (_disposedValue) return;
 
-                _disposedValue = true;
+            if (disposing)
+            {
+                LockAction((socket) =>
+                {
+                    if (socket == null) return;
+                    socket.Shutdown(SocketShutdown.Both);
+                    socket.Disconnect(false);
+                    socket.Dispose();
+                    clientSocket = null;
+                });
             }
+
+            _disposedValue = true;
         }
 
         ~TelnetClient()

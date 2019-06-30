@@ -185,12 +185,12 @@ namespace ConfigEditor_mvvm.Models
             templateLoader = new TemplateLoader(language, ConstantValues.VersionListPath);
             VersionList.AddAll(templateLoader.VersionList);
 
-            string[] cmds = Environment.GetCommandLineArgs();
-            if (cmds.Length > 1)
+            var cmdArray = Environment.GetCommandLineArgs();
+            if (cmdArray.Length > 1)
             {
-                string filePath = cmds[1];
+                string filePath = cmdArray[1];
                 if (File.Exists(filePath))
-                    configLoader = new ConfigLoader(cmds[1]);
+                    configLoader = new ConfigLoader(cmdArray[1]);
             }
 
             // Select Version
@@ -205,7 +205,7 @@ namespace ConfigEditor_mvvm.Models
         /// <param name="modKey">input value of modifier key/param>
         public void ShortcutKey(KeyEventArgs e, ModifierKeys modKey)
         {
-            Key mainKey = e.Key;
+            var mainKey = e.Key;
 
             if (modKey == ModifierKeys.Control && mainKey == Key.S)
             {

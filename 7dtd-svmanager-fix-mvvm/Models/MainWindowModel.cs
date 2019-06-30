@@ -246,23 +246,23 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (telnet == null)
             {
                 telnet = new TelnetClient();
-                telnet.Readed += Telnet_Readed;
+                telnet.ReadEvent += TelnetReadEvent;
                 telnet.Finished += Telnet_Finished;
                 telnet.Started += Telnet_Started;
             }
         }
 
-        private void Telnet_Started(object sender, TelnetClient.TelnetReadedEventArgs e)
+        private void Telnet_Started(object sender, TelnetClient.TelnetReadEventArgs e)
         {
             PlayerClean();
         }
 
-        private void Telnet_Finished(object sender, TelnetClient.TelnetReadedEventArgs e)
+        private void Telnet_Finished(object sender, TelnetClient.TelnetReadEventArgs e)
         {
             PlayerClean();
         }
 
-        private void Telnet_Readed(object sender, TelnetClient.TelnetReadedEventArgs e)
+        private void TelnetReadEvent(object sender, TelnetClient.TelnetReadEventArgs e)
         {
             string log = "{0}".FormatString(e.Log);
 
@@ -462,7 +462,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         BottomNewsLabel = LangResources.Resources.UI_FinishedLaunching;
                         base.SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor);
 
-                        telnet.Write(TelnetClient.CR);
+                        telnet.Write(TelnetClient.Cr);
                         AppendConsoleLog(SocTelnetSend(password));
 
                         logStream.MakeStream(ConstantValues.LogDirectoryPath);
@@ -642,7 +642,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (telnet.Connect(address, port))
             {
                 IsConnected = true;
-                telnet.Write(TelnetClient.CR);
+                telnet.Write(TelnetClient.Cr);
                 AppendConsoleLog(SocTelnetSend(password));
             }
             else
@@ -864,7 +864,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private void SocTelnetSendDirect(string cmd)
         {
             telnet.Write(cmd);
-            telnet.Write(TelnetClient.CRLF);
+            telnet.Write(TelnetClient.Crlf);
         }
         private string SocTelnetSend(string cmd)
         {

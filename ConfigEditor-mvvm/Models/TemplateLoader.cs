@@ -16,7 +16,7 @@ namespace ConfigEditor_mvvm.Models
         /// Manage template data.
         /// &lt;Version, &lt;PropertyName, Element&gt;&gt;
         /// </summary>
-        private Dictionary<string, Dictionary<string, ConfigListInfo>> templateData = new Dictionary<string, Dictionary<string, ConfigListInfo>>();
+        private readonly Dictionary<string, Dictionary<string, ConfigListInfo>> templateData = new Dictionary<string, Dictionary<string, ConfigListInfo>>();
 
         /// <summary>
         /// Load template files.
@@ -25,15 +25,15 @@ namespace ConfigEditor_mvvm.Models
         /// <param name="templateListPath">File path of managed template list</param>
         public TemplateLoader(string lang, string templateListPath)
         {
-            VersionListLoad();
+            VersionListLoad(templateListPath);
             TemplateLoad(lang);
         }
         /// <summary>
         /// Load version list.
         /// </summary>
-        private void VersionListLoad()
+        private void VersionListLoad(string templateListPath)
         {
-            var xmlReader = new Reader(ConstantValues.VersionListPath);
+            var xmlReader = new Reader(templateListPath);
             VersionList = xmlReader.GetAttributes("version", "/root/configs/config");
             versionPathList = xmlReader.GetValues("/root/configs/config", false);
         }
@@ -52,7 +52,7 @@ namespace ConfigEditor_mvvm.Models
                 var names = baseReader.GetAttributes("name", "/ServerSettings/property");
                 names.ForEach((name) =>
                 {
-                    var xpath = string.Format("/ServerSettings/property[@name=\"{0}\"]", name);
+                    var xpath = $"/ServerSettings/property[@name=\"{name}\"]";
                     var value = baseReader.GetAttribute("value", xpath);
                     var selection = baseReader.GetAttribute("selection", xpath);
                     var type = baseReader.GetAttribute("type", xpath);
@@ -73,12 +73,12 @@ namespace ConfigEditor_mvvm.Models
         /// <summary>
         /// Convert string to ConfigType.
         /// </summary>
-        /// <param name="stype">String corresponding to ConfigType</param>
+        /// <param name="propType">String corresponding to ConfigType</param>
         /// <returns></returns>
-        private ConfigType ConvertConfigType(string stype)
+        private ConfigType ConvertConfigType(string propType)
         {
-            ConfigType configType = ConfigType.String;
-            switch (stype)
+            var configType = ConfigType.String;
+            switch (propType)
             {
                 case "string":
                     configType = ConfigType.String;
