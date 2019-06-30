@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.1.26.9b">
+    1. ネットワークライブラリの内部コードを修正しました。これにより若干安定性が向上しました。
+    2. その他内部コードを修正しました。
+  </update>
+  <update version="2.1.25.8b">
+    1. ConfigEditorで発生するエラーを修正しました。
+  </update>
+  <update version="2.1.24.7b">
+    1. ConfigEditorのa17.2のテンプレートを修正しました。
+  </update>
   <update version="2.1.23.6b">
     1. チャット送信後に入力内容を削除するよう修正
     2. アプリケーション終了時にすべてのオブジェクトを解放するよう修正

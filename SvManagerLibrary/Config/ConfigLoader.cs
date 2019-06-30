@@ -81,17 +81,6 @@ namespace SvManagerLibrary.Config
 
             return false;
         }
-        public void ChangeOrAddValue(string propertyName, string value)
-        {
-            if (!ChangeValue(propertyName, value))
-            {
-                configs.Add(propertyName, new ConfigInfo()
-                {
-                    PropertyName = propertyName,
-                    Value = value
-                });
-            }
-        }
         public ConfigInfo GetValue(string propertyName)
         {
             if (configs.ContainsKey(propertyName))
@@ -115,26 +104,31 @@ namespace SvManagerLibrary.Config
         {
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
             {
-                XMLWrapper.Writer writer = new XMLWrapper.Writer();
-                writer.SetRoot("ServerSettings");
-                foreach (ConfigInfo configInfo in configs.Values)
-                {
-                    XMLWrapper.AttributeInfo[] attributeInfo = new XMLWrapper.AttributeInfo[2];
-                    attributeInfo[0] = new XMLWrapper.AttributeInfo()
-                    {
-                        Name = "name",
-                        Value = configInfo.PropertyName,
-                    };
-                    attributeInfo[1] = new XMLWrapper.AttributeInfo()
-                    {
-                        Name = "value",
-                        Value = configInfo.Value,
-                    };
-
-                    writer.AddElement("property", attributeInfo);
-                }
-                writer.Write(fs);
+                Write(fs);
             }
+        }
+
+        public void Write(Stream stream)
+        {
+            XMLWrapper.Writer writer = new XMLWrapper.Writer();
+            writer.SetRoot("ServerSettings");
+            foreach (ConfigInfo configInfo in configs.Values)
+            {
+                XMLWrapper.AttributeInfo[] attributeInfo = new XMLWrapper.AttributeInfo[2];
+                attributeInfo[0] = new XMLWrapper.AttributeInfo()
+                {
+                    Name = "name",
+                    Value = configInfo.PropertyName,
+                };
+                attributeInfo[1] = new XMLWrapper.AttributeInfo()
+                {
+                    Name = "value",
+                    Value = configInfo.Value,
+                };
+
+                writer.AddElement("property", attributeInfo);
+            }
+            writer.Write(stream);
         }
     }
 }

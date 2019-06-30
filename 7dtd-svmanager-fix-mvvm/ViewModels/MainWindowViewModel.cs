@@ -25,12 +25,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public string Death { get; set; }
         public string Score { get; set; }
         public string Coord { set; get; }
-        public string SteamID { get; set; }
+        public string SteamId { get; set; }
 
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8} {9}\r\n", ID, Level, Name, Health, ZombieKills,
-                PlayerKills, Death, Score, Coord, SteamID);
+            return $"{ID} {Level} {Name} {Health} {ZombieKills} {PlayerKills} {Death} {Score} {Coord} {SteamId}\r\n";
         }
     }
 
@@ -116,11 +115,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
 
         #region Fields
-        MainWindow view;
-        Models.MainWindowModel model;
-        StringBuilder consoleLog = new StringBuilder();
+        private new readonly MainWindow view;
+        private readonly Models.MainWindowModel model;
+        private StringBuilder consoleLog = new StringBuilder();
 
-        bool consoleIsFocus = false;
+        private bool consoleIsFocus = false;
         #endregion
 
         #region EventProperties
