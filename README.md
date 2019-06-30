@@ -21,22 +21,30 @@ Thank you very much.
 1. Open SavannahManager.sln.
 3. Click Build on Menu.
 
-## MSBuild (without Visual Studio 2017)
+## MSBuild (without Visual Studio 2019)
 ### Required Tools
 1. [Build Tools for Visual Studio 2019](https://www.visualstudio.com/ja/downloads/#build-tools-for-visual-studio-2019)
+2. [NuGet]()
 
 ### Steps
-1. Open the project folder at cmd.
+1. Download NuGet to project folder.
+\*Pass the path if you have already installed.
+
+2. Open Developer Command Prompt for VS 2019.
+
+3. Open the project folder at cmd.
 ```sh
 cd /D D:\Develop\Git\SavannahManager
 ```
-2. Set MSBuild's path.
+
+4. Restore nuget packages.
 ```sh
-set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\15.0\Bin;%PATH%
+nuget restore SavannahManager.sln
 ```
-3. Build with MSBuild.
+
+5. Build with MSBuild.
 ```sh
-msbuild SavannahManager.sln /t:Clean;Build /p:Configuration=Release /p:PlatformTarget=x86
+msbuild SavannahManager.sln /t:Clean;Build /p:Configuration=Release;Platform="Any CPU"
 ```
 
 # Donation
