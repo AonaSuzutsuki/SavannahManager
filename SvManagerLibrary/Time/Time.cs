@@ -7,7 +7,7 @@ namespace SvManagerLibrary.Time
 {
     public class Time
     {
-        private static TimeInfo ConvertTime(string text)
+        public static TimeInfo ConvertTime(string text)
         {
             TimeInfo timeInfo = new TimeInfo();
 
@@ -32,16 +32,18 @@ namespace SvManagerLibrary.Time
 
             return timeInfo;
         }
-        public static TimeInfo GetTimeFromTelnet(TelnetClient telnet)
+        public static TimeInfo GetTimeFromTelnet(ITelnetClient telnet)
         {
             TelnetException.CheckTelnetClient(telnet);
 
+            telnet.DestructionEvent = true;
             telnet.WriteLine("gt");
             System.Threading.Thread.Sleep(100);
             string log = telnet.Read().TrimEnd('\0');
+            telnet.DestructionEvent = false;
             return ConvertTime(log);
         }
-        public static void SendTime(TelnetClient telnet, TimeInfo timeInfo)
+        public static void SendTime(ITelnetClient telnet, TimeInfo timeInfo)
         {
             TelnetException.CheckTelnetClient(telnet);
 

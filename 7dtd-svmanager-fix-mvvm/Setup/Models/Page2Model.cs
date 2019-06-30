@@ -46,7 +46,8 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
             string directoryPath = ConstantValues.DefaultDirectoryPath;
             string filename = FileSelector.GetFilePath(directoryPath, filter, "7DaysToDieServer.exe", FileSelector.FileSelectorType.Read);
 
-            ServerFilePathText = filename;
+            if (!string.IsNullOrEmpty(filename))
+                ServerFilePathText = filename;
         }
         public void AutoSearchAndGetFilePath()
         {
@@ -67,7 +68,16 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
 
         private string GetFileName(string steamPath)
         {
-            string filename = _GetFileName(steamPath);
+            string filename = GetFileName(steamPath, ConstantValues.ServerClientPath, ConstantValues.ServerClientName);
+
+            if (string.IsNullOrEmpty(filename))
+                filename = GetFileName(steamPath, ConstantValues.GameClientPath, ConstantValues.GameClientName);
+
+            return filename;
+        }
+        private string GetFileName(string steamPath, string target, string name)
+        {
+            string filename = GetSvPath(steamPath + target, name);
 
             if (string.IsNullOrEmpty(filename))
             {
@@ -76,7 +86,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
                     var slLoader = new SteamLibraryLoader(steamPath + ConstantValues.SteamLibraryPath);
                     var dirPaths = slLoader.SteamLibraryPathList;
                     foreach (SteamLibraryPath dirPath in dirPaths)
-                        filename = _GetFileName(dirPath.SteamDirPath);
+                        filename = GetSvPath(dirPath.SteamDirPath + target, name);
                 }
                 catch (Exception e)
                 {
@@ -84,13 +94,6 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
                 }
             }
 
-            return filename;
-        }
-        private string _GetFileName(string steamPath)
-        {
-            var filename = GetSvPath(steamPath + ConstantValues.ServerClientPath, ConstantValues.ServerClientName);
-            if (string.IsNullOrEmpty(filename))
-                filename = GetSvPath(steamPath + ConstantValues.GameClientPath, ConstantValues.GameClientName);
             return filename;
         }
         private string GetSvPath(string dirPath, string exeName)

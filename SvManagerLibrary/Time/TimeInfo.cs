@@ -38,5 +38,26 @@
                 return _minute;
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is TimeInfo info &&
+                   Day == info.Day &&
+                   _hour == info._hour &&
+                   Hour == info.Hour &&
+                   _minute == info._minute &&
+                   Minute == info.Minute;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 980657963;
+            hashCode = hashCode * -1521134295 + Day.GetHashCode();
+            hashCode = hashCode * -1521134295 + _hour.GetHashCode();
+            hashCode = hashCode * -1521134295 + Hour.GetHashCode();
+            hashCode = hashCode * -1521134295 + _minute.GetHashCode();
+            hashCode = hashCode * -1521134295 + Minute.GetHashCode();
+            return hashCode;
+        }
     }
 }

@@ -54,6 +54,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public MainWindowModel(Window view)
         {
             this.view = view;
+
+            InitializeTelnet();
         }
 
         #region AppendedLogTextEvent
@@ -203,12 +205,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         public bool IsFailed { get; private set; } = false;
         public bool IsTelnetLoading { get; protected set; } = false;
-
-        private SettingLoader setting;
-        public SettingLoader Setting { get => setting; }
-
-        private ShortcutKeyManager shortcutKeyManager;
-        public ShortcutKeyManager ShortcutKeyManager { get => shortcutKeyManager; }
+        public SettingLoader Setting { get; private set; }
+        public ShortcutKeyManager ShortcutKeyManager { get; private set; }
 
         private string address = string.Empty;
         private int port = 0;
@@ -216,36 +214,78 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private string ExeFilePath
         {
-            get => setting.ExeFilePath;
+            get => Setting.ExeFilePath;
         }
         private string ConfigFilePath
         {
-            get => setting.ConfigFilePath;
+            get => Setting.ConfigFilePath;
         }
         private string AdminFilePath
         {
-            get => setting.AdminFilePath;
+            get => Setting.AdminFilePath;
         }
 
         private int consoleTextLength;
         #endregion
 
         #region Fiels
-        private Window view;
+        private readonly Window view;
 
-        private LogStream logStream = new LogStream();
-        private TelnetClient telnet = new TelnetClient();
-        private ChatInfoArray chatArray = new ChatInfoArray();
+        private readonly LogStream logStream = new LogStream();
+        private TelnetClient telnet;
+        private readonly List<ChatInfo> chatArray = new List<ChatInfo>();
 
-        public static Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
-        public static List<int> connectedIds = new List<int>();
+        public Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
+        public List<int> connectedIds = new List<int>();
 
-        private Thread logThread;
-
-        private bool isSended = false;
         private bool isServerForceStop = false;
-        private bool isStop;
         #endregion
+
+        public void InitializeTelnet()
+        {
+            if (telnet == null)
+            {
+                telnet = new TelnetClient();
+                telnet.ReadEvent += TelnetReadEvent;
+                telnet.Finished += Telnet_Finished;
+                telnet.Started += Telnet_Started;
+            }
+        }
+
+        private void Telnet_Started(object sender, TelnetClient.TelnetReadEventArgs e)
+        {
+            PlayerClean();
+        }
+
+        private void Telnet_Finished(object sender, TelnetClient.TelnetReadEventArgs e)
+        {
+            PlayerClean();
+        }
+
+        private void TelnetReadEvent(object sender, TelnetClient.TelnetReadEventArgs e)
+        {
+            string log = "{0}".FormatString(e.Log);
+
+            //if (isStop)
+            //    SocTelnetSendDirect("");
+
+            logStream.WriteSteam(log);
+
+            AppendConsoleLog(log);
+
+            if (log.IndexOf("Chat") > -1)
+            {
+                AddChatText(log);
+            }
+            if (log.IndexOf("INF Created player with id=") > -1)
+            {
+                view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(PlayerRefresh));
+            }
+            if (log.IndexOf("INF Player disconnected") > -1)
+            {
+                RemoveUser(log);
+            }
+        }
 
         public override void Activated()
         {
@@ -259,34 +299,34 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public async void Initialize()
         {
-            setting = SettingLoader.SettingInstance;
-            shortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
+            Setting = SettingLoader.SettingInstance;
+            ShortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
                 ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
 
-            Width = setting.Width;
-            Height = setting.Height;
+            Width = Setting.Width;
+            Height = Setting.Height;
             int screenWidth = (int)SystemParameters.WorkArea.Width;
             int screenHeight = (int)SystemParameters.WorkArea.Height;
             Top = (screenHeight - Height) / 2;
             Left = (screenWidth - Width) / 2;
 
-            Address = setting.Address;
-            PortText = setting.Port.ToString();
-            Password = setting.Password;
+            Address = Setting.Address;
+            PortText = Setting.Port.ToString();
+            Password = Setting.Password;
 
-            logStream.IsLogGetter = setting.IsLogGetter;
-            LocalMode = setting.LocalMode;
+            logStream.IsLogGetter = Setting.IsLogGetter;
+            LocalMode = Setting.LocalMode;
             StartBTEnabled = LocalMode;
 
-            consoleTextLength = setting.ConsoleTextLength;
+            consoleTextLength = Setting.ConsoleTextLength;
 
-            if (setting.IsFirstBoot)
+            if (Setting.IsFirstBoot)
             {
-                var setUp = new Setup.Views.InitializeWindow(setting);
+                var setUp = new Setup.Views.InitializeWindow(Setting);
                 setUp.ShowDialog();
             }
 
-            if (setting.IsAutoUpdate)
+            if (Setting.IsAutoUpdate)
             {
                 (bool, string) avalableUpd = await Update.Models.UpdateManager.CheckUpdateAsync(new Update.Models.UpdateLink().VersionUrl, ConstantValues.Version);
                 if (avalableUpd.Item1)
@@ -299,38 +339,21 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         updForm.Show();
                     }
                 }
-
-                //Task task = Task.Factory.StartNew(() =>
-                //{
-                //    bool avalableUpd = Update.Models.UpdateManager.CheckUpdate(ConstantValues.VersionUrl);
-                //    if (avalableUpd)
-                //    {
-                //        view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-                //        {
-                //            var dialogResult = ExMessageBoxBase.Show("アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
-                //                ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
-                //            if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
-                //            {
-
-                //            }
-                //        }));
-                //    }
-                //});
             }
         }
         public void SettingsSave()
         {
-            setting.Width = (int)width;
-            setting.Height = (int)height;
-            setting.Address = address;
-            setting.LocalMode = localMode;
-            setting.Port = port;
-            setting.Password = password;
+            Setting.Width = (int)width;
+            Setting.Height = (int)height;
+            Setting.Address = address;
+            Setting.LocalMode = localMode;
+            Setting.Port = port;
+            Setting.Password = password;
         }
         public void ChangeCulture(string cultureName)
         {
             ResourceService.Current.ChangeCulture(cultureName);
-            setting.CultureName = ResourceService.Current.Culture;
+            Setting.CultureName = ResourceService.Current.Culture;
         }
 
         public void RefreshLabels()
@@ -439,12 +462,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         BottomNewsLabel = LangResources.Resources.UI_FinishedLaunching;
                         base.SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor);
 
-                        telnet.Write(TelnetClient.CR);
+                        telnet.Write(TelnetClient.Cr);
                         AppendConsoleLog(SocTelnetSend(password));
 
                         logStream.MakeStream(ConstantValues.LogDirectoryPath);
-
-                        LaunchThread();
 
                         break;
                     }
@@ -464,14 +485,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (IsConnected)
             {
                 SocTelnetSend("shutdown");
-                isStop = true;
 
                 TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
                 StartBTEnabled = true;
             }
             else
             {
-                ForceShutdowner fs = new ForceShutdowner();
+                var fs = new ForceShutdowner();
                 fs.ShowDialog();
             }
         }
@@ -611,7 +631,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 }
 
                 ICheckedValue checkedValues = GetConfigInfo();
-                if (checkedValues == null) { return; }
+                if (checkedValues == null)
+                    return;
 
                 password = checkedValues.Password;
                 port = checkedValues.Port;
@@ -621,7 +642,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (telnet.Connect(address, port))
             {
                 IsConnected = true;
-                telnet.Write(TelnetClient.CR);
+                telnet.Write(TelnetClient.Cr);
                 AppendConsoleLog(SocTelnetSend(password));
             }
             else
@@ -630,7 +651,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 IsFailed = true;
 
-                Task tasks = Task.Factory.StartNew(() =>
+                _ = Task.Factory.StartNew(() =>
                 {
                     FeedColorChange(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
                     FeedColorChange(CommonStyleLib.ConstantValues.ActivatedBorderColor);
@@ -638,8 +659,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 return;
             }
-
-            LaunchThread();
 
             logStream.MakeStream(ConstantValues.LogDirectoryPath);
             TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
@@ -649,8 +668,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         private void TelnetDisconnect()
         {
-            StopThread();
-
             try
             {
                 SocTelnetSendNRT("exit");
@@ -672,112 +689,29 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             logStream.StreamDisposer();
         }
 
-        private void LaunchThread()
-        {
-            logThread = new Thread(LogRead)
-            {
-                Priority = ThreadPriority.Highest
-            };
-            logThread.Start();
-        }
-        private void StopThread()
-        {
-            if (logThread != null)
-                if (logThread.IsAlive)
-                    logThread.Abort();
-        }
+        //private void TelnetDispose()
+        //{
+        //    telnet.Dispose();
 
-        private void TelnetDispose()
-        {
-            telnet.Dispose();
+        //    isStop = false;
+        //    IsConnected = false;
+        //    PlayerClean();
 
-            isStop = false;
-            IsConnected = false;
-            PlayerClean();
+        //    TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
+        //    LocalModeEnabled = true;
+        //    ConnectionPanelIsEnabled = !LocalMode;
+        //    StartBTEnabled = LocalMode;
 
-            TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
-            LocalModeEnabled = true;
-            ConnectionPanelIsEnabled = !LocalMode;
-            StartBTEnabled = LocalMode;
-
-            logStream.StreamDisposer();
-
-            StopThread();
-        }
-        private void LogRead()
-        {
-            while (true)
-            {
-                if (LogLockCheck())
-                {
-                    Thread.Sleep(10);
-                    continue;
-                }
-
-                try
-                {
-                    if (IsConnected)
-                    {
-                        string log = telnet.Read().Trim('\0');
-
-                        if (isStop)
-                            SocTelnetSendDirect("");
-
-                        logStream.WriteSteam(log);
-                        
-                        AppendConsoleLog(log);
-
-                        if (log.IndexOf("Chat") > -1)
-                        {
-                            AddChatText(log);
-                        }
-                        if (log.IndexOf("INF Created player with id=") > -1)
-                        {
-                            view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-                            {
-                                PlayerRefresh();
-                            }));
-                        }
-                        if (log.IndexOf("INF Player disconnected") > -1)
-                        {
-                            RemoveUser(log);
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                catch (System.Net.Sockets.SocketException)
-                {
-                    break;
-                }
-
-                Thread.Sleep(10);
-            }
-
-            TelnetDispose();
-        }
-        private void LogLock()
-        {
-            isSended = true;
-        }
-        private void LogUnlock()
-        {
-            isSended = false;
-        }
-        private bool LogLockCheck()
-        {
-            return isSended;
-        }
+        //    logStream.StreamDisposer();
+        //}
 
         //
         // チャット
         //
         private void AddChatText(string text)
         {
-            chatArray.Add(text);
-            ChatInfo cData = chatArray.GetLast();
+            chatArray.AddMultiLine(text);
+            var cData = chatArray.GetLast();
             ChatLogText += string.Format("{0}: {1}\r\n", cData.Name, cData.Message);
         }
         public void SendChat(string text, Action act)
@@ -795,14 +729,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (!CheckConnected())
                 return;
 
-            LogLock();
             connectedIds.Clear();
             playersDictionary.Clear();
             var playerInfoArray = Player.SetPlayerInfo(telnet);
             foreach (PlayerInfo uDetail in playerInfoArray)
                 AddUser(uDetail);
-
-            LogUnlock();
         }
         private void AddUser(PlayerInfo playerInfo)
         {
@@ -822,7 +753,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     Death = playerInfo.Deaths,
                     Score = playerInfo.Score,
                     Coord = playerInfo.Coord,
-                    SteamID = playerInfo.SteamId,
+                    SteamId = playerInfo.SteamId,
 
                 };
                 pDict.Add(id, uDetail);
@@ -873,13 +804,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (!CheckConnected())
                 return;
 
-            LogLock();
             var timeInfo = Time.GetTimeFromTelnet(telnet);
 
             TimeDayText = timeInfo.Day.ToString();
             TimeHourText = timeInfo.Hour.ToString();
             TimeMinuteText = timeInfo.Minute.ToString();
-            LogUnlock();
         }
         public void SetTimeToGame()
         {
@@ -935,7 +864,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private void SocTelnetSendDirect(string cmd)
         {
             telnet.Write(cmd);
-            telnet.Write(TelnetClient.CRLF);
+            telnet.Write(TelnetClient.Crlf);
         }
         private string SocTelnetSend(string cmd)
         {
@@ -945,11 +874,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             SocTelnetSendDirect(cmd);
             string log = string.Empty;
 
-            LogLock();
             Thread.Sleep(100);
             log = telnet.Read().TrimEnd('\0');
             log += telnet.Read().TrimEnd('\0');
-            LogUnlock();
 
             return log;
         }
@@ -1044,28 +971,19 @@ namespace _7dtd_svmanager_fix_mvvm.Models
          */
         public void RunConfigEditor()
         {
-            string cfgArg = string.Empty;
-
-            var act = new Action<string>((arg) =>
-            {
-                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_not_found, arg), LangResources.CommonResources.Error,
-                    ExMessageBoxBase.MessageType.Exclamation);
-            });
-
+            var cfgArg = string.Empty;
             var configFilePath = Setting.ConfigFilePath;
-            bool isEmpty = string.IsNullOrEmpty(configFilePath);
-            bool isExists = isEmpty ? false : new FileInfo(configFilePath).Exists;
+            var isExists = !string.IsNullOrEmpty(configFilePath) && new FileInfo(configFilePath).Exists;
 
             if (isExists)
-            {
-                cfgArg = "\"" + configFilePath + "\"";
-            }
+                cfgArg = "\"{0}\"".FormatString(configFilePath);
 
             var fi = new FileInfo(ConstantValues.ConfigEditorFilePath);
             if (fi.Exists)
                 Process.Start(fi.FullName, cfgArg);
             else
-                act(LangResources.Resources.ConfigEditor);
+                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_not_found, LangResources.Resources.ConfigEditor),
+                    LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
         }
         public void ShowSettings()
         {
@@ -1094,21 +1012,21 @@ namespace _7dtd_svmanager_fix_mvvm.Models
          */
          public void PushShortcutKey(Key key)
         {
-            if (shortcutKeyManager.IsPushed("StartServerKey", Keyboard.Modifiers, key))
+            if (ShortcutKeyManager.IsPushed("StartServerKey", Keyboard.Modifiers, key))
             {
                 if (!IsConnected)
                     ServerStart();
             }
-            else if (shortcutKeyManager.IsPushed("StopServerKey", Keyboard.Modifiers, key))
+            else if (ShortcutKeyManager.IsPushed("StopServerKey", Keyboard.Modifiers, key))
             {
                 ServerStop();
             }
-            else if (shortcutKeyManager.IsPushed("ConTelnetKey", Keyboard.Modifiers, key))
+            else if (ShortcutKeyManager.IsPushed("ConTelnetKey", Keyboard.Modifiers, key))
             {
                 if (!IsConnected)
                     TelnetConnect();
             }
-            else if (shortcutKeyManager.IsPushed("DisConTelnetKey", Keyboard.Modifiers, key))
+            else if (ShortcutKeyManager.IsPushed("DisConTelnetKey", Keyboard.Modifiers, key))
             {
                 if (IsConnected)
                 {
@@ -1123,7 +1041,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             try
             {
-                logThread?.Abort();
                 telnet?.Dispose();
             }
             catch { }

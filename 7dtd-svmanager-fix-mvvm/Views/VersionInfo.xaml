@@ -87,16 +87,14 @@
                                 <Label Content="BTC: " />
                                 <Label Content="ETH: " />
                                 <Label Content="DOGE: " />
-                                <Label Content="ZEC: " />
                                 <Label Content="MONA: " />
                                 <Label Content="ZNY: " />
                             </StackPanel>
                             <StackPanel VerticalAlignment="Center">
-                                <Button Content="1DgYbNmZ4Ka3rcFWVUXvaPDiwcSUckKvFU" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
-                                <Button Content="0xa2be4ff82f5a59184e21b3d9e7febdac2e3e2839" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
+                                <Button Content="3PHwg9r19NtNcKRopBpSjTthSNpEJbowGD" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
+                                <Button Content="0xF38a082c5E2F222558071BdbcdAa7FE98580811b" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
                                 <Button Content="DPQPwrjQXZndguKppSpiTiP21bFYzhuaUY" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
-                                <Button Content="t1Lymbs1FFmDqrLnkoYxPt1nmhfbuHkcWev" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
-                                <Button Content="MN67PumimZaV7Y9bTyfDVCmdYbWaFb1YH2" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
+                                <Button Content="P9Py7EubLvrYaPzQDKx3mW36AxxniB8J8S" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
                                 <Button Content="ZfbDqN81h3wHTMaSupDAKQTguL8fcQyHUY" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
                             </StackPanel>
                         </StackPanel>

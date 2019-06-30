@@ -8,7 +8,7 @@ namespace SvManagerLibrary.Telnet
 {
     public class TelnetException
     {
-        public static void CheckTelnetClient(TelnetClient telnet)
+        public static void CheckTelnetClient(ITelnetClient telnet)
         {
             if (telnet == null)
                 throw new NullReferenceException();
