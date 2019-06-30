@@ -12,23 +12,18 @@ I thought it was exactly so I used it.
 Thank you very much.  
 
 # Development environment
-1. Visual Studio 2017
-2. Microsoft .NET Framework 4.6
-
-# Minimum configuration required
-1. [Microsoft .NET Framework 4.6](https://msdn.microsoft.com/ja-jp/library/5a4x27ek(v=vs.110).aspx)
-2. [Microsoft .NET Framework 4.6 targeting pack](http://www.microsoft.com/ja-jp/download/details.aspx?id=48136)
+1. Visual Studio 2019
+2. [Microsoft .NET Framework 4.7.1](https://docs.microsoft.com/dotnet/framework/install/guide-for-developers)
 
 # Build
-## Visual Studio 2017
+## Visual Studio 2019
 ### Steps
 1. Open SavannahManager.sln.
-2. Set a target to x86.
 3. Click Build on Menu.
 
 ## MSBuild (without Visual Studio 2017)
 ### Required Tools
-1. [Build Tools for Visual Studio 2017](https://www.visualstudio.com/ja/downloads/#build-tools-for-visual-studio-2017)
+1. [Build Tools for Visual Studio 2019](https://www.visualstudio.com/ja/downloads/#build-tools-for-visual-studio-2019)
 
 ### Steps
 1. Open the project folder at cmd.
@@ -37,7 +32,7 @@ cd /D D:\Develop\Git\SavannahManager
 ```
 2. Set MSBuild's path.
 ```sh
-set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin;%PATH%
+set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\15.0\Bin;%PATH%
 ```
 3. Build with MSBuild.
 ```sh
@@ -46,10 +41,9 @@ msbuild SavannahManager.sln /t:Clean;Build /p:Configuration=Release /p:PlatformT
 
 # Donation
 BTC: 1DgYbNmZ4Ka3rcFWVUXvaPDiwcSUckKvFU  
-ETH: 0xa2be4ff82f5a59184e21b3d9e7febdac2e3e2839  
+ETH: 0xF38a082c5E2F222558071BdbcdAa7FE98580811b  
 DOGE: DPQPwrjQXZndguKppSpiTiP21bFYzhuaUY  
-ZEC: t1Lymbs1FFmDqrLnkoYxPt1nmhfbuHkcWev  
-MONA: MN67PumimZaV7Y9bTyfDVCmdYbWaFb1YH2  
+MONA: P9Py7EubLvrYaPzQDKx3mW36AxxniB8J8S  
 ZNY: ZfbDqN81h3wHTMaSupDAKQTguL8fcQyHUY  
 
 Thank you for using.  
