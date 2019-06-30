@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Kimama Lab")]
 [assembly: AssemblyProduct("Config Editor")]
-[assembly: AssemblyCopyright("Copyright (C) Aona Suzutsuki 2014 - 2017")]
+[assembly: AssemblyCopyright("Copyright (C) Aona Suzutsuki 2014 - 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
