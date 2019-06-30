@@ -24,10 +24,10 @@ Thank you very much.
 ## MSBuild (without Visual Studio 2019)
 ### Required Tools
 1. [Build Tools for Visual Studio 2019](https://www.visualstudio.com/ja/downloads/#build-tools-for-visual-studio-2019)
-2. [NuGet]()
+2. [NuGet](https://www.nuget.org/downloads)
 
 ### Steps
-1. Download NuGet to project folder.
+1. Download [NuGet](https://www.nuget.org/downloads) to project folder.
 \*Pass the path if you have already installed.
 
 2. Open Developer Command Prompt for VS 2019.
