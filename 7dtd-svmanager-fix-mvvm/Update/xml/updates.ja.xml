@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.1.26.9b">
+    1. ネットワークライブラリの内部コードを修正しました。これにより若干安定性が向上しました。
+    2. その他内部コードを修正しました。
+  </update>
   <update version="2.1.25.8b">
     1. ConfigEditorで発生するエラーを修正しました。
   </update>

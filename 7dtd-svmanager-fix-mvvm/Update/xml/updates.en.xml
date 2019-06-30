@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.1.26.9b">
+    1. Fixed the internal code of the network library. This improves stability slightly.
+    2. Fixed other internal code.
+  </update>
   <update version="2.1.25.8b">
     1. fixed that raise exception on ConfigEditor.
   </update>
