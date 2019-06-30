@@ -23,7 +23,7 @@ Thank you very much.
 
 ## MSBuild (without Visual Studio 2019)
 ### Required Tools
-1. [Build Tools for Visual Studio 2019](https://www.visualstudio.com/ja/downloads/#build-tools-for-visual-studio-2019)
+1. [Build Tools for Visual Studio 2019](https://www.visualstudio.com/ja/downloads/)
 2. [NuGet](https://www.nuget.org/downloads)
 
 ### Steps
