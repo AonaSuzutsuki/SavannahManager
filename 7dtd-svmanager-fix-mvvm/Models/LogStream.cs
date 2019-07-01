@@ -19,10 +19,10 @@ namespace Log
         {
             if (IsLogGetter)
             {
-                DirectoryInfo di = new DirectoryInfo(AppInfo.GetAppPath() + @"\logs");
+                var di = new DirectoryInfo(AppInfo.GetAppPath() + @"\logs");
                 if (!di.Exists)
                     di.Create();
-                DateTime dt = DateTime.Now;
+                var dt = DateTime.Now;
                 fs = new FileStream(dirPath +
                     dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
 
