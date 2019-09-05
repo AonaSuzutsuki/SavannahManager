@@ -194,15 +194,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             get => isConnected && RowConnected;
             set => isConnected = value;
         }
-        private bool RowConnected
-        {
-            get
-            {
-                if (telnet == null)
-                    return false;
-                return telnet.Connected;
-            }
-        }
+        private bool RowConnected => telnet != null && telnet.Connected;
         public bool IsFailed { get; private set; } = false;
         public bool IsTelnetLoading { get; protected set; } = false;
         public SettingLoader Setting { get; private set; }
@@ -212,18 +204,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private int port = 0;
         private string password = string.Empty;
 
-        private string ExeFilePath
-        {
-            get => Setting.ExeFilePath;
-        }
-        private string ConfigFilePath
-        {
-            get => Setting.ConfigFilePath;
-        }
-        private string AdminFilePath
-        {
-            get => Setting.AdminFilePath;
-        }
+        private string ExeFilePath => Setting.ExeFilePath;
+        private string ConfigFilePath => Setting.ConfigFilePath;
+        private string AdminFilePath => Setting.AdminFilePath;
 
         private int consoleTextLength;
         #endregion
@@ -235,8 +218,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private TelnetClient telnet;
         private readonly List<ChatInfo> chatArray = new List<ChatInfo>();
 
-        public Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
-        public List<int> connectedIds = new List<int>();
+        private readonly Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
+        private readonly List<int> connectedIds = new List<int>();
 
         private bool isServerForceStop = false;
         #endregion
@@ -264,7 +247,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private void TelnetReadEvent(object sender, TelnetClient.TelnetReadEventArgs e)
         {
-            string log = "{0}".FormatString(e.Log);
+            var log = "{0}".FormatString(e.Log);
 
             //if (isStop)
             //    SocTelnetSendDirect("");
@@ -273,15 +256,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             AppendConsoleLog(log);
 
-            if (log.IndexOf("Chat") > -1)
+            if (log.IndexOf("Chat", StringComparison.Ordinal) > -1)
             {
                 AddChatText(log);
             }
-            if (log.IndexOf("INF Created player with id=") > -1)
+            if (log.IndexOf("INF Created player with id=", StringComparison.Ordinal) > -1)
             {
-                view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(PlayerRefresh));
+                view.Dispatcher?.Invoke(DispatcherPriority.Background, new Action(PlayerRefresh));
             }
-            if (log.IndexOf("INF Player disconnected") > -1)
+            if (log.IndexOf("INF Player disconnected", StringComparison.Ordinal) > -1)
             {
                 RemoveUser(log);
             }
@@ -616,9 +599,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         private void TelnetConnect()
         {
-            string address = Address;
-            int port = this.port;
-            string password = Password;
+            var address = Address;
+            var port = this.port;
+            var password = Password;
 
             if (LocalMode)
             {

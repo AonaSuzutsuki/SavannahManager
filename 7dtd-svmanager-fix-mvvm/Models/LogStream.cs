@@ -17,20 +17,20 @@ namespace Log
         /// </summary>
         public void MakeStream(string dirPath)
         {
-            if (IsLogGetter)
-            {
-                var di = new DirectoryInfo(AppInfo.GetAppPath() + @"\logs");
-                if (!di.Exists)
-                    di.Create();
-                var dt = DateTime.Now;
-                fs = new FileStream(dirPath +
-                    dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+            if (!IsLogGetter)
+                return;
 
-                sw = new StreamWriter(fs, System.Text.Encoding.UTF8)
-                {
-                    AutoFlush = true
-                };
-            }
+            var di = new DirectoryInfo(AppInfo.GetAppPath() + @"\logs");
+            if (!di.Exists)
+                di.Create();
+            var dt = DateTime.Now;
+            fs = new FileStream(dirPath +
+                                dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+
+            sw = new StreamWriter(fs, System.Text.Encoding.UTF8)
+            {
+                AutoFlush = true
+            };
         }
 
         /// <summary>

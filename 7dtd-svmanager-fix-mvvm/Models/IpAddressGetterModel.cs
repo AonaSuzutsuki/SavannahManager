@@ -44,6 +44,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void CopyClipboard(string text)
         {
+            if (string.IsNullOrEmpty(text))
+                return;
+
             Clipboard.SetText(text);
 
             var format = "Copied {0}.";
