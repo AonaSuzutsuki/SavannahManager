@@ -712,7 +712,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             chatArray.AddMultiLine(text);
             var cData = chatArray.GetLast();
-            ChatLogText += string.Format("{0}: {1}\r\n", cData.Name, cData.Message);
+            if (cData != null)
+                ChatLogText += string.Format("{0}: {1}\r\n", cData.Name, cData.Message);
         }
         public void SendChat(string text, Action act)
         {
