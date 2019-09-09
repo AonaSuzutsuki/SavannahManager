@@ -51,6 +51,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             MenuLangJapaneseBTClick = new DelegateCommand(MenuLangJapaneseBT_Click);
             MenuLangEnglishBTClick = new DelegateCommand(MenuLangEnglishBT_Click);
             MenuConfigEditorBTClick = new DelegateCommand(MenuConfigEditorBT_Click);
+            MenuBackupEditorBTClick = new DelegateCommand(MenuBackupEditorBT_Click);
             MenuCheckUpdateBTClick = new DelegateCommand(MenuCheckUpdateBT_Click);
             MenuVersionInfoClick = new DelegateCommand(MenuVersionInfo_Click);
 
@@ -128,6 +129,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand MenuLangJapaneseBTClick { get; set; }
         public ICommand MenuLangEnglishBTClick { get; set; }
         public ICommand MenuConfigEditorBTClick { get; set; }
+        public ICommand MenuBackupEditorBTClick { get; set; }
         public ICommand MenuCheckUpdateBTClick { get; set; }
         public ICommand MenuVersionInfoClick { get; set; }
 
@@ -277,6 +279,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void MenuConfigEditorBT_Click()
         {
             model.RunConfigEditor();
+        }
+
+        private void MenuBackupEditorBT_Click()
+        {
+            model.ShowBackupEditor();
         }
         private void MenuCheckUpdateBT_Click()
         {

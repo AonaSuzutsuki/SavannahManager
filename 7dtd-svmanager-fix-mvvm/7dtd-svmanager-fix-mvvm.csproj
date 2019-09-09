@@ -148,6 +148,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Backup\Views\BackupSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PlayerController\Views\Pages\AdminAdd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -215,6 +219,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Backup\Models\BackupSelectorModel.cs" />
+    <Compile Include="Backup\ViewModels\BackupSelectorViewModel.cs" />
+    <Compile Include="Backup\Views\BackupSelector.xaml.cs">
+      <DependentUpon>BackupSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="LangResources\CommonResources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -969,6 +969,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_not_found, LangResources.Resources.ConfigEditor),
                     LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
         }
+
+        public void ShowBackupEditor()
+        {
+            var backup = new Backup.Views.BackupSelector();
+            backup.Show();
+        }
         public void ShowSettings()
         {
             var setWin = new Settings.Views.SettingWindow(Setting, ShortcutKeyManager);
