@@ -7,7 +7,7 @@
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         mc:Ignorable="d"
-        Title="Backup Selector" Height="400" Width="550">
+        Title="Backup Selector" Height="500" Width="650">
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
@@ -51,17 +51,104 @@
 
             <Grid Margin="5,25,5,5">
                 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="5" />
-                    <ColumnDefinition Width="2*" />
-                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="35" />
+                </Grid.RowDefinitions>
 
-                <ListBox BorderThickness="1" Style="{DynamicResource NonGridListBox}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
 
-                <GridSplitter Background="Transparent" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Stretch" Height="Auto"/>
+                    <ListBox ItemsSource="{Binding BackupList}" BorderThickness="1" Style="{DynamicResource NonGridListBox}" ItemContainerStyle="{DynamicResource CustomListBoxItem}" />
 
-                <ListBox Grid.Column="2" BorderThickness="1" Style="{DynamicResource NonGridListBox}" />
+                    <GridSplitter Background="Transparent" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Stretch" Height="Auto"/>
+
+                    <ListBox Grid.Column="2" ItemsSource="{Binding BackupFileList}" BorderThickness="1" Background="Transparent" SelectionMode="Extended" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel ItemHeight="100" ItemWidth="100" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Text}" HorizontalAlignment="Center" Foreground="White"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <!--<ListBox Name="FileDirectoryListBox" Grid.Row="0" SelectionMode="Extended" ItemsSource="{Binding FileDirectoryItems.Value}" SelectedItem="{Binding SelectedItem}" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel ItemHeight="100" ItemWidth="100" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Image Source="{Binding ImageSource}" Width="50" Height="50" HorizontalAlignment="Center" />
+                                    <Label Content="{Binding Text}" HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding ListBoxDoubleClicked}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox} }, Path=SelectedItem}" />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding ListBoxSelectionChanged}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox} }, Path=SelectedItems}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add File" Command="{Binding AddFileBtClicked}" IsEnabled="{Binding IsOpened.Value}" />
+                                <MenuItem Header="Add Files In Directory" Command="{Binding AddFilesInDirectoryBtClicked}" IsEnabled="{Binding IsOpened.Value}" />
+                                <Separator Style="{DynamicResource MLB_Separator}" />
+                                <MenuItem Header="Create Directory" Command="{Binding CreateDirectoryBtClicked}" IsEnabled="{Binding IsOpened.Value}" />
+                                <Separator Style="{DynamicResource MLB_Separator}" />
+                                <MenuItem Header="Delete" Command="{Binding DeleteBtClicked}" IsEnabled="{Binding IsOpenedAndFileSelected.Value}" />
+                                <Separator Style="{DynamicResource MLB_Separator}" />
+                                <MenuItem Header="Extract selected files" Command="{Binding ExtractSelectedFilesClicked}" IsEnabled="{Binding IsOpenedAndFileSelected.Value}"  />
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
+                        
+                    </ListBox>-->
+                </Grid>
+
+                <Grid Grid.Row="1" VerticalAlignment="Center" Height="25">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid>
+                        <ProgressBar Minimum="0" Maximum="100" Value="{Binding BackupProgressValue.Value}" Style="{DynamicResource ProgressBarStyle}" />
+                        <Label Margin="10,0,0,0" Content="{Binding ProgressLabel.Value}" VerticalContentAlignment="Center" />
+                    </Grid>
+
+                    <Button Grid.Column="3" Content="Backup" Style="{DynamicResource FlatButton}" Command="{Binding BackupBtClicked}" />
+
+                </Grid>
 
             </Grid>
         </Grid>
