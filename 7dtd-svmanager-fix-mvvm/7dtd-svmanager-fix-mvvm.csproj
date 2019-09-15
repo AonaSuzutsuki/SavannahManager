@@ -198,6 +198,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\ButtonIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\LinkLabel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -227,6 +231,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Backup\Models\BackupSelectorModel.cs" />
+    <Compile Include="Backup\Models\Image\ImageLoader.cs" />
     <Compile Include="Backup\ViewModels\BackupSelectorViewModel.cs" />
     <Compile Include="Backup\Views\BackupSelector.xaml.cs">
       <DependentUpon>BackupSelector.xaml</DependentUpon>
@@ -479,6 +484,15 @@
   <ItemGroup>
     <Resource Include="Update\xml\updates.en.xml" />
     <Resource Include="Update\xml\updates.ja.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Backup\Images\FileIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Backup\Images\no-image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Backup\Images\DirectoryIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

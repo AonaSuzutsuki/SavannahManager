@@ -20,6 +20,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/ListBoxStyle.xaml" />
+                <ResourceDictionary Source="/Styles/ButtonIcon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -63,30 +64,76 @@
                         <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
 
-                    <ListBox ItemsSource="{Binding BackupList}" BorderThickness="1" Style="{DynamicResource NonGridListBox}" ItemContainerStyle="{DynamicResource CustomListBoxItem}" />
+                    <ListBox ItemsSource="{Binding BackupList}" BorderThickness="1" Style="{DynamicResource NonGridListBox}" ItemContainerStyle="{DynamicResource CustomListBoxItem}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding BackupListSelectionChanged}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox} }, Path=SelectedIndex}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Delete" IsEnabled="{Binding DeleteBtEnabled.Value}" Command="{Binding DeleteBtClicked}" />
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
+                    </ListBox>
 
                     <GridSplitter Background="Transparent" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Stretch" Height="Auto"/>
 
-                    <ListBox Grid.Column="2" ItemsSource="{Binding BackupFileList}" BorderThickness="1" Background="Transparent" SelectionMode="Extended" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel ItemHeight="100" ItemWidth="100" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Text}" HorizontalAlignment="Center" Foreground="White"></TextBlock>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                    <Grid Grid.Column="2">
 
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Button Width="25" Height="25" IsEnabled="{Binding BackBtIsEnabled.Value}" Style="{DynamicResource BackBtIcon}" Command="{Binding BackBtClicked}" />
+                                <Border Width="1" Margin="5,2,5,0" BorderBrush="{DynamicResource BorderWhiteColor}" BorderThickness="1" />
+                                <Button Width="25" Height="25" IsEnabled="{Binding ForwardBtIsEnabled.Value}" Style="{DynamicResource ForwardBtIcon}" Command="{Binding ForwardBtClicked}" />
+                                <Border Width="1" Margin="5,2,5,0" BorderBrush="{DynamicResource BorderWhiteColor}" BorderThickness="1" />
+                            </StackPanel>
+
+                            <TextBox Grid.Column="1" Text="{Binding PathText.Value}" />
+                        </Grid>
+
+                        <ListBox Grid.Row="2" ItemsSource="{Binding BackupFileList}" BorderThickness="1" Background="Transparent" SelectionMode="Extended" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel ItemHeight="120" ItemWidth="120" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Image Source="{Binding ImageSource}" Width="50" Height="50" HorizontalAlignment="Center" />
+                                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" />
+                                        <TextBlock Text="{Binding DateString}" FontSize="11px" HorizontalAlignment="Center" Foreground="White" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding BackupFileListMouseDoubleClick}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox} }, Path=SelectedItem}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ListBox>
+                    </Grid>
+                    
                     <!--<ListBox Name="FileDirectoryListBox" Grid.Row="0" SelectionMode="Extended" ItemsSource="{Binding FileDirectoryItems.Value}" SelectedItem="{Binding SelectedItem}" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
@@ -136,6 +183,7 @@
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
+                        <ColumnDefinition Width="5" />
                         <ColumnDefinition Width="100" />
                         <ColumnDefinition Width="5" />
                         <ColumnDefinition Width="100" />
@@ -146,7 +194,8 @@
                         <Label Margin="10,0,0,0" Content="{Binding ProgressLabel.Value}" VerticalContentAlignment="Center" />
                     </Grid>
 
-                    <Button Grid.Column="3" Content="Backup" Style="{DynamicResource FlatButton}" Command="{Binding BackupBtClicked}" />
+                    <Button Grid.Column="2" Content="Restore" Style="{DynamicResource FlatButton}" IsEnabled="{Binding RestoreBtEnabled.Value}" Command="{Binding RestoreBtClicked}" />
+                    <Button Grid.Column="4" Content="Backup" Style="{DynamicResource FlatButton}" Command="{Binding BackupBtClicked}" />
 
                 </Grid>
 
