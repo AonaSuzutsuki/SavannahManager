@@ -15,11 +15,9 @@ namespace _7dtd_svmanager_fix_mvvm
         private IDisposable mainWindow;
         private void MyApp_Startup(object sender, StartupEventArgs e)
         {
-            //var mainWindow = new MainWindow();
-            //mainWindow.Show();
-            //this.mainWindow = mainWindow;
-            var backupEditor = new Backup.Views.BackupSelector();
-            backupEditor.Show();
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.mainWindow = mainWindow;
         }
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
