@@ -81,7 +81,7 @@
                         </MenuItem>
                         <Separator Style="{DynamicResource MLB_Separator}" />
                         <MenuItem Header="Config Editor" Name="ConfigEditorBT" Command="{Binding MenuConfigEditorBTClick}" />
-                        <MenuItem Header="Backup Editor" Name="BackupEditorBT" Command="{Binding MenuBackupEditorBTClick}" />
+                        <MenuItem Header="Backup Editor" Name="BackupEditorBT" Command="{Binding MenuBackupEditorBTClick}" IsEnabled="{Binding IsBeta.Value}" />
                     </MenuItem>
                     <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_HelpBT, Mode=OneWay}" IsEnabled="True">
                         <MenuItem IsEnabled="True" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_UpdateCheckBT, Mode=OneWay}" Name="MenuCheckUpdateBT" Command="{Binding MenuCheckUpdateBTClick}" />

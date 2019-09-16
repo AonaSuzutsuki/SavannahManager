@@ -119,6 +119,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             get => connectionPanelIsEnabled;
             set => SetProperty(ref connectionPanelIsEnabled, value);
         }
+
+        private bool isBeta = false;
+
+        public bool IsBeta
+        {
+            get => isBeta;
+            set => SetProperty(ref isBeta, value);
+        }
+
         private bool localMode = true;
         public bool LocalMode
         {
@@ -302,6 +311,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             StartBtEnabled = LocalMode;
 
             consoleTextLength = Setting.ConsoleTextLength;
+
+            IsBeta = Setting.IsBetaMode;
 
             if (Setting.IsFirstBoot)
             {
@@ -979,6 +990,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             var setWin = new Settings.Views.SettingWindow(Setting, ShortcutKeyManager);
             setWin.ShowDialog();
+            IsBeta = Setting.IsBetaMode;
         }
         public void ShowInitialize()
         {

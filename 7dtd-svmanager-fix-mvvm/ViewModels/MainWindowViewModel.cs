@@ -89,9 +89,12 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             #endregion
 
             #region Property Initialize
-            StartBTEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBTEnabled);
-            TelnetBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBTIsEnabled);
-            TelnetBTLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBTLabel);
+
+            IsBeta = model.ObserveProperty(m => m.IsBeta).ToReactiveProperty();
+
+            StartBTEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled);
+            TelnetBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled);
+            TelnetBTLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel);
 
             UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
             
@@ -167,6 +170,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region Properties
+        public ReactiveProperty<bool> IsBeta { get; set; }
+
         public TextBox ConsoleTextBox { get; set; }
         
         public ReactiveProperty<bool> StartBTEnabled { get; set; }
