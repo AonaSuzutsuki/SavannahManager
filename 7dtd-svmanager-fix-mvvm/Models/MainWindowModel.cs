@@ -73,23 +73,23 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         #endregion
 
         #region PropertiesForViewModel
-        private bool startBTEnabled = true;
-        public bool StartBTEnabled
+        private bool startBtEnabled = true;
+        public bool StartBtEnabled
         {
-            get => startBTEnabled;
-            set => SetProperty(ref startBTEnabled, value);
+            get => startBtEnabled;
+            set => SetProperty(ref startBtEnabled, value);
         }
-        private bool telnetBTIsEnabled = true;
-        public bool TelnetBTIsEnabled
+        private bool telnetBtIsEnabled = true;
+        public bool TelnetBtIsEnabled
         {
-            get => telnetBTIsEnabled;
-            set => SetProperty(ref telnetBTIsEnabled, value);
+            get => telnetBtIsEnabled;
+            set => SetProperty(ref telnetBtIsEnabled, value);
         }
-        private string telnetBTLabel;
-        public string TelnetBTLabel
+        private string telnetBtLabel;
+        public string TelnetBtLabel
         {
-            get => telnetBTLabel;
-            set => SetProperty(ref telnetBTLabel, value);
+            get => telnetBtLabel;
+            set => SetProperty(ref telnetBtLabel, value);
         }
 
         private ObservableCollection<ViewModels.UserDetail> usersList;
@@ -119,6 +119,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             get => connectionPanelIsEnabled;
             set => SetProperty(ref connectionPanelIsEnabled, value);
         }
+
+        private bool isBeta = false;
+
+        public bool IsBeta
+        {
+            get => isBeta;
+            set => SetProperty(ref isBeta, value);
+        }
+
         private bool localMode = true;
         public bool LocalMode
         {
@@ -127,7 +136,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             {
                 SetProperty(ref localMode, value);
                 ConnectionPanelIsEnabled = !value;
-                StartBTEnabled = value;
+                StartBtEnabled = value;
             }
         }
         private bool localModeEnabled = true;
@@ -194,36 +203,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             get => isConnected && RowConnected;
             set => isConnected = value;
         }
-        private bool RowConnected
-        {
-            get
-            {
-                if (telnet == null)
-                    return false;
-                return telnet.Connected;
-            }
-        }
+        private bool RowConnected => telnet != null && telnet.Connected;
         public bool IsFailed { get; private set; } = false;
         public bool IsTelnetLoading { get; protected set; } = false;
         public SettingLoader Setting { get; private set; }
         public ShortcutKeyManager ShortcutKeyManager { get; private set; }
 
-        private string address = string.Empty;
-        private int port = 0;
-        private string password = string.Empty;
-
-        private string ExeFilePath
-        {
-            get => Setting.ExeFilePath;
-        }
-        private string ConfigFilePath
-        {
-            get => Setting.ConfigFilePath;
-        }
-        private string AdminFilePath
-        {
-            get => Setting.AdminFilePath;
-        }
+        private string ExeFilePath => Setting.ExeFilePath;
+        private string ConfigFilePath => Setting.ConfigFilePath;
+        private string AdminFilePath => Setting.AdminFilePath;
 
         private int consoleTextLength;
         #endregion
@@ -231,12 +219,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         #region Fiels
         private readonly Window view;
 
+        private string address = string.Empty;
+        private int port = 0;
+        private string password = string.Empty;
+
         private readonly LogStream logStream = new LogStream();
         private TelnetClient telnet;
         private readonly List<ChatInfo> chatArray = new List<ChatInfo>();
 
-        public Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
-        public List<int> connectedIds = new List<int>();
+        private readonly Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
+        private readonly List<int> connectedIds = new List<int>();
 
         private bool isServerForceStop = false;
         #endregion
@@ -264,7 +256,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private void TelnetReadEvent(object sender, TelnetClient.TelnetReadEventArgs e)
         {
-            string log = "{0}".FormatString(e.Log);
+            var log = "{0}".FormatString(e.Log);
 
             //if (isStop)
             //    SocTelnetSendDirect("");
@@ -273,15 +265,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             AppendConsoleLog(log);
 
-            if (log.IndexOf("Chat") > -1)
+            if (log.IndexOf("Chat", StringComparison.Ordinal) > -1)
             {
                 AddChatText(log);
             }
-            if (log.IndexOf("INF Created player with id=") > -1)
+            if (log.IndexOf("INF Created player with id=", StringComparison.Ordinal) > -1)
             {
-                view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(PlayerRefresh));
+                view.Dispatcher?.Invoke(DispatcherPriority.Background, new Action(PlayerRefresh));
             }
-            if (log.IndexOf("INF Player disconnected") > -1)
+            if (log.IndexOf("INF Player disconnected", StringComparison.Ordinal) > -1)
             {
                 RemoveUser(log);
             }
@@ -316,9 +308,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             logStream.IsLogGetter = Setting.IsLogGetter;
             LocalMode = Setting.LocalMode;
-            StartBTEnabled = LocalMode;
+            StartBtEnabled = LocalMode;
 
             consoleTextLength = Setting.ConsoleTextLength;
+
+            IsBeta = Setting.IsBetaMode;
 
             if (Setting.IsFirstBoot)
             {
@@ -360,11 +354,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (IsConnected)
             {
-                TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
+                TelnetBtLabel = LangResources.Resources.UI_DisconnectFromTelnet;
             }
             else
             {
-                TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
+                TelnetBtLabel = LangResources.Resources.UI_ConnectWithTelnet;
             }
 
             if (IsTelnetLoading)
@@ -423,8 +417,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (!serverProcessManager.ProcessStart(processFailedAction))
                 return;
 
-            StartBTEnabled = false;
-            TelnetBTIsEnabled = false;
+            StartBtEnabled = false;
+            TelnetBtIsEnabled = false;
             LocalModeEnabled = false;
 
             BottomNewsLabel = LangResources.Resources.UI_WaitingServer;
@@ -437,9 +431,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 {
                     if (isServerForceStop)
                     {
-                        TelnetBTIsEnabled = true;
-                        TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
-                        StartBTEnabled = true;
+                        TelnetBtIsEnabled = true;
+                        TelnetBtLabel = LangResources.Resources.UI_ConnectWithTelnet;
+                        StartBtEnabled = true;
                         LocalModeEnabled = true;
                         ConnectionPanelIsEnabled = !LocalMode;
                         BottomNewsLabel = LangResources.Resources.UI_ReadyComplete;
@@ -455,8 +449,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         IsConnected = true;
                         IsTelnetLoading = false;
 
-                        TelnetBTIsEnabled = true;
-                        TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
+                        TelnetBtIsEnabled = true;
+                        TelnetBtLabel = LangResources.Resources.UI_DisconnectFromTelnet;
                         LocalModeEnabled = false;
                         ConnectionPanelIsEnabled = false;
                         BottomNewsLabel = LangResources.Resources.UI_FinishedLaunching;
@@ -486,8 +480,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             {
                 SocTelnetSend("shutdown");
 
-                TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
-                StartBTEnabled = true;
+                TelnetBtLabel = LangResources.Resources.UI_ConnectWithTelnet;
+                StartBtEnabled = true;
             }
             else
             {
@@ -616,9 +610,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         private void TelnetConnect()
         {
-            string address = Address;
-            int port = this.port;
-            string password = Password;
+            var address = Address;
+            var port = this.port;
+            var password = Password;
 
             if (LocalMode)
             {
@@ -661,10 +655,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
 
             logStream.MakeStream(ConstantValues.LogDirectoryPath);
-            TelnetBTLabel = LangResources.Resources.UI_DisconnectFromTelnet;
+            TelnetBtLabel = LangResources.Resources.UI_DisconnectFromTelnet;
             LocalModeEnabled = false;
             ConnectionPanelIsEnabled = false;
-            StartBTEnabled = false;
+            StartBtEnabled = false;
         }
         private void TelnetDisconnect()
         {
@@ -677,12 +671,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             }
             telnet.Dispose();
-            TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
+            TelnetBtLabel = LangResources.Resources.UI_ConnectWithTelnet;
             IsConnected = false;
 
             ConnectionPanelIsEnabled = !LocalMode;
             LocalModeEnabled = true;
-            StartBTEnabled = LocalMode;
+            StartBtEnabled = LocalMode;
 
             PlayerClean();
 
@@ -712,7 +706,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             chatArray.AddMultiLine(text);
             var cData = chatArray.GetLast();
-            ChatLogText += string.Format("{0}: {1}\r\n", cData.Name, cData.Message);
+            if (cData != null)
+                ChatLogText += string.Format("{0}: {1}\r\n", cData.Name, cData.Message);
         }
         public void SendChat(string text, Action act)
         {
@@ -985,10 +980,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_not_found, LangResources.Resources.ConfigEditor),
                     LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
         }
+
+        public void ShowBackupEditor()
+        {
+            var backup = new Backup.Views.BackupSelector();
+            backup.Show();
+        }
         public void ShowSettings()
         {
             var setWin = new Settings.Views.SettingWindow(Setting, ShortcutKeyManager);
             setWin.ShowDialog();
+            IsBeta = Setting.IsBetaMode;
         }
         public void ShowInitialize()
         {

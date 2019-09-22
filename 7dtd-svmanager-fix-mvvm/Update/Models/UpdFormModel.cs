@@ -84,7 +84,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             CurrentVersion = ConstantValues.Version;
 
             CanCancel = false;
-            updManager = new UpdateManager(updLink, ConstantValues.UpdatorFilePath);
+            updManager = new UpdateManager(updLink, ConstantValues.UpdaterFilePath);
             CanUpdate = updManager.IsUpdate;
             LatestVersion = updManager.Version;
             VersionList.AddAll(updManager.Updates.Keys);
@@ -130,7 +130,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             {
                 StartInfo = new System.Diagnostics.ProcessStartInfo()
                 {
-                    FileName = ConstantValues.UpdatorFilePath,
+                    FileName = ConstantValues.UpdaterFilePath,
                     Arguments = id.ToString() + " " + "SavannahManager2.exe" + " " + @"""" + updLink.MainPath + @""""
                 }
             };
