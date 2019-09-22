@@ -28,6 +28,6 @@ namespace _7dtd_svmanager_fix_mvvm
         public static readonly string ConfigEditorFilePath = AppDirectoryPath + @"\ConfigEditor.exe";
         public static readonly string UpdaterFilePath = AppDirectoryPath + @"\Updater\update.exe";
 
-        public static string Version => CommonCoreLib.File.Version.GetVersion() + "b";
+        public static string Version => CommonCoreLib.File.Version.GetVersion(); /* + "b";*/
     }
 }
