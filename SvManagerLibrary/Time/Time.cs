@@ -9,7 +9,7 @@ namespace SvManagerLibrary.Time
     {
         public static TimeInfo ConvertTime(string text)
         {
-            TimeInfo timeInfo = new TimeInfo();
+            var timeInfo = new TimeInfo();
 
             const string expression = "^Day (?<day>.*?), (?<hour>.*?):(?<minute>.*?)$";
             var reg = new Regex(expression);
@@ -17,7 +17,7 @@ namespace SvManagerLibrary.Time
             while (sr.Peek() > -1)
             {
                 var match = reg.Match(sr.ReadLine());
-                if (match.Success == true)
+                if (match.Success)
                 {
                     int.TryParse(match.Groups["day"].Value, out int day);
                     timeInfo.Day = day;
@@ -39,7 +39,7 @@ namespace SvManagerLibrary.Time
             telnet.DestructionEvent = true;
             telnet.WriteLine("gt");
             System.Threading.Thread.Sleep(100);
-            string log = telnet.Read().TrimEnd('\0');
+            var log = telnet.Read().TrimEnd('\0');
             telnet.DestructionEvent = false;
             return ConvertTime(log);
         }
@@ -47,9 +47,9 @@ namespace SvManagerLibrary.Time
         {
             TelnetException.CheckTelnetClient(telnet);
 
-            double Minute = Math.Ceiling((double)timeInfo.Minute * 16.666666666666666666666666666667);
+            var minute = Math.Ceiling(timeInfo.Minute * 16.666666666666666666666666666667);
             //16.66666666667 ≒ 50.0f ÷ 3.0f
-            int stTime = (timeInfo.Day - 1) * 24000 + (timeInfo.Hour * 1000) + (int)Minute;
+            var stTime = (timeInfo.Day - 1) * 24000 + (timeInfo.Hour * 1000) + (int)minute;
             //(Day - 1) * 24000 + (Hour * 1000) + (Minute * 16.666666666666666666666666666667)
             telnet.WriteLine("st " + stTime.ToString());
         }

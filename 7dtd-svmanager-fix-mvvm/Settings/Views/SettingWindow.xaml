@@ -184,7 +184,7 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_BetaModeLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                                    <CheckBox Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_BetaModeEnabledLabel, Mode=OneWay}" IsChecked="{Binding IsBetaModeChecked.Value}" Grid.Row="1" IsEnabled="False" />
+                                    <CheckBox Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_BetaModeEnabledLabel, Mode=OneWay}" IsChecked="{Binding IsBetaModeChecked.Value}" Grid.Row="1" IsEnabled="True" />
                                 </Grid>
 
                                 <Grid Margin="3">

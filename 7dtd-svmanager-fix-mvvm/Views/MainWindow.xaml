@@ -81,6 +81,7 @@
                         </MenuItem>
                         <Separator Style="{DynamicResource MLB_Separator}" />
                         <MenuItem Header="Config Editor" Name="ConfigEditorBT" Command="{Binding MenuConfigEditorBTClick}" />
+                        <MenuItem Header="Backup Editor" Name="BackupEditorBT" Command="{Binding MenuBackupEditorBTClick}" IsEnabled="{Binding IsBeta.Value}" />
                     </MenuItem>
                     <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_HelpBT, Mode=OneWay}" IsEnabled="True">
                         <MenuItem IsEnabled="True" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_UpdateCheckBT, Mode=OneWay}" Name="MenuCheckUpdateBT" Command="{Binding MenuCheckUpdateBTClick}" />
@@ -134,7 +135,7 @@
                                         <GridViewColumn Width="40" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_DeathLabel, Mode=OneWay}" DisplayMemberBinding="{Binding Path=Death}" />
                                         <GridViewColumn Width="40" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ScoreLabel, Mode=OneWay}" DisplayMemberBinding="{Binding Path=Score}" />
                                         <GridViewColumn Width="150" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_Coord, Mode=OneWay}" DisplayMemberBinding="{Binding Path=Coord}" />
-                                        <GridViewColumn Width="100" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_SteamIDLabel, Mode=OneWay}" DisplayMemberBinding="{Binding Path=SteamID}" />
+                                        <GridViewColumn Width="100" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_SteamIDLabel, Mode=OneWay}" DisplayMemberBinding="{Binding Path=SteamId}" />
                                     </GridView>
                                 </ListView.View>
                                 <ListView.ContextMenu>

@@ -1,11 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SvManagerLibrary.Telnet;
-using SvManagerLibrary.Time;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Moq;
 using ITelnetClient = SvManagerLibrary.Telnet.ITelnetClient;
 
@@ -49,11 +42,9 @@ namespace SvManagerLibrary.Time.Tests
             Assert.AreEqual(exp, act);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SendTimeTest()
         {
-            var mock = new Mock<ITelnetClient>();
-            string actCmd = string.Empty;
             var timeInfo = new TimeInfo
             {
                 Day = 2,
@@ -62,13 +53,13 @@ namespace SvManagerLibrary.Time.Tests
             };
             var exp = "st 35567";
 
+            var mock = new Mock<ITelnetClient>();
             mock.Setup(x => x.Connected).Returns(true);
-            mock.Setup(mr => mr.WriteLine(It.IsAny<string>())).Callback((string cmd) => actCmd = cmd);
 
             var obj = mock.Object;
             Time.SendTime(obj, timeInfo);
 
-            Assert.AreEqual(exp, actCmd);
+            mock.Verify(m => m.WriteLine(exp), Times.Once);
         }
     }
 }

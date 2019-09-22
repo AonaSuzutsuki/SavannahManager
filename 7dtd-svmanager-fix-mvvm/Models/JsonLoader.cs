@@ -45,8 +45,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private void Decode(string json, string xpath = "root/item")
         {
-            XmlDictionaryReader xmlReader = JsonReaderWriterFactory.CreateJsonReader(
-                        Encoding.UTF8.GetBytes(json), XmlDictionaryReaderQuotas.Max);
+            var xmlReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(json), XmlDictionaryReaderQuotas.Max);
 
             var element = XElement.Load(xmlReader);
             var xmlLoader = new XmlDocument();
@@ -61,7 +60,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
         }
 
-        private void HandleNode(XmlNode node, Dictionary<string, string> dic)
+        private static void HandleNode(XmlNode node, Dictionary<string, string> dic)
         {
             if (node.HasChildNodes)
             {
@@ -72,8 +71,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
             else
             {
-                string name = node.ParentNode.LocalName;
-                string value = node.InnerText;
+                var name = node.ParentNode.LocalName;
+                var value = node.InnerText;
 
                 if (!dic.ContainsKey(name))
                     dic.Add(name, value);
@@ -81,16 +80,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         private string DecodeEncodedNonAsciiCharacters(string value)
         {
-            return Regex.Replace(value, @"\\u(?<Value>[a-zA-Z0-9]{4})", m => {
-                return ((char)int.Parse(m.Groups["Value"].Value, NumberStyles.HexNumber)).ToString();
-            });
+            return Regex.Replace(value, @"\\u(?<Value>[a-zA-Z0-9]{4})", m => 
+                ((char)int.Parse(m.Groups["Value"].Value, NumberStyles.HexNumber)).ToString()
+            );
         }
 
         public string GetValue(int index, string key)
         {
             if (nodes.Count < index || index < 0) return null;
             var dic = nodes[index];
-            foreach (KeyValuePair<string, string> pair in dic)
+            foreach (var pair in dic)
             {
                 if (pair.Key.Equals(key)) return pair.Value;
             }
@@ -99,10 +98,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (Dictionary<string, string> dic in nodes)
+            var sb = new StringBuilder();
+            foreach (var dic in nodes)
             {
-                foreach (KeyValuePair<string, string> pair in dic)
+                foreach (var pair in dic)
                 {
                     sb.AppendFormat("{0} : {1}\r\n", pair.Key, pair.Value);
                 }

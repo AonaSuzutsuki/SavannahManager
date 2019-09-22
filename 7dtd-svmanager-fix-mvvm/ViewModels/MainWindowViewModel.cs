@@ -51,6 +51,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             MenuLangJapaneseBTClick = new DelegateCommand(MenuLangJapaneseBT_Click);
             MenuLangEnglishBTClick = new DelegateCommand(MenuLangEnglishBT_Click);
             MenuConfigEditorBTClick = new DelegateCommand(MenuConfigEditorBT_Click);
+            MenuBackupEditorBTClick = new DelegateCommand(MenuBackupEditorBT_Click);
             MenuCheckUpdateBTClick = new DelegateCommand(MenuCheckUpdateBT_Click);
             MenuVersionInfoClick = new DelegateCommand(MenuVersionInfo_Click);
 
@@ -88,9 +89,12 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             #endregion
 
             #region Property Initialize
-            StartBTEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBTEnabled);
-            TelnetBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBTIsEnabled);
-            TelnetBTLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBTLabel);
+
+            IsBeta = model.ObserveProperty(m => m.IsBeta).ToReactiveProperty();
+
+            StartBTEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled);
+            TelnetBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled);
+            TelnetBTLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel);
 
             UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
             
@@ -128,6 +132,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand MenuLangJapaneseBTClick { get; set; }
         public ICommand MenuLangEnglishBTClick { get; set; }
         public ICommand MenuConfigEditorBTClick { get; set; }
+        public ICommand MenuBackupEditorBTClick { get; set; }
         public ICommand MenuCheckUpdateBTClick { get; set; }
         public ICommand MenuVersionInfoClick { get; set; }
 
@@ -165,6 +170,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region Properties
+        public ReactiveProperty<bool> IsBeta { get; set; }
+
         public TextBox ConsoleTextBox { get; set; }
         
         public ReactiveProperty<bool> StartBTEnabled { get; set; }
@@ -277,6 +284,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void MenuConfigEditorBT_Click()
         {
             model.RunConfigEditor();
+        }
+
+        private void MenuBackupEditorBT_Click()
+        {
+            model.ShowBackupEditor();
         }
         private void MenuCheckUpdateBT_Click()
         {
