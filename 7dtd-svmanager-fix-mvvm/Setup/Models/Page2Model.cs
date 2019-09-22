@@ -57,6 +57,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
                 if (rKey == null)
                 {
                     ExMessageBoxBase.Show(LangResources.SetupResource.UI_SteamNotInstalled, "", ExMessageBoxBase.MessageType.Exclamation);
+                    return;
                 }
                 steamPath = (string)rKey.GetValue(ConstantValues.RegSteamKey);
             }
