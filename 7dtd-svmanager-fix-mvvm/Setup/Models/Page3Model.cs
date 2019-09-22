@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommonStyleLib.ExMessageBox;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.Models
 {
@@ -57,7 +58,11 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
             string steamPath = string.Empty;
             using (var rKey = Registry.CurrentUser.OpenSubKey(ConstantValues.RegSteamPath))
             {
-                if (rKey == null) return; // Steamが未インストール
+                if (rKey == null)
+                {
+                    ExMessageBoxBase.Show(LangResources.SetupResource.UI_SteamNotInstalled, "", ExMessageBoxBase.MessageType.Exclamation);
+                    return;
+                }
                 steamPath = (string)rKey.GetValue(ConstantValues.RegSteamKey);
             }
 
