@@ -194,8 +194,8 @@
                         <Label Margin="10,0,0,0" Content="{Binding ProgressLabel.Value}" VerticalContentAlignment="Center" />
                     </Grid>
 
-                    <Button Grid.Column="2" Content="Restore" Style="{DynamicResource FlatButton}" IsEnabled="{Binding RestoreBtEnabled.Value}" Command="{Binding RestoreBtClicked}" />
-                    <Button Grid.Column="4" Content="Backup" Style="{DynamicResource FlatButton}" Command="{Binding BackupBtClicked}" />
+                    <Button Grid.Column="2" Content="Restore" Style="{DynamicResource FlatButton}" Foreground="#FF8080" BorderBrush="#FF8080" IsEnabled="{Binding RestoreBtEnabled.Value}" Command="{Binding RestoreBtClicked}" />
+                    <Button Grid.Column="4" Content="Backup" Style="{DynamicResource FlatButton}" Foreground="#81D1FF" BorderBrush="#81D1FF" Command="{Binding BackupBtClicked}" />
 
                 </Grid>
 
