@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Security.Authentication.ExtendedProtection;
 using System.Text;
@@ -62,6 +63,10 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
     public class BackupSelectorModel : ModelBase
     {
+        #region Constants
+        private const string BACKUP_DIR_NAME = "backup";
+        #endregion
+
         #region Properties
         public ObservableCollection<string> BackupList { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<BackupItem> BackupFileList { get; set; } = new ObservableCollection<BackupItem>();
@@ -70,6 +75,12 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         {
             get => canRestore;
             set => SetProperty(ref canRestore, value);
+        }
+
+        public bool CanDeleteAll
+        {
+            get => canDeleteAll;
+            set => SetProperty(ref canDeleteAll, value);
         }
 
         public bool ForwardBtIsEnabled
@@ -108,6 +119,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         private string sevenDaysSavePath;
 
         private bool canRestore;
+        private bool canDeleteAll;
         private bool forwardBtIsEnabled;
         private bool backBtIsEnabled;
         private string pathText;
@@ -118,13 +130,18 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         private PathMapItem current;
         #endregion
 
-        private readonly TimeBackup timeBackup;
+        private TimeBackup timeBackup;
 
         public BackupSelectorModel()
         {
+            Initialize();
+        }
+
+        public void Initialize()
+        {
             var userDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             sevenDaysSavePath = $"{userDir}/7DaysToDie";
-            timeBackup = new TimeBackup("backup", sevenDaysSavePath);
+            timeBackup = new TimeBackup(BACKUP_DIR_NAME, sevenDaysSavePath);
             timeBackup.BackupCompleted += TimeBackupOnBackupCompleted;
             timeBackup.BackupProgress += TimeBackupOnBackupProgress;
             timeBackup.BackupStarted += TimeBackupOnBackupStarted;
@@ -183,6 +200,11 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
                     ProgressLabel = "Completed to restore.";
                     break;
             }
+        }
+
+        public void MenuOpened()
+        {
+            CanDeleteAll = new List<string>(timeBackup.TraceBackup()).Count > 0;
         }
 
         public void Restore()
@@ -255,6 +277,30 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
                 BackBtIsEnabled = pathMapItem.Parent != null;
                 PathText = pathMapItem.ToString();
             }
+        }
+
+        public void Delete()
+        {
+            if (!timeBackup.CanRestore)
+                return;
+
+            timeBackup.DeleteBackup();
+            InitializeBackupList();
+            CanRestore = timeBackup.CanRestore;
+        }
+
+        public void DeleteAll()
+        {
+            if (!Directory.Exists(BACKUP_DIR_NAME))
+                return;
+
+            var dirs = Directory.GetDirectories(BACKUP_DIR_NAME);
+            foreach (var dir in dirs)
+            {
+                Directory.Delete(dir, true);
+            }
+
+            Initialize();
         }
     }
 }
