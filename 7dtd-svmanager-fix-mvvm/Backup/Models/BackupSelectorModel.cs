@@ -286,6 +286,8 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
             timeBackup.DeleteBackup();
             InitializeBackupList();
+
+            BackupFileList.Clear();
             CanRestore = timeBackup.CanRestore;
         }
 
