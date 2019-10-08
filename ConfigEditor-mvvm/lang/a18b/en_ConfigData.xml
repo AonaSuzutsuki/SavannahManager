@@ -21,6 +21,7 @@
     ネットワークプロトコルで使用させないものを設定します。複数指定する場合はカンマ区切りでできます。現段階ではLiteNetLib, SteamNetworkingの2つ。
     Dedicatedサーバの場合で、NATルータを使用していないもしくはポートフォワーディングが正しく設定されていない場合はSteamNetworkingを無効化すべきです。
   </property>
+  <property name="ServerMaxWorldTransferSpeedKiBs" value="512" selection="" type="">Maximum (!) speed in kiB/s the world is transferred at to a client on first connect if it does not have the world yet. Maximum is about 1300 kiB/s, even if you set a higher value.</property>
   <property name="ServerMaxPlayerCount" value="8" selection="" type="integer">参加できる最大人数を設定します。</property>
   <property name="ServerReservedSlots" value="0" selection="" type="integer">
     MaxPlayerCountを超えて参加する場合に使用される特殊なプレイヤースロットです。
@@ -118,7 +119,7 @@
   <property name="BuildCreate" value="false" selection="true/false" type="combo">チートモードを有効にするかどうかを設定します。</property>
   <property name="DayNightLength" value="60" selection="" type="integer">１日の時間をリアルタイムで何分とするかを設定します。</property>
   <property name="DayLightLength" value="18" selection="" type="integer">ゲーム無い時間で昼の時間を設定します。こちらはリアルタイムではないので要注意。</property>
-  <property name="DropOnDeath" value="0" selection="0/1/2/3" type="combo">
+  <property name="DropOnDeath" value="1" selection="0/1/2/3" type="combo">
     死亡した際にアイテムをドロップするかどうか。
     0 = 全て
     1 = ツールベルトのみ
@@ -136,6 +137,7 @@
     ベッドロールの安全圏を設定します。このエリア内はゾンビは湧きません。既に無効化されたベッドロールは効果は無いようです。
     原文 =&gt; Size of bedroll deadzone, no zombies will spawn inside this area, and any cleared sleeper volumes that touch a bedroll deadzone will not spawn after they've been cleared.
   </property>
+  <property name="BedrollExpiryTime" value="45" selection="" type="">Number of days a bedroll stays active after owner was last online</property>
   <property name="MaxSpawnedZombies" value="60" selection="" type="integer">
     ゾンビの最大湧き数。
     増やしすぎるとメモリ消費やCPU消費が増加するため注意。
@@ -143,6 +145,7 @@
   <property name="MaxSpawnedAnimals" value="50" selection="" type="integer">
     動物の最大湧き数。
   </property>
+  <property name="ServerMaxAllowedViewDistance" value="12" selection="" type="">Max viewdistance a client may request (6 - 12). High impact on memory usage and performance.</property>
   <property name="EnemySpawnMode" value="true" selection="true/false" type="combo">敵を出現させるかどうか。</property>
   <property name="EnemyDifficulty" value="0" selection="0/1" type="combo">
     通常の敵をノーマルモードにするかフェラルにするかどうかの設定？未検証なので不明。
@@ -193,7 +196,7 @@
   <property name="LandClaimCount" value="1" selection="" type="integer">Maximum allowed land claims per player.</property>
   <property name="LandClaimSize" value="41" selection="" type="integer">Size in blocks that is protected by a keystone</property>
   <property name="LandClaimDeadZone" value="30" selection="" type="integer">Keystones must be this many blocks apart (unless you are friends with the other player)</property>
-  <property name="LandClaimExpiryTime" value="3" selection="" type="integer">The number of days a player can be offline before their claims expire and are no longer protected</property>
+  <property name="LandClaimExpiryTime" value="7" selection="" type="integer">The number of days a player can be offline before their claims expire and are no longer protected</property>
   <property name="LandClaimDecayMode" value="0" selection="" type="integer">Controls how offline players land claims decay. All claims have full protection for the first 24hrs. 0=Linear, 1=Exponential, 2=Full protection until claim is expired.</property>
   <property name="LandClaimOnlineDurabilityModifier" value="4" selection="" type="integer">How much protected claim area block hardness is increased when a player is online. 0 means infinite (no damage will ever be taken). Default is 4x</property>
   <property name="LandClaimOfflineDurabilityModifier" value="4" selection="" type="integer">How much protected claim area block hardness is increased when a player is offline. 0 means infinite (no damage will ever be taken). Default is 4x</property>

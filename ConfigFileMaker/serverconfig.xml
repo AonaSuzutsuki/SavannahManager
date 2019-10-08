@@ -21,6 +21,8 @@
   <!-- Visibility of this server: 2 = public, 1 = only shown to friends, 0 = not listed. As you are never friend of a dedicated server setting this to "1" will only work when the first player connects manually by IP. -->
   <property name="ServerDisabledNetworkProtocols"	value="SteamNetworking"/>
   <!-- Networking protocols that should not be used. Separated by comma. Possible values: LiteNetLib, SteamNetworking. Dedicated servers should disable SteamNetworking if there is no NAT router in between your users and the server or when port-forwarding is set up correctly -->
+  <property name="ServerMaxWorldTransferSpeedKiBs" value="512"/>
+  <!-- Maximum (!) speed in kiB/s the world is transferred at to a client on first connect if it does not have the world yet. Maximum is about 1300 kiB/s, even if you set a higher value. -->
 
   <!-- Slots -->
   <property name="ServerMaxPlayerCount"			value="8"/>
@@ -80,7 +82,7 @@
 
   <!-- World -->
   <property name="GameWorld"						value="Navezgane"/>
-  <!-- RWG (see WorldGenSeed and WorldGenSize options below) or any already existing world name in the Worlds folder (currently shipping with Navezgane) -->
+  <!-- "RWG" (see WorldGenSeed and WorldGenSize options below) or any already existing world name in the Worlds folder (currently shipping with e.g. "Navezgane", "PREGEN01", ...) -->
   <property name="WorldGenSeed"					value="asdf"/>
   <!-- If RWG this is the seed for the generation of the new world. If a world with the resulting name already exists it will simply load it -->
   <property name="WorldGenSize"					value="4096"/>
@@ -113,18 +115,22 @@
   <!-- real time minutes per in game day: 60 minutes -->
   <property name="DayLightLength"					value="18" />
   <!-- in game hours the sun shines per day: 18 hours day light per in game day -->
-  <property name="DropOnDeath"					value="0" />
-  <!-- 0 = everything, 1 = toolbelt only, 2 = backpack only, 3 = delete all -->
+  <property name="DropOnDeath"					value="1" />
+  <!-- 0 = nothing, 1 = everything, 2 = toolbelt only, 3 = backpack only, 4 = delete all -->
   <property name="DropOnQuit"						value="0" />
   <!-- 0 = nothing, 1 = everything, 2 = toolbelt only, 3 = backpack only -->
-  <property name="BedrollDeadZoneSize"			value="15"/>
-  <!-- Size of bedroll deadzone, no zombies will spawn inside this area, and any cleared sleeper volumes that touch a bedroll deadzone will not spawn after they've been cleared. -->
+  <property name="BedrollDeadZoneSize"			value="15" />
+  <!-- Size (box "radius", so a box with 2 times the given value for each side's length) of bedroll deadzone, no zombies will spawn inside this area, and any cleared sleeper volumes that touch a bedroll deadzone will not spawn after they've been cleared. -->
+  <property name="BedrollExpiryTime"				value="45" />
+  <!-- Number of days a bedroll stays active after owner was last online -->
 
   <!-- Performance related -->
-  <property name="MaxSpawnedZombies"				value="60"/>
+  <property name="MaxSpawnedZombies"				value="60" />
   <!-- Making this number too large (more than about 80) may cause servers to run at poor framerates which will effect lag and play quality for clients. -->
-  <property name="MaxSpawnedAnimals"				value="50"/>
+  <property name="MaxSpawnedAnimals"				value="50" />
   <!-- If your server has a large number of players you can increase this limit to add more wildlife. Animals don't consume as much CPU as zombies. NOTE: That this doesn't cause more animals to spawn arbitrarily: The biome spawning system only spawns a certain number of animals in a given area, but if you have lots of players that are all spread out then you may be hitting the limit and can increase it. -->
+  <property name="ServerMaxAllowedViewDistance"	value="12" />
+  <!-- Max viewdistance a client may request (6 - 12). High impact on memory usage and performance. -->
 
   <!-- Zombie settings -->
   <property name="EnemySpawnMode"					value="true" />
@@ -140,7 +146,7 @@
   <property name="ZombieBMMove"					value="3" />
   <!-- 0-4 (walk, jog, run, sprint, nightmare) -->
   <property name="BloodMoonFrequency"				value="7" />
-  <!-- What frequency (in days) should a blood moon take place -->
+  <!-- What frequency (in days) should a blood moon take place. Set to "0" for no blood moons -->
   <property name="BloodMoonRange"					value="0" />
   <!-- How many days can the actual blood moon day randomly deviate from the above setting. Setting this to 0 makes blood moons happen exactly each Nth day as specified in BloodMoonFrequency -->
   <property name="BloodMoonWarning"				value="8" />
@@ -171,7 +177,7 @@
   <!-- Size in blocks that is protected by a keystone -->
   <property name="LandClaimDeadZone"				value="30"/>
   <!-- Keystones must be this many blocks apart (unless you are friends with the other player) -->
-  <property name="LandClaimExpiryTime"			value="3"/>
+  <property name="LandClaimExpiryTime"			value="7"/>
   <!-- The number of days a player can be offline before their claims expire and are no longer protected -->
   <property name="LandClaimDecayMode"				value="0"/>
   <!-- Controls how offline players land claims decay. All claims have full protection for the first 24hrs. 0=Linear, 1=Exponential, 2=Full protection until claim is expired. -->
