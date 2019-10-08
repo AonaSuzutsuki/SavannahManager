@@ -73,7 +73,14 @@
 
                         <ListBox.ContextMenu>
                             <ContextMenu>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Opened">
+                                        <i:InvokeCommandAction Command="{Binding BackupListContextMenuOpened}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
                                 <MenuItem Header="Delete" IsEnabled="{Binding DeleteBtEnabled.Value}" Command="{Binding DeleteBtClicked}" />
+                                <MenuItem Header="Delete All" IsEnabled="{Binding DeleteAllBtEnabled.Value}" Command="{Binding DeleteAllBtClicked}" />
                             </ContextMenu>
                         </ListBox.ContextMenu>
                     </ListBox>
