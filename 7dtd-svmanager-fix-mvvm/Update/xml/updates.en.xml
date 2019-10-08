@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.2.27.0">
+    1. Backup function (Backup Editor) has been installed as a beta.
+     1.1 Please enable beta mode from the settings, if you want to enable Backup Editor.
+     1.2 Backup Editor can be started from the "Tool".
+     1.3 Do not use backup while the server is running.
+    2. Fixed a crash on "Initialize Settings" that occurred when Steam was not installed.
+  </update>
   <update version="2.1.26.9b">
     1. Fixed the internal code of the network library. This improves stability slightly.
     2. Fixed other internal code.
