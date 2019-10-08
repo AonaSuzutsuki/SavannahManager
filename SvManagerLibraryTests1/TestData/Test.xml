@@ -3,6 +3,10 @@
   <property name="ServerName" value="My Game Host">
     サーバー名を設定します。サーバーリストにはこの名前で表示されます。
   </property>
+  <property name="ServerName2" value="My Game Host">
+    サーバー名を設定します。サーバーリストにはこの名前で表示されます。
+        test
+  </property>
   <property name="ServerDescription" value="A 7 Days to Die server">サーバーの説明を設定します。</property>
   <property name="ServerWebsiteURL" value="">サーバーのウェブサイトを設定します。</property>
 </ServerSettings>

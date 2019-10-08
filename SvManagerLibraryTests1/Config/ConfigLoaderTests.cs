@@ -50,6 +50,7 @@ namespace SvManagerLibrary.Config.Tests
             var exp = new Dictionary<string, ConfigInfo>
             {
                 { "ServerName", new ConfigInfo() { PropertyName = "ServerName", Value = "My Game Host" } },
+                { "ServerName2", new ConfigInfo() { PropertyName = "ServerName2", Value = "My Game Host" } },
                 { "ServerDescription", new ConfigInfo() { PropertyName = "ServerDescription", Value = "A 7 Days to Die server" } },
                 { "ServerWebsiteURL", new ConfigInfo() { PropertyName = "ServerWebsiteURL", Value = "" } },
                 { "test", new ConfigInfo { PropertyName = "test", Value = "test value" } },
@@ -106,6 +107,7 @@ namespace SvManagerLibrary.Config.Tests
             var exp = new Dictionary<string, ConfigInfo>
             {
                 { "ServerName", new ConfigInfo() { PropertyName = "ServerName", Value = "My Game Host" } },
+                { "ServerName2", new ConfigInfo() { PropertyName = "ServerName2", Value = "My Game Host" } },
                 { "ServerDescription", new ConfigInfo() { PropertyName = "ServerDescription", Value = "A 7 Days to Die server" } },
                 { "ServerWebsiteURL", new ConfigInfo() { PropertyName = "ServerWebsiteURL", Value = "" } }
             };

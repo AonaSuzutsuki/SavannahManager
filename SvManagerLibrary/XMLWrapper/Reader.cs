@@ -67,7 +67,7 @@ namespace SvManagerLibrary.XMLWrapper
             var nodeList = document.SelectNodes(xpath);
             foreach (var xmlNode in nodeList)
             {
-                string value = (xmlNode as XmlElement).InnerText;
+                var value = (xmlNode as XmlElement).InnerText;
                 if (isRemoveSpace)
                     value = RemoveSpace(value, enableLineBreak);
                 values.Add(value);
@@ -85,26 +85,47 @@ namespace SvManagerLibrary.XMLWrapper
         {
             var sb = new StringBuilder();
 
-            const string expression = "^ *(?<text>.*)$";
+            text = text.Replace("\r\n", "\r").Replace("\r", "\n").TrimStart('\n');
+            var spaceLength = GetSpaceLength(text);
+
+            var expression = spaceLength > 0 ? $"^( {{0,{spaceLength.ToString()}}})(?<text>.*)$" : "^ *(?<text>.*)$";
             var reg = new Regex(expression);
-            var sr = new StringReader(text);
-            while (sr.Peek() > -1)
+            using (var sr = new StringReader(text))
             {
-                var match = reg.Match(sr.ReadLine());
-                if (match.Success)
+                while (sr.Peek() > -1)
                 {
-                    if (isAddLine)
-                        sb.AppendLine(match.Groups["text"].Value);
+                    var line = sr.ReadLine() ?? string.Empty;
+
+                    var match = reg.Match(line);
+                    if (match.Success)
+                    {
+                        if (isAddLine)
+                            sb.Append($"{match.Groups["text"].Value}\n");
+                        else
+                            sb.Append(match.Groups["text"].Value);
+                    }
                     else
-                        sb.Append(match.Groups["text"].Value);
+                    {
+                        sb.Append(sr.ReadLine());
+                    }
                 }
-                else
-                {
-                    sb.Append(sr.ReadLine());
-                }
+                return sb.ToString().TrimStart('\n').TrimEnd('\n');
+            }
+        }
+
+        private static int GetSpaceLength(string text)
+        {
+            const string expression = "^(?<space>[\\s\\t]*)(?<text>.*)$";
+            var reg = new Regex(expression);
+            var textArray = text.Split('\n');
+            if (textArray.Length > 0)
+            {
+                var match = reg.Match(textArray[0]);
+                if (match.Success)
+                    return match.Groups["space"].Value.Length;
             }
 
-            return sb.ToString();
+            return 0;
         }
     }
 }

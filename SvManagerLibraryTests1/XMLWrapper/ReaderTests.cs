@@ -28,6 +28,7 @@ namespace SvManagerLibrary.XMLWrapper.Tests
             var exp = new List<string>
             {
                 "ServerName",
+                "ServerName2",
                 "ServerDescription",
                 "ServerWebsiteURL"
             };
@@ -50,11 +51,12 @@ namespace SvManagerLibrary.XMLWrapper.Tests
         public void GetValuesTest()
         {
             var reader = GetReader();
-            var attributes = reader.GetValues("/ServerSettings/property", false);
+            var attributes = reader.GetValues("/ServerSettings/property");
 
             var exp = new List<string>
             {
                 "サーバー名を設定します。サーバーリストにはこの名前で表示されます。",
+                "サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n    test",
                 "サーバーの説明を設定します。",
                 "サーバーのウェブサイトを設定します。"
             };
@@ -69,6 +71,18 @@ namespace SvManagerLibrary.XMLWrapper.Tests
             var act = reader.GetValue("/ServerSettings/property[@name='ServerName']", false);
 
             var exp = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。";
+
+            Assert.AreEqual(exp, act);
+        }
+
+        [TestMethod()]
+        public void GetValueTest2()
+        {
+            var reader = GetReader();
+            var act = reader.GetValue("/ServerSettings/property[@name='ServerName2']");
+
+            var exp = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n" +
+                      "    test";
 
             Assert.AreEqual(exp, act);
         }

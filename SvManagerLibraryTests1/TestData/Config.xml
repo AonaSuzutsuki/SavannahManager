@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0"?>
 <ServerSettings>
   <property name="ServerName" value="My Game Host" />
+  <property name="ServerName2" value="My Game Host" />
   <property name="ServerDescription" value="A 7 Days to Die server" />
   <property name="ServerWebsiteURL" value="" />
 </ServerSettings>

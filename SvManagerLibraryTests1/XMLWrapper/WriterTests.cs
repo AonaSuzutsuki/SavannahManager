@@ -26,6 +26,12 @@ namespace SvManagerLibrary.XMLWrapper.Tests
                     new AttributeInfo { Name = "name", Value = "ServerName" },
                     new AttributeInfo { Name = "value", Value = "My Game Host" }
                 }, "\r\n    サーバー名を設定します。サーバーリストにはこの名前で表示されます。\r\n  ");
+
+            writer.AddElement("property", new AttributeInfo[]
+            {
+                new AttributeInfo { Name = "name", Value = "ServerName2" },
+                new AttributeInfo { Name = "value", Value = "My Game Host" }
+            }, "\r\n    サーバー名を設定します。サーバーリストにはこの名前で表示されます。\r\n        test\r\n  ");
             writer.AddElement("property", new AttributeInfo[]
                 {
                     new AttributeInfo { Name = "name", Value = "ServerDescription" },
