@@ -219,12 +219,12 @@
     <Content Include="lang\a17\ja_ConfigData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="lang\a18b\ja_ConfigData.xml">
+    <Content Include="lang\a18b\ja_ConfigData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="lang\a18b\en_ConfigData.xml">
+    </Content>
+    <Content Include="lang\a18b\en_ConfigData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <Content Include="lang\VersionList.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
