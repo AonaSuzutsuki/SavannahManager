@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
+using NUnit.Framework;
 using ITelnetClient = SvManagerLibrary.Telnet.ITelnetClient;
 
 namespace SvManagerLibrary.Time.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class TimeTests
     {
-        [TestMethod()]
+        [Test]
         public void ConvertTimeTest()
         {
             var text = "Day 256, 11:23";
@@ -22,7 +22,7 @@ namespace SvManagerLibrary.Time.Tests
             Assert.AreEqual(exp, act);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetTimeFromTelnetTest()
         {
             var text = "Day 256, 11:23";
@@ -42,7 +42,7 @@ namespace SvManagerLibrary.Time.Tests
             Assert.AreEqual(exp, act);
         }
 
-        [TestMethod]
+        [Test]
         public void SendTimeTest()
         {
             var timeInfo = new TimeInfo

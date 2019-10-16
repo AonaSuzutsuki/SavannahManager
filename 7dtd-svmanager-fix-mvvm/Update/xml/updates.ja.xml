@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.2.28.1">
+    1. ConfigEditorにa18 betaのベースとなるコンフィグデータを追加しました。
+     1. 翻訳や細かい値確認はまだしていません。
+    2. Backup Editorに削除機能を追加してました。
+     2.1 この機能はまだ十分に検証していません。
+  </update>
   <update version="2.2.27.0">
     1. バックアップ機能(Backup Editor)をベータとして搭載しました。
      1.1 Backup Editorを有効化する場合は設定よりベータモードを有効化してください。

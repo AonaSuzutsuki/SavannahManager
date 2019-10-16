@@ -1,15 +1,15 @@
 ﻿using CommonExtensionLib.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SvManagerLibrary.XMLWrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace SvManagerLibrary.XMLWrapper.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class ReaderTests
     {
         public Reader GetReader()
@@ -19,7 +19,7 @@ namespace SvManagerLibrary.XMLWrapper.Tests
             return reader;
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAttributesTest()
         {
             var reader = GetReader();
@@ -36,7 +36,7 @@ namespace SvManagerLibrary.XMLWrapper.Tests
             CollectionAssert.AreEqual(exp, attributes);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAttributeTest()
         {
             var reader = GetReader();
@@ -47,7 +47,7 @@ namespace SvManagerLibrary.XMLWrapper.Tests
             Assert.AreEqual(exp, act);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetValuesTest()
         {
             var reader = GetReader();
@@ -64,7 +64,7 @@ namespace SvManagerLibrary.XMLWrapper.Tests
             CollectionAssert.AreEqual(exp, attributes);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetValueTest()
         {
             var reader = GetReader();
@@ -75,7 +75,7 @@ namespace SvManagerLibrary.XMLWrapper.Tests
             Assert.AreEqual(exp, act);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetValueTest2()
         {
             var reader = GetReader();

@@ -1,18 +1,18 @@
 ﻿using CommonExtensionLib.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SvManagerLibrary.SteamLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace SvManagerLibrary.SteamLibrary.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class SteamLibraryLoaderTests
     {
-        [TestMethod()]
+        [Test]
         public void SteamLibraryLoaderTest()
         {
             var vdfPath = "{0}\\{1}".FormatString(AppDomain.CurrentDomain.BaseDirectory, "TestData\\libraryfolders.vdf");

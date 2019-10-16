@@ -1,17 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SvManagerLibrary.Chat;
+﻿using SvManagerLibrary.Chat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace SvManagerLibrary.Chat.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class ChatInfoListExtensionTests
     {
-        [TestMethod()]
+        [Test]
         public void AddTest()
         {
             var text = "2019-01-19T16:14:21 140.048 INF Chat (from '-non-player-', entity id '-1', to 'Global'): 'Server': Hello, World.";
@@ -28,7 +28,7 @@ namespace SvManagerLibrary.Chat.Tests
             CollectionAssert.AreEqual(exp, act);
         }
 
-        [TestMethod()]
+        [Test]
         public void AddMultiLineTest()
         {
             var text = "2019-01-19T16:14:21 140.048 INF Chat (from '-non-player-', entity id '-1', to 'Global'): 'Server': Hello, World.\r\n";
@@ -52,7 +52,7 @@ namespace SvManagerLibrary.Chat.Tests
             CollectionAssert.AreEqual(exp, act);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetLastTest()
         {
             var exp = new ChatInfo { Name = "Server", Message = "Hello, World." };
@@ -63,7 +63,7 @@ namespace SvManagerLibrary.Chat.Tests
             Assert.AreEqual(exp, act);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetLastTestWithNull ()
         {
             ChatInfo exp = null;

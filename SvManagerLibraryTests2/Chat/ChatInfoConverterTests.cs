@@ -1,17 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SvManagerLibrary.Chat;
+﻿using SvManagerLibrary.Chat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace SvManagerLibrary.Chat.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class ChatInfoConverterTests
     {
-        [TestMethod()]
+        [Test]
         public void ConvertChatTest()
         {
             var text = "2019-01-19T16:14:21 140.048 INF Chat (from '-non-player-', entity id '-1', to 'Global'): 'Server': Hello, World.";

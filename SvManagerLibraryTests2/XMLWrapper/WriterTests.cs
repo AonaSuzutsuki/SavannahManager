@@ -1,5 +1,4 @@
 ﻿using CommonExtensionLib.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SvManagerLibrary.XMLWrapper;
 using System;
 using System.Collections.Generic;
@@ -7,13 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace SvManagerLibrary.XMLWrapper.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class WriterTests
     {
-        [TestMethod()]
+        [Test]
         public void WriteTest()
         {
             var xmlPath = "{0}\\{1}".FormatString(AppDomain.CurrentDomain.BaseDirectory, "TestData\\Test.xml");
@@ -56,7 +56,7 @@ namespace SvManagerLibrary.XMLWrapper.Tests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void AddElementTest()
         {
             var exp = "<?xml version=\"1.0\"?>\r\n" +
@@ -91,7 +91,7 @@ namespace SvManagerLibrary.XMLWrapper.Tests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void AddElementNoAttributeTest()
         {
             var exp = "<?xml version=\"1.0\"?>\r\n" +

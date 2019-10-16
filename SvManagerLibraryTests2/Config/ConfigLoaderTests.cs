@@ -1,5 +1,4 @@
 ﻿using CommonExtensionLib.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SvManagerLibrary.Config;
 using System;
 using System.Collections.Generic;
@@ -7,10 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace SvManagerLibrary.Config.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class ConfigLoaderTests
     {
         public ConfigLoader GetConfigLoader()
@@ -19,7 +19,7 @@ namespace SvManagerLibrary.Config.Tests
             return new ConfigLoader(xmlPath);
         }
 
-        [TestMethod()]
+        [Test]
         public void AddValueTest()
         {
             var loader = GetConfigLoader();
@@ -35,7 +35,7 @@ namespace SvManagerLibrary.Config.Tests
             Assert.AreEqual(exp, info);
         }
 
-        [TestMethod()]
+        [Test]
         public void AddValuesTest()
         {
             var loader = GetConfigLoader();
@@ -60,7 +60,7 @@ namespace SvManagerLibrary.Config.Tests
             CollectionAssert.AreEqual(exp, dict);
         }
 
-        [TestMethod()]
+        [Test]
         public void ChangeValueTest()
         {
             var loader = GetConfigLoader();
@@ -76,7 +76,7 @@ namespace SvManagerLibrary.Config.Tests
             Assert.AreEqual(exp, info);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetValueTest()
         {
             var loader = GetConfigLoader();
@@ -90,7 +90,7 @@ namespace SvManagerLibrary.Config.Tests
             Assert.AreEqual(exp, info);
         }
 
-        [TestMethod()]
+        [Test]
         public void ClearTest()
         {
             var loader = GetConfigLoader();
@@ -99,7 +99,7 @@ namespace SvManagerLibrary.Config.Tests
             CollectionAssert.AreEqual(new Dictionary<string, ConfigInfo>(), loader.GetAll());
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllTest()
         {
             var loader = GetConfigLoader();
@@ -115,7 +115,7 @@ namespace SvManagerLibrary.Config.Tests
             CollectionAssert.AreEqual(exp, dict);
         }
 
-        [TestMethod()]
+        [Test]
         public void WriteTest()
         {
             var xmlPath = "{0}\\{1}".FormatString(AppDomain.CurrentDomain.BaseDirectory, "TestData\\Config.xml");

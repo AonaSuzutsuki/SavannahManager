@@ -1,17 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SvManagerLibrary.Chat;
+﻿using SvManagerLibrary.Chat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace SvManagerLibrary.Chat.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class ChatInfoTests
     {
-        [TestMethod()]
+        [Test]
         public void IsNullOrEmptyTestWithNull()
         {
             var exp = true;
@@ -19,7 +19,7 @@ namespace SvManagerLibrary.Chat.Tests
             Assert.AreEqual(exp, act);
         }
 
-        [TestMethod()]
+        [Test]
         public void IsNullOrEmptyTestWithEmpty()
         {
             var exp = true;
@@ -27,7 +27,7 @@ namespace SvManagerLibrary.Chat.Tests
             Assert.AreEqual(exp, act);
         }
 
-        [TestMethod()]
+        [Test]
         public void IsNullOrEmptyTestWithSingleElem()
         {
             var exp = false;
@@ -38,7 +38,7 @@ namespace SvManagerLibrary.Chat.Tests
             Assert.AreEqual(exp, act2);
         }
 
-        [TestMethod()]
+        [Test]
         public void IsNullOrEmptyTestWithDoubleElem()
         {
             var exp = false;

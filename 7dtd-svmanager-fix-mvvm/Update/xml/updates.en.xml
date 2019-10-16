@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.2.28.1">
+    1. Added config base xml for a18 beta into ConfigEditor.
+    2. Added function to delete into Backup Editor.
+     2.1 This feature has not yet been fully verified.
+  </update>
   <update version="2.2.27.0">
     1. Backup function (Backup Editor) has been installed as a beta.
      1.1 Please enable beta mode from the settings, if you want to enable Backup Editor.
