@@ -60,6 +60,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="CommonCoreLib">
+      <HintPath>..\Lib\CommonCoreLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chat\Chat.cs" />
@@ -79,9 +82,6 @@
     <Compile Include="Telnet\TelnetException.cs" />
     <Compile Include="Time\Time.cs" />
     <Compile Include="Time\TimeInfo.cs" />
-    <Compile Include="XMLWrapper\AttributeInfo.cs" />
-    <Compile Include="XMLWrapper\Reader.cs" />
-    <Compile Include="XMLWrapper\Writer.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

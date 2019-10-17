@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using CommonCoreLib.XMLWrapper;
 
 namespace SvManagerLibrary.Config
 {
     public class ConfigLoader
     {
         private string fileName;
-        private XMLWrapper.Reader reader;
+        private CommonXmlReader reader;
 
         private Dictionary<string, ConfigInfo> configs = new Dictionary<string, ConfigInfo>();
 
@@ -26,7 +28,7 @@ namespace SvManagerLibrary.Config
             {
                 using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
                 {
-                    reader = new XMLWrapper.Reader(fs);
+                    reader = new CommonXmlReader(fs);
                     List<string> names = reader.GetAttributes("name", "ServerSettings/property", true);
                     List<string> values = reader.GetAttributes("value", "ServerSettings/property", true);
 
@@ -110,25 +112,33 @@ namespace SvManagerLibrary.Config
 
         public void Write(Stream stream)
         {
-            XMLWrapper.Writer writer = new XMLWrapper.Writer();
-            writer.SetRoot("ServerSettings");
-            foreach (ConfigInfo configInfo in configs.Values)
+            var writer = new CommonXmlWriter();
+            var root = writer.CreateRoot("ServerSettings");
+            var configXmlArray = (from config in configs.Values
+                                  let configAttributeInfo = CreateConfigAttributeInfos(config)
+                                  select writer.CreateElement("property", configAttributeInfo)).ToArray();
+            root.Append(configXmlArray);
+
+            writer.Write(stream, root);
+        }
+
+        private AttributeInfo[] CreateConfigAttributeInfos(ConfigInfo configInfo)
+        {
+            var attributeInfo = new AttributeInfo[]
             {
-                XMLWrapper.AttributeInfo[] attributeInfo = new XMLWrapper.AttributeInfo[2];
-                attributeInfo[0] = new XMLWrapper.AttributeInfo()
+                new AttributeInfo()
                 {
                     Name = "name",
-                    Value = configInfo.PropertyName,
-                };
-                attributeInfo[1] = new XMLWrapper.AttributeInfo()
+                    Value = configInfo.PropertyName
+                },
+                new AttributeInfo()
                 {
                     Name = "value",
-                    Value = configInfo.Value,
-                };
+                    Value = configInfo.Value
+                }
+            };
 
-                writer.AddElement("property", attributeInfo);
-            }
-            writer.Write(stream);
+            return attributeInfo;
         }
     }
 }

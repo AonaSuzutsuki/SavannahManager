@@ -1,5 +1,5 @@
 ﻿using CommonExtensionLib.Extensions;
-using SvManagerLibrary.SteamLibrary;
+using CommonCoreLib.CommonPath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace SvManagerLibrary.SteamLibrary.Tests
         [Test]
         public void SteamLibraryLoaderTest()
         {
-            var vdfPath = "{0}\\{1}".FormatString(AppDomain.CurrentDomain.BaseDirectory, "TestData\\libraryfolders.vdf");
+            var vdfPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\TestData\\libraryfolders.vdf".UnifiedSystemPathSeparator();
             var loader = new SteamLibraryLoader(vdfPath);
             var act = loader.SteamLibraryPathList;
             var exp = new List<SteamLibraryPath>

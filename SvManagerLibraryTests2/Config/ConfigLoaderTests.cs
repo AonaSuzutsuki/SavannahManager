@@ -1,4 +1,5 @@
 ﻿using CommonExtensionLib.Extensions;
+using CommonCoreLib.CommonPath;
 using SvManagerLibrary.Config;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace SvManagerLibrary.Config.Tests
     {
         public ConfigLoader GetConfigLoader()
         {
-            var xmlPath = "{0}\\{1}".FormatString(AppDomain.CurrentDomain.BaseDirectory, "TestData\\Test.xml");
+            var xmlPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\TestData\\Test.xml".UnifiedSystemPathSeparator();
             return new ConfigLoader(xmlPath);
         }
 
@@ -118,7 +119,7 @@ namespace SvManagerLibrary.Config.Tests
         [Test]
         public void WriteTest()
         {
-            var xmlPath = "{0}\\{1}".FormatString(AppDomain.CurrentDomain.BaseDirectory, "TestData\\Config.xml");
+            var xmlPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\TestData\\Config.xml".UnifiedSystemPathSeparator();
             var exp = File.ReadAllText(xmlPath);
 
             var loader = GetConfigLoader();
@@ -129,7 +130,7 @@ namespace SvManagerLibrary.Config.Tests
 
                 var buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
-                var act = Encoding.UTF8.GetString(buffer) + "\r\n";
+                var act = Encoding.UTF8.GetString(buffer) + "\r\n".UnifiedBreakLine();
 
                 Assert.AreEqual(exp, act);
             }
