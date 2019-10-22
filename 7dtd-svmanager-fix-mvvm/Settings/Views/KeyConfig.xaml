@@ -106,7 +106,7 @@
                         <TextBox Name="InputKeyTextBox" Text="{Binding InputKeyText.Value}" IsReadOnly="True" Grid.Column="0" Width="150">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="KeyDown">
-                                    <CommonViews:InvokeDelegateCommandAction Command="{Binding InputKeyTextBoxKeyDown}" />
+                                    <CommonViews:InvokeDelegateCommandAction Command="{Binding InputKeyTextBoxKeyDown}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
