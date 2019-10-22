@@ -983,7 +983,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void ShowBackupEditor()
         {
-            var backup = new Backup.Views.BackupSelector();
+            var backup = new Backup.Views.BackupSelector(Setting);
             backup.Show();
         }
         public void ShowSettings()

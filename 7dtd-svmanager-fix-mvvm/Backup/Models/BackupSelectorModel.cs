@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using _7dtd_svmanager_fix_mvvm.Backup.Models.Image;
+using _7dtd_svmanager_fix_mvvm.Models;
 using BackupLib.Backup;
 using BackupLib.CommonPath;
 using CommonCoreLib.CommonPath;
@@ -64,7 +65,6 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
     public class BackupSelectorModel : ModelBase
     {
         #region Constants
-        private const string BACKUP_DIR_NAME = "backup";
         #endregion
 
         #region Properties
@@ -116,6 +116,11 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
         #region Fields
 
+        private SettingLoader settingLoader;
+        private TimeBackup timeBackup;
+
+        private string backupDirPath;
+
         private string sevenDaysSavePath;
 
         private bool canRestore;
@@ -130,10 +135,12 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         private PathMapItem current;
         #endregion
 
-        private TimeBackup timeBackup;
 
-        public BackupSelectorModel()
+        public BackupSelectorModel(SettingLoader settingLoader)
         {
+            this.settingLoader = settingLoader;
+            backupDirPath = settingLoader.BackupDirPath;
+
             Initialize();
         }
 
@@ -141,7 +148,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         {
             var userDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             sevenDaysSavePath = $"{userDir}/7DaysToDie";
-            timeBackup = new TimeBackup(BACKUP_DIR_NAME, sevenDaysSavePath);
+            timeBackup = new TimeBackup(backupDirPath, sevenDaysSavePath);
             timeBackup.BackupCompleted += TimeBackupOnBackupCompleted;
             timeBackup.BackupProgress += TimeBackupOnBackupProgress;
             timeBackup.BackupStarted += TimeBackupOnBackupStarted;
@@ -293,10 +300,10 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
         public void DeleteAll()
         {
-            if (!Directory.Exists(BACKUP_DIR_NAME))
+            if (!Directory.Exists(backupDirPath))
                 return;
 
-            var dirs = Directory.GetDirectories(BACKUP_DIR_NAME);
+            var dirs = Directory.GetDirectories(backupDirPath);
             foreach (var dir in dirs)
             {
                 Directory.Delete(dir, true);

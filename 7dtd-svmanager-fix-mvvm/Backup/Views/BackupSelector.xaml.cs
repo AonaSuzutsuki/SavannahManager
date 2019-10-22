@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using _7dtd_svmanager_fix_mvvm.Backup.Models;
 using _7dtd_svmanager_fix_mvvm.Backup.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Models;
 
 namespace _7dtd_svmanager_fix_mvvm.Backup.Views
 {
@@ -21,11 +22,11 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Views
     /// </summary>
     public partial class BackupSelector : Window
     {
-        public BackupSelector()
+        public BackupSelector(SettingLoader settingLoader)
         {
             InitializeComponent();
 
-            var model = new BackupSelectorModel();
+            var model = new BackupSelectorModel(settingLoader);
             var vm = new BackupSelectorViewModel(this, model);
             this.DataContext = vm;
         }
