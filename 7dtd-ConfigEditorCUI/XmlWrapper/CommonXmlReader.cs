@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,8 +8,97 @@ using System.Xml;
 using CommonCoreLib.CommonLinq;
 using CommonExtensionLib.Extensions;
 
-namespace CommonCoreLib.XMLWrapper
+namespace _7dtd_ConfigEditorCUI.XMLWrapper
 {
+    public class CommonXmlNode
+    {
+        public string TagName { get; internal set; }
+        public AttributeInfo[] Attributes { get; internal set; }
+        public CommonXmlNode[] ChildNode { get; internal set; }
+        public string InnerText { get; internal set; }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            var attr = string.Join(" ", from x in Attributes select x.ToString());
+
+            sb.Append($"<{TagName} {attr}>{InnerText}</{TagName}>");
+
+            return sb.ToString();
+        }
+    }
+
+    public class CommonXmlReader2
+    {
+        public string XmlPath { get; } = string.Empty;
+
+        private readonly XmlDocument document = new XmlDocument();
+
+        public CommonXmlNode Root { get; private set; }
+
+        public CommonXmlReader2(string xmlPath)
+        {
+            XmlPath = xmlPath;
+
+            document.Load(xmlPath);
+        }
+
+        public CommonXmlNode GetValues()
+        {
+            var nodeList = document.SelectSingleNode("/*");
+            var root = new CommonXmlNode
+            {
+                TagName = nodeList.Name,
+                InnerText = nodeList.InnerText,
+                Attributes = ConvertAttributeInfoArray(nodeList.Attributes),
+                ChildNode = GetElements(nodeList.ChildNodes).ToArray()
+            };
+            return root;
+        }
+
+        private AttributeInfo[] ConvertAttributeInfoArray(XmlAttributeCollection collection)
+        {
+            if (collection == null)
+                return null;
+
+            var list = new List<XmlAttribute>(collection.Count);
+            foreach (var attr in collection)
+            {
+                if (attr.GetType() == typeof(XmlAttribute))
+                    list.Add((XmlAttribute)attr);
+            }
+
+            return (from attr in list
+                    select new AttributeInfo
+                    {
+                        Name = attr.Name,
+                        Value = attr.Value
+                    }).ToArray();
+        }
+
+        private List<CommonXmlNode> GetElements(XmlNodeList nodeList)
+        {
+            var list = new List<CommonXmlNode>();
+            foreach (var n in nodeList)
+            {
+                if (n.GetType() == typeof(XmlElement))
+                {
+                    var node = (XmlElement)n;
+                    var commonXmlNode = new CommonXmlNode
+                    {
+                        TagName = node.Name,
+                        InnerText = node.InnerText,
+                        Attributes = ConvertAttributeInfoArray(node.Attributes)
+                    };
+                    if (node.ChildNodes.Count > 0)
+                        commonXmlNode.ChildNode = GetElements(node.ChildNodes).ToArray();
+                    list.Add(commonXmlNode);
+                }
+            }
+            return list;
+        }
+    }
+
     /// <summary>
     /// Read from a file as XML Document.
     /// </summary>

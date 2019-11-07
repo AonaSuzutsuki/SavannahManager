@@ -1,8 +1,13 @@
 ﻿using System.IO;
 using System.Xml;
 
-namespace CommonCoreLib.XMLWrapper
+namespace _7dtd_ConfigEditorCUI.XMLWrapper
 {
+    public class CommonXmlWriter2
+    {
+
+    }
+
     public class CommonXmlElement
     {
         private readonly XmlElement element;
