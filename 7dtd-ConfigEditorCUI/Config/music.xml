@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+
+  <property name="BundleLocation" value="#Sounds/Music?"/>
+  <music_groups>
+    <group id="0" sample-rate="44100" hyperbar-length="4">
+
+      <configurations>
+        <!--<configuration id="0"/>-->
+        <!--<configuration id="1"/>-->
+        <configuration id="2"/>
+        <!--<configuration id="3"/>-->
+        <!--<configuration id="4"/>-->
+        <configuration id="5"/>
+      </configurations>
+
+      <threat_level name="Exploration" tempo="60" sig-hi="6" sig-lo="4">
+        <layer name="Primary">
+          <instrument_ID id="0" name="000ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.3">
+            <placement value="Begin" location="000aExpPri.wav"/>
+            <placement value="Loop" location="000bExpPri.wav"/>
+            <placement value="End" location="000cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="1" name="001ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.5">
+            <placement value="Begin" location="001aExpPri.wav"/>
+            <placement value="Loop" location="001bExpPri.wav"/>
+            <placement value="End" location="001cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="2" name="002ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.38">
+            <placement value="Begin" location="002aExpPri.wav"/>
+            <placement value="Loop" location="002bExpPri.wav"/>
+            <placement value="End" location="002cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="3" name="003ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume=".5">
+            <placement value="Begin" location="003aExpPri.wav"/>
+            <placement value="Loop" location="003bExpPri.wav"/>
+            <placement value="End" location="003cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="4" name="004ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.45">
+            <placement value="Begin" location="004aExpPri.wav"/>
+            <placement value="Loop" location="004bExpPri.wav"/>
+            <placement value="End" location="004cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="5" name="005ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.58">
+            <placement value="Begin" location="005aExpPri.wav"/>
+            <placement value="Loop" location="005bExpPri.wav"/>
+            <placement value="End" location="005cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="6" name="006ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume=".5">
+            <placement value="Begin" location="006aExpPri.wav"/>
+            <placement value="Loop" location="006bExpPri.wav"/>
+            <placement value="End" location="006cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="7" name="007ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume=".3">
+            <placement value="Begin" location="007aExpPri.wav"/>
+            <placement value="Loop" location="007bExpPri.wav"/>
+            <placement value="End" location="007cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="8" name="008ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.52">
+            <placement value="Begin" location="008aExpPri.wav"/>
+            <placement value="Loop" location="008bExpPri.wav"/>
+            <placement value="End" location="008cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="9" name="009ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.7">
+            <placement value="Begin" location="009aExpPri.wav"/>
+            <placement value="Loop" location="009bExpPri.wav"/>
+            <placement value="End" location="009cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="10" name="010ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.4">
+            <placement value="Begin" location="010aExpPri.wav"/>
+            <placement value="Loop" location="010bExpPri.wav"/>
+            <placement value="End" location="010cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="11" name="011ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume=".65">
+            <placement value="Begin" location="011aExpPri.wav"/>
+            <placement value="Loop" location="011bExpPri.wav"/>
+            <placement value="End" location="011cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="12" name="012ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="1.0">
+            <placement value="Begin" location="012aExpPri.wav"/>
+            <placement value="Loop" location="012bExpPri.wav"/>
+            <placement value="End" location="012cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="13" name="013ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume=".75">
+            <placement value="Begin" location="013aExpPri.wav"/>
+            <placement value="Loop" location="013bExpPri.wav"/>
+            <placement value="End" location="013cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="14" name="014ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume=".6">
+            <placement value="Begin" location="014aExpPri.wav"/>
+            <placement value="Loop" location="014bExpPri.wav"/>
+            <placement value="End" location="014cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="15" name="015ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume=".65">
+            <placement value="Begin" location="015aExpPri.wav"/>
+            <placement value="Loop" location="015bExpPri.wav"/>
+            <placement value="End" location="015cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="16" name="016ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.75">
+            <placement value="Begin" location="016aExpPri.wav"/>
+            <placement value="Loop" location="016bExpPri.wav"/>
+            <placement value="End" location="016cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="17" name="017ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.4">
+            <placement value="Begin" location="017aExpPri.wav"/>
+            <placement value="Loop" location="017bExpPri.wav"/>
+            <placement value="End" location="017cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="18" name="018ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.85">
+            <placement value="Begin" location="018aExpPri.wav"/>
+            <placement value="Loop" location="018bExpPri.wav"/>
+            <placement value="End" location="018cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="19" name="019ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.58">
+            <placement value="Begin" location="019aExpPri.wav"/>
+            <placement value="Loop" location="019bExpPri.wav"/>
+            <placement value="End" location="019cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="20" name="020ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.65">
+            <placement value="Begin" location="020aExpPri.wav"/>
+            <placement value="Loop" location="020bExpPri.wav"/>
+            <placement value="End" location="020cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="21" name="021ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.25">
+            <placement value="Begin" location="021aExpPri.wav"/>
+            <placement value="Loop" location="021bExpPri.wav"/>
+            <placement value="End" location="021cExpPri.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="22" name="022ExpPri" AudioSource="Sounds/AudioSource_Exploration" Volume="0.33">
+            <placement value="Begin" location="022aExpPri.wav"/>
+            <placement value="Loop" location="022bExpPri.wav"/>
+            <placement value="End" location="022cExpPri.wav"/>
+          </instrument_ID>
+        </layer>
+
+        <layer name="PrimarySupporting">
+          <instrument_ID id="0" name="000ExpPsp" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="000aExpPsp.wav"/>
+            <placement value="Loop" location="000bExpPsp.wav"/>
+            <placement value="End" location="000cExpPsp.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="1" name="001ExpPsp" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="001aExpPsp.wav"/>
+            <placement value="Loop" location="001bExpPsp.wav"/>
+            <placement value="End" location="001cExpPsp.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="2" name="002ExpPsp" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="002aExpPsp.wav"/>
+            <placement value="Loop" location="002bExpPsp.wav"/>
+            <placement value="End" location="002cExpPsp.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="3" name="003ExpPsp" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="003aExpPsp.wav"/>
+            <placement value="Loop" location="003bExpPsp.wav"/>
+            <placement value="End" location="003cExpPsp.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="4" name="004ExpPsp" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="004aExpPsp.wav"/>
+            <placement value="Loop" location="004bExpPsp.wav"/>
+            <placement value="End" location="004cExpPsp.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="5" name="005ExpPsp" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="005aExpPsp.wav"/>
+            <placement value="Loop" location="005bExpPsp.wav"/>
+            <placement value="End" location="005cExpPsp.wav"/>
+          </instrument_ID>
+        </layer>
+
+        <layer name ="Secondary">
+          <instrument_ID id="0" name="000ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="000aExpSec.wav"/>
+            <placement value="Loop" location="000bExpSec.wav"/>
+            <placement value="End" location="000cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="1" name="001ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="001aExpSec.wav"/>
+            <placement value="Loop" location="001bExpSec.wav"/>
+            <placement value="End" location="001cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="2" name="002ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="002aExpSec.wav"/>
+            <placement value="Loop" location="002bExpSec.wav"/>
+            <placement value="End" location="002cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="3" name="003ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="003aExpSec.wav"/>
+            <placement value="Loop" location="003bExpSec.wav"/>
+            <placement value="End" location="003cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="4" name="004ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="004aExpSec.wav"/>
+            <placement value="Loop" location="004bExpSec.wav"/>
+            <placement value="End" location="004cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="5" name="005ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="005aExpSec.wav"/>
+            <placement value="Loop" location="005bExpSec.wav"/>
+            <placement value="End" location="005cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="6" name="006ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="006aExpSec.wav"/>
+            <placement value="Loop" location="006bExpSec.wav"/>
+            <placement value="End" location="006cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="7" name="007ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="007aExpSec.wav"/>
+            <placement value="Loop" location="007bExpSec.wav"/>
+            <placement value="End" location="007cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="8" name="008ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="008aExpSec.wav"/>
+            <placement value="Loop" location="008bExpSec.wav"/>
+            <placement value="End" location="008cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="9" name="009ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="009aExpSec.wav"/>
+            <placement value="Loop" location="009bExpSec.wav"/>
+            <placement value="End" location="009cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="10" name="010ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="010aExpSec.wav"/>
+            <placement value="Loop" location="010bExpSec.wav"/>
+            <placement value="End" location="010cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="11" name="011ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="011aExpSec.wav"/>
+            <placement value="Loop" location="011bExpSec.wav"/>
+            <placement value="End" location="011cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="12" name="012ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="012aExpSec.wav"/>
+            <placement value="Loop" location="012bExpSec.wav"/>
+            <placement value="End" location="012cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="13" name="013ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="013aExpSec.wav"/>
+            <placement value="Loop" location="013bExpSec.wav"/>
+            <placement value="End" location="013cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="14" name="014ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="014aExpSec.wav"/>
+            <placement value="Loop" location="014bExpSec.wav"/>
+            <placement value="End" location="014cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="15" name="015ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="015aExpSec.wav"/>
+            <placement value="Loop" location="015bExpSec.wav"/>
+            <placement value="End" location="015cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="16" name="016ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="016aExpSec.wav"/>
+            <placement value="Loop" location="016bExpSec.wav"/>
+            <placement value="End" location="016cExpSec.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="17" name="017ExpSec" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="017aExpSec.wav"/>
+            <placement value="Loop" location="017bExpSec.wav"/>
+            <placement value="End" location="017cExpSec.wav"/>
+          </instrument_ID>
+        </layer>
+
+        <layer name="LongEffects">
+          <instrument_ID id="0" name="000ExpLfx" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="000aExpLfx.wav"/>
+            <placement value="Loop" location="000bExpLfx.wav"/>
+            <placement value="End" location="000cExpLfx.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="1" name="001ExpLfx" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="001aExpLfx.wav"/>
+            <placement value="Loop" location="001bExpLfx.wav"/>
+            <placement value="End" location="001cExpLfx.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="2" name="002ExpLfx" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="002aExpLfx.wav"/>
+            <placement value="Loop" location="002bExpLfx.wav"/>
+            <placement value="End" location="002cExpLfx.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="3" name="003ExpLfx" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="003aExpLfx.wav"/>
+            <placement value="Loop" location="003bExpLfx.wav"/>
+            <placement value="End" location="003cExpLfx.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="4" name="004ExpLfx" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="004aExpLfx.wav"/>
+            <placement value="Loop" location="004bExpLfx.wav"/>
+            <placement value="End" location="004cExpLfx.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="5" name="005ExpLfx" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="005aExpLfx.wav"/>
+            <placement value="Loop" location="005bExpLfx.wav"/>
+            <placement value="End" location="005cExpLfx.wav"/>
+          </instrument_ID>
+
+          <instrument_ID id="6" name="006ExpLfx" AudioSource="Sounds/AudioSource_Exploration">
+            <placement value="Begin" location="006aExpLfx.wav"/>
+            <placement value="Loop" location="006bExpLfx.wav"/>
+            <placement value="End" location="006cExpLfx.wav"/>
+          </instrument_ID>
+        </layer>
+      </threat_level>
+    </group>
+  </music_groups>
+
+  <configurations>
+    <!--<configuration id="0">
+      <threat_level name="Exploration">
+        <layer name="Primary" values="0,1,2,3,4,5"/>
+        <layer name="PrimarySupporting" values="1,2,3,4,5,6"/>
+        <layer name="Secondary" values="1,2,3,4,5,6"/>
+        <layer name="LongEffects" values="2,3,4,5"/>
+      </threat_level>
+    </configuration>-->
+
+    <!--<configuration id="1">
+      <threat_level name="Exploration">
+        <layer name="Primary" values="0,1,2,3,4,5,6"/>
+        <layer name ="PrimarySupporting" values="1,2,3,4,5,6"/>
+      </threat_level>
+    </configuration>-->
+
+    <configuration id="2">
+      <threat_level name="Exploration">
+        <layer name ="PrimarySupporting" values="0,1,2,3,4,5,6"/>
+        <layer name ="Secondary" values="1,2,3,4,5,6"/>
+        <layer name ="LongEffects" values="2,3,4,5,6"/>
+      </threat_level>
+    </configuration>
+
+    <!--<configuration id="3">
+      <threat_level name="Exploration">
+        <layer name="Primary" values="0,1,2,3,4,5,6"/>
+        <layer name ="PrimarySupporting" values="2,3,4,5,6"/>
+        <layer name ="Secondary" values="0,1,2,3,4,5,6"/>
+        <layer name ="LongEffects" values="2,3,4,5"/>
+      </threat_level>
+    </configuration>-->
+
+    <!--<configuration id="4">
+      <threat_level name="Exploration">
+        <layer name="Primary" values="0,1,2,3"/>
+        <layer name ="Secondary" values="1,2,3"/>
+        <layer name ="LongEffects" values="1,2,3"/>
+      </threat_level>
+    </configuration>-->
+
+    <configuration id="5">
+      <threat_level name="Exploration">
+        <layer name="PrimarySupporting" values="0,1,2,3"/>
+        <layer name ="Secondary" values="1,2,3"/>
+      </threat_level>
+    </configuration>
+  </configurations>
+</root>

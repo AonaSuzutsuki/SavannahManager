@@ -1,0 +1,2185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bodies>
+	<body name="Player">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="27"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Hips/LeftUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="27"/>
+			<property name="collisionScale" value="0.82 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerLeg"/>
+			<property name="path" value="Hips/LeftUpLeg/LeftLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="27"/>
+			<property name="collisionScale" value="0.54 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Hips/RightUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="27"/>
+			<property name="collisionScale" value="0.82 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerLeg"/>
+			<property name="path" value="Hips/RightUpLeg/RightLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="27"/>
+			<property name="collisionScale" value="0.54 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="27"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="27"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm/LeftForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="27"/>
+			<property name="collisionScale" value="0.7 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="27"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm/RightForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="27"/>
+			<property name="collisionScale" value="0.7 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/Neck/Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="27"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="zombieUMA">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Hips/LeftUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.82 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerLeg"/>
+			<property name="path" value="Hips/LeftUpLeg/LeftLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.54 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Hips/RightUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.82 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerLeg"/>
+			<property name="path" value="Hips/RightUpLeg/RightLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.54 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm/LeftForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.7 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm/RightForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.7 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/Neck/Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="Stag">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Hips/LeftUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerLeg"/>
+			<property name="path" value="Hips/LeftUpLeg/LeftLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Hips/RightUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerLeg"/>
+			<property name="path" value="Hips/RightUpLeg/RightLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips/LowerBack/Spine"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm/LeftForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm/RightForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/Neck1/Neck2/Neck3/Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="rabbit">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="RABBIT_ Pelvis"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="RABBIT_ Pelvis/RABBIT_ Spine/RABBIT_ L Thigh"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="RABBIT_ Pelvis/RABBIT_ Spine/RABBIT_ L Thigh/RABBIT_ L Calf"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="RABBIT_ Pelvis/RABBIT_ Spine/RABBIT_ R Thigh"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="RABBIT_ Pelvis/RABBIT_ Spine/RABBIT_ R Thigh/RABBIT_ R Calf"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="RABBIT_ Pelvis/RABBIT_ Spine/RABBIT_ Spine1"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="RABBIT_ Pelvis/RABBIT_ Spine/RABBIT_ Spine1/RABBIT_ Neck/RABBIT_ Neck1/RABBIT_ Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="RABBIT_ Pelvis/RABBIT_ Spine/RABBIT_ Spine1/RABBIT_ Neck/RABBIT_ L Clavicle/RABBIT_ L UpperArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="RABBIT_ Pelvis/RABBIT_ Spine/RABBIT_ Spine1/RABBIT_ Neck/RABBIT_ L Clavicle/RABBIT_ L UpperArm/RABBIT_ L Forearm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="RABBIT_ Pelvis/RABBIT_ Spine/RABBIT_ Spine1/RABBIT_ Neck/RABBIT_ R Clavicle/RABBIT_ R UpperArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="RABBIT_ Pelvis/RABBIT_ Spine/RABBIT_ Spine1/RABBIT_ Neck/RABBIT_ R Clavicle/RABBIT_ R UpperArm/RABBIT_ R Forearm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="pig">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="PIG_ Pelvis"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="PIG_ Pelvis/PIG_ Spine/PIG_ L Thigh"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="PIG_ Pelvis/PIG_ Spine/PIG_ L Thigh/PIG_ L Calf"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="PIG_ Pelvis/PIG_ Spine/PIG_ R Thigh"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="PIG_ Pelvis/PIG_ Spine/PIG_ R Thigh/PIG_ R Calf"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="PIG_ Pelvis/PIG_ Spine/PIG_ Spine1"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="PIG_ Pelvis/PIG_ Spine/PIG_ Spine1/PIG_ Neck/PIG_ Neck1/PIG_ Neck2/PIG_ Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="PIG_ Pelvis/PIG_ Spine/PIG_ Spine1/PIG_ Neck/PIG_ L Clavicle/PIG_ L UpperArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="PIG_ Pelvis/PIG_ Spine/PIG_ Spine1/PIG_ Neck/PIG_ L Clavicle/PIG_ L UpperArm/PIG_ L Forearm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="PIG_ Pelvis/PIG_ Spine/PIG_ Spine1/PIG_ Neck/PIG_ R Clavicle/PIG_ R UpperArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="PIG_ Pelvis/PIG_ Spine/PIG_ Spine1/PIG_ Neck/PIG_ R Clavicle/PIG_ R UpperArm/PIG_ R Forearm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="zombieDog">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Bip01 Pelvis"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Bip01 Pelvis/Bip01 Spine/Bip01 L Thigh"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Bip01 Pelvis/Bip01 Spine/Bip01 L Thigh/Bip01 L Calf"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Bip01 Pelvis/Bip01 Spine/Bip01 R Thigh"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Bip01 Pelvis/Bip01 Spine/Bip01 R Thigh/Bip01 R Calf"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Bip01 Pelvis/Bip01 Spine/Bip01 Spine1"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1.9 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="-0.05 -0.044 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Bip01 Pelvis/Bip01 Spine/Bip01 Spine1/Bip01 Neck/Bip01 Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0.025 0.035 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Bip01 Pelvis/Bip01 Spine/Bip01 Spine1/Bip01 Neck/Bip01 L Clavicle/Bip01 L UpperArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Bip01 Pelvis/Bip01 Spine/Bip01 Spine1/Bip01 Neck/Bip01 L Clavicle/Bip01 L UpperArm/Bip01 L Forearm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Bip01 Pelvis/Bip01 Spine/Bip01 Spine1/Bip01 Neck/Bip01 R Clavicle/Bip01 R UpperArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Bip01 Pelvis/Bip01 Spine/Bip01 Spine1/Bip01 Neck/Bip01 R Clavicle/Bip01 R UpperArm/Bip01 R Forearm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="zombieFat">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1.09"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0.04"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Hips/LeftUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.8 1 0.05"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerLeg"/>
+			<property name="path" value="Hips/LeftUpLeg/LeftLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.5 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Hips/RightUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.8 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0.05"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerLeg"/>
+			<property name="path" value="Hips/RightUpLeg/RightLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.5 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.99 1.5 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0.06 0.04"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder/LeftArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerArm"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder/LeftArm/LeftArmRoll/LeftForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.5 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerArm"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm/RightArmRoll/RightForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.5 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/Neck/Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1.04 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0.02 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="zombieStandardFemale">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1.09"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0.04"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Hips/LeftUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.8 1 0.05"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerLeg"/>
+			<property name="path" value="Hips/LeftUpLeg/LeftLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.5 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Hips/RightUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.8 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0.05"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerLeg"/>
+			<property name="path" value="Hips/RightUpLeg/RightLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.5 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.99 1.11 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0.04"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder/LeftArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerArm"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder/LeftArm/LeftArmRoll/LeftForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.5 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerArm"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm/RightArmRoll/RightForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="0.5 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/Neck/Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1.04 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0.02 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="chicken">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="CHICKEN_ Pelvis"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="2.8 3.26 1"/>
+			<property name="ragdollScale" value="2.8 2.59 1"/>
+			<property name="collisionOffset" value="0 0.06 0"/>
+			<property name="ragdollOffset" value="-0.03 0.06 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="CHICKEN_ Pelvis/CHICKEN_ Spine"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="2.8 3.26 1"/>
+			<property name="ragdollScale" value="2.8 2.59 1"/>
+			<property name="collisionOffset" value="0 0.06 0"/>
+			<property name="ragdollOffset" value="-0.03 0.06 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="CHICKEN_ Pelvis/CHICKEN_ Spine/CHICKEN_ Neck/CHICKEN_ Neck1/CHICKEN_ Neck2/CHICKEN_ Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="2.15 1 1"/>
+			<property name="ragdollScale" value="2.07 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0.01 0.03 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="CHICKEN_ Pelvis/CHICKEN_ Spine/CHICKEN_ Neck/CHICKEN_ L Clavicle/CHICKEN_ L UpperArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="CHICKEN_ Pelvis/CHICKEN_ Spine/CHICKEN_ Neck/CHICKEN_ R Clavicle/CHICKEN_ R UpperArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="zombieStandard">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="0.75 0.39 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 -0.08"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Hips/LeftUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerLeg"/>
+			<property name="path" value="Hips/LeftUpLeg/LeftLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Hips/RightUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerLeg"/>
+			<property name="path" value="Hips/RightUpLeg/RightLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 0.36 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0.05 -0.08"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder/LeftArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder/LeftArm/LeftArmRoll/LeftForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm/RightArmRoll/RightForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Hips/Spine/Spine1/Spine2/Spine3/Neck/Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="0.8 0.88 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0.02 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="wolf">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Hips/LeftUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerLeg"/>
+			<property name="path" value="Hips/LeftUpLeg/LeftLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Hips/RightUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerLeg"/>
+			<property name="path" value="Hips/RightUpLeg/RightLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips/LowerBack/Spine"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm/LeftForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm/RightForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/Neck/Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="bear">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Hips/LeftUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerLeg"/>
+			<property name="path" value="Hips/LeftUpLeg/LeftLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Hips/RightUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerLeg"/>
+			<property name="path" value="Hips/RightUpLeg/RightLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm/LeftForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm/RightForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/Neck/Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="vulture">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hip"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Hip/LeftLeg1"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Hip/RightLeg1"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hip/Spine1/Spine2"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hip/Spine1/Spine2/Spine3/LeftWing1"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hip/Spine1/Spine2/Spine3/RightWing1"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Hip/Spine1/Spine2/Spine3/Neck1/Neck2/Neck3/Neck4/Neck5/Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="snake">
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="head/body1"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="head/body1/body2/body3"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="head/body1/body2/body3/body4/body5"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="head/body1/body2/body3/body4/body5/body6/body7"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="head/body1/body2/body3/body4/body5/body6/body7/body8/body9"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="head/body1/body2/body3/body4/body5/body6/body7/body8/body9/body10/body11"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="head/body1/body2/body3/body4/body5/body6/body7/body8/body9/body10/body11/body12/body13"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="head/body1/body2/body3/body4/body5/body6/body7/body8/body9/body10/body11/body12/body13/body14/body15"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="head/body1/body2/body3/body4/body5/body6/body7/body8/body9/body10/body11/body12/body13/body14/body15/body16/body17"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="head/body1/body2/body3/body4/body5/body6/body7/body8/body9/body10/body11/body12/body13/body14/body15/body16/body17/body18/body19"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="head/body1/body2/body3/body4/body5/body6/body7/body8/body9/body10/body11/body12/body13/body14/body15/body16/body17/body18/body19/body20/body21"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="head/body1/body2/body3/body4/body5/body6/body7/body8/body9/body10/body11/body12/body13/body14/body15/body16/body17/body18/body19/body20/body21/body22/body23"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="boar">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Hips/LeftUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerLeg"/>
+			<property name="path" value="Hips/LeftUpLeg/LeftLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Hips/RightUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerLeg"/>
+			<property name="path" value="Hips/RightUpLeg/RightLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips/LowerBack/Spine"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm/LeftForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm/RightForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="Doe">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Hips/LeftUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerLeg"/>
+			<property name="path" value="Hips/LeftUpLeg/LeftLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Hips/RightUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerLeg"/>
+			<property name="path" value="Hips/RightUpLeg/RightLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips/LowerBack/Spine"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/LeftShoulder/LeftArm/LeftForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/RightShoulder/RightArm/RightForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/Neck1/Neck2/Neck3/Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+	<body name="MountainLion">
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLeg"/>
+			<property name="path" value="Hips/LeftUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LLowerLeg"/>
+			<property name="path" value="Hips/LeftUpLeg/LeftLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLeg"/>
+			<property name="path" value="Hips/RightUpLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RLowerLeg"/>
+			<property name="path" value="Hips/RightUpLeg/RightLeg"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Body"/>
+			<property name="path" value="Hips/LowerBack/Spine"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/Spine2/LeftShoulder/LeftArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_LArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/Spine2/RightShoulder/RightArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_RArm"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/Spine2/RightShoulder/RightArm/RightForeArm"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+		<collider>
+			<property name="tag" value="E_BP_Head"/>
+			<property name="path" value="Hips/LowerBack/Spine/Spine1/Spine2/Neck/Neck1/Head"/>
+			<property name="collisionLayer" value="0"/>
+			<property name="ragdollLayer" value="0"/>
+			<property name="collisionScale" value="1 1 1"/>
+			<property name="ragdollScale" value="1 1 1"/>
+			<property name="collisionOffset" value="0 0 0"/>
+			<property name="ragdollOffset" value="0 0 0"/>
+			<property name="type" value="Detail"/>
+			<property name="flags" value="collision;ragdoll"/>
+		</collider>
+	</body>
+</bodies>

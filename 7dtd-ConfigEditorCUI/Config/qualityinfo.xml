@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<qualityinfo>
+  <!--Broken-->
+	<quality key="0" color="808080"/>
+  <!--Junk -->
+	<quality key="1" color="9C8867"/>
+  <!--Common-->
+	<quality key="2" color="CF7F29"/>
+  <!--Uncommon-->
+	<quality key="3" color="A2A41B"/>
+  <!--Rare-->
+	<quality key="4" color="42C234"/>
+  <!--Epic-->
+	<quality key="5" color="315DCE"/>
+  <!--Legendary-->
+	<quality key="6" color="A42ACC"/>
+</qualityinfo>
