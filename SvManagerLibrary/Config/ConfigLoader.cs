@@ -29,8 +29,8 @@ namespace SvManagerLibrary.Config
                 using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
                 {
                     reader = new CommonXmlReader(fs);
-                    List<string> names = reader.GetAttributes("name", "ServerSettings/property", true);
-                    List<string> values = reader.GetAttributes("value", "ServerSettings/property", true);
+                    var names = reader.GetAttributes("name", "ServerSettings/property", true);
+                    var values = reader.GetAttributes("value", "ServerSettings/property", true);
 
                     int length = names.Count > values.Count ? values.Count : names.Count;
                     for (int i = 0; i < length; ++i)
