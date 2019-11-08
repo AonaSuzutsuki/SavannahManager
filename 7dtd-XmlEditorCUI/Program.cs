@@ -1,5 +1,5 @@
 ﻿using System;
-using SvManagerLibrary.XMLWrapper;
+using SvManagerLibrary.XmlWrapper;
 
 namespace dtdConfigEditorCUI
 {
