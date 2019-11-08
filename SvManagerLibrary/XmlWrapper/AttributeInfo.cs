@@ -1,4 +1,4 @@
-﻿namespace _7dtd_ConfigEditorCUI.XMLWrapper
+﻿namespace SvManagerLibrary.XMLWrapper
 {
     public class AttributeInfo
     {

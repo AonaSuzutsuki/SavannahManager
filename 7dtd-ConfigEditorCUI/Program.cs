@@ -1,5 +1,5 @@
 ﻿using System;
-using _7dtd_ConfigEditorCUI.XMLWrapper;
+using SvManagerLibrary.XMLWrapper;
 
 namespace dtdConfigEditorCUI
 {
@@ -7,8 +7,12 @@ namespace dtdConfigEditorCUI
     {
         public static void Main(string[] args)
         {
-            var xmlReader = new CommonXmlReader2("Config/vehicles.xml");
-            var elem = xmlReader.GetValues();
+            var xmlReader = new CommonXmlReader("Config/vehicles.xml");
+            var elem = xmlReader.GetAllNodes();
+            var elem2 = xmlReader.GetNode("/vehicles/vehicle[@name='vehicleGyrocopter']");
+
+            var xmlWriter = new CommonXmlWriter();
+            xmlWriter.Write("test.xml", elem);
             //foreach (var item in items)
             //{
             //    var list = xmlReader.GetAttributes("name", $"/vehicles/vehicle[@name='{item}']/property");

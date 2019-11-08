@@ -63,6 +63,9 @@
     <Reference Include="CommonCoreLib">
       <HintPath>..\Lib\CommonCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="CommonExtensionLib">
+      <HintPath>..\Lib\CommonExtensionLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chat\Chat.cs" />
@@ -82,8 +85,14 @@
     <Compile Include="Telnet\TelnetException.cs" />
     <Compile Include="Time\Time.cs" />
     <Compile Include="Time\TimeInfo.cs" />
+    <Compile Include="XmlWrapper\AttributeInfo.cs" />
+    <Compile Include="XmlWrapper\CommonXmlReader.cs" />
+    <Compile Include="XmlWrapper\CommonXmlWriter.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="XmlWrapper\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
