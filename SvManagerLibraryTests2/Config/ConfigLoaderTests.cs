@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace SvManagerLibrary.Config.Tests
+namespace SvManagerLibraryTests2.Config
 {
     [TestFixture]
     public class ConfigLoaderTests

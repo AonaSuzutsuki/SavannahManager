@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ServerSettings>
   <property name="ServerName" value="My Game Host">
     サーバー名を設定します。サーバーリストにはこの名前で表示されます。
