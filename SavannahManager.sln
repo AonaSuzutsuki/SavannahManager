@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigFileMaker", "ConfigFi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SvManagerLibraryTests2", "SvManagerLibraryTests2\SvManagerLibraryTests2.csproj", "{D344D4CF-DA40-42B2-A565-766B818ED66F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7dtd-ConfigEditorCUI", "7dtd-ConfigEditorCUI\7dtd-ConfigEditorCUI.csproj", "{985F31F8-75DD-4B2B-8D85-3843AE5DA171}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7dtd-XmlEditorCUI", "7dtd-XmlEditorCUI\7dtd-XmlEditorCUI.csproj", "{985F31F8-75DD-4B2B-8D85-3843AE5DA171}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
