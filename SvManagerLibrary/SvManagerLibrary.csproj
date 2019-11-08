@@ -88,6 +88,8 @@
     <Compile Include="XmlWrapper\AttributeInfo.cs" />
     <Compile Include="XmlWrapper\CommonXmlReader.cs" />
     <Compile Include="XmlWrapper\CommonXmlWriter.cs" />
+    <Compile Include="XmlWrapper\CommonXmlText.cs" />
+    <Compile Include="XmlWrapper\CommonXmlNode.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

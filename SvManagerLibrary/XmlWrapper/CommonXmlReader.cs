@@ -7,59 +7,50 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using CommonCoreLib.CommonLinq;
 using CommonExtensionLib.Extensions;
+using SvManagerLibrary.XmlWrapper;
 
-namespace SvManagerLibrary.XMLWrapper
+namespace SvManagerLibrary.XmlWrapper
 {
-    public class CommonXmlText
-    {
-        public string Text { get; internal set; }
-
-        public override string ToString()
-        {
-            return Text;
-        }
-    }
-
-    public class CommonXmlNode
-    {
-        public string TagName { get; internal set; }
-        public AttributeInfo[] Attributes { get; internal set; } = new AttributeInfo[0];
-        public CommonXmlNode[] ChildNode { get; internal set; } = new CommonXmlNode[0];
-        public CommonXmlText InnerText { get; internal set; } = new CommonXmlText();
-
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-            var attr = string.Join(" ", from x in Attributes select x.ToString());
-
-            sb.Append($"<{TagName} {attr}>{InnerText}</{TagName}>");
-
-            return sb.ToString();
-        }
-
-        public static CommonXmlNode CreateRoot(string tagName)
-        {
-            var root = new CommonXmlNode
-            {
-                TagName = tagName
-            };
-            return root;
-        }
-    }
-
     public class CommonXmlReader
     {
-        public string XmlPath { get; } = string.Empty;
-
         private readonly XmlDocument document = new XmlDocument();
 
         public CommonXmlNode Root { get; private set; }
 
+        public string Declaration { get; private set; }
+
         public CommonXmlReader(string xmlPath)
         {
-            XmlPath = xmlPath;
+            using var fs = new FileStream(xmlPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            Initialize(fs);
+        }
 
-            document.Load(xmlPath);
+        public CommonXmlReader(Stream stream)
+        {
+            Initialize(stream);
+        }
+
+        private void Initialize(Stream stream)
+        {
+            document.Load(stream);
+            var declaration = document.ChildNodes
+                                .OfType<XmlDeclaration>()
+                                .FirstOrDefault();
+            Declaration = declaration.InnerText;
+        }
+
+        public IList<string> GetAttributes(string name, string xpath, bool isContaisNoValue = true)
+        {
+            var nodeList = document.SelectNodes(xpath).ToList();
+            var cond = Conditions.If<IList<string>>(() => isContaisNoValue)
+                .Then(() => (from node in nodeList
+                             let attr = (node as XmlElement).GetAttribute(name)
+                             select attr).ToList())
+                .Else(() => (from node in nodeList
+                             let attr = (node as XmlElement).GetAttribute(name)
+                             where !string.IsNullOrEmpty(attr)
+                             select attr).ToList());
+            return cond.Invoke();
         }
 
         public CommonXmlNode GetNode(string xpath)
@@ -68,9 +59,9 @@ namespace SvManagerLibrary.XMLWrapper
             return new CommonXmlNode
             {
                 TagName = node.Name,
-                InnerText = new CommonXmlText { Text = node.InnerText },
+                InnerText = ResolveInnerText(node),
                 Attributes = ConvertAttributeInfoArray(node.Attributes),
-                ChildNode = GetElements(node.ChildNodes).ToArray()
+                ChildNodes = GetElements(node.ChildNodes)
             };
         }
 
@@ -81,9 +72,9 @@ namespace SvManagerLibrary.XMLWrapper
                        select new CommonXmlNode
                        {
                            TagName = node.Name,
-                           InnerText = new CommonXmlText { Text = node.InnerText },
+                           InnerText = ResolveInnerText(node),
                            Attributes = ConvertAttributeInfoArray(node.Attributes),
-                           ChildNode = GetElements(node.ChildNodes).ToArray()
+                           ChildNodes = GetElements(node.ChildNodes)
                        };
             return list.ToArray();
         }
@@ -94,11 +85,19 @@ namespace SvManagerLibrary.XMLWrapper
             var root = new CommonXmlNode
             {
                 TagName = nodeList.Name,
-                InnerText = new CommonXmlText { Text = nodeList.InnerText },
+                InnerText = ResolveInnerText(nodeList),
                 Attributes = ConvertAttributeInfoArray(nodeList.Attributes),
-                ChildNode = GetElements(nodeList.ChildNodes).ToArray()
+                ChildNodes = GetElements(nodeList.ChildNodes).ToArray()
             };
             return root;
+        }
+
+        private CommonXmlText ResolveInnerText(XmlNode node)
+        {
+            var xml = node.InnerXml;
+            if (xml.Contains("<") || xml.Contains(">"))
+                return new CommonXmlText();
+            return new CommonXmlText { Text = node.InnerText };
         }
 
         private XmlNode[] ConvertXmlNode(XmlNodeList nodeList)
@@ -151,7 +150,7 @@ namespace SvManagerLibrary.XMLWrapper
                         Attributes = ConvertAttributeInfoArray(node.Attributes)
                     };
                     if (node.ChildNodes.Count > 0)
-                        commonXmlNode.ChildNode = GetElements(node.ChildNodes).ToArray();
+                        commonXmlNode.ChildNodes = GetElements(node.ChildNodes).ToArray();
                     list.Add(commonXmlNode);
                 }
             }

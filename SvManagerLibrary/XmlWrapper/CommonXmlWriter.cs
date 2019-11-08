@@ -1,18 +1,24 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using CommonExtensionLib.Extensions;
+using SvManagerLibrary.XmlWrapper;
 
-namespace SvManagerLibrary.XMLWrapper
+namespace SvManagerLibrary.XmlWrapper
 {
     public class CommonXmlWriter
     {
-        private XmlDocument xDocument = new XmlDocument();
-        private XmlProcessingInstruction xDeclaration;
+        private readonly XmlDocument xDocument = new XmlDocument();
+        private readonly XmlProcessingInstruction xDeclaration;
 
-        public CommonXmlWriter()
+        public CommonXmlWriter() : this("version=\"1.0\"")
         {
-            xDeclaration = xDocument.CreateProcessingInstruction("xml", "version=\"1.0\"");
+        }
+
+        public CommonXmlWriter(string declaration)
+        {
+            xDeclaration = xDocument.CreateProcessingInstruction("xml", declaration);
         }
 
         public void Write(string path, CommonXmlNode root)
@@ -45,14 +51,14 @@ namespace SvManagerLibrary.XMLWrapper
         {
             var elem = xDocument.CreateElement(root.TagName);
 
-            if (root.Attributes.Length > 0)
+            if (root.Attributes.Any())
                 foreach (AttributeInfo attributeInfo in root.Attributes)
                     elem.SetAttribute(attributeInfo.Name, attributeInfo.Value);
             if (!string.IsNullOrEmpty(root.InnerText.Text))
                 elem.InnerText = root.InnerText.Text;
 
-            if (root.ChildNode.Length > 0)
-                foreach (var child in root.ChildNode)
+            if (root.ChildNodes.Any())
+                foreach (var child in root.ChildNodes)
                     elem.AppendChild(CreateXmlElement(child));
 
             return elem;
