@@ -1,8 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  
+  <update version="2.2.28.1">
+    1. 内部ライブラリのアップデート
+    2. Backup Editorの保存先を指定できるように変更
+     2.1 設定よりバックアップ項目があるのでそこで設定できます。
+  </update>
   <update version="2.2.28.1">
     1. ConfigEditorにa18 betaのベースとなるコンフィグデータを追加しました。
-     1. 翻訳や細かい値確認はまだしていません。
+     1.1 翻訳や細かい値確認はまだしていません。
     2. Backup Editorに削除機能を追加してました。
      2.1 この機能はまだ十分に検証していません。
   </update>
