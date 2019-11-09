@@ -54,6 +54,7 @@ namespace SvManagerLibraryTests2.Config
                 { "ServerName2", new ConfigInfo() { PropertyName = "ServerName2", Value = "My Game Host" } },
                 { "ServerDescription", new ConfigInfo() { PropertyName = "ServerDescription", Value = "A 7 Days to Die server" } },
                 { "ServerWebsiteURL", new ConfigInfo() { PropertyName = "ServerWebsiteURL", Value = "" } },
+                { "Nested", new ConfigInfo() { PropertyName = "Nested", Value = null } },
                 { "test", new ConfigInfo { PropertyName = "test", Value = "test value" } },
                 { "test2", new ConfigInfo { PropertyName = "test2", Value = "test value 2" } },
             };
@@ -110,7 +111,8 @@ namespace SvManagerLibraryTests2.Config
                 { "ServerName", new ConfigInfo() { PropertyName = "ServerName", Value = "My Game Host" } },
                 { "ServerName2", new ConfigInfo() { PropertyName = "ServerName2", Value = "My Game Host" } },
                 { "ServerDescription", new ConfigInfo() { PropertyName = "ServerDescription", Value = "A 7 Days to Die server" } },
-                { "ServerWebsiteURL", new ConfigInfo() { PropertyName = "ServerWebsiteURL", Value = "" } }
+                { "ServerWebsiteURL", new ConfigInfo() { PropertyName = "ServerWebsiteURL", Value = "" } },
+                { "Nested", new ConfigInfo() { PropertyName = "Nested", Value = null } }
             };
 
             CollectionAssert.AreEqual(exp, dict);
@@ -130,7 +132,7 @@ namespace SvManagerLibraryTests2.Config
 
                 var buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
-                var act = Encoding.UTF8.GetString(buffer) + "\r\n".UnifiedBreakLine();
+                var act = Encoding.UTF8.GetString(buffer).UnifiedBreakLine();
 
                 Assert.AreEqual(exp, act);
             }

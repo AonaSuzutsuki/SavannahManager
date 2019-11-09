@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CommonCoreLib.XMLWrapper;
+using SvManagerLibrary.XmlWrapper;
 
 namespace SvManagerLibrary.Config
 {
@@ -113,11 +113,11 @@ namespace SvManagerLibrary.Config
         public void Write(Stream stream)
         {
             var writer = new CommonXmlWriter();
-            var root = writer.CreateRoot("ServerSettings");
+            var root = CommonXmlNode.CreateRoot("ServerSettings");
             var configXmlArray = (from config in configs.Values
                                   let configAttributeInfo = CreateConfigAttributeInfos(config)
-                                  select writer.CreateElement("property", configAttributeInfo)).ToArray();
-            root.Append(configXmlArray);
+                                  select CommonXmlNode.CreateElement("property", configAttributeInfo)).ToArray();
+            root.ChildNodes = configXmlArray;
 
             writer.Write(stream, root);
         }
