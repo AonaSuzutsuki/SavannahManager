@@ -100,6 +100,34 @@ namespace SvManagerLibraryTests2.XmlWrapper
                         {
                             Text = "サーバーのウェブサイトを設定します。"
                         }
+                    },
+                    new CommonXmlNode
+                    {
+                        TagName = "property",
+                        Attributes = new AttributeInfo[]
+                        {
+                            new AttributeInfo
+                            {
+                                Name = "name",
+                                Value = "Nested"
+                            }
+                        },
+                        ChildNodes = new CommonXmlNode[]
+                        {
+                            new CommonXmlNode
+                            {
+                                TagName = "property",
+                                Attributes = new AttributeInfo[]
+                                {
+                                    new AttributeInfo
+                                    {
+                                        Name = "name",
+                                        Value = "NestedElem"
+                                    }
+                                },
+                                InnerText = new CommonXmlText { Text = "Value" }
+                            }
+                        }
                     }
                 }
             };

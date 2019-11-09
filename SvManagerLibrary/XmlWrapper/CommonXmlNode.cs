@@ -12,8 +12,8 @@ namespace SvManagerLibrary.XmlWrapper
         public string TagName { get; set; }
         public IEnumerable<AttributeInfo> Attributes
         {
-            get => attributes;
-            set => attributes = new List<AttributeInfo>(value);
+            get => attributes.Values;
+            set => attributes = value.ToDictionary((attr) => attr.Name);
         }
         public IEnumerable<CommonXmlNode> ChildNodes
         {
@@ -24,19 +24,16 @@ namespace SvManagerLibrary.XmlWrapper
         #endregion
 
         #region Fields
-        private List<AttributeInfo> attributes = new List<AttributeInfo>();
+        private Dictionary<string, AttributeInfo> attributes = new Dictionary<string, AttributeInfo>();
         private List<CommonXmlNode> childNodes = new List<CommonXmlNode>();
         #endregion
 
         #region Member Methods
-        public override string ToString()
+        public AttributeInfo GetAttribute(string name)
         {
-            var sb = new StringBuilder();
-            var attr = string.Join(" ", from x in Attributes select x.ToString());
-
-            sb.Append($"<{TagName} {attr}>{InnerText}</{TagName}>");
-
-            return sb.ToString();
+            if (attributes.ContainsKey(name))
+                return attributes[name];
+            return new AttributeInfo();
         }
 
         public CommonXmlNode CreateChildElement(string tagName, IEnumerable<AttributeInfo> attributeInfos = null
@@ -45,6 +42,16 @@ namespace SvManagerLibrary.XmlWrapper
             var node = CreateElement(tagName, attributeInfos, commonXmlNodes, innerText);
             childNodes.Add(CreateElement(tagName, attributeInfos, commonXmlNodes, innerText));
             return node;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            var attr = string.Join(" ", from x in Attributes select x.ToString());
+
+            sb.Append($"<{TagName} {attr}>{InnerText}</{TagName}>");
+
+            return sb.ToString();
         }
         #endregion
 

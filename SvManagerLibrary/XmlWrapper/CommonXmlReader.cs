@@ -41,21 +41,41 @@ namespace SvManagerLibrary.XmlWrapper
 
         public IList<string> GetAttributes(string name, string xpath, bool isContaisNoValue = true)
         {
-            var nodeList = document.SelectNodes(xpath).ToList();
+            var nodeList = GetNodes(ConvertXmlNode(document.SelectNodes(xpath)));
             var cond = Conditions.If<IList<string>>(() => isContaisNoValue)
                 .Then(() => (from node in nodeList
-                             let attr = (node as XmlElement).GetAttribute(name)
+                             let attr = node.GetAttribute(name).Value
                              select attr).ToList())
                 .Else(() => (from node in nodeList
-                             let attr = (node as XmlElement).GetAttribute(name)
+                             let attr = node.GetAttribute(name).Value
                              where !string.IsNullOrEmpty(attr)
                              select attr).ToList());
             return cond.Invoke();
         }
 
+        public IList<string> GetValues(string xpath, bool enableLineBreak = true, bool isRemoveSpace = true)
+        {
+            var nodeList = GetNodes(ConvertXmlNode(document.SelectNodes(xpath)));
+            return (from node in nodeList
+                    let text = node.InnerText.Text
+                    let value = Conditions.IfElse(isRemoveSpace, () => RemoveSpace(text, enableLineBreak), () => text)
+                    where !string.IsNullOrEmpty(value) select value).ToList();
+            //var nodeList = document.SelectNodes(xpath).ToList();
+
+            //return (from node in nodeList
+            //        let text = (node as XmlElement).InnerText
+            //        let value = Conditions.IfElse(isRemoveSpace, () => RemoveSpace(text, enableLineBreak), () => text)
+            //        select value).ToList();
+        }
+
         public CommonXmlNode GetNode(string xpath)
         {
             var node = document.SelectSingleNode(xpath);
+            return GetNode(node);
+        }
+
+        public CommonXmlNode GetNode(XmlNode node)
+        {
             return new CommonXmlNode
             {
                 TagName = node.Name,
@@ -68,6 +88,11 @@ namespace SvManagerLibrary.XmlWrapper
         public CommonXmlNode[] GetNodes(string xpath)
         {
             var nodeList = ConvertXmlNode(document.SelectNodes(xpath));
+            return GetNodes(nodeList);
+        }
+
+        public CommonXmlNode[] GetNodes(XmlNode[] nodeList)
+        {
             var list = from node in nodeList
                        select new CommonXmlNode
                        {
@@ -90,6 +115,47 @@ namespace SvManagerLibrary.XmlWrapper
                 ChildNodes = GetElements(nodeList.ChildNodes).ToArray()
             };
             return root;
+        }
+
+        private static string RemoveSpace(string text, bool isAddLine = false)
+        {
+            var sb = new StringBuilder();
+
+            text = text.Replace("\r\n", "\r").Replace("\r", "\n").TrimStart('\n');
+            var spaceLength = GetSpaceLength(text);
+
+            var expression = spaceLength > 0 ? $"^( {{0,{spaceLength.ToString()}}})(?<text>.*)$" : "^ *(?<text>.*)$";
+            var reg = new Regex(expression);
+            using var sr = new StringReader(text);
+            while (sr.Peek() > -1)
+            {
+                var line = sr.ReadLine() ?? string.Empty;
+
+                var match = reg.Match(line);
+                if (match.Success)
+                    if (isAddLine)
+                        sb.Append($"{match.Groups["text"].Value}\n");
+                    else
+                        sb.Append(match.Groups["text"].Value);
+                else
+                    sb.Append(sr.ReadLine());
+            }
+            return sb.ToString().TrimStart('\n').TrimEnd('\n');
+        }
+
+        private static int GetSpaceLength(string text)
+        {
+            const string expression = "^(?<space>[\\s\\t]*)(?<text>.*)$";
+            var reg = new Regex(expression);
+            var textArray = text.Split('\n');
+            if (textArray.Length > 0)
+            {
+                var match = reg.Match(textArray[0]);
+                if (match.Success)
+                    return match.Groups["space"].Value.Length;
+            }
+
+            return 0;
         }
 
         private CommonXmlText ResolveInnerText(XmlNode node)
@@ -146,7 +212,7 @@ namespace SvManagerLibrary.XmlWrapper
                     var commonXmlNode = new CommonXmlNode
                     {
                         TagName = node.Name,
-                        InnerText = new CommonXmlText { Text = node.InnerText },
+                        InnerText = ResolveInnerText(node),
                         Attributes = ConvertAttributeInfoArray(node.Attributes)
                     };
                     if (node.ChildNodes.Count > 0)

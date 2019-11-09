@@ -9,4 +9,7 @@
   </property>
   <property name="ServerDescription" value="A 7 Days to Die server">サーバーの説明を設定します。</property>
   <property name="ServerWebsiteURL" value="">サーバーのウェブサイトを設定します。</property>
+  <property name="Nested">
+    <property name="NestedElem">Value</property>
+  </property>
 </ServerSettings>
