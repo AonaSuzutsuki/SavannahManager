@@ -6,6 +6,14 @@ using CommonCoreLib.Bool;
 
 namespace SvManagerLibrary.XmlWrapper
 {
+    public static class CommonXmlNodeExtension
+    {
+        public static string ToAttributesText(this IEnumerable<AttributeInfo> attributeInfos)
+        {
+            return string.Join(", ", attributeInfos);
+        }
+    }
+
     public class CommonXmlNode
     {
         #region Properties
