@@ -55,11 +55,10 @@ namespace SvManagerLibrary.XmlWrapper
 
         public IList<string> GetValues(string xpath, bool enableLineBreak = true, bool isRemoveSpace = true)
         {
-            var nodeList = GetNodes(ConvertXmlNode(document.SelectNodes(xpath)));
+            var nodeList = GetNodes(ConvertXmlNode(document.SelectNodes(xpath)), isRemoveSpace);
             return (from node in nodeList
                     let text = node.InnerText.Text
-                    let value = Conditions.IfElse(isRemoveSpace, () => RemoveSpace(text, enableLineBreak), () => text)
-                    where !string.IsNullOrEmpty(value) select value).ToList();
+                    where !string.IsNullOrEmpty(text) select text).ToList();
             //var nodeList = document.SelectNodes(xpath).ToList();
 
             //return (from node in nodeList
@@ -74,45 +73,45 @@ namespace SvManagerLibrary.XmlWrapper
             return GetNode(node);
         }
 
-        public CommonXmlNode GetNode(XmlNode node)
+        public CommonXmlNode GetNode(XmlNode node, bool isRemoveSpace = true)
         {
             return new CommonXmlNode
             {
                 TagName = node.Name,
-                InnerText = ResolveInnerText(node),
+                InnerText = ResolveInnerText(node, isRemoveSpace),
                 Attributes = ConvertAttributeInfoArray(node.Attributes),
-                ChildNodes = GetElements(node.ChildNodes)
+                ChildNodes = GetElements(node.ChildNodes, isRemoveSpace)
             };
         }
 
-        public CommonXmlNode[] GetNodes(string xpath)
+        public CommonXmlNode[] GetNodes(string xpath, bool isRemoveSpace = true)
         {
             var nodeList = ConvertXmlNode(document.SelectNodes(xpath));
-            return GetNodes(nodeList);
+            return GetNodes(nodeList, isRemoveSpace);
         }
 
-        public CommonXmlNode[] GetNodes(XmlNode[] nodeList)
+        public CommonXmlNode[] GetNodes(XmlNode[] nodeList, bool isRemoveSpace = true)
         {
             var list = from node in nodeList
                        select new CommonXmlNode
                        {
                            TagName = node.Name,
-                           InnerText = ResolveInnerText(node),
+                           InnerText = ResolveInnerText(node, isRemoveSpace),
                            Attributes = ConvertAttributeInfoArray(node.Attributes),
-                           ChildNodes = GetElements(node.ChildNodes)
+                           ChildNodes = GetElements(node.ChildNodes, isRemoveSpace)
                        };
             return list.ToArray();
         }
 
-        public CommonXmlNode GetAllNodes()
+        public CommonXmlNode GetAllNodes(bool isRemoveSpace = true)
         {
             var nodeList = document.SelectSingleNode("/*");
             var root = new CommonXmlNode
             {
                 TagName = nodeList.Name,
-                InnerText = ResolveInnerText(nodeList),
+                InnerText = ResolveInnerText(nodeList, isRemoveSpace),
                 Attributes = ConvertAttributeInfoArray(nodeList.Attributes),
-                ChildNodes = GetElements(nodeList.ChildNodes).ToArray()
+                ChildNodes = GetElements(nodeList.ChildNodes, isRemoveSpace).ToArray()
             };
             return root;
         }
@@ -158,12 +157,13 @@ namespace SvManagerLibrary.XmlWrapper
             return 0;
         }
 
-        private CommonXmlText ResolveInnerText(XmlNode node)
+        private CommonXmlText ResolveInnerText(XmlNode node, bool isRemoveSpace)
         {
             var xml = node.InnerXml;
             if (xml.Contains("<") || xml.Contains(">"))
                 return new CommonXmlText();
-            return new CommonXmlText { Text = node.InnerText };
+            return new CommonXmlText { Text = Conditions.IfElse(isRemoveSpace, () => RemoveSpace(node.InnerText, true),
+                () => node.InnerText).UnifiedBreakLine() };
         }
 
         private XmlNode[] ConvertXmlNode(XmlNodeList nodeList)
@@ -201,7 +201,7 @@ namespace SvManagerLibrary.XmlWrapper
                     }).ToArray();
         }
 
-        private List<CommonXmlNode> GetElements(XmlNodeList nodeList)
+        private List<CommonXmlNode> GetElements(XmlNodeList nodeList, bool isRemoveSpace)
         {
             var list = new List<CommonXmlNode>();
             foreach (var n in nodeList)
@@ -212,11 +212,11 @@ namespace SvManagerLibrary.XmlWrapper
                     var commonXmlNode = new CommonXmlNode
                     {
                         TagName = node.Name,
-                        InnerText = ResolveInnerText(node),
+                        InnerText = ResolveInnerText(node, isRemoveSpace),
                         Attributes = ConvertAttributeInfoArray(node.Attributes)
                     };
                     if (node.ChildNodes.Count > 0)
-                        commonXmlNode.ChildNodes = GetElements(node.ChildNodes).ToArray();
+                        commonXmlNode.ChildNodes = GetElements(node.ChildNodes, isRemoveSpace).ToArray();
                     list.Add(commonXmlNode);
                 }
             }

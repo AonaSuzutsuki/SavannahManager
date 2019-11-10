@@ -2,18 +2,24 @@
 using NUnit.Framework;
 using SvManagerLibrary.XmlWrapper;
 using System.Collections.Generic;
+using CommonCoreLib.CommonPath;
 
 namespace SvManagerLibraryTests2.XmlWrapper
 {
     [TestFixture]
     public class CommonXmlReaderTest
     {
+        public static string GetTestPath()
+        {
+            return $"{AppDomain.CurrentDomain.BaseDirectory}/TestData/Test.xml".UnifiedSystemPathSeparator();
+        }
+
         [Test]
         public void DeclarationTest()
         {
             var exp = "version=\"1.0\" encoding=\"UTF-8\"";
 
-            var reader = new CommonXmlReader("TestData/Test.xml");
+            var reader = new CommonXmlReader(GetTestPath());
             var declaration = reader.Declaration;
 
             Assert.AreEqual(exp, declaration);
@@ -31,7 +37,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                 "Nested",
             };
 
-            var reader = new CommonXmlReader("TestData/Test.xml");
+            var reader = new CommonXmlReader(GetTestPath());
             var names = reader.GetAttributes("name", "/ServerSettings/property");
 
             CollectionAssert.AreEqual(exp, names);
@@ -40,7 +46,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
         [Test]
         public void GetValuesTest()
         {
-            var reader = new CommonXmlReader("TestData/Test.xml");
+            var reader = new CommonXmlReader(GetTestPath());
             var attributes = reader.GetValues("/ServerSettings/property"); //[not(@name='Nested')]
 
             var exp = new List<string>
@@ -75,11 +81,11 @@ namespace SvManagerLibraryTests2.XmlWrapper
                         },
                 InnerText = new CommonXmlText
                 {
-                    Text = "\n    サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n  "
+                    Text = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。"
                 }
             };
 
-            var reader = new CommonXmlReader("TestData/Test.xml");
+            var reader = new CommonXmlReader(GetTestPath());
             var node = reader.GetNode("/ServerSettings/property[@name='ServerName']");
 
             Assert.AreEqual(exp, node);
@@ -108,7 +114,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                             },
                     InnerText = new CommonXmlText
                     {
-                        Text = "\n    サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n  "
+                        Text = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。"
                     }
                 },
                 new CommonXmlNode
@@ -129,12 +135,12 @@ namespace SvManagerLibraryTests2.XmlWrapper
                             },
                     InnerText = new CommonXmlText
                     {
-                        Text = "\n    サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n        test\n  "
+                        Text = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n    test"
                     }
                 },
             };
 
-            var reader = new CommonXmlReader("TestData/Test.xml");
+            var reader = new CommonXmlReader(GetTestPath());
             var node = reader.GetNodes("/ServerSettings/property[contains(@name, 'ServerName')]");
 
             Assert.AreEqual(exp, node);
@@ -166,7 +172,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                 },
                         InnerText = new CommonXmlText
                         {
-                            Text = "\n    サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n  "
+                            Text = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。"
                         }
                     },
                     new CommonXmlNode
@@ -187,7 +193,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                 },
                         InnerText = new CommonXmlText
                         {
-                            Text = "\n    サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n        test\n  "
+                            Text = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n    test"
                         }
                     },
                     new CommonXmlNode
@@ -263,7 +269,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                 }
             };
 
-            var reader = new CommonXmlReader("TestData/Test.xml");
+            var reader = new CommonXmlReader(GetTestPath());
             var node = reader.GetAllNodes();
 
             Assert.AreEqual(exp, node);

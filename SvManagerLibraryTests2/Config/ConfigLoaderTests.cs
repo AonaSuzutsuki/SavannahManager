@@ -122,20 +122,19 @@ namespace SvManagerLibraryTests2.Config
         public void WriteTest()
         {
             var xmlPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\TestData\\Config.xml".UnifiedSystemPathSeparator();
-            var exp = File.ReadAllText(xmlPath);
+            var exp = File.ReadAllText(xmlPath).UnifiedBreakLine();
 
             var loader = GetConfigLoader();
-            using (var stream = new MemoryStream())
-            {
-                loader.Write(stream);
-                stream.Seek(0, SeekOrigin.Begin);
 
-                var buffer = new byte[stream.Length];
-                stream.Read(buffer, 0, buffer.Length);
-                var act = Encoding.UTF8.GetString(buffer).UnifiedBreakLine();
+            using var stream = new MemoryStream();
+            loader.Write(stream);
+            stream.Seek(0, SeekOrigin.Begin);
 
-                Assert.AreEqual(exp, act);
-            }
+            var buffer = new byte[stream.Length];
+            stream.Read(buffer, 0, buffer.Length);
+            var act = Encoding.UTF8.GetString(buffer).UnifiedBreakLine();
+
+            Assert.AreEqual(exp, act);
         }
     }
 }

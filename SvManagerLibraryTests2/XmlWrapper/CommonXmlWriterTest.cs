@@ -132,7 +132,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                 }
             };
 
-            var exp = File.ReadAllText("TestData/Test.xml").UnifiedBreakLine();
+            var exp = File.ReadAllText(CommonXmlReaderTest.GetTestPath()).UnifiedBreakLine();
 
             var writer = new CommonXmlWriter("version=\"1.0\" encoding=\"UTF-8\"");
             using var ms = new MemoryStream();
