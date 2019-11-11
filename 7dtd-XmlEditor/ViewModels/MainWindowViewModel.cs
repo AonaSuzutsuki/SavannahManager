@@ -31,6 +31,7 @@ namespace _7dtd_XmlEditor.ViewModels
 
             TreeViewItems = model.TreeViewItems.ToReadOnlyReactiveCollection(m => m);
             EditModeComboItems = model.EditModeComboItems.ToReadOnlyReactiveCollection(m => m);
+            TreeViewSelectedItem = model.ToReactivePropertyAsSynchronized(m => m.SelectedItem);
 
             TreeViewSelectedItemChanged = new DelegateCommand(TreeView_SelectedItemChanged);
             TreeViewMouseRightButtonDown = new DelegateCommand(TreeView_MouseRightButtonDown);
@@ -41,7 +42,7 @@ namespace _7dtd_XmlEditor.ViewModels
         private MainWindowModel model;
 
         public ReadOnlyReactiveCollection<TreeViewItemInfo> TreeViewItems { get; set; }
-        public TreeViewItemInfo TreeViewSelectedItem { get; set; }
+        public ReactiveProperty<TreeViewItemInfo> TreeViewSelectedItem { get; set; }
         public ReadOnlyReactiveCollection<string> EditModeComboItems { get; set; }
 
         public ICommand TreeViewSelectedItemChanged { get; set; }
@@ -51,20 +52,20 @@ namespace _7dtd_XmlEditor.ViewModels
 
         public void TreeView_SelectedItemChanged()
         {
-            model.SelectionChange(TreeViewSelectedItem);
+            model.SelectionChange();
         }
         public void TreeView_MouseRightButtonDown()
         {
-            Console.WriteLine(TreeViewSelectedItem.Path);
+            Console.WriteLine(TreeViewSelectedItem.Value.Path);
         }
         public void EditModeCombo_SelectionChanged(string mode)
         {
-            model.NodeViewModeChange(mode, TreeViewSelectedItem);
+            model.NodeViewModeChange(mode);
         }
 
         public void ApplyBt_Clicked()
         {
-            model.Apply(TreeViewSelectedItem);
+            model.Apply();
         }
     }
 }

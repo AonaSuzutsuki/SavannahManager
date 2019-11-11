@@ -35,8 +35,15 @@ namespace _7dtd_XmlEditor.Models
             set => SetProperty(ref treeViewItems, value);
         }
 
+        public TreeViewItemInfo SelectedItem
+        {
+            get => selectedItem;
+            set => SetProperty(ref selectedItem, value);
+        }
+
         private ObservableCollection<string> editModeComboItems;
         private ObservableCollection<TreeViewItemInfo> treeViewItems;
+        private TreeViewItemInfo selectedItem;
 
         private TreeViewItemInfo root;
         private string declaration;
@@ -65,8 +72,9 @@ namespace _7dtd_XmlEditor.Models
             };
         }
 
-        public void NodeViewModeChange(string mode, TreeViewItemInfo info)
+        public void NodeViewModeChange(string mode)
         {
+            var info = SelectedItem;
             if (mode == "Common")
             {
                 commonPage = new CommonView();
@@ -74,15 +82,17 @@ namespace _7dtd_XmlEditor.Models
                 navigation.Navigate(commonPage);
             }
         }
-        public void SelectionChange(TreeViewItemInfo info)
+        public void SelectionChange()
         {
+            var info = SelectedItem;
             commonPage.ChangeItem(info);
         }
 
-        public void Apply(TreeViewItemInfo info)
+        public void Apply()
         {
             commonPage.Apply();
 
+            var info = SelectedItem;
             AssignExpanded(root);
             info.Node.AppendAttribute(XML_SELECTED, true.ToString());
 
@@ -95,12 +105,13 @@ namespace _7dtd_XmlEditor.Models
             var node = reader.GetAllNodes();
 
             root = new TreeViewItemInfo(node);
-            var selectedNode = GetSelectedInfo(root);
 
             TreeViewItems.Clear();
             TreeViewItems.Add(root);
 
-            SelectionChange(selectedNode);
+            SelectedItem = GetSelectedInfo(root);
+
+            //SelectionChange();
         }
 
         private TreeViewItemInfo GetSelectedInfo(TreeViewItemInfo info)
@@ -110,7 +121,10 @@ namespace _7dtd_XmlEditor.Models
             node.RemoveAttribute(XML_SELECTED);
             info.Name = TreeViewItemInfo.GetName(info);
             if (isSelected)
+            {
+                info.IsSelected = true;
                 return info;
+            }
 
             if (info.Children.Any())
             {

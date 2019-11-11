@@ -67,7 +67,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <views:BindableSelectedItemTreeView ItemsSource="{Binding TreeViewItems}" BindableSelectedItem="{Binding TreeViewSelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <views:BindableSelectedItemTreeView ItemsSource="{Binding TreeViewItems}" BindableSelectedItem="{Binding TreeViewSelectedItem.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseRightButtonDown">
                             <i:InvokeCommandAction Command="{Binding TreeViewMouseRightButtonDown}" />
@@ -87,6 +87,7 @@
                         <Style TargetType="{x:Type TreeViewItem}">
                             <!--<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
                             <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />-->
+                            <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
                             <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded,Mode=TwoWay}"/>
                             <Setter Property="Foreground" Value="White" />
                             <Setter Property="FontWeight" Value="Normal" />

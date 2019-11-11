@@ -20,11 +20,18 @@ namespace _7dtd_XmlEditor.Models.TreeView
         public string Name { get; set; }
         public TreeViewItemInfo[] Children { get; set; }
         private bool isExpanded;
+        private bool isSelected;
 
         public bool IsExpanded
         {
             get => isExpanded;
             set => SetProperty(ref isExpanded, value);
+        }
+
+        public bool IsSelected
+        {
+            get => isSelected;
+            set => SetProperty(ref isSelected, value);
         }
         public string Path { get; }
 
