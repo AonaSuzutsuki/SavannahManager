@@ -5,6 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:local="clr-namespace:_7dtd_XmlEditor.Views.NodeView"
+      xmlns:views="clr-namespace:_7dtd_XmlEditor.Views"
+      xmlns:treeView="clr-namespace:_7dtd_XmlEditor.Models.TreeView"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CommonView">
@@ -14,35 +16,90 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
+                <ResourceDictionary Source="/Styles/TreeViewStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".5*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
-        <Label Grid.Row="0" Content="{Binding FullPath.Value}" />
-
-        <ListView Grid.Row="1" ItemsSource="{Binding Attributes}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Width="150" Header="Name" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Width="300" Header="Value" DisplayMemberBinding="{Binding Value}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
-
-        <TextBox Grid.Row="2" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding InnerXml.Value, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+        <views:BindableSelectedItemTreeView ItemsSource="{Binding TreeViewItems}" BindableSelectedItem="{Binding TreeViewSelectedItem.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="TextChanged">
-                    <i:InvokeCommandAction Command="{Binding InnerXmlTextChanged}" />
+                <i:EventTrigger EventName="MouseRightButtonDown">
+                    <i:InvokeCommandAction Command="{Binding TreeViewMouseRightButtonDown}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="SelectedItemChanged">
+                    <i:InvokeCommandAction  Command="{Binding TreeViewSelectedItemChanged}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-        </TextBox>
+            
+
+            <views:BindableSelectedItemTreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="treeView:TreeViewItemInfo" ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding Name}" />
+                </HierarchicalDataTemplate>
+            </views:BindableSelectedItemTreeView.ItemTemplate>
+
+            <views:BindableSelectedItemTreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <!--<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
+                            <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />-->
+                    <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+                    <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded,Mode=TwoWay}"/>
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="FontWeight" Value="Normal" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </views:BindableSelectedItemTreeView.ItemContainerStyle>
+
+            <views:BindableSelectedItemTreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="AAA" />
+                </ContextMenu>
+            </views:BindableSelectedItemTreeView.ContextMenu>
+        </views:BindableSelectedItemTreeView>
+
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Center" Background="Transparent" Width="5" Margin="0,0,0,0"/>
+        
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Button Content="Apply" Style="{DynamicResource FlatButton}" Command="{Binding ApplyBtClicked}" />
+
+            <Label Grid.Row="1" Content="{Binding FullPath.Value}" />
+
+            <ListView Grid.Row="2" ItemsSource="{Binding Attributes}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="150" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Width="300" Header="Value" DisplayMemberBinding="{Binding Value}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <TextBox Grid.Row="3" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding InnerXml.Value, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="TextChanged">
+                        <i:InvokeCommandAction Command="{Binding InnerXmlTextChanged}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
+        </Grid>
+
     </Grid>
 </Page>

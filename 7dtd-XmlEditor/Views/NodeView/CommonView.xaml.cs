@@ -23,25 +23,15 @@ namespace _7dtd_XmlEditor.Views.NodeView
     /// </summary>
     public partial class CommonView : Page, INodeView
     {
-        private CommonModel model;
+        public ICommonModel Model { get; }
 
-        public CommonView()
+        public CommonView(CommonModel model)
         {
             InitializeComponent();
 
-            model = new CommonModel();
+            Model = model;
             var vm = new CommonViewModel(model);
             DataContext = vm;
-        }
-
-        public void ChangeItem(TreeViewItemInfo info)
-        {
-            model.ChangeItem(info);
-        }
-
-        public void Apply()
-        {
-            model.Apply();
         }
     }
 }

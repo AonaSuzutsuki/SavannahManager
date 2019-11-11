@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using _7dtd_XmlEditor.Models.NodeView;
+using _7dtd_XmlEditor.ViewModels.NodeView;
 using CommonCoreLib.CommonLinq;
 using Prism.Mvvm;
 using Reactive.Bindings;
@@ -39,9 +41,9 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         public TreeViewItemInfo(CommonXmlNode root, string parentPath = null)
         {
-            bool.TryParse(root.GetAttribute(MainWindowModel.XML_EXPANDED).Value, out var isExpanded);
+            bool.TryParse(root.GetAttribute(CommonModel.XML_EXPANDED).Value, out var isExpanded);
             IsExpanded = isExpanded;
-            root.RemoveAttribute(MainWindowModel.XML_EXPANDED);
+            root.RemoveAttribute(CommonModel.XML_EXPANDED);
 
             Node = root;
             Path = string.IsNullOrEmpty(parentPath) ? $"/{root.TagName}" : $"{parentPath}/{root.TagName}";
