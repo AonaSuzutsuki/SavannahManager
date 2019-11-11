@@ -160,10 +160,17 @@ namespace SvManagerLibrary.XmlWrapper
         private CommonXmlText ResolveInnerText(XmlNode node, bool isRemoveSpace)
         {
             var xml = node.InnerXml;
+            var xmlText = new CommonXmlText
+            {
+                Xml = xml.Replace("&#xD;&#xA;", "&#xD;").Replace("&#xD;", "&#xA;").Replace("&#xA;", "\n")
+            };
+
             if (xml.Contains("<") || xml.Contains(">"))
-                return new CommonXmlText();
-            return new CommonXmlText { Text = Conditions.IfElse(isRemoveSpace, () => RemoveSpace(node.InnerText, true),
-                () => node.InnerText).UnifiedBreakLine() };
+                return xmlText;
+
+            xmlText.Text = Conditions.IfElse(isRemoveSpace, () => RemoveSpace(node.InnerText, true),
+                () => node.InnerText).UnifiedBreakLine();
+            return xmlText;
         }
 
         private XmlNode[] ConvertXmlNode(XmlNodeList nodeList)

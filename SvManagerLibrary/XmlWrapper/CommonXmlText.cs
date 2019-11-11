@@ -6,6 +6,7 @@ namespace SvManagerLibrary.XmlWrapper
     public class CommonXmlText
     {
         public string Text { get; set; } = string.Empty;
+        public string Xml { get; set; } = string.Empty;
 
         public override string ToString()
         {

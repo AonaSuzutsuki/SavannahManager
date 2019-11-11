@@ -101,6 +101,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\NodeView\CommonModel.cs" />
+    <Compile Include="ViewModels\NodeView\CommonViewModel.cs" />
+    <Compile Include="Views\NodeView\CommonView.xaml.cs">
+      <DependentUpon>CommonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NodeView\INodeView.cs" />
     <Page Include="Styles\TreeViewStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -121,6 +127,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\NodeView\CommonView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

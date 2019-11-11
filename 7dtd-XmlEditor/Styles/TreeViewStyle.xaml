@@ -2,8 +2,23 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:views="clr-namespace:_7dtd_XmlEditor.Views">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/ScrollBar.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <Style TargetType="views:BindableSelectedItemTreeView">
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border BorderThickness="1" BorderBrush="Gray">
+                        <ScrollViewer Style="{StaticResource CustomScrollViewer}">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Name="TreeViewItemText" x:Key="TreeViewItemText" TargetType="TextBlock">
