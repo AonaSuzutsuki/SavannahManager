@@ -10,5 +10,6 @@ namespace _7dtd_XmlEditor.Views.NodeView
     public interface INodeView
     {
         void ChangeItem(TreeViewItemInfo info);
+        void Apply();
     }
 }

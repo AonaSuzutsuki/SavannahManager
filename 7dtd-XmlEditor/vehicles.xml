@@ -28,6 +28,11 @@ Forces:
 
 	<!-- Air -->
 
+  <vehicle>
+    aaa
+    <br />
+  </vehicle>
+
 	<vehicle name="vehicleGyrocopter">
 
 		<property name="cameraDistance" value="6, 8"/>

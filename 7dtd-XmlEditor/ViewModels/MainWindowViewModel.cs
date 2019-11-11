@@ -35,6 +35,7 @@ namespace _7dtd_XmlEditor.ViewModels
             TreeViewSelectedItemChanged = new DelegateCommand(TreeView_SelectedItemChanged);
             TreeViewMouseRightButtonDown = new DelegateCommand(TreeView_MouseRightButtonDown);
             EditModeComboSelectionChanged = new DelegateCommand<string>(EditModeCombo_SelectionChanged);
+            ApplyBtClicked = new DelegateCommand(ApplyBt_Clicked);
         }
 
         private MainWindowModel model;
@@ -46,6 +47,7 @@ namespace _7dtd_XmlEditor.ViewModels
         public ICommand TreeViewSelectedItemChanged { get; set; }
         public ICommand TreeViewMouseRightButtonDown { get; set; }
         public ICommand EditModeComboSelectionChanged { get; set; }
+        public ICommand ApplyBtClicked { get; set; }
 
         public void TreeView_SelectedItemChanged()
         {
@@ -58,6 +60,11 @@ namespace _7dtd_XmlEditor.ViewModels
         public void EditModeCombo_SelectionChanged(string mode)
         {
             model.NodeViewModeChange(mode, TreeViewSelectedItem);
+        }
+
+        public void ApplyBt_Clicked()
+        {
+            model.Apply(TreeViewSelectedItem);
         }
     }
 }

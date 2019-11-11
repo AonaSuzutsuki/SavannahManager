@@ -87,6 +87,7 @@
                         <Style TargetType="{x:Type TreeViewItem}">
                             <!--<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
                             <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />-->
+                            <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded,Mode=TwoWay}"/>
                             <Setter Property="Foreground" Value="White" />
                             <Setter Property="FontWeight" Value="Normal" />
                             <Style.Triggers>
@@ -114,13 +115,17 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <ComboBox Width="200" HorizontalAlignment="Left" ItemsSource="{Binding EditModeComboItems}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding EditModeComboSelectionChanged}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ComboBox}}, Path=SelectedItem}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ComboBox>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox Width="200" HorizontalAlignment="Left" ItemsSource="{Binding EditModeComboItems}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding EditModeComboSelectionChanged}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ComboBox}}, Path=SelectedItem}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+
+                        <Button Content="Apply" Style="{DynamicResource FlatButton}" Command="{Binding ApplyBtClicked}" />
+                    </StackPanel>
 
                     <Frame Grid.Row="1" Name="MainFrame"
                            NavigationUIVisibility="Hidden" />

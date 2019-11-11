@@ -57,7 +57,11 @@ namespace SvManagerLibrary.XmlWrapper
             if (!string.IsNullOrEmpty(root.InnerText.Text))
                 elem.InnerText = root.InnerText.Text;
 
-            if (root.ChildNodes.Any())
+            if (root.PrioritizeInnerText || !root.InnerText.Xml.StartsWith("<"))
+            {
+                elem.InnerXml = root.InnerText.Xml;
+            }
+            else if (root.ChildNodes.Any())
                 foreach (var child in root.ChildNodes)
                     elem.AppendChild(CreateXmlElement(child));
 

@@ -35,13 +35,26 @@ namespace _7dtd_XmlEditor.Models.NodeView
         private string fullPath;
         private ObservableCollection<AttributeInfo> attributes = new ObservableCollection<AttributeInfo>();
         private string innerXml;
+        private CommonXmlNode node;
 
         public void ChangeItem(TreeViewItemInfo info)
         {
+            node = info.Node;
+
             FullPath = info.Path;
             Attributes.Clear();
             Attributes.AddAll(info.Node.Attributes);
             InnerXml = info.Node.InnerText.Xml;
+        }
+
+        public void ChangeInnerXml()
+        {
+        }
+
+        public void Apply()
+        {
+            node.InnerText.Xml = innerXml;
+            node.PrioritizeInnerText = true;
         }
     }
 }

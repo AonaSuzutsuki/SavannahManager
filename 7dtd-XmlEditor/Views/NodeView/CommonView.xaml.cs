@@ -38,5 +38,10 @@ namespace _7dtd_XmlEditor.Views.NodeView
         {
             model.ChangeItem(info);
         }
+
+        public void Apply()
+        {
+            model.Apply();
+        }
     }
 }

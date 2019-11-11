@@ -29,6 +29,9 @@ namespace SvManagerLibrary.XmlWrapper
             set => childNodes = new List<CommonXmlNode>(value);
         }
         public CommonXmlText InnerText { get; set; } = new CommonXmlText();
+
+        public bool PrioritizeInnerText { get; set; }
+
         #endregion
 
         #region Fields
@@ -37,11 +40,23 @@ namespace SvManagerLibrary.XmlWrapper
         #endregion
 
         #region Member Methods
+
+        public void AppendAttribute(string name, string value)
+        {
+            if (!attributes.ContainsKey(name))
+                attributes.Add(name, new AttributeInfo { Name = name, Value = value});
+        }
         public AttributeInfo GetAttribute(string name)
         {
             if (attributes.ContainsKey(name))
                 return attributes[name];
             return new AttributeInfo();
+        }
+
+        public void RemoveAttribute(string name)
+        {
+            if (attributes.ContainsKey(name))
+                attributes.Remove(name);
         }
 
         public CommonXmlNode CreateChildElement(string tagName, IEnumerable<AttributeInfo> attributeInfos = null
