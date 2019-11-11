@@ -30,20 +30,36 @@ namespace _7dtd_XmlEditor.ViewModels
             this.model = model;
 
             EditModeComboItems = model.EditModeComboItems.ToReadOnlyReactiveCollection(m => m);
+            EditModeSelectedItem = model.ToReactivePropertyAsSynchronized(m => m.EditModeSelectedItem);
 
+            FileOpenBtClick = new DelegateCommand(FileOpenBt_Click);
             EditModeComboSelectionChanged = new DelegateCommand<string>(EditModeCombo_SelectionChanged);
         }
 
+        #region Fields
         private MainWindowModel model;
+        #endregion
 
+        #region Properties
         public ReadOnlyReactiveCollection<string> EditModeComboItems { get; set; }
+        public ReactiveProperty<string> EditModeSelectedItem { get; set; }
+        #endregion
 
+        #region Event Properties
+        public ICommand FileOpenBtClick { get; set; }
         public ICommand EditModeComboSelectionChanged { get; set; }
+        #endregion
 
+        #region Event Methods
+
+        public void FileOpenBt_Click()
+        {
+            model.OpenFile();
+        }
         public void EditModeCombo_SelectionChanged(string mode)
         {
             model.NodeViewModeChange(mode);
         }
-
+        #endregion
     }
 }

@@ -35,23 +35,29 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
             InnerXmlTextChanged = new DelegateCommand(InnerXml_TextChanged);
         }
 
+        #region Fields
         private CommonModel model;
+        #endregion
 
+        #region Properties
         public ReadOnlyReactiveCollection<TreeViewItemInfo> TreeViewItems { get; set; }
         public ReactiveProperty<TreeViewItemInfo> TreeViewSelectedItem { get; set; }
 
         public ReactiveProperty<string> FullPath { get; set; }
         public ReadOnlyReactiveCollection<AttributeInfo> Attributes { get; set; }
         public ReactiveProperty<string> InnerXml { get; set; }
+        #endregion
 
 
+        #region Event Properties
         public ICommand ApplyBtClicked { get; set; }
         public ICommand TreeViewSelectedItemChanged { get; set; }
         public ICommand TreeViewMouseRightButtonDown { get; set; }
 
         public ICommand InnerXmlTextChanged { get; set; }
+        #endregion
 
-
+        #region Event Methods
         public void ApplyBt_Clicked()
         {
             model.Apply();
@@ -68,5 +74,6 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
         {
             model.ChangeInnerXml();
         }
+        #endregion
     }
 }

@@ -54,7 +54,9 @@
             <StackPanel Margin="1,25,1,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                 <Menu IsMainMenu="True" Name="Menu" Height="25" Padding="3" VerticalAlignment="Top">
                     <MenuItem Header="File(_F)">
-                        <MenuItem Header="Exit(_X)" Name="MenuExitBT" Command="{Binding MainWindowCloseBTClick}" />
+                        <MenuItem Header="Open(_O)" Command="{Binding FileOpenBtClick}" />
+                        <Separator Style="{DynamicResource MLB_Separator}" />
+                        <MenuItem Header="Exit(_X)" Command="{Binding MainWindowCloseBTClick}" />
                     </MenuItem>
                 </Menu>
             </StackPanel>
@@ -67,7 +69,7 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal">
-                    <ComboBox Width="200" HorizontalAlignment="Left" ItemsSource="{Binding EditModeComboItems}">
+                    <ComboBox Width="200" HorizontalAlignment="Left" ItemsSource="{Binding EditModeComboItems}" SelectedItem="{Binding EditModeSelectedItem.Value}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding EditModeComboSelectionChanged}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ComboBox}}, Path=SelectedItem}" />

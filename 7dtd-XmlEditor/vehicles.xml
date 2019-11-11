@@ -30,7 +30,12 @@ Forces:
 
   <vehicle>
     aaa
+    <br />bbb<br />bbb
     <br />
+    cccc
+    <test>
+      <bbb />
+    </test>
   </vehicle>
 
 	<vehicle name="vehicleGyrocopter">

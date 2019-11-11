@@ -39,6 +39,7 @@ namespace _7dtd_XmlEditor.Models.NodeView
         }
         #endregion
 
+        #region Properties
         public ObservableCollection<TreeViewItemInfo> TreeViewItems
         {
             get => treeViewItems;
@@ -69,7 +70,9 @@ namespace _7dtd_XmlEditor.Models.NodeView
             get => innerXml;
             set => SetProperty(ref innerXml, value);
         }
-        
+        #endregion
+
+        #region Fields
         public string Declaration { get; set; }
 
         private TreeViewItemInfo root;
@@ -80,6 +83,8 @@ namespace _7dtd_XmlEditor.Models.NodeView
         private ObservableCollection<AttributeInfo> attributes = new ObservableCollection<AttributeInfo>();
         private string innerXml;
         private CommonXmlNode node;
+        #endregion
+
 
         public CommonModel(TreeViewItemInfo info)
         {
@@ -100,6 +105,9 @@ namespace _7dtd_XmlEditor.Models.NodeView
 
         public void ChangeItem(TreeViewItemInfo info)
         {
+            if (info == null)
+                return;
+
             node = info.Node;
 
             FullPath = info.Path;
