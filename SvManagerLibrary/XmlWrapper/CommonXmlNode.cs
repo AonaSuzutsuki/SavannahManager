@@ -14,9 +14,16 @@ namespace SvManagerLibrary.XmlWrapper
         }
     }
 
+    public enum XmlNodeType
+    {
+        Tag,
+        Text
+    }
+
     public class CommonXmlNode
     {
         #region Properties
+        public XmlNodeType NodeType { get; set; }
         public string TagName { get; set; }
         public IEnumerable<AttributeInfo> Attributes
         {

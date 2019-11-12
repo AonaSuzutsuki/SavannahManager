@@ -122,8 +122,9 @@ namespace _7dtd_XmlEditor.Models.NodeView
 
         public void Apply()
         {
+            if (this.node.InnerText.Xml != innerXml)
+                this.node.PrioritizeInnerText = true;
             this.node.InnerText.Xml = innerXml;
-            this.node.PrioritizeInnerText = true;
 
             var info = SelectedItem;
             AssignExpanded(root);

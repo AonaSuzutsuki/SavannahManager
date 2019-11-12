@@ -47,25 +47,33 @@ namespace SvManagerLibrary.XmlWrapper
             }
         }
 
-        private XmlElement CreateXmlElement(CommonXmlNode root)
+        private XmlNode CreateXmlElement(CommonXmlNode root)
         {
-            var elem = xDocument.CreateElement(root.TagName);
-
-            if (root.Attributes.Any())
-                foreach (AttributeInfo attributeInfo in root.Attributes)
-                    elem.SetAttribute(attributeInfo.Name, attributeInfo.Value);
-            if (!string.IsNullOrEmpty(root.InnerText.Text))
-                elem.InnerText = root.InnerText.Text;
-
-            if (root.PrioritizeInnerText || !root.InnerText.Xml.StartsWith("<"))
+            if (root.NodeType == XmlNodeType.Tag)
             {
-                elem.InnerXml = root.InnerText.Xml;
-            }
-            else if (root.ChildNodes.Any())
-                foreach (var child in root.ChildNodes)
-                    elem.AppendChild(CreateXmlElement(child));
+                var elem = xDocument.CreateElement(root.TagName);
 
-            return elem;
+                if (root.Attributes.Any())
+                    foreach (AttributeInfo attributeInfo in root.Attributes)
+                        elem.SetAttribute(attributeInfo.Name, attributeInfo.Value);
+                if (!string.IsNullOrEmpty(root.InnerText.Text))
+                    elem.InnerText = root.InnerText.Text;
+
+                if (root.PrioritizeInnerText)
+                {
+                    elem.InnerXml = root.InnerText.Xml;
+                }
+                else if (root.ChildNodes.Any())
+                    foreach (var child in root.ChildNodes)
+                        elem.AppendChild(CreateXmlElement(child));
+
+                return elem;
+            }
+            else
+            {
+                var elem = xDocument.CreateTextNode(root.InnerText.Text);
+                return elem;
+            }
         }
 
         private string ConvertStringReference(string text)

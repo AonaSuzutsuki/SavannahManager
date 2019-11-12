@@ -77,6 +77,7 @@ namespace SvManagerLibrary.XmlWrapper
         {
             return new CommonXmlNode
             {
+                NodeType = XmlNodeType.Tag,
                 TagName = node.Name,
                 InnerText = ResolveInnerText(node, isRemoveSpace),
                 Attributes = ConvertAttributeInfoArray(node.Attributes),
@@ -95,6 +96,7 @@ namespace SvManagerLibrary.XmlWrapper
             var list = from node in nodeList
                        select new CommonXmlNode
                        {
+                           NodeType = XmlNodeType.Tag,
                            TagName = node.Name,
                            InnerText = ResolveInnerText(node, isRemoveSpace),
                            Attributes = ConvertAttributeInfoArray(node.Attributes),
@@ -108,6 +110,7 @@ namespace SvManagerLibrary.XmlWrapper
             var nodeList = document.SelectSingleNode("/*");
             var root = new CommonXmlNode
             {
+                NodeType = XmlNodeType.Tag,
                 TagName = nodeList.Name,
                 InnerText = ResolveInnerText(nodeList, isRemoveSpace),
                 Attributes = ConvertAttributeInfoArray(nodeList.Attributes),
@@ -218,12 +221,25 @@ namespace SvManagerLibrary.XmlWrapper
                     var node = (XmlElement)n;
                     var commonXmlNode = new CommonXmlNode
                     {
+                        NodeType = XmlNodeType.Tag,
                         TagName = node.Name,
                         InnerText = ResolveInnerText(node, isRemoveSpace),
                         Attributes = ConvertAttributeInfoArray(node.Attributes)
                     };
                     if (node.ChildNodes.Count > 0)
                         commonXmlNode.ChildNodes = GetElements(node.ChildNodes, isRemoveSpace).ToArray();
+                    list.Add(commonXmlNode);
+                }
+
+                if (n is XmlText)
+                {
+                    var node = (XmlText) n;
+                    var commonXmlNode = new CommonXmlNode
+                    {
+                        NodeType = XmlNodeType.Text,
+                        TagName = node.InnerText,
+                        InnerText = ResolveInnerText(node, isRemoveSpace),
+                    };
                     list.Add(commonXmlNode);
                 }
             }

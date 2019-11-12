@@ -48,6 +48,8 @@ namespace _7dtd_XmlEditor.Models
         {
             this.navigation = navigation;
             EditModeComboItems = new ObservableCollection<string>();
+
+            OpenFile("vehicles.xml");
         }
 
         public void OpenFile()
