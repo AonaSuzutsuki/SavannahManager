@@ -74,18 +74,17 @@
         <Grid Grid.Column="2">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="25" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
                 <RowDefinition Height="5" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Button Content="Apply" Style="{DynamicResource FlatButton}" Command="{Binding ApplyBtClicked}" />
+            <!--<Button Content="Apply" Style="{DynamicResource FlatButton}" Command="{Binding ApplyBtClicked}" />-->
 
-            <Label Grid.Row="1" Content="{Binding FullPath.Value}" />
+            <Label Grid.Row="0" Content="{Binding FullPath.Value}" />
 
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="1">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30" />
@@ -199,10 +198,13 @@
                 </ListView>
             </Grid>
 
-            <GridSplitter Background="Transparent" Grid.Row="3" Margin="0,0,0,0" HorizontalAlignment="Stretch" Height="Auto"/>
+            <GridSplitter Background="Transparent" Grid.Row="2" Margin="0,0,0,0" HorizontalAlignment="Stretch" Height="Auto"/>
 
-            <TextBox Grid.Row="4" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding InnerXml.Value, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+            <TextBox Grid.Row="3" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding InnerXml.Value, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
                 <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="LostFocus">
+                        <i:InvokeCommandAction Command="{Binding InnerXmlLostFocus}" />
+                    </i:EventTrigger>
                     <i:EventTrigger EventName="TextChanged">
                         <i:InvokeCommandAction Command="{Binding InnerXmlTextChanged}" />
                     </i:EventTrigger>

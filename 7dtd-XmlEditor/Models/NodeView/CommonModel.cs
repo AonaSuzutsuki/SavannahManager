@@ -170,11 +170,13 @@ namespace _7dtd_XmlEditor.Models.NodeView
             }
         }
 
-        public void ChangeInnerXml()
+        public void ApplyInnerXml()
         {
+            if (SelectedItem.IsEdited)
+                Apply();
         }
 
-        public void Apply(bool IignoreAttributeRedraw = false)
+        public void Apply(bool ignoreAttributeRedraw = false)
         {
             if (this.node.NodeType == XmlNodeType.Tag && InnerXml != this.node.InnerXml)
                 this.node.PrioritizeInneXml = InnerXml;
@@ -202,8 +204,12 @@ namespace _7dtd_XmlEditor.Models.NodeView
             TreeViewItems.Add(root);
 
             var item = GetSelectedInfo(root);
-            item.IgnoreAttributeRedraw = true;
-            SelectedItem = item;
+            if (item != null)
+            {
+                item.IgnoreAttributeRedraw = ignoreAttributeRedraw;
+                item.IsEdited = false;
+                SelectedItem = item;
+            }
 
             OnItemApplied(new ItemAppliedEventArgs { ItemInfo = root});
 

@@ -23,6 +23,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
         public TreeViewItemInfo[] Children { get; set; }
 
         public bool IgnoreAttributeRedraw { get; set; }
+        public bool IsEdited { get; set; }
 
         private bool isExpanded;
         private bool isSelected;

@@ -36,6 +36,7 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
             AddAttributeBtClicked = new DelegateCommand(AddAttributeBt_Clicked);
             RemoveAttributeBtClicked = new DelegateCommand(RemoveAttributeBt_Clicked);
             AttributesSelectionChanged = new DelegateCommand<ViewAttributeInfo>(Attributes_SelectionChanged);
+            InnerXmlLostFocus = new DelegateCommand(InnerXml_LostFocus);
             InnerXmlTextChanged = new DelegateCommand(InnerXml_TextChanged);
         }
 
@@ -63,6 +64,7 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
 
         public ICommand AttributesSelectionChanged { get; set; }
 
+        public ICommand InnerXmlLostFocus { get; set; }
         public ICommand InnerXmlTextChanged { get; set; }
         #endregion
 
@@ -98,9 +100,16 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
                 model.AttributesSelectedItem = info;
         }
 
+        public void InnerXml_LostFocus()
+        {
+            model.ApplyInnerXml();
+        }
+
         public void InnerXml_TextChanged()
         {
-            model.ChangeInnerXml();
+            if (model.SelectedItem != null)
+                if (model.SelectedItem.Node.InnerXml != model.InnerXml)
+                    model.SelectedItem.IsEdited = true;
         }
         #endregion
     }

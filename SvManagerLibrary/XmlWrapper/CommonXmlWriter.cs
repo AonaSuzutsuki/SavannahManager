@@ -59,10 +59,10 @@ namespace SvManagerLibrary.XmlWrapper
                 if (!string.IsNullOrEmpty(root.InnerText))
                     elem.InnerText = root.InnerText;
 
-                if (!string.IsNullOrEmpty(root.PrioritizeInneXml))
+                if (root.PrioritizeInneXml != null)
                 {
                     elem.InnerXml = root.PrioritizeInneXml;
-                    root.PrioritizeInneXml = string.Empty;
+                    root.PrioritizeInneXml = null;
                 }
                 else if (root.ChildNodes.Any())
                     foreach (var child in root.ChildNodes)
