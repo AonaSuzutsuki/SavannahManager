@@ -56,12 +56,13 @@ namespace SvManagerLibrary.XmlWrapper
                 if (root.Attributes.Any())
                     foreach (AttributeInfo attributeInfo in root.Attributes)
                         elem.SetAttribute(attributeInfo.Name, attributeInfo.Value);
-                if (!string.IsNullOrEmpty(root.InnerText.Text))
-                    elem.InnerText = root.InnerText.Text;
+                if (!string.IsNullOrEmpty(root.InnerText))
+                    elem.InnerText = root.InnerText;
 
-                if (root.PrioritizeInnerText)
+                if (!string.IsNullOrEmpty(root.PrioritizeInneXml))
                 {
-                    elem.InnerXml = root.InnerText.Xml;
+                    elem.InnerXml = root.PrioritizeInneXml;
+                    root.PrioritizeInneXml = string.Empty;
                 }
                 else if (root.ChildNodes.Any())
                     foreach (var child in root.ChildNodes)
@@ -71,7 +72,7 @@ namespace SvManagerLibrary.XmlWrapper
             }
             else
             {
-                var elem = xDocument.CreateTextNode(root.InnerText.Text);
+                var elem = xDocument.CreateTextNode(root.InnerText);
                 return elem;
             }
         }

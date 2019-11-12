@@ -65,6 +65,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
         {
             var exp = new CommonXmlNode
             {
+                NodeType = XmlNodeType.Tag,
                 TagName = "property",
                 Attributes = new List<AttributeInfo>
                         {
@@ -79,10 +80,16 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                 Value = "My Game Host"
                             }
                         },
-                InnerText = new CommonXmlText
+                ChildNodes = new CommonXmlNode[]
                 {
-                    Text = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。"
-                }
+                    new CommonXmlNode
+                    {
+                        NodeType = XmlNodeType.Text,
+                        TagName = "#text",
+                        InnerText = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。"
+                    }
+                },
+                InnerText = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。"
             };
 
             var reader = new CommonXmlReader(GetTestPath());
@@ -98,6 +105,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
             {
                 new CommonXmlNode
                 {
+                    NodeType = XmlNodeType.Tag,
                     TagName = "property",
                     Attributes = new AttributeInfo[]
                             {
@@ -112,13 +120,20 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                     Value = "My Game Host"
                                 }
                             },
-                    InnerText = new CommonXmlText
+                    ChildNodes = new CommonXmlNode[]
                     {
-                        Text = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。"
-                    }
+                        new CommonXmlNode
+                        {
+                            NodeType = XmlNodeType.Text,
+                            TagName = "#text",
+                            InnerText = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。"
+                        }
+                    },
+                    InnerText = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。"
                 },
                 new CommonXmlNode
                 {
+                    NodeType = XmlNodeType.Tag,
                     TagName = "property",
                     Attributes = new AttributeInfo[]
                             {
@@ -133,10 +148,16 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                     Value = "My Game Host"
                                 }
                             },
-                    InnerText = new CommonXmlText
+                    ChildNodes = new CommonXmlNode[]
                     {
-                        Text = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n    test"
-                    }
+                        new CommonXmlNode
+                        {
+                            NodeType = XmlNodeType.Text,
+                            TagName = "#text",
+                            InnerText = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n    test"
+                        }
+                    },
+                    InnerText = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n    test"
                 },
             };
 
@@ -151,11 +172,13 @@ namespace SvManagerLibraryTests2.XmlWrapper
         {
             var exp = new CommonXmlNode
             {
+                NodeType = XmlNodeType.Tag,
                 TagName = "ServerSettings",
                 ChildNodes = new CommonXmlNode[]
                 {
                     new CommonXmlNode
                     {
+                        NodeType = XmlNodeType.Tag,
                         TagName = "property",
                         Attributes = new AttributeInfo[]
                                 {
@@ -170,13 +193,20 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                         Value = "My Game Host"
                                     }
                                 },
-                        InnerText = new CommonXmlText
+                        ChildNodes = new[]
                         {
-                            Text = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。"
-                        }
+                            new CommonXmlNode
+                            {
+                                NodeType = XmlNodeType.Text,
+                                TagName = "#text",
+                                InnerText = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。"
+                            }
+                        },
+                        InnerText = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。"
                     },
                     new CommonXmlNode
                     {
+                        NodeType = XmlNodeType.Tag,
                         TagName = "property",
                         Attributes = new AttributeInfo[]
                                 {
@@ -191,13 +221,20 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                         Value = "My Game Host"
                                     }
                                 },
-                        InnerText = new CommonXmlText
+                        ChildNodes = new[]
                         {
-                            Text = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n    test"
-                        }
+                            new CommonXmlNode
+                            {
+                                NodeType = XmlNodeType.Text,
+                                TagName = "#text",
+                                InnerText = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n    test"
+                            }
+                        },
+                        InnerText = "サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n    test"
                     },
                     new CommonXmlNode
                     {
+                        NodeType = XmlNodeType.Tag,
                         TagName = "property",
                         Attributes = new AttributeInfo[]
                                 {
@@ -212,13 +249,20 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                         Value = "A 7 Days to Die server"
                                     }
                                 },
-                        InnerText = new CommonXmlText
+                        ChildNodes = new[]
                         {
-                            Text = "サーバーの説明を設定します。"
-                        }
+                            new CommonXmlNode
+                            {
+                                NodeType = XmlNodeType.Text,
+                                TagName = "#text",
+                                InnerText = "サーバーの説明を設定します。"
+                            }
+                        },
+                        InnerText = "サーバーの説明を設定します。"
                     },
                     new CommonXmlNode
                     {
+                        NodeType = XmlNodeType.Tag,
                         TagName = "property",
                         Attributes = new AttributeInfo[]
                                 {
@@ -233,13 +277,20 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                         Value = ""
                                     }
                                 },
-                        InnerText = new CommonXmlText
+                        ChildNodes = new[]
                         {
-                            Text = "サーバーのウェブサイトを設定します。"
-                        }
+                            new CommonXmlNode
+                            {
+                                NodeType = XmlNodeType.Text,
+                                TagName = "#text",
+                                InnerText = "サーバーのウェブサイトを設定します。"
+                            }
+                        },
+                        InnerText = "サーバーのウェブサイトを設定します。"
                     },
                     new CommonXmlNode
                     {
+                        NodeType = XmlNodeType.Tag,
                         TagName = "property",
                         Attributes = new AttributeInfo[]
                         {
@@ -253,6 +304,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                         {
                             new CommonXmlNode
                             {
+                                NodeType = XmlNodeType.Tag,
                                 TagName = "property",
                                 Attributes = new AttributeInfo[]
                                 {
@@ -262,7 +314,16 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                         Value = "NestedElem"
                                     }
                                 },
-                                InnerText = new CommonXmlText { Text = "Value" }
+                                ChildNodes = new[]
+                                {
+                                    new CommonXmlNode
+                                    {
+                                        NodeType = XmlNodeType.Text,
+                                        TagName = "#text",
+                                        InnerText = "Value"
+                                    }
+                                },
+                                InnerText = "Value"
                             }
                         }
                     }

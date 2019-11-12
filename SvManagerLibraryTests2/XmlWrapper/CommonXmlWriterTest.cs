@@ -33,10 +33,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                         Value = "My Game Host"
                                     }
                                 },
-                        InnerText = new CommonXmlText
-                        {
-                            Text = "\n    サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n  "
-                        }
+                        InnerText = "\n    サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n  "
                     },
                     new CommonXmlNode
                     {
@@ -54,10 +51,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                         Value = "My Game Host"
                                     }
                                 },
-                        InnerText = new CommonXmlText
-                        {
-                            Text = "\n    サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n        test\n  "
-                        }
+                        InnerText = "\n    サーバー名を設定します。サーバーリストにはこの名前で表示されます。\n        test\n  "
                     },
                     new CommonXmlNode
                     {
@@ -75,10 +69,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                         Value = "A 7 Days to Die server"
                                     }
                                 },
-                        InnerText = new CommonXmlText
-                        {
-                            Text = "サーバーの説明を設定します。"
-                        }
+                        InnerText = "サーバーの説明を設定します。"
                     },
                     new CommonXmlNode
                     {
@@ -96,10 +87,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                         Value = ""
                                     }
                                 },
-                        InnerText = new CommonXmlText
-                        {
-                            Text = "サーバーのウェブサイトを設定します。"
-                        }
+                        InnerText = "サーバーのウェブサイトを設定します。"
                     },
                     new CommonXmlNode
                     {
@@ -125,7 +113,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                         Value = "NestedElem"
                                     }
                                 },
-                                InnerText = new CommonXmlText { Text = "Value" }
+                                InnerText = "Value"
                             }
                         }
                     }

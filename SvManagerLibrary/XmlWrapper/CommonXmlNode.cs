@@ -35,10 +35,11 @@ namespace SvManagerLibrary.XmlWrapper
             get => childNodes;
             set => childNodes = new List<CommonXmlNode>(value);
         }
-        public CommonXmlText InnerText { get; set; } = new CommonXmlText();
 
-        public bool PrioritizeInnerText { get; set; }
+        public string InnerText { get; set; } = string.Empty;
+        public string InnerXml => ToString(ChildNodes);
 
+        public string PrioritizeInneXml { get; set; }
         #endregion
 
         #region Fields
@@ -47,7 +48,6 @@ namespace SvManagerLibrary.XmlWrapper
         #endregion
 
         #region Member Methods
-
         public void AppendAttribute(string name, string value)
         {
             if (!attributes.ContainsKey(name))
@@ -79,31 +79,42 @@ namespace SvManagerLibrary.XmlWrapper
             return ToString(this);
         }
 
+        public string ToString(IEnumerable<CommonXmlNode> commonXmlNodes)
+        {
+            var sb = new StringBuilder();
+            foreach (var node in commonXmlNodes)
+            {
+                sb.Append(ToString(node));
+            }
+            return sb.ToString();
+        }
+
         public string ToString(CommonXmlNode node)
         {
             var sb = new StringBuilder();
             if (node.NodeType == XmlNodeType.Tag)
             {
                 var attr = string.Join(" ", from x in Attributes select x.ToString());
+                attr = string.IsNullOrEmpty(attr) ? attr : $" {attr}";
 
                 if (ChildNodes.Any())
                 {
-                    sb.Append($"<{TagName} {attr}>");
+                    sb.Append($"<{TagName}{attr}>");
                     foreach (var childNode in ChildNodes)
                     {
-                        sb.Append(ToString(childNode));
+                        sb.Append(childNode);
                     }
 
                     sb.Append($"</{TagName}>");
                 }
                 else
                 {
-                    sb.Append($"<{TagName} {attr} />");
+                    sb.Append($"<{TagName}{attr} />");
                 }
             }
             else
             {
-                sb.Append(node.InnerText.Text);
+                sb.Append(node.InnerText);
             }
             
 
@@ -135,7 +146,7 @@ namespace SvManagerLibrary.XmlWrapper
                 TagName = tagName,
                 Attributes = attributeInfos,
                 ChildNodes = commonXmlNodes,
-                InnerText = new CommonXmlText() { Text = innerText }
+                InnerText = innerText
             };
             return node;
         }
@@ -164,7 +175,7 @@ namespace SvManagerLibrary.XmlWrapper
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TagName);
             hashCode = hashCode * -1521134295 + EqualityComparer<IEnumerable<AttributeInfo>>.Default.GetHashCode(Attributes);
             hashCode = hashCode * -1521134295 + EqualityComparer<IEnumerable<CommonXmlNode>>.Default.GetHashCode(ChildNodes);
-            hashCode = hashCode * -1521134295 + EqualityComparer<CommonXmlText>.Default.GetHashCode(InnerText);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(InnerText);
             return hashCode;
         }
         #endregion

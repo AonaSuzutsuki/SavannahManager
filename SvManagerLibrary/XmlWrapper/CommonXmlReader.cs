@@ -57,14 +57,8 @@ namespace SvManagerLibrary.XmlWrapper
         {
             var nodeList = GetNodes(ConvertXmlNode(document.SelectNodes(xpath)), isRemoveSpace);
             return (from node in nodeList
-                    let text = node.InnerText.Text
+                    let text = node.InnerText
                     where !string.IsNullOrEmpty(text) select text).ToList();
-            //var nodeList = document.SelectNodes(xpath).ToList();
-
-            //return (from node in nodeList
-            //        let text = (node as XmlElement).InnerText
-            //        let value = Conditions.IfElse(isRemoveSpace, () => RemoveSpace(text, enableLineBreak), () => text)
-            //        select value).ToList();
         }
 
         public CommonXmlNode GetNode(string xpath)
@@ -79,7 +73,7 @@ namespace SvManagerLibrary.XmlWrapper
             {
                 NodeType = XmlNodeType.Tag,
                 TagName = node.Name,
-                InnerText = ResolveInnerText(node, isRemoveSpace),
+                InnerText = ResolveInnerText(node, isRemoveSpace).Text,
                 Attributes = ConvertAttributeInfoArray(node.Attributes),
                 ChildNodes = GetElements(node.ChildNodes, isRemoveSpace)
             };
@@ -98,7 +92,7 @@ namespace SvManagerLibrary.XmlWrapper
                        {
                            NodeType = XmlNodeType.Tag,
                            TagName = node.Name,
-                           InnerText = ResolveInnerText(node, isRemoveSpace),
+                           InnerText = ResolveInnerText(node, isRemoveSpace).Text,
                            Attributes = ConvertAttributeInfoArray(node.Attributes),
                            ChildNodes = GetElements(node.ChildNodes, isRemoveSpace)
                        };
@@ -112,7 +106,7 @@ namespace SvManagerLibrary.XmlWrapper
             {
                 NodeType = XmlNodeType.Tag,
                 TagName = nodeList.Name,
-                InnerText = ResolveInnerText(nodeList, isRemoveSpace),
+                InnerText = ResolveInnerText(nodeList, isRemoveSpace).Text,
                 Attributes = ConvertAttributeInfoArray(nodeList.Attributes),
                 ChildNodes = GetElements(nodeList.ChildNodes, isRemoveSpace).ToArray()
             };
@@ -223,7 +217,7 @@ namespace SvManagerLibrary.XmlWrapper
                     {
                         NodeType = XmlNodeType.Tag,
                         TagName = node.Name,
-                        InnerText = ResolveInnerText(node, isRemoveSpace),
+                        InnerText = ResolveInnerText(node, isRemoveSpace).Text,
                         Attributes = ConvertAttributeInfoArray(node.Attributes)
                     };
                     if (node.ChildNodes.Count > 0)
@@ -237,8 +231,8 @@ namespace SvManagerLibrary.XmlWrapper
                     var commonXmlNode = new CommonXmlNode
                     {
                         NodeType = XmlNodeType.Text,
-                        TagName = node.InnerText,
-                        InnerText = ResolveInnerText(node, isRemoveSpace),
+                        TagName = node.Name,
+                        InnerText = ResolveInnerText(node, isRemoveSpace).Text,
                     };
                     list.Add(commonXmlNode);
                 }
