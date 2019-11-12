@@ -113,7 +113,7 @@ namespace _7dtd_XmlEditor.Models.NodeView
             FullPath = info.Path;
             Attributes.Clear();
             Attributes.AddAll(info.Node.Attributes);
-            InnerXml = info.Node.InnerText.Xml;
+            InnerXml = info.Node.InnerXml;
         }
 
         public void ChangeInnerXml()
@@ -122,9 +122,8 @@ namespace _7dtd_XmlEditor.Models.NodeView
 
         public void Apply()
         {
-            if (this.node.InnerText.Xml != innerXml)
-                this.node.PrioritizeInnerText = true;
-            this.node.InnerText.Xml = innerXml;
+            if (InnerXml != this.node.InnerXml)
+                this.node.PrioritizeInneXml = InnerXml;
 
             var info = SelectedItem;
             AssignExpanded(root);

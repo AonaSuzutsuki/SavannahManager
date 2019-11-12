@@ -84,37 +84,40 @@ namespace SvManagerLibrary.XmlWrapper
             var sb = new StringBuilder();
             foreach (var node in commonXmlNodes)
             {
-                sb.Append(ToString(node));
+                sb.Append($"{ToString(node)}\n");
             }
             return sb.ToString();
         }
 
-        public string ToString(CommonXmlNode node)
+        public static string ToString(CommonXmlNode node, int space = 0)
         {
+            var spaceText = MakeSpace(space);
+
             var sb = new StringBuilder();
             if (node.NodeType == XmlNodeType.Tag)
             {
-                var attr = string.Join(" ", from x in Attributes select x.ToString());
+                var attr = string.Join(" ", from x in node.Attributes select x.ToString());
                 attr = string.IsNullOrEmpty(attr) ? attr : $" {attr}";
 
-                if (ChildNodes.Any())
+                if (node.ChildNodes.Any())
                 {
-                    sb.Append($"<{TagName}{attr}>");
-                    foreach (var childNode in ChildNodes)
+                    sb.Append($"{spaceText}<{node.TagName}{attr}>\n");
+                    space += 4;
+                    foreach (var childNode in node.ChildNodes)
                     {
-                        sb.Append(childNode);
+                        sb.Append($"{ToString(childNode, space)}\n");
                     }
 
-                    sb.Append($"</{TagName}>");
+                    sb.Append($"{spaceText}</{node.TagName}>");
                 }
                 else
                 {
-                    sb.Append($"<{TagName}{attr} />");
+                    sb.Append($"{spaceText}<{node.TagName}{attr} />");
                 }
             }
             else
             {
-                sb.Append(node.InnerText);
+                sb.Append($"{spaceText}{node.InnerText}");
             }
             
 
@@ -123,6 +126,16 @@ namespace SvManagerLibrary.XmlWrapper
         #endregion
 
         #region Static Methods
+        public static string MakeSpace(int count)
+        {
+            var sb = new StringBuilder();
+            for (int i = 0; i < count; i++)
+            {
+                sb.Append(" ");
+            }
+
+            return sb.ToString();
+        }
         public static CommonXmlNode CreateRoot(string tagName)
         {
             var root = new CommonXmlNode
