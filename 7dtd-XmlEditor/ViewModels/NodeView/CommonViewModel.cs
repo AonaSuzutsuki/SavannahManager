@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using _7dtd_XmlEditor.Models;
 using _7dtd_XmlEditor.Models.NodeView;
 using _7dtd_XmlEditor.Models.TreeView;
 using CommonStyleLib.ViewModels;
@@ -32,6 +33,9 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
             ApplyBtClicked = new DelegateCommand(ApplyBt_Clicked);
             TreeViewSelectedItemChanged = new DelegateCommand(TreeView_SelectedItemChanged);
             TreeViewMouseRightButtonDown = new DelegateCommand(TreeView_MouseRightButtonDown);
+            AddAttributeBtClicked = new DelegateCommand(AddAttributeBt_Clicked);
+            RemoveAttributeBtClicked = new DelegateCommand(RemoveAttributeBt_Clicked);
+            AttributesSelectionChanged = new DelegateCommand<ViewAttributeInfo>(Attributes_SelectionChanged);
             InnerXmlTextChanged = new DelegateCommand(InnerXml_TextChanged);
         }
 
@@ -44,7 +48,7 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
         public ReactiveProperty<TreeViewItemInfo> TreeViewSelectedItem { get; set; }
 
         public ReactiveProperty<string> FullPath { get; set; }
-        public ReadOnlyReactiveCollection<AttributeInfo> Attributes { get; set; }
+        public ReadOnlyReactiveCollection<ViewAttributeInfo> Attributes { get; set; }
         public ReactiveProperty<string> InnerXml { get; set; }
         #endregion
 
@@ -54,6 +58,11 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
         public ICommand TreeViewSelectedItemChanged { get; set; }
         public ICommand TreeViewMouseRightButtonDown { get; set; }
 
+        public ICommand AddAttributeBtClicked { get; set; }
+        public ICommand RemoveAttributeBtClicked { get; set; }
+
+        public ICommand AttributesSelectionChanged { get; set; }
+
         public ICommand InnerXmlTextChanged { get; set; }
         #endregion
 
@@ -62,14 +71,33 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
         {
             model.Apply();
         }
+
         public void TreeView_SelectedItemChanged()
         {
             model.SelectionChange();
         }
+
         public void TreeView_MouseRightButtonDown()
         {
             Console.WriteLine(TreeViewSelectedItem.Value.Path);
         }
+
+        public void AddAttributeBt_Clicked()
+        {
+            model.AddAttribute();
+        }
+
+        public void RemoveAttributeBt_Clicked()
+        {
+            model.RemoveAttribute();
+        }
+
+        public void Attributes_SelectionChanged(ViewAttributeInfo info)
+        {
+            if (info != null)
+                model.AttributesSelectedItem = info;
+        }
+
         public void InnerXml_TextChanged()
         {
             model.ChangeInnerXml();

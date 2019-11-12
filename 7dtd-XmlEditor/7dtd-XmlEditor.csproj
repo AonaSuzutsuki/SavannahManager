@@ -104,6 +104,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\NodeView\CommonModel.cs" />
+    <Compile Include="Models\ViewAttributeInfo.cs" />
     <Compile Include="ViewModels\NodeView\CommonViewModel.cs" />
     <Compile Include="Views\NodeView\CommonView.xaml.cs">
       <DependentUpon>CommonView.xaml</DependentUpon>

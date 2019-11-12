@@ -27,8 +27,8 @@ namespace SvManagerLibrary.XmlWrapper
         public string TagName { get; set; }
         public IEnumerable<AttributeInfo> Attributes
         {
-            get => attributes.Values;
-            set => attributes = value.ToDictionary((attr) => attr.Name);
+            get => attributes;
+            set => attributes = new HashSet<AttributeInfo>(value);
         }
         public IEnumerable<CommonXmlNode> ChildNodes
         {
@@ -43,27 +43,41 @@ namespace SvManagerLibrary.XmlWrapper
         #endregion
 
         #region Fields
-        private Dictionary<string, AttributeInfo> attributes = new Dictionary<string, AttributeInfo>();
+        private HashSet<AttributeInfo> attributes = new HashSet<AttributeInfo>();
         private List<CommonXmlNode> childNodes = new List<CommonXmlNode>();
         #endregion
 
         #region Member Methods
         public void AppendAttribute(string name, string value)
         {
-            if (!attributes.ContainsKey(name))
-                attributes.Add(name, new AttributeInfo { Name = name, Value = value});
+            var attr = new AttributeInfo { Name = name, Value = value};
+            AppendAttribute(attr);
+        }
+        public void AppendAttribute(AttributeInfo info)
+        {
+            if (!attributes.Contains(info))
+                attributes.Add(info);
         }
         public AttributeInfo GetAttribute(string name)
         {
-            if (attributes.ContainsKey(name))
-                return attributes[name];
+            foreach (var attributeInfo in attributes)
+            {
+                if (attributeInfo.Name == name)
+                    return attributeInfo;
+            }
             return new AttributeInfo();
         }
 
         public void RemoveAttribute(string name)
         {
-            if (attributes.ContainsKey(name))
-                attributes.Remove(name);
+            var attr = GetAttribute(name);
+            if (attributes.Contains(attr))
+                attributes.Remove(attr);
+        }
+        public void RemoveAttribute(AttributeInfo info)
+        {
+            if (attributes.Contains(info))
+                attributes.Remove(info);
         }
 
         public CommonXmlNode CreateChildElement(string tagName, IEnumerable<AttributeInfo> attributeInfos = null

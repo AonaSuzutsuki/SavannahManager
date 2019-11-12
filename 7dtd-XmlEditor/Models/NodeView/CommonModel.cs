@@ -59,10 +59,16 @@ namespace _7dtd_XmlEditor.Models.NodeView
             set => SetProperty(ref fullPath, value);
         }
 
-        public ObservableCollection<AttributeInfo> Attributes
+        public ObservableCollection<ViewAttributeInfo> Attributes
         {
             get => attributes;
             set => SetProperty(ref attributes, value);
+        }
+
+        public ViewAttributeInfo AttributesSelectedItem
+        {
+            get => attributesSelectedItem;
+            set => SetProperty(ref attributesSelectedItem, value);
         }
 
         public string InnerXml
@@ -80,7 +86,8 @@ namespace _7dtd_XmlEditor.Models.NodeView
         private TreeViewItemInfo selectedItem;
 
         private string fullPath;
-        private ObservableCollection<AttributeInfo> attributes = new ObservableCollection<AttributeInfo>();
+        private ObservableCollection<ViewAttributeInfo> attributes = new ObservableCollection<ViewAttributeInfo>();
+        private ViewAttributeInfo attributesSelectedItem;
         private string innerXml;
         private CommonXmlNode node;
         #endregion
@@ -100,6 +107,9 @@ namespace _7dtd_XmlEditor.Models.NodeView
         public void SelectionChange()
         {
             var info = SelectedItem;
+            if (info == null)
+                return;
+
             ChangeItem(info);
         }
 
@@ -111,19 +121,68 @@ namespace _7dtd_XmlEditor.Models.NodeView
             node = info.Node;
 
             FullPath = info.Path;
-            Attributes.Clear();
-            Attributes.AddAll(info.Node.Attributes);
-            InnerXml = info.Node.InnerXml;
+            if (!info.IgnoreAttributeRedraw)
+            {
+                Attributes.Clear();
+                Attributes.AddAll(from attribute in info.Node.Attributes
+                    select new ViewAttributeInfo
+                    {
+                        Attribute = new AttributeInfo { Name = attribute.Name, Value = attribute.Value },
+                        LostFocusAction = LostFocus
+                    });
+            }
+            else
+            {
+                info.IgnoreAttributeRedraw = false;
+            }
+
+            if (info.Node.NodeType == XmlNodeType.Tag)
+                InnerXml = info.Node.InnerXml;
+            else
+                InnerXml = info.Node.InnerText;
+        }
+
+        public void LostFocus(ViewAttributeInfo attributeInfo)
+        {
+            if (attributeInfo.isEdited)
+                Apply(true);
+        }
+
+        public void AddAttribute()
+        {
+            var last = Attributes.LastOrDefault();
+            if (last == null || !string.IsNullOrEmpty(last.Attribute.Name))
+            {
+                var attr = new ViewAttributeInfo() { LostFocusAction = LostFocus };
+                Attributes.Add(attr);
+                //node.AppendAttribute(attr);
+            }
+        }
+
+        public void RemoveAttribute()
+        {
+            if (AttributesSelectedItem != null)
+            {
+                Attributes.Remove(AttributesSelectedItem);
+                AttributesSelectedItem = null;
+                Apply();
+                //node.RemoveAttribute(AttributesSelectedItem);
+            }
         }
 
         public void ChangeInnerXml()
         {
         }
 
-        public void Apply()
+        public void Apply(bool IignoreAttributeRedraw = false)
         {
-            if (InnerXml != this.node.InnerXml)
+            if (this.node.NodeType == XmlNodeType.Tag && InnerXml != this.node.InnerXml)
                 this.node.PrioritizeInneXml = InnerXml;
+            else if (this.node.NodeType == XmlNodeType.Text)
+                this.node.InnerText = InnerXml;
+
+            this.node.Attributes = from attribute in Attributes where !string.IsNullOrEmpty(attribute.Attribute.Name)
+                select new AttributeInfo {Name = attribute.Attribute.Name, Value = attribute.Attribute.Value};
 
             var info = SelectedItem;
             AssignExpanded(root);
@@ -142,7 +201,9 @@ namespace _7dtd_XmlEditor.Models.NodeView
             TreeViewItems.Clear();
             TreeViewItems.Add(root);
 
-            SelectedItem = GetSelectedInfo(root);
+            var item = GetSelectedInfo(root);
+            item.IgnoreAttributeRedraw = true;
+            SelectedItem = item;
 
             OnItemApplied(new ItemAppliedEventArgs { ItemInfo = root});
 

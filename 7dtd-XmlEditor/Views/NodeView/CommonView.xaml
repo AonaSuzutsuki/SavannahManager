@@ -28,7 +28,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <views:BindableSelectedItemTreeView ItemsSource="{Binding TreeViewItems}" BindableSelectedItem="{Binding TreeViewSelectedItem.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
+        <views:BindableSelectedItemTreeView ItemsSource="{Binding TreeViewItems}" BindableSelectedItem="{Binding TreeViewSelectedItem.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IgnoreNullSelectedItem="False" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseRightButtonDown">
                     <i:InvokeCommandAction Command="{Binding TreeViewMouseRightButtonDown}" />
@@ -72,10 +72,12 @@
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center" Background="Transparent" Width="5" Margin="0,0,0,0"/>
         
         <Grid Grid.Column="2">
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="25" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
+                <RowDefinition Height="5" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
@@ -83,16 +85,123 @@
 
             <Label Grid.Row="1" Content="{Binding FullPath.Value}" />
 
-            <ListView Grid.Row="2" ItemsSource="{Binding Attributes}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="150" Header="Name" DisplayMemberBinding="{Binding Name}" />
-                        <GridViewColumn Width="300" Header="Value" DisplayMemberBinding="{Binding Value}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <Grid Grid.Row="2">
 
-            <TextBox Grid.Row="3" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding InnerXml.Value, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel HorizontalAlignment="Left">
+                    <Button Content="+" Width="25" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding AddAttributeBtClicked}" />
+                    <Button Content="-" Width="25" Height="25" Margin="0,5,0,0" Style="{DynamicResource FlatButton}" Command="{Binding RemoveAttributeBtClicked}" />
+                </StackPanel>
+
+                <ListView Grid.Column="1" ItemsSource="{Binding Attributes}">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding AttributesSelectionChanged}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, Path=SelectedItem}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="150" Header="Name">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Attribute.Name}" TextWrapping="Wrap">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="LostFocus">
+                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
+                                                </i:EventTrigger>
+                                                <i:EventTrigger EventName="TextChanged">
+                                                    <i:InvokeCommandAction Command="{Binding AttributeNameTextChanged}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </TextBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="300" Header="Value">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Attribute.Value}" TextWrapping="Wrap">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="LostFocus">
+                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
+                                                </i:EventTrigger>
+                                                <i:EventTrigger EventName="TextChanged">
+                                                    <i:InvokeCommandAction Command="{Binding AttributeNameTextChanged}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </TextBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+
+                    <ListView.Resources>
+                        <Style x:Key="{x:Type TextBox}" TargetType="TextBox">
+                            <Setter Property="Foreground" Value="white" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                                        <Border Name="TextBoxBorder" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderThickness="1" BorderBrush="Transparent">
+                                            <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                <Setter TargetName="TextBoxBorder" Property="BorderBrush" Value="LightGray" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.Resources>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="FontFamily" Value="{StaticResource FontName}" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                        <Border
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         Background="{TemplateBinding Background}">
+                                            <GridViewRowPresenter HorizontalAlignment="Stretch" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Width="Auto" Margin="3" Content="{TemplateBinding Content}"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="true" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background" Value="#4090ff" />
+                                </MultiTrigger>
+                                <Trigger Property="IsKeyboardFocusWithin" Value="true">
+                                    <Setter Property="IsSelected" Value="true" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#333"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </Grid>
+
+            <GridSplitter Background="Transparent" Grid.Row="3" Margin="0,0,0,0" HorizontalAlignment="Stretch" Height="Auto"/>
+
+            <TextBox Grid.Row="4" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding InnerXml.Value, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="TextChanged">
                         <i:InvokeCommandAction Command="{Binding InnerXmlTextChanged}" />

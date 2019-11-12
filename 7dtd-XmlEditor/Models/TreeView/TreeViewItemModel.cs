@@ -21,6 +21,9 @@ namespace _7dtd_XmlEditor.Models.TreeView
     {
         public string Name { get; set; }
         public TreeViewItemInfo[] Children { get; set; }
+
+        public bool IgnoreAttributeRedraw { get; set; }
+
         private bool isExpanded;
         private bool isSelected;
 
