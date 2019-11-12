@@ -76,10 +76,36 @@ namespace SvManagerLibrary.XmlWrapper
 
         public override string ToString()
         {
-            var sb = new StringBuilder();
-            var attr = string.Join(" ", from x in Attributes select x.ToString());
+            return ToString(this);
+        }
 
-            sb.Append($"<{TagName} {attr}>{InnerText}</{TagName}>");
+        public string ToString(CommonXmlNode node)
+        {
+            var sb = new StringBuilder();
+            if (node.NodeType == XmlNodeType.Tag)
+            {
+                var attr = string.Join(" ", from x in Attributes select x.ToString());
+
+                if (ChildNodes.Any())
+                {
+                    sb.Append($"<{TagName} {attr}>");
+                    foreach (var childNode in ChildNodes)
+                    {
+                        sb.Append(ToString(childNode));
+                    }
+
+                    sb.Append($"</{TagName}>");
+                }
+                else
+                {
+                    sb.Append($"<{TagName} {attr} />");
+                }
+            }
+            else
+            {
+                sb.Append(node.InnerText.Text);
+            }
+            
 
             return sb.ToString();
         }
