@@ -37,7 +37,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             var nodes = reader.GetNodes("/updates/update");
             var items = (from node in nodes
                         let attr = node.GetAttribute("version")
-                        let value = node.InnerText.Text
+                        let value = node.InnerText
                         select new { Attribute = attr, Value = value }).ToList();
 
             var count = items.Count;
