@@ -78,7 +78,7 @@
                     </ComboBox>
                 </StackPanel>
 
-                <Frame Grid.Row="1" Name="MainFrame"
+                <Frame Grid.Row="1" Name="MainFrame" Margin="0,5,0,0"
                        NavigationUIVisibility="Hidden" />
 
             </Grid>

@@ -59,40 +59,4 @@ namespace _7dtd_XmlEditor.Views
         }
         #endregion
     }
-
-    public class BindableSelectedItemListView : ListView
-    {
-        #region Fields
-        public static readonly DependencyProperty BindableSelectedItemProperty
-            = DependencyProperty.Register(nameof(BindableSelectedItem),
-                typeof(object), typeof(BindableSelectedItemListView), new UIPropertyMetadata(null));
-        #endregion
-
-        #region Properties
-        public object BindableSelectedItem
-        {
-            get => GetValue(BindableSelectedItemProperty);
-            set => SetValue(BindableSelectedItemProperty, value);
-        }
-        #endregion
-
-        #region Constructors
-        public BindableSelectedItemListView()
-        {
-            SelectionChanged += OnSelectionChanged;
-        }
-        #endregion
-
-        #region Event Methods
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (SelectedItem == null)
-            {
-                return;
-            }
-
-            SetValue(BindableSelectedItemProperty, SelectedItem);
-        }
-        #endregion
-    }
 }
