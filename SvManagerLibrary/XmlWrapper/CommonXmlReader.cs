@@ -64,7 +64,7 @@ namespace SvManagerLibrary.XmlWrapper
         public CommonXmlNode GetNode(string xpath)
         {
             var node = document.SelectSingleNode(xpath);
-            return GetNode(node);
+            return node == null ? null : GetNode(node);
         }
 
         public CommonXmlNode GetNode(XmlNode node, bool isRemoveSpace = true)

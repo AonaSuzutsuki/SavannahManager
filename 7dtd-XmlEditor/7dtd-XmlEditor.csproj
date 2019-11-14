@@ -104,12 +104,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\NodeView\CommonModel.cs" />
+    <Compile Include="Models\NodeView\VehicleModel.cs" />
     <Compile Include="Models\ViewAttributeInfo.cs" />
     <Compile Include="ViewModels\NodeView\CommonViewModel.cs" />
+    <Compile Include="ViewModels\NodeView\VehicleViewModel.cs" />
     <Compile Include="Views\NodeView\CommonView.xaml.cs">
       <DependentUpon>CommonView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NodeView\INodeView.cs" />
+    <Compile Include="Views\NodeView\VehicleView.xaml.cs">
+      <DependentUpon>VehicleView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Styles\ButtonIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\TreeViewStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -133,6 +142,10 @@
     <Page Include="Views\NodeView\CommonView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NodeView\VehicleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -174,5 +187,10 @@
     </None>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="XmlTemplates\a18\Vehicles\vehicles.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

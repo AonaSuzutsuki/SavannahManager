@@ -14,7 +14,10 @@ namespace _7dtd_XmlEditor.Models.NodeView
 {
     public interface ICommonModel
     {
+        event CommonModel.ItemAppliedEventHandler ItemApplied;
         TreeViewItemInfo SelectedItem { get; }
+        string Declaration { get; set; }
+        void ChangeItem(TreeViewItemInfo info);
     }
 
     public class CommonModel : ModelBase, ICommonModel

@@ -77,6 +77,19 @@ namespace _7dtd_XmlEditor.Models
                     model.ChangeItem(selected);
                 navigation.Navigate(commonPage);
             }
+            else if (mode == "Vehicle")
+            {
+                var selected = commonPage?.Model.SelectedItem;
+                var model = new VehicleModel(root)
+                {
+                    Declaration = declaration
+                };
+                model.ItemApplied += (sender, args) => root = args.ItemInfo;
+                commonPage = new VehicleView(model);
+                if (selected != null)
+                    model.ChangeItem(selected);
+                navigation.Navigate(commonPage);
+            }
         }
 
         private void OpenFile(string filePath)
