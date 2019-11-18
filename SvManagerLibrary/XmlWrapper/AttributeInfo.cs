@@ -7,6 +7,8 @@ namespace SvManagerLibrary.XmlWrapper
         public string Name { get; set; }
         public string Value { get; set; }
 
+        public bool IsEmpty => string.IsNullOrEmpty(Name);
+
         public override bool Equals(object obj)
         {
             return obj is AttributeInfo info &&

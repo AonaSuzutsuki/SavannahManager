@@ -18,7 +18,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                     Name = "name",
                     Value = "attr"
                 }
-            }, null, "Value");
+            }, "Value");
 
             var commonXmlNode2 = new CommonXmlNode
             {
@@ -36,7 +36,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                                 Value = "attr"
                             }
                         },
-                        InnerText = "Value"
+                        PrioritizeInneXml = "Value"
                     }
                 }
             };
@@ -70,7 +70,7 @@ namespace SvManagerLibraryTests2.XmlWrapper
                             new CommonXmlNode
                             {
                                 NodeType = XmlNodeType.Text,
-                                InnerText = "Value"
+                                PrioritizeInneXml = "Value"
                             }
                         }
                     }

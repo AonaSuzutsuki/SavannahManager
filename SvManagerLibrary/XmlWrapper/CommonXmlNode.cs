@@ -81,10 +81,22 @@ namespace SvManagerLibrary.XmlWrapper
         }
 
         public CommonXmlNode CreateChildElement(string tagName, IEnumerable<AttributeInfo> attributeInfos = null
-            , IEnumerable<CommonXmlNode> commonXmlNodes = null, string innerText = "")
+            , IEnumerable<CommonXmlNode> commonXmlNodes = null)
         {
-            var node = CreateElement(tagName, attributeInfos, commonXmlNodes, innerText);
-            childNodes.Add(CreateElement(tagName, attributeInfos, commonXmlNodes, innerText));
+            var node = CreateElement(tagName, attributeInfos, commonXmlNodes);
+            return CreateChildElement(node);
+        }
+
+        public CommonXmlNode CreateChildElement(string tagName, IEnumerable<AttributeInfo> attributeInfos
+            , string innerXml)
+        {
+            var node = CreateElement(tagName, attributeInfos, innerXml);
+            return CreateChildElement(node);
+        }
+
+        public CommonXmlNode CreateChildElement(CommonXmlNode node)
+        {
+            childNodes.Add(node);
             return node;
         }
 
@@ -160,7 +172,7 @@ namespace SvManagerLibrary.XmlWrapper
         }
 
         public static CommonXmlNode CreateElement(string tagName, IEnumerable<AttributeInfo> attributeInfos = null
-            , IEnumerable<CommonXmlNode> commonXmlNodes = null, string innerText = "")
+            , IEnumerable<CommonXmlNode> commonXmlNodes = null)
         {
             if (attributeInfos == null)
                 attributeInfos = new AttributeInfo[0];
@@ -172,8 +184,22 @@ namespace SvManagerLibrary.XmlWrapper
             {
                 TagName = tagName,
                 Attributes = attributeInfos,
-                ChildNodes = commonXmlNodes,
-                InnerText = innerText
+                ChildNodes = commonXmlNodes
+            };
+            return node;
+        }
+
+        public static CommonXmlNode CreateElement(string tagName, IEnumerable<AttributeInfo> attributeInfos,
+            string innerXml)
+        {
+            if (attributeInfos == null)
+                attributeInfos = new AttributeInfo[0];
+
+            var node = new CommonXmlNode
+            {
+                TagName = tagName,
+                Attributes = attributeInfos,
+                PrioritizeInneXml = innerXml
             };
             return node;
         }
