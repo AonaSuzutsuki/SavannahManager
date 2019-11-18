@@ -120,7 +120,7 @@
 
             <Label Content="{Binding PropertyNameText.Value}" FontSize="20" FontWeight="Bold" />
 
-            <Label Grid.Row="1" Content="{Binding DescriptionText.Value}" VerticalAlignment="Top" />
+            <TextBlock Grid.Row="1" Text="{Binding DescriptionText.Value}" Foreground="#fff" TextWrapping="Wrap" VerticalAlignment="Top" />
 
             <TextBox Grid.Row="3" Padding="5,0,5,0" VerticalContentAlignment="Center" Text="{Binding VehicleAttributeText.Value}" />
         </Grid>

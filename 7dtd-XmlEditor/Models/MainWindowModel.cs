@@ -114,6 +114,10 @@ namespace _7dtd_XmlEditor.Models
                 "Vehicle"
             });
             EditModeSelectedItem = "Common";
+
+            if (filePath == "vehicles.xml")
+                EditModeSelectedItem = "Vehicle";
+
             NodeViewModeChange(EditModeSelectedItem);
 
         }
