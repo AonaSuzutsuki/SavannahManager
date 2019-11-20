@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace SvManagerLibrary.Chat.Tests
+namespace SvManagerLibraryTests2.Chat
 {
     [TestFixture]
     public class ChatInfoListExtensionTests

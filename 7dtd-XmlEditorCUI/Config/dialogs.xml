@@ -1,0 +1,161 @@
+<dialogs>
+
+	
+	<dialog id="trader" startstatementid="start">
+		<!-- Statements -->
+		<statement id="start" text="dialog_trader_statement_start">
+			<response_entry id="shop" />
+			<response_entry id="jobsnone" />
+			<response_entry id="jobshave" />
+			<!-- <response_entry id="background" /> -->
+			<response_entry id="admin" />
+			<response_entry id="done" />
+		</statement>
+		
+		<statement id="background" text="dialog_trader_statement_background">
+			<response_entry id="navezgane" />
+			<response_entry id="theduke" />
+			<response_entry id="cassadores" />
+			<response_entry id="noah" />
+			
+			<response_entry id="nevermind" />
+		</statement>
+		
+		<statement id="navezgane" text="dialog_trader_statement_navezgane" nextstatementid="background" />
+		<statement id="theduke" text="dialog_trader_statement_theduke" nextstatementid="background" />
+		<statement id="cassadores" text="dialog_trader_statement_cassadores" nextstatementid="background" />
+		<statement id="noah" text="dialog_trader_statement_noah" nextstatementid="background" />
+		
+		<statement id="currentjobs" text="dialog_trader_statement_currentjobs" nextstatementid="start" >
+			<quest_entry type="add" listindex="0" />
+			<quest_entry type="add" listindex="1" />
+			<quest_entry type="add" listindex="2" />
+			<quest_entry type="add" listindex="3" />
+			<quest_entry type="add" listindex="4" />
+			<response_entry id="nevermind" />
+		</statement>
+		
+		<statement id="nojobs" text="dialog_trader_statement_nojobs" nextstatementid="start" />
+		
+		<statement id="admin" text="dialog_trader_statement_admin">
+			<response_entry id="restock" />
+			<response_entry id="resetquests" />
+			<response_entry id="nevermind" />
+		</statement>
+		
+		<!-- Responses -->
+		<response id="shop" text="dialog_trader_response_shop">
+			<action type="Trader" id="trade" />
+		</response>
+		
+		<response id="jobsnone" text="dialog_trader_response_jobsnone" nextstatementid="nojobs" >
+			<requirement type="QuestStatus" value="InProgress" requirementtype="Hide" />
+		</response>
+		<response id="jobshave" text="dialog_trader_response_jobshave" nextstatementid="currentjobs" >
+			<requirement type="QuestStatus" value="NotStarted" requirementtype="Hide" />
+			<action type="AddJournalEntry" id="questTip" />
+		</response>
+		
+		<response id="background" text="dialog_trader_response_background" nextstatementid="background">
+		</response>
+		
+		<response id="navezgane" text="dialog_trader_response_navezgane" nextstatementid="navezgane" />
+		<response id="theduke" text="dialog_trader_response_theduke" nextstatementid="theduke" />
+		<response id="cassadores" text="dialog_trader_response_cassadores" nextstatementid="cassadores" />
+		<response id="noah" text="dialog_trader_response_noah" nextstatementid="noah" />
+		<response id="whiteriveroutposts" text="dialog_trader_response_whiteriveroutposts" nextstatementid="whiteriveroutposts" />
+		<response id="nevermind" text="dialog_trader_response_nevermind" nextstatementid="start" />
+		
+		<response id="admin" text="dialog_trader_response_admin" nextstatementid="admin" >
+			<requirement type="Admin" requirementtype="Hide" />
+		</response>
+		
+		<response id="restock" text="dialog_trader_response_restock">
+			<action type="Trader" id="restock" />
+		</response>
+		
+		<response id="resetquests" text="dialog_trader_response_resetquests">
+			<action type="Trader" id="reset_quests" />
+		</response>
+		
+		<response id="done" text="dialog_trader_response_nevermind" />
+		
+	</dialog>
+	
+	<dialog id="traderTest" startstatementid="start">
+		<!-- Statements -->
+		<statement id="start" text="dialog_trader_statement_start">
+			<response_entry id="shop" />
+			<response_entry id="jobsnone" />
+			<response_entry id="jobshave" />
+			<!-- <response_entry id="background" /> -->
+			<response_entry id="admin" />
+			<response_entry id="done" />
+		</statement>
+		
+		<statement id="background" text="dialog_trader_statement_background">
+			<response_entry id="navezgane" />
+			<response_entry id="theduke" />
+			<response_entry id="cassadores" />
+			<response_entry id="noah" />
+			
+			<response_entry id="nevermind" />
+		</statement>
+		
+		<statement id="navezgane" text="dialog_trader_statement_navezgane" nextstatementid="background" />
+		<statement id="theduke" text="dialog_trader_statement_theduke" nextstatementid="background" />
+		<statement id="cassadores" text="dialog_trader_statement_cassadores" nextstatementid="background" />
+		<statement id="noah" text="dialog_trader_statement_noah" nextstatementid="background" />
+		
+		<statement id="currentjobs" text="Do any of these tasks sound like something you can do?">
+			<quest_entry id="test_sleepers" type="add" listindex="0" />
+			<quest_entry id="test_fetch" type="add" listindex="1" />
+			<quest_entry id="test_fetchsleep" type="add" listindex="2" />
+			<quest_entry id="test_hiddensleep" type="add" listindex="3" />
+			<response_entry id="nevermind" />
+		</statement>
+		
+		<statement id="nojobs" text="dialog_trader_statement_nojobs" nextstatementid="start" />
+		
+		<statement id="admin" text="dialog_trader_statement_admin">
+			<response_entry id="restock" />
+			<response_entry id="nevermind" />
+		</statement>
+		
+		<!-- Responses -->
+		<response id="shop" text="dialog_trader_response_shop">
+			<action type="Trader" id="trade" />
+		</response>
+		
+		<response id="jobsnone" text="dialog_trader_response_jobsnone" nextstatementid="nojobs" >
+			<requirement type="QuestStatus" value="InProgress" requirementtype="Hide" />
+		</response>
+		<response id="jobshave" text="dialog_trader_response_jobshave" nextstatementid="currentjobs" >
+			<requirement type="QuestStatus" value="NotStarted" requirementtype="Hide" />
+		</response>
+		
+		<response id="background" text="dialog_trader_response_background" nextstatementid="background">
+		</response>
+		
+		<response id="navezgane" text="dialog_trader_response_navezgane" nextstatementid="navezgane" />
+		<response id="theduke" text="dialog_trader_response_theduke" nextstatementid="theduke" />
+		<response id="cassadores" text="dialog_trader_response_cassadores" nextstatementid="cassadores" />
+		<response id="noah" text="dialog_trader_response_noah" nextstatementid="noah" />
+		<response id="whiteriveroutposts" text="dialog_trader_response_whiteriveroutposts" nextstatementid="whiteriveroutposts" />
+		<response id="nevermind" text="dialog_trader_response_nevermind" nextstatementid="start" />
+		
+		<response id="admin" text="dialog_trader_response_admin" nextstatementid="admin" >
+			<requirement type="Admin" requirementtype="Hide" />
+		</response>
+		
+		<response id="restock" text="dialog_trader_response_restock">
+			<action type="Trader" id="restock" />
+		</response>
+		
+		<response id="done" text="dialog_trader_response_nevermind" />
+		
+	</dialog>
+
+	
+</dialogs>
+

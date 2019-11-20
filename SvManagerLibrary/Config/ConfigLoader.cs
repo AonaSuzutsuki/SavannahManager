@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CommonCoreLib.XMLWrapper;
+using SvManagerLibrary.XmlWrapper;
 
 namespace SvManagerLibrary.Config
 {
@@ -29,8 +29,8 @@ namespace SvManagerLibrary.Config
                 using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
                 {
                     reader = new CommonXmlReader(fs);
-                    List<string> names = reader.GetAttributes("name", "ServerSettings/property", true);
-                    List<string> values = reader.GetAttributes("value", "ServerSettings/property", true);
+                    var names = reader.GetAttributes("name", "ServerSettings/property", true);
+                    var values = reader.GetAttributes("value", "ServerSettings/property", true);
 
                     int length = names.Count > values.Count ? values.Count : names.Count;
                     for (int i = 0; i < length; ++i)
@@ -113,11 +113,11 @@ namespace SvManagerLibrary.Config
         public void Write(Stream stream)
         {
             var writer = new CommonXmlWriter();
-            var root = writer.CreateRoot("ServerSettings");
+            var root = CommonXmlNode.CreateRoot("ServerSettings");
             var configXmlArray = (from config in configs.Values
                                   let configAttributeInfo = CreateConfigAttributeInfos(config)
-                                  select writer.CreateElement("property", configAttributeInfo)).ToArray();
-            root.Append(configXmlArray);
+                                  select CommonXmlNode.CreateElement("property", configAttributeInfo)).ToArray();
+            root.ChildNodes = configXmlArray;
 
             writer.Write(stream, root);
         }

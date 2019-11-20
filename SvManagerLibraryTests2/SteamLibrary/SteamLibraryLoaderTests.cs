@@ -6,8 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using SvManagerLibrary.SteamLibrary;
 
-namespace SvManagerLibrary.SteamLibrary.Tests
+namespace SvManagerLibraryTests2.SteamLibrary
 {
     [TestFixture]
     public class SteamLibraryLoaderTests

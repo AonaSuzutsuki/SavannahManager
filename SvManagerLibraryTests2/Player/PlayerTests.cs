@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace SvManagerLibrary.Player.Tests
+namespace SvManagerLibraryTests2.Player
 {
     [TestFixture]
     public class PlayerTests
@@ -38,7 +38,7 @@ namespace SvManagerLibrary.Player.Tests
             mock.Setup(x => x.Read()).Returns(text);
             mock.Setup(x => x.Connected).Returns(true);
 
-            var act = Player.SetPlayerInfo(mock.Object);
+            var act = SvManagerLibrary.Player.Player.SetPlayerInfo(mock.Object);
 
             CollectionAssert.AreEqual(exp, act);
         }

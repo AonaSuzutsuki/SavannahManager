@@ -1,8 +1,9 @@
 ﻿using Moq;
 using NUnit.Framework;
+using SvManagerLibrary.Time;
 using ITelnetClient = SvManagerLibrary.Telnet.ITelnetClient;
 
-namespace SvManagerLibrary.Time.Tests
+namespace SvManagerLibraryTests2.Time
 {
     [TestFixture]
     public class TimeTests
@@ -11,7 +12,7 @@ namespace SvManagerLibrary.Time.Tests
         public void ConvertTimeTest()
         {
             var text = "Day 256, 11:23";
-            var act = Time.ConvertTime(text);
+            var act = SvManagerLibrary.Time.Time.ConvertTime(text);
             var exp = new TimeInfo()
             {
                 Day = 256,
@@ -37,7 +38,7 @@ namespace SvManagerLibrary.Time.Tests
             mock.Setup(x => x.Read()).Returns(text);
             mock.Setup(x => x.Connected).Returns(true);
 
-            var act = Time.GetTimeFromTelnet(mock.Object);
+            var act = SvManagerLibrary.Time.Time.GetTimeFromTelnet(mock.Object);
 
             Assert.AreEqual(exp, act);
         }
@@ -57,7 +58,7 @@ namespace SvManagerLibrary.Time.Tests
             mock.Setup(x => x.Connected).Returns(true);
 
             var obj = mock.Object;
-            Time.SendTime(obj, timeInfo);
+            SvManagerLibrary.Time.Time.SendTime(obj, timeInfo);
 
             mock.Verify(m => m.WriteLine(exp), Times.Once);
         }

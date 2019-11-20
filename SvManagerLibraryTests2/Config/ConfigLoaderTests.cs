@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace SvManagerLibrary.Config.Tests
+namespace SvManagerLibraryTests2.Config
 {
     [TestFixture]
     public class ConfigLoaderTests
@@ -54,6 +54,7 @@ namespace SvManagerLibrary.Config.Tests
                 { "ServerName2", new ConfigInfo() { PropertyName = "ServerName2", Value = "My Game Host" } },
                 { "ServerDescription", new ConfigInfo() { PropertyName = "ServerDescription", Value = "A 7 Days to Die server" } },
                 { "ServerWebsiteURL", new ConfigInfo() { PropertyName = "ServerWebsiteURL", Value = "" } },
+                { "Nested", new ConfigInfo() { PropertyName = "Nested", Value = null } },
                 { "test", new ConfigInfo { PropertyName = "test", Value = "test value" } },
                 { "test2", new ConfigInfo { PropertyName = "test2", Value = "test value 2" } },
             };
@@ -110,7 +111,8 @@ namespace SvManagerLibrary.Config.Tests
                 { "ServerName", new ConfigInfo() { PropertyName = "ServerName", Value = "My Game Host" } },
                 { "ServerName2", new ConfigInfo() { PropertyName = "ServerName2", Value = "My Game Host" } },
                 { "ServerDescription", new ConfigInfo() { PropertyName = "ServerDescription", Value = "A 7 Days to Die server" } },
-                { "ServerWebsiteURL", new ConfigInfo() { PropertyName = "ServerWebsiteURL", Value = "" } }
+                { "ServerWebsiteURL", new ConfigInfo() { PropertyName = "ServerWebsiteURL", Value = "" } },
+                { "Nested", new ConfigInfo() { PropertyName = "Nested", Value = null } }
             };
 
             CollectionAssert.AreEqual(exp, dict);
@@ -120,20 +122,19 @@ namespace SvManagerLibrary.Config.Tests
         public void WriteTest()
         {
             var xmlPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\TestData\\Config.xml".UnifiedSystemPathSeparator();
-            var exp = File.ReadAllText(xmlPath);
+            var exp = File.ReadAllText(xmlPath).UnifiedBreakLine();
 
             var loader = GetConfigLoader();
-            using (var stream = new MemoryStream())
-            {
-                loader.Write(stream);
-                stream.Seek(0, SeekOrigin.Begin);
 
-                var buffer = new byte[stream.Length];
-                stream.Read(buffer, 0, buffer.Length);
-                var act = Encoding.UTF8.GetString(buffer) + "\r\n".UnifiedBreakLine();
+            using var stream = new MemoryStream();
+            loader.Write(stream);
+            stream.Seek(0, SeekOrigin.Begin);
 
-                Assert.AreEqual(exp, act);
-            }
+            var buffer = new byte[stream.Length];
+            stream.Read(buffer, 0, buffer.Length);
+            var act = Encoding.UTF8.GetString(buffer).UnifiedBreakLine();
+
+            Assert.AreEqual(exp, act);
         }
     }
 }

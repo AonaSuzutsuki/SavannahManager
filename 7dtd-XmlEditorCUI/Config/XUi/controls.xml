@@ -1,0 +1,1052 @@
+<controls>
+	<slider>
+		<rect depth="1" controller="Slider" height="24">
+			<label depth="1" pos="0, -6"  width="128" height="24" text="{name}"/>
+			<rect pos="34,-1">
+				<sprite name="bar" controller="SliderBar" depth="1" pos="100, -5" color="[mediumGrey]" width="200" height="20" type="sliced" style="press, scroll" />
+				<sprite depth="2" pos="100, -5" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false" width="200" height="20" foregroundlayer="true"/>		
+				<sprite name="thumb" controller="SliderThumb" depth="2" pos="200, -15" color="[lightGrey]" width="16" height="30" style="press, hover, drag, scroll" pivot="center">
+					<sprite depth="2" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false" width="16" height="30" pivot="center"/>
+				</sprite>
+				<label depth="1" pos="312, -6" width="40" height="24" text="{value}" justify="center"/>
+			</rect>
+		</rect>
+	</slider>
+	
+	<optionslider>
+		<rect depth="1" controller="Slider" height="62">
+			<label depth="1" pos="0, -6"  width="200" height="28" text="{name}: {value}" />
+			<rect pos="2,-34">
+				<sprite name="bar" controller="SliderBar" depth="1" pos="4, -5" color="[mediumGrey]" width="190" height="20" type="sliced" style="press, scroll" />
+				<sprite depth="2" pos="4, -5" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false" width="190" height="20" foregroundlayer="true" />		
+				<sprite name="thumb" controller="SliderThumb" depth="2" pos="194, -15" color="[lightGrey]" width="16" height="30" style="press, hover, drag, scroll" pivot="center">
+					<sprite depth="2" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false" width="16" height="30" pivot="center"/>
+				</sprite>
+			</rect>
+		</rect>
+	</optionslider>
+	
+	<debugslider>
+		<rect name="${name}" depth="${depth|1}" controller="Slider" pos="${pos|0,0}" width="${width|200}" height="62" >
+			<label depth="1" pos="0, -6"  width="${width|200}" height="28" text="{name}: {value}" />
+			<rect pos="2,-34">
+				<sprite name="bar" controller="SliderBar" depth="1" pos="4, -5" color="[mediumGrey]" width="${width-12|188}" height="20" type="sliced" style="press, scroll" />
+				<sprite depth="2" pos="4, -5" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false" width="${width-12|188}" height="20" foregroundlayer="true" />		
+				<sprite name="thumb" controller="SliderThumb" depth="2" pos="${width-8|192}, -15" color="[lightGrey]" width="16" height="30" style="press, hover, drag, scroll" pivot="center">
+					<sprite depth="2" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false" width="16" height="30" pivot="center"/>
+				</sprite>
+			</rect>
+		</rect>
+	</debugslider>
+
+  <lightslider>
+    <rect name="${name}" depth="${depth|1}" controller="Slider" pos="${pos|0,0}" width="${width|200}" height="62" >
+      <label depth="1" pos="${width-40|152}, -2"  width="50" height="28" text="{value}" justify="right" />
+      <rect pos="0,-2">
+        <sprite name="bar" controller="SliderBar" depth="1" pos="4, -5" color="[mediumGrey]" width="${width-62|138}" height="20" type="sliced" style="press, scroll" />
+        <sprite depth="2" pos="4, -5" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false" width="${width-62|138}" height="20" foregroundlayer="true" />
+        <sprite name="thumb" controller="SliderThumb" depth="2" pos="${width-58|142}, -15" color="[lightGrey]" width="16" height="30" style="press, hover, drag, scroll" pivot="center">
+          <sprite depth="2" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false" width="16" height="30" pivot="center"/>
+        </sprite>
+      </rect>
+    </rect>
+  </lightslider>
+
+	<togglebutton>
+		<rect name="${name}" depth="${depth|3}" pos="${pos|0,0}" width="${width|200}" height="${height|32}" enabled_font_color="${enabled_font_color|[labelColor]}" disabled_font_color="${disabled_font_color|[disabledLabelColor]}" controller="ToggleButton">
+			<button name="clickable" sprite="menu_empty" defaultcolor="[mediumGrey]" disabledcolor="[darkGrey]" hoversprite="ui_game_select_row" hovercolor="[white]" type="sliced" hoverscale="1.0"/>
+			<sprite depth="1" name="border" sprite="menu_empty2px" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite depth="2" name="tickbox" width="${height-6|26}" height="${height-6|26}" pos="7,-4" color="[darkGrey]" sprite="Highlight - Shadowed" type="sliced" />
+			<sprite depth="3" name="tickmark" width="${height-12|20}" height="${height-12|20}" pos="10,-7" color="[iconColor]" sprite="ui_game_symbol_check" visible="{value}" />
+			<label depth="2" name="btnLabel" width="${width-height-8|160}" height="${height-2|30}" pos="${6+height|38},${Round(-height/2,0)|-16}" justify="left" text="${caption|}" text_key="${caption_key|}" effect="outline" pivot="left" font_size="${font_size|28}" />
+		</rect>
+	</togglebutton>
+	
+	<simplebutton>
+		<rect name="${name}" depth="${depth|3}" pos="${pos|0,0}" width="${width|200}" height="${height|32}" enabled_font_color="${enabled_font_color|[labelColor]}" disabled_font_color="${disabled_font_color|[disabledLabelColor]}" controller="SimpleButton" visible="${visible|true}">
+			<sprite depth="1" name="border" sprite="${bordersprite|menu_empty2px}" pos="0,${Round(-height/2,0)|-16}" color="${bordercolor|[black]}" type="sliced" fillcenter="false" foregroundlayer="true" pivot="${pivot|left}" />	
+			<button name="clickable" pos="0,${Round(-height/2,0)|-16}" sprite="${defaultsprite|menu_empty}" defaultcolor="${defaultcolor|[mediumGrey]}" disabledcolor="[darkGrey]" hoversprite="${hoversprite|ui_game_select_row}" hovercolor="${hovercolor|[white]}" selectedsprite="${selectedsprite|ui_game_select_row}" selectedcolor="${selectedcolor|[mediumGrey]}" foregroundlayer="${foregroundlayer|true}" type="sliced" hoverscale="1.0" pivot="${pivot|left}" tooltip_key="${tooltip_key|}" />
+			<label depth="2" name="btnLabel" width="${width|200}" height="${height-2|30}" pos="0,${Round(-height/2,0)|-16}" justify="${justify|center}" text="${caption|}" text_key="${caption_key|}" effect="outline" pivot="${pivot|left}" font_size="${font_size|28}" />
+		</rect>
+	</simplebutton>
+	
+	<textfield>
+		<panel name="${name}" depth="${depth|3}" controller="TextInput" pos="${pos|0,0}" width="${width|200}" height="${height|32}" value="${value|}"
+			active_text_color="${active_text_color|[white]}" caret_color="${caret_color|[white]}" selection_color="${selection_color|[mediumGrey_half_alpha]}" 
+			character_limit="${character_limit|0}" validation="${validation|none}" backgroundcolor="${backgroundcolor|[black]}" style="press, select" on_hover="${on_hover|false}" snapCursor="true" virtual_keyboard_prompt="${virtual_keyboard_prompt|}"
+			disableautobackground="true" search_field="${search_field|false}" password_field="${password_field|false}" pivot="${pivot|topleft}" visible="${visible|true}" on_return="${on_return|submit}">
+			<sprite depth="0" name="background" color="${backgroundcolor|[black]}" type="sliced" pivot="${pivot|topleft}" foregroundlayer="${foregroundlayer|false}" width="${Defined(password_field) and password_field ? width-height-10 : width|200}" />
+			<label depth="1" name="text" justify="${justify|center}" font_size="${Defined(font_size) ? font_size : height|32}" pivot="${pivot|topleft}" overflow="${overflow|ShrinkContent}" max_line_count="${max_line_count|0}" font_face="${font_face|AgencyB_32p}" crispness="${crispness|Always}" width="${Defined(password_field) and password_field ? width-height-10 : width|200}" />
+			<button name="btnShowPassword" pos="${width-height/2-5|180},-${height/2|-16}" width="${height-2}" height="${height-2}" sprite="ui_game_symbol_stealth" defaultcolor="180,180,180" hovercolor="[white]" selectedcolor="[selectedColor]" foregroundlayer="true" type="simple" hoverscale="1.1" pivot="center" tooltip_key="xuiShowPassword" selected="{showpassword}" visible="{passwordfield}" />
+		</panel>
+	</textfield>
+
+	<textfield_multiline>
+		<panel name="${name}" depth="${depth|3}" controller="TextInput" pos="${pos|0,0}" width="${width|200}" height="${height|32}" value="${value|}"
+			active_text_color="${active_text_color|[white]}" caret_color="${caret_color|[white]}" selection_color="${selection_color|[mediumGrey_half_alpha]}" 
+			character_limit="${character_limit|0}" validation="${validation|none}" backgroundcolor="${backgroundcolor|[black]}" style="press, select" on_hover="${on_hover|false}" snapCursor="true" virtual_keyboard_prompt="${virtual_keyboard_prompt|}"
+			disableautobackground="true" search_field="${search_field|false}" pivot="${pivot|topleft}" visible="${visible|true}" on_return="${on_return|submit}">
+			<sprite depth="0" name="background" color="${backgroundcolor|[black]}" type="sliced" pivot="${pivot|topleft}" foregroundlayer="${foregroundlayer|false}" />
+			<label depth="1" name="text" justify="${justify|left}" font_size="${font_size|32}" pivot="${pivot|topleft}" />
+		</panel>
+	</textfield_multiline>
+
+	<combobox>
+		<rect name="${name}" controller="${type}" depth="${depth|3}" pos="${pos|0,0}" width="${width|200}" height="${height|30}" value_min="${value_min|@DEF}" value_max="${value_max|@DEF}" value_wrap="${value_wrap|@DEF}" value_increment="${value_increment|@DEF}" values="${values|@DEF}" reverse_list="${reverse_list|@DEF}" localization_prefix="${localization_prefix|}" format_string="${format_string|}" enabled_color="${enabled_color|[white]}" disabled_color="${disabled_color|[lightGrey]}" pivot="left" visible="${visible|true}">
+			<button name="back"        depth="${1+depth|4}" style="icon30px, press, hover" pos="${height/2|15},${-height/2|-15}" width="${height|30}" height="${height|30}" pivot="center" sprite="ui_game_symbol_arrow_menu" disabledcolor="[disabledColor]" sound="[paging_click]" tooltip_key="${tooltip_key|}" />
+			<sprite name="background"  depth="${1+depth|4}" style="icon30px" pos="${2+height|32},0" width="${width-height*2-4|136}" height="${height|30}" pivot="topleft" color="[black]" type="sliced" foregroundlayer="${foregroundlayer|false}" />
+			<filledsprite name="fill"  depth="${2+depth|5}" pos="${2+height|32},0" width="${width-height*2-4|136}" height="${height|30}" pivot="topleft" color="[white]" fill="{fillvalue}" filldirection="horizontal" visible="{isnumber}" foregroundlayer="true" />
+			<label name="currentValue" depth="${3+depth|6}" pos="${2+height|32},${-height/2|-15}" width="${width-height*2-4|136}" height="${height-2|28}" pivot="left" text="{val|always}" font_size="${Defined(font_size) ? font_size : height-4|26}" justify="center" color="[white]" effect="outline" effect_color="[black]" effect_distance="1,1" />
+			<button name="forward"     depth="${1+depth|4}" style="icon30px, press, hover" pos="${width-height/2|185},${-height/2|-15}" width="${height|30}" height="${height|30}" pivot="center" sprite="ui_game_symbol_arrow_menu" disabledcolor="[disabledColor]" sound="[paging_click]" tooltip_key="${tooltip_key|}" flip="Horizontally" />
+			<panel name="directvalue" style="press, scroll, hover, drag" pos="${2+height|32},0" width="${width-height*2-4|136}" height="${height|30}" pivot="topleft" disableautobackground="true" tooltip_key="${tooltip_key|}" />
+		</rect>
+	</combobox>
+
+
+	<color_picker>
+		<rect controller="ColorPicker">
+			<sprite depth="2" name="selectedColor" pos="212,0" style="icon30px" type="sliced"/>
+			<texture depth="2" name="svPicker" pos="6,0" width="200" height="200" on_drag="true" on_press="true">
+				<sprite depth="2" name="selectedColorSVPointer" pos="0,0" style="icon30px" width="21" height="21" type="sliced" pivot="center" sprite="ui_game_symbol_map_cursor"/>
+			</texture>			
+			<texture depth="2" name="hPicker" pos="212,-33" width="30" height="167" on_drag="true" on_press="true" /> 
+		</rect>
+	</color_picker>
+	
+	<hud_stat_bar_left>
+		<rect width="168" height="46" controller="HUDStatBar" visible="{statvisible}">
+			<sprite depth="1" name="border" color="0,0,0,100" height="46" type="sliced"/>
+			<sprite depth="2" pos="3,-3" name="background" height="40" width="162" color="64,64,64,100" type="sliced" />
+			<sprite depth="4" pos="3,-3" name="BarContent" sprite="{statimage|once}" type="filled" height="40" width="162" fill="{statfill}" />
+			<sprite depth="5" name="Icon" atlas="UIAtlas" sprite="{staticon|once}" size="35,35" pos="8,-6" foregroundlayer="true"/>
+			<label depth="6" name="TextContent" pos="0,-10" font_size="28" color="[white]" justify="center" pivot="topleft" text="{statcurrentwithmax}"/>
+		</rect>
+	</hud_stat_bar_left>
+	
+	<hud_stat_bar_right>
+		<rect width="168" height="46" controller="HUDStatBar" visible="{statvisible}">
+			<sprite depth="1" name="border" color="0,0,0,100" height="46" type="sliced"/>
+			<sprite depth="2" pos="3,-3"  name="background" height="40" width="162" color="64,64,64,100" type="sliced" />
+			<sprite depth="3" pos="3,-3"  name="BarContent" sprite="{statimage}" type="filled" height="40" width="162" fill="{statfill}" flip="Horizontally" />
+			<sprite depth="4" name="Icon" atlas="UIAtlas" sprite="{staticon|once}" size="35,35" pos="130,-6" foregroundlayer="true"/>
+			<label depth="6" name="TextContent" pos="0,-10" font_size="28" color="[white]" justify="center" text="{statcurrentwithmax}"/>
+		</rect>
+	</hud_stat_bar_right>
+	
+	<recipe_search>
+		<panel depth="1" controller="TextInput" pos="22,-7" width="140" height="30" value="SEARCH"
+			active_text_color="[white]" caret_color="[white]" selection_color="[mediumGrey_half_alpha]" 
+			character_limit="13" validation="none" backgroundcolor="[black]" on_press="true" style="select" snapCursor="true" virtual_keyboard_prompt="vkPromptSearchTerm" search_field="true" >
+			<sprite depth="0" name="background" color="[black]" type="sliced"/>
+			<label depth="1" name="text" pos="0,-2" justify="center" pivot="topleft" upper_case="false"/>
+		</panel>
+	</recipe_search>
+	
+	<skill_search>
+		<panel depth="3" controller="TextInput" pos="22,-7" width="120" height="30" value="SEARCH"
+			active_text_color="[white]" caret_color="[white]" selection_color="[mediumGrey_half_alpha]" 
+			character_limit="13" validation="none" backgroundcolor="[black]" on_press="true" style="select" snapCursor="true" virtual_keyboard_prompt="vkPromptSearchTerm" search_field="true">
+			<sprite depth="1" name="background" color="[black]" type="sliced"/>
+			<label depth="2" name="text" pos="0,-2" justify="center" pivot="topleft" upper_case="false"/>
+		</panel>
+	</skill_search>
+	
+	<count_control_input>
+		<panel controller="TextInput" pos="7,-6" width="40" height="28" value="1"
+			active_text_color="[white]" caret_color="[white]" selection_color="[mediumGrey_half_alpha]" 
+			character_limit="4" validation="integer" backgroundcolor="[black]" on_press="true" style="select" snapCursor="true" virtual_keyboard_prompt="vkPromptCount">
+			<sprite depth="1" name="background" color="[black]" type="sliced"/>
+			<label depth="2" name="text" pos="1,-2" width="38" font_size="26" justify="center" pivot="topleft"/>
+		</panel>
+	</count_control_input>
+	
+	<archetype_entry>
+		<panel height="43" style="press, hover, scroll" controller="ArchetypeEntry" disabled_font_color="[lightGrey]" enabled_font_color="[labelColor]" sound="[recipe_click]" backgroundcolor="[darkGrey]" bordercolor="[black]" borderthickness="3">
+			<sprite depth="2" pos="3,-3" name="background" width="309" height="37" color="[darkGrey]" type="sliced" globalopacitymod="1.5" />
+			<label depth="4" name="Name" pos="3,-8" width="309" height="30" text="{archetypename}" font_size="28" justify="center"/>
+		</panel>
+	</archetype_entry>
+	
+	<clothing_entry>
+		<panel height="43" style="press, hover, scroll" controller="ArchetypeClothingEntry" disabled_font_color="[lightGrey]" enabled_font_color="[labelColor]" sound="[recipe_click]" backgroundcolor="[darkGrey]" bordercolor="[black]" borderthickness="3">
+			<sprite depth="2" pos="3,-3" name="background" width="309" height="37" color="[darkGrey]" type="sliced" globalopacitymod="1.5" />
+			<label depth="4" name="Name" pos="3,-8" width="309" height="30" text="{meshname}" font_size="28" justify="center"/>
+		</panel>
+	</clothing_entry>
+	
+	<recipe_entry>
+		<rect height="43" style="press, hover, scroll" controller="RecipeEntry" disabled_font_color="[disabledLabelColor]" enabled_font_color="[labelColor]" sound="[recipe_click]" >
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="396" height="49" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="3" name="background" width="100%" height="45" pos="0,1" color="[darkGrey]" type="sliced" />
+			<sprite depth="4" name="Icon" atlas="ItemIconAtlas" sprite="{recipeicon}" color="{recipeicontint}" size="40,40" pos="34,-22" pivot="center" foregroundlayer="true"/>
+			<sprite depth="8" name="itemtypeicon" width="12" height="12" sprite="ui_game_symbol_{itemtypeicon}" pos="2,-2" foregroundlayer="true" visible="{hasitemtypeicon}" color="{itemtypeicontint}" />
+			<label depth="4" name="Name" pos="195,-19" width="250" height="30" text="{recipename}" font_size="28" color="{hasingredientsstatecolor}" justify="center" pivot="center"/>
+			<sprite depth="5" name="Favorite" sprite="server_favorite" size="14,14" pos="6,-4" visible="{isfavorite}" foregroundlayer="true"/>
+			<sprite depth="4" name="Unlocked" sprite="{unlockicon}" size="24,24" pos="352,-10" visible="{isunlockable}" color="{unlockstatecolor}" foregroundlayer="true" />
+		</rect>
+	</recipe_entry>
+	
+	<item_action_entry>
+		<rect height="43" controller="ItemActionEntry" disabled_font_color="[disabledLabelColor]" default_font_color="[labelColor]" default_background_color="[mediumGrey]" >
+			<sprite depth="3" name="background" color="[mediumGrey]" type="sliced" on_press="true" on_hover="true" width="147"/>
+			<sprite depth="4" name="Icon" sprite="{actionicon}" size="24,24" color="{statuscolor}" pos="2,-10" foregroundlayer="true"/>
+			<!--#$-IGS BEGIN: Adding gamepad callout. -$#-->
+			<label depth="4" name="Name" pos="32,-22" width="78" height="26" text="{actionname}" font_size="26" color="{statuscolor}" effect="shadow" pivot="left" />
+			<gamepad_icon depth="4" name="gamepadIcon" pos="146,-22" pivot="Right" />
+			<label depth="4" name="keyboardButton" pos="145,-22" width="36" height="26" text="&lt;W&gt;" font_size="26" color="{statuscolor}" effect="shadow" pivot="right" justify="center" />
+			<!--*#$-IGS END.-$#-->
+		</rect>
+	</item_action_entry>
+	
+	<item_property_entry>
+		<rect height="27" controller="ItemPropertyEntry" disabled_font_color="[disabledLabelColor]" default_font_color="[labelColor]" default_background_color="[mediumGrey]" >
+			<label depth="4" name="Name" pos="0,-6" width="165" height="26" text="{property}:" font_size="26" color="[white]" effect="shadow" pivot="left" justify="left" />
+			<label depth="5" name="Value" pos="168,-6" width="41" height="26" text="{value}" font_size="26" color="[white]" effect="shadow" pivot="left" justify="left" on_press="true" on_hover="true"/>
+		</rect>
+	</item_property_entry>
+	
+	<buff_property_entry>
+		<rect height="27" controller="BuffPropertyEntry" disabled_font_color="[disabledLabelColor]" default_font_color="[labelColor]" default_background_color="[mediumGrey]" >
+			<label depth="4" name="Name" pos="0,-6" width="215" height="26" text="{property}" font_size="26" color="[white]" effect="shadow" pivot="left" justify="left" />
+		</rect>
+	</buff_property_entry>
+	
+	<skill_action_entry>
+		<rect height="43" controller="ItemActionEntry" disabled_font_color="[disabledLabelColor]" default_font_color="[labelColor]" default_background_color="[mediumGrey]" >
+			<sprite depth="3" name="background" color="[mediumGrey]" type="sliced" on_press="true" on_hover="true" />
+			<sprite depth="4" name="Icon" sprite="{actionicon}" size="24,24" color="{statuscolor}" pos="2,-10" foregroundlayer="true"/>
+			<label depth="4" name="Name" pos="32,-22" width="78" height="26" text="{actionname}" font_size="26" color="{statuscolor}" effect="shadow" pivot="left" />
+			<!--#$-IGS BEGIN: Adding gamepad callout . -$#-->
+			<gamepad_icon depth="4" name="gamepadIcon" pos="145,-22" pivot="Right" />
+			<label depth="4" name="keyboardButton" pos="145,-22" width="36" height="26" text="&lt;W&gt;" font_size="26" color="{statuscolor}" effect="shadow" pivot="right" justify="center" />
+			<!--*#$-IGS END.-$#-->
+		</rect>
+	</skill_action_entry>
+	
+	<ingredient_header>
+		<rect name="header" width="447" height="50">
+			<rect depth="2" width="65" height="48">
+				<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="71" height="53" color="[black]" type="sliced" fillcenter="false" />	
+				<sprite color="[darkGrey]" type="sliced" />
+				<label depth="3" text="ITEM" text_key="lblitem" pos="32,-23" height="26" font_size="26" justify="center" pivot="center"/>
+			</rect>
+			<rect depth="2" width="236" height="48" pos="68,0">
+				<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="242" height="53" color="[black]" type="sliced" fillcenter="false" />	
+				<sprite color="[darkGrey]" type="sliced" />
+				<label depth="3" text="NAME" text_key="mmTextName" pos="117,-23" width="230" height="26" font_size="26" justify="center" pivot="center"/>
+			</rect>
+			<rect depth="2" width="140" height="48" pos="307,0">
+				<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="146" height="53" color="[black]" type="sliced" fillcenter="false" />	
+				<sprite color="[darkGrey]" type="sliced" />
+				<label depth="3" text="COUNT" text_key="lblContextCraftCount" pos="70,-23" width="64" height="26" font_size="26" justify="center" pivot="center" upper_case="true"/>
+			</rect>
+		</rect>
+	</ingredient_header>
+	
+	<ingredient_row>
+		<rect name="row" width="447" height="50" controller="IngredientEntry">
+			<rect depth="2" width="65" height="48">
+				<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,2" width="71" height="53" color="[black]" type="sliced" fillcenter="false" />	
+			
+				<sprite color="[lightGrey]" type="sliced" />
+				<sprite depth="2" name="icon" width="40" height="40" atlas="ItemIconAtlas" sprite="{itemicon}" color="{itemicontint}" pos="30,-22" pivot="center" foregroundlayer="true"/>
+			</rect>
+			<rect depth="2" width="236" height="48" pos="68,0">
+				<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,2" width="242" height="53" color="[black]" type="sliced" fillcenter="false" />	
+				<sprite color="[lightGrey]" type="sliced" />
+				<label depth="3" name="name" pos="117,-23" width="230" height="26" font_size="26" color="[labelColor]" justify="center" pivot="center" text="{itemname}"/>
+			</rect>
+			<rect depth="2" width="140" height="48" pos="307,0">
+				<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,2" width="146" height="53" color="[black]" type="sliced" fillcenter="false" />	
+				<sprite color="[lightGrey]" type="sliced" />
+				<label depth="3" name="needCount" pos="70,-23" width="120" height="26" font_size="26" color="[labelColor]" justify="center" pivot="center" text="{haveneedcount}"/>
+			</rect>
+		</rect>
+	</ingredient_row>
+	
+	<unlocked_by_header>
+		<rect name="header" width="447" height="50">
+			<rect depth="2" width="65" height="48">
+				<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="71" height="53" color="[black]" type="sliced" fillcenter="false" />	
+				<sprite color="[darkGrey]" type="sliced" />
+				<label depth="3" text="TYPE" pos="32,-23" height="26" font_size="26" justify="center" pivot="center"/>
+			</rect>
+			<rect depth="2" width="379" height="48" pos="68,0">
+				<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="385" height="53" color="[black]" type="sliced" fillcenter="false" />	
+				<sprite color="[darkGrey]" type="sliced" />
+				<label depth="3" text="UNLOCKED BY" text_key="UNLOCKED BY" pos="0,-13" height="26" font_size="26" justify="center" />
+			</rect>
+		</rect>
+	</unlocked_by_header>
+	
+	<unlocked_by_row>
+		<rect name="row" width="447" height="50" controller="UnlockByEntry">
+			<rect depth="2" width="65" height="48">
+				<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,2" width="71" height="53" color="[black]" type="sliced" fillcenter="false" />	
+			
+				<sprite color="[lightGrey]" type="sliced" />
+				<sprite depth="2" name="icon" width="40" height="40" atlas="{itemiconatlas}" sprite="{itemicon}" color="{itemicontint}" pos="30,-22" pivot="center" foregroundlayer="true"/>
+			</rect>
+			<rect depth="2" width="379" height="48" pos="68,0">
+				<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,2" width="385" height="53" color="[black]" type="sliced" fillcenter="false" />	
+				<sprite color="[lightGrey]" type="sliced" />
+				<label depth="3" name="name" pos="0,-13" height="26" font_size="26" color="[labelColor]" justify="center" text="{name}"/>
+			</rect>
+		</rect>
+	</unlocked_by_row>
+	
+	<!--#$-IGS BEGIN: Increasing collider scale to improve snap responsiveness -$#-->
+	<item_stack>
+		<rect controller="ItemStack" style="itemStack, hover" collider_scale="1.0">
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="78" height="78" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite depth="3" name="background" sprite="menu_empty3px" width="73" height="73" color="[darkGrey]" type="sliced" globalopacity="true" fillcenter="false"/>
+			<sprite depth="2" name="highlightOverlay" width="72" height="72" color="[darkGrey]" pos="0,0" type="sliced" globalopacity="true"/>
+
+			<texture depth="3" name="backgroundTexture" material="Materials/Transparent Colored" size="73,73" globalopacity="true"/>
+			
+			<sprite depth="6" name="itemIcon" width="64" height="64" atlas="ItemIconAtlas" sprite="{itemicon}" pos="35,-35" pivot="center" foregroundlayer="true" color="{iconcolor}" />
+			<sprite depth="8" name="lockTypeIcon" width="24" height="24" sprite="" pos="2,-2" foregroundlayer="true"/>
+			<sprite depth="8" name="itemtypeicon" width="24" height="24" sprite="ui_game_symbol_{itemtypeicon}" pos="2,-2" foregroundlayer="true" visible="{hasitemtypeicon}" color="{itemtypeicontint}" />
+			
+			<sprite depth="3" name="durabilityBackground" width="70" height="10" sprite="menu_empty3px" color="[darkGrey]" type="sliced" pos="1, -60" foregroundlayer="true"/>
+			<filledsprite depth="4" name="durability" width="70" height="10" sprite="menu_empty2px" color="[transparent]" type="filled" pos="1, -60" foregroundlayer="true"/>
+			
+			<sprite depth="5" name="disabledOverlay" width="72" height="72" color="[darkGrey_half_alpha]" pos="1,-1" type="sliced" visible="false"/>
+			
+			<label depth="7" name="stackValue" pos="-2,-45" width="70" height="28" text="{itemcount}" font_size="26" effect="outline" justify="center" />
+			<label depth="7" name="timer" pos="35,-38" width="70" height="24" font_size="24" justify="center" pivot="center" effect="outline" color="[beige]"/>
+			<sprite depth="9" name="cancel" sprite="ui_game_symbol_x" width="70" height="70" color="255,0,0,255" type="sliced" visible="false" foregroundlayer="true"/>
+			<!--#$-IGS BEGIN: Setting itemName above the soft cursor. -$#-->
+			<label depth="12" name="itemName" pos="36,-35" width="0" height="0" text="" font_size="26" justify="center" overflow="resizefreely" effect="outline" pivot="center" above_soft_cursor="true"/>
+			<!--*#$-IGS END.-$#-->
+			<sprite depth="13" name="assembleIcon" size="40,40" sprite="{stacklockicon}" visible="{isassemblelocked}" pos="14,-14" foregroundlayer="true" />
+		</rect>
+	</item_stack>
+	<!--*#$-IGS END.-$#-->
+	
+	<backpack_item_stack>
+		<rect controller="ItemStack" style="itemStack, hover" collider_scale="1.0" >
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="70" height="70" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite depth="3" name="background" sprite="menu_empty3px" width="65" height="65" color="[darkGrey]" type="sliced" globalopacity="true" fillcenter="false"/>
+			<sprite depth="2" name="highlightOverlay" width="64" height="64" color="[darkGrey]" pos="0,0" type="sliced" globalopacity="true"/>
+
+			<texture depth="3" name="backgroundTexture" material="Materials/Transparent Colored" size="65,65" globalopacity="true"/>
+			
+			<sprite depth="6" name="itemIcon" width="64" height="64" atlas="ItemIconAtlas" sprite="{itemicon}" pos="35,-30" pivot="center" foregroundlayer="true" color="{iconcolor}" />
+			<sprite depth="8" name="lockTypeIcon" width="24" height="24" sprite="" pos="2,-2" foregroundlayer="true"/>
+			<sprite depth="8" name="itemtypeicon" width="24" height="24" sprite="ui_game_symbol_{itemtypeicon}" pos="2,-2" foregroundlayer="true" visible="{hasitemtypeicon}" color="{itemtypeicontint}" />
+			
+			<sprite depth="3" name="durabilityBackground" width="63" height="10" sprite="menu_empty3px" color="[darkGrey]" type="sliced" pos="1, -55" foregroundlayer="true"/>
+			<filledsprite depth="4" name="durability" width="63" height="10" sprite="menu_empty2px" color="[transparent]" type="filled" pos="1, -55" foregroundlayer="true"/>
+			
+			<sprite depth="5" name="disabledOverlay" width="64" height="64" color="[darkGrey_half_alpha]" pos="1,-1" type="sliced" visible="false"/>
+			
+			<label depth="7" name="stackValue" pos="-2,-40" width="62" height="28" text="{itemcount}" font_size="26" effect="outline" justify="center" />
+			<label depth="7" name="timer" pos="35,-33" width="62" height="24" font_size="24" justify="center" pivot="center" effect="outline" color="[beige]"/>
+			<sprite depth="9" name="cancel" sprite="ui_game_symbol_x" width="62" height="62" color="255,0,0,255" type="sliced" visible="false" foregroundlayer="true"/>
+			<!--#$-IGS BEGIN: Setting itemName above the soft cursor. -$#-->
+			<label depth="12" name="itemName" pos="36,-30" width="0" height="0" text="" font_size="26" justify="center" overflow="resizefreely" effect="outline" pivot="center" above_soft_cursor="true"/>
+			<!--*#$-IGS END.-$#-->
+			<sprite depth="13" name="assembleIcon" size="35,35" sprite="{stacklockicon}" color="{stacklockcolor}" visible="{isassemblelocked}" pos="14,-14" foregroundlayer="true" />
+		</rect>
+	</backpack_item_stack>
+	
+	<required_item_stack>
+		<rect controller="RequiredItemStack" style="itemStack, hover">
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="78" height="78" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite depth="3" name="background" sprite="menu_empty3px" width="73" height="73" color="[darkGrey]" type="sliced" globalopacity="true" fillcenter="false"/>
+			<sprite depth="2" name="highlightOverlay" width="72" height="72" color="[darkGrey]" pos="0,0" type="sliced" globalopacity="true"/>
+
+			<sprite depth="4" name="itemIcon" width="64" height="64" atlas="ItemIconAtlas" sprite="{itemicon}" pos="35,-35" pivot="center" foregroundlayer="true" color="{iconcolor}" />
+			<sprite depth="8" name="lockTypeIcon" width="24" height="24" sprite="" pos="2,-2" foregroundlayer="true"/>
+			
+			<sprite depth="3" name="durabilityBackground" width="70" height="10" sprite="menu_empty3px" color="[darkGrey]" type="sliced" pos="1, -60" foregroundlayer="true"/>
+			<filledsprite depth="4" name="durability" width="70" height="10" sprite="menu_empty2px" color="[transparent]" type="filled" pos="1, -60" foregroundlayer="true"/>
+			
+			<sprite depth="5" name="disabledOverlay" width="72" height="72" color="[darkGrey_half_alpha]" pos="1,-1" type="sliced" visible="false"/>
+			
+			<label depth="7" name="stackValue" pos="-2,-45" width="70" height="28" text="{itemcount}" font_size="26" effect="outline" justify="right" />
+			<label depth="7" name="timer" pos="35,-38" width="70" height="24" font_size="24" justify="center" pivot="center" effect="outline" color="[beige]"/>
+			<sprite depth="9" name="cancel" sprite="ui_game_symbol_x" width="70" height="70" color="255,0,0,255" type="sliced" visible="false" foregroundlayer="true"/>
+			<label depth="12" name="itemName" pos="0,0" width="0" height="0" text="" font_size="26" justify="center" overflow="resizefreely" effect="outline"/>
+			<sprite depth="13" name="assembleIcon" size="40,40" sprite="ui_game_symbol_lock" visible="{isassemblelocked}" pos="14,-14" foregroundlayer="true" />
+		</rect>
+	</required_item_stack>
+	
+	<!--#$-IGS BEGIN: Increasing collider scale to improve snap responsiveness -$#-->
+	<creative_stack>
+		<rect controller="CreativeStack" style="itemStack, hover, scroll" collider_scale="1.0">
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="78" height="78" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite depth="3" name="background" sprite="menu_empty3px" width="73" height="73" color="[darkGrey]" type="sliced" globalopacity="true" fillcenter="false"/>
+			<sprite depth="2" name="highlightOverlay" width="72" height="72" color="[darkGrey]" pos="0,0" type="sliced" globalopacity="true"/>
+			<sprite depth="4" name="itemIcon" width="64" height="64" atlas="ItemIconAtlas" sprite="campfire" pos="35,-35" pivot="center" foregroundlayer="true"/>
+			<sprite depth="8" name="favoriteIcon" width="24" height="24" sprite="server_favorite" pos="2,-2" foregroundlayer="true" visible="{isfavorite}"/>
+			<sprite depth="8" name="lockTypeIcon" width="24" height="24" sprite="" pos="2,-2" foregroundlayer="true"/>
+			<sprite depth="8" name="itemtypeicon" width="24" height="24" sprite="ui_game_symbol_{itemtypeicon}" pos="2,-2" foregroundlayer="true" visible="{hasitemtypeicon}" color="{itemtypeicontint}" />
+			
+			<sprite depth="3" name="durabilityBackground" width="70" height="10" sprite="menu_empty3px" color="[darkGrey]" type="sliced" pos="1, -60" foregroundlayer="true"/>
+			<filledsprite depth="4" name="durability" width="70" height="10" sprite="menu_empty2px" color="[transparent]" type="filled" pos="1, -60" foregroundlayer="true"/>
+			
+			<label depth="7" name="stackValue" pos="0,-48" width="70" height="28" text="Test" effect="outline" font_size="26" justify="center"/>
+			<!--#$-IGS BEGIN: Setting itemName above the soft cursor. -$#-->
+			<label depth="12" name="itemName" pos="36,-36" width="0" height="0" text="" font_size="26" justify="center" pivot="center" overflow="resizefreely" effect="outline" above_soft_cursor="true" />
+			<!--*#$-IGS END.-$#-->
+		</rect>
+	</creative_stack>
+	<!--*#$-IGS END.-$#-->
+	
+	<equipment_stack>
+		<rect depth="1" controller="EquipmentStack" style="itemStack, hover" tooltip="test">
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="73" height="73" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite depth="3" name="background" sprite="menu_empty3px" width="68" height="68" color="[mediumGrey]" type="sliced" fillcenter="false"/>
+			<sprite depth="2" name="highlightOverlay" width="66" height="66" color="[mediumGrey]" pos="1,-1" type="sliced" globalopacity="true"/>
+			<sprite depth="7" name="itemIcon" width="64" height="64" atlas="ItemIconAtlas" sprite="campfire" pos="34,-34" pivot="center" foregroundlayer="true"/>
+			
+			<sprite depth="3" name="durabilityBackground" height="10" width="64" color="[darkGrey]" type="sliced" pos="2, -56" foregroundlayer="true"/>
+			<filledsprite depth="4" name="durability" height="10" width="64" color="[transparent]" type="filled" pos="2, -56" foregroundlayer="true"/>
+			
+			<label depth="7" name="stackValue" pos="0,-45" width="68" height="28" text="" font_size="26" justify="center"/>
+			<sprite depth="8" name="lockTypeIcon" width="24" height="24" sprite="" pos="2,-2" foregroundlayer="true"/>
+			<!--#$-IGS BEGIN: Setting itemName above the soft cursor. -$#-->
+			<label depth="12" name="itemName" pos="0,0" width="0" height="0" text="" font_size="26" justify="center" overflow="resizefreely" effect="outline" above_soft_cursor="true" />
+			<!--*#$-IGS END.-$#-->
+		</rect>
+	</equipment_stack>
+	
+	<drag_item_stack>
+		<rect controller="ItemStack" width="86" height="86" pos="-43,43" disableautobackground="true">
+			<sprite depth="2" name="background" width="1" height="1" color="[transparent]" type="sliced" globalopacity="true"/>
+			<sprite depth="4" name="itemIcon" width="86" height="86" atlas="ItemIconAtlas" sprite="{itemicon}" pos="0,10" pivot="topleft" foregroundlayer="true" color="{iconcolor}"/>
+			<sprite depth="3" name="durabilityBackground" height="10" color="64,64,64,0" type="sliced" pos="0, -76" foregroundlayer="true"/>
+			<filledsprite depth="4" name="durability" height="10" color="[transparent]" type="filled" pos="0, -76" foregroundlayer="true"/>
+			<label depth="5" name="stackValue" pos="6,-60" width="72" height="28" text="{itemcount}" effect="outline" justify="center" font_size="26" />
+		</rect>
+	</drag_item_stack>
+	
+	<!--#$-IGS BEGIN: Increasing collider scale to improve snap responsiveness -$#-->
+	<recipe_stack>
+		<rect controller="RecipeStack" width="72" height="72" collider_scale="1.0">
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="78" height="78" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite name="background" color="[mediumGrey]" type="sliced" style="press" on_hover="true"/>
+			<sprite depth="1" name="itemIcon" width="64" height="64" atlas="ItemIconAtlas" sprite="" pos="36,-35" pivot="center" foregroundlayer="true"/>
+			<sprite depth="4" name="lockIcon" width="24" height="24" sprite="ui_game_symbol_hammer" pos="2,-2" visible="false" foregroundlayer="true"/>
+			<label depth="4" name="count" pos="0,-50" width="70" height="26" text="Test" font_size="24" justify="right" effect="outline" />
+			<label depth="4" name="timer" pos="36,-36" width="70" height="26" font_size="24" justify="center" pivot="center" color="[beige]"/>
+			<sprite depth="2" name="overlay" width="72" height="72" color="32,32,32,128" type="sliced"/>
+			<sprite depth="3" name="cancel" sprite="ui_game_symbol_x" width="72" height="72" color="255,0,0,0" type="sliced" visible="false" foregroundlayer="true"/>
+		</rect>
+	</recipe_stack>
+	<!--*#$-IGS END.-$#-->
+	
+	<material_stack>
+		<rect controller="MaterialStack" style="itemStack, hover, scroll" collider_scale="1.1" sound="[recipe_click]">
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="78" height="78" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite depth="5" name="background" sprite="menu_empty3px" width="73" height="73" color="[darkGrey]" type="sliced" globalopacity="true" fillcenter="false"/>
+			<sprite depth="2" name="highlightOverlay" width="72" height="72" color="[darkGrey]" pos="0,0" type="sliced" globalopacity="true"/>
+			<texture depth="4" name="textMaterial" width="70" height="70" pos="36,-36" pivot="center" material="Materials/Transparent Colored" size="70,70" globalopacity="false"/>
+			
+			<!--#$-IGS BEGIN: Setting itemName above the soft cursor. -$#-->
+			<label depth="12" name="itemName" pos="36,-36" width="0" height="0" text="" font_size="26" justify="center" pivot="center" overflow="resizefreely" effect="outline" above_soft_cursor="true" />
+			<!--*#$-IGS END.-$#-->
+			<sprite depth="13" name="lockIcon" size="40,40" sprite="ui_game_symbol_lock" visible="{islocked}" pos="14,-14" foregroundlayer="true" />
+		</rect>
+	</material_stack>
+	
+	<category_icon>
+		<rect depth="1" size="43,43" controller="CategoryEntry" >
+			<!--#$-IGS BEGIN: Increasing collider scale to improve snap responsiveness -$#-->
+			<button name="categoryIcon" depth="1" size="28,28" pos="21, -14" sprite="{categoryicon|once}" tooltip="{categorydisplayname|once}" pivot="center" collider_scale="1.5" sound="[paging_click]" />
+			<!--*#$-IGS END.-$#-->
+		</rect>
+	</category_icon>
+	
+	<active_buff_entry>
+		<panel height="43" controller="ActiveBuffEntry" width="314" style="press" sound="[recipe_click]" on_hover="true" disableautobackground="true" on_scroll="true" >
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="320" height="49" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite depth="0" name="background" color="[darkGrey]" type="sliced" height="45" width="316" pos="-1,1" /> 
+			<sprite depth="2" name="Icon" sprite="{bufficon|once}" color="{buffcolor}" style="icon32px" pos="5,-5"/>
+			<label depth="2" pos="45,-8" width="280" height="30" text="{buffname|once}  [DECEA3]{buffdisplayinfo}[-]" font_size="28" pivot="topleft"/>
+		</panel>
+	</active_buff_entry>
+	
+	<buff_item>
+		<rect controller="BuffItemEntry" height="72" width="72">
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="78" height="78" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite depth="3" name="background" sprite="menu_empty2px" width="72" height="72" color="[mediumGrey]" type="sliced" globalopacity="true" fillcenter="false"/>
+			<sprite depth="2" name="highlightOverlay" width="70" height="70" color="[mediumGrey]" pos="1,-1" type="sliced" globalopacity="true" />
+			<sprite depth="4" name="itemIcon" width="70" height="50" atlas="{itematlas}" sprite="{itemicon}" pos="35,-30" pivot="center" on_hover="true" tooltip="{itemname}" foregroundlayer="true" color="{itemicontint}" />
+			<sprite depth="8" width="24" height="24" sprite="{typeicon}" pos="2,-2" foregroundlayer="true"/>
+		</rect>
+	</buff_item>
+
+	<map_popup_sub_line>	
+		<rect depth="3" height="43">
+			<sprite depth="3" color="[darkGrey]" type="sliced" style="press" on_hover="true" on_scroll="false" disabled_font_color="148,148,148,255" controller="MapSubPopupEntry" sound="[craft_click]" />
+			<sprite depth="4" name="Icon" sprite="ui_game_symbol_map_waypoint_set" style="icon32px" pos="8,-3" />
+		</rect>
+	</map_popup_sub_line>
+	
+	<waypoint_input>
+		<panel controller="TextInput" pos="0,0" width="140" height="30" value="SEARCH" active_text_color="[white]"
+			caret_color="[darkGrey]" selection_color="[mediumGrey_half_alpha]" character_limit="13" validation="none"
+			backgroundcolor="[black]" on_press="true" style="select" snapCursor="true" virtual_keyboard_prompt="vkPromptWaypointName">
+			<sprite depth="0" name="background" color="[black]" type="sliced"/> 
+			<label depth="1" name="text" pos="0,-2" justify="center" pivot="topleft" upper_case="false"/>
+		</panel>
+	</waypoint_input>
+	
+	<waypoint_search>
+		<panel controller="TextInput" pos="0,0" width="100" height="30" value="SEARCH" active_text_color="[white]"
+			caret_color="[white]" selection_color="[mediumGrey_half_alpha]" character_limit="13" validation="none"
+			backgroundcolor="[black]" on_press="true" style="select" snapCursor="true" virtual_keyboard_prompt="vkPromptSearchTerm" search_field="true">
+			<sprite depth="0" name="background" color="[black]" type="sliced"/>
+			<label depth="1" name="text" pos="0,-2" justify="center" pivot="topleft" upper_case="false"/>
+		</panel>
+	</waypoint_search>
+	
+	<waypoint_entry>
+		<rect width="348" height="43" pos="6,-98" controller="MapWaypointListEntry" >
+			<sprite depth="3" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="354" height="49" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="1" name="background" pos="-1,1" height="45" width="350" color="[darkGrey]" type="sliced" on_hover="true" style="press,scroll" sound="[recipe_click]" />
+			<sprite depth="4" name="Icon" sprite="ui_game_symbol_pen" style="icon32px" pos="8,-3" foregroundlayer="true"/>
+			<sprite depth="4" name="Tracking" sprite="ui_game_symbol_check" style="icon32px" pos="48,-3" foregroundlayer="true"/>
+			<label depth="4" name="Name" pos="180,-20" width="180" height="30" text="Name" font_size="28" justify="center" pivot="center"/>
+			<label depth="4" name="Distance" pos="312,-20" width="60" height="30" text="0.7KM" font_size="28" justify="center" pivot="center"/>
+		
+		</rect>
+	</waypoint_entry>
+	
+	<invites_entry>
+		<rect controller="MapInvitesListEntry" width="348" height="43" pos="6,-98" >
+			<sprite depth="3" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="354" height="49" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="1" name="background"  pos="-1,1" height="45" width="350" color="[darkGrey]" type="sliced"  on_hover="true" style="press" sound="[recipe_click]"/>
+			<sprite depth="4" name="Icon" sprite="ui_game_symbol_pen" style="icon32px" pos="8,-3" foregroundlayer="true"/>
+			<label depth="4" name="Name" pos="160,-20" width="200" height="28" text="Name" font_size="28" justify="center" pivot="center"/>
+			<label depth="4" name="Distance" pos="312,-20" width="60" height="28" text="0.7KM" font_size="28" justify="center" pivot="center"/>
+		</rect>
+	</invites_entry>	
+	
+	<players_header>
+		<panel name="header" depth="0" pos="-3,-3" height="746" disableautobackground="true"> <!-- backgroundcolor="[lightGrey]" bordercolor="[black]" borderthickness="3" -->
+			<sprite depth="10" name="backgroundMain" sprite="menu_empty3px" pos="3,-43" width="1292" height="52" color="[black]" type="sliced" fillcenter="false" />
+			<sprite color="[mediumGrey]" type="sliced" pos="6,-46" height="49" width="1287" />
+			<rect depth="1" name="steamId" width="154" height="46" pos="6,-6">
+				<label depth="1" name="text" pos="12,-50" height="28" text="STEAM ID" text_key="xuiSteamID" font_size="26" upper_case="true" />
+			</rect>
+
+			<rect depth="1" name="level" width="70" height="46" pos="173,-6">
+				<label depth="1" name="text" pos="0,-50" height="56" text="LEVEL" text_key="xuiLevel" font_size="24" justify="center" upper_case="true"/>
+			</rect>
+
+			<rect depth="1" name="gamestage" width="100" height="46" pos="243,-6">
+				<label depth="1" name="text" pos="0,-50" height="56" text="GAME STAGE" text_key="xuiGameStage" font_size="24" justify="center" upper_case="true"/>
+			</rect>
+
+			<rect depth="1" name="party" width="70" height="46" pos="361,-6">
+				<label depth="1" name="text" pos="0,-50" height="56" text="PARTY" text_key="xuiParty" font_size="24" justify="center" upper_case="true"/>
+			</rect>
+
+			<rect depth="1" name="allies" width="70" height="46" pos="439,-6">
+				<label depth="1" name="text" pos="0,-50" height="28" text="ALLIES" text_key="xuiAllies" font_size="26" justify="center" upper_case="true"/>
+			</rect>
+
+			<rect depth="1" name="voice" width="80" height="46" pos="522,-6">
+				<label depth="1" name="text" pos="0,-50" height="28" text="VOICE" text_key="xuiVoice" font_size="26" justify="center" upper_case="true"/>
+			</rect>
+
+			<rect depth="1" name="km" width="60" height="46" pos="618,-6">
+				<label depth="1" name="text" pos="0,-50" height="28" text="KM" text_key="xuiKM" font_size="26" justify="center" upper_case="true"/>
+			</rect>
+
+			<rect depth="1" name="map" width="100" height="86" pos="671,-6">
+				<label depth="1" name="text" pos="0,-50" height="28" text="MAP" text_key="xuiMap" font_size="26" justify="center" upper_case="true"/>
+			</rect>
+
+			<!-- <rect depth="1" name="allies" width="80" height="46" pos="714,-6"> -->
+				<!-- <label depth="1" name="text" pos="0,-50" height="28" text="ALLIES" text_key="xuiAllies" font_size="26" justify="center"/> -->
+			<!-- </rect> -->
+
+			<!-- <rect depth="1" name="party" width="80" height="46" pos="797,-6"> -->
+				<!-- <label depth="1" name="text" pos="0,-50" height="28" text="PARTY" text_key="Party" font_size="26" justify="center"/> -->
+			<!-- </rect> -->
+
+			<rect depth="1" name="zombieKills" width="100" height="46" pos="770,-6">
+				<label depth="1" name="text" pos="0,-50" height="28" text="ZOMBIE KILLS" text_key="xuiEnemyKills" font_size="26" justify="center" upper_case="true"/>
+			</rect>
+
+			<rect depth="1" name="playerKills" width="100" height="46" pos="913,-6">
+				<label depth="1" name="text" pos="0,-50" height="56" text="PLAYER KILLS" text_key="xuiPlayerKills" font_size="24" justify="center" upper_case="true"/>
+			</rect>
+
+			<rect depth="1" name="deaths" width="80" height="86" pos="1056,-6">
+				<label depth="1" name="text" pos="0,-50" height="28" text="DEATHS" text_key="xuiDeaths" font_size="26" justify="center" upper_case="true"/>
+			</rect>
+
+			<rect depth="1" name="ping" width="80" height="46" pos="1129,-6">
+				<label depth="1" name="text" pos="0,-50" height="28" text="PING" text_key="xuiPing" font_size="26" justify="center" upper_case="true"/>
+			</rect>
+
+			<rect depth="1" name="reportheader" width="80" height="46" pos="1212,-6" color="[darkGrey]" type="sliced">
+				<label depth="1" name="text" pos="0,-50" height="28" text_key="xuiPlayersReportPlayerCol" font_size="26" justify="center" upper_case="true" />
+			</rect>
+		</panel>
+	</players_header>
+
+	<players_entry>
+		<rect depth="1" width="1290" height="43" pos="6,-6" disabled_color="[disabledLabelColor]" alternating_color="[darkestGrey]" controller="PlayersListEntry">
+			<sprite depth="10" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="1292" height="49" color="[black]" type="sliced" fillcenter="false" />
+			<sprite name="background" color="[darkGrey]" height="46" width="1290" pos="-2,2" type="sliced" />
+			<rect depth="1" name="steamId" width="154" height="43" pos="0,0" color="[darkGrey]" type="sliced">
+				
+				<label depth="1" name="steamIdText" pos="12, -10" width="150" height="28" text="" font_size="26" />
+				<sprite name="admin" width="20" height="20" pos="152, -21" pivot="right" color="[selectedColor]" sprite="ui_game_symbol_star" tooltip_key="xuiIsAdmin" />
+			</rect>
+			
+			<rect depth="1" name="level" width="70" height="43" pos="167,0" color="[darkGrey]" type="sliced">
+				<label depth="1" name="levelText" pos="0,-10" height="28" text="" font_size="26" justify="center"/>
+			</rect>
+			
+			<rect depth="1" name="gamestage" width="70" height="43" pos="247,0" color="[darkGrey]" type="sliced">
+				<label depth="1" name="gamestageText" pos="0,-10" height="28" text="" font_size="26" justify="center"/>
+			</rect>
+			
+			<rect depth="1" name="party" width="70" height="43" pos="350,0" color="[darkGrey]" type="sliced">
+				<label depth="1" name="labelPartyIcon" pos="3,-10" height="28" text="--" font_size="26" justify="center"/>
+				<button depth="1" name="iconPartyIcon" style="icon32px, press, hover" pos="40,-22" pivot="center" sprite="ui_game_symbol_party" color="[lightGrey]" disabledcolor="[disabledLabelColor]" sound="[craft_click]" />
+			</rect>
+			
+			<rect depth="1" name="allies" width="70" height="43" pos="430,0" color="[darkGrey]" type="sliced">
+				<label depth="1" name="labelAllyIcon" pos="3,-10" height="28" text="--" font_size="26" justify="center"/>
+				<button depth="1" name="iconAllyIcon" style="icon32px, press, hover" pos="40,-22" pivot="center" sprite="ui_game_symbol_players" color="[lightGrey]" disabledcolor="[disabledLabelColor]" sound="[craft_click]" />
+			</rect>
+			
+			<rect depth="1" name="voice" width="80" height="43" pos="514,0" color="[darkGrey]" type="sliced">
+				
+				<sprite depth="1" name="iconVoice" style="icon32px" pos="24,-6" sprite="ui_game_symbol_mic" color="[lightGrey]" />					
+			</rect>
+			
+			<rect depth="1" name="km" width="60" height="43" pos="612,0" color="[darkGrey]" type="sliced">
+				<label depth="1" name="labelDistanceWalked" pos="0,-10" height="28" text="-" font_size="26" justify="center"/>
+			</rect>
+			
+			<rect depth="1" name="map" width="100" height="43" pos="665,0" color="[darkGrey]" type="sliced">
+				<label depth="0" name="labelShowOnMap" pos="0,-10" height="28" text="--" font_size="26" justify="center"/>
+				<button depth="1" name="iconShowOnMap" style="icon32px, press, hover" pos="50,-22" pivot="center" sprite="ui_game_symbol_map" color="[lightGrey]" disabledcolor="[disabledLabelColor]" sound="[craft_click]" tooltip="Show on Map" tooltip_key="lblShowOnMap" />
+			</rect>
+			
+			<rect depth="1" name="zombieKills" width="80" height="43" pos="774,0" color="[darkGrey]" type="sliced">
+				
+				<label depth="1" name="zombieKillsText" pos="0,-10" height="28" text="" font_size="26" justify="center"/>
+			</rect>
+			
+			<rect depth="1" name="playerKills" width="80" height="43" pos="917,0" color="[darkGrey]" type="sliced">
+				
+				<label depth="1" name="playerKillsText" pos="0,-10" height="28" text="" font_size="26" justify="center"/>
+			</rect>
+			
+			<rect depth="1" name="deaths" width="80" height="43" pos="1050,0" color="[darkGrey]" type="sliced">
+				<label depth="1" name="deathsText" pos="0,-10" height="28" font_size="26" justify="center"/>
+			</rect>
+			
+			<rect depth="1" name="ping" width="80" height="43" pos="1123,0" color="[darkGrey]" type="sliced">
+				
+				<label depth="1" name="pingText" pos="0,-10" height="28" text="--" font_size="26" justify="center"/>
+			</rect>
+			
+			<rect depth="1" name="report" width="80" height="43" pos="1206,0" color="[darkGrey]" type="sliced">
+				<label depth="0" name="labelReportPlayer" pos="0,-10" height="28" text="--" font_size="26" justify="center"/>
+				<button depth="1" name="iconReportPlayer" style="icon32px, press, hover" pos="40,-22" pivot="center" sprite="ui_game_symbol_quest" color="[lightGrey]" sound="[craft_click]" tooltip_key="xuiPlayersReportPlayer" />
+			</rect>
+		</rect>
+	</players_entry>
+	
+	<vehicle_part_slot>
+		<rect controller="VehiclePartStack" style="vehicleStack, hover" >
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="380" height="63" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite name="background" color="[darkGrey]" height="59" pos="0,1" type="sliced"/>
+			<label depth="4" pos="16,-10" width="250" height="28" text="{partname}" font_size="26" justify="left" />
+			<!-- <label depth="4" pos="230,-10" width="50" height="28" text="{partquality}" font_size="26" justify="right" /> -->
+			
+			<!-- <sprite depth="2" width="265" pos="15, -37" height="10" type="sliced" color="[black]" visible="{partvisible}" foregroundlayer="true" /> -->
+			<!-- <sprite depth="2" width="263" pos="16, -38" height="8" type="sliced" color="[mediumGrey]" visible="{partvisible}" foregroundlayer="true" /> -->
+			<!-- <sprite depth="2" name="sprFill" width="263" pos="16, -38" height="8" type="filled" color="{partcolor}" fill="{partfill}" visible="{partvisible}" foregroundlayer="true" /> -->
+			
+			<sprite name="itemIcon" depth="4" width="50" height="50" atlas="{partatlas}" sprite="{particon}" pos="330,-30" pivot="center" color="{particoncolor}" foregroundlayer="true" />
+			
+			<label depth="4" pos="16,-16" width="350" height="28" text="EMPTY MODIFIER SLOT" font_size="26" justify="center" visible="{emptyvisible}" />
+		</rect>
+	</vehicle_part_slot>
+	
+	<item_part_slot>
+		<rect controller="ItemPartStack" style="itemPartStack, hover" >
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="380" height="63" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite name="background" color="[darkGrey]" height="59" pos="0,1" type="sliced"/>
+			<label depth="4" pos="16,-13" width="250" height="28" text="{partname}" font_size="26" justify="left" />
+			<!-- <label depth="4" pos="230,-13" width="50" height="28" text="{partquality}" font_size="26" justify="right" /> -->
+			
+			<!-- <sprite depth="2" width="265" pos="15, -37" height="10" type="sliced" color="[black]" visible="{partvisible}" foregroundlayer="true" /> -->
+			<!-- <sprite depth="2" width="263" pos="16, -38" height="8" type="sliced" color="[mediumGrey]" visible="{partvisible}" foregroundlayer="true" /> -->
+			<!-- <sprite depth="2" name="sprFill" width="263" pos="16, -38" height="8" type="filled" color="{partcolor}" fill="{partfill}" visible="{partvisible}" foregroundlayer="true" /> -->
+			
+			<sprite name="itemIcon" depth="4" width="50" height="50" atlas="{partatlas}" sprite="{particon}" color="{particoncolor}" visible="{partvisible}" pos="330,-30" pivot="center" foregroundlayer="true" />
+			
+			<label depth="4" pos="16,-16" width="350" height="28" text="EMPTY MODIFIER SLOT" font_size="26" justify="center" visible="{emptyvisible}" />
+		</rect>
+	</item_part_slot>
+	
+	<item_part_slot_cosmetic>
+		<rect controller="ItemCosmeticStack" style="itemPartStack, hover" >
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="380" height="63" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite name="background" color="[darkGrey]" height="59" pos="0,1" type="sliced"/>
+			<label depth="4" pos="16,-13" width="250" height="28" text="{partname}" font_size="26" justify="left" />
+			<!-- <label depth="4" pos="230,-13" width="50" height="28" text="{partquality}" font_size="26" justify="right" /> -->
+			
+			<!-- <sprite depth="2" width="265" pos="15, -37" height="10" type="sliced" color="[black]" visible="{partvisible}" foregroundlayer="true" /> -->
+			<!-- <sprite depth="2" width="263" pos="16, -38" height="8" type="sliced" color="[mediumGrey]" visible="{partvisible}" foregroundlayer="true" /> -->
+			<!-- <sprite depth="2" name="sprFill" width="263" pos="16, -38" height="8" type="filled" color="{partcolor}" fill="{partfill}" visible="{partvisible}" foregroundlayer="true" /> -->
+			
+			<sprite name="itemIcon" depth="4" width="50" height="50" atlas="{partatlas}" sprite="{particon}" color="{particoncolor}" visible="{partvisible}" pos="330,-30" pivot="center" foregroundlayer="true" />
+			
+			<label depth="4" pos="16,-16" width="350" height="28" text="EMPTY COSMETIC SLOT" font_size="26" justify="center" visible="{emptyvisible}" />
+		</rect>
+	</item_part_slot_cosmetic>
+	
+	<forge_material>
+		<table depth="1" columns="2">
+			<label depth="2" name="material" style="workstation.reserve.name"/>
+			<label depth="2" name="weight" style="workstation.reserve.weight"/>
+		</table>
+	</forge_material>
+	
+	<popup_menu_item>		
+		<rect depth="15" height="43" style="press, hover" disabled_font_color="148,148,148,255" controller="PopupMenuItem" sound="[craft_click]">
+			<sprite name="background" type="sliced" color="64,64,64,255" />
+			<sprite depth="4" style="icon32px" pos="8,-3" sprite="{menuicon}" color="{statuscolor}" />
+			<label name="lblText" depth="4" pos="50,-8" width="{backgroundwidth}" height="28" text="{menutext}" font_size="22" color="{statuscolor}" justify="left" />
+		</rect>
+	</popup_menu_item>
+	
+	<radial_entry>
+		<rect depth="15" height="75" width="75" style="hover" highlight_color="[selectedColor]" pivot="center" controller="RadialEntry">
+			<sprite depth="1" height="79" width="79" name="border" sprite="ui_game_filled_circle" color="0,0,0,128" pivot="center"/>
+			<sprite depth="2" name="background" sprite="ui_game_filled_circle" color="96,96,96,192" pivot="center"/>
+			<sprite depth="3" height="56" width="56" name="icon" atlas="UIAtlas" color="255,255,255,255" pivot="center" foregroundlayer="true"/>
+			<label depth="4" name="text" width="48" height="48" pos="-15,15" font_size="28" color="[white]" justify="center" effect="outline" pivot="center" visible="false"/>
+		</rect>
+	</radial_entry>
+	
+	<skill_entry>
+		<panel disableautobackground="true" depth="2" width="645" height="46" controller="SkillEntry" style="press, hover, scroll" enabled_color="[iconColor]" disabled_color="[disabledLabelColor]" row_color="[darkGrey]" hover_color="[mediumGrey]" sound="[recipe_click]">
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,2" width="647" height="48" color="[black]" type="sliced" fillcenter="false" />
+			
+			<sprite depth="1" color="{rowstatecolor}" sprite="{rowstatesprite}" width="644"  height="45" type="sliced" />
+			
+			<sprite depth="2" name="groupIcon" sprite="{groupicon}" style="icon32px" pos="6, -3" color="{statuscolor}" foregroundlayer="true"/>
+			<label width="386" name="groupName" pos="44,-7" depth="2" text="{groupname}" color="{statuscolor}"/>
+			
+			<!-- <sprite depth="3" pos="0,-39" height="3" width="640" color="[lightGrey]" foregroundlayer="true" visible="{skillpercentshouldshow}" type="sliced" /> -->
+			<!-- <sprite depth="3" pos="0,-39" height="3" width="640" color="[red]" foregroundlayer="true" type="filled" fill="{skillpercentthislevel}" visible="{skillpercentshouldshow}" /> -->
+			
+			<sprite depth="2" pos="486,-19" sprite="ui_game_symbol_lock" visible="{islocked}" style="icon32px" pivot="center" color="{statuscolor}" foregroundlayer="true"/>
+			<label width="125" pos="486,-19" depth="2" text="{grouplevel}" visible="{isnotlocked}" pivot="center" justify="center" color="{statuscolor}"/>
+			
+			<!--<sprite pos="492,-19" depth="2" sprite="{grouptypeicon}" style="icon32px" pivot="center" color="{statuscolor}" foregroundlayer="true"/>-->
+			
+			<sprite depth="2" pos="593,-19" sprite="ui_game_symbol_check" visible="{cannotpurchase}" style="icon32px" pivot="center" color="{statuscolor}" foregroundlayer="true" />
+			<label width="90" pos="593,-19" depth="2" text="{grouppointcost}" visible="{canpurchase}" pivot="center" justify="center" color="{statuscolor}"/>
+		</panel>
+	</skill_entry>
+	
+	<skill_requirement>
+		<rect controller="SkillRequirementEntry">
+			<sprite depth="2" style="icon30px" pos="5,-2" color="{requirementcolor}" sprite="{skillicon}" visible="{hasrequirement}" />
+			<label depth="1" pos="0,-4" text="{requirementtext}" upper_case="true" font_size="26" visible="{hasrequirement}" height="43" width="322" color="{requirementcolor}" justify="center" />
+		</rect>
+	</skill_requirement>
+	
+	<skill_attribute>
+		<rect controller="SkillAttributeEntry">
+			<label depth="1" pos="0,-4" text="{attribute}" upper_case="true" font_size="26" visible="{hasattribute}" height="43" width="322" color="{lockedcolor}" justify="left" />
+		</rect>
+	</skill_attribute>
+
+	<skill_attribute_level>
+		<panel disableautobackground="true" controller="SkillAttributeLevel" width="${width}" height="${height}" style="hover, scroll" color_bg_bought="140,130,100,255" color_bg_available="[lightGrey]" color_bg_locked="[darkGrey]" color_lbl_available="[white]" color_lbl_locked="[lightGrey]" color_lbl_nerfed="204,17,17" color_lbl_buffed="17,204,17" visible="{nothiddenbypager}" >
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty2px" pos="0,${-height}" height="2" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="1" name="backgroundMainColor" sprite="menu_empty" pos="2,0" width="${width-4}" type="sliced" fillcenter="true" color="{color_bg}" visible="{hasentry}" />
+			<label depth="3" pos="5,-${Round(height/2,0)}" text="{level}" pivot="left" justify="center" width="65" font_size="30" color="{color_fg}" visible="{hasentry}" />
+			<label depth="3" pos="77,-${Round(height/2,0)}" text="{text}" pivot="left" justify="left" width="493" font_size="24" color="{color_fg}" visible="{hasentry}" />
+			<button depth="3" name="btnBuy" pos="${width-36},-${Round(height/2,0)}" style="icon30px, press, hover" sprite="{buyicon}" pivot="center" tooltip="{buytooltip}" sound="[paging_click]" defaultcolor="{buycolor}" manualcolors="true" visible="{buyvisible}" />
+		</panel>
+	</skill_attribute_level>
+	
+	<skill_skill_milestone>
+		<rect controller="SkillSkillMilestone" width="${width}" height="${height}" color_lbl_available="[white]" color_lbl_locked="[lightGrey]" >
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty2px" pos="0,${-height}" height="2" color="[black]" type="sliced" fillcenter="false" visible="{hasentry}" />
+			<filledsprite depth="1" name="backgroundMainColor" pos="3,0" width="${width-6}" sprite="menu_empty" color="140,130,100,255" fill="{progress}" visible="{hasentry}" />
+			
+			<label depth="3" pos="5,-${Round(height/2,0)}" text="{level}" pivot="left" justify="center" width="65" font_size="36" color="{color_fg}" visible="{hasentry}" />
+
+			<label depth="3" pos="77,-${Round(height/2,0)}" width="260" pivot="left" justify="left" font_size="24" text="{effectsCol1}" color="{color_fg}" visible="{hasentry}" />
+			<label depth="3" pos="345,-${Round(height/2,0)}" width="260" pivot="left" justify="left" font_size="24" text="{effectsCol2}" color="{color_fg}" visible="{hasentry}" />
+			
+			<sprite depth="3" pos="${width-36},-${Round(height/2,0)}" style="icon30px, hover" sprite="{icon}" pivot="center" tooltip="{icontooltip}" visible="{iconvisible}" />
+		</rect>
+	</skill_skill_milestone>
+	
+	<skill_perk_level>
+		<panel disableautobackground="true" controller="SkillPerkLevel" width="${width}" height="${height}" style="hover, scroll" color_bg_bought="140,130,100,255" color_bg_available="[lightGrey]" color_bg_locked="[darkGrey]" color_lbl_available="[white]" color_lbl_locked="[lightGrey]" color_lbl_nerfed="204,17,17" color_lbl_buffed="17,204,17" visible="{nothiddenbypager}" >
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty2px" pos="0,${-height}" height="2" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="1" name="backgroundMainColor" sprite="menu_empty" pos="2,0" width="${width-4}" type="sliced" fillcenter="true" color="{color_bg}" visible="{hasentry}" />
+			<label depth="3" pos="5,-${Round(height/2,0)}" text="{level}" pivot="left" justify="center" width="65" font_size="48" color="{color_fg}" visible="{hasentry}" />
+			<label depth="3" pos="77,-${Round(height/2,0)}" text="{text}" pivot="left" justify="left" width="493" font_size="40" color="{color_fg}" visible="{hasentry}" />
+			<button depth="3" name="btnBuy" pos="${width-36},-${Round(height/2,0)}" style="icon30px, press, hover" sprite="{buyicon}" pivot="center" tooltip="{buytooltip}" sound="[paging_click]" defaultcolor="{buycolor}" manualcolors="true" visible="{buyvisible}" />
+		</panel>
+	</skill_perk_level>
+	
+	<skill_book_level>
+		<panel disableautobackground="true" controller="SkillBookLevel" width="${width}" height="${height}" style="hover" color_bg_bought="140,130,100,255" color_bg_available="[lightGrey]" color_bg_locked="[darkGrey]" color_lbl_available="[white]" color_lbl_locked="[lightGrey]" color_lbl_nerfed="204,17,17" color_lbl_buffed="17,204,17" >
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty2px" pos="0,${-height}" height="2" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="1" name="backgroundMainColor" sprite="menu_empty" pos="2,0" width="${width-4}" type="sliced" fillcenter="true" color="{color_bg}" visible="{hasentry}" />
+			<label depth="3" pos="-6,-${Round(height/2,0)}" text="{level}" pivot="left" justify="center" width="65" font_size="48" color="{color_fg}" visible="{hasentry}" />
+			<sprite depth="3" pos="27,-${Round(height/2,0)}" style="icon30px" sprite="ui_game_symbol_perk" pivot="center" color="{completecolor}" visible="{iscomplete}" />
+			<label depth="3" pos="66,-${Round(height/2,0)}" text="{text}" pivot="left" justify="left" width="504" font_size="24" color="{color_fg}" visible="{hasentry}" />
+			<sprite depth="3" name="btnBuy" pos="${width-32},-${Round(height/2,0)}" style="icon30px" sprite="{buyicon}" pivot="center" tooltip="{buytooltip}" color="{buycolor}" visible="{buyvisible}" />
+		</panel>
+	</skill_book_level>
+
+	<quest_entry>
+		<rect width="450" height="43" controller="QuestEntry" style="press, hover, scroll" enabled_color="[iconColor]" disabled_color="[disabledLabelColor]" row_color="[darkGrey]" hover_color="[mediumGrey]" sound="[recipe_click]" 
+				failed_color="255,0,0,255" complete_color="[disabledLabelColor]" finished_color="0,255,0,255" shared_color="[iconColor]"
+				failed_icon="ui_game_symbol_x" complete_icon="ui_game_symbol_check" finished_icon="ui_game_symbol_check" shared_icon="ui_game_symbol_players">
+			<sprite depth="3" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="450" height="49" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="1" name="background" pos="-1,1" height="45" width="446" color="{rowstatecolor}" sprite="{rowstatesprite}" type="sliced" />
+			<sprite depth="5" name="Icon" style="icon32px" pos="8,-3" foregroundlayer="true" sprite="{questicon}" color="{iconcolor}" />
+			<sprite depth="4" name="Tracking" sprite="ui_game_symbol_compass" style="icon32px" pos="52,-4" foregroundlayer="true" visible="{istracking}"/>
+			<label depth="4" name="Name" pos="102,-8" width="330" height="30" text="{questname}" color="{textstatecolor}" />
+			<label depth="4" name="Distance" pos="340,-8" width="100" height="30" text="{distance}" justify="right" />
+		</rect>
+	</quest_entry>
+	
+	<quest_objective_entry>
+		<rect width="300" height="43" controller="QuestObjectiveEntry"  complete_icon="ui_game_symbol_check" incomplete_icon="ui_game_symbol_x" notstarted_icon="ui_game_symbol_quest" complete_color="[green]" incomplete_color="[red]" notstarted_color="[white]" visible="{hasobjective}" >
+			
+			<sprite depth="2" name="iconTrack" style="icon22px" pos="4,0" color="{objectivecompletecolor}" sprite="{objectivecompletesprite}" />
+			
+			<!-- <sprite depth="0" name="Icon" sprite="ui_game_symbol_pen" style="icon32px" pos="8,-3" foregroundlayer="true" visible="false"/> -->
+			<label depth="4" name="Description" pos="30,2" width="250" height="28" text="{objectiveoptional}{objectivedescription} [DECEA3]{objectivestate}[-]" color="{objectivephasecolor}" upper_case="true"  font_size="26" />
+		</rect>
+	</quest_objective_entry>
+	
+	<quest_objective_tracker_entry>
+		<rect width="300" height="26" controller="QuestTrackerObjectiveEntry" visible="{hasobjective}" >
+			
+			<sprite depth="2" name="iconTrack" style="icon22px" pos="280,2" color="{objectivecompletecolor}" sprite="{objectivecompletesprite}" visible="{objectiveshowicon}" />
+			
+			<label depth="1" pos="0,4" text="{objectiveoptional}[{objectivephasehexcolor}]{objectivedescription}[-] [{objectivecompletehexcolor}]{objectivestate}[-]" upper_case="true" font_size="26" justify="right" visible="{hasobjective}" width="{objectivetextwidth}" />
+		</rect>
+	</quest_objective_tracker_entry>
+	
+	
+	<quest_reward_entry>
+		<rect width="625" height="43" controller="QuestRewardEntry" visible="{hasreward}" >
+			<sprite depth="0" name="Icon" sprite="{rewardicon}" style="icon22px" pos="4,0" foregroundlayer="true" UIAtlas="{rewardiconatlas}"/>
+			<label depth="4" name="Description" pos="30,0" width="600" height="28" text="{rewardtype}: {rewarddescription}: [DECEA3]{rewardvalue}[-]" upper_case="true"  font_size="26" />
+		</rect>
+	</quest_reward_entry>
+	
+	<quest_reward_entry2>
+		<rect width="625" controller="QuestRewardEntry2" visible="{hasreward}" >
+			<sprite depth="0" name="Icon" sprite="{rewardicon}" style="icon22px" pos="4,0" foregroundlayer="true" UIAtlas="{rewardiconatlas}"/>
+			<label depth="4" name="Description" pos="30,0" width="600" text="{rewarddescription}" font_size="26" />
+		</rect>
+	</quest_reward_entry2>
+	
+	<quest_search>
+		<panel controller="TextInput" pos="0,0" width="100" height="30" value="SEARCH" active_text_color="[white]"
+			caret_color="[white]" selection_color="[mediumGrey_half_alpha]" character_limit="13" validation="none"
+			backgroundcolor="[black]" on_press="true" style="select" snapCursor="true" virtual_keyboard_prompt="vkPromptSearchTerm" search_field="true">
+			<sprite depth="0" name="background" color="[black]" type="sliced"/>
+			<label depth="1" name="text" pos="0,-2" justify="center" pivot="topleft" upper_case="false"/>
+		</panel>
+	</quest_search>
+	
+	<!--#$-IGS BEGIN: Adding callout control. -$#-->
+	<gamepad_callout>
+		<rect width="100" height="60" controller="XUiC_GamepadCallout" >
+			<sprite depth="1" name="icon" size="35,35" pos="0,0" pivot="TopLeft" sprite="" />
+			<label depth="1" name="action" size="125,48" pos="40,0" pivot="TopLeft" justify="center" text="calloutText" font_face="AGENCYB" font_size="32" color="255,255,255" overflow="resizefreely"/>
+		</rect>
+	</gamepad_callout>
+	<!--*#$-IGS END.-$#-->
+	
+	<journal_entry>
+		<rect width="450" height="43" controller="JournalEntry" style="press, hover, scroll" enabled_color="[iconColor]" disabled_color="[disabledLabelColor]" failed_color="255,0,0,255" row_color="[darkGrey]" hover_color="[mediumGrey]" sound="[recipe_click]" failed_icon="ui_game_symbol_x" >
+			<sprite depth="3" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="450" height="49" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="1" name="background" pos="-1,1" height="45" width="446" color="{rowstatecolor}" sprite="{rowstatesprite}" type="sliced" />
+			<sprite depth="5" name="Icon" style="icon32px" pos="8,-3" foregroundlayer="true" sprite="{entryicon}" color="{iconcolor}" />
+			<label depth="4" name="Name" pos="45,-8" width="330" height="30" text="{entrytitle}" color="{textstatecolor}" />
+		</rect>
+	</journal_entry>
+
+	<trader_item>
+		<rect height="43" style="press, hover, scroll" controller="TraderItemEntry" disabled_font_color="[disabledLabelColor]" enabled_font_color="[labelColor]" sound="[recipe_click]" >
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="645" height="49" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="3" name="background" width="100%" height="45" pos="0,1" color="[darkGrey]" type="sliced" />
+			<sprite depth="4" name="Icon" atlas="ItemIconAtlas" sprite="{itemicon}" color="{itemicontint}" size="38,38" pos="34,-22" pivot="center" foregroundlayer="true"/>
+			<sprite depth="8" name="itemtypeicon" width="12" height="12" sprite="ui_game_symbol_{itemtypeicon}" pos="2,-2" foregroundlayer="true" visible="{hasitemtypeicon}" color="{itemtypeicontint}" />
+			
+			<label depth="4" name="Name" pos="70,-6" width="325" height="30" text="{itemname}" font_size="28" color="{statecolor}" justify="left" />
+			
+			<sprite depth="3" name="durabilityBackground" width="50" height="6" sprite="menu_empty3px" color="[black_half_alpha]" type="sliced" pos="455, -36" foregroundlayer="true" visible="{hasdurability}"/>
+			<sprite depth="4" name="durabilityBar" height="6" width="50" color="{durabilitycolor}" type="filled" fill="{durabilityfill}" pos="455, -36" visible="{hasdurability}" />
+			<label  depth="4" name="durabilityValue" height="28"  width="120" text="{durabilityvalue}" font_size="28" justify="center" pos="420,-6"  />
+			
+			<label depth="4" name="price" height="30" text="{itemprice}" font_size="28" width="100" justify="center" pos="542,-6" color="{pricecolor}" />
+		</rect>
+	</trader_item>	
+	
+	<response_entry>
+		<rect width="600" height="43" style="press, hover, scroll" enabled_color="[iconColor]" disabled_color="[disabledLabelColor]" row_color="[white]" hover_color="[hoverColor]" 
+			sound="[recipe_click]" controller="DialogResponseEntry" visible="{showresponse}">
+			
+			<sprite depth="5" name="Icon" style="icon22px" pos="8,-6" foregroundlayer="true" sprite="ui_game_symbol_bullet_point" color="{rowstatecolor}" />
+			<label depth="4" name="Text" pos="47,-3" width="594" height="37" text="{response}" effect="outline" color="{rowstatecolor}" />
+		</rect>
+	</response_entry>
+	
+	<text_area>
+		<panel depth="1" controller="TextInput" pos="6,-6" width="250" height="120" value="SEARCH"
+		active_text_color="[white]" caret_color="[white]" selection_color="[mediumGrey_half_alpha]" on_return="NewLine"
+			character_limit="100" validation="none" backgroundcolor="[black]" on_press="true" style="select" snapCursor="true">
+			<sprite depth="0" name="background" color="[transparent]" type="sliced"/>
+			<label depth="1" name="text" pos="0,-2" justify="center" pivot="topleft" upper_case="false"/>
+		</panel>
+	</text_area>
+	
+	<sign_text_area>
+		<rect depth="1" controller="TextInput" pos="6,-6" width="294" height="120" value="SEARCH"
+		active_text_color="[white]" caret_color="[white]" selection_color="[mediumGrey_half_alpha]" on_return="NewLine"
+			character_limit="100" validation="none" on_press="true" style="select" snapCursor="true" virtual_keyboard_prompt="vkPromptSignText">
+			<sprite depth="0" name="background" color="[transparent]" type="sliced"/>
+			<label depth="1" name="text" pos="0,-2" justify="center" pivot="topleft" upper_case="false" font_size="46"/>
+		</rect>
+	</sign_text_area>
+	
+	<option_selector>
+		<rect depth="3" controller="OptionsSelector">
+			<label depth="5" name="lblTitle" pos="0, -9" height="28" text="Start Time" font_size="26" justify="center"/>
+			<button depth="4" name="leftArrow" style="icon30px, press" pos="18,-52" sprite="ui_game_symbol_arrow_left" pivot="center" sound="[paging_click]"/>
+			<rect depth="4" name="textArea" pos="37,-37" height="30" width="150">
+				<sprite name="background" color="[black]" type="sliced" />
+				<label depth="5" name="lblText" pos="0, -3" color="[selectedColor]" text="Test Stuff" font_size="26" justify="center"/>
+			</rect>
+			<button depth="4" name="rightArrow" style="icon30px, press" pos="207,-52" sprite="ui_game_symbol_arrow_right" pivot="center" sound="[paging_click]"/>
+		</rect>
+	</option_selector>
+
+	<prefab_folder_entry>
+		<rect height="${height|30}" style="press, hover, scroll" disabled_font_color="[disabledLabelColor]" enabled_font_color="[labelColor]" sound="[recipe_click]" controller="PrefabFolderListEntry">
+			<sprite depth="3" name="backgroundMain" sprite="menu_empty" height="${1+height|31}" pos="2,0" width="${width-4|250}" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="2" name="background" color="[darkGrey]" pos="2,0" width="${width-4|250}" type="sliced" />
+			<label depth="4" name="Name" pos="4,${Round(-height/2,0)|-15}" width="${width-8|242}" height="${height-4|26}" text="{name}" font_size="${height-4|26}" justify="center" pivot="left" />
+		</rect>
+	</prefab_folder_entry>
+	
+	<prefab_group_entry>
+		<rect height="${height|30}" width="${width|250}" style="press, hover, scroll" disabled_font_color="[disabledLabelColor]" enabled_font_color="[labelColor]" sound="[recipe_click]" controller="ListEntry&lt;XUiC_PrefabGroupList.PrefabGroupEntry&gt;">
+			<sprite depth="3" name="backgroundMain" sprite="menu_empty" height="${1+height|31}" pos="0,0" width="${width|250}" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="2" name="background" color="[darkGrey]" pos="0,0" width="${width|250}" type="sliced" />
+			<label depth="4" name="Name" pos="4,${Round(-height/2,0)|-15}" width="${width-8|242}" height="${height-4|26}" text="{name}" font_size="${height-4|26}" justify="center" pivot="left" />
+		</rect>
+	</prefab_group_entry>
+	
+	<prefab_file_entry>
+		<rect height="${height|30}" width="${width|250}" style="press, hover, scroll" on_doubleclick="true" disabled_font_color="[disabledLabelColor]" enabled_font_color="[labelColor]" sound="[recipe_click]" controller="ListEntry&lt;XUiC_PrefabFileList.PrefabFileEntry&gt;">
+			<sprite depth="3" name="backgroundMain" sprite="menu_empty" height="${1+height|31}" pos="0,0" width="${width|250}" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="2" name="background" color="[darkGrey]" pos="0,0" width="${width|250}" type="sliced" />
+			<label depth="4" name="Name" pos="4,${Round(-height/2,0)|-15}" width="${width-8|242}" height="${height-4|26}" text="{name}" font_size="${height-4|26}" justify="center" pivot="left" />
+		</rect>
+	</prefab_file_entry>
+
+	<prefab_group_edit_entry>
+		<rect height="${height|30}" width="${width-3|250}" style="press, hover, scroll" disabled_font_color="[disabledLabelColor]" enabled_font_color="[labelColor]" sound="[recipe_click]" controller="ListEntry&lt;XUiC_PrefabGroupsEditorList.PrefabGroupEntry&gt;">
+			<sprite depth="3" name="backgroundMain" sprite="menu_empty" height="${1+height|31}" pos="2,0" width="${width-4|250}" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="2" name="background" color="[darkGrey]" pos="2,0" width="${width-4|250}" type="sliced" />
+			<sprite depth="4" name="tickbox" width="${height-6|26}" height="${height-6|26}" pos="7,-4" color="[darkGrey]" sprite="Highlight - Shadowed" type="sliced" visible="{assigned}" />
+			<sprite depth="5" name="tickmark" width="${height-12|20}" height="${height-12|20}" pos="10,-7" color="[iconColor]" sprite="ui_game_symbol_check" visible="{selected}" />
+			<label depth="4" name="Name" pos="${6+height|38},${Round(-height/2,0)|-15}" width="${width-height-8|242}" height="${height-4|26}" text="{name}" font_size="${height-4|26}" justify="left" pivot="left" />
+		</rect>
+	</prefab_group_edit_entry>
+	
+	<spawners_entry>
+		<rect height="${height|30}" width="${width}" style="press, hover, scroll" on_doubleclick="true" disabled_font_color="[disabledLabelColor]" enabled_font_color="[labelColor]" sound="[recipe_click]" controller="ListEntry&lt;XUiC_SpawnersList.SpawnerEntry&gt;">
+			<sprite depth="3" name="backgroundMain" sprite="menu_empty" height="${1+height|31}" pos="2,0" width="${width-4|250}" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="2" name="background" color="[darkGrey]" pos="2,0" width="${width-4|250}" type="sliced" />
+			<label depth="4" name="Name" pos="4,${Round(-height/2,0)|-15}" width="${width-8|242}" height="${height-4|26}" text="{name}" font_size="${height-4|26}" justify="center" pivot="left" />
+		</rect>
+	</spawners_entry>
+	
+	<entity_entry>
+		<rect height="${height|30}" width="${width}" style="press, hover, scroll" on_doubleclick="true" disabled_font_color="[disabledLabelColor]" enabled_font_color="[labelColor]" sound="[recipe_click]" controller="ListEntry&lt;XUiC_SpawnEntitiesList.SpawnEntityEntry&gt;">
+			<sprite depth="3" name="backgroundMain" sprite="menu_empty" height="${1+height|31}" pos="2,0" width="${width-4|250}" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="2" name="background" color="[darkGrey]" pos="2,0" width="${width-4|250}" type="sliced" />
+			<label depth="4" name="Name" pos="4,${Round(-height/2,0)|-15}" width="${width-8|242}" height="${height-4|26}" text="{name}" font_size="${height-4|26}" justify="center" pivot="left" />
+		</rect>
+	</entity_entry>
+	
+	<party_entry>
+		<rect width="168" height="37" controller="PartyEntry" visible="{partyvisible}">
+			
+			
+			<sprite depth="1" name="border" color="0,0,0,128" type="sliced"/>
+			
+			<sprite depth="2" name="background" color="0,0,0,140" height="37" type="sliced" />
+			<filledsprite depth="3" name="BarHealthModifiedMax" color="110,110,110,128" height="37" type="filled" fill="{healthmodifiedmax}" />
+			<!-- <filledsprite depth="3" name="BarStaminaModifiedMax" color="110,110,110,128" height="37" type="filled" fill="{staminamodifiedmax}" /> -->
+			
+			<filledsprite depth="5"  name="BarHealth" color="255,0,0,128" width="165" height="37" type="filled" fill="{healthfill}" />
+			<!-- <filledsprite depth="5"  name="BarStamina" color="0,54,255,128" height="37" type="filled" fill="{staminafill}" /> -->
+			
+			<sprite depth="1" name="border" color="0,0,0,255" width="168" height="37" type="sliced" fillcenter="false"/>
+			<filledsprite depth="8" name="BarHealthModifiedMax" color="0,0,0,255" width="167" fillcenter="false" type="filled" fill="{healthmodifiedmax}" />
+			<filledsprite depth="3" name="BarHealthModifiedMax" color="0,0,0,255" width="167" fillcenter="false" type="filled" fill="{healthmodifiedmax}" />
+			
+			
+			<label depth="6" name="TextContent" pos="6, -6" font_size="26" color="[white]" justify="left" pivot="topleft" text="{name}" height="30" width="124"/>
+			<label depth="6" name="TextContent" pos="200,-6" font_size="26" color="{distancecolor}" pivot="topleft" text="{distance}" height="30" effect="outline"/>
+			<sprite depth="8" name="leader" style="icon30px" pos="135,-3" sprite="{icon}" visible="{showicon}" />		
+			<sprite depth="8" name="arrowContent" style="icon22px" pos="184,-18" sprite="ui_game_symbol_map_player_arrow" visible="{showarrow}" pivot="center" color="{arrowcolor}" />		
+		</rect>
+	</party_entry>
+	
+	<quest_turnin_entry>
+		<rect pos="0,0" height="50" width="653" style="press, hover"  controller="QuestTurnInEntry" selected_color="[green]" default_color="[labelColor]">
+			<sprite name="backgroundMain" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false" />
+			<sprite depth="2" name="background" color="[darkGrey]" pos="2,-3" width="${width-4|648}" height="44" type="sliced" />
+			<sprite depth="4" name="ItemIcon" atlas="ItemIconAtlas" sprite="{rewardicon}" color="{rewardicontint}" size="38,38" pos="34,-25" pivot="center" foregroundlayer="true" visible="{hasitemreward}" />
+			<sprite depth="2" name="windowIcon" style="icon30px" pos="20,-10" sprite="{rewardicon}" visible="{hasotherreward}"/>
+			<sprite depth="8" name="itemtypeicon" width="12" height="12" sprite="ui_game_symbol_{itemtypeicon}" pos="6,-6" foregroundlayer="true" visible="{hasitemtypeicon}" color="{itemtypeicontint}" />
+			<!-- <sprite depth="2" name="windowIcon" style="icon30px" pos="600,-10" sprite="{chosenicon}" visible="{hasreward}" color="[green]" /> -->
+			<label pos="65,-10" depth="3" text="{rewardname}" color="{namecolor}" font_size="28" />
+			
+			<sprite depth="3" name="durabilityBackground" width="50" height="6" sprite="menu_empty3px" color="[black_half_alpha]" type="sliced" pos="585, -36" foregroundlayer="true" visible="{hasdurability}"/>
+			<sprite depth="4" name="durabilityBar" height="6" width="50" color="{durabilitycolor}" type="filled" fill="{durabilityfill}" pos="585, -36" visible="{hasdurability}" />
+			<label  depth="4" name="durabilityValue" height="28"  width="120" text="{durabilityvalue}" font_size="28" justify="center" pos="550,-6"  />
+		</rect>
+	</quest_turnin_entry>
+	
+	<shape_stack>
+		<rect style="itemStack, hover, scroll" collider_scale="1.0" controller="ShapeStack">
+			<sprite depth="2" name="backgroundMain" sprite="menu_empty3px" pos="-3,3" width="78" height="78" color="[black]" type="sliced" fillcenter="false" />	
+			<sprite depth="3" name="background" sprite="menu_empty3px" width="73" height="73" color="[darkGrey]" type="sliced" globalopacity="true" fillcenter="false"/>
+			<sprite depth="2" name="highlightOverlay" width="72" height="72" color="[darkGrey]" pos="0,0" type="sliced" globalopacity="true"/>
+			<sprite depth="4" name="itemIcon" width="64" height="64" atlas="ItemIconAtlas" sprite="{itemicon}" pos="35,-35" pivot="center" foregroundlayer="true"/>
+			
+			<!-- <label depth="7" name="stackValue" pos="0,-48" width="70" height="28" text="Test" effect="outline" font_size="26" justify="center"/> -->
+			<!--#$-IGS BEGIN: Setting itemName above the soft cursor. -$#-->
+			<label depth="12" name="itemName" pos="36,-36" width="0" height="0" text="" font_size="26" justify="center" pivot="center" overflow="resizefreely" effect="outline" above_soft_cursor="true" />
+			<!--*#$-IGS END.-$#-->
+		</rect>
+	</shape_stack>
+</controls>

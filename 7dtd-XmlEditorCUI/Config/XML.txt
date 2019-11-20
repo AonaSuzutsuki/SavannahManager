@@ -1,0 +1,3203 @@
+=====================================================================
+=====================================================================
+
+To Whom It May Concern:
+
+This file is a courtesy to modders, prefab builders, or anyone else incorrigibly curious and snooping around the XML config files.
+
+This information comes with no guarantees whatsoever.
+Tags and properties are added and removed in every major update and what they do or in which cases can change as well.
+
+Keeping all that information in "their" files started to become awkward because of the amount of notes so this file was added.
+
+Robert Hentschke aka Gazz.
+
+
+=====================================================================
+=====================================================================
+Index... kind of
+
+File: BLOCKS.XML
+Use of "Extends" in blocks.xml:
+Farming / Harvest yield of farmed crops.
+Trees growing to variable sizes depending on the soil.
+Upgrade and hit sounds
+Upgrade and hit sounds from textures
+Transparent / cutout meshes and frame blocks
+Global UV for dummies (A16)
+Blocks and light and plants.
+Textures and the map.
+Block default placement:  Place + HandleFace
+Upgrading and downgrading to random block targets.
+(A17) SortOrder / Sort Order on the Creative menu.
+<property name="EconomicValue" value="xxx" />  (integer)
+File: LOOT.XML
+Optional attributes of a lootcontainer:
+File: ITEMS.XML
+UMA Slots
+GENERAL computational order for determining effects and their magnitude, order of operations (OOO)
+Weather survival / temperature rebalance
+Items can be excluded from underwater use.
+How armor works in A14
+(Weapon) Degradation rate:
+Ballistic weapons with bullet drop.
+File: RECIPES.XML
+File: PROGRESSION.XML
+File: BUFFS.XML
+Icons usable for buffs:
+File: BIOMES.XML
+Icons for blocks and items:
+Armor value templates:
+File: SOUNDS.XML
+File: ENTITYCLASSES.XML
+Wandering Hordes / Gamestage
+Imposters / Distant POI
+Sleepers
+(A17) Stealth
+(A17) ISS - Integrated Survival System
+(A17) Weapons / mods
+(A17) Computational order for generating damage:
+(A17) Falling block / falling blocks damage / cave ins
+(A17) Screen effects and particles
+<!-- Template for adding a new shape to main building blocks
+
+=====================================================================
+=====================================================================
+
+Property:  IsDeveloper  (mostly blocks.xml + items.xml) ... is now obsolete.
+
+Enter Property:
+
+"CreativeMode", values: "Player,Dev,None,Test"
+Technically "All" is a value but that's the default so why bother?
+
+What this does is that the creative menu can display different sets of blocks in "player" and "dev/level builder" view mode.
+
+"Test" items are only enabled in the Unity editor AND if the Dev button is active in the creative menu.
+
+
+(A17)
+If you turn on the "dev button" on the creative menu you always see both "dev" and "player".
+
+With this button OFF:
+
+- In the editor you see "all" and "dev" items.
+- In game mode you see "all" and "player" items.
+
+"None" means no display ever. Like for master blocks that are not to be used directly.
+
+
+The property itself is not inherited by "Extends" so all child blocks / items remain visible.
+
+Extended items do NOT inherit auto-calculated weight.
+Only items with actual recipes have it.
+That's why cowboy boots (loot only but extending leather boots) did not scrap.
+
+
+=====================================================================
+=====================================================================
+
+File: BLOCKS.XML
+
+The block naming convention for "basic" blocks (with interchangeable textures) is
+[material|look|texture] [shape] [extra properties if needed]
+
+[Materials]: Generally speaking, the texture. If you search for "concreteTrimBlock" because you need that look, having "Trim" as an extra property after the shape might not be helpful.
+
+[Shape]: keeping it non-technical if possible.
+
+block - basic full meter square.
+half - value="Half"
+quarter - value="Quarter"
+eighth - value="Eighth" 
+pyramid - value="Pyramid"
+sheet - one side of a block, a billboard
+sheet2 - value="shantyWall01Sheet2" - "shantyWall04Sheet2"
+sheet3 - value="curtain"
+sheet4 - value="HousingDecor/Boarded_windows" or other custom models
+CTRSheet - like windows or glass panes
+ramp - the basic 45 degree triangle shapes
+stairs25 - value="StairsFilled" / "StairsFilledVerticalUV" 25 cm steps
+stairs50 - value="StairsQuarterFilled" 50 cm steps
+stairsBoard - value="Stairs"
+pole - value="Pole"
+poleSupportCtr - value="pole_diagonal_centered"
+poleSupport - value="pole_diagonal"
+poleSupport2 - value="pole_diagonal_2"
+crossCtr - value="pole_diagonal_centered_cross"
+cross - value="pole_diagonal_cross"
+plate - value="Plate"
+CTRPlate - value="PlateCentered"
+TRN - value="Terrain" 
+wedge - value="Wedged60Full"
+wedgeTip - value="Wedged60Tip"
+curb - sidewalk  value="Curb"
+CNRCurb - value="Curb_Corner"
+pillar100 - value="Pole1m" 100 cm version
+pillar50 - 50 cm version
+CNRFull - value="WedgedCornerFull" corner with a full (square) base for outside pyramid roofs
+CNRRamp -  value="WedgedCorner" corner with a half (triangle) base for outside pyramid roofs
+CNRInside - value="WedgedInnerFull"  concave shape for roofs
+CNRRound - value="corner_round1m"
+gable - value="Gable" small triangle tip for roofs
+support  - value="Branch", 45° angled beam
+
+Example
+
+awningRedBlock
+rebarFrameRamp
+rConcreteCNRFull
+rConcretePlate
+curtainBottomSheet01
+sandTRN
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+NOTE: This plan was implemented only partially (tree, cnt) - maybe some day... or another system will be used.
+I'll leave it in for future reference. Gazz
+
+Many blocks like "scrapIronPile" have unique models / shapes.
+For these I would use 
+MDL [type|category] [Name]
+
+
+
+[Type]:
+
+cnt - container, typically loot;  (I would call block-based containers like "CntWeaponsBlock")
+      I would also mislabel the damage 2 car so it stays with the others.
+      Useful filters and a useful list >> strict adherence to rules.
+      Also containers that downgrade into loot containers. "cntSupplyCrateShamway"
+fnt - furniture. Desks, chairs, potted plants
+elt - electrical things like control panels that we don't have a clear purpose for, yet
+lgt - all lights, including wall torches and candles
+tree - trees, grass, shrubbery, cactus
+plt - all other plants, shrubberiers, farming crops, or blocks that fulfil the purpose of a plant even if its just a pickup.
+wrk - workstation of any kind
+trp - traps, spikes, mines that DO something 
+sgn - signs
+dst - destroyed or damaged... something.
+prt - particle effects like snowstorm
+drw - doors, hatches, windows
+otr - other
+
+This allows you to filter by categories, such as "find me all trees". It doesn't break the full text search.
+
+Example
+
+MDLdrwSteelDoor1_v1
+MDLfntSchooldesk
+MDLcntCooler 
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Use of "Extends" in blocks.xml:
+
+This can be tricky so pay attention. =)
+
+"Extend" copies upgrade and downgrade blocks/properties.
+As you can see in the file you can mix and match, keeping the upgrade material and amount thereof but overwriting the target block.
+
+
+For repairs you cannot un-extend a material.
+
+If you extend a wooden door that is repaired with wood, then use that to make a metal door...
+the metal door will require the wood in addition to the metal repair materials you assign.
+
+
+Blocks using extends now do give the resources from the parent's destroy event.
+If a block is using extends, but has its own destroy event, it will use that one instead.
+
+
+<block id="1456" name="cntCar03Red">
+
+	<drop event="Fall" name="cntCar03BlueDamage1" count="0" prob="0" stick_chance="1" />
+	<drop event="Fall" name="cntCar03WhiteDamage1" count="1" prob="1.0" stick_chance="1" />
+
+Without "unextending" that *specific* property the drop would be a cntCar03BlueDamage1 if that's the fall event of the parent block.
+
+
+Extend should be the first entry in a block / item.
+The file is read sequentially and if you put 
+	<property name="Shape" value="WedgedCornerFull" />
+above the extend it reads that line and THEN reads all the properties from
+the parent block - including the shape.
+
+
+Also:
+Extend CAN NOT extend from a model
+<block id="431" name="mineCandyTin">
+to a shape
+<block id="1408" name="rScrapIronPlateMine">
+
+Sure, you can do it but then the texture atlas cannot be baked because the block inherits properties that it shouldn't.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Selective "Extends"
+
+For blocks/items.xml you need to use this syntax:
+<property name="Extends" param1="<excluded defs>" />
+
+
+for entityclasses.xml like this:
+<.... ignore="<excluded defs>" ... >
+
+Excluded defs are properties like "Downgrade" or "FuelValue" (comma delimited)
+so you can better tailor an extended block to your needs.
+
+We cannot exclude the drop definitions so far
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+<property name="CanMobsSpawnOn" value="true" />
+
+The default value for a block is now FALSE.
+
+Static spawners in prefabs / POI completely ignore this flag.
+
+
+A placed bedroll ("your" bedroll, not any that exists) works like a claim stone.
+It blocks zombie spawns in a rectangular area of 31x31 meters from bedrock to sky.
+(that's 15 + 1 + 15m)
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+<drop event="Destroy" name="scrapIron" count="1,2" prob="1" />
+
+count="min,max" specifies the min/max count, prob="x" specifies if ANY are dropped with this probability.
+This is only applied to the very last destroy event on a block.
+It cannot be used on a harvest event as here the total amount has to be fixed.
+
+
+<drop event="Destroy" name="[recipe]" />
+half of the ingredients of the first recipe for this item/block are awarded.
+Currently it's always half and you cannot specify a factor.
+Also if you specify a [recipe] you cannot/should not specify other items for this drop event.
+
+
+Without a destroy event the block will always "drop self".
+You can use this to make road signs or anything else collectible.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Looping fall events.
+
+<drop event="Fall" name="destroyedStone" count="1" prob="0.1"  stick_chance="1" />
+
+If a falling block decides to "stick" on top of a block with
+	<property name="StabilitySupport" value="false" />
+it will fall again.
+
+Then it will stick on top of the same block again.
+Then... do you see a pattern there?
+
+Either completely avoid blocks falling "as themselves" or assign a stick chance <1 so it would eventually give up and poof.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+You can change the crafting skill of blocks.
+Look at the land mines.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Collision masks
+
+	<property name="Collide" value="melee,bullet,rocket" />
+	<property name="Collide" value="meleeweapons,bullets,rockets" />
+
+These are functionally identical. Only the start of the string is checked.
+
+
+Personal preference:
+
+<block id="385" name="metalTrussingBlock">
+	<property name="Collide" value="movement,melee,rocket" /> <!-- -rocket -->
+
+In *my* opinion you should be allowed to shoot arrows through those if bullets fit.
+If you agree you can remove all occurrences of this with one search&replace.
+
+Keep in mind that this also allows rockets to pass so
+it *can* be a problem depending on your server settings and rules.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+(A17) The Path property
+	<property name="Path" value="solid"/>
+	This is a shortcut for the AI pathfinding and quickly determines that this block (like a forge or pillar100) can not be pathed into from any direction.
+	Blocks using Model cube, cube_glass and cube_frame are automatically flagged.
+
+	May or may not work / be used:
+	<property name="Path" value="edge"/>
+	This is used for something like a cornered pole block where the AI is directed to look at the edges of the block space to find an obstacle.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Butcher tools are currently not supported in blocks.
+Maybe later. Not a priority.
+
+	<drop event="Harvest" name="femur" tool_category="Butcher" count="1" prob=".4" />
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Disassembling (wrench)
+
+	<drop event="Destroy" name="barbedFence" count="1" tool_category="Disassemble" />
+	<drop event="Harvest" name="headlight" count="1" prob="0.2" tool_category="Disassemble" />
+
+Both harvest and destroy events can be limited to only fire if the correct tool is used.
+
+This does not disable ungated events. They fire as well.
+
+
+Note that you do NOT get the "disassemble" animation with just a destroy event.
+You need to do it this way:
+	<drop event="Harvest" name="" count="0" tool_category="Disassemble" />
+	<drop event="Destroy" name="workbench" count="1" tool_category="Disassemble" />
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Farming / Harvest yield of farmed crops.
+
+This only affects block class "CropsGrown".
+
+The "fertile_level" (defined in materials.xml) of the block that the plant is growing on can affect the harvest yield.
+
+To use that you add 
+	<property name="CropsGrown.BonusHarvestDivisor" value="5.0" />    (float, default=VeryLargeNumber)
+
+to the to-be-harvested block.
+This will generate bonus items when the plant is harvested.
+
+The number of additional harvest items is
+
+= ( "fertile_level" of the block directly below ) / ( CropsGrown.BonusHarvestDivisor )
+
+So for a fertile_level of 5 and a BonusHarvestDivisor of 1.2 you get +4 harvest items.
+Now if you were to make some fertiliser and further increase the fertile level of the dirt...
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+PlantGrowing.IsRandom growth timers
+
+All the coders tell me that using "random" for the timer is much cheaper in CPU terms so that would be a good thing for a farm that can have thousands of plants.
+
+Unfortunately it was a bit short on the max duration so couldn't actually be used for anything.
+Now, when using PlantGrowing.IsRandom the max value for PlantGrowing.GrowthRate has been increased to 63.
+
+At the setting of 63 I timed that to be 43 - 106 minutes.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Trees growing to variable sizes depending on the soil.
+
+Any plant/block using
+<property name="PlantGrowing.
+
+to upgrade will check the 
+
+<property name="PlantGrowing.FertileLevel" value="xxx" />
+of the TARGET block first.
+
+If this  PlantGrowing.FertileLevel  is higher than the  fertile_level  of the block directly below then the upgrade will not occur.
+Score one for biome diversity. =)
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Support and multiblocks
+
+(A15) On destruction, blocks with "MultiBlockDim" are properly cleaned up, leaving no invisible support blocks in mid-air. (Sorry! =)
+
+	<property name="UpwardsCount" value="8" />
+is obsolete.
+It's function is/was to create an invisible "supporting" block in mid-air over objects like trees so you could build on top of them.
+This is now solved better with MultiBlockDim.
+It may or may not continue to work. Try it first...
+
+
+Multiblocks and  <property name="StabilitySupport" value="false" />
+
+If the multiblock's Y dimension is >1 it will self destruct.
+
+
+In general, multiblocks can not have a horizontal dimension >7.
+Lead programmer said so and he knows things.
+He added a special exception for vertical dimension (trees).
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Upgrade and hit sounds
+
+When you upgrade a block then the tool plays a sound on every hit.
+This sound is from the material value of the upgrade RESOURCE.
+
+<property name="CustomUpgradeSound" value="Crafting/place_block_wood" />
+This sound is played once when the upgrade is taking effect.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Upgrade and hit sounds from textures
+
+Any 	<property name="Shape" value="ModelEntity" />
+does NOT need a texture entry.
+
+If one is given, the sound attached to the texture in blocktextures (and baked into that other file I cant remember)
+WILL play when this block is hit, overriding the block's material assignment.
+
+Any 	<property name="Shape" value="Ext3dModel" />
+DOES need a (dummy) texture entry.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Transparent / cutout meshes and frame blocks
+
+added <Property name="Frame"/> to each master frame block.
+
+This marks the block as a frame so in the code it sends a multiplier to the inside rendering to either happen or not.
+If the property is there then it will render the back faces of the geo, shrink it slightly (so z-fighting doesn't happen), and flip the normals to point inside.
+
+Related: 
+*Changed: Defaulted transparent blocks to have no backface culling per Joel’s request for glass blocks.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Global UV for dummies (A16)
+
+WTF is that?
+It means that if a texture is "global", the block texture will ALWAYS display with the same side up
+even if the block is rotated in a way that would display this side upside down or to the right.
+
+This is defined per texture in blocktextures.xml.
+(which does nothing until the (opaque) atlas is baked)
+
+On some faces (the steps of stairs) this is not desired because they would look wrong in some rotations. There you set it to local.
+
+This setting can be overridden in blocks.xml on a per block / face base:
+
+<property name="UseGlobalUV" value="D,D,L,D,D,G" />
+<property name="UseGlobalUV" value="Local" />
+<property name="UseGlobalUV" value="Global" />
+
+All values are case sensitive.
+D = use default from blocktextures.xml
+L = force local
+G = force global
+
+A16 features all new UV code so in principle it does not matter at all which "side" is actually facing which way.
+The only blocks that were set to local UV are those that do NOT match any adjacent (other) blocks that they might touch.
+Like poles, supports or pillars.
+Their texture would never "continue on an adjacent block" and for diagonal polesthe wood texture might as well "run the right way".
+So these use the local override on the block.
+
+PS: Normal people don't need to know any of these weird graphics shenanigans so don't worry about it.
+I'm only documenting this for a handful of crazies.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Something *I* stumbled over recently:
+
+While
+\Assets\Textures\Blocks\blocktextures.xml
+controls the setup (global/local) per texture, it does not directly affect the game.
+
+Rebuilding the texture atlas also generates
+\Assets\AssetBundles\BlockTextureAtlases\ta_opaquexml.txt 
+(for instance)
+
+and *that* file is what makes the textures use a default of local/global ingame.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Shape="new" and plants.
+
+The new shapes do not allow to pass light through them.
+
+This means the corn will not get any "AO light" at the base of the trunk and thus "die" instantly after planting.
+
+Add the property "LightOpacity" where needed.
+
+
+Also, a block uses the higher LightOpacity value of MATERIAL and SHAPE
+...and Shape="new" always has LightOpacity="255".
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Blocks and light and plants.
+
+There are 16 possible light values.
+
+Full sunlight = 15.
+Full darkness = 0.
+
+If the light is reduced by traveling through a block with LightOpacity="6" then the light value below this block is 9.
+
+Every square that light has to travel "sideways" to reach the block subtracts 1.
+
+Plants require 3 to grow.
+
+There may also be a max distance that light can travel horizontally.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Textures and the map.
+
+The "top" face of a block determines the pixel colour that it displays on the map UI.
+
+Here it's texture 277, bright blue.
+	<property name="Texture" value="277,574,576,577,578,575" />
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Block default placement:  Place + HandleFace
+
+Place overrides HandleFace so you can only have one or the other.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Upgrading and downgrading to random block targets.
+
+All of this... works now:
+
+	<property class="UpgradeBlock"> <property name="ToBlock" value="lootWasteland" /> </property>
+
+	<property name="DowngradeBlock" value="lootWasteland" />
+
+	<property name="UpgradeRated.ToBlock" value="lootWasteland" />
+
+	<property name="PlantGrowing.Next" value="lootWasteland" />
+
+Loot placeholders are defined in loot.xml.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+(A17) SortOrder / Sort Order on the Creative menu.
+
+We changed the display order on the creative menu from "blindfold and dartboard" to something more organised.
+
+There are 2 properties for sortorder.
+	<property name="SortOrder1" value="x"/>  (string - try to keep it short for performance)
+	<property name="SortOrder2" value="y"/>
+
+When deciding in which order to display items on the creative menu,
+the game concatenates SortOrder1 and SortOrder1, then sorts by the resulting string.
+In the above example the sort string is "xy" and would sort below "xf".
+
+The reason for this split is that major groups like "brick blocks" can extend their SortOrder1 from the master material block.
+Individual shapes have their own specific SortOrder2.
+That makes the system modular and gives me fewer headaches.
+
+1. Category:
+	<property name="SortOrder1" value="A0003"/>
+	This is the "main group" and material.
+
+	1st character: Main group, blocks
+	   0 used for all items so they sort first
+	   4 Building 
+	   7 Decor
+	   a Outdoor
+	   d Terrain
+	   g Construction
+	   k Loot
+	   n Level Design	  
+
+	2nd character: Main group, items
+	   4 Tools/Traps
+	   7 Resources
+	   a Ammo/Weapons
+	   d Armor/Clothing
+	   g Food/Cooking
+	   k Science
+	   n Books
+	   q Special
+
+	3rd character: Block material or other apropriate major-ish category
+	   2 Wood
+	     woodNoUpgradeMaster
+	   3 woodWeakNoUpgradeMaster
+	   4 R  Wood
+	   5 RM Wood
+	   8 Brick
+	     brickNoUpgradeMaster
+	   9 Adobe
+	   a Flagstone
+	     stoneNoUpgradeMaster
+	   b Cobblestone
+	   e Scrap
+	     scrapIronNoUpgradeMaster
+	   f corrugatedMetalNoUpgradeMaster  / Trussing
+	   g R Scrap
+	   k Concrete
+	   l R Concrete
+	   m Wet Concrete (potentially needed for players. Sorry, guys. Level designers come first. LOL)
+	   n bulletproof glass
+	   p Steel
+	   q St Steel
+	   r Awnings / camo / haybale
+
+	   t Wood Frames
+	   u Scrap Frames
+	   v Rebar Frames
+	   
+	   3 Grass / foilage (billboard)
+	   6 Shrubbery
+	   9 crops
+	   c Tree
+	   d Tree stump / fallen logs
+	   e Cactus
+	   
+	   f terrain: stone
+	   h terrain: ores / clay
+	   k terrain: dirt
+           m terrain: snow / sand / sandstone
+	   o terrain: radiated / destroyed / debris / bedrock
+
+	3rd character for decorations:
+	<property name="SortOrder1" value="7060"/>
+
+	   3 decals
+	   6 Doors & Hatches
+	   8 Windows / curtains
+
+	   a Lighting / Hardware
+	   c cables
+	   e control panels, fuse boxes
+	   g Traps
+	   i Workstations
+	   k Furniture / faucets
+	   m Fences, railings, road railings
+	   	
+	   o sandbags
+	   s Signs
+	   t Specific Navezgane signs
+
+             
+	4th character: Item material or other apropriate major-ish category
+
+	   2 Tool
+	   4 Weapons Melee
+	   6 Weapons Bow
+	   8 Weapons Ranged
+	   a Ammo
+	   c Thrown/Explosives
+	   e Armor Light
+	   f Armor Heavy
+	   h Clothing
+	   j Food
+	   l Drink
+	   n Medical
+	   p Workstation upgrades like Cooking Pot
+	   r Skill unlock books like painting
+	   t Special
+	   v (Weapon) Parts
+	   x Resource
+
+2. Category:
+	<property name="SortOrder2" value="A0003"/>
+	This is the "sub group". Could be the block SHAPE or a clothing TYPE like shirt vs pants.
+
+	Sort order for standard building shapes:
+
+	0050	cube
+	0051	cube with 1 broken tile on top
+	0053	cube with 1 baseboard
+	0054	cube with 4 baseboard
+	0055	cube wit stone applications, cornerstone
+
+	0060	half
+	0060	half ctr
+	0061	HalfRampStairs50
+	0062	HalfRampStairs50Filler
+	0063	woodHalfCNRInside2
+	0070	quarter
+	0071	CTRQuarter
+	0080	q corner
+	0090	q 3way
+
+	0105	quarter S Ctr
+
+	0110	q T S Sctr
+	0110	q T ctr
+
+	0140	1/8
+	0142	1/8 CTR
+	0150	plate
+	0160	ctr plate
+	0170	half plate
+	0171	plate offset
+	0180	sheet / billboard
+	0181-0184 bent sheets
+
+	0200	ramp
+	0201    ramp incline
+	0202    ramp incline fillers & corners
+	0210	full corner
+	0220	inside corner
+	0230	ramp corner  cnrramp
+	0240	ramp cnr filler
+	0250	gable
+	0255	gable_inverted_half
+	0260	pyramid
+	0265	gable_pyramid
+
+	0280	wedgetip
+	0290	wedge
+	0300	wedge full corner bott
+	0310	top
+	0320	steep crnn base
+	0330		top
+	0340	wedge inside corner bott
+	0350		top
+	0360	wedge steep inside crnr base
+	0370		top
+	0371	Wedge Incline Corner Top
+	0375	Wedge Narrow 1 Tip 11.25°
+	0376	Wedge Narrow 2 Low
+	0377	Wedge Narrow 3 Mid
+	0378	Wedge Narrow 4 High
+	0390	GableQuarter
+	0391	Gable3Quarter
+	0400	g  inverted quarter	 
+	0410	gable 1m
+	0420	g   inverted steep
+	0430	pyramid 1m
+	0440	wedge incline
+
+	0480	cnr round
+	0490	 top
+	0500	arch
+	0505	Tunnel 3m Center/Corner
+	0509	Tube 3m Center/Corner
+	0512	WindowCircle
+	0515	WindowArch
+	0518	ArchCurve
+
+	0520	WindowArch3MCNR
+	0521	WindowArch3MCTR
+	0522	WindowArch3MTip
+
+	0530	stairs 25
+	0540		rail left
+	0550		rail right
+	0560		corner
+	0570	wedge stairs bottom
+	0580		top
+	0590	Stairs50
+
+	0610	StairsBoard
+	0620	StairsBoardRailing
+
+	0640	Catwalk
+	0650	CatwalkRailing
+	0660	CatwalkRailingCNR
+	0670	CatwalkWedge
+	0680	CatwalkWedgeRailing
+	0690	Railing
+
+	0700-0705	Trussing Block
+	0710	IBeams
+
+	0732	pillar 100
+	0735	wood log (?)
+	0737	pillar 100 cap
+	0740	pillar 50
+	0744	pillar 0.05
+	0745	pillar 0.05 CTR
+	0746	pillar 0.05 SCTR
+	0750	pillar 0.025
+	0751	pillar 0.025 CTR
+	0752	pillar 0.025 SCTR
+
+	0780	pole
+	0790	ctr pole
+	0800	pole S ctr
+
+	0820	pole support
+	0830	pole support ctr
+	0840	p s 2
+	0850	support beam
+
+	0860	cross
+	0870	cross ctr
+
+	0900	arrow slit
+	0910	floor joist
+	0920	curbs
+
+=====================================================================
+
+
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Block Attributes:
+
+	"count"
+	"event"
+	"id"
+	"name"
+	"prob"
+	"stick_chance"
+	"tool_category"
+
+Keys:
+	"ActionSkillGroup"
+	"ActiveRadiusEffects"
+	"BigDecorationRadius"
+	"BuffsWhenWalkedOn"
+	"CanDecorateOnSlopes"
+	"CanMobsSpawnOn"
+	"CanPickup"
+	"CanPlayersSpawnOn"
+	"Class"
+	"Collide"
+	"Count"
+	"CraftComponentExpValue"
+	"CraftComponentTimeValue"
+	"CraftingSkillGroup"
+	"CustomIcon"
+	"Density"
+	"DescriptionKey"
+	"DestroyExpValue"
+	"DowngradeBlock"
+	"EconomicValue"
+	"EconomicBundleSize"
+	"Extends"
+	"FallDamage"
+	"FuelValue"
+	"Group"
+	"HeatMapFrequency"
+	"HeatMapStrength"
+	"HeatMapTime"
+	"IndexName"
+	"IsDeveloper"
+	"IsPlant"
+	"IsTerrainDecoration"
+	"LPHardnessScale"
+	"Light"
+	"LightOpacity"
+	"LootExpValue"
+	"Map.Color"
+	"Map.Color2"
+	"Map.ElevMinMax"
+	"Map.Specular"
+	"MaxDamage"
+	"Mesh"
+	"MovementFactor"
+	"MultiBlockDim"
+	"MultiBlockLayer"
+	"PickupSource"
+	"PickupTarget"
+	"Place"
+	"PlaceAltBlockValue"
+	"PlaceExpValue"
+	"PlacementWireframe"
+	"RepairItems"
+	"RotationAllowed"
+	"Shape"
+	"ShapeMinBB"
+	"ShowModelOnFall"
+	"SiblingBlock"
+	"SmallDecorationRadius"
+	"StabilitySupport"
+	"Stacknumber"
+	"Tag"
+	"Texture"
+	"UpgradeBlock.ToBlock"
+	"UpgradeExpValue"
+	"Weight"
+
+=====================================================================
+=====================================================================
+
+<property name="EconomicValue" value="xxx" />  (integer)
+
+"EconomicBundleSize" :
+Was put in because the coder did not want a float there. =)
+A trader will trade this many items as the smallest bundle. You won't be able to sell a single small rock.
+The "EconomicValue" applies to the bundle.
+
+
+The price of an assembled item (gun) is equal to the sum of it's parts.
+
+First step was to figure out *some* rules to get some consistency into this and not having to reinvent the wheel for every item.
+
+Rarity of the resource.
+In my latest game I have some 500 brass scrap and just the excavation for my base's walls got me about 100000 small rocks.
+I'm trying to figure out a base value for "how long does it take to acquire this resource".
+
+Forge required.
+Resource value x 1.2
+
+Common tool required. Cooking pot or grill - essentially free with a forge so does not stack with that bonus.
+Resource value x 1.2
+
+Rare tool required. Crucible, beaker...
+Resource value x 1.5
+
+Farming required. Not hard but time-consuming.
+Resource value x 1.33
+
+Skill / perk / recipe / special scavenging or disassembling required.
+There it gets muddy.
+Im thinking _up to_ x1.5 based on uhh... best guess?
+
+Can only be found: x5
+
+
+For a start I assigned these values in Duke Coins:
+
+5 brassScrap
+.5 paper
+.005 rockSmall
+.005 crushedSand
+.002 clay / dirtFragment
+.05 unitIron
+.2 unitLead
+1 unitBrass
+.25 ironScrap
+.6 forgedIron
+1.6 forgedSteel
+1 leadScrap
+.005 yuccaFibers
+.4 coal
+.4 potassiumNitratePowder
+1.5 bulletCasing
+.24 bulletTip
+1.6 gunPowder
+.48 buckshot
+.0072 cement
+.25 cloth
+3.5 ductTape
+.3 emptyJar
+1.5 bottledWater
+1.5 femur
+24 for 100 gasCan
+1 animalFat
+1.5 bioFuel
+1.2 tallow
+2.4 grainAlcohol
+.1 feather
+1 rawMeat
+1 egg
+.1 corn / potato / blueberry / goldenrod / cotton
+.5 mushrooms
+1 animalHide
+1.1 leather
+5 oil
+.11 ironArrowHead
+.37 steelArrowHead
+12 spring
+12 headlight
+
+=====================================================================
+=====================================================================
+
+File: LOOT.XML
+
+
+How random loot generation works now:
+
+A loot container defines a list of items and/or lootgroups, a count, and a size configuration.
+
+The size configuration is the strict limit on the what the container can hold, and this limit can be reached even if
+your container specifies a much smaller count value.
+
+The loot containers count value specified how many if the items in the containers loot list should be selected randomly.
+NOTE: that the same item could be chosen more than one time.
+
+If the chosen item is an item then the item is spawned into the conatiner according to its count.
+
+However if the chosen item is a lootgroup then a lootgroup is spawned into the container.
+
+Loot Groups:
+
+NOTE: if a lootgroup says count="all" then all subitems will be spawned.
+
+A lootgroup functions identically to a container in its spawning logic. A lootgroup has a count like a container does.
+The count value specifies how many items out of the lootgroup should be spawned each time the lootgroup is spawend. This
+can lead to multiplicitive behaviour if it is setup that way for example:
+
+<lootgroup name="group1" count="2" level="25,50">
+	...
+</lootgroup>
+
+<lootcontainer id="1" count="2" size="4,4">
+	<item group="group1" count="2">
+</lootcontainer>
+
+The above example would spawn the contents of group1 8 times. Here's why:
+The container is told to spawn 2 items, since there's only 1 item in the container it will choose group1
+2 times. Each time group1 is chosen, the container <item group="group1" count="2"> line specifies that
+the contents of group1 should be spawned 2 times. So on the first iteration of the container group1 is spawned
+2 times, and then again on the second iteration.
+
+The group1 lootgroup specifies that each time it is spawned (recall 4 times in the example) that is should
+select 2 items from its list.
+
+So the above example would spawn 8 items into the container.
+
+NOTE: it is safe to specify groups and counts that exceed the containers capacity. If the containers space
+is exceeded excess items will not be spawned, and items will automatically stack to fill the container.
+
+<item name="smallEngine" quality="1,200"/>
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Optional attributes of a lootcontainer:
+"buff"
+"buff_chance"
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Adjusting gun accuracy / spread (way obsolete in A17+)
+
+Crosshair_min_distance(int): the min size of the crosshairs on screen
+			Increasing it also increases the spread of Magazine_item_ray_spreads
+Crosshair_max_distance(int): the max size of the crosshairs on screen
+
+Magazine_item_ray_spreads: The projectile spread, both zoomed and hip-fired
+			Used for shotguns and pistols.
+
+			"Magazine_item_ray_spreads" generates a wider cone if the player is moving fast.
+
+Rays_spread:		Technically deprecated but still used because... it's what we got.
+			This one works for launchers but has a completely different scale.
+
+Accuracy: 		Attribute, can scale with QL
+			The spread of the weapon if hip-fired.
+			If Accuracy is defined, Magazine_item_ray_spreads is floored to zero
+			and aimed fire is dead on.
+			Used for rifles.
+
+			"Accuracy" uses a CYLINDER for the shot projection, not a cone.
+
+Zoom_max_out / Zoom_max_in: Those are plain FOV values
+
+Ranges measured at a FOV of 72. (only noobs use the default of 50)
+For FOV 50 multiply them by about 1.5.
+
+gunRocketLauncher
+	s0.095, 8.5m, 1m spread
+gunSawedOffPumpShotgun / blunderbuss
+	s0.74, 6m, 1m spread
+gunPumpShotgun
+	s0.835, 11m, 1m spread (shell) = 5.2°
+	s0.605, 25m, 1m spread (slug) = 2.29°
+
+
+Spread 5°: 2.6m @ 30m
+Spread 5°: 2.6m @ 30m
+
+Spread 15°: 4.3m @ 16m   or 14.5 sqm
+
+A zombie standing inside a 1m spread cone covers 55% of the whole cone.
+=====================================================================
+=====================================================================
+
+File: ITEMS.XML
+
+Keys:
+	"Active"
+	"Armor"
+	"Candrop"
+	"Canhold"
+	"Class"
+	"Concussive"
+	"Degradation"
+	"DegradationBreaksAfter"
+	"DegradationFloor"
+	"DropMeshfile"
+	"EconomicValue"
+	"EconomicBundleSize"
+	"Extends"
+	"HandMeshfile"
+	"HoldType"
+	"ImageEffectOnActive"
+	"Material"
+	"Meshfile"
+	"Pos"
+	"Preview"
+	"Puncture"
+	"RepairAmount"
+	"RepairTime"
+	"RepairTools"
+	"Rot"
+	"Stacknumber"
+	"Zoom"
+
+Attributes:
+	"belt_range"
+	"belt_strength"
+	"duration"
+	"heat_map_strength"
+	"heat_map_time"
+	"holster"
+	"hordemeter"
+	"hordemeter_player_only"
+	"id"
+	"muffled_when_crouched"
+	"name"
+	"newmodel"
+	"player_only"
+	"prio"
+	"range"
+	"ray_cast"
+	"ray_cast_moving"
+	"speed"
+	"strength"
+	"time"
+	"two_handed"
+	"unholster"
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Material types
+	material="wood|metal|organic|bullet" 
+	
+	These *are* defined in materials.xml. If you need a new "scrapable" material it must be defined as such in materials.xml + recipes.xml.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Hold types / timers / delays / rate of fire
+
+Hold types are in misc.xml
+
+Speaking of - what these do is not exactly obvious.
+
+misc.xml - hold_type - ray_cast  is a delay in seconds.
+What it does depends on the item class/action.
+
+---
+For the "Eat" (and probably "UseOther") action:
+- This timer is started when you click / use an item.
+- You cannot switch toolbelt slots while this timer is running. (to not mess up the animation)
+- When THIS timer has run out, any item effects and buffs are applied on an "eat" action.
+- It does not prevent you from spam-clicking the item.
+	Doing so while the timer is running, both animation and timer start over.
+	The item effects/buffs are not applied until you stop clicking and let the timer run to completion.
+---
+For a pistol this timer has no discernible effect.
+---
+
+items.xml - action - delay  is a delay in seconds.
+
+- This timer prevents spam-clicking of a consumeable item and also is started when you click / use an item.
+- This controls the rate of fire of a weapon because you cannot "click" faster than that.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+UMA Slots
+
+EquipSlot: 	This defines protection values and general placement.
+	Head, Eyes, Face, Chest, Hands, Legs, Feet
+
+Layer: This defines the index of the mesh that will be placed.
+	0 = base mesh layer, where the nude underwear model resides. any item put on with a layer of 0 will remove the mesh already in that Equipment slot.
+	1 = First overlay layer, this will lay over top of anything on layer 0 in the same EquipSlot.
+	2 = Second overlay layer, this will lay over top of anything on layer 0 or layer 1 in the same EquipSlot
+
+UISlot:		This defines the slot in the character screen that this clothing belongs to and any slots that may need disabled.
+Headgear, Eyewear, Face, Shirt, Jacket, ChestArmor, Gloves, Backpack, Pants, Footwear, LegArmor
+
+:UI Slot mutex:
+	Sometimes one item will cover another slot and we do not want to allow usage of that slot until the covering clothing/armor is removed.
+	This can be done by prepending an 'x' to the UISlot name.
+
+Welding mask example
+<item id="000" name="weldingMask" material="metal" stacknumber="1" mesh_file="Items/Clothing/Head/prefabWeldingMask" hold_type="21" repair_tools="scrapMetal">
+	<property name="EquipSlot" value="Head"/>
+	<property name="Degradation" value="100" param1="true" />
+	<property class="Armor">
+        <property name="Melee" value="0.3"/> <!-- legacy names! -->
+        <property name="Bullet" value="0.2"/>
+        <property name="Puncture" value="0.2"/>
+        <property name="Blunt" value="0.25"/>
+        <property name="Explosive" value="0.1" />
+	<property name="Group" value="Clothing" />
+	<property class="UMA">
+		<property name="Mesh" value="armor_leather_helmet" />
+		<property name="Overlay" value="armor_leather_helmet" />
+		<property name="Layer" value="1" />
+		<property name="UISlot" value="Headgear, xFace, xEyewear" />
+	</property>
+</item>
+
+
+
+
+WEAPON PARTS EXAMPLE (obsolete in A17+)
+Below is an example of the values that need to be added to a weapon to give it parts. Part list should coincide with recipe.
+All parts must be filled in or the weapon will not work, period.
+<item id="40" name="pistol">
+        <property class="Parts">
+            <property name="Stock" value="partsPistol_grip" />
+            <property name="Receiver" value="partsPistol_receiver" />
+            <property name="Pump" value="partsPistol_parts" />
+            <property name="Barrel" value="partsPistol_barrel" />
+        </property>
+</item>
+
+
+PART ATTRIBUTE EXAMPLES
+Below is an example of the properties that must be added (or set) for parts to work correctly.
+	StackNumber: This must be 1 so we can use degradation.
+	Degradation: Any default value, the weapon quality system will change this later, it just has to be set.
+	Attributes: These currently will interpolate from,to (based on quality from worst to best) for each of the below attribute types.
+	Atttributes/Damage: 			min,max damage as value.
+	Atttributes/Accuracy: 		1 being worse accuracy (full offset multiplier) to 0 being best accuracy (0 offset) eg value="1,0" is correct, value="0,1" is wrong
+	Atttributes/FalloffRange: 	ray cast range in meters min,max
+	Atttributes/Degradation: 		points each part is degraded per shot
+
+<item id="212" name="partsPistol_parts">
+	<property name="Extends" value="partsMaster" />
+	<property name="DescriptionKey" value="partsPistolGroupDesc"/>
+	<property name="PartType" value="Pump" />
+	<property name="Weight" value="10" />
+	<property class="Attributes">
+		<property name="DegradationMax" value="30,600" />
+	</property>
+</item>
+<item id="213" name="partsPistol_barrel">
+	<property name="Extends" value="partsMaster" />
+	<property name="DescriptionKey" value="partsPistolGroupDesc"/>
+	<property name="PartType" value="Barrel" />
+	<property name="Weight" value="10" />
+	<property class="Attributes">
+		<property name="EntityDamage" value="5, 40" />
+		<property name="BlockDamage" value="1,3" />
+		<property name="Accuracy" value="1, 0.01" />
+		<property name="DegradationMax" value="30,600" />
+	</property>
+</item>
+
+   
+ARMOR ATTRIBUTE EXAMPLE
+	Removal of the Armor class in the item is completely optional, it's reverse compatible like the others. If no Armor class or values it'll only read Attributes and any missing ones will have a default value of 0 percent protection.
+	Each range for armor is a percentage value. 1 being full protection but the armor will take the damage as degradation instead. So higher protection means faster degradation which balances it out.
+	DegradationMin is the minimum percentage degradation that the armor can be taken down to.
+	
+	leatherBoots currently have been swapped to the scaling attribute system as an example.
+	
+	<property class="Attributes">
+		<property name="MeleeProtection" value="0.1, 0.5" /> 
+		<property name="BulletProtection" value="0.1, 0.3" />
+		<property name="PunctureProtection" value="0.1, 0.3" />
+		<property name="BluntProtection" value="0.15, 0.35" />
+		<property name="ExplosiveProtection" value="0.05,0.15" />
+		<property name="DegradationMin" value="0.1,0.5" />
+	</property>
+	
+WEAPON ATTACHABLES
+	Add the following property to a item to define it as a weapon attachable:
+	<property name="IsWeaponAttachment" value="true" />
+
+
+
+
+
+Action Experience
+<property name="ActionExp" value="1" />			(default value = 2)
+<property name="ActionExpBonusMultiplier" value="2" />	(default value = 10)
+
+	These go under an action, woodenClub is an example. That will handle actions.
+	On kill or destroy events the multiplier is applied.
+
+And for the repair and upgrade actions, each swing for repair or upgrade will give ActionExp amount
+of skill/playerExp, the action bonus multiplier is applied when fully upgading a block to it's next level.
+
+
+
+In the case of a recipe book, when first learned the multiplier is applied and after then
+only the action exp is applied but it's applied for EACH item in the book.
+Also, you only get "reading XP" for items that have a
+	<property name="ActionSkillGroup" value="Science"/>
+defined.
+You get XP to THIS group, not the crafting group of the item.
+
+
+Now, as for crafting skill exp,
+add these to anywhere inside an item that will be used as an ingredient, it's like the old ones but renamed for clarity's sake.
+
+	<property name="CraftingIngredientExp" value="4" />   (default value = 1)
+	<property name="CraftingIngredientTime" value="4" />   (default value = 1)
+
+Then the recipe skill gain and craft time will be calculated internally
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Weather survival / temperature rebalance
+
+Wetness is ONLY affected by the coat and hat slot.
+
+All heavy armor has 0 temperature insulation.
+
+All light armor has a max of +2 (hide), making it useful wearing furry armor in a snow biome while not making it a liability outside.
+
+Face and eye slot items offer a little damage protection but have zero effect on temperature or wetness.
+
+The majority of the temperature mod is on the coat slot items.
+It's too warm? Take off that puffer coat.
+
+General clothing items like pants and shirts warm you from +1 to +5. HazMat 6.
+
+Some clothing items that cool you are t-shirts (-5) or cowboy hats (-10).
+The poncho is -20. Because Clint Eastwood looked good in it.
+ 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Food healing balance when eating food
+
+Healing = ( Food + Food * Wellness ) / 2
+
+Food poisoning counts as -1 wellness so 17 food with 100% Food Poisoning is 0 healing.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Unlocking a recipe:
+
+	<property class="Action1">
+		<property name="Recipes_to_learn" value="gunRocketLauncher,rocket,rocketCasing,rocketTip" />
+		<property name="ActionExp" value="50"/>
+	</property>
+
+
+Instead of unlocking a list of recipes you can now learn / unlock a list of skills and perks.
+1 point or level per book and skill.
+
+	<property class="Action1">
+		<property name="Class" value="GainSkill" />
+		<property name="Skills_to_gain" value="Treasure Hunter,Blunt Weapons" />
+	</property>
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Note that item IDs CAN be moved around without icons, descriptions, or any references to them breaking.
+All but one.  "handPlayer" must remain on ID 70. Because.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+All items have a "Stacknumber" and tags for batch-modding:   (you're welcome)
+ <!-- STK ammo -->
+ <!-- STK book -->
+ <!-- STK explosives -->
+ <!-- STK food -->
+ <!-- STK drink -->
+ <!-- STK loot -->
+ <!-- STK medical -->
+ <!-- STK repairKit -->
+ <!-- STK resource -->
+ <!-- STK torch -->
+
+	Replace (using regex)
+	value=".*?" /> <!-- STK resource -->
+	with	
+	value="675" /> <!-- STK resource -->
+
+	and you have adjusted everything that is used for crafting and does
+	nothing useful (like healing or eating) beyond that.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Buffs / Items / Critical hits / Melee :
+
+This is a bit tricky.
+
+A BUFF can have a property 
+	critical="true"
+
+That means that in addition to the (items) "Buff_chance" listed,
+the buff DOES NOT FIRE if it fails
+the SECONDARY roll against (items) "CritChance".
+
+"CritChance" listed is the base chance and can fluctuate up and down a bit depending on your current stamina.
+	
+So with
+"Buff_chance" and "CritChance" both at 0.3
+you have an average chance of about 0.09 to ACTUALLY apply the buff.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Items can be excluded from underwater use.
+
+	<property name="UsableUnderwater" value="false" />
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+If an item adds a buff and this buff has no
+name_key
+assigned, neither the buff nor it's proc chance are listed on the item.
+
+This is useful to trigger random food effects, rarely getting an infection from
+a dirty needle on a blood draw kit... use the nasty side of your imagination.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Use delay of items
+
+While an item action can define a delay, it does not block you from spamming the button.
+
+misc.xml:
+        <hold_type id="22" newmodel="false" ray_cast="0.5" holster="0" unholster="0.2" />        <!-- 22 sham -->
+
+ray_cast is the delay that actually does that.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+"Stacknumber"
+
+If an item has 
+
+	<property class="Attributes">
+	</property>
+
+or
+	<property class="Parts">
+	</property>
+
+it's Stacknumber = 1 and does not need to be defined.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+Zombie limb dismemberment
+=====================================================================
+This is work in progress.  15.1.  Or later.
+
+A zombie limb has no defined hit points.
+A zombie only has one hit point pool and DAMAGE to a limb is tracked.
+The only hit point values that go into the formula are the zombie's max HP and accumulated damage to specific limbs.
+
+I collated and translated that into pseudocode... mostly so I'd have something compact to reference. =)
+
+
+private float GetDamageFraction(float _damage) { return _damage / zombie.GetMaxHealth() ;}
+
+
+GetDamageOverlimit = Max(0, GetDamageFraction(bodyDamage.RightLowerLeg + _damage)- ec.LowerLegDismemberThreshold)
+
+baseChance = ec.LowerLegDismemberBaseChance + (GetDamageOverlimit * ec.LowerLegDismemberBonusChance);
+
+totalChance = canDismember ? (baseChance + _weaponBase + (_damage * _weaponBonus)) : 0f;
+
+
+totalChance is the actual chance for limb dismemberment.
+
+=====================================================================
+=====================================================================
+
+Balancing, tool / weapon balance
+
+
+General balancing rule for tools: Iron should be 2x as good as stone, and steel 1.5x as good as iron. Steel to have great durability.
+
+
+Weapons: 
+In general, the low end damage of a weapon will be 40% of the max damage.
+For "newbie" weapons, the low end damage may be higher because these weapons are supposed to be replaced "soon" anyway.
+
+
+
+Armor:
+In general, the low end armor will be 40% of the max armor.
+
+Maxed out armor skills will ADD 20% on top of item armor values. They no longer multiply the armor value.
+If accumulated armor values + skill buff exceeds 100% the player becomes invulnerable.
+Don't do that. Unless you want to. Then go nuts.
+
+Important point on armor balancing:
+The Mark 1 zombie does 10 damage.  If your armor = 0.08 it reduces this damage by INT(0.08 * 10) or in other words 0 damage.
+
+Skills *can* multiply armor skills but this is a terrible idea because light armor will always suck and if you push the values, leather will be OP.
+I switched to adding flat protection from skill which is much easier to balance and let me make clothing or hide armor *work* as armor.
+
+Light armor at high QL and skill can actually be decent protection now which may just be useful in a snow biome.
+Heavy armor (+ max skill, +rare armor at max QL) can get up to 95% melee protection.
+Getting that is not realistic so hey... keep making those first aid kits.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+How armor worked in A13:
+To be honest ahh... not too well.
+
+If equipment slots are empty but you *are* wearing a full suit of armor, hits can go through without impacting armor.
+If you wear armor (or anything), the AVERAGE protection value of all "connected" slots
+(chest armor, overcoat, shirt) applies. Wearing a shirt kind of halves the value of your iron chest armor. Because of reasons.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+How armor works in A14+ (or A15 if it's not done in time! No promises!):
+
+Major redesign here that cost a lot of brain juice. And tinkering with graphs and mockups.
+And conferences. And maybe I should just tell you how it works. ;)
+
+Several slots like head or chest have multiple UI slots attached but are still only one hit location.
+For the Head hit location you got  Head + Face + Eyes slots.
+
+These used to be a horrible PITA for balancing because if you stack all those values you either
+shoot balancing straight to lala-land or have to adjust armor to seriously screwy values.
+So we did it right.
+You can now mod any armor/cloth item in any slot and it will be used / degraded based on it's
+stats and protection value by the system. This clear up 95% of the armor modding/balancing headaches.
+
+
+For the Head hit location you got  Head + Face + Eyes slots.
+If you are hit in the head the armor value to protect you against that hit is the *highest* armor value in *any* of these 3 slots.
+In most cases this will obviously be the helmet but if it breaks or you wear none at all, your bandana may be "the" armor value for the head hit location.
+In the early game that means that cloth items may actually *do something*. If not much.
+
+For the chest this actually makes more sense because your looted leather coat *could* be better protection than your cloth or plant fiber armor.
+The system simply pulls the highest protection value from all "connected" slots and uses that.
+
+
+Ranged hits:
+Ranged hits are applied per location. Someone shoots you in the head, *a* head slot is going to take the degradation hit.
+The choice is made like above. If you wear a plant fiber hat and a bandana, there's about an equal chance for either to take the durability hit.
+If you wear a "real" helmet it's almost always going to take the durability hit due to it's higher protection value.
+The protection value that "counts" is still the highest of either. No stacking.
+
+
+Melee / explosive hits:
+The protection value average on the character page actually means something! (Bet you didn't see that coming!)
+
+This is your protection value against *all* melee hits. You can not just skip leg or boot slots "because you never get hit there".
+That would bring down your average.
+
+The armor value that "counts" in each of the 5 hit locations is calculated like above.
+Highest value in a connected slot is "it". In the chest slot that will typically be your chest
+armor because armor pieces have much higher protection than generic clothing.
+
+The average is then taken of the highest value in those 5 locations.
+
+The armor degradation from melee / explosive hits is applied to a completely random item,
+*weighed* by each item's protection value.
+If you wear iron armor and some cloth items, the iron armor is almost always going to take the hit...
+until it is busted up so much that your cloth armor has a noticeable protection value in comparison.
+(it is set up like loot probabilities)
+However, no matter what you wear, every slot always has a chance to be picked.
+
+
+Do include Kinyajuu in your evening prayers because there was no way in hell I could have done this without him.
+We cooked up the design and got it approved against the evil forces of cumulative armor protection.
+It was a hard fight but it was a worthy cause.
+Now balancing armor values is all rainbows and unicorns. Seriously.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+(Weapon) Degradation rate:
+Every hit/shot costs this much durability to a weapon or part.
+On the high end of the range you must add +1 to the value you *want* because the durability is an integer.
+
+<property name="DegradationRate" value="4,1" />
+Durability is an integer. With the exception of a single QL, the DegradationRate turns into something like 3.97... and is rounded down to 3.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+A14:
+Durability for firearms and motor tools has been increased roughly x10.
+
+As a result it is now possible to largely balance durability (how many shots until broken) and
+cost (how many repairKits for a full repair) independently! (how cool is that?)
+
+A weapon with 4 parts and 6000 durability each can cost 6000 points or 3 repair kits to fully repair.
+
+If I want this weapon to break after 350 shots:
+	<property name="DegradationRate" value="17,17" />
+
+If I want this weapon to break after 520 shots:
+	<property name="DegradationRate" value="11,11" />
+
+In both cases the repair cost remains constant. That is a Big Deal for balancing.
+
+
+You will also see 
+	<property name="DegradationRate" value="16,34" />
+Degradation is actually HIGHER at higher quality levels.
+
+Now you have a choice. Use a low quality bargain-bin gun that is cheaper to maintain... or use the
+high-tech-chrome-plated-with-cherries-on-top version and deal with the maintenance cost.
+I'm evil like that.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Ballistic weapons with bullet drop.
+
+Experimented with and while it works technically it was canned due to... circumstances.
+
+<item id="153" name="762mmBulletFMJ">
+	<property name="Meshfile" value="Items/Weapons/Ranged/HuntingRifle/762mm_bulletPrefab" />
+	<property name="Material" value="brass" />
+	<property name="HoldType" value="21" />
+	<property name="Stacknumber" value="500" /> <!-- STK ammo -->
+	<property name="CraftingSkillGroup" value="Gun Smithing"/>
+	<property name="EconomicValue" value="200" />
+	<property name="Group" value="Ammo/Weapons" />
+	<property class="Action1">
+		<property name="Class" value="Projectile" />
+		<property name="Explosion.ParticleIndex" value="0" />
+		<property name="Velocity" value="700" />
+		<property name="FlyTime" value="0" />
+		<property name="LifeTime" value="3" />
+	</property>
+</item>
+
+By entering roughly the real muzzle velocity of a weapon you get a decent starting point.
+This was for a bullet drop of roughly 1 head at 100m.
+Not using that because the headshot mod then needs to be on the projectile and if I don't want to redo the balancing
+it means splitting the ammo types into .308 / 7.62x51 / 7.62x39... for even more inventory clutter.
+
+Note that a simple raycast gun ("Class" value="Ranged") can actually use a ("Class" value="Projectile") as ammo so you could
+have the sniper rifle have bullet drop but handwave it on the shorter-ranged AK where the recoil makes it largely irrelevant.
+
+
+=====================================================================
+=====================================================================
+
+File: RECIPES.XML
+
+Use of "Extends" is not supported for recipes.
+
+
+<recipe name="wroughtIronFenceSheet" count="1" scrapable="False" craft_area="forge" craft_tool="anvil" material_based="true">
+<recipe name="gunAK47" count="1" scrapable="False" craft_area="assembly">
+
+Usable craft areas ( = block name of the crafting station) and tools:
+
+forge		[anvil | forgeCrucible | toolAndDieSet]
+campfire	[cookingPot | cookingGrill | beaker]
+cementMixer
+backpack ?
+
+assembly (weapon screen)
+
+Note that (almost) all recipes have been changed to only output 1 unit.
+This is because the UI still does not tell you how many units would be
+produced and it was easier to just juggle the recipes.
+
+
+=====================================================================
+=====================================================================
+
+File: PROGRESSION.XML
+
+
+FORMAT OF PASSIVE SKILL RANGES:
+
+Good:
+	<multiply skill_level="1,5" value="1,1.04" />
+	<multiply skill_level="5,11" value="1.04,1.07" />
+	<multiply skill_level="11,19" value="1.07,1.1" />
+Bad:
+	<multiply skill_level="1,5" value="1,1.04" />
+	<multiply skill_level="6,11" value="1.05,1.07" />
+	<multiply skill_level="12,19" value="1.08,1.1" />
+
+Do NOT "skip" any skill levels. The code does not like it. You want to make the code happy.
+Unhappy code may want to use you as reactor shielding.
+
+
+
+Repair balancing
+
+Known A15.0 bug:
+Repairing simple items like clubs does not work the same way as repairing assembled items like firearms.
+*Should be fixed for 16 - at least it's on the list*
+
+Club at QL 600:
+no skills: 100 QL loss, max skills: 10 QL loss and no loss at QL 119 and below.
+QL is multiplied.
+
+Assembled items:  (work in progress)
+no skills: 30 QL loss, max skills: 2 QL loss at every QL
+QL repair loss is strictly subtracted from the QL.
+
+Temporary workaround: Set all assembled items to "Gun smithing" and fudge the numbers to work out.
+
+Don't bother reporting that this is actually the case...
+
+
+=====================================================================
+=====================================================================
+
+File: BUFFS.XML
+
+General info:
+Buffs are not executed by "going down the list". Their order in the XML is irrelevant.
+
+Buffs do stuff all the time in an order that is complex and depends on a lot of things.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+A "BuffsWhenWalkedOn" with a normal duration will flicker on/off as it is reapplied because such a buff DOES end.
+To have a proper display without tooltip spam you need to make the DISPLAYED buff work without a duration.
+
+How not to do it:
+<buff id="sleeping" stack="discard" name_key="sleeping" duration="1" description_key="sleepingDesc" tooltip_key="sleepingTooltip" icon="ui_game_symbol_map_bed">
+	<modify id="0" stat="health" amount="1" rate="30" />
+</buff>	
+
+See how it works in the A14 buffs.xml.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Drowning buffs used to be "half hardcoded". They no longer are.
+
+If you enter water, "cannotBreath" is cast.
+If you leave water, "freshAir" is cast.
+
+What happens inbetween can now be altered.
+
+TBH, I don't *quite* trust this, yet. If you manage to break this in a reproducible fashion, speak up! =)
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Custom variables:
+
+buffif="myVar lequal 0" 
+A variable needs to CHANGE for such a condition to trigger.
+
+All by itself this never triggers unless something else changes the variable.
+
+If you want to start any processes on player characters you need to trigger this off a variable that
+you know will change such as
+buffif="coretemp lequal 300"
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+FYI:  actions="damage()"
+is currently bugged and does not affect zombies.
+I reworded the remaining buffs that should affect them to use "modify" instead.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Auto-gender player sounds on buffs are working... again!
+
+<buff id="autogendertest" duration="1" castsound="Player_*painlg1"/>
+
+The game translates that into
+	Player_Male/player1painlg1
+	Player_Female/player2painlg1
+as needed.
+
+The sound still has to be assigned in sounds.xml.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Icons usable for buffs:
+(some may be nonsense or not even work but hey - not my problem)
+
+Checkmark.tga                                                         
+map_poi_editor.png                                                    
+map_spawn.png                                                         
+map_static_spawner_editor.png                                         
+server_icon_vac.tga                                                   
+star 1.png                                                            
+star.png                                                              
+ui_game_filled_circle.tga                                             
+ui_game_header_fill.tga                                               
+ui_game_header_fill_gradient.tga                                      
+ui_game_header_insert.tga                                             
+ui_game_panel_header.tga                                              
+ui_game_popup.tga                                                     
+ui_game_select_row.tga                                                
+ui_game_shape_arch.tga                                                
+ui_game_shape_cone1m.tga                                              
+ui_game_shape_corner_round_1m.tga                                     
+ui_game_shape_corner_rounded.tga                                      
+ui_game_shape_cube.tga                                                
+ui_game_shape_cube_half.tga                                           
+ui_game_shape_cube_quarter.tga                                        
+ui_game_shape_plate.tga                                               
+ui_game_shape_plate_25cm.tga                                          
+ui_game_shape_plate_wall.tga                                          
+ui_game_shape_pole_0.5m.tga                                           
+ui_game_shape_pole_1m.tga                                             
+ui_game_shape_pole_square.tga                                         
+ui_game_shape_ramp.tga                                                
+ui_game_shape_ramp_corner_filler.tga                                  
+ui_game_shape_ramp_inside_corner.tga                                  
+ui_game_shape_ramp_outside_corner.tga                                 
+ui_game_shape_stairs.tga                                              
+ui_game_shape_stairs_filled.tga                                       
+ui_game_shape_stairs_filled_corner.tga                                
+ui_game_shape_wedge60.tga                                             
+ui_game_shape_wedge60_tip.tga                                         
+ui_game_shape_wedge60_tip_corner.tga                                  
+ui_game_shape_wedged_corner.tga                                       
+ui_game_stat_bar_health.tga                                           
+ui_game_stat_bar_stamina.tga                                          
+ui_game_symbol_add.tga                                                
+ui_game_symbol_airdrop.tga                                            
+ui_game_symbol_all_blocks.tga                                         
+ui_game_symbol_allies.tga                                             
+ui_game_symbol_archery.tga                                            
+ui_game_symbol_armor_iron.tga                                         
+ui_game_symbol_armor_leather.tga                                      
+ui_game_symbol_arrow_left.tga                                         
+ui_game_symbol_arrow_max.tga                                          
+ui_game_symbol_arrow_right.tga                                        
+ui_game_symbol_assemble.tga                                           
+ui_game_symbol_backpack.tga                                           
+ui_game_symbol_battery.tga                                            
+ui_game_symbol_beer.tga                                               
+ui_game_symbol_block_damage.tga                                       
+ui_game_symbol_block_repair.tga                                       
+ui_game_symbol_block_upgrade.tga                                      
+ui_game_symbol_book.tga                                               
+ui_game_symbol_brokenbone.tga                                         
+ui_game_symbol_bullet_point.tga                                       
+ui_game_symbol_campfire.tga                                           
+ui_game_symbol_cement.tga                                             
+ui_game_symbol_chair.tga                                              
+ui_game_symbol_character.tga                                          
+ui_game_symbol_check.tga                                              
+ui_game_symbol_chemistry.tga                                          
+ui_game_symbol_climb.tga                                              
+ui_game_symbol_clock.tga                                              
+ui_game_symbol_club.tga                                               
+ui_game_symbol_coffee.tga                                             
+ui_game_symbol_coin.tga                                               
+ui_game_symbol_cold.tga                                               
+ui_game_symbol_compass.tga                                            
+ui_game_symbol_computer.tga                                           
+ui_game_symbol_cookware.tga                                           
+ui_game_symbol_critical.tga                                           
+ui_game_symbol_death.tga                                              
+ui_game_symbol_defense.tga                                            
+ui_game_symbol_diamond.tga                                            
+ui_game_symbol_door.tga                                               
+ui_game_symbol_drive.tga                                              
+ui_game_symbol_drop.tga                                               
+ui_game_symbol_drunk.tga                                              
+ui_game_symbol_dysentery.tga                                          
+ui_game_symbol_electric_generator.tga                                 
+ui_game_symbol_electric_max_power.tga                                 
+ui_game_symbol_electric_outlet.tga                                    
+ui_game_symbol_electric_plugin.tga                                    
+ui_game_symbol_electric_power.tga                                     
+ui_game_symbol_electric_solar.tga                                     
+ui_game_symbol_electric_switch.tga                                    
+ui_game_symbol_electric_turret.tga                                    
+ui_game_symbol_fire.tga                                               
+ui_game_symbol_food_poisoning.tga                                     
+ui_game_symbol_forge.tga                                              
+ui_game_symbol_fork.tga                                               
+ui_game_symbol_gas.tga                                                
+ui_game_symbol_gunsmithing.tga                                        
+ui_game_symbol_hammer.tga                                             
+ui_game_symbol_hand.tga                                               
+ui_game_symbol_horn.tga                                               
+ui_game_symbol_hot.tga                                                
+ui_game_symbol_hunger.tga                                             
+ui_game_symbol_infection.tga                                          
+ui_game_symbol_invite.tga                                             
+ui_game_symbol_keypad.tga                                             
+ui_game_symbol_knife.tga                                              
+ui_game_symbol_light_armor.tga                                        
+ui_game_symbol_lightbulb.tga                                          
+ui_game_symbol_lock.tga                                               
+ui_game_symbol_loot_sack.tga                                          
+ui_game_symbol_map.tga                                                
+ui_game_symbol_map_bed.tga                                            
+ui_game_symbol_map_cabin.tga                                          
+ui_game_symbol_map_campsite.tga                                       
+ui_game_symbol_map_cave.tga                                           
+ui_game_symbol_map_city.tga                                           
+ui_game_symbol_map_civil.tga                                          
+ui_game_symbol_map_cursor.tga                                         
+ui_game_symbol_map_fortress.tga                                       
+ui_game_symbol_map_house.tga                                          
+ui_game_symbol_map_player_arrow.tga                                   
+ui_game_symbol_map_town.tga                                           
+ui_game_symbol_map_trader.tga                                         
+ui_game_symbol_map_waypoint_remove.tga                                
+ui_game_symbol_map_waypoint_set.tga                                   
+ui_game_symbol_medical.tga                                            
+ui_game_symbol_mic.tga                                                
+ui_game_symbol_minibike.tga                                           
+ui_game_symbol_mining.tga                                             
+ui_game_symbol_misc_crafting.tga                                      
+ui_game_symbol_muscle.tga                                             
+ui_game_symbol_natural_healing.tga                                    
+ui_game_symbol_noise.tga                                              
+ui_game_symbol_oxygen.tga                                             
+ui_game_symbol_paint_allsides.tga                                     
+ui_game_symbol_paint_brush.tga                                        
+ui_game_symbol_paint_bucket.tga                                       
+ui_game_symbol_paint_copy_block.tga                                   
+ui_game_symbol_paint_eyedropper.tga                                   
+ui_game_symbol_paint_roller.tga                                       
+ui_game_symbol_paint_spraygun.tga                                     
+ui_game_symbol_pen.tga                                                
+ui_game_symbol_percent.tga                                            
+ui_game_symbol_perk.tga                                               
+ui_game_symbol_pills.tga                                              
+ui_game_symbol_ping.tga                                               
+ui_game_symbol_pistol.tga                                             
+ui_game_symbol_player.tga                                             
+ui_game_symbol_players.tga                                            
+ui_game_symbol_quality_joe.tga                                        
+ui_game_symbol_quest.tga                                              
+ui_game_symbol_quest_remove.tga                                       
+ui_game_symbol_radiation.tga                                          
+ui_game_symbol_resource.tga                                           
+ui_game_symbol_rifle.tga                                              
+ui_game_symbol_rotate_advanced.tga                                    
+ui_game_symbol_rotate_auto.tga                                        
+ui_game_symbol_rotate_on_face.tga                                     
+ui_game_symbol_rotate_simple.tga                                      
+ui_game_symbol_run.tga                                                
+ui_game_symbol_safe.tga                                               
+ui_game_symbol_science.tga                                            
+ui_game_symbol_scrap.tga                                              
+ui_game_symbol_search.tga                                             
+ui_game_symbol_seats.tga                                              
+ui_game_symbol_service.tga                                            
+ui_game_symbol_shirt.tga                                              
+ui_game_symbol_shopping_cart.tga                                      
+ui_game_symbol_shotgun.tga                                            
+ui_game_symbol_skills.tga                                             
+ui_game_symbol_skull.tga                                              
+ui_game_symbol_sledge.tga                                             
+ui_game_symbol_smell.tga                                              
+ui_game_symbol_spatula.tga                                            
+ui_game_symbol_speed.tga                                              
+ui_game_symbol_splint.tga                                             
+ui_game_symbol_star.tga                                               
+ui_game_symbol_stunned.tga                                            
+ui_game_symbol_subtract.tga                                           
+ui_game_symbol_tailoring.tga                                          
+ui_game_symbol_talk.tga                                               
+ui_game_symbol_tea.tga                                                
+ui_game_symbol_temperature.tga                                        
+ui_game_symbol_thirst.tga                                             
+ui_game_symbol_tool.tga                                               
+ui_game_symbol_tool_smithing.tga                                      
+ui_game_symbol_treasure.tga                                           
+ui_game_symbol_trophy.tga                                             
+ui_game_symbol_unlock.tga                                             
+ui_game_symbol_vending.tga                                            
+ui_game_symbol_water.tga                                              
+ui_game_symbol_weapon_smithing.tga                                    
+ui_game_symbol_weight.tga                                             
+ui_game_symbol_wet.tga                                                
+ui_game_symbol_wind.tga                                               
+ui_game_symbol_workbench.tga                                          
+ui_game_symbol_wrench.tga                                             
+ui_game_symbol_x.tga                                                  
+ui_game_symbol_zombie.tga                                             
+wedge_tip_half.tga                                                    
+
+=====================================================================
+=====================================================================
+
+File: BIOMES.XML
+
+
+Ore distribution:
+
+The terrain blending shader can only blend 3 textures so if you add more than 3 types it ends up having hard lines and looks horrible.
+This is the technical reason why ores are so strictly limited per biome.
+
+The gameplay reason is to promote some travel instead of staying in one spot all game long, looting the same town over and over.
+
+Ergo: It's stone + iron + something PER LAYER.
+
+You can still stagger different layers with different ores / distributions.
+If you make layers varied, small and plentiful you will get more seam lines where 4+ textures interact. Your choice.
+
+Another possibility is to generate subbiomes that look the same on the surface but have a different layer setup.
+This may or may not become a feature.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+The world is saved / loaded as chunks of 16x256x16 (x y z) blocks.
+
+
+=====================================================================
+=====================================================================
+
+Icons for blocks and items:
+
+If there is a 	<property name="CustomIcon" value="blah" />
+neither the icon nor a placeholder space are baked into the icon atlas.
+
+The icon atlas is generated at
+\Assets\Resources\GUI\Atlases\ItemIcons.png
+\Assets\Resources\GUI\Atlases\ItemIcons.txt
+
+=====================================================================
+=====================================================================
+
+Armor value templates:
+
+I used these templates to assign armor values to "other stuff".
+
+
+	<property class="Attributes"> <!-- clothGeneric -->
+		<property name="ConcussiveProtection" value="0.065,0.13" />
+		<property name="PunctureProtection"   value="0.065,0.13" />
+		<property name="FireProtection"       value="0.12,0.2" />
+		<property name="RadiationProtection"  value="0.06,0.1" />
+		<property name="DegradationMax"       value="72,180" />
+	</property>
+
+	<property class="Attributes"> <!-- plantFiberClothes -->
+		<property name="ConcussiveProtection" value="0.09,0.15" />
+		<property name="PunctureProtection"   value="0.09,0.15" />
+		<property name="FireProtection"       value="0.12,0.2" />
+		<property name="RadiationProtection"  value="0.06,0.1" />
+		<property name="DegradationMax"       value="72,180" />
+	</property>
+
+	<property class="Attributes"> <!-- clothWarm -->
+		<property name="ConcussiveProtection" value="0.08,0.2" />
+		<property name="PunctureProtection"   value="0.08,0.2" />
+		<property name="FireProtection"       value="0.12,0.2" />
+		<property name="RadiationProtection"  value="0.06,0.1" />
+		<property name="DegradationMax"       value="80,200" />
+	</property>
+
+
+	<property class="Attributes"> <!-- clothArmor -->
+		<property name="ConcussiveProtection" value="0.125,0.25" />
+		<property name="PunctureProtection"   value="0.125,0.25" />
+		<property name="FireProtection"       value="0.1,0.2" />
+		<property name="RadiationProtection"  value="0.075,0.15" />
+		<property name="DegradationMax"       value="100,250" />
+	</property>
+
+	<property class="Attributes"> <!-- hideArmor -->
+		<property name="ConcussiveProtection" value="0.07,0.35" />
+		<property name="PunctureProtection"   value="0.06,0.3" />
+		<property name="FireProtection"       value="0.04,0.2" />
+		<property name="RadiationProtection"  value="0.04,0.2" />
+		<property name="DegradationMax"       value="140,350" />
+	</property>
+
+	<property class="Attributes"> <!-- leatherArmor -->
+		<property name="ConcussiveProtection" value="0.152,0.38" />
+		<property name="PunctureProtection"   value="0.12,0.3" />
+		<property name="FireProtection"       value="0.12,0.3" />
+		<property name="RadiationProtection"  value="0.08,0.2" />
+		<property name="DegradationMax"       value="180,450" />
+	</property>
+
+	<property class="Attributes"> <!-- scrapArmor -->
+		<property name="ConcussiveProtection" value="0.228,0.57" />
+		<property name="PunctureProtection"   value="0.18,0.45" />
+		<property name="FireProtection"       value="0.16,0.4" />
+		<property name="RadiationProtection"  value="0.12,0.3" />
+		<property name="DegradationMax"       value="240,600" />
+	</property>
+
+	<property class="Attributes"> <!-- ironArmor -->
+		<property name="ConcussiveProtection" value="0.26,0.65" />
+		<property name="PunctureProtection"   value="0.24,0.6" />
+		<property name="FireProtection"       value="0.2,0.5" />
+		<property name="RadiationProtection"  value="0.16,0.4" />
+		<property name="DegradationMax"       value="320,800" />
+	</property>
+
+	<property class="Attributes"> <!-- militaryArmor -->
+		<property name="ConcussiveProtection" value="0.28,0.7" />
+		<property name="PunctureProtection"   value="0.3,0.75" />
+		<property name="FireProtection"       value="0.08,0.2" />
+		<property name="RadiationProtection"  value="0.12,0.3" />
+		<property name="DegradationMax"       value="280,700" />
+	</property>
+
+	<property class="Attributes"> <!-- hazMatArmor -->
+		<property name="ConcussiveProtection" value="0.08,0.2" />
+		<property name="PunctureProtection"   value="0.1,0.25" />
+		<property name="FireProtection"       value="0.04,0.1" />
+		<property name="RadiationProtection"  value="0.32,0.8" />
+		<property name="DegradationMax"       value="160,400" />
+	</property>
+
+=====================================================================
+=====================================================================
+
+A15 stuff
+
+Weeeell, you may occasionally see the odd "A15" comment here and there.
+Some things just did not get done in time. It's real life's way to show you the finger.
+If you choose to "mod in" those totally-absolutely-not-QA-approved features or not is up to you.
+They may destroy your game or blow up planet Earth. I'm not saying it's likely but...
+
+=====================================================================
+=====================================================================
+
+File: SOUNDS.XML
+
+Sound Data Node
+	"AudioSourceName"
+	"ClipName"
+	"Loop"
+	"NetworkAudioSourceName"
+	"audioclip"
+	"audiosource"
+	"crouchnoisescale"
+	"heat_map_strength"
+	"heat_map_time"
+	"hordemeter"
+	"ignoredistancecheck"
+	"immediate"
+	"localcrouchvolumescale"
+	"maxentities"
+	"maxrepeatrate"
+	"maxvoices"
+	"muffled_when_crouched"
+	"networkaudiosource"
+	"noise"
+	"noisescale"
+	"player_only"
+	"prio"
+	"range"
+	"time"
+
+Attributes:
+	"crouchVolume"
+	"localCrouchVolume"
+	"localVolume"
+	"maxvoices"
+	"priority"
+	"rate"
+	"volume"
+
+
+=====================================================================
+=====================================================================
+
+File: ENTITYCLASSES.XML
+
+
+Target parameters for AITask properties:
+
+EntityAnimalBear
+EntityAnimalRabbit
+EntityAnimalStag
+EntityCar
+EntityEnemy
+EntityFallingBlock
+EntityFallingTree
+EntityItem
+EntityNPC
+EntityPlayer
+EntitySupplyCrate
+EntitySupplyPlane
+EntityVehicle
+
+
+<property name="AITask-3" value="Territorial"/>
+	(unused in A16) see spawning.xml
+	If an ENTITYSPAWNER has Territorial=true and TerritorialRange=distance and the entity_class (here) has AITask Territorial
+	then an entity WILL return to it's spawn point (ignoring everything) when it exceeds this distance.
+
+In general there are 2 classes of tasks in this entity system.
+AITask- : movement task that decides what to do, possibly with the chosen target
+AITarget- : targeting task, it determines what the entity should target
+
+
+<property name="AITask-6" value="ApproachAndAttackTarget" data="class=EntityPlayer"/>
+param2 : give up time
+If the entity is chasing a target for this long it will potentially give up... unless the
+target is still in range/sight, in which case the pursuit is continued.
+Essentially you have to break LOS for this long.
+
+An entity will be aggro again if attacked after it has stopped pursueing.
+(bug in 16.0: Zombies never seem to stop pursueing)
+
+
+
+(A18) XP buckets for balancing:
+
+<property name="ExperienceGain" value="550"/> <!-- XP grunt -->
+<property name="ExperienceGain" value="800"/> <!-- XP strong -->
+
+<property name="ExperienceGain" value="1000"/> <!-- XP grunt feral -->
+<property name="ExperienceGain" value="1250"/> <!-- XP strong feral -->
+
+<property name="ExperienceGain" value="1600"/> <!-- XP grunt radiated -->
+<property name="ExperienceGain" value="2000"/> <!-- XP strong radiated -->
+
+Moved to here because HTML is particular about it's comments.
+
+
+=====================================================================
+=====================================================================
+
+Wandering Hordes / Gamestage
+
+Wandering hordes don't spawn until 28 hours into the game.
+
+Wandering hordes will use the player's gamestage... but wrap around at 50.
+If you are GS 57 you get the "07" wandering horde.
+This is kinda hacky but the best we got for now. Stay tuned for A17.
+
+To test them:
+
+	shownexthordetime
+	settime to that
+	see the spawns on the console or ingame
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+maxAlive
+values in gamestages.xml  are now per player, not per party.
+
+
+=====================================================================
+=====================================================================
+
+Imposters / Distant POI
+
+
+(prefab.xml)
+<property name="DistantPOIOverride" value="hotel_ostrich" />
+	If your custom-built prefab HAS no baked imposter you can choose to display any of the EXISTING .mesh files in the prefab folder.
+	It will obviously be the wrong building... but you can see that there is SOMETHING over yonder instead of nothing.
+
+(prefab.xml)
+<property name="DistantPOIYOffset" value="0" />
+	Move the imposter up/down to deal with zfighting with the ground or the actual blocks.
+
+In the level editor use console command "prefab bulk" to generate all imposters.
+
+(A17)
+To update a single prefab's imposter in the level editor,
+open the Level Tools 2 page and click Update Imposter.
+
+=====================================================================
+=====================================================================
+
+Sleepers
+
+<property name="SleeperVolumeSize" value="54, 7, 40#54, 7, 27#13, 7, 21#54, 6, 27#54, 17, 32#54, 10, 27#21, 7, 26#54, 6, 27#21, 10, 26#5, 10, 5" />
+<property name="SleeperVolumeStart" value="0, 0, 0#0, 7, 13#41, 0, 0#0, 14, 13#0, 36, 8#0, 26, 13#18, 36, 14#0, 20, 13#18, 43, 14#23, 26, 24" />
+	Sleeper volume dimensions.
+
+<property name="SleeperVolumeGroup" value="S_ZomUtilityWorker_L,S_ZomUtilityWorker_L,S_BikerBar_Med,S_GhostTown_Med,S_LootRoom_XS,S_ZomUtilityWorker_Med,S_LootRoom_L,S_ZomUtilityWorker_L,S_LootRoom_XS,S_LootRoom_XS" />
+	See gamestages.xml
+
+<property name="SleeperVolumeGameStageAdjust" value=",,,,,,hard,,hard," />
+	A volume can have a gamestage modifier. See gamestages.xml
+
+<property name="SleeperIsLootVolume" value="False,False,True,False,False,False,True,False,True,True" />
+	A loot volume is a sleeper volume that CAN intersect with ONE other non-loot volume.
+	No other kind of intersecting volumes is allowed. (it may not crash but zombies will not know where they belong)
+
+
+(A17)
+Sleeper spawner blocks:
+
+<property name="ExcludeWalkType" value="4"/>
+	Exclude crawlers from spawning in standing poses.
+
+<property name="Pose" value="5"/>
+	?
+
+<property name="LookIdentity" value="0,0,1"/>
+	The sleeper is "looking" in one of the 6 main directions of the block space.
+	This needs to match the perceived look direction of the spawner block/pose.
+
+
+Sleepers / Sounds.xml / Sleepers
+
+<Noise ID="3" range="14" range="16" volume="0" time="3" muffled_when_crouched="0.65" heat_map_strength="0.05" heat_map_time="60"/>
+
+ID= a completely bogus parameter that the game does not even read. I put that in to more easily sort sounds into buckets.
+
+The sound volume emitted by the player. Sorted by volume. Loudest is 100%, next added at 60%, next at 36%...
+
+OLD:
+If the player currently has 3 active sounds (ticking down their duration) of range 3 + 3 + 12 then zombies can hear that at a range of 18.
+Clamp means that the sound will be ignored if the meter is above this value.
+If you don't specify a clamp or it's 0 (default) then the sound will always add to the meter.
+If footsteps have a clamp of 10 and you are firing an AK then the footsteps are inconsequential" and would not make your sound emission any greater.
+
+
+=====================================================================
+=====================================================================
+(A17) Stealth (pretty identical to A16)
+
+Stealth has 2 separate components. 3 if you count the UI.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+1. Light/Vision-based detection
+
+	entityclasses.xml  has the base stats for entities.
+
+	<property name="SightRange" value="30"/>  sight distance in m over which the various light values will scale
+
+	Awake zombies:
+	<property name="SightLightThreshold" value="-2,150"/>	How well lit you have to be for the awake zombie to see you at min,max range.
+							At range 30 you'd need a light level of 150 to be seen by this zombie.
+
+	Sleeper zombies:
+	<property name="SleeperWakeupSightDetectionMin" value="-40,5"/> <!-- Indiv.Random. sight capability - "I see you" light value at point blank -->
+	<property name="SleeperWakeupSightDetectionMax" value="340,480"/> <!-- Indiv.Random. "I see you" light value at "SightRange" -->
+	<property name="SleeperSenseSightDetectionMin" value="-10,0"/> <!-- same for groaning, not waking -->
+	<property name="SleeperSenseSightDetectionMax" value="200,300"/>
+
+		The sleeper stats are random for each spawned zombie.
+		SleeperWakeupSightDetectionMin rolls one number, SleeperWakeupSightDetectionMax rolls one number, and so on.
+
+		Just like for awake zombies, this scales across  SightRange  so the Min value applies to 0m and the Max value to 30m.
+
+		SleeperSense CAN trigger a little groan sound but does not wake up the sleeper.
+
+	If your light level > what the zombie CAN see at the current range, the relevant state is triggered.
+
+
+	items.xml has light values for items like flashlights.
+	<property name="LightValue" value="0.7"/>
+	When turned on, your light level is  (added? multiplied? I forgot)
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+2. Sound-based detection
+
+	Sound generates a volume around the player with a RANGE. Multiple sound events stack/add up to increase that range.
+	Sound events remain separate. If one decays, all other events stay in place and their numbers add up to a new current total.
+	
+
+	All sounds are generated on the player. The sound source moves with the player.
+	Thrown distractions are local and make zombies seek out the distraction for a while.
+
+
+	sounds.xml  has the stealth data for every sound.
+	<Noise ID="2" range="7" volume="11" time="4" muffled_when_crouched="0.5"/>
+	
+OLD:		range="7"	This sound  ADDS 7  to your noise range which is basically also a volume.
+
+OLD:		clamp="11"	This sound is  NOT ADDED  to your noise range when your noise range is already 11.
+				That's how minor sounds like footsteps can be prevented to add up to extreme noise values or add
+				to the overall racket when such a minor sound wouldn't be adible at all.
+
+		time="4"	Every sound is active on your for so long. Then this sound finishes and no longer goes into the calculation.
+
+
+	entityclasses.xml  has the base stats for entities.
+
+	<property name="NoiseAlertThreshold" value="30"/> <!-- for awake zombies -->
+
+	<property name="SleeperNoiseSenseThreshold" value="2,13"/> <!-- Indiv.Random. hearing capability - "I hear something" noise value -->
+	<property name="SleeperNoiseWakeThreshold" value="20,20"/>
+		These 2 generate one value each. Distance = range for sounds so a higher value means less hearing capability on that zombie.
+
+	<property name="SoundSleeperSenseChance" value=".5"/> <!-- the chance to play "SoundSleeperSense" when "SleeperNoiseSenseThreshold" is triggered -->
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+3. Stealth UI
+	The bar/number is a potpourri value for light+sound.
+	It does not give you any definite information about either.
+	The main use is to tell you THAT an action increases or lowers your stealth... by an unknown amount.
+
+	F3 Debug Info:
+
+	For Sleepers:
+		Light 15/40 (30), Sound 20/27 (17)
+
+		15:  the current light value of the player
+		40:  The distance-modified  SleeperWakeupSightDetection light value
+		(30): The distance-modified  SleeperSenseSightDetection light value
+
+		20:  the current sound value emitted by the player
+		27:  SleeperNoiseWakeThreshold    (random for each zombie, fixed after creation)
+		(17): SleeperNoiseSenseThreshold    (random for each zombie, fixed after creation)
+
+	For awake zombies:
+		Light 15/40 [optional "Sighted" if valid LOS], Sound 20/27
+
+		15:  the current light value of the player
+		40:  SightLightThreshold. The distance-modified light level you have to be to be seen
+
+		20:  the current sound value emitted by the player
+		27:  the range to this zombie.
+			you are instantly heard if your "sound bubble" touches an awake zombie
+		- - - - - - - - - - - - - - - - - - - - - - - -
+
+		You can also get a "distance to target" display with (console)  "showrangeddebug".
+
+
+=====================================================================
+=====================================================================
+
+(A17) ISS - Integrated Survival System
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+(A17) Weapons / mods
+
+Now this part is going to get messy and beautifully simple because it's a complete overhaul of what you're
+used to and a unification of the effects on items / buffs / skills as well as the use of cvars.
+
+For the most part it makes no difference whatsoever if you're attaching an effect to an item / buff / skill.
+Same syntax and everything.
+Obviously there are differences in scope because a buff would not have a primary/secondary action.
+
+Starting somewhere:
+
+<effect_group name="Base Effects"> the name property is meaningless and only there for readability.
+
+<passive_effect name="SpreadDegreesVertical" operation="set" value="6"/>
+
+Any passive effect that changes a stat/variable does so using the chosen operation and value.
+
+
+<passive_effect name="DegradationMax" operation="set" value="500,6000" tier="1,6"/>
+For items with tiers you can assign a lerping (linear interpolation) value and be done with it.
+Or you can do this:
+<passive_effect name="DegradationMax" operation="set" value="500" tier="1"/>
+<passive_effect name="DegradationMax" operation="set" value="1000" tier="2"/>
+<passive_effect name="DegradationMax" operation="set" value="2000" tier="3"/>
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+(A17) Computational order for generating damage:
+1. Damage and effects on ammo, if applicable.
+2. Damage and effects on weapons. (modifying or overriding) 
+3. Active modifiers from buffs and skills.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+GENERAL computational order for determining effects and their magnitude, order of operations (OOO)
+
+If NO ENTITY is known and ONLY an item is passed to the code:
+	1. the item in question including installed mods
+
+If AN ENTITY is doing something, using items, or merely standing around:
+	1. Entity Class
+	2. the item in question including installed mods (if an item is passed in)
+	3. held item  including installed mods, if not equal to the item in question
+	4. worn items  including installed mods
+	5. player progression (skills, perks...)
+	6. buffs
+	7. bonus damage such as for headshots or attacking specific block materials (see below)
+	8. game difficulty modifier
+	9. armor reduces damage
+
+On PASSIVE effects, the order is also affected by the TYPE of operation.
+	- A "base_set" should be placed first in the OOO... because it overwrites any previous changes in the OOO. Duh.
+	- Any base_set|base_add|base_subtract take effect immediately as the list is traversed.
+
+	- Any and all perc_set|perc_add|perc_subtract are COLLECTED into a separate variable and applied after last as one modifier.
+
+	target, stat[health,stamina,food,water,speedmodifier,coretemp], operation[], value
+			operation:	base_set:			SET the absolute value of a stat, such as setting HealthMax to 100.
+
+
+
+	Example: SpreadMultiplierAiming
+	The base value for this is =1.
+
+	<passive_effect name="SpreadMultiplierAiming" operation="perc_subtract" value="-15"/> <!-- 3. -->
+	<passive_effect name="SpreadMultiplierAiming" operation="base_set" value="0.8"/>      <!-- 1. -->
+	<passive_effect name="SpreadMultiplierAiming" operation="perc_add" value="30"/>       <!-- 4. -->
+	<passive_effect name="SpreadMultiplierAiming" operation="base_subtract" value="-.4"/> <!-- 2. -->
+
+	What happens now is:
+		1.	0.8
+		2.	+0.4
+		3.	+15%
+		4.	+30%
+		Total of  1.2 + 45% = 1.74
+
+	If you were to switch the lines around like this
+	<passive_effect name="SpreadMultiplierAiming" operation="perc_subtract" value="-15"/> <!-- 3. -->
+	<passive_effect name="SpreadMultiplierAiming" operation="base_subtract" value="-.4"/> <!-- 1. -->
+	<passive_effect name="SpreadMultiplierAiming" operation="perc_add" value="30"/>       <!-- 4. -->
+	<passive_effect name="SpreadMultiplierAiming" operation="base_set" value="0.8"/>      <!-- 2. -->
+		the result would be a total of  0.8 + 45% = 1.16
+
+
+=====================================================================
+
+BONUS DAMAGE such as for headshots or attacking specific block materials (see below)(A17)
+
+	This is a damage modifier on an attack that adjusts the damage based on target body location (entity)
+	or target material (block).
+
+	<passive_effect name="DamageModifier" operation="perc_set" value="1.75,2.5" level="1,10" tags="head,ranged" match_all_tags="true"/>
+
+	That for instance, will take in the damage amount after all other calcs but before the difficulty multiplier and
+	before the armor check and at level one it'll be damage * 1.75.
+
+	Stance can also be put in the tags:
+		running,walking,idle,swimming,floating
+
+
+=====================================================================
+=====================================================================
+
+(A17) Falling blocks damage / cave ins
+
+damage = (Utils.FastMin(block.blockMaterial.Hardness.Value * block.blockMaterial.Mass.Value * fallTimeInTicks/Constants.cTicksPerSecond *.6f ,40));
+
+=====================================================================
+=====================================================================
+
+(A17) Screen effects and particles
+
+
+	<triggered_effect trigger="onSelfBuffStart" action="ModifyScreenEffect" intensity="0.5" fade="1" effect_name="Blur"/>
+	All of them are permanently loaded on the player. Set intensity to 0 to disable.
+
+		Blur
+		Bright
+		Cold
+		Dark
+		Dead (no intensity)
+		Distortion
+		Drunk
+		Dying (no intensity)
+		Hot
+		Posterize
+		Underwater
+		Vibrant
+		VibrantDeSat
+
+
+	<triggered_effect trigger="onSelfBuffStart" action="AttachParticleEffectToEntity" target="self" particle="p_electric_shock" local_offset="0,0.75,0"/>
+	<triggered_effect trigger="onSelfDied" action="RemoveParticleEffectFromEntity" target="self" particle="p_electric_shock" />
+
+		burntZombieSmoke.prefab
+		light_bullet_impact.prefab
+		MinibikeParticles.prefab
+		p_big_smoke.prefab
+		p_blockdestroy_boulder.prefab
+		p_blockdestroy_cloth.prefab
+		p_blockdestroy_earth.prefab
+		p_blockdestroy_glass.prefab
+		p_blockdestroy_metal.prefab
+		p_blockdestroy_organic.prefab
+		p_blockdestroy_plant.prefab
+		p_blockdestroy_snow.prefab
+		p_blockdestroy_stone.prefab
+		p_blockdestroy_water.prefab
+		p_blockdestroy_wood.prefab
+		p_blockdestroy_xt_leaves1.prefab
+		p_blockdestroy_xt_leaves2.prefab
+		p_blockdestroy_xt_leaves3.prefab
+		p_blockdestroy_xt_tallgrass.prefab
+		p_blood_death.prefab
+		p_blood_decapitation.prefab
+		p_blood_impact.prefab
+		p_breath.prefab
+		p_breath_thirdperson.prefab
+		p_burning_barrel.prefab
+		p_campfire.prefab
+		p_candleWall_flame.prefab
+		p_candle_flame.prefab
+		p_chemistryStation.prefab
+		p_critical.prefab
+		p_distanceTest.prefab
+		p_electric_fence_sparks.prefab
+		p_electric_shock.prefab
+		p_fat_cop_explosion.prefab
+		p_fire_small.prefab
+		p_forge.prefab
+		p_generator.prefab
+		p_hotembers.prefab
+		p_hotembersZombie.prefab
+		p_impact_bullet_on_cloth.prefab
+		p_impact_bullet_on_earth.prefab
+		p_impact_bullet_on_glass.prefab
+		p_impact_bullet_on_metal.prefab
+		p_impact_bullet_on_organic.prefab
+		p_impact_bullet_on_plant.prefab
+		p_impact_bullet_on_snow.prefab
+		p_impact_bullet_on_stone.prefab
+		p_impact_bullet_on_water.prefab
+		p_impact_bullet_on_wood.prefab
+		p_impact_bullet_on_xt_tallgrass.prefab
+		p_impact_metal_on_cloth.prefab
+		p_impact_metal_on_earth.prefab
+		p_impact_metal_on_glass.prefab
+		p_impact_metal_on_metal.prefab
+		p_impact_metal_on_metal_harvest.prefab
+		p_impact_metal_on_metal_repair.prefab
+		p_impact_metal_on_organic.prefab
+		p_impact_metal_on_plant.prefab
+		p_impact_metal_on_snow.prefab
+		p_impact_metal_on_stone.prefab
+		p_impact_metal_on_water.prefab
+		p_impact_metal_on_wood.prefab
+		p_impact_metal_on_xt_tallgrass.prefab
+		p_impact_organic_on_cloth.prefab
+		p_impact_organic_on_earth.prefab
+		p_impact_organic_on_glass.prefab
+		p_impact_organic_on_metal.prefab
+		p_impact_organic_on_organic.prefab
+		p_impact_organic_on_plant.prefab
+		p_impact_organic_on_snow.prefab
+		p_impact_organic_on_stone.prefab
+		p_impact_organic_on_water.prefab
+		p_impact_organic_on_wood.prefab
+		p_impact_organic_on_xt_tallgrass.prefab
+		p_impact_stone_on_cloth.prefab
+		p_impact_stone_on_earth.prefab
+		p_impact_stone_on_glass.prefab
+		p_impact_stone_on_metal.prefab
+		p_impact_stone_on_organic.prefab
+		p_impact_stone_on_plant.prefab
+		p_impact_stone_on_snow.prefab
+		p_impact_stone_on_stone.prefab
+		p_impact_stone_on_water.prefab
+		p_impact_stone_on_wood.prefab
+		p_impact_stone_on_xt_tallgrass.prefab
+		p_impact_wood_on_cloth.prefab
+		p_impact_wood_on_earth.prefab
+		p_impact_wood_on_glass.prefab
+		p_impact_wood_on_metal.prefab
+		p_impact_wood_on_organic.prefab
+		p_impact_wood_on_plant.prefab
+		p_impact_wood_on_snow.prefab
+		p_impact_wood_on_stone.prefab
+		p_impact_wood_on_water.prefab
+		p_impact_wood_on_wood.prefab
+		p_impact_wood_on_xt_tallgrass.prefab
+		p_nailgunfire.prefab
+		p_nozzleflash.prefab
+		p_nozzleflashuzi.prefab
+		p_nozzleflash_ak.prefab
+		p_nozzleflash_m136.prefab
+		p_nozzleflash_shotgun.prefab
+		p_nozzlesmoke.prefab
+		p_nozzlesmokeuzi.prefab
+		p_nozzlesmoke_chainsaw.prefab
+		p_nozzlesmoke_m136.prefab
+		p_onFire.prefab
+		p_paint_block.prefab
+		p_paint_splash.prefab
+		p_paint_splash2.prefab
+		p_rocketLauncherFire.prefab
+		p_sandstorm.prefab
+		p_signal_flarePrefab.prefab
+		p_smoke.prefab
+		p_smokestorm.prefab
+		p_snowstorm1.prefab
+		p_supply_crate_gib_Prefab.prefab
+		p_supply_crate_impact.prefab
+		p_tiresmoke.prefab
+		p_torch_wall.prefab
+		p_treefall.prefab
+		p_treeGib_birch.prefab
+		p_treeGib_birch_15m.prefab
+		p_treeGib_birch_6m.prefab
+		p_treeGib_birch_small.prefab
+		p_treeGib_burnt.prefab
+		p_treeGib_burnt_55m.prefab
+		p_treeGib_burnt_75m.prefab
+		p_treeGib_burnt_small.prefab
+		p_treeGib_dead_01.prefab
+		p_treeGib_dead_02.prefab
+		p_treeGib_maple_13m.prefab
+		p_treeGib_maple_15m.prefab
+		p_treeGib_maple_17m.prefab
+		p_treeGib_sapling.prefab
+		p_treeGib_small_dust.prefab
+		p_treeGib_winter01.prefab
+		p_treeGib_winter02.prefab
+		p_treeGib_winter03.prefab
+		p_treeGib_winter_small.prefab
+		p_vomitMouth.prefab
+		p_wire_tool_dust.prefab
+		p_wire_tool_sparks.prefab
+		RadiatedParticlesOnMesh.prefab
+		SharkNato.prefab
+		Smoke_Unlit.prefab
+		TestParticle.prefab
+
+=====================================================================
+=====================================================================
+<!-- Template for adding a new shape to main building blocks
+here with a default description for the entire group.
+
+<block name="woodFrameNewBlockID">
+	<property name="Extends" value="woodFrameMaster" />
+	<property name="CreativeMode" value="Player"/>
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="CanPickup" value="true" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="woodNewBlockID" /> </property>
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="solidWoodFrameNewBlockID">
+	<property name="Extends" value="woodFrameNewBlockID" />
+	<property name="CreativeMode" value="Dev"/>
+	<property name="CustomIcon" value="woodFrameNewBlockID" />
+	<property name="CanPickup" value="false" />
+</block>
+
+<block name="woodNewBlockID">
+	<property name="Extends" value="woodMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="rWoodNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="solidWoodFrameNewBlockID" />
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="rWoodNewBlockID">
+	<property name="Extends" value="rWoodMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="rWoodMetalNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="woodNewBlockID" />
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="rWoodMetalNewBlockID">
+	<property name="Extends" value="rWoodMetalMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="scrapIronNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="rWoodNewBlockID" />
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="scrapIronFrameNewBlockID">
+	<property name="Extends" value="scrapIronFrameMaster" />
+	<property name="CreativeMode" value="Player"/>
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="CanPickup" value="true" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="scrapIronNewBlockID" /> </property>
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="solidScrapIronFrameNewBlockID">
+	<property name="Extends" value="scrapIronFrameNewBlockID" />
+	<property name="CreativeMode" value="Dev"/>
+	<property name="CustomIcon" value="scrapIronFrameNewBlockID" />
+	<property name="CanPickup" value="false" />
+</block>
+
+<block name="scrapIronNewBlockID">
+	<property name="Extends" value="scrapIronMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="rScrapIronNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="solidScrapIronFrameNewBlockID" />
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="rScrapIronNewBlockID">
+	<property name="Extends" value="rScrapIronMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="pouredConcreteNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="scrapIronNewBlockID" />
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="pouredConcreteNewBlockID">
+	<property name="Extends" value="pouredConcreteMaster" />
+	<property name="CreativeMode" value="Player"/>
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="UpgradeRated.ToBlock" value="concreteNewBlockID" />
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="concreteNewBlockID">
+	<property name="Extends" value="concreteMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="pouredRConcreteNewBlockID" /> </property>
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="pouredRConcreteNewBlockID">
+	<property name="Extends" value="pouredRConcreteMaster" />
+	<property name="CreativeMode" value="None"/>
+	<property name="CustomIcon" value="pouredConcreteNewBlockID" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="UpgradeRated.ToBlock" value="rConcreteNewBlockID" />
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="rConcreteNewBlockID">
+	<property name="Extends" value="rConcreteMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="steelNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="concreteNewBlockID" />
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="steelNewBlockID">
+	<property name="Extends" value="steelMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="Texture" value="356" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="stainlessSteelNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="rConcreteNewBlockID" />
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="stainlessSteelNewBlockID">
+	<property name="Extends" value="stainlessSteelMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="DowngradeBlock" value="rConcreteNewBlockID" />
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="brickNewBlockID">
+	<property name="Extends" value="brickMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="pouredConcreteNewBlockID" /> </property>
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="flagstoneNewBlockID">
+	<property name="Extends" value="flagstoneMaster"/>
+	<property name="Shape" value="New"/>
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="cobblestoneNewBlockID"/> </property>
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="cobblestoneNewBlockID">
+	<property name="Extends" value="cobblestoneMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="pouredConcreteNewBlockID" /> </property>
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+
+
+
+
+<recipe name="woodFrameNewBlockID" count="1">
+	<ingredient name="wood" count="2"/>
+</recipe>
+	ALTERNATIVE - use one or the other!
+	<recipe name="woodNewBlockID" count="1">
+		<ingredient name="wood" count="6"/>
+	</recipe>
+
+<recipe name="scrapIronFrameNewBlockID" count="1">
+	<ingredient name="scrapIron" count="15"/>
+</recipe>
+	ALTERNATIVE - use one or the other!
+	<recipe name="scrapIronNewBlockID" count="1">
+		<ingredient name="scrapIron" count="40"/>
+	</recipe>
+
+<recipe name="pouredConcreteNewBlockID" count="1">
+	<ingredient name="concreteMix" count="10"/>
+</recipe>
+
+<recipe name="brickNewBlockID" count="1" craft_area="forge" material_based="true">
+	<ingredient name="unit_stone" count="10"/>
+	<ingredient name="unit_clay" count="60"/>
+</recipe>
+
+<recipe name="flagstoneNewBlockID" count="1">
+	<ingredient name="cobblestones" count="4"/>
+</recipe>
+
+
+
+shapeNewBlockIDGroupDesc	blocks	Block	New	InsertLongBlatherDescription
+Tell me more. This shape is relevant to my interests.
+
+brickNewBlockID	blocks	Block	New	Brick BlockLongBlatherName
+cobblestoneNewBlockID	blocks	Block	New	Cobblestone BlockLongBlatherName
+concreteNewBlockID	blocks	Block	New	Concrete BlockLongBlatherName
+flagstoneNewBlockID	blocks	Block	New	Flagstone BlockLongBlatherName
+pouredConcreteNewBlockID	blocks	Block	New	Wet Concrete BlockLongBlatherName
+rConcreteNewBlockID	blocks	Block	New	R Concrete BlockLongBlatherName
+rScrapIronNewBlockID	blocks	Block	New	R Iron BlockLongBlatherName
+rWoodMetalNewBlockID	blocks	Block	New	R Wood Metal BlockLongBlatherName
+rWoodNewBlockID	blocks	Block	New	R Wood BlockLongBlatherName
+scrapIronFrameNewBlockID	blocks	Block	New	Iron Frame BlockLongBlatherName
+scrapIronNewBlockID	blocks	Block	New	Iron BlockLongBlatherName
+solidScrapIronFrameNewBlockID	blocks	Block	New	S Iron Frame BlockLongBlatherName
+solidWoodFrameNewBlockID	blocks	Block	New	S Wood Frame BlockLongBlatherName
+stainlessSteelNewBlockID	blocks	Block	New	St Steel BlockLongBlatherName
+steelNewBlockID	blocks	Block	New	Steel BlockLongBlatherName
+woodFrameNewBlockID	blocks	Block	New	Wood Frame BlockLongBlatherName
+woodNewBlockID	blocks	Block	New	Wood BlockLongBlatherName
+
+=====================================================================
+=====================================================================
+
+<!-- Template for adding a new shape to main building blocks
+Without group/shape description. Just the default material desc.
+
+<block name="woodFrameNewBlockID">
+	<property name="Extends" value="woodFrameMaster" />
+	<property name="CreativeMode" value="Player"/>
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="CanPickup" value="true" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="woodNewBlockID" /> </property>
+</block>
+
+<block name="solidWoodFrameNewBlockID">
+	<property name="Extends" value="woodFrameNewBlockID" />
+	<property name="CreativeMode" value="Dev"/>
+	<property name="CustomIcon" value="woodFrameNewBlockID" />
+	<property name="CanPickup" value="false" />
+</block>
+
+<block name="woodNewBlockID">
+	<property name="Extends" value="woodMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="rWoodNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="solidWoodFrameNewBlockID" />
+</block>
+
+<block name="rWoodNewBlockID">
+	<property name="Extends" value="rWoodMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="rWoodMetalNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="woodNewBlockID" />
+</block>
+
+<block name="rWoodMetalNewBlockID">
+	<property name="Extends" value="rWoodMetalMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="scrapIronNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="rWoodNewBlockID" />
+</block>
+
+<block name="scrapIronFrameNewBlockID">
+	<property name="Extends" value="scrapIronFrameMaster" />
+	<property name="CreativeMode" value="Player"/>
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="CanPickup" value="true" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="scrapIronNewBlockID" /> </property>
+</block>
+
+<block name="solidScrapIronFrameNewBlockID">
+	<property name="Extends" value="scrapIronFrameNewBlockID" />
+	<property name="CreativeMode" value="Dev"/>
+	<property name="CustomIcon" value="scrapIronFrameNewBlockID" />
+	<property name="CanPickup" value="false" />
+</block>
+
+<block name="scrapIronNewBlockID">
+	<property name="Extends" value="scrapIronMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="rScrapIronNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="solidScrapIronFrameNewBlockID" />
+</block>
+
+<block name="rScrapIronNewBlockID">
+	<property name="Extends" value="rScrapIronMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="pouredConcreteNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="scrapIronNewBlockID" />
+</block>
+
+<block name="pouredConcreteNewBlockID">
+	<property name="Extends" value="pouredConcreteMaster" />
+	<property name="CreativeMode" value="Player"/>
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="UpgradeRated.ToBlock" value="concreteNewBlockID" />
+</block>
+
+<block name="concreteNewBlockID">
+	<property name="Extends" value="concreteMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="pouredRConcreteNewBlockID" /> </property>
+</block>
+
+<block name="pouredRConcreteNewBlockID">
+	<property name="Extends" value="pouredRConcreteMaster" />
+	<property name="CreativeMode" value="None"/>
+	<property name="CustomIcon" value="pouredConcreteNewBlockID" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="UpgradeRated.ToBlock" value="rConcreteNewBlockID" />
+</block>
+
+<block name="rConcreteNewBlockID">
+	<property name="Extends" value="rConcreteMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="steelNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="concreteNewBlockID" />
+</block>
+
+<block name="steelNewBlockID">
+	<property name="Extends" value="steelMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="Texture" value="356" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="stainlessSteelNewBlockID" /> </property>
+	<property name="DowngradeBlock" value="rConcreteNewBlockID" />
+</block>
+
+<block name="stainlessSteelNewBlockID">
+	<property name="Extends" value="stainlessSteelMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="DowngradeBlock" value="rConcreteNewBlockID" />
+</block>
+
+<block name="brickNewBlockID">
+	<property name="Extends" value="brickMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="pouredConcreteNewBlockID" /> </property>
+</block>
+
+<block name="flagstoneNewBlockID">
+	<property name="Extends" value="flagstoneMaster"/>
+	<property name="Shape" value="New"/>
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="cobblestoneNewBlockID"/> </property>
+</block>
+
+<block name="cobblestoneNewBlockID">
+	<property name="Extends" value="cobblestoneMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property class="UpgradeBlock"> <property name="ToBlock" value="pouredConcreteNewBlockID" /> </property>
+</block>
+
+
+
+
+
+<recipe name="woodFrameNewBlockID" count="1">
+	<ingredient name="wood" count="2"/>
+</recipe>
+	ALTERNATIVE - use one or the other!
+	<recipe name="woodNewBlockID" count="1">
+		<ingredient name="wood" count="6"/>
+	</recipe>
+
+<recipe name="scrapIronFrameNewBlockID" count="1">
+	<ingredient name="scrapIron" count="15"/>
+</recipe>
+	ALTERNATIVE - use one or the other!
+	<recipe name="scrapIronNewBlockID" count="1">
+		<ingredient name="scrapIron" count="40"/>
+	</recipe>
+
+<recipe name="pouredConcreteNewBlockID" count="1">
+	<ingredient name="concreteMix" count="10"/>
+</recipe>
+
+<recipe name="brickNewBlockID" count="1" craft_area="forge" material_based="true">
+	<ingredient name="unit_stone" count="10"/>
+	<ingredient name="unit_clay" count="60"/>
+</recipe>
+
+<recipe name="flagstoneNewBlockID" count="1">
+	<ingredient name="cobblestones" count="4"/>
+</recipe>
+
+brickNewBlockID	blocks	Block	New	Brick BlockLongBlatherName
+cobblestoneNewBlockID	blocks	Block	New	Cobblestone BlockLongBlatherName
+concreteNewBlockID	blocks	Block	New	Concrete BlockLongBlatherName
+flagstoneNewBlockID	blocks	Block	New	Flagstone BlockLongBlatherName
+pouredConcreteNewBlockID	blocks	Block	New	Wet Concrete BlockLongBlatherName
+rConcreteNewBlockID	blocks	Block	New	R Concrete BlockLongBlatherName
+rScrapIronNewBlockID	blocks	Block	New	R Iron BlockLongBlatherName
+rWoodMetalNewBlockID	blocks	Block	New	R Wood Metal BlockLongBlatherName
+rWoodNewBlockID	blocks	Block	New	R Wood BlockLongBlatherName
+scrapIronFrameNewBlockID	blocks	Block	New	Iron Frame BlockLongBlatherName
+scrapIronNewBlockID	blocks	Block	New	Iron BlockLongBlatherName
+solidScrapIronFrameNewBlockID	blocks	Block	New	S Iron Frame BlockLongBlatherName
+solidWoodFrameNewBlockID	blocks	Block	New	S Wood Frame BlockLongBlatherName
+stainlessSteelNewBlockID	blocks	Block	New	St Steel BlockLongBlatherName
+steelNewBlockID	blocks	Block	New	Steel BlockLongBlatherName
+woodFrameNewBlockID	blocks	Block	New	Wood Frame BlockLongBlatherName
+woodNewBlockID	blocks	Block	New	Wood BlockLongBlatherName
+
+=====================================================================
+=====================================================================
+
+Temp short list to ration block IDs:
+
+<block name="woodNewBlockID">
+	<property name="Extends" value="woodNoUpgradeMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="SortOrder2" value="NewShapeIndex"/> <!-- SortShape -->
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="brickNewBlockID">
+	<property name="Extends" value="brickNoUpgradeMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="SortOrder2" value="NewShapeIndex"/> <!-- SortShape -->
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+<block name="concreteNewBlockID">
+	<property name="Extends" value="concreteNoUpgradeMaster" />
+	<property name="Shape" value="New" />
+	<property name="Model" value="newBlockModel" /> <property name="Place" value="TowardsPlacerInverted" />
+	<property name="SortOrder2" value="NewShapeIndex"/> <!-- SortShape -->
+	<property name="DescriptionKey" value="shapeNewBlockIDGroupDesc"/>
+</block>
+
+brickNewBlockID	blocks	Block	New	Brick BlockLongBlatherName
+concreteNewBlockID	blocks	Block	New	Concrete BlockLongBlatherName
+woodNewBlockID	blocks	Block	New	Wood BlockLongBlatherName
+
