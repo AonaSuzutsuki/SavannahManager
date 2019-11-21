@@ -1,5 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.2.29.2">
+    1. Fixed template on ConfigEditor
+     Fixed "DropOnDeath" value for a18.
+     Fixed the English file was written in Japanese.
+    2. Updated internal library.
+
+    ○ Notice
+    The target framework will be changed to .Net Framework 4.8 around the next update.
+    If you don't install, please install Runtime.
+    https://dotnet.microsoft.com/download/dotnet-framework/net48
+
+    We are also considering moving from .Net Framework to .Net Core over time, so a different runtime may be required.
+  </update>
   <update version="2.2.28.1">
     1. Added config base xml for a18 beta into ConfigEditor.
     2. Added function to delete into Backup Editor.

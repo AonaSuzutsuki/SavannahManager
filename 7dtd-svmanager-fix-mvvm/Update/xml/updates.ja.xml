@@ -1,7 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
   <update version="2.2.29.2">
+    1. ConfigEditorのテンプレートの修正
+      DropOnDeathの項目がa18向けに修正しました。
+      英語表記のファイルが日本語になっていたのでそれも修正
+    2. 内部ライブラリの更新
 
+    ○お知らせ
+    次期アップデートあたりでターゲットフレームワークを.Net Framework 4.8に更新する予定です。
+    インストールされていない方は公式よりRuntimeのインストールをお願いします。
+    https://dotnet.microsoft.com/download/dotnet-framework/net48
+
+    また、時期を見て.Net Frameworkから.Net Coreに移行することも検討していますのでその場合は別のランタイムが必要となる可能性があります。
   </update>
   <update version="2.2.28.1">
     1. 内部ライブラリのアップデート
