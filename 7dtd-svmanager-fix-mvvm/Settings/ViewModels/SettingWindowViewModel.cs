@@ -5,13 +5,14 @@ using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Windows;
 using System.Windows.Input;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 {
     public class SettingWindowViewModel : ViewModelBase
     {
         SettingModel model;
-        public SettingWindowViewModel(Window view, SettingModel model) : base(view, model)
+        public SettingWindowViewModel(WindowService windowService, SettingModel model) : base(windowService, model)
         {
             this.model = model;
 
@@ -94,7 +95,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         private void SaveBt_Click()
         {
             model.Save();
-            view.Close();
+            WindowService.Close();
         }
         #endregion
     }

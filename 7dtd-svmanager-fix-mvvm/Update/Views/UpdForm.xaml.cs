@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.Views
 {
@@ -24,7 +25,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Views
             InitializeComponent();
 
             var model = new Models.UpdFormModel();
-            var vm = new ViewModels.UpdFormViewModel(this, model);
+            var vm = new ViewModels.UpdFormViewModel(new WindowService(this), model);
             DataContext = vm;
         }
     }

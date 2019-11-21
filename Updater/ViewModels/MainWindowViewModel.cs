@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using CommonStyleLib.Views;
 using Updater.Models;
 using Reactive.Bindings.Extensions;
 
@@ -17,7 +18,7 @@ namespace Updater.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         MainWindowModel model;
-        public MainWindowViewModel(Window view, MainWindowModel model) : base(view, model)
+        public MainWindowViewModel(WindowService windowService, MainWindowModel model) : base(windowService, model)
         {
             this.model = model;
             

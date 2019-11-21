@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Views
 {
@@ -26,7 +27,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views
             InitializeComponent();
 
             var model = new IpAddressGetterModel();
-            var vm = new IpAddressGetterViewModel(this, model);
+            var vm = new IpAddressGetterViewModel(new WindowService(this), model);
             this.DataContext = vm;
         }
     }

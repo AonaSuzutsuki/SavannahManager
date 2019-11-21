@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings.Views
 {
@@ -26,7 +27,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Views
             InitializeComponent();
 
             var model = new SettingModel(setting, shortcutKeyManager);
-            DataContext = new ViewModels.SettingWindowViewModel(this, model);
+            DataContext = new ViewModels.SettingWindowViewModel(new WindowService(this), model);
         }
     }
 }

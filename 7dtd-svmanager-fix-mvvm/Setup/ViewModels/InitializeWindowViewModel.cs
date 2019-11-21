@@ -5,12 +5,13 @@ using System.Windows.Input;
 using Prism.Commands;
 using Reactive.Bindings.Extensions;
 using CommonStyleLib.ViewModels;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
     public class InitializeWindowViewModel : ViewModelBase
     {
-        public InitializeWindowViewModel(Window view, InitializeWindowModel model) : base(view, model)
+        public InitializeWindowViewModel(WindowService windowService, InitializeWindowModel model) : base(windowService, model)
         {
             this.model = model;
 
@@ -46,7 +47,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         private void ExitBT_Click()
         {
             model.Save();
-            view.Close();
+            WindowService.Close();
         }
     }
 }

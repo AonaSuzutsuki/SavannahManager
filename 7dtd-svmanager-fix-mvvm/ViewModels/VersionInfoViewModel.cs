@@ -8,6 +8,7 @@ using CommonStyleLib.Models;
 using System.Windows;
 using _7dtd_svmanager_fix_mvvm.Models;
 using System.Windows.Input;
+using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -17,7 +18,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
     public class VersionInfoViewModel : ViewModelBase
     {
         VersionInfoModel model;
-        public VersionInfoViewModel(Window view, VersionInfoModel model) : base(view, model)
+        public VersionInfoViewModel(WindowService windowService, VersionInfoModel model) : base(windowService, model)
         {
             this.model = model;
 

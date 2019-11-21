@@ -6,16 +6,16 @@ using Reactive.Bindings;
 using System.Windows.Input;
 using Prism.Commands;
 using CommonStyleLib.ViewModels;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
     public class ForceShutdownerViewModel : ViewModelBase
     {
         ForceShutdownerModel model;
-        public ForceShutdownerViewModel(Window view, ForceShutdownerModel model) : base(view, model)
+        public ForceShutdownerViewModel(WindowService windowService, ForceShutdownerModel model) : base(windowService, model)
         {
             this.model = model;
-            base.view = view;
 
             Loaded = new DelegateCommand(Window_Loaded);
             ShutdownBtClick = new DelegateCommand(ShutdownBt_Click);
