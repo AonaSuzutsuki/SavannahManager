@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views
 {
@@ -26,7 +27,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views
             InitializeComponent();
 
             var model = new Models.PlayerBaseModel();
-            var vm = new ViewModels.PlayerBaseViewModel(this, model)
+            var vm = new ViewModels.PlayerBaseViewModel(new WindowService(this), model)
             {
                 WindowTitle = windowTitle
             };

@@ -11,6 +11,7 @@ using _7dtd_XmlEditor.Models;
 using _7dtd_XmlEditor.Models.TreeView;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.ViewModels;
+using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -20,7 +21,7 @@ namespace _7dtd_XmlEditor.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public MainWindowViewModel(Window view, MainWindowModel model) : base(view, model)
+        public MainWindowViewModel(WindowService windowService, MainWindowModel model) : base(windowService, model)
         {
             //TreeViewItems = new List<TreeViewItemModel>
             //{

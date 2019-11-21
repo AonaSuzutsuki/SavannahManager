@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using _7dtd_XmlEditor.Models;
 using _7dtd_XmlEditor.ViewModels;
+using CommonStyleLib.Views;
 
 namespace _7dtd_XmlEditor.Views
 {
@@ -27,7 +28,7 @@ namespace _7dtd_XmlEditor.Views
             InitializeComponent();
 
             var model = new MainWindowModel(MainFrame.NavigationService);
-            var vm = new MainWindowViewModel(this, model);
+            var vm = new MainWindowViewModel(new WindowService(this), model);
             this.DataContext = vm;
         }
     }

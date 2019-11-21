@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using CommonStyleLib.Views;
 using Reactive.Bindings.Extensions;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
@@ -18,7 +19,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
     public class UpdFormViewModel : ViewModelBase
     {
         private UpdFormModel model;
-        public UpdFormViewModel(Window view, UpdFormModel model) : base(view, model)
+        public UpdFormViewModel(WindowService windowService, UpdFormModel model) : base(windowService, model)
         {
             this.model = model;
 

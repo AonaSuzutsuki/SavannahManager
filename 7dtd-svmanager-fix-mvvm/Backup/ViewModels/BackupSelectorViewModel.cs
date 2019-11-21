@@ -11,6 +11,7 @@ using _7dtd_svmanager_fix_mvvm.Backup.Models;
 using BackupLib.CommonPath;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
+using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -19,7 +20,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
 {
     public class BackupSelectorViewModel : ViewModelBase
     {
-        public BackupSelectorViewModel(Window view, BackupSelectorModel model) : base(view, model)
+        public BackupSelectorViewModel(WindowService windowService, BackupSelectorModel model) : base(windowService, model)
         {
             this.model = model;
 

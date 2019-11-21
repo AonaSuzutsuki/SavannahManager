@@ -8,16 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels
 {
     public class PlayerBaseViewModel : ViewModelBase
     {
         private PlayerBaseModel model;
-        public PlayerBaseViewModel(Window view, PlayerBaseModel model) : base(view, model)
+        public PlayerBaseViewModel(WindowService windowService, PlayerBaseModel model) : base(windowService, model)
         {
             this.model = model;
-            base.view = view;
         }
 
 

@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -35,7 +36,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
     public class MainWindowViewModel : ViewModelBase
     {
-        public MainWindowViewModel(MainWindow view, Models.MainWindowModel model) : base(view, model)
+        public MainWindowViewModel(WindowService windowService, Models.MainWindowModel model, MainWindow view) : base(windowService, model)
         {
             model.AppendConsoleText += Model_AppendConsoleText;
             this.view = view;

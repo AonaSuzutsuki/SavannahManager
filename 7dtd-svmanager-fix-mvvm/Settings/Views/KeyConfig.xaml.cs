@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
 using _7dtd_svmanager_fix_mvvm.Views;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings.Views
 {
@@ -17,7 +18,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Views
             InitializeComponent();
 
             var model = new Models.KeyConfigModel(shortcutKeyManager);
-            var vm = new ViewModels.KeyConfigViewModel(this, model);
+            var vm = new ViewModels.KeyConfigViewModel(new WindowService(this), model);
             DataContext = vm;
         }
         

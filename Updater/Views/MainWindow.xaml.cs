@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CommonStyleLib.Views;
 
 namespace Updater.Views
 {
@@ -25,7 +26,7 @@ namespace Updater.Views
             InitializeComponent();
 
             var model = new Models.MainWindowModel();
-            var vm = new ViewModels.MainWindowViewModel(this, model);
+            var vm = new ViewModels.MainWindowViewModel(new WindowService(this), model);
             DataContext = vm;
         }
     }
