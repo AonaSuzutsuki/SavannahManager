@@ -42,7 +42,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
-                <Label Content="Savannah Manager" Style="{DynamicResource ResourceKey=StatTitle}" />
+                <Label Content="Savannah Xml Editor" Style="{DynamicResource ResourceKey=StatTitle}" />
+                <Label Content="{Binding IsEditedTitle.Value}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
@@ -55,6 +56,9 @@
                 <Menu IsMainMenu="True" Name="Menu" Height="25" Padding="3" VerticalAlignment="Top">
                     <MenuItem Header="File(_F)">
                         <MenuItem Header="Open(_O)" Command="{Binding FileOpenBtClick}" />
+                        <Separator Style="{DynamicResource MLB_Separator}" />
+                        <MenuItem Header="Save(_S)" Command="{Binding FileSaveBtClick}" />
+                        <MenuItem Header="Save As(_A)" Command="{Binding FileSaveAsBtClick}" />
                         <Separator Style="{DynamicResource MLB_Separator}" />
                         <MenuItem Header="Exit(_X)" Command="{Binding MainWindowCloseBTClick}" />
                     </MenuItem>
@@ -69,7 +73,7 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal">
-                    <ComboBox Width="200" HorizontalAlignment="Left" ItemsSource="{Binding EditModeComboItems}" SelectedItem="{Binding EditModeSelectedItem.Value}">
+                    <ComboBox Width="200" HorizontalAlignment="Left" ItemsSource="{Binding EditModeComboItems}" SelectedItem="{Binding EditModeSelectedItem.Value}" IsEnabled="True">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding EditModeComboSelectionChanged}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ComboBox}}, Path=SelectedItem}" />
