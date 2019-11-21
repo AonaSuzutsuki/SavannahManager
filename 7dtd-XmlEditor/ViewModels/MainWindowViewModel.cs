@@ -30,10 +30,13 @@ namespace _7dtd_XmlEditor.ViewModels
 
             this.model = model;
 
+            IsEditedTitle = model.ObserveProperty(m => m.IsEditedTitle).ToReactiveProperty();
             EditModeComboItems = model.EditModeComboItems.ToReadOnlyReactiveCollection(m => m);
             EditModeSelectedItem = model.ToReactivePropertyAsSynchronized(m => m.EditModeSelectedItem);
 
             FileOpenBtClick = new DelegateCommand(FileOpenBt_Click);
+            FileSaveBtClick = new DelegateCommand(FileSaveBt_Click);
+            FileSaveAsBtClick = new DelegateCommand(FileSaveAsBt_Click);
             EditModeComboSelectionChanged = new DelegateCommand<string>(EditModeCombo_SelectionChanged);
         }
 
@@ -42,12 +45,15 @@ namespace _7dtd_XmlEditor.ViewModels
         #endregion
 
         #region Properties
+        public ReactiveProperty<string> IsEditedTitle { get; set; }
         public ReadOnlyReactiveCollection<string> EditModeComboItems { get; set; }
         public ReactiveProperty<string> EditModeSelectedItem { get; set; }
         #endregion
 
         #region Event Properties
         public ICommand FileOpenBtClick { get; set; }
+        public ICommand FileSaveBtClick { get; set; }
+        public ICommand FileSaveAsBtClick { get; set; }
         public ICommand EditModeComboSelectionChanged { get; set; }
         #endregion
 
@@ -57,6 +63,17 @@ namespace _7dtd_XmlEditor.ViewModels
         {
             model.OpenFile();
         }
+
+        public void FileSaveBt_Click()
+        {
+            model.Save();
+        }
+
+        public void FileSaveAsBt_Click()
+        {
+            model.SaveAs();
+        }
+
         public void EditModeCombo_SelectionChanged(string mode)
         {
             model.NodeViewModeChange(mode);

@@ -21,6 +21,13 @@ namespace _7dtd_XmlEditor.Models
     public class MainWindowModel : ModelBase
     {
         #region Properties
+
+        public string IsEditedTitle
+        {
+            get => isEditedTitle;
+            set => SetProperty(ref isEditedTitle, value);
+        }
+
         public ObservableCollection<string> EditModeComboItems
         {
             get => editModeComboItems;
@@ -32,11 +39,25 @@ namespace _7dtd_XmlEditor.Models
             get => editModeSelectedItem;
             set => SetProperty(ref editModeSelectedItem, value);
         }
+
+        public string OpenedFilePath { get; private set; }
+
+        public bool IsEdited
+        {
+            get => isEdited;
+            set
+            {
+                isEdited = value;
+                IsEditedTitle = value ? "*" : "";
+            }
+        }
         #endregion
 
         #region Fields
         private string declaration;
         private TreeViewItemInfo root;
+        private bool isEdited;
+        private string isEditedTitle;
         private ObservableCollection<string> editModeComboItems;
         private string editModeSelectedItem;
 
@@ -49,7 +70,19 @@ namespace _7dtd_XmlEditor.Models
             this.navigation = navigation;
             EditModeComboItems = new ObservableCollection<string>();
 
+            EditModeComboItems.Clear();
+            EditModeComboItems.AddAll(new[]
+            {
+                "Common",
+                "Vehicle"
+            });
+            EditModeSelectedItem = "Common";
+
             OpenFile("vehicles.xml");
+
+            //if (filePath == "vehicles.xml")
+            //    EditModeSelectedItem = "Vehicle";
+            NodeViewModeChange(EditModeSelectedItem);
         }
 
         public void OpenFile()
@@ -62,6 +95,27 @@ namespace _7dtd_XmlEditor.Models
             }
         }
 
+        public void Save()
+        {
+            if (!IsEdited)
+                return;
+
+            if (string.IsNullOrEmpty(OpenedFilePath))
+                SaveAs();
+
+            SaveFile(OpenedFilePath);
+            IsEdited = false;
+        }
+
+        public void SaveAs()
+        {
+            var filePath = FileSelector.GetFilePath(AppInfo.GetAppPath(), "XML Files(*.xml)|*.xml|All Files(*.*)|*.*",
+                "", FileSelector.FileSelectorType.Write);
+
+            if (!string.IsNullOrEmpty(filePath))
+                SaveFile(filePath);
+        }
+
         public void NodeViewModeChange(string mode)
         {
             if (mode == "Common")
@@ -71,7 +125,11 @@ namespace _7dtd_XmlEditor.Models
                 {
                     Declaration = declaration
                 };
-                model.ItemApplied += (sender, args) => root = args.ItemInfo;
+                model.ItemApplied += (sender, args) =>
+                {
+                    root = args.ItemInfo;
+                    IsEdited = true;
+                };
                 commonPage = new CommonView(model);
                 if (selected != null)
                     model.ChangeItem(selected);
@@ -84,7 +142,11 @@ namespace _7dtd_XmlEditor.Models
                 {
                     Declaration = declaration
                 };
-                model.ItemApplied += (sender, args) => root = args.ItemInfo;
+                model.ItemApplied += (sender, args) =>
+                {
+                    root = args.ItemInfo;
+                    IsEdited = true;
+                };
                 commonPage = new VehicleView(model);
                 if (selected != null)
                     model.ChangeItem(selected);
@@ -94,32 +156,19 @@ namespace _7dtd_XmlEditor.Models
 
         private void OpenFile(string filePath)
         {
-            //filePath = "vehicles.xml";
             var reader = new CommonXmlReader(filePath);
             declaration = reader.Declaration;
             root = new TreeViewItemInfo(reader.GetAllNodes());
 
-            //var model = new CommonModel(root)
-            //{
-            //    Declaration = declaration
-            //};
-            //model.ItemApplied += (sender, args) => root = args.ItemInfo;
-            //commonPage = new CommonView(model);
-            //this.navigation.Navigate(commonPage);
+            commonPage = null;
 
-            EditModeComboItems.Clear();
-            EditModeComboItems.AddAll(new[]
-            {
-                "Common",
-                "Vehicle"
-            });
-            EditModeSelectedItem = "Common";
+            OpenedFilePath = filePath;
+        }
 
-            if (filePath == "vehicles.xml")
-                EditModeSelectedItem = "Vehicle";
-
-            NodeViewModeChange(EditModeSelectedItem);
-
+        private void SaveFile(string filePath)
+        {
+            var writer = new CommonXmlWriter(declaration);
+            writer.Write(filePath, root.Node);
         }
     }
 }
