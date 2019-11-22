@@ -70,8 +70,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             WindowManageService.Show<Loading>(vm);
 
             var task = model.Initialize();
-
-            windowService.Close();
+            task.ContinueWith(continueTask => WindowManageService.Dispatch(windowService.Close));
         }
 
         private void VersionList_SelectionChanged(int? arg)

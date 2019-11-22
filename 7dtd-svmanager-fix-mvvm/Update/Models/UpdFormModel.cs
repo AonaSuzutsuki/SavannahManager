@@ -90,18 +90,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         {
             CurrentVersion = ConstantValues.Version;
 
-            CanCancel = false;
-            updManager = new UpdateManager(updLink, ConstantValues.UpdaterFilePath);
-            CanUpdate = updManager.IsUpdate;
-            LatestVersion = updManager.Version;
-            VersionList.AddAll(updManager.Updates.Keys);
-            CanCancel = true;
-
-            if (VersionList.Count > 0)
-                VersionListSelectedIndex = 0;
-            ShowDetails(0);
-
-            //
             var webClient = new UpdateWebClient
             {
                 BaseUrl = "http://kimamalab.azurewebsites.net/updates/SavannahManager4/"
@@ -129,10 +117,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             {
                 Console.WriteLine(e.StackTrace);
             }
-            finally
-            {
-                loading.Close();
-            }
         }
 
         public async Task ShowDetails(int index)
@@ -151,10 +135,19 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
             if (updVersion != latestUpdVersion)
             {
-                var updData = await updateClient.DownloadUpdateFile();
-                using var ms = new MemoryStream(updData.Length);
-                var zip = new UpdateLib.Archive.Zip(ms, ConstantValues.AppDirectoryPath);
-                await Task.Factory.StartNew(zip.Extract);
+                try
+                {
+                    var updData = await updateClient.DownloadUpdateFile();
+                    using var ms = new MemoryStream(updData.Length);
+                    ms.Write(updData, 0, updData.Length);
+                    ms.Seek(0, SeekOrigin.Begin);
+                    using var zip = new UpdateLib.Archive.Zip(ms, ConstantValues.AppDirectoryPath + "/");
+                    zip.Extract();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                }
             }
 
             int id = System.Diagnostics.Process.GetCurrentProcess().Id;
@@ -163,9 +156,10 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                 StartInfo = new System.Diagnostics.ProcessStartInfo()
                 {
                     FileName = ConstantValues.UpdaterFilePath,
-                    Arguments = id.ToString() + " " + "SavannahManager2.exe" + " " + @"""" + updLink.MainPath + @""""
+                    Arguments = $"{id} SavannahManager2.exe \"{updateClient.WebClient.BaseUrl}\" \"{updateClient.MainDownloadUrlPath}\""
                 }
             };
+            //42428 SavannahManager2.exe "http://kimamalab.azurewebsites.net/updates/SavannahManager3/SavannahManager.zip"
 
             try
             {

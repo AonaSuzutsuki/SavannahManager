@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using UpdateLib.Http;
+using UpdateLib.Update;
 
 namespace Updater.Models
 {
@@ -89,7 +91,7 @@ namespace Updater.Models
         {
             Initialize();
             
-            Task task = Task.Factory.StartNew(UpdateFunc);
+            var task = UpdateFunc();
         }
 
         public void Initialize()
@@ -105,7 +107,18 @@ namespace Updater.Models
                     Environment.Exit(0);
                 }
 
-                updateInfo = new UpdateInfo(pid, cmds[2], cmds[3]);
+
+                var updWebClient = new UpdateWebClient { BaseUrl = cmds[3] };
+                updWebClient.DownloadProgressChanged += (sender, e) =>
+                {
+                    ProgressValue = (int)e.ProgressPercentage;
+                    ProgressLabel = e.ProgressPercentage + "%";
+                };
+                var updateClient = new UpdateClient(updWebClient) { MainDownloadUrlPath = cmds[4] };
+                updateClient.DownloadProgressChanged += UpdateClientOnDownloadProgressChanged;
+                updateClient.DownloadCompleted += UpdateClientOnDownloadCompleted;
+
+                updateInfo = new UpdateInfo(pid, cmds[2], updateClient);
             }
             else
             {
@@ -114,34 +127,46 @@ namespace Updater.Models
             }
         }
 
-        private void UpdateFunc()
+        private void UpdateClientOnDownloadCompleted(object sender, UpdateClient.DownloadCompletedEventArgs e)
+        {
+        }
+
+        private void UpdateClientOnDownloadProgressChanged(object sender, UpdateClient.DownloadProgressEventArgs e)
+        {
+            ProgressValue = (int)e.Percentage;
+            ProgressLabel = e.Percentage + "%";
+        }
+
+        private async Task UpdateFunc()
         {
             if (updateInfo == null)
                 return;
 
             CanClose = false;
-            int pid = updateInfo.Pid;
-            string filename = updateInfo.FileName;
-            string zipPath = string.Format("{0}\\{1}.zip", ConstantValues.AppDirectoryPath, filename);
-            string url = updateInfo.Url;
+            var pid = updateInfo.Pid;
+            var filename = updateInfo.FileName;
+            var updateClient = updateInfo.Client;
 
-            try
+            if (pid > 0)
             {
-                ProgressMaximum = 100;
-                ProgressValue = 0;
-                ProgressIndeterminate = false;
-                StatusLabel = LangResources.Resources.Waiting_for_the_Application_end;
-
-                var p = Process.GetProcessesByName(filename);
-                while (p.Length > 0)
+                try
                 {
-                    System.Threading.Thread.Sleep(500);
-                    p = Process.GetProcessesByName(filename);
+                    ProgressMaximum = 100;
+                    ProgressValue = 0;
+                    ProgressIndeterminate = false;
+                    StatusLabel = LangResources.Resources.Waiting_for_the_Application_end;
+
+                    var p = Process.GetProcessesByName(filename);
+                    while (p.Length > 0)
+                    {
+                        System.Threading.Thread.Sleep(500);
+                        p = Process.GetProcessesByName(filename);
+                    }
                 }
-            }
-            catch
-            {
-                return;
+                catch
+                {
+                    return;
+                }
             }
 
             StatusLabel = LangResources.Resources.Start_Update;
@@ -149,39 +174,26 @@ namespace Updater.Models
             ProgressIndeterminate = false;
             StatusLabel = LangResources.Resources.Downloading_the_update_file;
 
-            Uri u = new Uri(url);
-            var downloadClient = new System.Net.WebClient();
-            downloadClient.DownloadProgressChanged += DownloadClient_DownloadProgressChanged;
-            downloadClient.DownloadFileCompleted += DownloadClient_DownloadFileCompleted;
-            downloadClient.DownloadFileAsync(u, zipPath);
-
-            while (true)
+            try
             {
-                if (finished)
-                {
-                    break;
-                }
-                System.Threading.Thread.Sleep(500);
-            }
+                var data = await updateClient.DownloadMainFile();
+                using var ms = new MemoryStream(data.Length);
+                ms.Write(data, 0, data.Length);
+                ms.Seek(0, SeekOrigin.Begin);
 
-            if (cancelled)
+                StatusLabel = LangResources.Resources.Extracting_the_update_file;
+                ProgressValue = 0;
+
+                using var zip = new UpdateLib.Archive.Zip(ms, Path.GetDirectoryName(ConstantValues.AppDirectoryPath));
+                zip.Extracted += (sender, args) => ProgressValue++;
+                ProgressMaximum = zip.Count;
+                await Task.Factory.StartNew(zip.Extract);
+            }
+            catch (Exception e)
             {
-                CanExit(0);
-                return;
+                Console.WriteLine(e.StackTrace);
             }
-            else if (errored)
-            {
-                CanExit(1);
-                return;
-            }
-
-            StatusLabel = LangResources.Resources.Extracting_the_update_file;
-            ProgressValue = 0;
-
-            Unzip(filename + ".zip");
-            var fi = new FileInfo(zipPath);
-            if (fi.Exists)
-                fi.Delete();
+            
 
             StatusLabel = LangResources.Resources.Finished_updating;
             ProgressValue = ProgressMaximum;
