@@ -80,7 +80,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 
         private void OKayBt_Click()
         {
-            model.Save(WindowService.Close);
+            model.Save(WindowManageService.Close);
         }
         #endregion
     }

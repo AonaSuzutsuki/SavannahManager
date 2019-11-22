@@ -47,7 +47,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         private void ExitBT_Click()
         {
             model.Save();
-            WindowService.Close();
+            WindowManageService.Close();
         }
     }
 }

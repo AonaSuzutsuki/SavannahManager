@@ -7,11 +7,29 @@ using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using _7dtd_svmanager_fix_mvvm.Backup.Models;
+using _7dtd_svmanager_fix_mvvm.Backup.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Backup.Views;
+using _7dtd_svmanager_fix_mvvm.Models;
+using _7dtd_svmanager_fix_mvvm.PlayerController.Models;
+using _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels;
+using _7dtd_svmanager_fix_mvvm.PlayerController.Views;
+using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
+using _7dtd_svmanager_fix_mvvm.Settings.Models;
+using _7dtd_svmanager_fix_mvvm.Settings.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Settings.Views;
+using _7dtd_svmanager_fix_mvvm.Setup.ViewModels;
 using CommonStyleLib.Views;
+using _7dtd_svmanager_fix_mvvm.Setup.Views;
+using _7dtd_svmanager_fix_mvvm.Update.Models;
+using _7dtd_svmanager_fix_mvvm.Update.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Update.Views;
+using CommonStyleLib.ExMessageBox;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -120,7 +138,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
 
         #region Fields
-        private new readonly MainWindow view;
+        private readonly MainWindow view;
         private readonly Models.MainWindowModel model;
         private StringBuilder consoleLog = new StringBuilder();
 
@@ -251,8 +269,25 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #region EventMethods
         protected override void MainWindow_Loaded()
         {
-            model.Initialize();
+            var task = model.Initialize();
+            task.ContinueWith(continueTask =>
+            {
+                var dialogResult = continueTask.Result;
+                if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
+                {
+                    WindowManageService.Dispatch(() =>
+                    {
+                        var updFormModel = new UpdFormModel();
+                        var vm = new UpdFormViewModel(new WindowService(), updFormModel);
+                        WindowManageService.Show<UpdForm>(vm);
+                    });
+                }
+            });
+
             model.RefreshLabels();
+
+            if (model.Setting.IsFirstBoot)
+                MenuFirstSettingsBT_Click();
         }
         protected override void MainWindow_Closing()
         {
@@ -266,11 +301,22 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void MenuSettingsBT_Click()
         {
-            model.ShowSettings();
+            var setting = model.Setting;
+            var keyManager = model.ShortcutKeyManager;
+
+            var settingModel = new SettingModel(setting, keyManager);
+            var vm = new SettingWindowViewModel(new WindowService(), settingModel);
+            WindowManageService.ShowDialog<SettingWindow>(vm);
+            model.IsBeta = setting.IsBetaMode;
         }
         private void MenuFirstSettingsBT_Click()
         {
-            model.ShowInitialize();
+            var setting = model.Setting;
+            WindowManageService.ShowDialog<InitializeWindow>(window =>
+            {
+                var initModel = new Setup.Models.InitializeWindowModel(setting, window.MainFrame.NavigationService);
+                return new InitializeWindowViewModel(new WindowService(), initModel);
+            });
         }
         private void MenuLangJapaneseBT_Click()
         {
@@ -289,15 +335,22 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void MenuBackupEditorBT_Click()
         {
-            model.ShowBackupEditor();
+            var setting = model.Setting;
+            var backupModel = new BackupSelectorModel(setting);
+            var vm = new BackupSelectorViewModel(new WindowService(), backupModel);
+            WindowManageService.Show<BackupSelector>(vm);
         }
         private void MenuCheckUpdateBT_Click()
         {
-            model.ShowUpdForm();
+            var updFormModel = new UpdFormModel();
+            var vm = new UpdFormViewModel(new WindowService(), updFormModel);
+            WindowManageService.Show<UpdForm>(vm);
         }
         private void MenuVersionInfo_Click()
         {
-            model.ShowVersionForm();
+            var model = new Models.VersionInfoModel();
+            var vm = new VersionInfoViewModel(new WindowService(), model);
+            WindowManageService.ShowDialog<VersionInfo>(vm);
         }
 
         private void StartBT_Click()
@@ -306,7 +359,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void StopBT_Click()
         {
-            model.ServerStop();
+            var isForceShutdown = model.ServerStop();
+            if (!isForceShutdown)
+                return;
+
+            var forceShutdownerModel = new ForceShutdownerModel();
+            var vm = new ForceShutdownerViewModel(new WindowService(), forceShutdownerModel);
+            WindowManageService.Show<ForceShutdowner>(vm);
         }
         private void TelnetBT_Click()
         {
@@ -344,7 +403,20 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void AdminAddBT_Click()
         {
-            model.AddAdmin(UsersListSelectedIndex);
+            var playerInfo = model.GetUserDetail(UsersListSelectedIndex);
+            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+
+            var playerBaseModel = new PlayerBaseModel();
+            var adminAdd = new AdminAdd(model, AddType.Type.Admin, name);
+            WindowManageService.ShowDialog<PlayerBase>(window =>
+            {
+                window.Page = adminAdd;
+                window.Navigate();
+                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                {
+                    WindowTitle = "Add"
+                };
+            });
         }
         private void AdminRemoveBT_Click()
         {
@@ -352,7 +424,20 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void WhiteListAddBT_Click()
         {
-            model.AddWhitelist(UsersListSelectedIndex);
+            var playerInfo = model.GetUserDetail(UsersListSelectedIndex);
+            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+
+            var playerBaseModel = new PlayerBaseModel();
+            var whitelistAdd = new AdminAdd(model, AddType.Type.Whitelist, name);
+            WindowManageService.ShowDialog<PlayerBase>(window =>
+            {
+                window.Page = whitelistAdd;
+                window.Navigate();
+                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                {
+                    WindowTitle = "Whitelist"
+                };
+            });
         }
         private void WhiteListRemoveBT_Click()
         {
@@ -360,11 +445,37 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void KickBT_Click()
         {
-            model.Kick(UsersListSelectedIndex);
+            var playerInfo = model.GetUserDetail(UsersListSelectedIndex);
+            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+
+            var playerBaseModel = new PlayerBaseModel();
+            var kick = new Kick(model, name);
+            WindowManageService.ShowDialog<PlayerBase>(window =>
+            {
+                window.Page = kick;
+                window.Navigate();
+                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                {
+                    WindowTitle = "Kick"
+                };
+            });
         }
         private void BanBT_Click()
         {
-            model.AddBan(UsersListSelectedIndex);
+            var playerInfo = model.GetUserDetail(UsersListSelectedIndex);
+            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+
+            var playerBaseModel = new PlayerBaseModel();
+            var ban = new Ban(model, name);
+            WindowManageService.ShowDialog<PlayerBase>(window =>
+            {
+                window.Page = ban;
+                window.Navigate();
+                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                {
+                    WindowTitle = "Ban"
+                };
+            });
         }
         private void KillBT_Click()
         {
@@ -415,11 +526,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void GetIp_Clicked()
         {
-            model.OpenGetIpAddress();
+            var ipAddressGetterModel = new IpAddressGetterModel();
+            var vm = new IpAddressGetterViewModel(new WindowService(), ipAddressGetterModel);
+            WindowManageService.Show<IpAddressGetter>(vm);
         }
         private void CheckPort_Clicked()
         {
-            model.OpenPortCheck();
+            var portCheckModel = new PortCheckModel();
+            var vm = new PortCheckViewModel(new WindowService(), portCheckModel);
+            WindowManageService.Show<PortCheck>(vm);
         }
 
 

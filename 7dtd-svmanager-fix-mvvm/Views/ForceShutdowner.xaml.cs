@@ -23,10 +23,6 @@ namespace _7dtd_svmanager_fix_mvvm.Views
         public ForceShutdowner()
         {
             InitializeComponent();
-
-            var model = new Models.ForceShutdownerModel();
-            var vm = new ViewModels.ForceShutdownerViewModel(new WindowService(this), model);
-            DataContext = vm;
         }
     }
 }

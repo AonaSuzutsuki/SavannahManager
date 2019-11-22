@@ -15,6 +15,7 @@ using Log;
 using _7dtd_svmanager_fix_mvvm.Views;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
 using _7dtd_svmanager_fix_mvvm.Settings;
+using _7dtd_svmanager_fix_mvvm.ViewModels;
 using CommonStyleLib.Models;
 using CommonStyleLib.ExMessageBox;
 using SvManagerLibrary.Time;
@@ -289,7 +290,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 AroundBorderColor = CommonStyleLib.ConstantValues.ActivatedBorderColor2;
         }
 
-        public async void Initialize()
+        public async Task<ExMessageBoxBase.DialogResult> Initialize()
         {
             Setting = SettingLoader.SettingInstance;
             ShortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
@@ -314,12 +315,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             IsBeta = Setting.IsBetaMode;
 
-            if (Setting.IsFirstBoot)
-            {
-                var setUp = new Setup.Views.InitializeWindow(Setting);
-                setUp.ShowDialog();
-            }
-
             if (Setting.IsAutoUpdate)
             {
                 (bool, string) avalableUpd = await Update.Models.UpdateManager.CheckUpdateAsync(new Update.Models.UpdateLink().VersionUrl, ConstantValues.Version);
@@ -327,13 +322,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 {
                     var dialogResult = ExMessageBoxBase.Show("アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
                             ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
-                    if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
-                    {
-                        var updForm = new Update.Views.UpdForm();
-                        updForm.Show();
-                    }
+                    return dialogResult;
                 }
             }
+            return ExMessageBoxBase.DialogResult.No;
         }
         public void SettingsSave()
         {
@@ -468,12 +460,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 }
             });
         }
-        public void ServerStop()
+        public bool ServerStop()
         {
             if (IsTelnetLoading)
             {
                 isServerForceStop = true;
-                return;
+                return false;
             }
 
             if (IsConnected)
@@ -485,9 +477,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
             else
             {
-                var fs = new ForceShutdowner();
-                fs.ShowDialog();
+                return true;
             }
+
+            return false;
         }
 
         private bool FileExistCheck()
@@ -885,30 +878,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             return true;
         }
 
-        public void OpenGetIpAddress()
-        {
-            var ipAddressGetter = new IpAddressGetter();
-            ipAddressGetter.Show();
-        }
-        public void OpenPortCheck()
-        {
-            var portCheck = new PortCheck();
-            portCheck.Show();
-        }
 
 
 
         /*
          * Player Command
          */
-        public void AddAdmin(int index)
+        public UserDetail GetUserDetail(int index)
         {
-            var playerInfo = UsersList[index];
-            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
-
-            var adminAdd = new AdminAdd(this, AddType.Type.Admin, name);
-            var playerBase = new PlayerController.Views.PlayerBase("Add", adminAdd);
-            playerBase.ShowDialog();
+            if (index < 0 || index >= UsersList.Count)
+                return null;
+            return UsersList[index];
         }
         public void RemoveAdmin(int index)
         {
@@ -921,15 +901,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             SocTelnetSendNRT("admin remove " + playerId);
         }
-        public void AddWhitelist(int index)
-        {
-            var playerInfo = UsersList[index];
-            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
-
-            var whitelistAdd = new AdminAdd(this, AddType.Type.Whitelist, name);
-            var playerBase = new PlayerController.Views.PlayerBase("Whitelist", whitelistAdd);
-            playerBase.ShowDialog();
-        }
         public void RemoveWhitelist(int index)
         {
             var playerId = UsersList[index].ID;
@@ -940,24 +911,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
 
             SocTelnetSendNRT("whitelist remove " + playerId);
-        }
-        public void AddBan(int index)
-        {
-            var playerInfo = UsersList[index];
-            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
-
-            var ban = new Ban(this, name);
-            var playerBase = new PlayerController.Views.PlayerBase("Ban", ban);
-            playerBase.ShowDialog();
-        }
-        public void Kick(int index)
-        {
-            var playerInfo = UsersList[index];
-            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
-
-            var kick = new Kick(this, name);
-            var playerBase = new PlayerController.Views.PlayerBase("Kick", kick);
-            playerBase.ShowDialog();
         }
 
 
@@ -981,38 +934,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
         }
 
-        public void ShowBackupEditor()
-        {
-            var backup = new Backup.Views.BackupSelector(Setting);
-            backup.Show();
-        }
-        public void ShowSettings()
-        {
-            var setWin = new Settings.Views.SettingWindow(Setting, ShortcutKeyManager);
-            setWin.ShowDialog();
-            IsBeta = Setting.IsBetaMode;
-        }
-        public void ShowInitialize()
-        {
-            var initializeWindow = new Setup.Views.InitializeWindow(Setting);
-            initializeWindow.ShowDialog();
-        }
-        public void ShowUpdForm()
-        {
-            var updForm = new Update.Views.UpdForm();
-            updForm.Show();
-        }
-        public void ShowVersionForm()
-        {
-            var verInfo = new VersionInfo();
-            verInfo.ShowDialog();
-        }
-
 
         /*
          * Shortcut Key
          */
-         public void PushShortcutKey(Key key)
+        public void PushShortcutKey(Key key)
         {
             if (ShortcutKeyManager.IsPushed("StartServerKey", Keyboard.Modifiers, key))
             {
@@ -1038,14 +964,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
 
 
-
         public void Dispose()
         {
-            try
-            {
-                telnet?.Dispose();
-            }
-            catch { }
+            telnet?.Dispose();
         }
     }
 }

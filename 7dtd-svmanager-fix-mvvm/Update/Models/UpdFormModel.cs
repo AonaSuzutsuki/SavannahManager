@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.Models
 {
@@ -73,14 +74,10 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         public UpdFormModel()
         {
-            Initialize();
         }
 
-        private void Initialize()
+        public void Initialize()
         {
-            var loading = new Views.Loading();
-            loading.Show();
-
             CurrentVersion = ConstantValues.Version;
 
             CanCancel = false;
@@ -93,8 +90,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             if (VersionList.Count > 0)
                 VersionListSelectedIndex = 0;
             ShowDetails(0);
-
-            loading.Close();
         }
 
         public void ShowDetails(int index)

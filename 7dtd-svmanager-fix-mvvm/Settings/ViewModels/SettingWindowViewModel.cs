@@ -5,6 +5,7 @@ using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Windows;
 using System.Windows.Input;
+using _7dtd_svmanager_fix_mvvm.Settings.Views;
 using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
@@ -83,8 +84,10 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 
         private void KeyEditBt_Click()
         {
-            var keyConfig = new Views.KeyConfig(model.ShortcutKeyManager);
-            keyConfig.ShowDialog();
+            var shortcutManager = model.ShortcutKeyManager;
+            var keyConfModel = new KeyConfigModel(shortcutManager);
+            var vm = new KeyConfigViewModel(new WindowService(), keyConfModel);
+            WindowManageService.ShowDialog<KeyConfig>(vm);
         }
 
         private void GetBackupDirBt_Click()
@@ -95,7 +98,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         private void SaveBt_Click()
         {
             model.Save();
-            WindowService.Close();
+            WindowManageService.Close();
         }
         #endregion
     }

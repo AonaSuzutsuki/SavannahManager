@@ -25,10 +25,6 @@ namespace _7dtd_svmanager_fix_mvvm.Views
         public IpAddressGetter()
         {
             InitializeComponent();
-
-            var model = new IpAddressGetterModel();
-            var vm = new IpAddressGetterViewModel(new WindowService(this), model);
-            this.DataContext = vm;
         }
     }
 }

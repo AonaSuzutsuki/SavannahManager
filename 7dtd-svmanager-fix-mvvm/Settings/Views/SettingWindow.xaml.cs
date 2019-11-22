@@ -22,12 +22,9 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Views
     /// </summary>
     public partial class SettingWindow : Window
     {
-        public SettingWindow(SettingLoader setting, ShortcutKeyManager shortcutKeyManager)
+        public SettingWindow()
         {
             InitializeComponent();
-
-            var model = new SettingModel(setting, shortcutKeyManager);
-            DataContext = new ViewModels.SettingWindowViewModel(new WindowService(this), model);
         }
     }
 }

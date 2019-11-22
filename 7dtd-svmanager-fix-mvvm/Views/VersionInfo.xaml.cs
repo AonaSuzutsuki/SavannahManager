@@ -23,10 +23,6 @@ namespace _7dtd_svmanager_fix_mvvm.Views
         public VersionInfo()
         {
             InitializeComponent();
-
-            var model = new Models.VersionInfoModel();
-            var vm = new ViewModels.VersionInfoViewModel(new WindowService(this), model);
-            DataContext = vm;
         }
     }
 }

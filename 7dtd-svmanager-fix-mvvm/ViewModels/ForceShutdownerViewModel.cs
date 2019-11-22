@@ -21,6 +21,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             ShutdownBtClick = new DelegateCommand(ShutdownBt_Click);
 
             ProcessData = new ReadOnlyObservableCollection<ProcessTab>(model.ProcessData);
+            ShutdownBtIsEnabled = model.ObserveProperty(m => m.ProcessSelected).ToReactiveProperty();
         }
 
         #region EventProperties
@@ -30,6 +31,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #region Properties
         public ReadOnlyObservableCollection<ProcessTab> ProcessData { get; }
         public int ProcessListSelectedIndex { get; set; } = -1;
+
+        public ReactiveProperty<bool> ShutdownBtIsEnabled { get; set; }
         #endregion
 
         #region Event Methods

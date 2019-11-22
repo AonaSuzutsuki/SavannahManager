@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using _7dtd_svmanager_fix_mvvm.Update.Views;
 using CommonStyleLib.Views;
 using Reactive.Bindings.Extensions;
 
@@ -33,6 +34,8 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
             VersionList_SelectionChanged = new DelegateCommand<int?>(VersionListSelectionChanged);
             UpdateBtClick = new DelegateCommand(UpdateBt_Clicked);
+            
+            DoLoaded();
         }
 
         #region Properties
@@ -53,6 +56,19 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
         #endregion
 
         #region EventMethods
+
+        protected override void MainWindow_Loaded()
+        {
+            var loadingModel = new LoadingModel();
+            var windowService = new WindowService();
+            var vm = new LoadingViewModel(windowService, loadingModel);
+            WindowManageService.Show<Loading>(vm);
+
+            model.Initialize();
+
+            windowService.Close();
+        }
+
         private void VersionListSelectionChanged(int? arg)
         {
             if (arg != null)

@@ -23,10 +23,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Views
         public Loading()
         {
             InitializeComponent();
-
-            var model = new Models.LoadingModel();
-            var vm = new ViewModels.LoadingViewModel(new WindowService(this), model);
-            DataContext = vm;
         }
     }
 }

@@ -23,10 +23,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Views
         public UpdForm()
         {
             InitializeComponent();
-
-            var model = new Models.UpdFormModel();
-            var vm = new ViewModels.UpdFormViewModel(new WindowService(this), model);
-            DataContext = vm;
         }
     }
 }

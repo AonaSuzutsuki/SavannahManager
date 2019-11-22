@@ -25,10 +25,6 @@ namespace _7dtd_svmanager_fix_mvvm.Views
         public PortCheck()
         {
             InitializeComponent();
-
-            var model = new PortCheckModel();
-            var vm = new PortCheckViewModel(new WindowService(this), model);
-            this.DataContext = vm;
         }
     }
 }

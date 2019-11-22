@@ -508,6 +508,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Backup\Images\DirectoryIcon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent># For Release

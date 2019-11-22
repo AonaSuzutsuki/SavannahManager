@@ -23,13 +23,9 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Views
     /// </summary>
     public partial class BackupSelector : Window
     {
-        public BackupSelector(SettingLoader settingLoader)
+        public BackupSelector()
         {
             InitializeComponent();
-
-            var model = new BackupSelectorModel(settingLoader);
-            var vm = new BackupSelectorViewModel(new WindowService(this), model);
-            this.DataContext = vm;
         }
     }
 }
