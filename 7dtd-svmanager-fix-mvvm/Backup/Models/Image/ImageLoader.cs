@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,24 +18,28 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models.Image
                 return Cache[key];
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            using (var stream = assembly.GetManifestResourceStream(key))
-            {
-                if (stream == null)
-                    return null;
+            using var stream = assembly.GetManifestResourceStream(key);
+            if (stream == null)
+                return null;
 
-                var bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.StreamSource = stream;
-                bitmapImage.DecodePixelWidth = 50;
-                bitmapImage.DecodePixelHeight = 50;
-                bitmapImage.EndInit();
+            var bitmapImage = CreateBitmapImage(stream);
 
-                Cache.Add(key, bitmapImage);
+            Cache.Add(key, bitmapImage);
 
-                return bitmapImage;
+            return bitmapImage;
+        }
 
-            }
+        private static BitmapImage CreateBitmapImage(Stream stream)
+        {
+            var bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+            bitmapImage.StreamSource = stream;
+            bitmapImage.DecodePixelWidth = 50;
+            bitmapImage.DecodePixelHeight = 50;
+            bitmapImage.EndInit();
+
+            return bitmapImage;
         }
     }
 }

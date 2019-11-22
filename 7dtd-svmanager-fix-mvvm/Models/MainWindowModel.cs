@@ -232,6 +232,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private readonly List<int> connectedIds = new List<int>();
 
         private bool isServerForceStop = false;
+        private IDisposable disposableImplementation;
+
         #endregion
 
         public void InitializeTelnet()
@@ -964,9 +966,30 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
 
 
+        #region IDisposable
+        // Flag: Has Dispose already been called?
+        private bool disposed = false;
+
+        // Public implementation of Dispose pattern callable by consumers.
         public void Dispose()
         {
-            telnet?.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                telnet?.Dispose();
+            }
+
+            disposed = true;
+        }
+        #endregion
     }
 }
