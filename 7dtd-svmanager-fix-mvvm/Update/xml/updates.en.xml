@@ -2,9 +2,10 @@
 <updates>
   <update version="2.2.29.2">
     1. Fixed template on ConfigEditor
-     Fixed "DropOnDeath" value for a18.
-     Fixed the English file was written in Japanese.
+      Fixed "DropOnDeath" value for a18.
+      Fixed the English file was written in Japanese.
     2. Updated internal library.
+    3. Added function to delete selected backup on BackupEditor
 
     ○ Notice
     The target framework will be changed to .Net Framework 4.8 around the next update.
