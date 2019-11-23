@@ -193,4 +193,38 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent># For Debug
+SET MainProjectName=7dtd-svmanager-fix-mvvm
+
+SET OutDir=$(SolutionDir)%25MainProjectName%25\$(OutDir)\XmlEditor
+if exist "%25OutDir%25" (
+    echo ""
+) else (
+    mkdir "%25OutDir%25"
+)
+
+if exist "%25OutDir%25\XmlTemplates" (
+    echo ""
+) else (
+    mkdir "%25OutDir%25\XmlTemplates"
+)
+
+copy /y "$(TargetPath)" "%25OutDir%25\$(TargetFileName)"
+copy /y "$(TargetDir)$(TargetFileName).config" "%25OutDir%25\$(TargetFileName).config"
+copy /y "$(TargetDir)*.dll" "%25OutDir%25\"
+copy /y "$(TargetDir)*.xml" "%25OutDir%25\"
+xcopy "$(TargetDir)XmlTemplates" "%25OutDir%25\XmlTemplates" /E /Y
+
+# For Release
+SET BinDir=$(SolutionDir)bin
+if exist "%25BinDir%25" (
+    echo ""
+) else (
+    mkdir "%25BinDir%25"
+)
+
+copy /y "$(TargetPath)" "%25BinDir%25\$(TargetFileName)"
+copy /y "$(TargetDir)$(TargetFileName).config" "%25BinDir%25\$(TargetFileName).config"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

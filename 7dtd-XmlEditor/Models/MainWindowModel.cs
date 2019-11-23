@@ -61,7 +61,7 @@ namespace _7dtd_XmlEditor.Models
         private ObservableCollection<string> editModeComboItems;
         private string editModeSelectedItem;
 
-        private NavigationService navigation;
+        private readonly NavigationService navigation;
         private INodeView commonPage;
         #endregion
 
@@ -78,7 +78,7 @@ namespace _7dtd_XmlEditor.Models
             });
             EditModeSelectedItem = "Common";
 
-            OpenFile("vehicles.xml");
+            //OpenFile("vehicles.xml");
 
             //if (filePath == "vehicles.xml")
             //    EditModeSelectedItem = "Vehicle";
