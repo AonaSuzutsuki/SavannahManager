@@ -24,6 +24,7 @@ using SvManagerLibrary.Telnet;
 using SvManagerLibrary.Chat;
 using SvManagerLibrary.Player;
 using CommonExtensionLib.Extensions;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -198,6 +199,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         #endregion
 
         #region Properties
+
+        public IMessageBoxWindowService MessageBoxWindowService { get; set; }
+
         private bool isConnected;
         private bool IsConnected
         {
@@ -292,7 +296,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 AroundBorderColor = CommonStyleLib.ConstantValues.ActivatedBorderColor2;
         }
 
-        public async Task<ExMessageBoxBase.DialogResult> Initialize()
+        public void Initialize()
         {
             Setting = SettingLoader.SettingInstance;
             ShortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
@@ -316,14 +320,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             consoleTextLength = Setting.ConsoleTextLength;
 
             IsBeta = Setting.IsBetaMode;
+        }
 
+        public async Task<ExMessageBoxBase.DialogResult> CheckUpdate()
+        {
             if (Setting.IsAutoUpdate)
             {
-                (bool, string) avalableUpd = await Update.Models.UpdateManager.CheckUpdateAsync(new Update.Models.UpdateLink().VersionUrl, ConstantValues.Version);
-                if (avalableUpd.Item1)
+                var (availableUpdate, _) = await Update.Models.UpdateManager.CheckUpdateAsync(new Update.Models.UpdateLink().VersionUrl, ConstantValues.Version);
+                if (availableUpdate)
                 {
-                    var dialogResult = ExMessageBoxBase.Show("アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
-                            ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+                    var dialogResult = MessageBoxWindowService.MessageBoxShow("アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
+                        ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
                     return dialogResult;
                 }
             }
@@ -389,26 +396,25 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!FileExistCheck()) return;
 
-            string address = "127.0.0.1";
-            int port = 0;
-            string password = string.Empty;
+            var address = "127.0.0.1";
+            var port = 0;
+            var password = string.Empty;
 
-            ICheckedValue checkedValues = GetConfigInfo();
+            var checkedValues = GetConfigInfo();
             if (checkedValues == null) { return; }
             password = checkedValues.Password;
             port = checkedValues.Port;
 
             if (IsConnected)
             {
-                ExMessageBoxBase.Show(LangResources.Resources.AlreadyConnected, LangResources.CommonResources.Error
+                MessageBoxWindowService.MessageBoxShow(LangResources.Resources.AlreadyConnected, LangResources.CommonResources.Error
                        , ExMessageBoxBase.MessageType.Exclamation);
                 return;
             }
 
             var serverProcessManager = new ServerProcessManager(ExeFilePath, ConfigFilePath);
-            Action<string> processFailedAction = (message) => ExMessageBoxBase.Show(message, LangResources.CommonResources.Error
-                        , ExMessageBoxBase.MessageType.Exclamation);
-            if (!serverProcessManager.ProcessStart(processFailedAction))
+            void ProcessFailedAction(string message) => MessageBoxWindowService.MessageBoxShow(message, LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+            if (!serverProcessManager.ProcessStart(ProcessFailedAction))
                 return;
 
             StartBtEnabled = false;
@@ -492,14 +498,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 FileInfo fi = new FileInfo(ExeFilePath);
                 if (!fi.Exists)
                 {
-                    ExMessageBoxBase.Show(string.Format(LangResources.Resources.Not_Found_0, "7DaysToDieServer.exe"), LangResources.CommonResources.Error
+                    MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources.Not_Found_0, "7DaysToDieServer.exe"), LangResources.CommonResources.Error
                         , ExMessageBoxBase.MessageType.Exclamation);
                     return false;
                 }
             }
             catch (ArgumentException)
             {
-                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_Is_Invalid, LangResources.Resources.ServerFilePath), LangResources.CommonResources.Error
+                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_Is_Invalid, LangResources.Resources.ServerFilePath), LangResources.CommonResources.Error
                            , ExMessageBoxBase.MessageType.Exclamation);
                 return false;
             }
@@ -509,14 +515,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 FileInfo fi = new FileInfo(ConfigFilePath);
                 if (!fi.Exists)
                 {
-                    ExMessageBoxBase.Show(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFilePath), LangResources.CommonResources.Error
+                    MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFilePath), LangResources.CommonResources.Error
                            , ExMessageBoxBase.MessageType.Exclamation);
                     return false;
                 }
             }
             catch (ArgumentException)
             {
-                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_Is_Invalid, "7DaysToDieServer.exe"), LangResources.CommonResources.Error
+                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_Is_Invalid, "7DaysToDieServer.exe"), LangResources.CommonResources.Error
                            , ExMessageBoxBase.MessageType.Exclamation);
                 return false;
             }
@@ -555,13 +561,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             //TelnetEnabledチェック
             if (!bool.TryParse(checkValues.TelnetEnabled, out bool telnetEnabled))
             {
-                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_Is_Invalid, "TelnetEnabled"), LangResources.CommonResources.Error
+                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_Is_Invalid, "TelnetEnabled"), LangResources.CommonResources.Error
                        , ExMessageBoxBase.MessageType.Exclamation);
                 return null;
             }
             if (!telnetEnabled)
             {
-                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_1, "TelnetEnabled", "False"), LangResources.CommonResources.Error
+                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_is_1, "TelnetEnabled", "False"), LangResources.CommonResources.Error
                        , ExMessageBoxBase.MessageType.Exclamation);
                 return null;
             }
@@ -569,13 +575,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             // ポート被りチェック
             if (checkValues.TelnetPort.Equals(checkValues.ControlPanelPort))
             {
-                ExMessageBoxBase.Show(string.Format(LangResources.Resources.Same_Port_as_0_has_been_used_in_1, "TelnetEnabled", "ControlPanelPort")
+                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources.Same_Port_as_0_has_been_used_in_1, "TelnetEnabled", "ControlPanelPort")
                     , LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
                 return null;
             }
             if (checkValues.TelnetPort.Equals(checkValues.ServerPort))
             {
-                ExMessageBoxBase.Show(string.Format(LangResources.Resources.Same_Port_as_0_has_been_used_in_1, "TelnetEnabled", "ServerPort")
+                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources.Same_Port_as_0_has_been_used_in_1, "TelnetEnabled", "ServerPort")
                     , LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
                 return null;
             }
@@ -583,7 +589,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             // Telnetポート変換チェック
             if (!int.TryParse(checkValues.TelnetPort, out int port))
             {
-                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_Is_Invalid, LangResources.Resources.Port), LangResources.CommonResources.Error
+                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_Is_Invalid, LangResources.Resources.Port), LangResources.CommonResources.Error
                                    , ExMessageBoxBase.MessageType.Exclamation);
                 return null;
             }
@@ -615,7 +621,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 if (!File.Exists(ConfigFilePath))
                 {
-                    ExMessageBoxBase.Show(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFile), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                    MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFile), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
                     return;
                 }
 
@@ -785,7 +791,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             var playerInfo = UsersList[index];
             string msg = playerInfo.ToString();
-            ExMessageBoxBase.Show(msg, "Player Info", ExMessageBoxBase.MessageType.Asterisk);
+            MessageBoxWindowService.MessageBoxShow(msg, "Player Info", ExMessageBoxBase.MessageType.Asterisk);
         }
 
         // Time
@@ -805,7 +811,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (!CheckConnected())
                 return;
 
-            var dialogResult = ExMessageBoxBase.Show(LangResources.Resources.DoYouChangeTime, LangResources.Resources.Warning, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+            var dialogResult = MessageBoxWindowService.MessageBoxShow(LangResources.Resources.DoYouChangeTime, LangResources.Resources.Warning, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
             if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
             {
                 var timeInfo = new TimeInfo()
@@ -843,10 +849,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!IsConnected)
             {
-                view.Dispatcher.Invoke(() =>
-                {
-                    ExMessageBoxBase.Show(LangResources.Resources.HasnotBeConnected, LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
-                });
+                MessageBoxWindowService.MessageBoxDispatchShow(LangResources.Resources.HasnotBeConnected, LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+
                 return false;
             }
             return true;
@@ -897,7 +901,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var playerId = UsersList[index].ID;
             if (string.IsNullOrEmpty(playerId))
             {
-                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
                 return;
             }
 
@@ -908,7 +912,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var playerId = UsersList[index].ID;
             if (string.IsNullOrEmpty(playerId))
             {
-                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
                 return;
             }
 
@@ -932,7 +936,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (fi.Exists)
                 Process.Start(fi.FullName, cfgArg);
             else
-                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_not_found, LangResources.Resources.ConfigEditor),
+                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_is_not_found, LangResources.Resources.ConfigEditor),
                     LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
         }
 

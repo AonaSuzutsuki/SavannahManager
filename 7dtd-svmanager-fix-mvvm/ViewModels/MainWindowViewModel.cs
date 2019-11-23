@@ -133,8 +133,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             BottomNewsLabel = model.ToReactivePropertyAsSynchronized(m => m.BottomNewsLabel);
             #endregion
-
-            DoLoaded();
         }
 
         #region Fields
@@ -269,7 +267,14 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #region EventMethods
         protected override void MainWindow_Loaded()
         {
-            var task = model.Initialize();
+            model.Initialize();
+
+            model.RefreshLabels();
+
+            if (model.Setting.IsFirstBoot)
+                MenuFirstSettingsBT_Click();
+
+            var task = model.CheckUpdate();
             task.ContinueWith(continueTask =>
             {
                 var dialogResult = continueTask.Result;
@@ -283,11 +288,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                     });
                 }
             });
-
-            model.RefreshLabels();
-
-            if (model.Setting.IsFirstBoot)
-                MenuFirstSettingsBT_Click();
         }
         protected override void MainWindow_Closing()
         {

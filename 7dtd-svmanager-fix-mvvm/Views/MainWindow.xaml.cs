@@ -23,31 +23,58 @@ namespace _7dtd_svmanager_fix_mvvm.Views
     /// </summary>
     public partial class MainWindow : Window, IDisposable
     {
-        private IDisposable model;
+        private readonly IDisposable model;
         public MainWindow()
         {
             InitializeComponent();
 
-            var model = new Models.MainWindowModel(this);
-            var vm = new ViewModels.MainWindowViewModel(new WindowService(this), model, this)
+            var windowService = new WindowService(this);
+            var mainWindowModel = new Models.MainWindowModel(this)
+            {
+                MessageBoxWindowService = windowService
+            };
+            var vm = new ViewModels.MainWindowViewModel(windowService, mainWindowModel, this)
             {
                 ConsoleTextBox = ConsoleTextBox
             };
             DataContext = vm;
-            this.model = model;
+            model = mainWindowModel;
+
+            this.Loaded += (sender, args) => { vm.Loaded.Execute(null); };
         }
 
+        #region IDisposable
+        // Flag: Has Dispose already been called?
+        private bool disposed = false;
+
+        // Public implementation of Dispose pattern callable by consumers.
         public void Dispose()
         {
-            model?.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        private static readonly FieldInfo _menuDropAlignmentField;
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                model?.Dispose();
+            }
+
+            disposed = true;
+        }
+        #endregion
+
+        private static readonly FieldInfo MenuDropAlignmentField;
         static MainWindow()
         {
-            _menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+            MenuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
             
-            System.Diagnostics.Debug.Assert(_menuDropAlignmentField != null);
+            System.Diagnostics.Debug.Assert(MenuDropAlignmentField != null);
 
             EnsureStandardPopupAlignment();
             SystemParameters.StaticPropertyChanged += SystemParameters_StaticPropertyChanged;
@@ -58,9 +85,9 @@ namespace _7dtd_svmanager_fix_mvvm.Views
         }
         private static void EnsureStandardPopupAlignment()
         {
-            if (SystemParameters.MenuDropAlignment && _menuDropAlignmentField != null)
+            if (SystemParameters.MenuDropAlignment && MenuDropAlignmentField != null)
             {
-                _menuDropAlignmentField.SetValue(null, false);
+                MenuDropAlignmentField.SetValue(null, false);
             }
         }
     }
