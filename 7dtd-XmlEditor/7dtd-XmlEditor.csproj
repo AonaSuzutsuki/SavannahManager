@@ -213,18 +213,26 @@ if exist "%25OutDir%25\XmlTemplates" (
 copy /y "$(TargetPath)" "%25OutDir%25\$(TargetFileName)"
 copy /y "$(TargetDir)$(TargetFileName).config" "%25OutDir%25\$(TargetFileName).config"
 copy /y "$(TargetDir)*.dll" "%25OutDir%25\"
-copy /y "$(TargetDir)*.xml" "%25OutDir%25\"
+# copy /y "$(TargetDir)*.xml" "%25OutDir%25\"
 xcopy "$(TargetDir)XmlTemplates" "%25OutDir%25\XmlTemplates" /E /Y
 
 # For Release
-SET BinDir=$(SolutionDir)bin
+SET BinDir=$(SolutionDir)bin\XmlEditor
 if exist "%25BinDir%25" (
     echo ""
 ) else (
     mkdir "%25BinDir%25"
 )
 
+if exist "%25BinDir%25\XmlTemplates" (
+    echo ""
+) else (
+    mkdir "%25BinDir%25\XmlTemplates"
+)
+
 copy /y "$(TargetPath)" "%25BinDir%25\$(TargetFileName)"
-copy /y "$(TargetDir)$(TargetFileName).config" "%25BinDir%25\$(TargetFileName).config"</PostBuildEvent>
+copy /y "$(TargetDir)$(TargetFileName).config" "%25BinDir%25\$(TargetFileName).config"
+copy /y "$(TargetDir)*.dll" "%25BinDir%25\"
+xcopy "$(TargetDir)XmlTemplates" "%25BinDir%25\XmlTemplates" /E /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

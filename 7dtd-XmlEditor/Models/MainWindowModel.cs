@@ -160,7 +160,7 @@ namespace _7dtd_XmlEditor.Models
             declaration = reader.Declaration;
             root = new TreeViewItemInfo(reader.GetAllNodes());
 
-            commonPage = null;
+            NodeViewModeChange("Common");
 
             OpenedFilePath = filePath;
         }

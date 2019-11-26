@@ -939,6 +939,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
         }
 
+        public void RunXmlEditor()
+        {
+            var fi = new FileInfo(ConstantValues.XmlEditorFilePath);
+            if (fi.Exists)
+                Process.Start(fi.FullName);
+            else
+                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_is_not_found, ConstantValues.XmlEditorFilePath),
+                    LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+        }
+
 
         /*
          * Shortcut Key
