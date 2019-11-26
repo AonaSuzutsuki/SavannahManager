@@ -133,6 +133,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             BottomNewsLabel = model.ToReactivePropertyAsSynchronized(m => m.BottomNewsLabel);
             #endregion
+
+            DoLoaded();
         }
 
         #region Fields
