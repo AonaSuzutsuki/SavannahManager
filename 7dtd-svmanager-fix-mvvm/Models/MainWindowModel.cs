@@ -236,7 +236,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private readonly List<int> connectedIds = new List<int>();
 
         private bool isServerForceStop = false;
-        private IDisposable disposableImplementation;
 
         #endregion
 
