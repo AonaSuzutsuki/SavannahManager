@@ -17,22 +17,22 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
             this.page = page;
             this.model = model;
 
-            GetPathBTClick = new DelegateCommand(GetPathBT_Click);
-            AutoSearchBTClick = new DelegateCommand(AutoSearchBT_Click);
+            GetPathBtClick = new DelegateCommand(GetPathBt_Click);
+            AutoSearchBtClick = new DelegateCommand(AutoSearchBt_Click);
 
             ServerConfigPathText = model.ToReactivePropertyAsSynchronized(m => m.ServerConfigPathText);
         }
 
         public ReactiveProperty<string> ServerConfigPathText { get; set; }
 
-        public ICommand GetPathBTClick { get; set; }
-        public ICommand AutoSearchBTClick { get; set; }
+        public ICommand GetPathBtClick { get; set; }
+        public ICommand AutoSearchBtClick { get; set; }
 
-        public void GetPathBT_Click()
+        public void GetPathBt_Click()
         {
             model.SelectAndGetFilePath();
         }
-        public void AutoSearchBT_Click()
+        public void AutoSearchBt_Click()
         {
             model.AutoSearchAndGetFilePath();
         }

@@ -66,9 +66,9 @@
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
-                <Button Name="MainWindowMinimumBT" Content="{Binding MainWindowMinimumBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMinimumBTClick}" />
-                <Button Name="MainMaximumBT" Content="{Binding MainWindowMaximumBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMaximumBTClick}" />
-                <Button Name="MainWindowCloseBT" Content="{Binding MainWindowCloseBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBTClick}" />
+                <Button Name="MainWindowMinimumBT" Content="{Binding MainWindowMinimumBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMinimumBtClick}" />
+                <Button Name="MainMaximumBT" Content="{Binding MainWindowMaximumBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMaximumBtClick}" />
+                <Button Name="MainWindowCloseBT" Content="{Binding MainWindowCloseBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBtClick}" />
             </StackPanel>
 
             <StackPanel Margin="1,25,1,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
@@ -85,7 +85,7 @@
 
                         <Separator Style="{DynamicResource MLB_Separator}" />
 
-                        <MenuItem Name="MenuExitBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ExitBT, Mode=OneWay}" Command="{Binding MainWindowCloseBTClick}" />
+                        <MenuItem Name="MenuExitBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ExitBT, Mode=OneWay}" Command="{Binding MainWindowCloseBtClick}" />
 
                     </MenuItem>
                 </Menu>

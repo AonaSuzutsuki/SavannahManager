@@ -55,7 +55,7 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
 
-            <Button Name="MainWindowCloseBT" Content="r" IsEnabled="{Binding CloseBtEnabled.Value}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBTClick}" />
+            <Button Name="MainWindowCloseBT" Content="r" IsEnabled="{Binding CloseBtEnabled.Value}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBtClick}" />
         </StackPanel>
 
         <Grid Margin="10,25,10,10">
@@ -64,7 +64,7 @@
                 <ProgressBar Height="25" Style="{DynamicResource ProgressBarStyle}" Value="{Binding ProgressValue.Value}" Maximum="{Binding ProgressMaximum.Value}" IsIndeterminate="{Binding ProgressIndeterminate.Value}" />
                 <Label Content="{Binding ProgressLabel.Value}" />
             </StackPanel>
-            <Button Name="CloseBT" Content="Close" Width="100" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{DynamicResource FlatButton}" IsEnabled="{Binding CloseBtEnabled.Value}" Command="{Binding MainWindowCloseBTClick}" />
+            <Button Name="CloseBT" Content="Close" Width="100" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{DynamicResource FlatButton}" IsEnabled="{Binding CloseBtEnabled.Value}" Command="{Binding MainWindowCloseBtClick}" />
         </Grid>
         
     </Grid>

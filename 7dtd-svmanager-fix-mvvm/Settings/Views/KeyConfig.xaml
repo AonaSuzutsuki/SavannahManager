@@ -53,8 +53,8 @@
         <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
-            <Button Name="MainWindowMinimumBT" Content="{Binding MainWindowMinimumBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMinimumBTClick}" />
-            <Button Name="MainWindowCloseBT" Content="{Binding MainWindowCloseBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBTClick}" />
+            <Button Name="MainWindowMinimumBT" Content="{Binding MainWindowMinimumBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMinimumBtClick}" />
+            <Button Name="MainWindowCloseBT" Content="{Binding MainWindowCloseBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBtClick}" />
         </StackPanel>
         <Grid Margin="5,30,5,5">
             <Grid.ColumnDefinitions>
@@ -116,7 +116,7 @@
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Name="OKayBT" Width="80" Height="25" Content="OK" Style="{DynamicResource FlatButton}" Command="{Binding OKayBtClick}" />
-                    <Button Name="CancelBT" Width="80" Height="25" Margin="5,0,0,0" Content="キャンセル" Style="{DynamicResource FlatButton}" Command="{Binding MainWindowCloseBTClick}" />
+                    <Button Name="CancelBT" Width="80" Height="25" Margin="5,0,0,0" Content="キャンセル" Style="{DynamicResource FlatButton}" Command="{Binding MainWindowCloseBtClick}" />
                 </StackPanel>
             </Grid>
             

@@ -65,44 +65,44 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             Closing = new DelegateCommand(MainWindow_Closing);
             KeyDown = new DelegateCommand<KeyEventArgs>(MainWindow_KeyDown);
 
-            MenuSettingsBTClick = new DelegateCommand(MenuSettingsBT_Click);
-            MenuFirstSettingsBTClick = new DelegateCommand(MenuFirstSettingsBT_Click);
-            MenuLangJapaneseBTClick = new DelegateCommand(MenuLangJapaneseBT_Click);
-            MenuLangEnglishBTClick = new DelegateCommand(MenuLangEnglishBT_Click);
-            MenuConfigEditorBTClick = new DelegateCommand(MenuConfigEditorBT_Click);
+            MenuSettingsBtClick = new DelegateCommand(MenuSettingsBt_Click);
+            MenuFirstSettingsBtClick = new DelegateCommand(MenuFirstSettingsBt_Click);
+            MenuLangJapaneseBtClick = new DelegateCommand(MenuLangJapaneseBt_Click);
+            MenuLangEnglishBtClick = new DelegateCommand(MenuLangEnglishBt_Click);
+            MenuConfigEditorBtClick = new DelegateCommand(MenuConfigEditorBt_Click);
             MenuXmlEditorBtClick = new DelegateCommand(MenuXmlEditorBt_Click);
-            MenuBackupEditorBTClick = new DelegateCommand(MenuBackupEditorBT_Click);
-            MenuCheckUpdateBTClick = new DelegateCommand(MenuCheckUpdateBT_Click);
+            MenuBackupEditorBtClick = new DelegateCommand(MenuBackupEditorBt_Click);
+            MenuCheckUpdateBtClick = new DelegateCommand(MenuCheckUpdateBt_Click);
             MenuVersionInfoClick = new DelegateCommand(MenuVersionInfo_Click);
 
-            StartBTClick = new DelegateCommand(StartBT_Click);
-            StopBTClick = new DelegateCommand(StopBT_Click);
-            TelnetBTClick = new DelegateCommand(TelnetBT_Click);
-            CommandListBTClick = new DelegateCommand(CommandListBT_Click);
+            StartBtClick = new DelegateCommand(StartBt_Click);
+            StopBtClick = new DelegateCommand(StopBt_Click);
+            TelnetBtClick = new DelegateCommand(TelnetBt_Click);
+            CommandListBtClick = new DelegateCommand(CommandListBt_Click);
 
             PlayerListRefreshBtClick = new DelegateCommand(PlayerListRefreshBt_Click);
 
             PlayerContextMenuOpened = new DelegateCommand(PlayerContextMenu_Opened);
-            AdminAddBTClick = new DelegateCommand(AdminAddBT_Click);
-            AdminRemoveBTClick = new DelegateCommand(AdminRemoveBT_Click);
-            WhiteListAddBTClick = new DelegateCommand(WhiteListAddBT_Click);
-            WhiteListRemoveBTClick = new DelegateCommand(WhiteListRemoveBT_Click);
-            KickBTClick = new DelegateCommand(KickBT_Click);
-            BanBTClick = new DelegateCommand(BanBT_Click);
-            KillBTClick = new DelegateCommand(KillBT_Click);
-            WatchPlayerInfoBTClick = new DelegateCommand(WatchPlayerInfoBT_Click);
+            AdminAddBtClick = new DelegateCommand(AdminAddBt_Click);
+            AdminRemoveBtClick = new DelegateCommand(AdminRemoveBt_Click);
+            WhiteListAddBtClick = new DelegateCommand(WhiteListAddBt_Click);
+            WhiteListRemoveBtClick = new DelegateCommand(WhiteListRemoveBt_Click);
+            KickBtClick = new DelegateCommand(KickBt_Click);
+            BanBtClick = new DelegateCommand(BanBt_Click);
+            KillBtClick = new DelegateCommand(KillBt_Click);
+            WatchPlayerInfoBtClick = new DelegateCommand(WatchPlayerInfoBt_Click);
 
             ChatTextBoxEnterDown = new DelegateCommand<string>(ChatTextBoxEnter_Down);
 
             ConsoleTextBoxMouseEnter = new DelegateCommand(ConsoleTextBoxMouse_Enter);
             ConsoleTextBoxMouseLeave = new DelegateCommand(ConsoleTextBoxMouse_Leave);
-            DeleteLogBTClick = new DelegateCommand(DeleteLogBT_Click);
+            DeleteLogBtClick = new DelegateCommand(DeleteLogBt_Click);
 
             CmdTextBoxEnterDown = new DelegateCommand<string>(CmdTextBox_EnterDown);
 
-            GetTimeBTClick = new DelegateCommand(GetTimeBT_Click);
-            SetTimeBTClick = new DelegateCommand(SetTimeBT_Click);
-            SaveWorldBTClick = new DelegateCommand(SaveWorldBT_Click);
+            GetTimeBtClick = new DelegateCommand(GetTimeBt_Click);
+            SetTimeBtClick = new DelegateCommand(SetTimeBt_Click);
+            SaveWorldBtClick = new DelegateCommand(SaveWorldBt_Click);
 
             GetIpClicked = new DelegateCommand(GetIp_Clicked);
             CheckPortClicked = new DelegateCommand(CheckPort_Clicked);
@@ -147,44 +147,44 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region EventProperties
-        public ICommand MenuSettingsBTClick { get; set; }
-        public ICommand MenuFirstSettingsBTClick { get; set; }
-        public ICommand MenuLangJapaneseBTClick { get; set; }
-        public ICommand MenuLangEnglishBTClick { get; set; }
-        public ICommand MenuConfigEditorBTClick { get; set; }
+        public ICommand MenuSettingsBtClick { get; set; }
+        public ICommand MenuFirstSettingsBtClick { get; set; }
+        public ICommand MenuLangJapaneseBtClick { get; set; }
+        public ICommand MenuLangEnglishBtClick { get; set; }
+        public ICommand MenuConfigEditorBtClick { get; set; }
         public ICommand MenuXmlEditorBtClick { get; set; }
-        public ICommand MenuBackupEditorBTClick { get; set; }
-        public ICommand MenuCheckUpdateBTClick { get; set; }
+        public ICommand MenuBackupEditorBtClick { get; set; }
+        public ICommand MenuCheckUpdateBtClick { get; set; }
         public ICommand MenuVersionInfoClick { get; set; }
 
-        public ICommand StartBTClick { get; set; }
-        public ICommand StopBTClick { get; set; }
-        public ICommand TelnetBTClick { get; set; }
-        public ICommand CommandListBTClick { get; set; }
+        public ICommand StartBtClick { get; set; }
+        public ICommand StopBtClick { get; set; }
+        public ICommand TelnetBtClick { get; set; }
+        public ICommand CommandListBtClick { get; set; }
 
         public ICommand PlayerListRefreshBtClick { get; set; }
         
         public ICommand PlayerContextMenuOpened { get; set; }
-        public ICommand AdminAddBTClick { get; set; }
-        public ICommand AdminRemoveBTClick { get; set; }
-        public ICommand WhiteListAddBTClick { get; set; }
-        public ICommand WhiteListRemoveBTClick { get; set; }
-        public ICommand KickBTClick { get; set; }
-        public ICommand BanBTClick { get; set; }
-        public ICommand KillBTClick { get; set; }
-        public ICommand WatchPlayerInfoBTClick { get; set; }
+        public ICommand AdminAddBtClick { get; set; }
+        public ICommand AdminRemoveBtClick { get; set; }
+        public ICommand WhiteListAddBtClick { get; set; }
+        public ICommand WhiteListRemoveBtClick { get; set; }
+        public ICommand KickBtClick { get; set; }
+        public ICommand BanBtClick { get; set; }
+        public ICommand KillBtClick { get; set; }
+        public ICommand WatchPlayerInfoBtClick { get; set; }
 
         public ICommand ChatTextBoxEnterDown { get; set; }
 
         public ICommand ConsoleTextBoxMouseEnter { get; set; }
         public ICommand ConsoleTextBoxMouseLeave { get; set; }
-        public ICommand DeleteLogBTClick { get; set; }
+        public ICommand DeleteLogBtClick { get; set; }
 
         public ICommand CmdTextBoxEnterDown { get; set; }
 
-        public ICommand GetTimeBTClick { get; set; }
-        public ICommand SetTimeBTClick { get; set; }
-        public ICommand SaveWorldBTClick { get; set; }
+        public ICommand GetTimeBtClick { get; set; }
+        public ICommand SetTimeBtClick { get; set; }
+        public ICommand SaveWorldBtClick { get; set; }
 
         public ICommand GetIpClicked { get; set; }
         public ICommand CheckPortClicked { get; set; }
@@ -276,7 +276,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             model.RefreshLabels();
 
             if (model.Setting.IsFirstBoot)
-                MenuFirstSettingsBT_Click();
+                MenuFirstSettingsBt_Click();
 
             var task = model.CheckUpdate();
             task.ContinueWith(continueTask =>
@@ -303,7 +303,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             model.PushShortcutKey(e.Key);
         }
 
-        private void MenuSettingsBT_Click()
+        private void MenuSettingsBt_Click()
         {
             var setting = model.Setting;
             var keyManager = model.ShortcutKeyManager;
@@ -313,7 +313,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             WindowManageService.ShowDialog<SettingWindow>(vm);
             model.IsBeta = setting.IsBetaMode;
         }
-        private void MenuFirstSettingsBT_Click()
+        private void MenuFirstSettingsBt_Click()
         {
             var setting = model.Setting;
             WindowManageService.ShowDialog<InitializeWindow>(window =>
@@ -322,17 +322,17 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 return new InitializeWindowViewModel(new WindowService(), initModel);
             });
         }
-        private void MenuLangJapaneseBT_Click()
+        private void MenuLangJapaneseBt_Click()
         {
             model.ChangeCulture(ResourceService.Japanese);
             model.RefreshLabels();
         }
-        private void MenuLangEnglishBT_Click()
+        private void MenuLangEnglishBt_Click()
         {
             model.ChangeCulture(ResourceService.English);
             model.RefreshLabels();
         }
-        private void MenuConfigEditorBT_Click()
+        private void MenuConfigEditorBt_Click()
         {
             model.RunConfigEditor();
         }
@@ -341,14 +341,14 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             model.RunXmlEditor();
         }
-        private void MenuBackupEditorBT_Click()
+        private void MenuBackupEditorBt_Click()
         {
             var setting = model.Setting;
             var backupModel = new BackupSelectorModel(setting);
             var vm = new BackupSelectorViewModel(new WindowService(), backupModel);
             WindowManageService.Show<BackupSelector>(vm);
         }
-        private void MenuCheckUpdateBT_Click()
+        private void MenuCheckUpdateBt_Click()
         {
             var updFormModel = new UpdFormModel();
             var vm = new UpdFormViewModel(new WindowService(), updFormModel);
@@ -361,11 +361,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             WindowManageService.ShowDialog<VersionInfo>(vm);
         }
 
-        private void StartBT_Click()
+        private void StartBt_Click()
         {
             model.ServerStart();
         }
-        private void StopBT_Click()
+        private void StopBt_Click()
         {
             var isForceShutdown = model.ServerStop();
             if (!isForceShutdown)
@@ -375,11 +375,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var vm = new ForceShutdownerViewModel(new WindowService(), forceShutdownerModel);
             WindowManageService.Show<ForceShutdowner>(vm);
         }
-        private void TelnetBT_Click()
+        private void TelnetBt_Click()
         {
             model.TelnetConnectOrDisconnect();
         }
-        private void CommandListBT_Click()
+        private void CommandListBt_Click()
         {
 
         }
@@ -409,7 +409,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 WatchPlayerInfoContextEnabled = true;
             }
         }
-        private void AdminAddBT_Click()
+        private void AdminAddBt_Click()
         {
             var playerInfo = model.GetUserDetail(UsersListSelectedIndex);
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
@@ -426,11 +426,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
             });
         }
-        private void AdminRemoveBT_Click()
+        private void AdminRemoveBt_Click()
         {
             model.RemoveAdmin(UsersListSelectedIndex);
         }
-        private void WhiteListAddBT_Click()
+        private void WhiteListAddBt_Click()
         {
             var playerInfo = model.GetUserDetail(UsersListSelectedIndex);
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
@@ -447,11 +447,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
             });
         }
-        private void WhiteListRemoveBT_Click()
+        private void WhiteListRemoveBt_Click()
         {
             model.RemoveWhitelist(UsersListSelectedIndex);
         }
-        private void KickBT_Click()
+        private void KickBt_Click()
         {
             var playerInfo = model.GetUserDetail(UsersListSelectedIndex);
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
@@ -468,7 +468,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
             });
         }
-        private void BanBT_Click()
+        private void BanBt_Click()
         {
             var playerInfo = model.GetUserDetail(UsersListSelectedIndex);
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
@@ -485,11 +485,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
             });
         }
-        private void KillBT_Click()
+        private void KillBt_Click()
         {
 
         }
-        private void WatchPlayerInfoBT_Click()
+        private void WatchPlayerInfoBt_Click()
         {
             model.ShowPlayerInfo(UsersListSelectedIndex);
         }
@@ -507,7 +507,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             consoleIsFocus = false;
         }
-        private void DeleteLogBT_Click()
+        private void DeleteLogBt_Click()
         {
             consoleLog.Clear();
             ConsoleLogText = "";
@@ -519,15 +519,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             CmdText = string.Empty;
         }
 
-        private void GetTimeBT_Click()
+        private void GetTimeBt_Click()
         {
             model.SetTimeToTextBox();
         }
-        private void SetTimeBT_Click()
+        private void SetTimeBt_Click()
         {
             model.SetTimeToGame();
         }
-        private void SaveWorldBT_Click()
+        private void SaveWorldBt_Click()
         {
             model.SendCommand("saveworld");
         }

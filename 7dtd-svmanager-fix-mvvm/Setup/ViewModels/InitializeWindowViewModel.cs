@@ -15,9 +15,9 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         {
             this.model = model;
 
-            PrevBTClick = new DelegateCommand(PrevBT_Click);
-            NextBTClick = new DelegateCommand(NextBT_Click);
-            ExitBTClick = new DelegateCommand(ExitBT_Click);
+            PrevBtClick = new DelegateCommand(PrevBt_Click);
+            NextBtClick = new DelegateCommand(NextBt_Click);
+            ExitBtClick = new DelegateCommand(ExitBt_Click);
 
             PrevBTEnabled = model.ToReactivePropertyAsSynchronized(m => m.PrevBTEnabled);
             NextBTEnabled = model.ToReactivePropertyAsSynchronized(m => m.NextBTEnabled);
@@ -32,19 +32,19 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         public ReactiveProperty<Visibility> ExitBTVisibility { get; set; }
         public ReactiveProperty<Visibility> CancelBTVisibility { get; set; }
 
-        public ICommand PrevBTClick { get; set; }
-        public ICommand NextBTClick { get; set; }
-        public ICommand ExitBTClick { get; set; }
+        public ICommand PrevBtClick { get; set; }
+        public ICommand NextBtClick { get; set; }
+        public ICommand ExitBtClick { get; set; }
 
-        private void PrevBT_Click()
+        private void PrevBt_Click()
         {
             model.PreviousPage();
         }
-        private void NextBT_Click()
+        private void NextBt_Click()
         {
             model.NextPage();
         }
-        private void ExitBT_Click()
+        private void ExitBt_Click()
         {
             model.Save();
             WindowManageService.Close();
