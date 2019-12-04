@@ -73,6 +73,13 @@
                                 <GridViewColumn Width="150" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=ForceShutdownerResources.UI_NameLabel, Mode=OneWay}" DisplayMemberBinding="{Binding Path=Name}" />
                             </GridView>
                         </ListView.View>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectionChanged}" CommandParameter="{Binding Path=SelectedIndex, 
+                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                     </ListView>
                 </Grid>
 
