@@ -18,6 +18,27 @@ using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Views
 {
+
+    public class MainWindowService : WindowService
+    {
+        public MainWindowService(Window window) : base(window)
+        {
+
+        }
+
+        public TextBox ConsoleTextBox { get; set; }
+
+        public void Select(int start, int length)
+        {
+            ConsoleTextBox.Select(start, length);
+        }
+
+        public void ScrollToEnd()
+        {
+            ConsoleTextBox.ScrollToEnd();
+        }
+    }
+
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
@@ -28,15 +49,15 @@ namespace _7dtd_svmanager_fix_mvvm.Views
         {
             InitializeComponent();
 
-            var windowService = new WindowService(this);
-            var mainWindowModel = new Models.MainWindowModel(this)
+            var windowService = new MainWindowService(this)
+            {
+                ConsoleTextBox =  ConsoleTextBox
+            };
+            var mainWindowModel = new Models.MainWindowModel()
             {
                 MessageBoxWindowService = windowService
             };
-            var vm = new ViewModels.MainWindowViewModel(windowService, mainWindowModel, this)
-            {
-                ConsoleTextBox = ConsoleTextBox
-            };
+            var vm = new ViewModels.MainWindowViewModel(windowService, mainWindowModel, this);
             DataContext = vm;
             model = mainWindowModel;
 

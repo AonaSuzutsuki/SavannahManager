@@ -165,7 +165,7 @@
                             </ListView>
                             <GridSplitter Background="Transparent" Grid.Row="1" Margin="0,0,0,0" HorizontalAlignment="Stretch" Height="Auto"/>
                             <TextBox Text="{Binding ChatLogText.Value}" Grid.Row="2" Margin="0,1,0,0" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch" ContextMenu="{StaticResource CopyOnly}" />
-                            <TextBox Name="ChatTextBox" Text="{Binding ChatInputText.Value}" Grid.Row="3" Margin="0,1,0,0" AcceptsReturn="False" TextWrapping="NoWrap" VerticalScrollBarVisibility="Hidden" IsReadOnly="False" Height="25"  VerticalAlignment="Stretch" ContextMenu="{StaticResource CopyCutPaste}">
+                            <TextBox Name="ChatTextBox" Text="{Binding ChatInputText.Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Margin="0,1,0,0" AcceptsReturn="False" TextWrapping="NoWrap" VerticalScrollBarVisibility="Hidden" IsReadOnly="False" Height="25"  VerticalAlignment="Stretch" ContextMenu="{StaticResource CopyCutPaste}">
                                 <TextBox.InputBindings>
                                     <KeyBinding Key="Enter" Command="{Binding ChatTextBoxEnterDown}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
                                 </TextBox.InputBindings>

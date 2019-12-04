@@ -29,7 +29,10 @@ using _7dtd_svmanager_fix_mvvm.Setup.Views;
 using _7dtd_svmanager_fix_mvvm.Update.Models;
 using _7dtd_svmanager_fix_mvvm.Update.ViewModels;
 using _7dtd_svmanager_fix_mvvm.Update.Views;
+using CommonExtensionLib.Extensions;
 using CommonStyleLib.ExMessageBox;
+using Log;
+using SvManagerLibrary.Telnet;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -54,10 +57,14 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
     public class MainWindowViewModel : ViewModelBase
     {
-        public MainWindowViewModel(WindowService windowService, Models.MainWindowModel model, MainWindow view) : base(windowService, model)
+        public MainWindowViewModel(MainWindowService windowService, Models.MainWindowModel model, MainWindow view) : base(windowService, model)
         {
             model.AppendConsoleText += Model_AppendConsoleText;
-            this.view = view;
+            model.Telnet.Started += Telnet_Started;
+            model.Telnet.Finished += Telnet_Finished;
+            model.Telnet.ReadEvent += TelnetReadEvent;
+
+            mainWindowService = windowService;
             this.model = model;
 
             #region Event Initialize
@@ -139,7 +146,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
 
         #region Fields
-        private readonly MainWindow view;
+        private readonly MainWindowService mainWindowService;
         private readonly Models.MainWindowModel model;
         private StringBuilder consoleLog = new StringBuilder();
 
@@ -496,7 +503,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         
         private void ChatTextBoxEnter_Down(string e)
         {
-            model.SendChat(e, () => view.ChatTextBox.Text = "");
+            model.SendChat(e, () => model.ChatInputText = "");
         }
 
         private void ConsoleTextBoxMouse_Enter()
@@ -550,10 +557,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             if (!string.IsNullOrEmpty(e.AppendedLogText))
             {
-                view.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                WindowManageService.Dispatch(DispatcherPriority.Background, () =>
                 {
                     AppendConsoleText(e.AppendedLogText, e.MaxLength);
-                }));
+                });
             }
         }
         #endregion
@@ -577,11 +584,47 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             {
                 if (!consoleIsFocus)
                 {
-                    ConsoleTextBox?.Select(ConsoleLogText.Length, 0);
-                    ConsoleTextBox?.ScrollToEnd();
+                    mainWindowService.Select(ConsoleLogText.Length, 0);
+                    mainWindowService.ScrollToEnd();
                 }
             }
         }
         #endregion
+
+
+        private void Telnet_Started(object sender, TelnetClient.TelnetReadEventArgs e)
+        {
+            model.PlayerClean();
+        }
+
+        private void Telnet_Finished(object sender, TelnetClient.TelnetReadEventArgs e)
+        {
+            model.PlayerClean();
+        }
+
+        private void TelnetReadEvent(object sender, TelnetClient.TelnetReadEventArgs e)
+        {
+            var log = "{0}".FormatString(e.Log);
+
+            //if (isStop)
+            //    SocTelnetSendDirect("");
+
+            model.LoggingStream.WriteSteam(log);
+
+            model.AppendConsoleLog(log);
+
+            if (log.IndexOf("Chat", StringComparison.Ordinal) > -1)
+            {
+                model.AddChatText(log);
+            }
+            if (log.IndexOf("INF Created player with id=", StringComparison.Ordinal) > -1)
+            {
+                WindowManageService.Dispatch(DispatcherPriority.Background, model.PlayerRefresh);
+            }
+            if (log.IndexOf("INF Player disconnected", StringComparison.Ordinal) > -1)
+            {
+                model.RemoveUser(log);
+            }
+        }
     }
 }
