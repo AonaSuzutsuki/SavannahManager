@@ -10,8 +10,9 @@
       You can change the save destination in the settings.
 
     ○ Notice
-    The target framework will be changed to .Net Framework 4.8 around the next update.
-    If you don't install, please install Runtime.
+    The target framework changed to .Net Framework 4.8 with this update.
+    Please install Runtime if you don't install.
+    You cannot launch this app if you don't install runtime.
     https://dotnet.microsoft.com/download/dotnet-framework/net48
 
     I'm also considering moving from .Net Framework to .Net Core over time, so a different runtime may be required.

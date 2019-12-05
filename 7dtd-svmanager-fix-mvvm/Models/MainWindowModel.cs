@@ -53,11 +53,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
     public class MainWindowModel : ModelBase, IMainWindowTelnet, IDisposable
     {
-        public MainWindowModel()
-        {
-            Telnet = new TelnetClient();
-        }
-
         #region AppendedLogTextEvent
         public class AppendedLogTextEventArgs
         {
@@ -237,6 +232,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         #endregion
 
 
+        public MainWindowModel()
+        {
+            Telnet = new TelnetClient();
+
+            Setting = SettingLoader.SettingInstance;
+            ShortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
+                ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
+        }
+
         public override void Activated()
         {
             base.Activated();
@@ -247,19 +251,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 AroundBorderColor = CommonStyleLib.ConstantValues.ActivatedBorderColor2;
         }
 
-        public void Initialize()
+        public void InitializeWindow()
         {
-            Setting = SettingLoader.SettingInstance;
-            ShortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
-                ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
-
             Width = Setting.Width;
             Height = Setting.Height;
             int screenWidth = (int)SystemParameters.WorkArea.Width;
             int screenHeight = (int)SystemParameters.WorkArea.Height;
             Top = (screenHeight - Height) / 2;
             Left = (screenWidth - Width) / 2;
+        }
 
+        public void Initialize()
+        {
             Address = Setting.Address;
             PortText = Setting.Port.ToString();
             Password = Setting.Password;
