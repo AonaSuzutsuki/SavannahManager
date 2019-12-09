@@ -365,6 +365,7 @@
     <Compile Include="Update\Models\UpdFormModel.cs" />
     <Compile Include="Update\ViewModels\LoadingViewModel.cs" />
     <Compile Include="Update\ViewModels\UpdFormViewModel.cs" />
+    <Compile Include="Update\Views\BindableRichTextBox.cs" />
     <Compile Include="Update\Views\Loading.xaml.cs">
       <DependentUpon>Loading.xaml</DependentUpon>
     </Compile>

@@ -8,8 +8,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Forms;
+using _7dtd_svmanager_fix_mvvm.Update.Views;
 using CommonStyleLib.Views;
+using Application = System.Windows.Application;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.Models
 {
@@ -24,6 +26,8 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         private bool canUpdate = false;
         private bool canCancel = true;
+
+        private ObservableCollection<RichTextItem> richDetailText = new ObservableCollection<RichTextItem>();
 
         private string detailText;
         private string currentVersion;
@@ -52,7 +56,14 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             get => canCancel;
             set => SetProperty(ref canCancel, value);
         }
-        
+
+
+        public ObservableCollection<RichTextItem> RichDetailText
+        {
+            get => richDetailText;
+            set => SetProperty(ref richDetailText, value);
+        }
+
         public string DetailText
         {
             get => detailText;
@@ -71,11 +82,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         #endregion
 
 
-
-        public UpdFormModel()
-        {
-        }
-
         public void Initialize()
         {
             CurrentVersion = ConstantValues.Version;
@@ -90,13 +96,15 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             if (VersionList.Count > 0)
                 VersionListSelectedIndex = 0;
             ShowDetails(0);
+
         }
 
         public void ShowDetails(int index)
         {
             var version = VersionList[index];
             var detail = updManager.Updates[version];
-            DetailText = detail;
+            //DetailText = detail;
+            RichDetailText = new ObservableCollection<RichTextItem>(detail);
         }
 
         public void Update()

@@ -6,6 +6,7 @@
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Views"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Update Form" Height="400" Width="600" ResizeMode="CanResize">
@@ -31,6 +32,9 @@
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/ListBoxStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
+                <ResourceDictionary>
+                    <local:RichTextItemsToDocumentConverter x:Key="RichTextItemsConverter"/>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -72,12 +76,19 @@
                 <ListBox Name="VersionList" ItemsSource="{Binding VersionListView.Value}" SelectedIndex="{Binding VersionListSelectedIndex.Value}" Style="{DynamicResource NonGridListBox}" ItemContainerStyle="{DynamicResource CustomListBoxItem}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding VersionList_SelectionChanged}" CommandParameter="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" />
+                            <i:InvokeCommandAction Command="{Binding VersionListSelectionChanged}" CommandParameter="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ListBox>
 
-                <TextBox Text="{Binding DetailText.Value}" IsReadOnly="False" Margin="5,0,0,0" Grid.Column="1" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" TextWrapping="Wrap" ContextMenu="{StaticResource CopyOnly}" />
+                <!--<RichTextBox Text="{Binding DetailText.Value}" IsReadOnly="False" Margin="5,0,0,0" Grid.Column="1" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" TextWrapping="Wrap" ContextMenu="{StaticResource CopyOnly}" />-->
+                <local:BindableRichTextBox Grid.Column="1" Background="Transparent" Foreground="White" Document="{Binding RichDetailText.Value, Mode=OneWay, Converter={StaticResource RichTextItemsConverter}}" IsReadOnly="True" VerticalScrollBarVisibility="Visible" ContextMenu="{StaticResource CopyOnly}">
+                    <local:BindableRichTextBox.Resources>
+                        <Style TargetType="Hyperlink">
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Style>
+                    </local:BindableRichTextBox.Resources>
+                </local:BindableRichTextBox>
             </Grid>
 
             <Grid Margin="0,0,3,0" Grid.Row="1">
@@ -92,8 +103,8 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_UpdBT, Mode=OneWay}" IsEnabled="{Binding UpdateBTIsEnabled.Value}" Name="UpdateBT" Style="{DynamicResource FlatButton}" Width="90" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding UpdateBtClick}" />
-                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_CancelBT, Mode=OneWay}" IsEnabled="{Binding CancelBTIsEnabled.Value}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding MainWindowCloseBtClick}" />
+                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_UpdBT, Mode=OneWay}" IsEnabled="{Binding UpdateBtIsEnabled.Value}" Name="UpdateBT" Style="{DynamicResource FlatButton}" Width="90" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding UpdateBtClick}" />
+                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_CancelBT, Mode=OneWay}" IsEnabled="{Binding CancelBtIsEnabled.Value}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding MainWindowCloseBtClick}" />
                 </StackPanel>
             </Grid>
 

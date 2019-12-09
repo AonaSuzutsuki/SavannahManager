@@ -117,7 +117,12 @@ namespace SvManagerLibrary.XmlWrapper
         {
             var sb = new StringBuilder();
 
-            text = text.Replace("\r\n", "\r").Replace("\r", "\n").TrimStart('\n');
+            text = text.UnifiedBreakLine().TrimStart('\n');
+            //if (text[0] == '\n')
+            //    text = text.Substring(1, text.Length - 1);
+            //if (text[text.Length - 1] == '\n')
+            //    text = text.Substring(0, text.Length - 1);
+            //text = text.TrimStart('\n');
             var spaceLength = GetSpaceLength(text);
 
             var expression = spaceLength > 0 ? $"^( {{0,{spaceLength.ToString()}}})(?<text>.*)$" : "^ *(?<text>.*)$";
@@ -136,6 +141,7 @@ namespace SvManagerLibrary.XmlWrapper
                 else
                     sb.Append(sr.ReadLine());
             }
+
             return sb.ToString().TrimStart('\n').TrimEnd('\n');
         }
 

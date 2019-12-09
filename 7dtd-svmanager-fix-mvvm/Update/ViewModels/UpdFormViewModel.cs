@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using _7dtd_svmanager_fix_mvvm.Update.Views;
 using CommonStyleLib.Views;
 using Reactive.Bindings.Extensions;
@@ -20,38 +21,41 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
     public class UpdFormViewModel : ViewModelBase
     {
         private UpdFormModel model;
-        public UpdFormViewModel(WindowService windowService, UpdFormModel model) : base(windowService, model)
+        public UpdFormViewModel(WindowService windowService, UpdFormModel model, bool isAsync = false) : base(windowService, model)
         {
             this.model = model;
 
+            if (!isAsync)
+                DoLoaded();
+
             VersionListView = model.ToReactivePropertyAsSynchronized(m => m.VersionList);
             VersionListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.VersionListSelectedIndex);
-            UpdateBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.CanUpdate);
-            CancelBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.CanCancel);
+            UpdateBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.CanUpdate);
+            CancelBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.CanCancel);
+            RichDetailText = model.ToReactivePropertyAsSynchronized(m => m.RichDetailText);
             DetailText = model.ToReactivePropertyAsSynchronized(m => m.DetailText);
             CurrentVersion = model.ToReactivePropertyAsSynchronized(m => m.CurrentVersion);
             LatestVersion = model.ToReactivePropertyAsSynchronized(m => m.LatestVersion);
 
-            VersionList_SelectionChanged = new DelegateCommand<int?>(VersionListSelectionChanged);
+            VersionListSelectionChanged = new DelegateCommand<int?>(VersionList_SelectionChanged);
             UpdateBtClick = new DelegateCommand(UpdateBt_Clicked);
-            
-            DoLoaded();
         }
 
         #region Properties
         public ReactiveProperty<ObservableCollection<string>> VersionListView { get; set; }
         public ReactiveProperty<int> VersionListSelectedIndex { get; set; }
 
-        public ReactiveProperty<bool> UpdateBTIsEnabled { get; set; }
-        public ReactiveProperty<bool> CancelBTIsEnabled { get; set; }
+        public ReactiveProperty<bool> UpdateBtIsEnabled { get; set; }
+        public ReactiveProperty<bool> CancelBtIsEnabled { get; set; }
 
+        public ReactiveProperty<ObservableCollection<RichTextItem>> RichDetailText { get; set; }
         public ReactiveProperty<string> DetailText { get; set; }
         public ReactiveProperty<string> CurrentVersion { get; set; }
         public ReactiveProperty<string> LatestVersion { get; set; }
         #endregion
 
         #region EventProperties
-        public ICommand VersionList_SelectionChanged { get; }
+        public ICommand VersionListSelectionChanged { get; }
         public ICommand UpdateBtClick { get; }
         #endregion
 
@@ -69,7 +73,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             windowService.Close();
         }
 
-        private void VersionListSelectionChanged(int? arg)
+        private void VersionList_SelectionChanged(int? arg)
         {
             if (arg != null)
             {
