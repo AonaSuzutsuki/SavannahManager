@@ -86,6 +86,7 @@
                     <local:BindableRichTextBox.Resources>
                         <Style TargetType="Hyperlink">
                             <Setter Property="Cursor" Value="Hand" />
+                            <EventSetter Event="MouseLeftButtonDown" Handler="EventSetter_OnHandler" />
                         </Style>
                     </local:BindableRichTextBox.Resources>
                 </local:BindableRichTextBox>
