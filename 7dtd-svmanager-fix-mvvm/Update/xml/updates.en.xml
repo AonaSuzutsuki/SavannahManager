@@ -1,5 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.2.30.3">
+    1. Added Xml Editor.
+      1.1 Please enable beta mode from the settings, if you want to enable Xml Editor.
+      1.2 Xml Editor can be started from the "Tool".
+      1.3 You can run Xml Editor directly from executable file.
+    2. Updated internal framework.
+      1.1 Updated .Net Framework 4.7.1 to 4.8.
+      1.2 Please install .Net Framework 4.8 before update this application.
+
+    <font color="#ff0000">
+      ○ Notice
+      The target framework changed to .Net Framework 4.8 with this update.
+      Please install Runtime if you don't install.
+      You cannot launch this app if you don't install runtime.
+    </font>
+    <a href="https://dotnet.microsoft.com/download/dotnet-framework/net48">
+      <font color="#00ffff">https://dotnet.microsoft.com/download/dotnet-framework/net48</font>
+    </a>
+
+    I'm also considering moving from .Net Framework to .Net Core over time, so a different runtime may be required.
+  </update>
   <update version="2.2.29.2">
     1. Fixed template on ConfigEditor
       Fixed "DropOnDeath" value for a18.

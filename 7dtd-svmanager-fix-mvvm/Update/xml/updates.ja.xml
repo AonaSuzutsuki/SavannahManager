@@ -1,5 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.2.30.3">
+    1. しれっとXml Editor追加しました。
+      設定よりベータモードを有効化すると利用できます。
+      起動はツールからXml Editorを選択してください。
+      なお、起動制限とかないので直接exeファイル起動すれば起動できます。
+    2. 内部フレームワークバージョンを更新
+      .Net Framework 4.8に更新しました。
+      お知らせの通り当アプリケーションのアップデート前に.Net Framework 4.8のインストールを行ってください。
+
+    <br />
+
+    <font color="#ff0000">
+      ○お知らせ
+      今回のアップデートでターゲットフレームワークを.Net Framework 4.8に更新しています。
+      インストールされていない方は公式よりRuntimeのインストールをお願いします。（インストール前に更新すると起動しなくなります）
+    </font>
+    <a href="https://dotnet.microsoft.com/download/dotnet-framework/net48"><font color="#00ffff">https://dotnet.microsoft.com/download/dotnet-framework/net48</font></a>
+
+    <br />
+
+    また、時期を見て.Net Frameworkから.Net Coreに移行することも検討していますのでその場合は別のランタイムが必要となる可能性があります。
+
+  </update>
   <update version="2.2.29.2">
     1. ConfigEditorのテンプレートの修正
       DropOnDeathの項目がa18向けに修正しました。
