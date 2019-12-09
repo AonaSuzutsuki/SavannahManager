@@ -38,8 +38,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Views
                 {
                     var hyperlink = new Hyperlink()
                     {
-                        NavigateUri = new Uri(item.Link),
-                        Command = null
+                        NavigateUri = new Uri(item.Link)
                     };
                     InsertParagraph(block, hyperlink.Inlines, item.Children);
                     inlineCollection.Add(hyperlink);
