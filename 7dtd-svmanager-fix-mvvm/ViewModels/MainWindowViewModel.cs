@@ -57,7 +57,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
     public class MainWindowViewModel : ViewModelBase
     {
-        public MainWindowViewModel(MainWindowService windowService, Models.MainWindowModel model, MainWindow view) : base(windowService, model)
+        public MainWindowViewModel(MainWindowService windowService, MainWindowModel model, MainWindow view) : base(windowService, model)
         {
             model.AppendConsoleText += Model_AppendConsoleText;
             model.Telnet.Started += Telnet_Started;
@@ -286,19 +286,26 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 MenuFirstSettingsBt_Click();
 
             var task = model.CheckUpdate();
-            task.ContinueWith(continueTask =>
+            var task2 = task.ContinueWith(continueTask =>
             {
                 var dialogResult = continueTask.Result;
                 if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
                 {
+                    var updFormModel = new UpdFormModel();
+                    updFormModel.Initialize();
+
                     WindowManageService.Dispatch(() =>
                     {
-                        var updFormModel = new UpdFormModel();
-                        var vm = new UpdFormViewModel(new WindowService(), updFormModel);
+                        var vm = new UpdFormViewModel(new WindowService(), updFormModel, true);
                         WindowManageService.Show<UpdForm>(vm);
                     });
                 }
-            });
+            }).ContinueWith(t =>
+            {
+                if (t.Exception != null)
+                    foreach (var exceptionInnerException in t.Exception.InnerExceptions)
+                        App.ShowAndWriteException(exceptionInnerException);
+            }, TaskContinuationOptions.OnlyOnFaulted);
         }
         protected override void MainWindow_Closing()
         {
