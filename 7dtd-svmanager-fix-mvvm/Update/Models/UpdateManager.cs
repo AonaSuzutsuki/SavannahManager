@@ -64,14 +64,14 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             {
                 var items = new List<RichTextItem>();
                 if (node.ChildNodes.Any())
-                    Analyze2(node.ChildNodes, items);
+                    AddRichTextItem(node.ChildNodes, items);
                 dict.Add(node.GetAttribute("version").Value, items);
             }
 
             return dict;
         }
 
-        private void Analyze2(IEnumerable<CommonXmlNode> nodes, List<RichTextItem> items)
+        private static void AddRichTextItem(IEnumerable<CommonXmlNode> nodes, List<RichTextItem> items)
         {
             foreach (var node in nodes)
             {
@@ -101,7 +101,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                             TextType = RichTextType.Paragraph,
                             Children = new []
                             {
-                                Analyze3(node)
+                                AnalyzeTag(node)
                             }
                         };
                         items.Add(paragraph);
@@ -121,7 +121,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
                         foreach (var child in node.ChildNodes)
                         {
-                            item.AddChildren(Analyze3(child));
+                            item.AddChildren(AnalyzeTag(child));
                         }
 
                         paragraph.AddChildren(item);
@@ -139,7 +139,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             }
         }
 
-        private static RichTextItem Analyze3(CommonXmlNode node)
+        private static RichTextItem AnalyzeTag(CommonXmlNode node)
         {
             if (node.TagName == "font")
             {
