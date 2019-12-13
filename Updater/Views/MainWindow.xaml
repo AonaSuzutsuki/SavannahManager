@@ -55,7 +55,7 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
 
-            <Button Name="MainWindowCloseBT" Content="r" IsEnabled="{Binding CloseBtEnabled.Value}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBtClick}" />
+            <Button Name="MainWindowCloseBt" Content="r" IsEnabled="{Binding CloseBtEnabled.Value}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBtClick}" />
         </StackPanel>
 
         <Grid Margin="10,25,10,10">
