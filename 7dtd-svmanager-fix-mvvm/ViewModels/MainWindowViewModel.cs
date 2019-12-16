@@ -433,6 +433,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = adminAdd;
+                window.AssignEnded();
                 window.Navigate();
                 return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
                 {
@@ -454,6 +455,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = whitelistAdd;
+                window.AssignEnded();
                 window.Navigate();
                 return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
                 {
@@ -475,6 +477,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = kick;
+                window.AssignEnded();
                 window.Navigate();
                 return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
                 {
@@ -492,6 +495,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = ban;
+                window.AssignEnded();
                 window.Navigate();
                 return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
                 {
