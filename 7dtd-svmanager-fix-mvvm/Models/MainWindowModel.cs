@@ -10,6 +10,9 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using _7dtd_svmanager_fix_mvvm.PlayerController.Models;
+using _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels;
+using _7dtd_svmanager_fix_mvvm.PlayerController.Views;
 using LanguageEx;
 using Log;
 using _7dtd_svmanager_fix_mvvm.Views;
@@ -741,11 +744,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             playersDictionary.Clear();
             UsersList = null;
         }
-        public void ShowPlayerInfo(int index)
+        public PlayerInfo GetSelectedPlayerInfo(int index)
         {
-            var playerInfo = UsersList[index];
-            string msg = playerInfo.ToString();
-            MessageBoxWindowService.MessageBoxShow(msg, "Player Info", ExMessageBoxBase.MessageType.Asterisk);
+            var playerInfo = UsersList[index].ToPlayerInfo();
+            return playerInfo;
         }
 
         // Time
