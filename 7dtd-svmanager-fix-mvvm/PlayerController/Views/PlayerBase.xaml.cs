@@ -27,7 +27,10 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views
         public PlayerBase()
         {
             InitializeComponent();
+        }
 
+        public void AssignEnded()
+        {
             Page.Ended += Page_Ended;
         }
 
