@@ -32,6 +32,7 @@ using _7dtd_svmanager_fix_mvvm.Update.Views;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.ExMessageBox;
 using Log;
+using SvManagerLibrary.Player;
 using SvManagerLibrary.Telnet;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
@@ -48,6 +49,23 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public string Score { get; set; }
         public string Coord { set; get; }
         public string SteamId { get; set; }
+
+        public PlayerInfo ToPlayerInfo()
+        {
+            return new PlayerInfo
+            {
+                Id = ID,
+                Level = Level,
+                Name = Name,
+                Health = Health,
+                ZombieKills = ZombieKills,
+                PlayerKills = PlayerKills,
+                Deaths = Death,
+                Score = Score,
+                Coord = Coord,
+                SteamId = SteamId
+            };
+        }
 
         public override string ToString()
         {
