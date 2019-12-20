@@ -509,7 +509,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void WatchPlayerInfoBt_Click()
         {
-            model.ShowPlayerInfo(UsersListSelectedIndex);
+            var playerInfo = model.GetSelectedPlayerInfo(UsersListSelectedIndex);
+            var playerInfoModel = new PlayerInfoModel();
+            var vm = new PlayerInfoViewModel(new WindowService(), playerInfoModel);
+            vm.SetPlayer(playerInfo);
+            WindowManageService.ShowDialog<PlayerInfoView>(vm);
         }
         
         private void ChatTextBoxEnter_Down(string e)
