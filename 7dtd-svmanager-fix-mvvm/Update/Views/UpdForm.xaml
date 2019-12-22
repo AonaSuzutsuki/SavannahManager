@@ -93,17 +93,23 @@
             </Grid>
 
             <Grid Margin="0,0,3,0" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_CurrentVersionLabel, Mode=OneWay}" Height="25" Foreground="White" />
-                        <Label Content="{Binding CurrentVersion.Value}" Height="25" Foreground="White" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_LatestVersionLabel, Mode=OneWay}" Height="25" Foreground="White" />
-                        <Label Content="{Binding LatestVersion.Value}" Height="25" Foreground="White" />
-                    </StackPanel>
+                    <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_CurrentVersionLabel, Mode=OneWay}" Height="25" Foreground="White" />
+                    <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_LatestVersionLabel, Mode=OneWay}" Height="25" Foreground="White" />
                 </StackPanel>
-                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+                <StackPanel Grid.Column="1">
+                    <Label Content="{Binding CurrentVersion.Value}" Height="25" Foreground="White" />
+                    <Label Content="{Binding LatestVersion.Value}" Height="25" Foreground="White" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_UpdBT, Mode=OneWay}" IsEnabled="{Binding UpdateBtIsEnabled.Value}" Name="UpdateBT" Style="{DynamicResource FlatButton}" Width="90" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding UpdateBtClick}" />
                     <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_CancelBT, Mode=OneWay}" IsEnabled="{Binding CancelBtIsEnabled.Value}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding MainWindowCloseBtClick}" />
                 </StackPanel>
