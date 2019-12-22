@@ -388,8 +388,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void MenuVersionInfo_Click()
         {
-            var model = new Models.VersionInfoModel();
-            var vm = new VersionInfoViewModel(new WindowService(), model);
+            var versionInfoModel = new VersionInfoModel();
+            var vm = new VersionInfoViewModel(new WindowService(), versionInfoModel);
             WindowManageService.ShowDialog<VersionInfo>(vm);
         }
 
