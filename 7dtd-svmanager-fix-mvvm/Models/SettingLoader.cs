@@ -1,4 +1,5 @@
-﻿using CommonCoreLib.Ini;
+﻿using CommonCoreLib.CommonPath;
+using CommonCoreLib.Ini;
 using LanguageEx;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
@@ -176,6 +177,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 iniLoader.SetValue("MAIN", "AUTOCHECK", value);
             }
         }
+
+        private string backupDirPath;
+        public string BackupDirPath
+        {
+            get => backupDirPath;
+            set
+            {
+                backupDirPath = value;
+                iniLoader.SetValue("BACKUP", "DIRPATH", value);
+            }
+        }
+
         #endregion
 
 
@@ -221,6 +234,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             isFirstBoot = iniLoader.GetValue("MAIN", "FIRSTBOOT", true);
 
             isAutoUpdate = iniLoader.GetValue("MAIN", "AUTOCHECK", true);
+
+            backupDirPath = iniLoader.GetValue("BACKUP", "DIRPATH", "backup").UnifiedSystemPathSeparator();
         }
     }
 }

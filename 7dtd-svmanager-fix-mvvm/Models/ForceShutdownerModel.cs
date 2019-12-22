@@ -18,19 +18,22 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
     public class ForceShutdownerModel : ModelBase
     {
-        ObservableCollection<ProcessTab> processData = new ObservableCollection<ProcessTab>();
-        public ObservableCollection<ProcessTab> ProcessData
+        public ObservableCollection<ProcessTab> ProcessData { get; } = new ObservableCollection<ProcessTab>();
+
+        public bool ProcessSelected
         {
-            get => processData;
+            get => processSelected;
+            set => SetProperty(ref processSelected, value);
         }
 
-        List<int> ProcessIDs = new List<int>();
+        private readonly List<int> processIds = new List<int>();
+        private bool processSelected;
         
         public void Refresh()
         {
             var ps = Process.GetProcessesByName("7DaysToDieServer");
 
-            processData.Clear();
+            ProcessData.Clear();
 
             foreach (var p in ps)
             {
@@ -39,7 +42,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     PID = p.Id.ToString(),
                     Name = p.ProcessName,
                 });
-                ProcessIDs.Add(p.Id);
+                processIds.Add(p.Id);
             }
         }
 
@@ -47,7 +50,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             try
             {
-                var p = Process.GetProcessById(ProcessIDs[index]);
+                var p = Process.GetProcessById(processIds[index]);
                 p.Kill();
 
                 System.Threading.Thread.Sleep(500);

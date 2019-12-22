@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Security.Authentication.ExtendedProtection;
 using System.Text;
@@ -10,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using _7dtd_svmanager_fix_mvvm.Backup.Models.Image;
+using _7dtd_svmanager_fix_mvvm.Models;
 using BackupLib.Backup;
 using BackupLib.CommonPath;
 using CommonCoreLib.CommonPath;
@@ -62,6 +64,9 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
     public class BackupSelectorModel : ModelBase
     {
+        #region Constants
+        #endregion
+
         #region Properties
         public ObservableCollection<string> BackupList { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<BackupItem> BackupFileList { get; set; } = new ObservableCollection<BackupItem>();
@@ -70,6 +75,12 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         {
             get => canRestore;
             set => SetProperty(ref canRestore, value);
+        }
+
+        public bool CanDeleteAll
+        {
+            get => canDeleteAll;
+            set => SetProperty(ref canDeleteAll, value);
         }
 
         public bool ForwardBtIsEnabled
@@ -105,9 +116,15 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
         #region Fields
 
+        private SettingLoader settingLoader;
+        private TimeBackup timeBackup;
+
+        private string backupDirPath;
+
         private string sevenDaysSavePath;
 
         private bool canRestore;
+        private bool canDeleteAll;
         private bool forwardBtIsEnabled;
         private bool backBtIsEnabled;
         private string pathText;
@@ -118,13 +135,20 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         private PathMapItem current;
         #endregion
 
-        private readonly TimeBackup timeBackup;
 
-        public BackupSelectorModel()
+        public BackupSelectorModel(SettingLoader settingLoader)
+        {
+            this.settingLoader = settingLoader;
+            backupDirPath = settingLoader.BackupDirPath;
+
+            Initialize();
+        }
+
+        public void Initialize()
         {
             var userDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             sevenDaysSavePath = $"{userDir}/7DaysToDie";
-            timeBackup = new TimeBackup("backup", sevenDaysSavePath);
+            timeBackup = new TimeBackup(backupDirPath, sevenDaysSavePath);
             timeBackup.BackupCompleted += TimeBackupOnBackupCompleted;
             timeBackup.BackupProgress += TimeBackupOnBackupProgress;
             timeBackup.BackupStarted += TimeBackupOnBackupStarted;
@@ -183,6 +207,11 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
                     ProgressLabel = "Completed to restore.";
                     break;
             }
+        }
+
+        public void MenuOpened()
+        {
+            CanDeleteAll = new List<string>(timeBackup.TraceBackup()).Count > 0;
         }
 
         public void Restore()
@@ -255,6 +284,32 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
                 BackBtIsEnabled = pathMapItem.Parent != null;
                 PathText = pathMapItem.ToString();
             }
+        }
+
+        public void Delete()
+        {
+            if (!timeBackup.CanRestore)
+                return;
+
+            timeBackup.DeleteBackup();
+            InitializeBackupList();
+
+            BackupFileList.Clear();
+            CanRestore = timeBackup.CanRestore;
+        }
+
+        public void DeleteAll()
+        {
+            if (!Directory.Exists(backupDirPath))
+                return;
+
+            var dirs = Directory.GetDirectories(backupDirPath);
+            foreach (var dir in dirs)
+            {
+                Directory.Delete(dir, true);
+            }
+
+            Initialize();
         }
     }
 }

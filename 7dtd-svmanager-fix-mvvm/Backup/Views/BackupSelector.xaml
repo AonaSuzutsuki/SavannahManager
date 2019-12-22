@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         mc:Ignorable="d"
@@ -46,8 +46,8 @@
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
-                <Button Name="MainWindowMinimumBT" Content="{Binding MainWindowMinimumBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMinimumBTClick}" />
-                <Button Name="MainWindowCloseBT" Content="{Binding MainWindowCloseBTContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBTClick}" />
+                <Button Name="MainWindowMinimumBt" Content="{Binding MainWindowMinimumBtContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMinimumBtClick}" />
+                <Button Name="MainWindowCloseBt" Content="{Binding MainWindowCloseBtContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBtClick}" />
             </StackPanel>
 
             <Grid Margin="5,25,5,5">
@@ -73,7 +73,14 @@
 
                         <ListBox.ContextMenu>
                             <ContextMenu>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Opened">
+                                        <i:InvokeCommandAction Command="{Binding BackupListContextMenuOpened}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
                                 <MenuItem Header="Delete" IsEnabled="{Binding DeleteBtEnabled.Value}" Command="{Binding DeleteBtClicked}" />
+                                <MenuItem Header="Delete All" IsEnabled="{Binding DeleteAllBtEnabled.Value}" Command="{Binding DeleteAllBtClicked}" />
                             </ContextMenu>
                         </ListBox.ContextMenu>
                     </ListBox>

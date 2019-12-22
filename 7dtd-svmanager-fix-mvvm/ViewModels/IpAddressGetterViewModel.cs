@@ -11,12 +11,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
     public class IpAddressGetterViewModel : ViewModelBase
     {
-        public IpAddressGetterViewModel(Window view, IpAddressGetterModel model) : base(view, model)
+        public IpAddressGetterViewModel(WindowService windowService, IpAddressGetterModel model) : base(windowService, model)
         {
             this.model = model;
 

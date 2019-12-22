@@ -9,6 +9,7 @@ using CommonStyleLib.ViewModels;
 using System.Windows.Input;
 using Reactive.Bindings;
 using System.Collections.ObjectModel;
+using CommonStyleLib.Views;
 using ConfigEditor_mvvm.Models;
 using Reactive.Bindings.Extensions;
 using Prism.Commands;
@@ -18,7 +19,7 @@ namespace ConfigEditor_mvvm.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         private MainWindowModel model;
-        public MainWindowViewModel(Window view, MainWindowModel model) : base(view, model)
+        public MainWindowViewModel(WindowService windowService, MainWindowModel model) : base(windowService, model)
         {
             this.model = model;
 

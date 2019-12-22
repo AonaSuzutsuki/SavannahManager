@@ -11,6 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CommonStyleLib.ExMessageBox;
+using CommonStyleLib.ExMessageBox.Views;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.Views
 {
@@ -22,10 +25,18 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Views
         public UpdForm()
         {
             InitializeComponent();
+        }
 
-            var model = new Models.UpdFormModel();
-            var vm = new ViewModels.UpdFormViewModel(this, model);
-            DataContext = vm;
+        private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
+        {
+            var hyperLink = sender as Hyperlink;
+            if (hyperLink == null)
+                return;
+
+            var dialogResult = ExMessageBoxBase.Show("Are you sure open it with default browser?", "Open Browser", ExMessageBoxBase.MessageType.Question,
+                ExMessageBoxBase.ButtonType.YesNo);
+            if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
+                System.Diagnostics.Process.Start(hyperLink.NavigateUri.ToString());
         }
     }
 }

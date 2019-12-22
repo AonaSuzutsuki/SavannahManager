@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using _7dtd_svmanager_fix_mvvm.Update.Views;
+using CommonExtensionLib.Extensions;
+using SvManagerLibrary.XmlWrapper;
 using CommonStyleLib.File;
+using Color = System.Drawing.Color;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.Models
 {
     public class UpdateManager
     {
-        public Dictionary<string, string> Updates { get; private set; }
+        public Dictionary<string, IEnumerable<RichTextItem>> Updates { get; }
 
         public bool IsUpdate = false;
         public bool IsUpdUpdate = false;
@@ -19,10 +25,10 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         public UpdateManager(UpdateLink updLink, string updFilePath)
         {
-            (bool, string) ret = CheckUpdate(updLink.VersionUrl, ConstantValues.Version);
+            var ret = CheckUpdate(updLink.VersionUrl, ConstantValues.Version);
             IsUpdate = ret.Item1;
             Version = ret.Item2;
-            ret = CheckUpdate(updLink.UpdVersionUrl, CommonCoreLib.File.Version.GetVersion(updFilePath));
+            ret = CheckUpdate(updLink.UpdVersionUrl, CommonCoreLib.CommonFile.Version.GetVersion(updFilePath));
             IsUpdUpdate = ret.Item1;
 
             byte[] data;
@@ -31,47 +37,144 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                 data = wc.DownloadData(updLink.XmlUrl);
             }
 
-            List<string> versions;
-            List<string> details;
-            using (var stream = new MemoryStream(data))
+            using var stream = new MemoryStream(data);
+            var reader = new CommonXmlReader(stream);
+            var nodes = reader.GetNodes("/updates/update");
+
+            Updates = Analyze(nodes);
+
+            //var items = (from node in nodes
+            //            let attr = node.GetAttribute("version")
+            //            let value = node.InnerText
+            //            select new { Attribute = attr, Value = value }).ToList();
+
+            //var count = items.Count;
+            //Updates = new Dictionary<string, string>(count);
+            //foreach (var item in items)
+            //{
+            //    Updates.Add(item.Attribute.Value, item.Value);
+            //}
+        }
+
+        private Dictionary<string, IEnumerable<RichTextItem>> Analyze(IEnumerable<CommonXmlNode> nodes)
+        {
+            var dict = new Dictionary<string, IEnumerable<RichTextItem>>();
+
+            foreach (var node in nodes)
             {
-                var reader = new SvManagerLibrary.XMLWrapper.Reader(stream);
-                versions = reader.GetAttributes("version", "/updates/update");
-                details = reader.GetValues("/updates/update");
+                var items = new List<RichTextItem>();
+                if (node.ChildNodes.Any())
+                    AddRichTextItem(node.ChildNodes, items);
+                dict.Add(node.GetAttribute("version").Value, items);
             }
 
-            int count = versions.Count >= details.Count ? details.Count : versions.Count;
-            Updates = new Dictionary<string, string>(count);
-            for (int i = 0; i < count; ++i)
+            return dict;
+        }
+
+        private static void AddRichTextItem(IEnumerable<CommonXmlNode> nodes, List<RichTextItem> items)
+        {
+            foreach (var node in nodes)
             {
-                var version = versions[i];
-                var detail = details[i];
-                Updates.Add(version, detail);
+
+                if (node.NodeType == XmlNodeType.Text)
+                {
+                    var array = node.InnerText.UnifiedBreakLine().Split('\n');
+                    foreach (var text in array)
+                    {
+                        var paragraph = new RichTextItem
+                        {
+                            TextType = RichTextType.Paragraph
+                        };
+                        paragraph.AddChildren(new RichTextItem
+                        {
+                            Text = text,
+                        });
+                        items.Add(paragraph);
+                    }
+                }
+                else
+                {
+                    if (node.TagName == "font")
+                    {
+                        var paragraph = new RichTextItem
+                        {
+                            TextType = RichTextType.Paragraph,
+                            Children = new []
+                            {
+                                AnalyzeTag(node)
+                            }
+                        };
+                        items.Add(paragraph);
+                    }
+                    else if (node.TagName == "a")
+                    {
+                        var link = node.GetAttribute("href").Value;
+                        var paragraph = new RichTextItem
+                        {
+                            TextType = RichTextType.Paragraph
+                        };
+                        var item = new RichTextItem
+                        {
+                            TextType = RichTextType.Hyperlink,
+                            Link = link
+                        };
+
+                        foreach (var child in node.ChildNodes)
+                        {
+                            item.AddChildren(AnalyzeTag(child));
+                        }
+
+                        paragraph.AddChildren(item);
+                        items.Add(paragraph);
+                    }
+                    else
+                    {
+                        var paragraph = new RichTextItem
+                        {
+                            TextType = RichTextType.Paragraph
+                        };
+                        items.Add(paragraph);
+                    }
+                }
             }
+        }
+
+        private static RichTextItem AnalyzeTag(CommonXmlNode node)
+        {
+            if (node.TagName == "font")
+            {
+                var colorCode = node.GetAttribute("color").Value;
+                var c = ColorTranslator.FromHtml(colorCode);
+                var color = System.Windows.Media.Color.FromRgb(c.R, c.G, c.B);
+
+                var item = new RichTextItem
+                {
+                    Text = node.InnerText,
+                    Foreground = color
+                };
+
+                return item;
+            }
+
+            return null;
         }
 
         public static (bool, string) CheckUpdate(string url, string version)
         {
-            string url_version = string.Empty;
-            using (var wc = new WebClient())
-            {
-                byte[] data = wc.DownloadData(url);
-                url_version = Encoding.UTF8.GetString(data);
-            }
-            
-            return (!url_version.Equals(version), url_version);
+            using var wc = new WebClient();
+            var data = wc.DownloadData(url);
+            var urlVersion = Encoding.UTF8.GetString(data);
+
+            return (!urlVersion.Equals(version), urlVersion);
         }
 
         public static async Task<(bool, string)> CheckUpdateAsync(string url, string version)
         {
-            string url_version = string.Empty;
-            using (var wc = new WebClient())
-            {
-                byte[] data = await wc.DownloadDataTaskAsync(url);
-                url_version = Encoding.UTF8.GetString(data);
-            }
+            using var wc = new WebClient();
+            var data = await wc.DownloadDataTaskAsync(url);
+            var urlVersion = Encoding.UTF8.GetString(data);
 
-            return (!url_version.Equals(version), url_version);
+            return (!urlVersion.Equals(version), urlVersion);
         }
     }
 }

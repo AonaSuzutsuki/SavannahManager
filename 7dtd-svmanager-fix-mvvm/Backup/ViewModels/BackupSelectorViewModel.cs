@@ -11,6 +11,7 @@ using _7dtd_svmanager_fix_mvvm.Backup.Models;
 using BackupLib.CommonPath;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
+using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -19,7 +20,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
 {
     public class BackupSelectorViewModel : ViewModelBase
     {
-        public BackupSelectorViewModel(Window view, BackupSelectorModel model) : base(view, model)
+        public BackupSelectorViewModel(WindowService windowService, BackupSelectorModel model) : base(windowService, model)
         {
             this.model = model;
 
@@ -32,10 +33,13 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
             BackBtIsEnabled = model.ObserveProperty(m => m.BackBtIsEnabled).ToReactiveProperty();
             PathText = model.ToReactivePropertyAsSynchronized(m => m.PathText);
             DeleteBtEnabled = model.ObserveProperty(m => m.CanRestore).ToReactiveProperty();
+            DeleteAllBtEnabled = model.ObserveProperty(m => m.CanDeleteAll).ToReactiveProperty();
 
             RestoreBtClicked = new DelegateCommand(RestoreBt_Clicked);
             BackupBtClicked = new DelegateCommand(BackupBt_Clicked);
             DeleteBtClicked = new DelegateCommand(DeleteBt_Clicked);
+            DeleteAllBtClicked = new DelegateCommand(DeleteAllBt_Clicked);
+            BackupListContextMenuOpened = new DelegateCommand(BackupListContextMenu_Opened);
             BackupListSelectionChanged = new DelegateCommand<int?>(BackupList_SelectionChanged);
             ForwardBtClicked = new DelegateCommand(ForwardBt_Clicked);
             BackBtClicked = new DelegateCommand(BackBt_Clicked);
@@ -61,6 +65,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
         public ReactiveProperty<string> ProgressLabel { get; set; }
 
         public ReactiveProperty<bool> DeleteBtEnabled { get; set; }
+        public ReactiveProperty<bool> DeleteAllBtEnabled { get; set; }
 
         #endregion
 
@@ -69,6 +74,9 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
         public ICommand RestoreBtClicked { get; set; }
         public ICommand BackupBtClicked { get; set; }
         public ICommand DeleteBtClicked { get; set; }
+        public ICommand DeleteAllBtClicked { get; set; }
+
+        public ICommand BackupListContextMenuOpened { get; set; }
 
         public ICommand BackupListSelectionChanged { get; set; }
 
@@ -92,7 +100,16 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
 
         public void DeleteBt_Clicked()
         {
+            model.Delete();
+        }
+        public void DeleteAllBt_Clicked()
+        {
+            model.DeleteAll();
+        }
 
+        public void BackupListContextMenu_Opened()
+        {
+            model.MenuOpened();
         }
 
         public void BackupList_SelectionChanged(int? index)

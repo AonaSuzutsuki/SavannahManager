@@ -1,0 +1,1387 @@
+<!--BIOMES.XML
+
+Rules for each biome generation and operation.
+
+
+	WEATHER CONTROL
+
+The weather sections within each biome are restrictions
+to the "global" weather condition running across the
+entire world.	For example, if the global weather says
+the precipitation of the world is 20 and your biome
+does not have any restrictions that allow below 50 for
+precipitation, then your biome will have the lowest possible
+precipitation allowed within its restrictions defined in this
+file.
+
+Temperature is different.	It is the base temperature
+of the biome to subtract from the global temperature.
+The final temperature is effected by rain, wind, clouds,
+and angle of the sun (each of these will only subtract
+from the temperature).
+
+Format & location:
+<worldgeneration>
+	<biome name="" topsoil_block="" biomemapcolor="">
+	<weather>
+			<'Condition' min="" max="" prob=""/>
+			<'Condition' min="" max="" prob=""/>
+			<'Condition' min="" max="" prob=""/>
+	<weather/>
+	<biome/>
+<worldgeneration/>
+
+Example:
+	<weather>
+	<Fog min="0" max="0" prob="0.1"/>
+	<Fog min="20" max="30" prob="0.95"/>
+	<weather/>
+"This would mean there's a total probability of 1.05,
+by adding all the 'prob' values of the 'Fog' conditions.
+There's a 9.5% chance there will be a 0 fog condition and
+a 90.5% chance the fog condition will be between 20 and 30.
+This is because 0.1, from the first line, is 9.5% of 1.05,
+the total probability of the fog conditions; and 0.95, from
+the second line, is 90.5% of the total fog condition
+probability of 1.05."
+
+Note: It may be easier to visuallize your control if you make
+sure all your probability values for each condition add up to 1.
+
+Options:
+	Temperature
+	Fog
+	CloudThickness
+	Precipitation
+	Wind
+
+Description of Options:
+	Temperature
+		Values are in fahrenheit and subtract the temperature in
+		this biome from the global temperature.
+	Fog
+		Values are between 0 and 100.	The result is used to determine
+		whether or not to use the "Foggy" Environment spectrums for
+		lighting and fog intensities.	If there is a Spectrum Condition
+		defined in the WeatherManager prefab that checks for a "Fog"
+		condition, the result of this Weather Control will be checked
+		against for the biome.
+	CloudThickness
+		Values are between 0 and 100.	0 restricts any clouds from
+		showing up in the sky.	100 allows for the thickest clouds in
+		the sky.
+	Precipitation
+		Values are between 0 and 100.	Values restrict a biome to allow
+		the min and max intensity of rain in the biome.	BUT!!!	The
+		result is dependant on CloudThickness as well.	Clouds must
+		be above 70 thickness in order for rain to be possible in the biome.
+	Wind
+		Values are between 0 and 100.	0 restricts the biome to no
+		possible wind, and 100 allows the windiest conditions in the biome.
+
+
+Subbiomes:
+<decorations> are now optional, as you can see in the "ore sub biomes".
+If you do not declare them, the decorations of the main biome are used.
+-->
+
+<worldgeneration>
+
+<!-- Weather definitions here -->
+<weather>
+	<property class="Foggy">
+		<property name="Spectrum" value="foggy"/>
+		<property name="Temperature" value="-5"/>
+		<property name="AmbientSound" value="..."/>
+		<property name="ParticleEffect" value="..."/></property>
+	<property class="Rainy">
+		<property name="Spectrum" value="rainy"/>
+		<property name="Temperature" value="-10"/>
+		<property name="AmbientSound" value="..."/>
+		<property name="ParticleEffect" value="..."/></property>
+</weather>
+
+
+<!-- All biome definitions here -->
+<biomes>
+	<!-- Mapping from biome name to id number as it is saved in the world chunks -->
+	<biomemap id="01" name="snow"/>
+	<biomemap id="03" name="pine_forest"/>
+	<biomemap id="05" name="desert"/>
+	<biomemap id="06" name="water"/>
+	<biomemap id="07" name="radiated"/>
+	<biomemap id="08" name="wasteland"/>
+	<biomemap id="09" name="burnt_forest"/>
+	<biomemap id="10" name="city"/>
+	<biomemap id="11" name="city_wasteland"/>
+	<biomemap id="12" name="wasteland_hub"/>
+	<biomemap id="13" name="caveFloor"/>
+	<biomemap id="14" name="caveCeiling"/>
+	<biomemap id="18" name="onlyWater"/>
+	<biomemap id="19" name="underwater"/>
+	<!--
+	Decoration Parameters:
+		boundingboxdelta (int): defines the number of blocks which are added to the size of prefab for a boundingbox in order to find a valid location
+			negative means overlap with other objects possible; positive means more free space around
+		boundingboxdelta="1" surfaceoffset="0"
+			+numbers do not work
+		surfaceoffset (int): defines the number of blocks which is added to the groundlevel of the prefab
+			negative means the object will be placed in the ground; positive means the object will hover in the air
+		prob (float): [0;1] (0.2 e.g. means 20%)
+		cluster (int): probability to have similar neigbourblocks. 0: almost solid ore vein; 1: default; 2: sparse distribution
+	Resource Parameters:
+		rwgGenerationType (string): defines the type of allowed resouce generation
+			Possible values are 'noise', 'caves', 'all'
+			noise - Uses regular perlin noise calculations for resources like in Navezgane
+			caves - Uses cave resource nodes instead of noise
+			all - Will use both noise based generation AND cave node generation.
+	-->
+
+	<!-- Snow Main Biome -->
+	<biome name="snow" topsoil_block="terrSnow" biomemapcolor="#FFFFFF">
+		<weather>
+			<Temperature min="-60" max="-30" prob="1"/>
+			<Fog min="0" max="0" prob=".9"/>
+			<Fog min="100" max="100" prob=".1"/>
+			<CloudThickness min="0" max="100" prob=".5"/>
+			<CloudThickness min="95" max="100" prob=".5"/>
+			<Precipitation min="0" max="0" prob=".0"/> <!-- it has to be at least 70% cloudy before it can rain -->
+			<Precipitation min="50" max="100" prob=".75"/>
+			<Wind min="20" max="40" prob="0.9"/>
+			<Wind min="40" max="100" prob="0.1"/>
+      <ParticleEffect prefab="ParticleEffects/p_snowstorm1" ChunkMargin="7"/>
+    </weather>
+		<replacements> <!-- This affects only the grow event of blocks/plants. Grown blocks of one type are auto-replaced by the second.  -->
+			<replace source="treeTallGrassDiagonal" target="treeSnowyGrassDiagonal"/>
+		</replacements>
+
+		<subbiome prob="0.1"> <!-- Snow Sub Biome grass and Blueberries -->
+			<layers>
+				<layer depth="1" blockname="terrSnow"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="*" blockname="terrStone">
+					<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="10" blockname="terrStone">
+					<resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"/><layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations>
+				<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="rock05" prob=".001"/>
+				<decoration type="block" blockname="rock06" prob=".001"/>
+				<decoration type="block" blockname="rock07" prob=".001"/>
+				<decoration type="block" blockname="cntBirdnest" prob="0.001"/>
+				<decoration type="block" blockname="cntForestRandomLootHelper" prob="0.001"/>
+				<decoration type="block" blockname="plantedBlueberry3Harvest" prob=".001"/>
+				<decoration type="block" blockname="plantedSnowberry3Harvest" prob=".1"/>
+				<decoration type="block" blockname="treeSnowyGrassDiagonal" prob=".4"/>
+			</decorations>
+		</subbiome>
+		<subbiome prob="0.1"> <!-- Snow Sub Biome rocks and snowberries -->
+			<layers>
+				<layer depth="1" blockname="terrSnow"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="*" blockname="terrStone">
+					<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="10" blockname="terrStone">
+					<resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"/>
+				<layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations>
+				<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="rock05" prob=".001"/>
+				<decoration type="block" blockname="rock06" prob=".001"/>
+				<decoration type="block" blockname="rock07" prob=".001"/>
+				<decoration type="block" blockname="cntForestRandomLootHelper" prob="0.001"/>
+				<decoration type="block" blockname="plantedSnowberry3Harvest" prob=".001"/>
+				<decoration type="block" blockname="treeSnowyGrassDiagonal" prob=".4"/>
+			</decorations>
+		</subbiome>
+
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: leadOre -->
+			<layers>
+				<layer depth="1" blockname="terrSnow"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreLead" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_lead_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="prefab" name="rock_form02" prob=".0005" rotatemax="7"/><decoration type="prefab" name="rock_form01" prob=".0005" rotatemax="7"/><decoration type="block" blockname="cntForestRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="rock05" prob=".005"/><decoration type="block" blockname="rock06" prob=".005"/><decoration type="block" blockname="rock07" prob=".005"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="treeWinterEverGreen" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeWinterPine13m" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeWinterPine19m" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeWinterPine28m" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeSnowyDeadBush" prob="0.005" rotatemax="7"/><decoration type="block" blockname="treeSnowyGrassDiagonal" prob=".1"/><decoration type="block" blockname="treeStump" prob=".0002" rotatemax="7"/></decorations>
+		</subbiome>
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: coalOre -->
+			<layers>
+				<layer depth="1" blockname="terrSnow"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreCoal" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_coal_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="prefab" name="rock_form02" prob=".0005" rotatemax="7"/><decoration type="prefab" name="rock_form01" prob=".0005" rotatemax="7"/><decoration type="block" blockname="cntForestRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="rock05" prob=".005"/><decoration type="block" blockname="rock06" prob=".005"/><decoration type="block" blockname="rock07" prob=".005"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="treeWinterEverGreen" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeWinterPine13m" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeWinterPine19m" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeWinterPine28m" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeSnowyDeadBush" prob="0.005" rotatemax="7"/><decoration type="block" blockname="treeSnowyGrassDiagonal" prob=".1"/><decoration type="block" blockname="treeStump" prob=".0002" rotatemax="7"/></decorations>
+		</subbiome>
+		<subbiome prob="0.4551"> <!-- Ore Sub Biome: * potassiumNitrate -->
+			<layers>
+				<layer depth="1" blockname="terrSnow"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_nitrate_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="prefab" name="rock_form02" prob=".0005" rotatemax="7"/><decoration type="prefab" name="rock_form01" prob=".0005" rotatemax="7"/><decoration type="block" blockname="cntForestRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="rock05" prob=".005"/><decoration type="block" blockname="rock06" prob=".005"/><decoration type="block" blockname="rock07" prob=".005"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="treeWinterEverGreen" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeWinterPine13m" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeWinterPine19m" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeWinterPine28m" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeSnowyDeadBush" prob="0.005" rotatemax="7"/><decoration type="block" blockname="treeSnowyGrassDiagonal" prob=".1"/><decoration type="block" blockname="treeStump" prob=".0002" rotatemax="7"/></decorations>
+		</subbiome>
+
+		<!-- Block layers: Snow, Local ore: potassiumNitrate -->
+		<layers>
+			<layer depth="1" blockname="terrSnow"/> <layer depth="3" blockname="terrDirt"/>
+			<layer depth="*" blockname="terrStone">
+				<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+			<layer depth="10" blockname="terrStone">
+				<resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+		</layers>
+		<!-- random prob_min,_max per chunk where 0 equals no decoration and 256 means on every block -->
+		<!-- Decorations Main: Snow -->
+		<decorations>
+			<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+			<decoration type="prefab" name="rock_form02" prob=".0005" rotatemax="7"/>
+			<decoration type="prefab" name="rock_form01" prob=".0005" rotatemax="7"/>
+			<decoration type="block" blockname="cntForestRandomLootHelper" prob="0.00025"/>
+			<decoration type="block" blockname="rock05" prob=".005"/>
+			<decoration type="block" blockname="rock06" prob=".005"/>
+			<decoration type="block" blockname="rock07" prob=".005"/>
+			<decoration type="block" blockname="cntBirdnest" prob="0.001"/>
+			<decoration type="block" blockname="treeWinterEverGreen" prob="0.003" rotatemax="7"/>
+			<decoration type="block" blockname="treeWinterPine13m" prob="0.003" rotatemax="7"/>
+			<decoration type="block" blockname="treeWinterPine19m" prob="0.003" rotatemax="7"/>
+			<decoration type="block" blockname="treeWinterPine28m" prob="0.003" rotatemax="7"/>
+			<decoration type="block" blockname="treeSnowyDeadBush" prob="0.005" rotatemax="7"/>
+			<decoration type="block" blockname="treeSnowyGrassDiagonal" prob=".1"/>
+			<decoration type="block" blockname="treeStump" prob=".0002" rotatemax="7"/>
+		</decorations>
+		<terrain class="Mountains"/>
+		<spectrum name="snow"/>
+	</biome>
+
+
+	<!-- Pine Forest Main Biome  -->
+	<biome name="pine_forest" topsoil_block="terrForestGround" biomemapcolor="#004000">
+		<weather>
+			<Temperature min="-35" max="15" prob="1"/>
+			<!--<Fog min="0" max="0" prob=".9"/>-->
+			<!--<Fog min="100" max="100" prob=".1"/>-->
+			<CloudThickness min="0" max="0" prob=".3"/>
+			<CloudThickness min="10" max="70" prob=".6"/>
+			<CloudThickness min="100" max="100" prob=".1"/>
+			<Precipitation min="0" max="0" prob=".0"/>
+			<Precipitation min="50" max="100" prob=".75"/>
+			<Wind min="10" max="20" prob="0.9"/>
+			<Wind min="20" max="100" prob="0.1"/>
+		</weather>
+
+		<subbiome prob="0.12"> <!-- Pine Forest Sub Biome Clustered Flowers and Boulders -->
+			<layers>
+				<layer depth="1" blockname="terrForestGround"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="*" blockname="terrStone">
+					<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="10" blockname="terrStone">
+					<resource blockname="terrOreLead" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"/>
+				<layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations>
+				<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="plantedGoldenrod3Harvest" prob="0.008"/>
+				<decoration type="block" blockname="plantedCotton3Harvest" prob="0.07"/>
+				<decoration type="block" blockname="plantedChrysanthemum3Harvest" prob="0.07"/>
+				<decoration type="block" blockname="rock01" prob=".01"/>
+				<decoration type="block" blockname="rock02" prob=".01"/>
+				<decoration type="block" blockname="rock04" prob=".01"/>
+				<decoration type="block" blockname="treeTallGrassDiagonal" prob=".5"/>
+			</decorations>
+		</subbiome>
+
+		<subbiome prob="0.4551"> <!-- Ore Sub Biome: * leadOre -->
+			<layers>
+				<layer depth="1" blockname="terrForestGround"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreLead" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_lead_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="cntForestRandomLootHelper" prob="0.00025"/><decoration type="prefab" name="rock_form02" prob=".001" rotatemax="7"/><decoration type="prefab" name="rock_form01" prob=".001" rotatemax="7"/><decoration type="block" blockname="plantedCotton3Harvest" prob="0.001"/><decoration type="block" blockname="rock01" prob=".001"/><decoration type="block" blockname="rock02" prob=".001"/><decoration type="block" blockname="rock04" prob=".001"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.01" rotatemax="7"/><decoration type="block" blockname="treeJuniper4m" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeMountainPine12m" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeMountainPine19m" prob="0.0015" rotatemax="7"/><decoration type="block" blockname="treeMountainPine27m" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeMountainPine31m" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeMountainPineDry21m" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeMountainPine41m" prob="0.004" rotatemax="7"/><decoration type="block" blockname="plantedSnowberry3Harvest" prob=".001"/><decoration type="block" blockname="plantedChrysanthemum3Harvest" prob="0.001"/><decoration type="block" blockname="treeTallGrassDiagonal" prob=".4"/><decoration type="block" blockname="treeOakLrg01" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeOakMed01" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeOakMed02" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeOakSml01" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeFirLrg01" prob="0.0005" rotatemax="7"/><decoration type="block" blockname="treeMountainPine48m" prob="0.0005" rotatemax="7"/><decoration type="block" blockname="treeStump" prob=".0002" rotatemax="7"/></decorations>
+		</subbiome>
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: coalOre -->
+			<layers>
+				<layer depth="1" blockname="terrForestGround"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreCoal" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_coal_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="cntForestRandomLootHelper" prob="0.00025"/><decoration type="prefab" name="rock_form02" prob=".001" rotatemax="7"/><decoration type="prefab" name="rock_form01" prob=".001" rotatemax="7"/><decoration type="block" blockname="plantedCotton3Harvest" prob="0.001"/><decoration type="block" blockname="rock01" prob=".001"/><decoration type="block" blockname="rock02" prob=".001"/><decoration type="block" blockname="rock04" prob=".001"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.01" rotatemax="7"/><decoration type="block" blockname="treeJuniper4m" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeMountainPine12m" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeMountainPine19m" prob="0.0015" rotatemax="7"/><decoration type="block" blockname="treeMountainPine27m" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeMountainPine31m" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeMountainPineDry21m" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeMountainPine41m" prob="0.004" rotatemax="7"/><decoration type="block" blockname="plantedSnowberry3Harvest" prob=".001"/><decoration type="block" blockname="plantedChrysanthemum3Harvest" prob="0.001"/><decoration type="block" blockname="treeTallGrassDiagonal" prob=".4"/><decoration type="block" blockname="treeOakLrg01" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeOakMed01" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeOakMed02" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeOakSml01" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeFirLrg01" prob="0.0005" rotatemax="7"/><decoration type="block" blockname="treeMountainPine48m" prob="0.0005" rotatemax="7"/><decoration type="block" blockname="treeStump" prob=".0002" rotatemax="7"/></decorations>
+		</subbiome>
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: potassiumNitrate -->
+			<layers>
+				<layer depth="1" blockname="terrForestGround"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_nitrate_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="cntForestRandomLootHelper" prob="0.00025"/><decoration type="prefab" name="rock_form02" prob=".001" rotatemax="7"/><decoration type="prefab" name="rock_form01" prob=".001" rotatemax="7"/><decoration type="block" blockname="plantedCotton3Harvest" prob="0.001"/><decoration type="block" blockname="rock01" prob=".001"/><decoration type="block" blockname="rock02" prob=".001"/><decoration type="block" blockname="rock04" prob=".001"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.01" rotatemax="7"/><decoration type="block" blockname="treeJuniper4m" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeMountainPine12m" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeMountainPine19m" prob="0.0015" rotatemax="7"/><decoration type="block" blockname="treeMountainPine27m" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeMountainPine31m" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeMountainPineDry21m" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeMountainPine41m" prob="0.004" rotatemax="7"/><decoration type="block" blockname="plantedSnowberry3Harvest" prob=".001"/><decoration type="block" blockname="plantedChrysanthemum3Harvest" prob="0.001"/><decoration type="block" blockname="treeTallGrassDiagonal" prob=".4"/><decoration type="block" blockname="treeOakLrg01" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeOakMed01" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeOakMed02" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeOakSml01" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeFirLrg01" prob="0.0005" rotatemax="7"/><decoration type="block" blockname="treeMountainPine48m" prob="0.0005" rotatemax="7"/><decoration type="block" blockname="treeStump" prob=".0002" rotatemax="7"/></decorations>
+		</subbiome>
+
+		<!-- Block layers: Pine Forest, Local ore: leadOre -->
+		<layers>
+			<layer depth="1" blockname="terrForestGround"/> <layer depth="3" blockname="terrDirt"/>
+			<layer depth="*" blockname="terrStone">
+				<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+			<layer depth="10" blockname="terrStone">
+				<resource blockname="terrOreLead" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+		</layers>
+		<!-- Decorations Main: Pine Forest -->
+		<decorations>
+			<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+			<decoration type="block" blockname="cntForestRandomLootHelper" prob="0.00025"/>
+			<decoration type="prefab" name="rock_form02" prob=".001" rotatemax="7"/>
+			<decoration type="prefab" name="rock_form01" prob=".001" rotatemax="7"/>
+			<decoration type="block" blockname="plantedCotton3Harvest" prob="0.001"/>
+			<decoration type="block" blockname="rock01" prob=".001"/>
+			<decoration type="block" blockname="rock02" prob=".001"/>
+			<decoration type="block" blockname="rock04" prob=".001"/>
+			<decoration type="block" blockname="cntBirdnest" prob="0.001"/>
+			<decoration type="block" blockname="treeDeadPineLeaf" prob="0.01" rotatemax="7"/>
+			<decoration type="block" blockname="treeJuniper4m" prob="0.001" rotatemax="7"/>
+			<decoration type="block" blockname="treeMountainPine12m" prob="0.001" rotatemax="7"/>
+			<decoration type="block" blockname="treeMountainPine19m" prob="0.0015" rotatemax="7"/>
+			<decoration type="block" blockname="treeMountainPine27m" prob="0.002" rotatemax="7"/>
+			<decoration type="block" blockname="treeMountainPine31m" prob="0.002" rotatemax="7"/>
+			<decoration type="block" blockname="treeMountainPineDry21m" prob="0.002" rotatemax="7"/>
+			<decoration type="block" blockname="treeMountainPine41m" prob="0.004" rotatemax="7"/>
+			<decoration type="block" blockname="plantedSnowberry3Harvest" prob=".001"/>
+			<decoration type="block" blockname="plantedChrysanthemum3Harvest" prob="0.001"/>
+			<decoration type="block" blockname="treeTallGrassDiagonal" prob=".4"/>
+			<decoration type="block" blockname="treeOakLrg01" prob="0.001" rotatemax="7"/>
+			<decoration type="block" blockname="treeOakMed01" prob="0.001" rotatemax="7"/>
+			<decoration type="block" blockname="treeOakMed02" prob="0.001" rotatemax="7"/>
+			<decoration type="block" blockname="treeOakSml01" prob="0.001" rotatemax="7"/>
+			<decoration type="block" blockname="treeFirLrg01" prob="0.0005" rotatemax="7"/>
+			<decoration type="block" blockname="treeMountainPine48m" prob="0.0005" rotatemax="7"/>
+			<decoration type="block" blockname="treeStump" prob=".0002" rotatemax="7"/>
+		</decorations>
+		<terrain class="Mountains"/>
+	</biome>
+
+
+	<!-- Desert Main Biome -->
+	<biome name="desert" topsoil_block="terrDesertGround" biomemapcolor="#FFE477">
+		<weather>
+			<Temperature min="20" max="50" prob="1"/>
+			<CloudThickness min="5" max="50" prob="1"/>
+			<!--<Fog min="0" max="0" prob=".9"/>-->
+			<!--<Fog min="100" max="100" prob=".1"/>-->
+			<CloudThickness min="0" max="0" prob=".3"/>
+			<CloudThickness min="10" max="70" prob=".6"/>
+			<CloudThickness min="100" max="100" prob=".1"/>
+			<Precipitation min="0" max="0" prob=".0"/>
+			<Precipitation min="50" max="100" prob=".75"/>
+			<Wind min="10" max="20" prob="0.9"/>
+			<Wind min="20" max="100" prob="0.1"/>
+      <ParticleEffect prefab="ParticleEffects/p_sandstorm" ChunkMargin="7"/>
+    </weather>
+
+		<subbiome prob="0.09"> <!-- Desert Sub Biome Clustered Cactus and Desert Shrub -->
+			<layers>
+				<layer depth="4" blockname="terrDesertGround"/>
+				<layer depth="*" blockname="terrSandStone">
+					<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrSandStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="10" blockname="terrSandStone">
+					<resource blockname="terrOreOilDeposit" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrSandStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations>
+				<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+
+				<decoration type="block" blockname="treeDesertShrub" prob="0.3" rotatemax="7"/>
+				<decoration type="block" blockname="treeCactus01" prob="0.003" rotatemax="3"/>
+				<decoration type="block" blockname="treeCactus02" prob="0.03" rotatemax="3"/>
+				<decoration type="block" blockname="treeCactus03" prob="0.01" rotatemax="3"/>
+				<decoration type="block" blockname="treeCactus04" prob="0.01" rotatemax="3"/>
+				<decoration type="block" blockname="treeCactus05" prob="0.01" rotatemax="3"/>
+				<decoration type="block" blockname="treeCactus06" prob="0.01" rotatemax="3"/>
+				<decoration type="block" blockname="carsRandomHelper" prob="0.007" rotatemax="3"/>
+				<decoration type="block" blockname="cntDesertRandomLootHelper" prob="0.01"/>
+				<decoration type="block" blockname="treeBrownGrassDiagonal" prob=".01"/>
+			</decorations>
+		</subbiome>
+
+		<subbiome prob="0.04"> <!-- Desert Sub Biome, Thick Grass and Shrubs-->
+			<layers>
+				<layer depth="4" blockname="terrDesertGround"/>
+				<layer depth="*" blockname="terrSandStone">
+					<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrSandStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="10" blockname="terrSandStone">
+					<resource blockname="terrOreOilDeposit" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrSandStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations>
+				<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+
+				<decoration type="block" blockname="treeDesertShrub" prob=".25" rotatemax="7"/>
+				<decoration type="block" blockname="plantedYucca3Harvest" prob=".03" rotatemax="3"/>
+				<decoration type="block" blockname="plantedAloe3Harvest" prob=".03" rotatemax="3"/>
+				<decoration type="block" blockname="treeBrownGrassDiagonal" prob=".025"/>
+			</decorations>
+		</subbiome>
+
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: leadOre -->
+			<layers>
+				<layer depth="4" blockname="terrDesertGround"/>
+				<layer depth="1" blockname="terrSandStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrSandStone"> <resource blockname="terrOreLead" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrSandStone"/><layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_lead_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="treeCactus01" prob="0.004" rotatemax="3"/><decoration type="block" blockname="treeCactus02" prob="0.004" rotatemax="3"/><decoration type="block" blockname="treeCactus03" prob="0.004" rotatemax="3"/><decoration type="block" blockname="treeCactus04" prob="0.004" rotatemax="3"/><decoration type="block" blockname="treeCactus05" prob="0.004" rotatemax="3"/><decoration type="block" blockname="rock01" prob=".001" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".001" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".001" rotatemax="3"/><decoration type="block" blockname="cntDesertRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.020" rotatemax="7"/><decoration type="block" blockname="plantedYucca3Harvest" prob="0.002" rotatemax="3"/><decoration type="block" blockname="plantedAloe3Harvest" rotatemax="3" prob="0.003"/><decoration type="block" blockname="treeDesertShrub" prob="0.05" rotatemax="7"/><decoration type="block" blockname="driftwood" prob="0.002"/><decoration type="block" blockname="driftwood2" prob="0.002"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="decoCowSkull" prob="0.00025"/><decoration type="block" blockname="treeCactus06" prob="0.0009" rotatemax="3"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".00025"/><decoration type="block" blockname="treeOakMed01" prob="0.0003" rotatemax="7"/><decoration type="block" blockname="treeOakSml01" prob="0.002" rotatemax="7"/></decorations>
+		</subbiome>
+
+		<subbiome prob="0.4551"> <!-- Ore Sub Biome: * oilDeposit -->
+			<layers>
+				<layer depth="4" blockname="terrDesertGround"/>
+				<layer depth="1" blockname="terrSandStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrSandStone"> <resource blockname="terrOreOilDeposit" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrSandStone"/><layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_shale_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="treeCactus01" prob="0.004" rotatemax="3"/><decoration type="block" blockname="treeCactus02" prob="0.004" rotatemax="3"/><decoration type="block" blockname="treeCactus03" prob="0.004" rotatemax="3"/><decoration type="block" blockname="treeCactus04" prob="0.004" rotatemax="3"/><decoration type="block" blockname="treeCactus05" prob="0.004" rotatemax="3"/><decoration type="block" blockname="rock01" prob=".001" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".001" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".001" rotatemax="3"/><decoration type="block" blockname="cntDesertRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.020" rotatemax="7"/><decoration type="block" blockname="plantedYucca3Harvest" prob="0.002" rotatemax="3"/><decoration type="block" blockname="plantedAloe3Harvest" rotatemax="3" prob="0.003"/><decoration type="block" blockname="treeDesertShrub" prob="0.05" rotatemax="7"/><decoration type="block" blockname="driftwood" prob="0.002"/><decoration type="block" blockname="driftwood2" prob="0.002"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="decoCowSkull" prob="0.00025"/><decoration type="block" blockname="treeCactus06" prob="0.0009" rotatemax="3"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".00025"/><decoration type="block" blockname="treeOakMed01" prob="0.0003" rotatemax="7"/><decoration type="block" blockname="treeOakSml01" prob="0.002" rotatemax="7"/></decorations>
+		</subbiome>
+
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: potassiumNitrate -->
+			<layers>
+				<layer depth="4" blockname="terrDesertGround"/>
+				<layer depth="1" blockname="terrSandStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrSandStone"> <resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrSandStone"/><layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_nitrate_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="treeCactus01" prob="0.004" rotatemax="3"/><decoration type="block" blockname="treeCactus02" prob="0.004" rotatemax="3"/><decoration type="block" blockname="treeCactus03" prob="0.004" rotatemax="3"/><decoration type="block" blockname="treeCactus04" prob="0.004" rotatemax="3"/><decoration type="block" blockname="treeCactus05" prob="0.004" rotatemax="3"/><decoration type="block" blockname="rock01" prob=".001" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".001" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".001" rotatemax="3"/><decoration type="block" blockname="cntDesertRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.020" rotatemax="7"/><decoration type="block" blockname="plantedYucca3Harvest" prob="0.002" rotatemax="3"/><decoration type="block" blockname="plantedAloe3Harvest" rotatemax="3" prob="0.003"/><decoration type="block" blockname="treeDesertShrub" prob="0.05" rotatemax="7"/><decoration type="block" blockname="driftwood" prob="0.002"/><decoration type="block" blockname="driftwood2" prob="0.002"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="decoCowSkull" prob="0.00025"/><decoration type="block" blockname="treeCactus06" prob="0.0009" rotatemax="3"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".00025"/><decoration type="block" blockname="treeOakMed01" prob="0.0003" rotatemax="7"/><decoration type="block" blockname="treeOakSml01" prob="0.002" rotatemax="7"/></decorations>
+		</subbiome>
+
+		<!-- Block layers: Desert, Local ore: oilDeposit -->
+		<layers>
+			<layer filluptorg="60" blockname="water"/>
+			<layer depth="4" blockname="terrDesertGround"/>
+			<layer depth="*" blockname="terrSandStone">
+				<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrSandStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+			<layer depth="10" blockname="terrSandStone">
+				<resource blockname="terrOreOilDeposit" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrSandStone"/> <layer depth="3" blockname="terrBedrock"/>
+		</layers>
+
+		<!-- Decorations Main: Desert -->
+		<decorations>
+			<!--decoration type="terrain" name="bluff1" prob=".0001" scale="0.1"/>
+			<decoration type="terrain" name="bluff2" prob=".0001" scale="0.06,0.1" /-->     <!-- min max scale -->
+			<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+
+			<decoration type="block" blockname="treeCactus01" prob="0.004" rotatemax="3"/>
+			<decoration type="block" blockname="treeCactus02" prob="0.004" rotatemax="3"/>
+			<decoration type="block" blockname="treeCactus03" prob="0.004" rotatemax="3"/>
+			<decoration type="block" blockname="treeCactus04" prob="0.004" rotatemax="3"/>
+			<decoration type="block" blockname="treeCactus05" prob="0.004" rotatemax="3"/>
+			<decoration type="block" blockname="rock01" prob=".001" rotatemax="3"/>
+			<decoration type="block" blockname="rock02" prob=".001" rotatemax="3"/>
+			<decoration type="block" blockname="rock04" prob=".001" rotatemax="3"/>
+			<decoration type="block" blockname="cntDesertRandomLootHelper" prob="0.00025"/>
+			<decoration type="block" blockname="treeDeadPineLeaf" prob="0.020" rotatemax="7"/>
+			<decoration type="block" blockname="plantedYucca3Harvest" prob="0.002" rotatemax="3"/>
+			<decoration type="block" blockname="plantedAloe3Harvest" rotatemax="3" prob="0.003"/>
+			<decoration type="block" blockname="treeDesertShrub" prob="0.05" rotatemax="7"/>
+			<decoration type="block" blockname="driftwood" prob="0.002"/>
+			<decoration type="block" blockname="driftwood2" prob="0.002"/>
+			<decoration type="block" blockname="cntBirdnest" prob="0.001"/>
+			<decoration type="block" blockname="decoCowSkull" prob="0.00025"/>
+			<decoration type="block" blockname="treeCactus06" prob="0.0009" rotatemax="3"/>
+			<decoration type="block" blockname="treeBrownGrassDiagonal" prob=".00025"/>
+			<decoration type="block" blockname="treeOakMed01" prob="0.0003" rotatemax="7"/>
+			<decoration type="block" blockname="treeOakSml01" prob="0.002" rotatemax="7"/>
+		</decorations>
+		<terrain class="Desert"/>
+		<spectrum name="desert"/>
+	</biome>
+
+
+	<!-- Water Main Biome -->
+	<biome name="water" topsoil_block="terrSand" biomemapcolor="#0063ff">
+		<weather>
+			<Temperature min="0" max="10" prob="1"/>
+			<CloudThickness min="5" max="50" prob="1"/>
+			<Fog min="0" max="0" prob=".9"/>
+			<Fog min="100" max="100" prob=".1"/>
+			<CloudThickness min="0" max="0" prob=".3"/>
+			<CloudThickness min="10" max="70" prob=".6"/>
+			<CloudThickness min="100" max="100" prob=".1"/>
+			<Precipitation min="0" max="0" prob=".0"/>
+			<Precipitation min="50" max="100" prob=".75"/>
+			<Wind min="10" max="20" prob="0.9"/>
+			<Wind min="20" max="100" prob="0.1"/>
+		</weather>
+		<terrain class="Water">
+			<property name="BaseHeight" value="12"/>
+		</terrain>
+
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: leadOre -->
+			<layers>
+				<layer depth="4" blockname="terrSand"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreLead" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_lead_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="treeAzalea" prob=".003" rotatemax="3"/><decoration type="block" blockname="cntStreetRandomLootHelper" prob=".0007" rotatemax="3"/><decoration type="block" blockname="rock01" prob=".001" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".005" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".001" rotatemax="3"/><decoration type="block" blockname="driftwood" prob="0.001" rotatemax="3"/><decoration type="block" blockname="driftwood2" prob="0.001" rotatemax="3"/><decoration type="block" blockname="cinderBlocks01" prob=".0001" rotatemax="7"/><decoration type="block" blockname="treeMountainPineDry21m" prob="0.005" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.005" rotatemax="7"/><decoration type="block" blockname="treeDeadTree02" prob="0.005" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.01" rotatemax="7"/><decoration type="block" blockname="carsRandomHelper" prob="0.001" rotatemax="3"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".15"/><decoration type="block" blockname="treeTallGrassDiagonal" prob=".35"/></decorations>
+		</subbiome>
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: coalOre -->
+			<layers>
+				<layer depth="4" blockname="terrSand"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreCoal" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_coal_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="treeAzalea" prob=".003" rotatemax="3"/><decoration type="block" blockname="cntStreetRandomLootHelper" prob=".0007" rotatemax="3"/><decoration type="block" blockname="rock01" prob=".001" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".005" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".001" rotatemax="3"/><decoration type="block" blockname="driftwood" prob="0.001" rotatemax="3"/><decoration type="block" blockname="driftwood2" prob="0.001" rotatemax="3"/><decoration type="block" blockname="cinderBlocks01" prob=".0001" rotatemax="7"/><decoration type="block" blockname="treeMountainPineDry21m" prob="0.005" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.005" rotatemax="7"/><decoration type="block" blockname="treeDeadTree02" prob="0.005" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.01" rotatemax="7"/><decoration type="block" blockname="carsRandomHelper" prob="0.001" rotatemax="3"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".15"/><decoration type="block" blockname="treeTallGrassDiagonal" prob=".35"/></decorations>
+		</subbiome>
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: potassiumNitrate -->
+			<layers>
+				<layer depth="4" blockname="terrSand"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_nitrate_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="treeAzalea" prob=".003" rotatemax="3"/><decoration type="block" blockname="cntStreetRandomLootHelper" prob=".0007" rotatemax="3"/><decoration type="block" blockname="rock01" prob=".001" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".005" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".001" rotatemax="3"/><decoration type="block" blockname="driftwood" prob="0.001" rotatemax="3"/><decoration type="block" blockname="driftwood2" prob="0.001" rotatemax="3"/><decoration type="block" blockname="cinderBlocks01" prob=".0001" rotatemax="7"/><decoration type="block" blockname="treeMountainPineDry21m" prob="0.005" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.005" rotatemax="7"/><decoration type="block" blockname="treeDeadTree02" prob="0.005" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.01" rotatemax="7"/><decoration type="block" blockname="carsRandomHelper" prob="0.001" rotatemax="3"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".15"/><decoration type="block" blockname="treeTallGrassDiagonal" prob=".35"/></decorations>
+		</subbiome>
+
+		<!-- Block layers: Water, Local ore: none -->
+		<layers>
+			<layer fillupto="58" filluptorg="58" blockname="water"/>
+			<layer depth="4" blockname="terrSand"/>
+			<layer depth="*" blockname="terrStone">
+				<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+		</layers>
+		<spectrum name="pine_forest"/>
+		<!-- Decorations Main: Water -->
+		<decorations>
+			<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+			<decoration type="block" blockname="treeAzalea" prob=".003" rotatemax="3"/>
+			<decoration type="block" blockname="cntStreetRandomLootHelper" prob=".0007" rotatemax="3"/>
+			<decoration type="block" blockname="rock01" prob=".001" rotatemax="3"/>
+			<decoration type="block" blockname="rock02" prob=".005" rotatemax="3"/>
+			<decoration type="block" blockname="rock04" prob=".001" rotatemax="3"/>
+			<decoration type="block" blockname="driftwood" prob="0.001" rotatemax="3"/>
+			<decoration type="block" blockname="driftwood2" prob="0.001" rotatemax="3"/>
+			<decoration type="block" blockname="cinderBlocks01" prob=".0001" rotatemax="7"/>
+			<decoration type="block" blockname="treeMountainPineDry21m" prob="0.005" rotatemax="7"/>
+			<decoration type="block" blockname="treeDeadPineLeaf" prob="0.005" rotatemax="7"/>
+			<decoration type="block" blockname="treeDeadTree02" prob="0.005" rotatemax="7"/>
+			<decoration type="block" blockname="treeDeadPineLeaf" prob="0.01" rotatemax="7"/>
+			<decoration type="block" blockname="carsRandomHelper" prob="0.001" rotatemax="3"/>
+			<decoration type="block" blockname="treeBrownGrassDiagonal" prob=".15"/>
+			<decoration type="block" blockname="treeTallGrassDiagonal" prob=".35"/>
+		</decorations>
+	</biome>
+
+	<!-- Water Main Biome -->
+	<biome name="onlyWater" topsoil_block="terrSand" biomemapcolor="#0064ff">
+		<weather>
+			<Temperature min="0" max="10" prob="1"/>
+			<CloudThickness min="5" max="50" prob="1"/>
+			<Fog min="0" max="0" prob=".9"/>
+			<Fog min="100" max="100" prob=".1"/>
+			<CloudThickness min="0" max="0" prob=".3"/>
+			<CloudThickness min="10" max="70" prob=".6"/>
+			<CloudThickness min="100" max="100" prob=".1"/>
+			<Precipitation min="0" max="0" prob=".0"/>
+			<Precipitation min="50" max="100" prob=".75"/>
+			<Wind min="10" max="20" prob="0.9"/>
+			<Wind min="20" max="100" prob="0.1"/>
+		</weather>
+
+		<!-- Block layers: Water, Local ore: none -->
+		<layers>
+			<layer fillupto="9" blockname="water"/>
+			<layer depth="4" blockname="terrSand"/>
+			<layer depth="*" blockname="terrStone">
+				<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.6500" rwgGenerationType="all"/> </layer>
+			<layer depth="3" blockname="terrBedrock"/>
+		</layers>
+		<spectrum name="pine_forest"/>
+		<!-- Decorations Main: Water -->
+		<decorations></decorations>
+	</biome>
+
+	<!-- Underwater Main Biome -->
+	<biome name="underwater" biomemapcolor="#001234">
+		<decorations>
+			<decoration type="block" blockname="rockResource" prob=".0002" rotatemax="3"/>
+			<decoration type="block" blockname="rockResourceBroke1" prob=".0002" rotatemax="3"/>
+			<decoration type="block" blockname="rockResourceBroke2" prob=".0001" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource02" prob=".0002" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource02Broke1" prob=".0002" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource02Broke2" prob=".0001" rotatemax="3"/>
+			<decoration type="block" blockname="driftwood" prob="0.001" rotatemax="3"/>
+			<decoration type="block" blockname="driftwood2" prob="0.001" rotatemax="3"/>
+			<decoration type="block" blockname="cinderBlocks01" prob=".0001" rotatemax="7"/>
+			<decoration type="block" blockname="decoCarTireSmallFlat" prob="0.0005" rotatemax="7"/>
+			<decoration type="block" blockname="hubcapNoMine" prob="0.0005"/>
+			<decoration type="block" blockname="carWrecksRandomHelper" prob="0.001" rotatemax="3"/>
+			<decoration type="block" blockname="treeDesertShrub" prob=".04"/>
+			<decoration type="block" blockname="treeBrownGrassDiagonal" prob=".04"/>
+			<decoration type="block" blockname="treeGreenBrownGrassDiagonal" prob=".06"/>
+		</decorations>
+	</biome>
+
+	<!-- Wasteland Main Biome -->
+	<biome name="wasteland" topsoil_block="terrDestroyedStone" biomemapcolor="#ffa800">
+		<weather>
+			<Temperature min="-30" max="30" prob="1"/>
+			<!--<Fog min="0" max="0" prob=".8"/>-->
+			<!--<Fog min="100" max="100" prob=".2"/>-->
+			<CloudThickness min="0" max="0" prob=".2"/>
+			<CloudThickness min="10" max="70" prob=".5"/>
+			<CloudThickness min="100" max="100" prob=".3"/>
+			<Precipitation min="0" max="0" prob=".0"/>
+			<Precipitation min="50" max="100" prob=".75"/>
+			<Wind min="10" max="20" prob="0.9"/>
+			<Wind min="20" max="100" prob="0.1"/>
+		</weather>
+		<subbiome prob="0.1"> <!-- Wasteland Sub Biome: Plainsground -->
+			<layers>
+				<layer depth="2" blockname="terrDestroyedStone"/> <layer depth="2" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone">
+					<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="10" blockname="terrStone">
+					<resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"/>
+				<layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations>
+				<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="carsRandomHelper" prob="0.3" rotatemax="3"/>
+				<decoration type="block" blockname="rock01" prob=".01"/>
+				<decoration type="block" blockname="rock02" prob=".01"/>
+				<decoration type="block" blockname="rock04" prob=".01"/>
+				<decoration type="block" blockname="driftwood" prob="0.001" rotatemax="3"/>
+				<decoration type="block" blockname="driftwood2" prob="0.001" rotatemax="3"/>
+				<decoration type="block" blockname="treeBrownGrassDiagonal" prob=".5"/>
+			</decorations>
+		</subbiome>
+
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: leadOre -->
+			<layers>
+				<layer depth="2" blockname="terrDestroyedStone"/> <layer depth="2" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreLead" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_lead_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="cntWastelandRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/><decoration type="block" blockname="scrapMetalPile" prob=".015" rotatemax="3"/><decoration type="block" blockname="brickDestroyedBlock01" prob=".0004" rotatemax="7"/><decoration type="block" blockname="brickDestroyedBlock02" prob=".0004" rotatemax="7"/><decoration type="block" blockname="brickDestroyedBlock03" prob=".0004" rotatemax="7"/><decoration type="block" blockname="rock01" prob=".004" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".004" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".004" rotatemax="3"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="cinderBlocks01" prob=".006" rotatemax="7"/><decoration type="block" blockname="cinderBlocks02" prob=".006" rotatemax="7"/><decoration type="block" blockname="cinderBlocks03" prob=".006" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple01" prob="0.0012" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple02" prob="0.0012" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple03" prob="0.0012" rotatemax="3"/><decoration type="block" blockname="treeMountainPineDry21m" prob="0.0006" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeDeadTree02" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/><decoration type="prefab" name="waste_rubble_bldg_01" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_02" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_03" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_09" prob=".002"/><decoration type="prefab" name="waste_rubble_highway_01" prob=".002"/><decoration type="prefab" name="mp_waste_pile_01" prob=".0065"/><decoration type="prefab" name="mp_waste_pile_02" prob=".0065"/><decoration type="prefab" name="mp_waste_pile_03" prob=".005"/><decoration type="prefab" name="mp_waste_pile_04" prob=".003"/><decoration type="prefab" name="mp_waste_pile_05" prob=".003"/><decoration type="block" blockname="carWrecksRandomHelper" prob="0.0005" rotatemax="3"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".05"/><decoration type="block" blockname="mineCandyTin" prob="0.00015"/><decoration type="block" blockname="mineHubcap" prob="0.0001"/><decoration type="block" blockname="hubcapNoMine" prob="0.0011"/></decorations>
+		</subbiome>
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: coalOre -->
+			<layers>
+				<layer depth="2" blockname="terrDestroyedStone"/> <layer depth="2" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreCoal" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_coal_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="cntWastelandRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/><decoration type="block" blockname="scrapMetalPile" prob=".015" rotatemax="3"/><decoration type="block" blockname="brickDestroyedBlock01" prob=".0004" rotatemax="7"/><decoration type="block" blockname="brickDestroyedBlock02" prob=".0004" rotatemax="7"/><decoration type="block" blockname="brickDestroyedBlock03" prob=".0004" rotatemax="7"/><decoration type="block" blockname="rock01" prob=".004" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".004" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".004" rotatemax="3"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="cinderBlocks01" prob=".006" rotatemax="7"/><decoration type="block" blockname="cinderBlocks02" prob=".006" rotatemax="7"/><decoration type="block" blockname="cinderBlocks03" prob=".006" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple01" prob="0.0012" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple02" prob="0.0012" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple03" prob="0.0012" rotatemax="3"/><decoration type="block" blockname="treeMountainPineDry21m" prob="0.0006" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeDeadTree02" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/><decoration type="prefab" name="waste_rubble_bldg_01" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_02" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_03" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_09" prob=".002"/><decoration type="prefab" name="waste_rubble_highway_01" prob=".002"/><decoration type="prefab" name="mp_waste_pile_01" prob=".0065"/><decoration type="prefab" name="mp_waste_pile_02" prob=".0065"/><decoration type="prefab" name="mp_waste_pile_03" prob=".005"/><decoration type="prefab" name="mp_waste_pile_04" prob=".003"/><decoration type="prefab" name="mp_waste_pile_05" prob=".003"/><decoration type="block" blockname="carWrecksRandomHelper" prob="0.0005" rotatemax="3"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".05"/><decoration type="block" blockname="mineCandyTin" prob="0.00015"/><decoration type="block" blockname="mineHubcap" prob="0.0001"/><decoration type="block" blockname="hubcapNoMine" prob="0.0011"/></decorations>
+		</subbiome>
+		<subbiome prob="0.4551"> <!-- Ore Sub Biome: * potassiumNitrate -->
+			<layers>
+				<layer depth="2" blockname="terrDestroyedStone"/> <layer depth="2" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_nitrate_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="cntWastelandRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/><decoration type="block" blockname="scrapMetalPile" prob=".015" rotatemax="3"/><decoration type="block" blockname="brickDestroyedBlock01" prob=".0004" rotatemax="7"/><decoration type="block" blockname="brickDestroyedBlock02" prob=".0004" rotatemax="7"/><decoration type="block" blockname="brickDestroyedBlock03" prob=".0004" rotatemax="7"/><decoration type="block" blockname="rock01" prob=".004" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".004" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".004" rotatemax="3"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="cinderBlocks01" prob=".006" rotatemax="7"/><decoration type="block" blockname="cinderBlocks02" prob=".006" rotatemax="7"/><decoration type="block" blockname="cinderBlocks03" prob=".006" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple01" prob="0.0012" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple02" prob="0.0012" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple03" prob="0.0012" rotatemax="3"/><decoration type="block" blockname="treeMountainPineDry21m" prob="0.0006" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeDeadTree02" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/><decoration type="prefab" name="waste_rubble_bldg_01" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_02" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_03" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_09" prob=".002"/><decoration type="prefab" name="waste_rubble_highway_01" prob=".002"/><decoration type="prefab" name="mp_waste_pile_01" prob=".0065"/><decoration type="prefab" name="mp_waste_pile_02" prob=".0065"/><decoration type="prefab" name="mp_waste_pile_03" prob=".005"/><decoration type="prefab" name="mp_waste_pile_04" prob=".003"/><decoration type="prefab" name="mp_waste_pile_05" prob=".003"/><decoration type="block" blockname="carWrecksRandomHelper" prob="0.0005" rotatemax="3"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".05"/><decoration type="block" blockname="mineCandyTin" prob="0.00015"/><decoration type="block" blockname="mineHubcap" prob="0.0001"/><decoration type="block" blockname="hubcapNoMine" prob="0.0011"/></decorations>
+		</subbiome>
+
+		<!-- Block layers: Wasteland Main, Local ore: potassiumNitrate -->
+		<layers>
+			<layer filluptorg="60" blockname="water"/>
+			<layer depth="2" blockname="terrDestroyedStone"/> <layer depth="2" blockname="terrDirt"/>
+			<layer depth="*" blockname="terrStone">
+				<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+			<layer depth="10" blockname="terrStone">
+				<resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+		</layers>
+
+		<spectrum name="wasteland"/>
+		<!-- Decorations Main: Wasteland -->
+		<decorations>
+			<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+			<decoration type="block" blockname="cntWastelandRandomLootHelper" prob="0.00025"/>
+			<decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/>
+			<decoration type="block" blockname="scrapMetalPile" prob=".015" rotatemax="3"/>
+			<decoration type="block" blockname="brickDestroyedBlock01" prob=".0004" rotatemax="7"/>
+			<decoration type="block" blockname="brickDestroyedBlock02" prob=".0004" rotatemax="7"/>
+			<decoration type="block" blockname="brickDestroyedBlock03" prob=".0004" rotatemax="7"/>
+			<decoration type="block" blockname="rock01" prob=".004" rotatemax="3"/>
+			<decoration type="block" blockname="rock02" prob=".004" rotatemax="3"/>
+			<decoration type="block" blockname="rock04" prob=".004" rotatemax="3"/>
+			<decoration type="block" blockname="cntBirdnest" prob="0.001"/>
+			<decoration type="block" blockname="cinderBlocks01" prob=".006" rotatemax="7"/>
+			<decoration type="block" blockname="cinderBlocks02" prob=".006" rotatemax="7"/>
+			<decoration type="block" blockname="cinderBlocks03" prob=".006" rotatemax="7"/>
+			<decoration type="block" blockname="treeBurntMaple01" prob="0.0012" rotatemax="7"/>
+			<decoration type="block" blockname="treeBurntMaple02" prob="0.0012" rotatemax="7"/>
+			<decoration type="block" blockname="treeBurntMaple03" prob="0.0012" rotatemax="3"/>
+			<decoration type="block" blockname="treeMountainPineDry21m" prob="0.0006" rotatemax="7"/>
+			<decoration type="block" blockname="treeDeadPineLeaf" prob="0.001" rotatemax="7"/>
+			<decoration type="block" blockname="treeDeadTree02" prob="0.002" rotatemax="7"/>
+			<decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/>
+			<decoration type="prefab" name="waste_rubble_bldg_01" prob=".003"/>
+			<decoration type="prefab" name="waste_rubble_bldg_02" prob=".003"/>
+			<decoration type="prefab" name="waste_rubble_bldg_03" prob=".003"/>
+			<decoration type="prefab" name="waste_rubble_bldg_09" prob=".002"/>
+			<decoration type="prefab" name="waste_rubble_highway_01" prob=".002"/>
+			<decoration type="prefab" name="mp_waste_pile_01" prob=".0065"/>
+			<decoration type="prefab" name="mp_waste_pile_02" prob=".0065"/>
+			<decoration type="prefab" name="mp_waste_pile_03" prob=".005"/>
+			<decoration type="prefab" name="mp_waste_pile_04" prob=".003"/>
+			<decoration type="prefab" name="mp_waste_pile_05" prob=".003"/>
+			<decoration type="block" blockname="carWrecksRandomHelper" prob="0.0005" rotatemax="3"/>
+			<decoration type="block" blockname="treeBrownGrassDiagonal" prob=".05"/>
+			<decoration type="block" blockname="mineCandyTin" prob="0.00015"/>
+			<decoration type="block" blockname="mineHubcap" prob="0.0001"/>
+			<decoration type="block" blockname="hubcapNoMine" prob="0.0011"/>
+		</decorations>
+		<terrain class="Wasteland"/>
+	</biome>
+
+
+	<!-- Burnt Forest Main Biome -->
+	<biome name="burnt_forest" topsoil_block="terrBurntForestGround" biomemapcolor="#ba00ff">
+		<weather>
+			<Temperature min="0" max="20" prob="1"/>
+			<Fog min="0" max="0" prob="1"/>
+			<CloudThickness min="30" max="70" prob=".9"/>
+			<CloudThickness min="100" max="100" prob=".1"/>
+			<Wind min="10" max="20" prob="0.9"/>
+			<Wind min="20" max="100" prob="0.1"/>
+			<Precipitation min="0" max="0" prob=".0"/>
+			<Precipitation min="50" max="100" prob=".75"/>
+      <ParticleEffect prefab="ParticleEffects/p_smokestorm" ChunkMargin="7"/>
+    </weather>
+
+		<subbiome prob="0.02"> <!-- Burnt Forest Sub Biome -->
+			<layers>
+				<layer depth="1" blockname="terrBurntForestGround"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone">
+					<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="10" blockname="terrStone">
+					<resource blockname="terrOreCoal" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"/>
+				<layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations>
+				<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="treeDeadTree02" prob="0.01" rotatemax="7"/>
+				<decoration type="block" blockname="cntTrashPile01" prob="0.007" rotatemax="7"/>
+				<decoration type="block" blockname="cntTrashPile08" prob="0.007" rotatemax="7"/>
+			</decorations>
+		</subbiome>
+
+		<subbiome prob="0.04"> <!-- Burnt Forest Sub Biome Thick Grass and Shrubs -->
+			<layers>
+				<layer depth="1" blockname="terrBurntForestGround"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone">
+					<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="10" blockname="terrStone">
+					<resource blockname="terrOreCoal" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"/>
+				<layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations>
+				<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+				<decoration type="block" blockname="treeDeadPineLeaf" prob=".025" rotatemax="7"/>
+				<decoration type="block" blockname="treeDeadTree02" prob=".06" rotatemax="7"/>
+				<decoration type="block" blockname="treeBrownGrassDiagonal" prob=".4"/>
+			</decorations>
+		</subbiome>
+
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: leadOre -->
+			<layers>
+				<layer depth="1" blockname="terrBurntForestGround"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreLead" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_lead_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="cntBurntForestRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="rock01" prob=".005" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".005" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".005" rotatemax="3"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="treeBurntMaple01" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple02" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple03" prob="0.003" rotatemax="3"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeDeadTree01" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeDeadTree02" prob="0.003" rotatemax="7"/><decoration type="prefab" name="remnant_burnt_deco_01" prob=".0009"/><decoration type="prefab" name="remnant_burnt_deco_02" prob=".0009"/><decoration type="block" blockname="emberPileDeco1" prob="0.001" rotatemax="7"/><decoration type="block" blockname="emberPileDeco2" prob="0.001" rotatemax="7"/><decoration type="block" blockname="emberPileDeco3" prob="0.01" rotatemax="7"/><decoration type="block" blockname="emberPileDeco4" prob="0.01" rotatemax="7"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".02"/><decoration type="block" blockname="treeStump" prob=".0002" rotatemax="7"/></decorations>
+		</subbiome>
+		<subbiome prob="0.4551"> <!-- Ore Sub Biome: * coalOre -->
+			<layers>
+				<layer depth="1" blockname="terrBurntForestGround"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreCoal" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_coal_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="cntBurntForestRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="rock01" prob=".005" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".005" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".005" rotatemax="3"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="treeBurntMaple01" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple02" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple03" prob="0.003" rotatemax="3"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeDeadTree01" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeDeadTree02" prob="0.003" rotatemax="7"/><decoration type="prefab" name="remnant_burnt_deco_01" prob=".0009"/><decoration type="prefab" name="remnant_burnt_deco_02" prob=".0009"/><decoration type="block" blockname="emberPileDeco1" prob="0.001" rotatemax="7"/><decoration type="block" blockname="emberPileDeco2" prob="0.001" rotatemax="7"/><decoration type="block" blockname="emberPileDeco3" prob="0.01" rotatemax="7"/><decoration type="block" blockname="emberPileDeco4" prob="0.01" rotatemax="7"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".02"/><decoration type="block" blockname="treeStump" prob=".0002" rotatemax="7"/></decorations>
+		</subbiome>
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: potassiumNitrate -->
+			<layers>
+				<layer depth="1" blockname="terrBurntForestGround"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_nitrate_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="cntBurntForestRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="rock01" prob=".005" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".005" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".005" rotatemax="3"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="treeBurntMaple01" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple02" prob="0.003" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple03" prob="0.003" rotatemax="3"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeDeadTree01" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeDeadTree02" prob="0.003" rotatemax="7"/><decoration type="prefab" name="remnant_burnt_deco_01" prob=".0009"/><decoration type="prefab" name="remnant_burnt_deco_02" prob=".0009"/><decoration type="block" blockname="emberPileDeco1" prob="0.001" rotatemax="7"/><decoration type="block" blockname="emberPileDeco2" prob="0.001" rotatemax="7"/><decoration type="block" blockname="emberPileDeco3" prob="0.01" rotatemax="7"/><decoration type="block" blockname="emberPileDeco4" prob="0.01" rotatemax="7"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".02"/><decoration type="block" blockname="treeStump" prob=".0002" rotatemax="7"/></decorations>
+		</subbiome>
+
+		<!-- Block layers: Burnt Forest, Local ore: coalOre -->
+		<layers>
+			<layer filluptorg="60" blockname="water"/>
+			<layer depth="1" blockname="terrBurntForestGround"/> <layer depth="3" blockname="terrDirt"/>
+			<layer depth="*" blockname="terrStone">
+				<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+			<layer depth="10" blockname="terrStone">
+				<resource blockname="terrOreCoal" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+		</layers>
+		<!-- Decorations Main: Burnt Forest -->
+		<decorations>
+			<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+			<decoration type="block" blockname="cntBurntForestRandomLootHelper" prob="0.00025"/>
+			<decoration type="block" blockname="rock01" prob=".005" rotatemax="3"/>
+			<decoration type="block" blockname="rock02" prob=".005" rotatemax="3"/>
+			<decoration type="block" blockname="rock04" prob=".005" rotatemax="3"/>
+			<decoration type="block" blockname="cntBirdnest" prob="0.001"/>
+			<decoration type="block" blockname="treeBurntMaple01" prob="0.003" rotatemax="7"/>
+			<decoration type="block" blockname="treeBurntMaple02" prob="0.003" rotatemax="7"/>
+			<decoration type="block" blockname="treeBurntMaple03" prob="0.003" rotatemax="3"/>
+			<decoration type="block" blockname="treeDeadPineLeaf" prob="0.001" rotatemax="7"/>
+			<decoration type="block" blockname="treeDeadTree01" prob="0.002" rotatemax="7"/>
+			<decoration type="block" blockname="treeDeadTree02" prob="0.003" rotatemax="7"/>
+			<decoration type="prefab" name="remnant_burnt_deco_01" prob=".0009"/>
+			<decoration type="prefab" name="remnant_burnt_deco_02" prob=".0009"/>
+			<decoration type="block" blockname="emberPileDeco1" prob="0.001" rotatemax="7"/>
+			<decoration type="block" blockname="emberPileDeco2" prob="0.001" rotatemax="7"/>
+			<decoration type="block" blockname="emberPileDeco3" prob="0.01" rotatemax="7"/>
+			<decoration type="block" blockname="emberPileDeco4" prob="0.01" rotatemax="7"/>
+			<decoration type="block" blockname="treeBrownGrassDiagonal" prob=".02"/>
+			<decoration type="block" blockname="treeStump" prob=".0002" rotatemax="7"/>
+		</decorations>
+		<terrain class="Mountains"/>
+	</biome>
+
+
+	<!-- City Main Biome Diersville -->
+	<biome name="city" topsoil_block="terrAsphalt" biomemapcolor="#808080">
+		<weather>
+			<Temperature min="-15" max="15" prob="1"/>
+			<!--<Fog min="0" max="0" prob=".9"/>-->
+			<!--<Fog min="100" max="100" prob=".1"/>-->
+			<CloudThickness min="0" max="0" prob=".2"/>
+			<CloudThickness min="10" max="70" prob=".5"/>
+			<CloudThickness min="100" max="100" prob=".3"/>
+			<Precipitation min="0" max="0" prob=".0"/>
+			<Precipitation min="50" max="100" prob=".75"/>
+			<Wind min="10" max="20" prob="0.9"/>
+			<Wind min="20" max="100" prob="0.1"/>
+		</weather>
+
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: leadOre -->
+			<layers>
+				<layer depth="2" blockname="terrAsphalt"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreLead" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+		</subbiome>
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: coalOre -->
+			<layers>
+				<layer depth="2" blockname="terrAsphalt"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreCoal" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+		</subbiome>
+		<subbiome prob="0.4551"> <!-- Ore Sub Biome: * potassiumNitrate -->
+			<layers>
+				<layer depth="2" blockname="terrAsphalt"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+		</subbiome>
+
+		<!-- Block layers: City (Diersville), Local ore: potassiumNitrate -->
+		<layers>
+			<layer depth="2" blockname="terrAsphalt"/> <layer depth="3" blockname="terrDirt"/>
+			<layer depth="*" blockname="terrStone">
+				<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+			<layer depth="10" blockname="terrStone">
+				<resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+		</layers>
+		<spectrum name="city"/>
+		<decorations></decorations>
+		<terrain class="City"/>
+	</biome>
+
+
+	<!-- City Main Biome Gravestown -->
+	<biome name="city_wasteland" topsoil_block="terrAsphalt" biomemapcolor="#c0c0c0">
+		<weather>
+			<Temperature min="5" max="15" prob="1"/>
+			<!--<Fog min="10" max="40" prob="1"/>-->
+			<CloudThickness min="10" max="70" prob="0.1"/>
+			<CloudThickness min="70" max="100" prob="0.9"/>
+			<Precipitation min="100" max="100" prob="1"/>
+			<Wind min="10" max="20" prob="0.9"/>
+			<Wind min="20" max="100" prob="0.1"/>
+		</weather>
+
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: leadOre -->
+			<layers>
+				<layer depth="2" blockname="terrAsphalt"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreLead" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+		</subbiome>
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: coalOre -->
+			<layers>
+				<layer depth="2" blockname="terrAsphalt"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreCoal" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+		</subbiome>
+		<subbiome prob="0.4551"> <!-- Ore Sub Biome: * potassiumNitrate -->
+			<layers>
+				<layer depth="2" blockname="terrAsphalt"/> <layer depth="3" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+		</subbiome>
+
+		<!-- Block layers: city_wasteland (Gravestown), Local ore: potassiumNitrate -->
+		<layers>
+			<layer filluptorg="60" blockname="water"/>
+			<layer depth="2" blockname="terrAsphalt"/> <layer depth="3" blockname="terrDirt"/>
+			<layer depth="*" blockname="terrStone">
+				<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+			<layer depth="10" blockname="terrStone">
+				<resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+		</layers>
+		<spectrum name="wasteland"/>
+		<decorations></decorations>
+		<terrain class="Mountains"/>
+	</biome>
+
+
+	<!-- Wasteland Hub Biome Random Gen -->
+	<biome name="wasteland_hub" topsoil_block="terrDestroyedStone" biomemapcolor="#a0a0a0">
+		<weather>
+			<Temperature min="5" max="15" prob="1"/>
+			<!--<Fog min="0" max="0" prob=".8"/>-->
+			<!--<Fog min="100" max="100" prob=".2"/>-->
+			<CloudThickness min="0" max="0" prob=".2"/>
+			<CloudThickness min="10" max="70" prob=".5"/>
+			<CloudThickness min="100" max="100" prob=".3"/>
+			<Precipitation min="0" max="0" prob=".0"/>
+			<Precipitation min="50" max="100" prob=".75"/>
+			<Wind min="10" max="20" prob="0.9"/>
+			<Wind min="20" max="100" prob="0.1"/>
+		</weather>
+
+		<subbiome prob="0.02"> <!-- Wasteland_hub Sub Biome Radiation and Corpses -->
+			<layers>
+				<layer depth="5" blockname="terrDestroyedStone"/>
+				<layer depth="*" blockname="terrStone">
+					<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="10" blockname="terrStone">
+					<resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/>
+					<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+					<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+					<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+					<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+				</layer>
+				<layer depth="1" blockname="terrStone"/>
+				<layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations>
+				<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+				<decoration type="block" blockname="treeDeadPineLeaf" prob="0.01" rotatemax="7"/>
+				<decoration type="block" blockname="treeDeadTree02" prob="0.01" rotatemax="7"/>
+				<decoration type="block" blockname="cntTrashPile01" prob="0.007" rotatemax="7"/>
+				<decoration type="block" blockname="cntTrashPile08" prob="0.007" rotatemax="7"/>
+			</decorations>
+		</subbiome>
+		<spectrum name="wasteland"/>
+
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: leadOre -->
+			<layers>
+				<layer depth="2" blockname="terrDestroyedStone"/> <layer depth="2" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreLead" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_lead_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="cntWastelandRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/><decoration type="block" blockname="scrapMetalPile" prob=".015" rotatemax="3"/><decoration type="block" blockname="brickDestroyedBlock01" prob=".0004" rotatemax="7"/><decoration type="block" blockname="brickDestroyedBlock02" prob=".0004" rotatemax="7"/><decoration type="block" blockname="brickDestroyedBlock03" prob=".0004" rotatemax="7"/><decoration type="block" blockname="rock01" prob=".004" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".004" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".004" rotatemax="3"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="cinderBlocks01" prob=".006" rotatemax="7"/><decoration type="block" blockname="cinderBlocks02" prob=".006" rotatemax="7"/><decoration type="block" blockname="cinderBlocks03" prob=".006" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple01" prob="0.0012" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple02" prob="0.0012" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple03" prob="0.0012" rotatemax="3"/><decoration type="block" blockname="treeMountainPineDry21m" prob="0.0006" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeDeadTree02" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/><decoration type="prefab" name="waste_rubble_bldg_01" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_02" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_03" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_09" prob=".002"/><decoration type="prefab" name="waste_rubble_highway_01" prob=".0015"/><decoration type="prefab" name="mp_waste_pile_01" prob=".0065"/><decoration type="prefab" name="mp_waste_pile_02" prob=".0065"/><decoration type="prefab" name="mp_waste_pile_03" prob=".005"/><decoration type="prefab" name="mp_waste_pile_04" prob=".003"/><decoration type="prefab" name="mp_waste_pile_05" prob=".003"/><decoration type="block" blockname="carsRandomHelper" prob="0.13" rotatemax="3"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".05"/></decorations>
+		</subbiome>
+		<subbiome prob="0.2851"> <!-- Ore Sub Biome: coalOre -->
+			<layers>
+				<layer depth="2" blockname="terrDestroyedStone"/> <layer depth="2" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOreCoal" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_coal_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="cntWastelandRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/><decoration type="block" blockname="scrapMetalPile" prob=".015" rotatemax="3"/><decoration type="block" blockname="brickDestroyedBlock01" prob=".0004" rotatemax="7"/><decoration type="block" blockname="brickDestroyedBlock02" prob=".0004" rotatemax="7"/><decoration type="block" blockname="brickDestroyedBlock03" prob=".0004" rotatemax="7"/><decoration type="block" blockname="rock01" prob=".004" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".004" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".004" rotatemax="3"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="cinderBlocks01" prob=".006" rotatemax="7"/><decoration type="block" blockname="cinderBlocks02" prob=".006" rotatemax="7"/><decoration type="block" blockname="cinderBlocks03" prob=".006" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple01" prob="0.0012" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple02" prob="0.0012" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple03" prob="0.0012" rotatemax="3"/><decoration type="block" blockname="treeMountainPineDry21m" prob="0.0006" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeDeadTree02" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/><decoration type="prefab" name="waste_rubble_bldg_01" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_02" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_03" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_09" prob=".002"/><decoration type="prefab" name="waste_rubble_highway_01" prob=".0015"/><decoration type="prefab" name="mp_waste_pile_01" prob=".0065"/><decoration type="prefab" name="mp_waste_pile_02" prob=".0065"/><decoration type="prefab" name="mp_waste_pile_03" prob=".005"/><decoration type="prefab" name="mp_waste_pile_04" prob=".003"/><decoration type="prefab" name="mp_waste_pile_05" prob=".003"/><decoration type="block" blockname="carsRandomHelper" prob="0.13" rotatemax="3"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".05"/></decorations>
+		</subbiome>
+		<subbiome prob="0.4551"> <!-- Ore Sub Biome: * potassiumNitrate -->
+			<layers>
+				<layer depth="2" blockname="terrDestroyedStone"/> <layer depth="2" blockname="terrDirt"/>
+				<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+				<layer depth="*" blockname="terrStone"> <resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer> <layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+			</layers>
+			<decorations><decoration type="prefab" name="deco_nitrate_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/><decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/><decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/><decoration type="block" blockname="cntWastelandRandomLootHelper" prob="0.00025"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/><decoration type="block" blockname="scrapMetalPile" prob=".015" rotatemax="3"/><decoration type="block" blockname="brickDestroyedBlock01" prob=".0004" rotatemax="7"/><decoration type="block" blockname="brickDestroyedBlock02" prob=".0004" rotatemax="7"/><decoration type="block" blockname="brickDestroyedBlock03" prob=".0004" rotatemax="7"/><decoration type="block" blockname="rock01" prob=".004" rotatemax="3"/><decoration type="block" blockname="rock02" prob=".004" rotatemax="3"/><decoration type="block" blockname="rock04" prob=".004" rotatemax="3"/><decoration type="block" blockname="cntBirdnest" prob="0.001"/><decoration type="block" blockname="cinderBlocks01" prob=".006" rotatemax="7"/><decoration type="block" blockname="cinderBlocks02" prob=".006" rotatemax="7"/><decoration type="block" blockname="cinderBlocks03" prob=".006" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple01" prob="0.0012" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple02" prob="0.0012" rotatemax="7"/><decoration type="block" blockname="treeBurntMaple03" prob="0.0012" rotatemax="3"/><decoration type="block" blockname="treeMountainPineDry21m" prob="0.0006" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.001" rotatemax="7"/><decoration type="block" blockname="treeDeadTree02" prob="0.002" rotatemax="7"/><decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/><decoration type="prefab" name="waste_rubble_bldg_01" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_02" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_03" prob=".003"/><decoration type="prefab" name="waste_rubble_bldg_09" prob=".002"/><decoration type="prefab" name="waste_rubble_highway_01" prob=".0015"/><decoration type="prefab" name="mp_waste_pile_01" prob=".0065"/><decoration type="prefab" name="mp_waste_pile_02" prob=".0065"/><decoration type="prefab" name="mp_waste_pile_03" prob=".005"/><decoration type="prefab" name="mp_waste_pile_04" prob=".003"/><decoration type="prefab" name="mp_waste_pile_05" prob=".003"/><decoration type="block" blockname="carsRandomHelper" prob="0.13" rotatemax="3"/><decoration type="block" blockname="treeBrownGrassDiagonal" prob=".05"/></decorations>
+		</subbiome>
+
+		<!-- Block layers: Wasteland_hub, Local ore: potassiumNitrate -->
+		<layers>
+			<layer filluptorg="60" blockname="water"/>
+			<layer depth="2" blockname="terrDestroyedStone"/> <layer depth="2" blockname="terrDirt"/>
+			<layer depth="*" blockname="terrStone">
+				<resource blockname="terrOreIron" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"> <resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/> </layer>
+			<layer depth="10" blockname="terrStone">
+				<resource blockname="terrOrePotassiumNitrate" prob="0.6500" rwgGenerationType="all"/>
+				<resource blockname="terrGravel" prob="0.7830" rwgGenerationType="all"/>
+				<resource blockname="terrOreSilver"  prob="0.00030" rwgGenerationType="all"/>
+				<resource blockname="terrOreGold"    prob="0.00020" rwgGenerationType="all"/>
+				<resource blockname="terrOreDiamond" prob="0.00010" rwgGenerationType="all"/>
+			</layer>
+			<layer depth="1" blockname="terrStone"/> <layer depth="3" blockname="terrBedrock"/>
+		</layers>
+
+		<!-- Decorations Main: Wasteland Hub -->
+		<decorations>
+			<decoration type="prefab" name="deco_iron_vein" checkresource="-7" onslopes="true" prob=".00657" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource" prob=".00033" rotatemax="3"/>
+			<decoration type="block" blockname="rockResource02" prob=".00033" rotatemax="3"/>
+			<decoration type="block" blockname="cntWastelandRandomLootHelper" prob="0.00025"/>
+			<decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/>
+			<decoration type="block" blockname="scrapMetalPile" prob=".015" rotatemax="3"/>
+			<decoration type="block" blockname="brickDestroyedBlock01" prob=".0004" rotatemax="7"/>
+			<decoration type="block" blockname="brickDestroyedBlock02" prob=".0004" rotatemax="7"/>
+			<decoration type="block" blockname="brickDestroyedBlock03" prob=".0004" rotatemax="7"/>
+			<decoration type="block" blockname="rock01" prob=".004" rotatemax="3"/>
+			<decoration type="block" blockname="rock02" prob=".004" rotatemax="3"/>
+			<decoration type="block" blockname="rock04" prob=".004" rotatemax="3"/>
+			<decoration type="block" blockname="cntBirdnest" prob="0.001"/>
+			<decoration type="block" blockname="cinderBlocks01" prob=".006" rotatemax="7"/>
+			<decoration type="block" blockname="cinderBlocks02" prob=".006" rotatemax="7"/>
+			<decoration type="block" blockname="cinderBlocks03" prob=".006" rotatemax="7"/>
+			<decoration type="block" blockname="treeBurntMaple01" prob="0.0012" rotatemax="7"/>
+			<decoration type="block" blockname="treeBurntMaple02" prob="0.0012" rotatemax="7"/>
+			<decoration type="block" blockname="treeBurntMaple03" prob="0.0012" rotatemax="3"/>
+			<decoration type="block" blockname="treeMountainPineDry21m" prob="0.0006" rotatemax="7"/>
+			<decoration type="block" blockname="treeDeadPineLeaf" prob="0.001" rotatemax="7"/>
+			<decoration type="block" blockname="treeDeadTree02" prob="0.002" rotatemax="7"/>
+			<decoration type="block" blockname="treeDeadPineLeaf" prob="0.010" rotatemax="7"/>
+			<decoration type="prefab" name="waste_rubble_bldg_01" prob=".003"/>
+			<decoration type="prefab" name="waste_rubble_bldg_02" prob=".003"/>
+			<decoration type="prefab" name="waste_rubble_bldg_03" prob=".003"/>
+			<decoration type="prefab" name="waste_rubble_bldg_09" prob=".002"/>
+			<decoration type="prefab" name="waste_rubble_highway_01" prob=".0015"/>
+			<decoration type="prefab" name="mp_waste_pile_01" prob=".0065"/>
+			<decoration type="prefab" name="mp_waste_pile_02" prob=".0065"/>
+			<decoration type="prefab" name="mp_waste_pile_03" prob=".005"/>
+			<decoration type="prefab" name="mp_waste_pile_04" prob=".003"/>
+			<decoration type="prefab" name="mp_waste_pile_05" prob=".003"/>
+			<decoration type="block" blockname="carsRandomHelper" prob="0.13" rotatemax="3"/>
+			<decoration type="block" blockname="treeBrownGrassDiagonal" prob=".05"/>
+		</decorations>
+		<terrain class="Wasteland"/>
+	</biome>
+</biomes>
+
+
+
+
+
+
+
+<!-- Street Parameters:
+	surfaceoffset(int): defines the number of blocks which is added to the toplevel of the street tile
+					negative means the tile will be placed in the ground; positive means the tile will be above the ground
+	smoothness(int): defines the number of blocks which are tolerated in height difference.
+				value can be from 0 to 100 where 0 means no change of landscape and 100 builds even road level across whole level
+				(much more than 2 is probably not reasonable) -->
+<pois>
+	<!--poi name="Road Concrete" poimapcolor="#3a3020" prefab="road_concrete" surfaceoffset="0"/><poi name="Road Asphalt" poimapcolor="#272f48" prefab="road_asphalt" surfaceoffset="0"/><poi name="Road Gravel" poimapcolor="#806f52" prefab="road_gravel" surfaceoffset="0"/><poi name="crossing" poimapcolor="#f6ff0f" prefab="street_crossing"/><poi name="Water" poimapcolor="#0063ff" prefab="water_7_wide" surfaceoffset="0" /-->
+	<!--<poi name="Water" poimapcolor="#0063ff" blockname="water" ypos="56" old water set method/-->
+	<!--<poi name="Water" poimapcolor="#0063ff" prefab="water" ypos="56"/>-->
+	<poi name="City Asphalt" poimapcolor="#1" blockname="terrAsphalt">
+		<decal texture="0" face="0" prob="0.001"/> <!-- 0 == 500 -->
+		<decal texture="1" face="0" prob="0.001"/> <!-- 1 == 501 -->
+		<decal texture="2" face="0" prob="0.001"/>
+		<decal texture="3" face="0" prob="0.001"/>
+		<decal texture="4" face="0" prob="0.001"/>
+		<decal texture="5" face="0" prob="0.001"/>
+		<decal texture="6" face="0" prob="0.001"/>
+		<decal texture="7" face="0" prob="0.001"/>
+		<decal texture="8" face="0" prob="0.001"/>
+		<decal texture="9" face="0" prob="0"/>
+		<decal texture="10" face="0" prob="0"/>
+		<decal texture="11" face="0" prob="0.001"/>
+		<decal texture="12" face="0" prob="0.001"/>
+		<decal texture="13" face="0" prob="0.001"/>
+		<decal texture="14" face="0" prob="0.001"/>
+		<decal texture="15" face="0" prob="0.001"/>
+		<blockontop blockname="cntStreetRandomLootHelper" prob="0.001" rotatemax="7"/>
+		<blockontop blockname="carsRandomHelper" prob="0.0015" rotatemax="3"/>
+		<blockontop blockname="decoCarTireSmallFlat" rotatemax="3" prob="0.001"/>
+		<blockontop blockname="cinderBlocks03" rotatemax="3" prob="0.0007"/>
+		<blockontop blockname="goreBlockAnimal" prob="0.0004"/>
+	</poi>
+	<poi name="Country Road Asphalt" poimapcolor="#2" blockname="terrAsphalt">
+		<decal texture="0" face="0" prob="0.005"/>
+		<decal texture="1" face="0" prob="0.005"/>
+		<decal texture="2" face="0" prob="0.005"/>
+		<decal texture="3" face="0" prob="0.005"/>
+		<decal texture="4" face="0" prob="0.005"/>
+		<decal texture="5" face="0" prob="0.005"/>
+		<decal texture="6" face="0" prob="0.005"/>
+		<decal texture="7" face="0" prob="0.005"/>
+		<decal texture="8" face="0" prob="0.005"/>
+		<decal texture="9" face="0" prob="0"/>
+		<decal texture="10" face="0" prob="0"/>
+		<decal texture="11" face="0" prob="0.005"/>
+		<decal texture="12" face="0" prob="0.005"/>
+		<decal texture="13" face="0" prob="0.005"/>
+		<decal texture="14" face="0" prob="0.005"/>
+		<decal texture="15" face="0" prob="0.005"/>
+		<blockontop blockname="cntStreetRandomLootHelper" prob="0.001" rotatemax="7"/>
+		<blockontop blockname="carsRandomHelper" prob="0.0015" rotatemax="3"/>
+		<blockontop blockname="decoCarTireSmallFlat" rotatemax="3" prob="0.001"/>
+		<blockontop blockname="rock01" prob="0.0007"/>
+		<blockontop blockname="rock02" prob="0.0007"/>
+		<blockontop blockname="rock04" prob="0.0007"/>
+		<blockontop blockname="goreBlockAnimal" prob="0.0004"/>
+		<!--blockontop blockname="terrOrePotassiumNitrate" prob="0.02" offset="-1"/-->
+	</poi>
+	<poi name="Road Gravel" poimapcolor="#3" blockname="terrGravel">
+		<decal texture="0" face="0" prob="0.005"/>
+		<decal texture="1" face="0" prob="0.005"/>
+		<decal texture="2" face="0" prob="0.005"/>
+		<decal texture="3" face="0" prob="0.005"/>
+		<decal texture="4" face="0" prob="0.005"/>
+		<decal texture="5" face="0" prob="0.005"/>
+		<decal texture="6" face="0" prob="0.005"/>
+		<decal texture="7" face="0" prob="0.005"/>
+		<decal texture="8" face="0" prob="0.005"/>
+		<decal texture="9" face="0" prob="0"/>
+		<decal texture="10" face="0" prob="0"/>
+		<decal texture="11" face="0" prob="0.005"/>
+		<decal texture="12" face="0" prob="0.005"/>
+		<decal texture="13" face="0" prob="0.005"/>
+		<decal texture="14" face="0" prob="0.005"/>
+		<decal texture="15" face="0" prob="0.005"/>
+		<blockontop blockname="goreBlockAnimal" prob="0.0004"/>
+		<blockontop blockname="cntStreetRandomLootHelper" prob="0.001" rotatemax="7"/>
+		<blockontop blockname="carsRandomHelper" prob="0.0005" rotatemax="3"/>
+		<!--blockontop blockname="terrOrePotassiumNitrate" prob="0.02" offset="-1"/-->
+	</poi>
+	<!-- LOADED DYNAMICALLY NOW
+	<poi name="Water" poimapcolor="#4" blockname="water" blockbelow="terrSand" yposfill="58"/>
+	<poi name="WaterDesert" poimapcolor="#5" blockname="water" blockbelow="terrSand" yposfill="44"/>
+	<poi name="WaterHills" poimapcolor="#6" blockname="water" blockbelow="terrSand" yposfill="73"/>
+	<poi name="WaterMountains" poimapcolor="#7" blockname="water" blockbelow="terrSand" yposfill="78"/>
+	<poi name="terrSand" poimapcolor="#8" blockname="terrSand"/>
+	-->
+	<!--poi name="Empty" poimapcolor="#f6ff00" /-->
+</pois>
+</worldgeneration>

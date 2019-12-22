@@ -5,13 +5,15 @@ using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Windows;
 using System.Windows.Input;
+using _7dtd_svmanager_fix_mvvm.Settings.Views;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 {
     public class SettingWindowViewModel : ViewModelBase
     {
         SettingModel model;
-        public SettingWindowViewModel(Window view, SettingModel model) : base(view, model)
+        public SettingWindowViewModel(WindowService windowService, SettingModel model) : base(windowService, model)
         {
             this.model = model;
 
@@ -21,6 +23,8 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
             GetAdminFilePathBtClick = new DelegateCommand(GetAdminFilePathBt_Click);
 
             KeyEditBtClick = new DelegateCommand(KeyEditBt_Click);
+
+            GetBackupDirBtClick = new DelegateCommand(GetBackupDirBt_Click);
 
             SaveBtClick = new DelegateCommand(SaveBt_Click);
             #endregion
@@ -35,6 +39,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 
             IsBetaModeChecked = model.ToReactivePropertyAsSynchronized(m => m.IsBetaMode);
             IsAutoUpdateChecked = model.ToReactivePropertyAsSynchronized(m => m.IsAutoUpdate);
+            BackupDirPath = model.ToReactivePropertyAsSynchronized(m => m.BackupDirPath);
             #endregion
         }
 
@@ -48,6 +53,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 
         public ReactiveProperty<bool> IsBetaModeChecked { get; set; }
         public ReactiveProperty<bool> IsAutoUpdateChecked { get; set; }
+        public ReactiveProperty<string> BackupDirPath { get; set; }
         #endregion
 
         #region Event Properties
@@ -56,6 +62,8 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         public ICommand GetAdminFilePathBtClick { get; set; }
 
         public ICommand KeyEditBtClick { get; set; }
+
+        public ICommand GetBackupDirBtClick { get; set; }
 
         public ICommand SaveBtClick { get; set; }
         #endregion
@@ -76,14 +84,21 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 
         private void KeyEditBt_Click()
         {
-            var keyConfig = new Views.KeyConfig(model.ShortcutKeyManager);
-            keyConfig.ShowDialog();
+            var shortcutManager = model.ShortcutKeyManager;
+            var keyConfModel = new KeyConfigModel(shortcutManager);
+            var vm = new KeyConfigViewModel(new WindowService(), keyConfModel);
+            WindowManageService.ShowDialog<KeyConfig>(vm);
+        }
+
+        private void GetBackupDirBt_Click()
+        {
+            model.GetBackupDirPath();
         }
 
         private void SaveBt_Click()
         {
             model.Save();
-            view.Close();
+            WindowManageService.Close();
         }
         #endregion
     }

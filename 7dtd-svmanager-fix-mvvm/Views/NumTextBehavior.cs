@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interactivity;
+using Microsoft.Xaml.Behaviors;
 
 namespace NumTextBox
 {
@@ -11,8 +11,8 @@ namespace NumTextBox
         #region 最大値プロパティ
         public int Max
         {
-            get { return (int)GetValue(MaxIntProperty); }
-            set { SetValue(MaxIntProperty, value); }
+            get => (int)GetValue(MaxIntProperty);
+            set => SetValue(MaxIntProperty, value);
         }
 
         public static readonly DependencyProperty MaxIntProperty =
@@ -41,24 +41,23 @@ namespace NumTextBox
 
         private void TextBoxPastingEventHandler(object sender, DataObjectPastingEventArgs e)
         {
-            var textBox = (sender as TextBox);
+            var textBox = sender as TextBox;
             var clipboard = e.DataObject.GetData(typeof(string)) as string;
-            Regex r = new Regex("^[0-9]+$");
-            Match match = r.Match(clipboard);
+            if (clipboard == null)
+                return;
+
+            var r = new Regex("^[0-9]+$");
+            var match = r.Match(clipboard);
             if (match.Success)
-            {
-                if (textBox != null && !string.IsNullOrEmpty(clipboard))
-                {
+                if (textBox != null)
                     textBox.Text = clipboard;
-                }
-            }
             e.CancelCommand();
             e.Handled = true;
         }
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            var textBox = sender as TextBox;
-            if (textBox == null) return;
+            if (!(sender is TextBox))
+                return;
 
             if ((Key.D0 <= e.Key && e.Key <= Key.D9) ||
                 (Key.NumPad0 <= e.Key && e.Key <= Key.NumPad9) ||
@@ -73,8 +72,8 @@ namespace NumTextBox
         }
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            var textBox = sender as TextBox;
-            if (textBox == null) return;
+            if (!(sender is TextBox textBox))
+                return;
 
             if (string.IsNullOrEmpty(textBox.Text))
             {
@@ -82,7 +81,7 @@ namespace NumTextBox
                 return;
             }
 
-            if (int.TryParse(textBox.Text, out int textBoxNum))
+            if (int.TryParse(textBox.Text, out var textBoxNum))
             {
                 if (textBoxNum > Max)
                 {
