@@ -8,6 +8,7 @@
     2. 内部フレームワークバージョンを更新
       .Net Framework 4.8に更新しました。
       お知らせの通り当アプリケーションのアップデート前に.Net Framework 4.8のインストールを行ってください。
+    3. Admin/Whitelist/Kick/Banを開けると落ちる問題を修正
 
     <br />
 
@@ -16,7 +17,9 @@
       今回のアップデートでターゲットフレームワークを.Net Framework 4.8に更新しています。
       インストールされていない方は公式よりRuntimeのインストールをお願いします。（インストール前に更新すると起動しなくなります）
     </font>
-    <a href="https://dotnet.microsoft.com/download/dotnet-framework/net48"><font color="#00ffff">https://dotnet.microsoft.com/download/dotnet-framework/net48</font></a>
+    <a href="https://dotnet.microsoft.com/download/dotnet-framework/net48">
+      <font color="#00ffff">https://dotnet.microsoft.com/download/dotnet-framework/net48</font>
+    </a>
 
     <br />
 
