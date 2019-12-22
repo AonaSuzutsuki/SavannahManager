@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views
 {
@@ -21,21 +22,22 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views
     /// </summary>
     public partial class PlayerBase : Window
     {
-        public PlayerBase(string windowTitle, IPlayerPage page)
+        public IPlayerPage Page { get; set; }
+
+        public PlayerBase()
         {
             InitializeComponent();
+        }
 
-            var model = new Models.PlayerBaseModel();
-            var vm = new ViewModels.PlayerBaseViewModel(this, model)
-            {
-                WindowTitle = windowTitle
-            };
-            DataContext = vm;
+        public void AssignEnded()
+        {
+            Page.Ended += Page_Ended;
+        }
 
-            page.Ended += Page_Ended;
-
-            NavigationService navi = MainFrame.NavigationService;
-            navi.Navigate(page);
+        public void Navigate()
+        {
+            var navi = MainFrame.NavigationService;
+            navi.Navigate(Page);
         }
 
         private void Page_Ended(object sender, EventArgs e)

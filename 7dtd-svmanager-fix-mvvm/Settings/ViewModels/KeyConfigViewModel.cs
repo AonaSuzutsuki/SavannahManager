@@ -6,16 +6,16 @@ using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using CommonStyleLib.ViewModels;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 {
     public class KeyConfigViewModel : ViewModelBase
     {
         KeyConfigModel model;
-        public KeyConfigViewModel(Window view, KeyConfigModel model) : base(view, model)
+        public KeyConfigViewModel(WindowService windowService, KeyConfigModel model) : base(windowService, model)
         {
             this.model = model;
-            base.view = view;
 
             Loaded = new DelegateCommand(Window_Loaded);
             KeyListSelectionChanged = new DelegateCommand(KeyList_SelectionChanged);
@@ -80,7 +80,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 
         private void OKayBt_Click()
         {
-            model.Save(view.Close);
+            model.Save(WindowManageService.Close);
         }
         #endregion
     }

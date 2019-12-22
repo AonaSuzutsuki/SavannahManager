@@ -125,18 +125,14 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
                     break;
             }
 
-            if (specialKey != ModifierKeys.None)
-            {
-                KeyString = specialKey.ToString() + " + " + mainKey.ToString();
-            }
-            else
-            {
-                KeyString = mainKey.ToString();
-            }
+            KeyString = specialKey != ModifierKeys.None ? $"{specialKey} + {mainKey}" : mainKey.ToString();
         }
         public void DeleteKey()
         {
             int index = CurrentIndex;
+            if (index > -1)
+                return;
+
             var keyName = KeyList[index].Name;
             KeyList[index] = new ShortcutKeyForList()
             {
@@ -149,6 +145,9 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
         public void ApplyKey()
         {
             int index = CurrentIndex;
+            if (index > -1)
+                return;
+
             var keyName = KeyList[index].Name;
 
             KeyList[index] = new ShortcutKeyForList()

@@ -1,0 +1,852 @@
+<blockplaceholders>
+	<!--
+	Loot placeholders do NOT use weighted probabilites like the rest of the loot system.
+
+	The max that an entry can have is 1.0. That is 100%.
+	One item is randomly picked from the list, then has it's prob rolled.
+	If that fails, try again.
+	Continue until an item is found.
+	-->
+
+	<!-- When unwrapping a prefab into the world, replace the lootForest block with one of the following -->
+	<placeholder name="cntForestRandomLootHelper">
+		<block name="cntTrashPile01" prob="0.1"/>
+		<block name="cntTrashPile02" prob="0.1"/>
+		<block name="cntTrashPile03" prob="0.1"/>
+		<block name="cntTrashPile04" prob="0.1"/>
+		<block name="cntTrashPile05" prob="0.1"/>
+		<block name="cntTrashPile06" prob="0.1"/>
+		<block name="cntTrashPile07" prob="0.1"/>
+		<block name="cntTrashPile08" prob="0.1"/>
+		<block name="cntTrashPile09" prob="0.1"/>
+		<block name="cntBackpack01" prob="0.03"/>
+		<block name="cntBackpack03" prob="0.03"/>
+		<block name="cntDuffle01" prob="0.03"/>
+		<block name="cntSportsBag01" prob="0.03"/>
+		<block name="cntSportsBag02" prob="0.03"/>
+		<block name="cntPurse01" prob="0.03"/>
+	</placeholder>
+
+	<!-- Replace the Wasteland with one of the following -->
+	<placeholder name="cntWastelandRandomLootHelper">
+		<block name="cntTrashPile01" prob="0.1"/>
+		<block name="cntTrashPile02" prob="0.1"/>
+		<block name="cntTrashPile03" prob="0.1"/>
+		<block name="cntTrashPile04" prob="0.1"/>
+		<block name="cntTrashPile05" prob="0.1"/>
+		<block name="cntTrashPile06" prob="0.1"/>
+		<block name="cntTrashPile07" prob="0.1"/>
+		<block name="cntTrashPile08" prob="0.1"/>
+		<block name="cntTrashPile09" prob="0.05"/>
+		<block name="cntBackpack01" prob="0.03"/>
+		<block name="cntBackpack03" prob="0.03"/>
+		<block name="cntDuffle01" prob="0.03"/>
+		<block name="cntSportsBag01" prob="0.03"/>
+		<block name="cntSportsBag02" prob="0.03"/>
+		<block name="cntPurse01" prob="0.03"/>
+		<block name="cntDeskSafe" prob="0.03"/>
+	</placeholder>
+
+	<!-- Replace the lootDesert with one of the following -->
+	<placeholder name="cntDesertRandomLootHelper">
+		<block name="cntTrashPile01" prob="0.1"/>
+		<block name="cntTrashPile02" prob="0.1"/>
+		<block name="cntTrashPile03" prob="0.1"/>
+		<block name="cntTrashPile04" prob="0.1"/>
+		<block name="cntTrashPile05" prob="0.1"/>
+		<block name="cntTrashPile06" prob="0.1"/>
+		<block name="cntTrashPile07" prob="0.1"/>
+		<block name="cntTrashPile08" prob="0.1"/>
+		<block name="cntTrashPile09" prob="0.1"/>
+		<block name="cntBackpack01" prob="0.03"/>
+		<block name="cntBackpack03" prob="0.03"/>
+		<block name="cntDuffle01" prob="0.03"/>
+		<block name="cntSportsBag01" prob="0.03"/>
+		<block name="cntSportsBag02" prob="0.03"/>
+		<block name="cntPurse01" prob="0.03"/>
+	</placeholder>
+
+	<!-- Replace the lootBurntForest with one of the following -->
+	<placeholder name="cntBurntForestRandomLootHelper">
+		<block name="cntTrashPile01" prob="0.1"/>
+		<block name="cntTrashPile02" prob="0.1"/>
+		<block name="cntTrashPile03" prob="0.1"/>
+		<block name="cntTrashPile04" prob="0.1"/>
+		<block name="cntTrashPile05" prob="0.1"/>
+		<block name="cntTrashPile06" prob="0.1"/>
+		<block name="cntTrashPile07" prob="0.1"/>
+		<block name="cntTrashPile08" prob="0.1"/>
+		<block name="cntTrashPile09" prob="0.1"/>
+	</placeholder>
+
+	<!-- Replace the lootHouse with one of the following -->
+	<placeholder name="cntHouseRandomLootHelper">
+		<block name="cntTrashPile01"/>
+		<block name="cntTrashPile02"/>
+		<block name="cntTrashPile03"/>
+		<block name="cntTrashPile04"/>
+		<block name="cntTrashPile05"/>
+		<block name="cntTrashPile06"/>
+		<block name="cntTrashPile07"/>
+		<block name="cntTrashPile08"/>
+		<block name="cntTrashPile09"/>
+		<block name="cntChest01"/>
+		<block name="cntCardboardBox"/>
+		<block name="cntBin"/>
+		<block name="cntSuitcase"/>
+		<block name="cntBackpack01"/>
+		<block name="cntBackpack03"/>
+		<block name="cntDuffle01"/>
+		<block name="cntSportsBag01"/>
+		<block name="cntSportsBag02"/>
+		<block name="cntPurse01"/>
+	</placeholder>
+
+	<!-- Replace the lootStreet with one of the following -->
+	<placeholder name="cntStreetRandomLootHelper">
+		<block name="cntTrashPile01"/>
+		<block name="cntTrashPile02"/>
+		<block name="cntTrashPile03"/>
+		<block name="cntTrashPile04"/>
+		<block name="cntTrashPile05"/>
+		<block name="cntTrashPile06"/>
+		<block name="cntTrashPile07"/>
+		<block name="cntTrashPile08"/>
+		<block name="cntTrashPile09"/>
+		<block name="cntShoppingCart" prob="0.05"/>
+		<block name="cntShoppingCartEmpty" prob="0.75"/>
+		<block name="cntBackpack01" prob="0.05"/>
+		<block name="cntBackpack03" prob="0.05"/>
+		<block name="cntDuffle01" prob="0.05"/>
+		<block name="cntSportsBag01" prob="0.05"/>
+		<block name="cntSportsBag02" prob="0.05"/>
+		<block name="cntPurse01" prob="0.05"/>
+	</placeholder>
+
+	<!-- Replace the lootYard with one of the following -->
+	<placeholder name="cntYardRandomLootHelper">
+		<block name="cntTrashPile07" prob="0.5"/>
+		<block name="cntCardboardBox" prob="0.2"/>
+		<block name="cntBackpack01" prob="0.03"/>
+		<block name="cntBackpack03" prob="0.03"/>
+		<block name="cntDuffle01" prob="0.03"/>
+		<block name="cntSportsBag01" prob="0.03"/>
+		<block name="cntSportsBag02" prob="0.03"/>
+		<block name="cntPurse01" prob="0.03"/>
+	</placeholder>
+
+	<placeholder name="carsRandomHelper">
+		<block name="cntCar03SedanDamage0v01" prob="1"/>
+		<block name="cntCar03SedanDamage0v02" prob="1"/>
+		<block name="cntCar03SedanDamage0v03" prob="1"/>
+		<block name="cntCar03SedanDamage0v04" prob="1"/>
+		<block name="cntCar03SedanDamage0v05" prob="1"/>
+		<block name="cntCar03SedanDamage0v06" prob="1"/>
+		<block name="cntCar03SedanDamage0v07" prob="1"/>
+
+		<block name="cntCar03SedanDamage1v01" prob="0.5"/>
+		<block name="cntCar03SedanDamage1v02" prob="0.5"/>
+		<block name="cntCar03SedanDamage1v03" prob="0.5"/>
+		<block name="cntCar03SedanDamage1v04" prob="0.5"/>
+		<block name="cntCar03SedanDamage1v05" prob="0.5"/>
+		<block name="cntCar03SedanDamage1v06" prob="0.5"/>
+		<block name="cntCar03SedanDamage1v07" prob="0.5"/>
+
+		<block name="cntCar03SedanDamage2v01" prob="3"/>
+		<block name="cntCar03SedanDamage2v02" prob="3"/>
+		<block name="cntCar03SedanDamage2v03" prob="3"/>
+		<block name="cntCar03SedanDamage2v04" prob="3"/>
+		<block name="cntCar03SedanDamage2v05" prob="3"/>
+		<block name="cntCar03SedanDamage2v06" prob="3"/>
+		<block name="cntCar03SedanDamage2v07" prob="3"/>
+	</placeholder>
+
+	<placeholder name="carWrecksRandomHelper">
+		<block name="cntCar03SedanDamage2v01" prob="3"/>
+		<block name="cntCar03SedanDamage2v02" prob="3"/>
+		<block name="cntCar03SedanDamage2v03" prob="3"/>
+		<block name="cntCar03SedanDamage2v04" prob="3"/>
+		<block name="cntCar03SedanDamage2v05" prob="3"/>
+		<block name="cntCar03SedanDamage2v06" prob="3"/>
+		<block name="cntCar03SedanDamage2v07" prob="3"/>
+		<block name="cntCar03SedanDamage2v08" prob=".8"/>
+	</placeholder>
+
+	<!-- Replace the lootYard with one of the following -->
+	<placeholder name="cntGarageRandomLootHelper">
+		<block name="cntGarageStorage" prob="0.2"/>
+		<block name="cntTrashPile02" prob="0.5"/>
+		<block name="cntCardboardBox" prob="0.2"/>
+		<block name="cntBackpack01" prob="0.03"/>
+		<block name="cntBackpack03" prob="0.03"/>
+		<block name="cntDuffle01" prob="0.03"/>
+		<block name="cntSportsBag01" prob="0.03"/>
+		<block name="cntSportsBag02" prob="0.03"/>
+		<block name="cntPurse01" prob="0.03"/>
+	</placeholder>
+
+	<!-- Replaces the lootMP with one of the following -->
+	<placeholder name="cntMPRandomLootHelper">
+		<!--block name="supplyCrate" prob="0.1" /-->
+	</placeholder>
+
+	<!-- random "tossed away" metal sheet decoration for prefabs  -->
+	<placeholder name="metalSheetRandomHelper">
+		<block name="corrugatedMetalSheetBent1"/>
+		<block name="corrugatedMetalSheetBent2"/>
+		<block name="corrugatedMetalSheetBent3"/>
+		<block name="corrugatedMetalSheetBent4"/>
+	</placeholder>
+
+	<placeholder name="woodSheetRandomHelper">
+		<block name="woodFenceSheetBent1"/>
+		<block name="woodFenceSheetBent2"/>
+		<block name="woodFenceSheetBent3"/>
+		<block name="woodFenceSheetBent4"/>
+	</placeholder>
+
+	<placeholder name="cntMicrowaveOvenRandomLootHelper">
+		<block name="cntMicrowaveOvenVer1Open" prob=".65"/>
+		<block name="cntMicrowaveOvenVer1Closed" prob=".35"/>
+	</placeholder>
+
+	<placeholder name="cntCabinetBottomRandomLootHelper">
+		<block name="cntCabinetBottomOpen" prob=".65"/>
+		<block name="cntCabinetBottom" prob=".35"/>
+	</placeholder>
+
+	<placeholder name="cntCabinetOldBottomLootHelper">
+		<block name="cntCabinetOldBottomOpen" prob=".65"/>
+		<block name="cntCabinetOldBottom" prob=".35"/>
+	</placeholder>
+
+	<placeholder name="cntRetroFridgeRandomLootHelper">
+		<block name="cntRetroFridgeVer2Open" prob=".65"/>
+		<block name="cntRetroFridgeVer1Closed" prob=".35"/>
+	</placeholder>
+
+	<placeholder name="cntFridgeStainlessSteelRandomLootHelper">
+		<block name="cntFridgeStainlessSteelVer2Open" prob=".65"/>
+		<block name="cntFridgeStainlessSteel" prob=".35"/>
+	</placeholder>
+
+	<placeholder name="cntQuestRandomLootHelper">
+		<block name="cntFetchQuestSatchel" prob="1" questtag="fetch"/>
+		<block name="cntFetchQuestSatchel" prob="1" questtag="hidden_cache"/>
+		<block name="cntPurse01"/>
+		<block name="cntSuitcase"/>
+		<block name="cntBackpack01"/>
+		<block name="cntBackpack03"/>
+		<block name="cntMedicalPileSmall" prob=".8"/>
+		<block name="cntMedicalPileMedium" prob=".2"/>
+		<block name="cntAmmoPileSmall" prob=".8"/>
+		<block name="cntAmmoPileMedium" prob=".2"/>
+		<block name="cntFoodPileSmall" prob=".4"/>
+		<block name="cntFoodPileMedium" prob=".1"/>
+	</placeholder>
+
+		<!-- <block name="cntChest01" prob="1"/> -->
+		<!-- <block name="cntDeskSafe" prob="1"/> -->
+		<!--
+		<block name="cntBackpack01" prob="1"/>
+		<block name="cntBackpack03" prob="1"/>
+		<block name="cntDuffle01" prob="1"/>
+		<block name="cntSportsBag01" prob="1"/>
+		<block name="cntSportsBag02" prob="1"/>
+		-->
+
+
+	<!-- Random stone/resource -->
+	<placeholder name="terrStoneRandomLootHelper">
+		<block name="terrStone" prob="80"/>
+		<block name="terrOreIron" prob="12"/>
+		<block name="terrOreCoal" prob="2.5"/>
+		<block name="terrOrePotassiumNitrate" prob="2.5"/>
+		<block name="terrOreLead" prob="2.5"/>
+		<block name="terrOreSilver" prob="0.5"/>
+	</placeholder>
+
+	<!-- stone terrain block tailired to biomes -->
+	<placeholder name="terrStoneHelper">
+		<block name="terrSnowyStone" biome="snow"/>
+		<block name="terrStone" biome="pine_forest"/>
+		<block name="terrSandStone" biome="desert"/>
+		<block name="terrStone" biome="water"/>
+		<block name="terrStone" biome="wasteland"/>
+		<block name="terrStone" biome="burnt_forest"/>
+		<block name="terrStone" biome="water"/>
+	</placeholder>
+
+	<placeholder name="terrOreStoneIronRandom">
+		<block name="terrOreIron" prob="0.43"/>
+		<block name="terrStone" prob="0.6" biome="snow"/>
+		<block name="terrStone" prob="0.6" biome="pine_forest"/>
+		<block name="terrSandStone" prob="0.6" biome="desert"/>
+		<block name="terrStone" prob="0.6" biome="water"/>
+		<block name="terrStone" prob="0.6" biome="wasteland"/>
+		<block name="terrStone" prob="0.6" biome="burnt_forest"/>
+		<block name="terrStone" prob="0.6" biome="water"/>
+	</placeholder>
+	<placeholder name="terrOreStoneLeadRandom">
+		<block name="terrOreLead" prob="0.43"/>
+		<block name="terrStone" prob="0.6" biome="snow"/>
+		<block name="terrStone" prob="0.6" biome="pine_forest"/>
+		<block name="terrSandStone" prob="0.6" biome="desert"/>
+		<block name="terrStone" prob="0.6" biome="water"/>
+		<block name="terrStone" prob="0.6" biome="wasteland"/>
+		<block name="terrStone" prob="0.6" biome="burnt_forest"/>
+		<block name="terrStone" prob="0.6" biome="water"/>
+	</placeholder>
+	<placeholder name="terrOreStoneCoalRandom">
+		<block name="terrOreCoal" prob="0.43"/>
+		<block name="terrStone" prob="0.6" biome="snow"/>
+		<block name="terrStone" prob="0.6" biome="pine_forest"/>
+		<block name="terrSandStone" prob="0.6" biome="desert"/>
+		<block name="terrStone" prob="0.6" biome="water"/>
+		<block name="terrStone" prob="0.6" biome="wasteland"/>
+		<block name="terrStone" prob="0.6" biome="burnt_forest"/>
+		<block name="terrStone" prob="0.6" biome="water"/>
+	</placeholder>
+	<placeholder name="terrOreStonePotassiumRandom">
+		<block name="terrOrePotassiumNitrate" prob="0.43"/>
+		<block name="terrStone" prob="0.6" biome="snow"/>
+		<block name="terrStone" prob="0.6" biome="pine_forest"/>
+		<block name="terrSandStone" prob="0.6" biome="desert"/>
+		<block name="terrStone" prob="0.6" biome="water"/>
+		<block name="terrStone" prob="0.6" biome="wasteland"/>
+		<block name="terrStone" prob="0.6" biome="burnt_forest"/>
+		<block name="terrStone" prob="0.6" biome="water"/>
+	</placeholder>
+	<placeholder name="terrOreStoneOilRandom">
+		<block name="terrOreOilDeposit" prob="0.43"/>
+		<block name="terrStone" prob="0.6" biome="snow"/>
+		<block name="terrStone" prob="0.6" biome="pine_forest"/>
+		<block name="terrSandStone" prob="0.6" biome="desert"/>
+		<block name="terrStone" prob="0.6" biome="water"/>
+		<block name="terrStone" prob="0.6" biome="wasteland"/>
+		<block name="terrStone" prob="0.6" biome="burnt_forest"/>
+		<block name="terrStone" prob="0.6" biome="water"/>
+	</placeholder>
+
+	<placeholder name="cntToolsAndForgeRandomLootHelper">
+		<block name="cntShippingCrateWorkingStiffs" prob="30"/>
+		<block name="cntGarageStorage" prob="30"/>
+		<block name="cntCollapsedGeneratorbank" prob="20"/>
+		<block name="forge" prob="30"/>
+		<block name="cntCollapsedForge" prob="30"/>
+	</placeholder>
+
+	<placeholder name="cntStoreCratesRandomLootHelper">
+		<block name="cntShippingCrateShamway" prob="30"/>
+		<block name="cntShippingCrateShotgunMessiah" prob="30"/>
+		<block name="cntShippingCrateWorkingStiffs" prob="30"/>
+	</placeholder>
+
+	<placeholder name="cntWorkstationsRandomLootHelper">
+		<block name="forge" prob="30"/>
+		<block name="workbench" prob="30"/>
+		<block name="chemistryStation" prob="20"/>
+		<block name="cementMixer" prob="20"/>
+	</placeholder>
+
+	<placeholder name="cntWorkstationsBustedRandomLootHelper">
+		<block name="forge" prob="1"/>
+		<block name="cntCollapsedForge" prob="10"/>
+		<block name="workbench" prob="1"/>
+		<block name="cntCollapsedWorkbench" prob="10"/>
+		<block name="cementMixer" prob="0.6"/>
+		<block name="cntCollapsedCementMixer" prob="6"/>
+		<block name="chemistryStation" prob="0.6"/>
+		<block name="cntCollapsedChemistryStation" prob="6"/>
+	</placeholder>
+
+	<placeholder name="cntForgeBustedRandomLootHelper">
+		<block name="forge" prob="1"/>
+		<block name="cntCollapsedForge" prob="10"/>
+	</placeholder>
+	<placeholder name="cntWorkbenchBustedRandomLootHelper">
+		<block name="workbench" prob="1"/>
+		<block name="cntCollapsedWorkbench" prob="10"/>
+	</placeholder>
+	<placeholder name="cntCementMixerBustedRandomLootHelper">
+		<block name="cementMixer" prob="0.6"/>
+		<block name="cntCollapsedCementMixer" prob="6"/>
+	</placeholder>
+	<placeholder name="cntChemistryStationBustedRandomLootHelper">
+		<block name="chemistryStation" prob="0.6"/>
+		<block name="cntCollapsedChemistryStation" prob="6"/>
+	</placeholder>
+
+	<!-- Note that these cannot reference themselves -->
+	<placeholder name="cntConstructionSuppliesRandomLootHelper">
+		<block name="cntLootCrateConstructionSupplies" prob="16"/>
+		<block name="cementMixer" prob="0.2"/>
+		<block name="cntCollapsedGeneratorbank" prob="0.25"/>
+		<block name="cntCollapsedBatterybank" prob="0.1"/>
+		<block name="cntLootCrateWorkingStiffs"/>
+		<block name="airConditioner"/>
+		<block name="oilBarrel"/>
+		<block name="cntToilet01"/>
+		<block name="cntToilet02"/>
+		<block name="cntToilet03"/>
+		<block name="sectionalLeatherCouchSofaCorner"/>
+		<block name="sectionalLeatherCouchSofaMiddle"/>
+		<block name="cntGraniteSink"/>
+		<block name="cntCabinetBottom"/>
+		<block name="cntCupboardCabinetRedTopClosed"/>
+		<block name="cntWallOven"/>
+		<block name="cntWashingMachine" prob="0.5"/>
+		<block name="cntTrashCompactor"/>
+	</placeholder>
+
+	<placeholder name="cntBathTubsRandomLootHelper">
+		<block name="cntBathTubEmpty" prob="0.8"/>
+		<block name="cntBathTubGore" prob="0.2"/>
+	</placeholder>
+
+	<placeholder name="cntCashRegisterRandomLootHelper">
+		<block name="air" prob="0.05"/>
+		<block name="cntCashRegisterEmpty" prob="0.75"/>
+		<block name="cntCashRegister" prob="0.25"/>
+	</placeholder>
+
+	<placeholder name="cntShoppingCartRandomLootHelper">
+		<block name="cntShoppingCartEmpty" prob="0.75"/>
+		<block name="cntShoppingCart" prob="0.25"/>
+	</placeholder>
+
+	<placeholder name="cntShoppingBasketRandomLootHelper">
+		<block name="cntShoppingBasketEmpty" prob=".66"/>
+		<block name="cntShoppingBasket" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="paintingPictureRandomHelper">
+		<block name="paintingBen" prob="1"/>
+		<block name="paintingLorien" prob="1"/>
+		<block name="paintingDerek" prob="1"/>
+		<block name="paintingNoah" prob="1"/>
+		<block name="paintingDuke" prob="1"/>
+		<block name="paintingKen" prob="1"/>
+	</placeholder>
+
+	<placeholder name="cntPaintingPictureSafeRandomLootHelper">
+		<block name="hiddenSafePaintingBen" prob="1"/>
+		<block name="hiddenSafePaintingLorien" prob="1"/>
+		<block name="hiddenSafePaintingDerek" prob="1"/>
+		<block name="hiddenSafePaintingNoah" prob="1"/>
+		<block name="hiddenSafePaintingDuke" prob="1"/>
+		<block name="hiddenSafePaintingKen" prob="1"/>
+	</placeholder>
+
+	<placeholder name="cntWallSafeRandomLootHelper">
+		<block name="air" prob="0.75"/>
+		<block name="cntWallSafe" prob="0.25"/>
+	</placeholder>
+
+	<placeholder name="cntStoveOldRandomLootHelper">
+		<block name="cntStoveOldVer1Closed" prob="0.6"/>
+		<block name="cntStoveOldVer2Open" prob="0.4"/>
+	</placeholder>
+
+	<placeholder name="cntLaundryBasketRandomLootHelper">
+		<block name="cntLaundryBasketVer1Empty" prob="0.6"/>
+		<block name="cntLaundryBasketVer2Full" prob="0.4"/>
+	</placeholder>
+
+	<placeholder name="cntCupboardCabinetOldTopLootHelper">
+		<block name="cntCupboardCabinetOldTopOpen" prob=".65"/>
+		<block name="cntCupboardCabinetOldTopClosed" prob=".35"/>
+	</placeholder>
+
+	<placeholder name="cntCupboardCabinetRedTopLootHelper">
+		<block name="cntCupboardCabinetRedTopOpen" prob=".65"/>
+		<block name="cntCupboardCabinetRedTopClosed" prob=".35"/>
+	</placeholder>
+
+	<placeholder name="cntWoodDesk01RandomLootHelper">
+		<block name="cntWoodDesk01Open" prob=".65"/>
+		<block name="cntWoodDesk01Closed" prob=".35"/>
+	</placeholder>
+
+	<placeholder name="cntMetalDesk02RandomLootHelper">
+		<block name="cntMetalDesk02Open" prob=".65"/>
+		<block name="cntMetalDesk02Closed" prob=".35"/>
+	</placeholder>
+
+	<placeholder name="cntBagsRandomLootHelper">
+		<block name="air" prob="25"/>
+		<block name="cntTrashPile08" prob="12.5"/>
+		<block name="cntTrashPile09" prob="12.5"/>
+		<block name="cntBackpack01" prob="7.1"/>
+		<block name="cntBackpack03" prob="7.1"/>
+		<block name="cntDuffle01" prob="7.1"/>
+		<block name="cntSportsBag01" prob="7.1"/>
+		<block name="cntSportsBag02" prob="7.1"/>
+		<block name="cntPurse01" prob="7.1"/>
+		<block name="cntSuitcase" prob="7.1"/>
+	</placeholder>
+
+	<placeholder name="cntBookcaseGoodRandomLootHelper">
+		<block name="cntBookcaseFull" prob=".6"/>
+		<block name="cntBookcaseEmpty" prob=".4"/>
+	</placeholder>
+
+	<placeholder name="cntBookcasePoorRandomLootHelper">
+		<block name="cntBookcaseFull" prob=".3"/>
+		<block name="cntBookcaseEmpty" prob=".7"/>
+	</placeholder>
+
+	<placeholder name="metalCatwalkTrapRandomHelper">
+		<block name="metalCatwalk" prob=".85"/>
+		<block name="metalCatwalkTrap" prob=".15"/>
+	</placeholder>
+
+	<placeholder name="metalCatwalkBentTrapRandomHelper">
+		<block name="metalCatwalkBent" prob=".6"/>
+		<block name="metalCatwalkBentTrap" prob=".4"/>
+	</placeholder>
+
+	<placeholder name="metalCatwalkRailing2BentTrapRandomHelper">
+		<block name="metalCatwalkRailing2Bent" prob=".6"/>
+		<block name="metalCatwalkRailing2BentTrap" prob=".4"/>
+	</placeholder>
+
+	<placeholder name="imposterRaycastBlockerHelper">
+		<block name="air"/>
+	</placeholder>
+
+	<placeholder name="cntLockersShortRandomLootHelper">
+		<block name="cntLockersShortOpen" prob=".66"/>
+		<block name="cntLockersShortClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntLockersTallRandomLootHelper">
+		<block name="cntLockersTallOpen" prob=".66"/>
+		<block name="cntLockersTallClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntLockersTallDoubleRandomLootHelper">
+		<block name="cntLockersTallDoubleOpen" prob=".66"/>
+		<block name="cntLockersTallDoubleClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntLockersTallMixRandomLootHelper">
+		<block name="cntLockersTallMixOpen" prob=".66"/>
+		<block name="cntLockersTallMixClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntLockersTallMixLinkRandomLootHelper">
+		<block name="cntLockersTallMixLinkOpen" prob=".66"/>
+		<block name="cntLockersTallMixLinkClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntGasGrillRandomLootHelper">
+		<block name="cntGasGrillOpen" prob=".66"/>
+		<block name="cntGasGrillClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntCharcoalGrillRandomLootHelper">
+		<block name="cntCharcoalGrillOpen" prob=".66"/>
+		<block name="cntCharcoalGrillClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntNightstandRandomLootHelper">
+		<block name="cntNightstandOpen" prob=".66"/>
+		<block name="cntNightstandClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntFileCabinetShortRandomLootHelper">
+		<block name="cntFileCabinetShortOpen" prob=".66"/>
+		<block name="cntFileCabinetShortClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntFileCabinetTallRandomLootHelper">
+		<block name="cntFileCabinetTallOpen" prob=".66"/>
+		<block name="cntFileCabinetTallClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntCoolerRandomLootHelper">
+		<block name="cntCoolerOpen" prob=".66"/>
+		<block name="cntCoolerClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntVendingMachine2RandomLootHelper">
+		<block name="cntVendingMachine2Broken" prob=".66"/>
+		<block name="cntVendingMachine2" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntPillCaseRandomLootHelper">
+		<block name="cntPillCaseEmpty" prob=".66"/>
+		<block name="cntPillCaseClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntMedicineCabinetFaucetRandomLootHelper">
+		<block name="cntMedicineCabinetFaucetOpen" prob=".66"/>
+		<block name="cntMedicineCabinetFaucetClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntMedicineCabinetClosedRandomLootHelper">
+		<block name="cntMedicineCabinetOpen" prob=".66"/>
+		<block name="cntMedicineCabinetClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntLuggageMediumRandomLootHelper">
+		<block name="cntLuggageMediumOpen" prob=".66"/>
+		<block name="cntLuggageMediumClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntLuggageBigRandomLootHelper">
+		<block name="cntLuggageBigOpen" prob=".66"/>
+		<block name="cntLuggageBigClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntLuggagePileARandomLootHelper">
+		<block name="cntLuggagePileAOpen" prob=".66"/>
+		<block name="cntLuggagePileAClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntLuggagePileBRandomLootHelper">
+		<block name="cntLuggagePileBOpen" prob=".66"/>
+		<block name="cntLuggagePileBClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntDomedTrashCanRandomLootHelper">
+		<block name="cntDomedTrashCanEmpty" prob=".66"/>
+		<block name="cntDomedTrashCanFull" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntBruteStyleTrashCanRandomLootHelper">
+		<block name="cntBruteStyleTrashCanEmpty" prob=".66"/>
+		<block name="cntBruteStyleTrashCanFull" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntTiltTruckRandomLootHelper">
+		<block name="cntTiltTruckEmpty" prob=".66"/>
+		<block name="cntTiltTruckFull" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntUtilityCartRandomLootHelper">
+		<block name="cntUtilityCartEmpty" prob=".66"/>
+		<block name="cntUtilityCartFull" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntWasherRandomLootHelper">
+		<block name="cntWasherOpen" prob=".66"/>
+		<block name="cntWasherClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntDryerRandomLootHelper">
+		<block name="cntDryerOpen" prob=".66"/>
+		<block name="cntDryerClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntToolBoxRandomLootHelper">
+		<block name="cntToolBoxOpen" prob=".66"/>
+		<block name="cntToolBoxClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntRollingToolBoxRandomLootHelper">
+		<block name="cntRollingToolBoxOpen" prob=".66"/>
+		<block name="cntRollingToolBoxClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="cntModularClosetRandomLootHelper">
+		<block name="cntModularClosetOpen" prob=".66"/>
+		<block name="cntModularClosetClosed" prob=".33"/>
+	</placeholder>
+
+	<placeholder name="treeSmallRandomHelper">
+		<block name="treeWinterEverGreen" prob="1.0" biome="snow" randomrotation="true"/>
+		<block name="treeWinterPine13m" prob="1.0" biome="snow" randomrotation="true"/>
+		<block name="treeMountainPine12m" prob="1.0" biome="pine_forest" randomrotation="true"/>
+		<block name="treeMountainPine19m" prob="1.0" biome="pine_forest" randomrotation="true"/>
+		<block name="treeOakSml01" prob="1.0" biome="pine_forest" randomrotation="true"/>
+		<block name="treeCactus03" prob="1.0" biome="desert" randomrotation="true"/>
+		<block name="treeCactus02" prob="1.0" biome="desert" randomrotation="true"/>
+		<block name="treeCactus01" prob="1.0" biome="desert" randomrotation="true"/>
+		<block name="treeOakSml01" prob="1.0" biome="desert" randomrotation="true"/>
+		<block name="treeBurntMaple01" prob="1.0" biome="wasteland" randomrotation="true"/>
+		<block name="treeDeadTree01" prob="1.0" biome="burnt_forest" randomrotation="true"/>
+		<block name="treeBurntMaple01" prob="1.0" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="treeMediumRandomHelper">
+		<block name="treeWinterPine19m" prob="1.0" biome="snow" randomrotation="true"/>
+		<block name="treeMountainPine27m" prob="1.0" biome="pine_forest" randomrotation="true"/>
+		<block name="treeMountainPineDry21m" prob="1.0" biome="pine_forest" randomrotation="true"/>
+		<block name="treeOakMed01" prob="1.0" biome="pine_forest" randomrotation="true"/>
+		<block name="treeCactus03" prob="0.5" biome="desert" randomrotation="true"/>
+		<block name="treeCactus02" prob="0.5" biome="desert" randomrotation="true"/>
+		<block name="treeCactus01" prob="0.5" biome="desert" randomrotation="true"/>
+		<block name="treeOakSml01" prob="1.0" biome="desert" randomrotation="true"/>
+		<block name="treeOakMed01" prob="1.0" biome="desert" randomrotation="true"/>
+		<block name="treeBurntMaple02" prob="1.0" biome="wasteland" randomrotation="true"/>
+		<block name="treeBurntMaple02" prob="1.0" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="treeLargeRandomHelper">
+		<block name="treeWinterPine28m" prob="1.0" biome="snow" randomrotation="true"/>
+		<block name="treeMountainPine31m" prob="1.0" biome="pine_forest" randomrotation="true"/>
+		<block name="treeOakMed01" prob="1.0" biome="pine_forest" randomrotation="true"/>
+		<block name="treeFirLrg01" prob="1.0" biome="pine_forest" randomrotation="true"/>
+		<block name="treeCactus03" prob="0.15" biome="desert" randomrotation="true"/>
+		<block name="treeCactus02" prob="0.15" biome="desert" randomrotation="true"/>
+		<block name="treeCactus01" prob="0.15" biome="desert" randomrotation="true"/>
+		<block name="treeOakMed01" prob="1.0" biome="desert" randomrotation="true"/>
+		<block name="treeBurntMaple03" prob="1.0" biome="wasteland" randomrotation="true"/>
+		<block name="treeMountainPineDry21m" prob="1.0" biome="wasteland" randomrotation="true"/>
+		<block name="treeBurntMaple03" prob="1.0" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="plantedtreeGrassSeedRandomHelper">
+		<block name="treeSnowyGrassDiagonal" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" biome="underwater" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+
+	<placeholder name="plantedCornHarvestRandomHelper">
+		<block name="plantedCorn3Harvest" prob="0.06" randomrotation="true"/>
+		<block name="plantedCorn2Deco" prob="0.03" randomrotation="true"/>
+		<block name="air" prob=".87"/>
+		<block name="plantedCornDead" prob="0.11" randomrotation="true"/>
+		<block name="treeSnowyGrassDiagonal" prob="0.321" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" prob="0.321" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.321" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.321" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.321" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.321" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="plantedYucca3HarvestRandomHelper">
+		<block name="plantedYucca3Harvest" prob="0.086" randomrotation="true"/>
+		<block name="air" prob=".87"/>
+		<block name="treeSnowyGrassDiagonal" prob="0.431" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" prob="0.431" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="plantedCottonHarvestRandomHelper">
+		<block name="plantedCotton3Harvest" prob="0.086" randomrotation="true"/>
+		<block name="air" prob=".87"/>
+		<block name="treeSnowyGrassDiagonal" prob="0.431" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" prob="0.431" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="plantedCoffeeHarvestRandomHelper">
+		<block name="plantedCoffee3Harvest" prob="0.086" randomrotation="true"/>
+		<block name="air" prob=".87"/>
+		<block name="treeSnowyGrassDiagonal" prob="0.431" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" prob="0.431" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="plantedGoldenrodHarvestRandomHelper">
+		<block name="plantedGoldenrod3Harvest" prob="0.086" randomrotation="true"/>
+		<block name="air" prob=".87"/>
+		<block name="treeSnowyGrassDiagonal" prob="0.431" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" prob="0.431" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="plantedAloeHarvestRandomHelper">
+		<block name="plantedAloe3Harvest" prob="0.086" randomrotation="true"/>
+		<block name="air" prob=".87"/>
+		<block name="treeSnowyGrassDiagonal" prob="0.431" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" prob="0.431" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="plantedBlueberryHarvestRandomHelper">
+		<block name="plantedBlueberry3Harvest" prob="0.086" randomrotation="true"/>
+		<block name="air" prob=".87"/>
+		<block name="treeSnowyGrassDiagonal" prob="0.431" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" prob="0.431" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="plantedPotatoHarvestRandomHelper">
+		<block name="plantedPotato3Harvest" prob="0.086" randomrotation="true"/>
+		<block name="air" prob=".87"/>
+		<block name="treeSnowyGrassDiagonal" prob="0.431" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" prob="0.431" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="plantedChrysanthemumHarvestRandomHelper">
+		<block name="plantedChrysanthemum3Harvest" prob="0.086" randomrotation="true"/>
+		<block name="air" prob=".87"/>
+		<block name="treeSnowyGrassDiagonal" prob="0.431" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" prob="0.431" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="plantedGraceCornHarvestRandomHelper">
+		<block name="plantedGraceCorn3Harvest" prob="0.086" randomrotation="true"/>
+		<block name="air" prob=".87"/>
+		<block name="treeSnowyGrassDiagonal" prob="0.431" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" prob="0.431" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="plantedHopHarvestRandomHelper">
+		<block name="plantedHop3Harvest" prob="0.086" randomrotation="true"/>
+		<block name="air" prob="0.1"/>
+		<block name="treeSnowyGrassDiagonal" prob="0.431" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" prob="0.431" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<placeholder name="plantedPumpkin3HarvestRandomHelper">
+		<block name="plantedPumpkin3Harvest" prob="0.086" randomrotation="true"/>
+		<block name="air" prob="0.1"/>
+		<block name="treeSnowyGrassDiagonal" prob="0.431" biome="snow" randomrotation="true"/>
+		<block name="treeTallGrassDiagonal" prob="0.431" biome="pine_forest" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="desert" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="water" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="wasteland" randomrotation="true"/>
+		<block name="treeBrownGrassDiagonal" prob="0.431" biome="burnt_forest" randomrotation="true"/>
+	</placeholder>
+
+	<!-- You CAN now use an air block and create random non-blocks.
+		The downside is that there will be no error message if a NAMED block is not found (misspelled),
+		In that case an air block is spawned instead.
+
+		Loot PLACEHOLDER blocks themselves are NOT allowed to be multiblocks !
+		(you get that model in every single block of the multiblock if you do) -->
+</blockplaceholders>

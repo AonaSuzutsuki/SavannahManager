@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.Views
 {
@@ -22,19 +23,9 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Views
     /// </summary>
     public partial class InitializeWindow : Window
     {
-        InitializeWindowModel model;
-        public InitializeWindow(SettingLoader settingLoader)
+        public InitializeWindow()
         {
             InitializeComponent();
-
-            model = new InitializeWindowModel(settingLoader, MainFrame.NavigationService);
-            var vm = new ViewModels.InitializeWindowViewModel(this, model);
-            DataContext = vm;
-        }
-
-        public InitializeData GetInitializeData()
-        {
-            return model.SharedInitializeData;
         }
     }
 }

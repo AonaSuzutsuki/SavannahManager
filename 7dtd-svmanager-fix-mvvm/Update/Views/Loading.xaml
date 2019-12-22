@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:app="clr-namespace:LanguageEx"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
@@ -52,7 +52,7 @@
         <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
-            <!--<Button Name="MainWindowCloseBT" Content="r" Style="{DynamicResource CaptionButtonStyleKey}" Click="MainWindowCloseBT_Click" />-->
+            <!--<Button Name="MainWindowCloseBt" Content="r" Style="{DynamicResource CaptionButtonStyleKey}" Click="MainWindowCloseBt_Click" />-->
         </StackPanel>
         <Grid Margin="5,30,5,5">
             <Grid.RowDefinitions>

@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 {
     public class LoadingViewModel : ViewModelBase
     {
         LoadingModel model;
-        public LoadingViewModel(Window view, LoadingModel model) : base(view, model)
+        public LoadingViewModel(WindowService windowService, LoadingModel model) : base(windowService, model)
         {
             this.model = model;
         }

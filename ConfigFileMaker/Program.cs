@@ -1,5 +1,5 @@
-﻿using CommonExtensionLib.Extensions;
-using SvManagerLibrary.XMLWrapper;
+﻿using CommonCoreLib.XMLWrapper;
+using CommonExtensionLib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,8 +14,8 @@ namespace ConfigFileMaker
     {
         static void Main(string[] args)
         {
-            var writer = new Writer();
-            writer.SetRoot("ServerSettings");
+            var writer = new CommonXmlWriter();
+            var root = writer.CreateRoot("ServerSettings");
 
             var text = GetInnerXml(File.ReadAllText("serverconfig.xml"));
             var regex = new Regex("^( |\\t)*<property( |\\t)+name=\"(?<name>.*)\"( |\\t)+value=\"(?<value>.*)\"( |\\t)*\\/>( |\\t)*([\r\n])*( |\t)*<!--(?<description>.*)-->",
@@ -49,19 +49,20 @@ namespace ConfigFileMaker
                 };
                 description = AddDescription(attributes, description);
 
-                writer.AddElement("property", attributes.ToArray(), description);
+                var elem = writer.CreateElement("property", attributes.ToArray(), description);
+                root.Append(elem);
 
                 match = match.NextMatch();
             }
 
             var memory = new MemoryStream();
-            writer.Write(memory);
+            writer.Write(memory, root);
             Console.WriteLine(Encoding.UTF8.GetString(memory.ToArray()));
         }
 
         static string AddDescription(List<AttributeInfo> attributeInfos, string description)
         {
-            var reader = new Reader("template.xml");
+            var reader = new CommonXmlReader("template.xml");
 
             string name = attributeInfos[0].Value;
             var value = reader.GetValue("/ServerSettings/property[@name='{0}']".FormatString(name), true, false);

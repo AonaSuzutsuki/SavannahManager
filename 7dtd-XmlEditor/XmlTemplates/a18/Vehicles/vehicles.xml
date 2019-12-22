@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vehicles>
+
+  <names>
+    <name name="vehicleGyrocopter" value="Gyrocopter" />
+    <name name="vehicleJokeblimp" value="Jokeblimp" />
+    <name name="vehicleBicycle" value="Bicycle" />
+    <name name="vehicleMinibike" value="Minibike" />
+    <name name="vehicleMotorcycle" value="Motorcycle" />
+    <name name="vehicle4x4Truck" value="4x4Truck" />
+
+    <name name="cameraDistance" value="Camera Distance" />
+    <name name="velocityMax" value="Maximum Speed" />
+  </names>
+
+  <vehicle name="common">
+    <property name="cameraDistance">
+      Set the camera distance.
+      The first value is normal and the second value is the turbo(push shift key) value probably the distance from the player.
+
+      "[First Value, Turbo Value]"
+    </property>
+    <property name="cameraTurnRate">
+
+    </property>
+    <property name="motorTorqueMinQ">
+      Set a min torque of motor.
+    </property>
+    <property name="motorTorqueMaxQ">
+      Set a max torque of motor.
+    </property>
+    <property name="brakeTorque" value="10">
+      Set a brake torque.
+    </property>
+    <property name="steerRate" value="130"/>
+    <property name="steerCenteringRate" value="90"/>
+
+    <property name="tiltAngleMax" value="8"/>
+    <property name="tiltThreshold" value="2"/>
+    <property name="tiltDampening" value=".01"/>
+    <property name="tiltDampenThreshold" value="0"/>
+    <property name="tiltUpForce" value="1"/>
+    <property name="upAngleMax" value="60"/>
+    <property name="upForce" value=".5"/>
+
+    <property name="unstickForce" value="1"/>
+    <property name="velocityMax">
+      Set maximum speed of normal and turbo.
+    </property>
+    <property name="airDrag_velScale_angVelScale" value=".997, .97"/>
+    <property name="waterDrag_y_velScale_velMaxScale" value="1.5, .9, 1"/>
+    <property name="waterLift_y_depth_force" value="1, .5, .1"/>
+
+    <property name="hornSound" value="vehicle/minibike/minibike_horn"/>
+  </vehicle>
+
+</vehicles>

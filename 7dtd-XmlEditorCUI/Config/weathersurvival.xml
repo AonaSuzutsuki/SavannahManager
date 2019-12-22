@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Weather survival tuning values-->
+<weathersurvival>
+
+	<!-- Degrees per second in which heat the player generates from melee actions dissapates -->
+	<property name="GeneratedHeatDecayRate" value="0"/>
+	<!-- How much the player heats when doing melee actions that consume stamina. -->
+	<property name="DegreesPerPointOfStaminaUsed" value="0"/>
+	<!-- Maximum amount of heat that the player can generate from melee actions -->
+	<property name="MaxGeneratedHeat" value="0"/>
+	<!-- From 0-1 how much do you have to be surrounded before being considered "inside" -->
+	<property name="EnclosureDetectionThreshold" value="0.15"/>
+	<!-- How quickly in second it takes you to become fully soaked from rainfall -->
+	<!-- If players core temp is below this value they will not dry off. -->
+	<property name="DryTempCutoff" value="0"/>
+	<!-- How much change you feel in the outside air temperature when you are 100% wet. -->
+	<property name="OutsideTempChangeWhenInSun" value="0"/>
+	<!-- How much 100% cloud cover can affect how much the sun warms you. -->
+	<property name="OutsideTempChangeWhenInSunCloudScale" value="0"/>
+	<!-- How much the temp changes when you run. -->
+	<property name="OutsideTempShiftWhenRunning" value="0"/>
+	<!-- How much the temp changes when you walk. -->
+	<property name="OutsideTempShiftWhenWalking" value="0"/>
+	<!-- How much the temp changes when you are idle. -->
+	<property name="OutsideTempShiftWhenIdle" value="0"/>
+
+	<TemperatureHeight height="0" addDegrees="0"/>
+</weathersurvival>

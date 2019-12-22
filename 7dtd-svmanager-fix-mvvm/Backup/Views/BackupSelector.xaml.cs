@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using _7dtd_svmanager_fix_mvvm.Backup.Models;
 using _7dtd_svmanager_fix_mvvm.Backup.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Models;
+using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Backup.Views
 {
@@ -24,10 +26,6 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Views
         public BackupSelector()
         {
             InitializeComponent();
-
-            var model = new BackupSelectorModel();
-            var vm = new BackupSelectorViewModel(this, model);
-            this.DataContext = vm;
         }
     }
 }

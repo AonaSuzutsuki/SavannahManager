@@ -2,6 +2,7 @@
 using CommonStyleLib.Models;
 using CommonStyleLib.File;
 using System.IO;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings.Models
 {
@@ -65,6 +66,13 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
             set => base.SetProperty(ref isAutoUpdate, value);
         }
 
+        private string backupDirPath;
+        public string BackupDirPath
+        {
+            get => backupDirPath;
+            set => SetProperty(ref backupDirPath, value);
+        }
+
 
         private ShortcutKeyManager shortcutKeyManager;
         public ShortcutKeyManager ShortcutKeyManager
@@ -88,6 +96,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
                 ConsoleLength = setting.ConsoleTextLength;
                 IsBetaMode = setting.IsBetaMode;
                 IsAutoUpdate = setting.IsAutoUpdate;
+                BackupDirPath = setting.BackupDirPath;
             }
         }
 
@@ -102,6 +111,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
                 setting.ConsoleTextLength = consoleLength;
                 setting.IsBetaMode = IsBetaMode;
                 setting.IsAutoUpdate = IsAutoUpdate;
+                setting.BackupDirPath = BackupDirPath;
             }
         }
 
@@ -122,6 +132,13 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
             string adminFilePath = GetFilePath(this.adminFilePath, LangResources.SettingsResources.Filter_XmlFile, ConstantValues.ServerConfigName);
             if (!string.IsNullOrEmpty(adminFilePath))
                 AdminFilePath = adminFilePath;
+        }
+
+        public void GetBackupDirPath()
+        {
+            var dirPath = DirectorySelector.GetDirPath(this.backupDirPath);
+            if (!string.IsNullOrEmpty(dirPath))
+                BackupDirPath = dirPath;
         }
 
         private string GetFilePath(string filePathForDir, string filter, string fileName)

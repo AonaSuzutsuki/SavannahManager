@@ -2,6 +2,7 @@
 using CommonCoreLib;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -15,27 +16,49 @@ namespace _7dtd_svmanager_fix_mvvm
         private IDisposable mainWindow;
         private void MyApp_Startup(object sender, StartupEventArgs e)
         {
+            TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+
             var mainWindow = new MainWindow();
-            mainWindow.Show();
             this.mainWindow = mainWindow;
+            mainWindow.Show();
+        }
+
+        private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            if (e.ExceptionObject is Exception exception)
+            {
+                ShowAndWriteException(exception);
+                mainWindow.Dispose();
+            }
+        }
+
+        private void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            ShowAndWriteException(e.Exception);
+            mainWindow.Dispose();
         }
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            string mes = string.Format("予期せぬエラーが発生しました。\r\nお手数ですが、開発者に例外内容を報告してください。\r\n\r\n---\r\n\r\n{0}\r\n\r\n{1}",
-                e.Exception.Message, e.Exception.StackTrace);
-            MessageBox.Show(mes, "予期せぬエラー", MessageBoxButton.OK, MessageBoxImage.Error);
-
-            DateTime dt = DateTime.Now;
-            OutToFile(AppInfo.GetAppPath() + @"\error-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
-
+            ShowAndWriteException(e.Exception);
             mainWindow.Dispose();
 
             e.Handled = true;
             Shutdown();
         }
 
-        private void OutToFile(string filename, string text)
+        public static void ShowAndWriteException(Exception exception)
+        {
+            string mes = string.Format("予期せぬエラーが発生しました。\r\nお手数ですが、開発者に例外内容を報告してください。\r\n\r\n---\r\n\r\n{0}\r\n\r\n{1}",
+                exception.Message, exception.StackTrace);
+            MessageBox.Show(mes, "予期せぬエラー", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            DateTime dt = DateTime.Now;
+            OutToFile(AppInfo.GetAppPath() + @"\error-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
+        }
+
+        private static void OutToFile(string filename, string text)
         {
             using (var fs = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
             {

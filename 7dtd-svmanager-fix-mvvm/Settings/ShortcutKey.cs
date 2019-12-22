@@ -1,10 +1,10 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Models;
 using CommonExtensionLib.Extensions;
-using SvManagerLibrary.XMLWrapper;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using CommonCoreLib.XMLWrapper;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings
 {
@@ -58,7 +58,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
         {
             if (!File.Exists(basePath)) return;
 
-            var xmlBaseReader = new Reader(basePath);
+            var xmlBaseReader = new CommonXmlReader(basePath);
             var baseDic = new KeyConfigDictionary()
             {
                 { "shortcutnames", xmlBaseReader.GetAttributes("shortcutname", "shortcuts/shortcut") },
@@ -80,7 +80,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
 
             if (!File.Exists(path)) return;
 
-            var xmlReader = new Reader(path);
+            var xmlReader = new CommonXmlReader(path);
             var dic = new KeyConfigDictionary
             {
                 { "shortcutnames", xmlReader.GetAttributes("shortcutname", "shortcuts/shortcut") },
@@ -110,12 +110,12 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
 
         public void Save()
         {
-            var xmlWriter = new Writer();
-            xmlWriter.SetRoot("shortcuts");
+            var xmlWriter = new CommonXmlWriter();
+            var root = xmlWriter.CreateRoot("shortcuts");
 
-            ShortcutKeies.ForEach((key, value) => xmlWriter.AddElement("shortcut", CreateAttributeInfo(value)));
+            ShortcutKeies.ForEach((key, value) => root.Append(xmlWriter.CreateElement("shortcut", CreateAttributeInfo(value))));
 
-            xmlWriter.Write(xmlPath);
+            xmlWriter.Write(xmlPath, root);
         }
         private AttributeInfo[] CreateAttributeInfo(ShortcutKey shortcutKey)
         {

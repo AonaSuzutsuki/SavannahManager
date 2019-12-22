@@ -1,5 +1,5 @@
-﻿using SvManagerLibrary.XMLWrapper;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CommonCoreLib.XMLWrapper;
 using CommonExtensionLib.Extensions;
 
 namespace ConfigEditor_mvvm.Models
@@ -33,7 +33,7 @@ namespace ConfigEditor_mvvm.Models
         /// </summary>
         private void VersionListLoad(string templateListPath)
         {
-            var xmlReader = new Reader(templateListPath);
+            var xmlReader = new CommonXmlReader(templateListPath);
             VersionList = xmlReader.GetAttributes("version", "/root/configs/config");
             versionPathList = xmlReader.GetValues("/root/configs/config", false);
         }
@@ -48,7 +48,7 @@ namespace ConfigEditor_mvvm.Models
             {
                 var version = VersionList[index];
                 var dic = new Dictionary<string, ConfigListInfo>();
-                var baseReader = new Reader(string.Format(ConstantValues.BaseTemplateFileName, path, lang));
+                var baseReader = new CommonXmlReader(string.Format(ConstantValues.BaseTemplateFileName, path, lang));
                 var names = baseReader.GetAttributes("name", "/ServerSettings/property");
                 names.ForEach((name) =>
                 {
