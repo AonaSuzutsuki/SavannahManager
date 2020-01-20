@@ -47,17 +47,6 @@ nuget restore SavannahManager.sln
 msbuild SavannahManager.sln /t:Clean;Build /p:Configuration=Release;Platform=x86
 ```
 
-# Donation
-BTC: 1DgYbNmZ4Ka3rcFWVUXvaPDiwcSUckKvFU  
-ETH: 0xF38a082c5E2F222558071BdbcdAa7FE98580811b  
-DOGE: DPQPwrjQXZndguKppSpiTiP21bFYzhuaUY  
-MONA: P9Py7EubLvrYaPzQDKx3mW36AxxniB8J8S  
-ZNY: ZfbDqN81h3wHTMaSupDAKQTguL8fcQyHUY  
-
-Thank you for using.  
-I'd appreciate your donating to the activities.  
-I will use it to motivation maintenance and activity expenses.  
-
 # Special Thanks
 ReactiveProperty:               Copyright (c) 2018 neuecc, xin9le, okazuki  
 Prism.Core:                     Copyright (c) .NET Foundation  
