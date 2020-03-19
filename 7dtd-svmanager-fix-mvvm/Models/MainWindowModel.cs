@@ -629,14 +629,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             }
             Telnet.Dispose();
+
+            TelnetFinish();
+
+            PlayerClean();
+        }
+
+        public void TelnetFinish()
+        {
             TelnetBtLabel = LangResources.Resources.UI_ConnectWithTelnet;
             IsConnected = false;
 
             ConnectionPanelIsEnabled = !LocalMode;
             LocalModeEnabled = true;
             StartBtEnabled = LocalMode;
-
-            PlayerClean();
 
             LoggingStream.StreamDisposer();
         }
