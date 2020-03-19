@@ -10,7 +10,7 @@
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
-        Title="Settings" Height="450" Width="550" ResizeMode="CanMinimize">
+        Title="Settings" Height="570" Width="550" ResizeMode="CanMinimize">
     
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -76,13 +76,17 @@
                         </StackPanel>
                         <StackPanel>
                             <Label Content="{Binding VersionLabel.Value}" />
-                            <Label Content="Copyright (C) Aona Suzutsuki 2014 - 2019" />
+                            <Label Content="Copyright (C) Aona Suzutsuki 2014 - 2020" />
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel Margin="0,20,0,0">
                         <Label Content="ReactiveProperty: Copyright (c) 2018 neuecc, xin9le, okazuki" />
                         <Label Content="Prism.Core: Copyright (c) .NET Foundation" />
+                        <Label Content="NUnit: Copyright (c) 2019 Charlie Poole, Rob Prouse" />
+                        <Label Content="Microsoft.Xaml.Behaviors.Wpf: Copyright (c) 2015 Microsoft" />
+                        <Label Content="Newtonsoft.Json: Copyright (c) 2007 James Newton-King" />
+                        <Label Content="Moq: Copyright (c) 2007, Clarius Consulting, Manas Technology Solutions, InSTEDD" />
                     </StackPanel>
 
                     <StackPanel Margin="0,20,0,0">
