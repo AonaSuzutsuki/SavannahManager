@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.2.31.4">
+    1.　fixed an issue that telnet is not be able to connect after telnet is disconnected force.
+  </update>
   <update version="2.2.30.3">
     1. Added Xml Editor.
       1.1 Please enable beta mode from the settings, if you want to enable Xml Editor.

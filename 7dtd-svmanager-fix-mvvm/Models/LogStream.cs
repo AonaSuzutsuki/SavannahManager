@@ -24,6 +24,7 @@ namespace Log
             if (!di.Exists)
                 di.Create();
             var dt = DateTime.Now;
+
             fs = new FileStream(dirPath +
                                 dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
 
@@ -38,10 +39,23 @@ namespace Log
         /// </summary>
         public void StreamDisposer()
         {
-            sw?.Dispose();
-            sw = null;
-            fs?.Dispose();
-            fs = null;
+            if (sw != null)
+            {
+                lock (sw)
+                {
+                    sw?.Dispose();
+                    sw = null;
+                }
+            }
+
+            if (fs != null)
+            {
+                lock (fs)
+                {
+                    fs?.Dispose();
+                    fs = null;
+                }
+            }
         }
 
         public void WriteSteam(string text) {
