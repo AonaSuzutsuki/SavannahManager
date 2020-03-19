@@ -633,6 +633,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void Telnet_Finished(object sender, TelnetClient.TelnetReadEventArgs e)
         {
             model.PlayerClean();
+            model.TelnetFinish();
         }
 
         private void TelnetReadEvent(object sender, TelnetClient.TelnetReadEventArgs e)

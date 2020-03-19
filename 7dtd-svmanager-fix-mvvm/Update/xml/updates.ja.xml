@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.2.31.4">
+    1. Telnetが強制的に切断された際に再接続できない問題を修正
+  </update>
   <update version="2.2.30.3">
     1. しれっとXml Editor追加しました。
       設定よりベータモードを有効化すると利用できます。
