@@ -1,4 +1,5 @@
-﻿using _7dtd_svmanager_fix_mvvm.Setup.Models;
+﻿using System.Windows;
+using _7dtd_svmanager_fix_mvvm.Setup.Models;
 using _7dtd_svmanager_fix_mvvm.Setup.Views;
 using CommonStyleLib.ViewModels;
 using Prism.Commands;
@@ -8,13 +9,11 @@ using System.Windows.Input;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
-    public class Page3ViewModel
+    public class Page3ViewModel : NavigationPageViewModelBase
     {
-        Page3 page;
         Page3Model model;
-        public Page3ViewModel(Page3 page, Page3Model model)
+        public Page3ViewModel(NavigationWindowService<InitializeData> bindableValue, Page3Model model) : base(bindableValue?.NavigationValue)
         {
-            this.page = page;
             this.model = model;
 
             GetPathBtClick = new DelegateCommand(GetPathBt_Click);
@@ -35,6 +34,14 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         public void AutoSearchBt_Click()
         {
             model.AutoSearchAndGetFilePath();
+        }
+
+        public override void RefreshValues()
+        {
+            BindableValue.NextBtVisibility = Visibility.Visible;
+            BindableValue.BackBtVisibility = Visibility.Visible;
+            BindableValue.CancelBtVisibility = Visibility.Visible;
+            BindableValue.CloseBtVisibility = Visibility.Collapsed;
         }
     }
 }

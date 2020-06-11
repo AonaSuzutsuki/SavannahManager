@@ -5,6 +5,7 @@ using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
 using _7dtd_svmanager_fix_mvvm.Settings.Models;
 using _7dtd_svmanager_fix_mvvm.Settings.ViewModels;
 using _7dtd_svmanager_fix_mvvm.Settings.Views;
+using _7dtd_svmanager_fix_mvvm.Setup.Models;
 using _7dtd_svmanager_fix_mvvm.Setup.ViewModels;
 using CommonStyleLib.Views;
 using _7dtd_svmanager_fix_mvvm.Setup.Views;
@@ -31,6 +33,7 @@ using _7dtd_svmanager_fix_mvvm.Update.ViewModels;
 using _7dtd_svmanager_fix_mvvm.Update.Views;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.ExMessageBox;
+using CommonStyleLib.Models;
 using Log;
 using SvManagerLibrary.Player;
 using SvManagerLibrary.Telnet;
@@ -83,7 +86,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             model.Telnet.ReadEvent += TelnetReadEvent;
 
             mainWindowService = windowService;
-            this.model = model;
+            this._model = model;
 
             #region Event Initialize
             //Loaded = new DelegateCommand(MainWindow_Loaded);
@@ -165,7 +168,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         #region Fields
         private readonly MainWindowService mainWindowService;
-        private readonly Models.MainWindowModel model;
+        private readonly Models.MainWindowModel _model;
         private StringBuilder consoleLog = new StringBuilder();
 
         private bool consoleIsFocus = false;
@@ -296,14 +299,14 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #region EventMethods
         protected override void MainWindow_Loaded()
         {
-            model.Initialize();
+            _model.Initialize();
 
-            model.RefreshLabels();
+            _model.RefreshLabels();
 
-            if (model.Setting.IsFirstBoot)
+            if (_model.Setting.IsFirstBoot)
                 MenuFirstSettingsBt_Click();
 
-            var task = model.CheckUpdate();
+            var task = _model.CheckUpdate();
             var task2 = task.ContinueWith(continueTask =>
             {
                 var dialogResult = continueTask.Result;
@@ -327,55 +330,76 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         protected override void MainWindow_Closing()
         {
-            model.SettingsSave();
-            model.Dispose();
+            _model.SettingsSave();
+            _model.Dispose();
         }
         protected override void MainWindow_KeyDown(KeyEventArgs e)
         {
-            model.PushShortcutKey(e.Key);
+            _model.PushShortcutKey(e.Key);
         }
 
         private void MenuSettingsBt_Click()
         {
-            var setting = model.Setting;
-            var keyManager = model.ShortcutKeyManager;
+            var setting = _model.Setting;
+            var keyManager = _model.ShortcutKeyManager;
 
             var settingModel = new SettingModel(setting, keyManager);
             var vm = new SettingWindowViewModel(new WindowService(), settingModel);
             WindowManageService.ShowDialog<SettingWindow>(vm);
-            model.IsBeta = setting.IsBetaMode;
+            _model.IsBeta = setting.IsBetaMode;
         }
         private void MenuFirstSettingsBt_Click()
         {
-            var setting = model.Setting;
-            WindowManageService.ShowDialog<InitializeWindow>(window =>
+            WindowManageService.ShowDialog<NavigationBase>(window =>
             {
-                var initModel = new Setup.Models.InitializeWindowModel(setting, window.MainFrame.NavigationService);
-                return new InitializeWindowViewModel(new WindowService(), initModel);
+                var model = new ModelBase();
+                var service = new NavigationWindowService<InitializeData>
+                {
+                    Owner = window,
+                    Navigation = window.MainFrame,
+                    Share = new InitializeData
+                    {
+                        Setting = _model.Setting,
+                        ServerConfigFilePath = _model.Setting.ConfigFilePath,
+                        ServerFilePath = _model.Setting.ExeFilePath
+                    },
+                    Pages = new List<Tuple<Type, bool>>
+                    {
+                        new Tuple<Type, bool>(typeof(Page1), true),
+                        new Tuple<Type, bool>(typeof(Page2), true),
+                        new Tuple<Type, bool>(typeof(Page3), true),
+                        new Tuple<Type, bool>(typeof(Page4), true)
+                    }
+                };
+                service.NavigationValue.WindowTitle = "";
+                service.Initialize();
+                var vm = new NavigationBaseViewModel<InitializeData>(service, model);
+
+                return vm;
             });
         }
         private void MenuLangJapaneseBt_Click()
         {
-            model.ChangeCulture(ResourceService.Japanese);
-            model.RefreshLabels();
+            _model.ChangeCulture(ResourceService.Japanese);
+            _model.RefreshLabels();
         }
         private void MenuLangEnglishBt_Click()
         {
-            model.ChangeCulture(ResourceService.English);
-            model.RefreshLabels();
+            _model.ChangeCulture(ResourceService.English);
+            _model.RefreshLabels();
         }
         private void MenuConfigEditorBt_Click()
         {
-            model.RunConfigEditor();
+            _model.RunConfigEditor();
         }
 
         private void MenuXmlEditorBt_Click()
         {
-            model.RunXmlEditor();
+            _model.RunXmlEditor();
         }
         private void MenuBackupEditorBt_Click()
         {
-            var setting = model.Setting;
+            var setting = _model.Setting;
             var backupModel = new BackupSelectorModel(setting);
             var vm = new BackupSelectorViewModel(new WindowService(), backupModel);
             WindowManageService.Show<BackupSelector>(vm);
@@ -395,11 +419,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void StartBt_Click()
         {
-            model.ServerStart();
+            _model.ServerStart();
         }
         private void StopBt_Click()
         {
-            var isForceShutdown = model.ServerStop();
+            var isForceShutdown = _model.ServerStop();
             if (!isForceShutdown)
                 return;
 
@@ -409,7 +433,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void TelnetBt_Click()
         {
-            model.TelnetConnectOrDisconnect();
+            _model.TelnetConnectOrDisconnect();
         }
         private void CommandListBt_Click()
         {
@@ -418,7 +442,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void PlayerListRefreshBt_Click()
         {
-            model.PlayerRefresh();
+            _model.PlayerRefresh();
         }
 
         private void PlayerContextMenu_Opened()
@@ -443,11 +467,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void AdminAddBt_Click()
         {
-            var playerInfo = model.GetUserDetail(UsersListSelectedIndex);
+            var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
 
             var playerBaseModel = new PlayerBaseModel();
-            var adminAdd = new AdminAdd(model, AddType.Type.Admin, name);
+            var adminAdd = new AdminAdd(_model, AddType.Type.Admin, name);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = adminAdd;
@@ -461,15 +485,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void AdminRemoveBt_Click()
         {
-            model.RemoveAdmin(UsersListSelectedIndex);
+            _model.RemoveAdmin(UsersListSelectedIndex);
         }
         private void WhiteListAddBt_Click()
         {
-            var playerInfo = model.GetUserDetail(UsersListSelectedIndex);
+            var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
 
             var playerBaseModel = new PlayerBaseModel();
-            var whitelistAdd = new AdminAdd(model, AddType.Type.Whitelist, name);
+            var whitelistAdd = new AdminAdd(_model, AddType.Type.Whitelist, name);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = whitelistAdd;
@@ -483,15 +507,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void WhiteListRemoveBt_Click()
         {
-            model.RemoveWhitelist(UsersListSelectedIndex);
+            _model.RemoveWhitelist(UsersListSelectedIndex);
         }
         private void KickBt_Click()
         {
-            var playerInfo = model.GetUserDetail(UsersListSelectedIndex);
+            var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
 
             var playerBaseModel = new PlayerBaseModel();
-            var kick = new Kick(model, name);
+            var kick = new Kick(_model, name);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = kick;
@@ -505,11 +529,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void BanBt_Click()
         {
-            var playerInfo = model.GetUserDetail(UsersListSelectedIndex);
+            var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
 
             var playerBaseModel = new PlayerBaseModel();
-            var ban = new Ban(model, name);
+            var ban = new Ban(_model, name);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = ban;
@@ -527,7 +551,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void WatchPlayerInfoBt_Click()
         {
-            var playerInfo = model.GetSelectedPlayerInfo(UsersListSelectedIndex);
+            var playerInfo = _model.GetSelectedPlayerInfo(UsersListSelectedIndex);
             var playerInfoModel = new PlayerInfoModel();
             var vm = new PlayerInfoViewModel(new WindowService(), playerInfoModel);
             vm.SetPlayer(playerInfo);
@@ -536,7 +560,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         
         private void ChatTextBoxEnter_Down(string e)
         {
-            model.SendChat(e, () => model.ChatInputText = "");
+            _model.SendChat(e, () => _model.ChatInputText = "");
         }
 
         private void ConsoleTextBoxMouse_Enter()
@@ -555,21 +579,21 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void CmdTextBox_EnterDown(string e)
         {
-            model.SendCommand(e);
+            _model.SendCommand(e);
             CmdText = string.Empty;
         }
 
         private void GetTimeBt_Click()
         {
-            model.SetTimeToTextBox();
+            _model.SetTimeToTextBox();
         }
         private void SetTimeBt_Click()
         {
-            model.SetTimeToGame();
+            _model.SetTimeToGame();
         }
         private void SaveWorldBt_Click()
         {
-            model.SendCommand("saveworld");
+            _model.SendCommand("saveworld");
         }
 
         private void GetIp_Clicked()
@@ -627,13 +651,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void Telnet_Started(object sender, TelnetClient.TelnetReadEventArgs e)
         {
-            model.PlayerClean();
+            _model.PlayerClean();
         }
 
         private void Telnet_Finished(object sender, TelnetClient.TelnetReadEventArgs e)
         {
-            model.PlayerClean();
-            model.TelnetFinish();
+            _model.PlayerClean();
+            _model.TelnetFinish();
         }
 
         private void TelnetReadEvent(object sender, TelnetClient.TelnetReadEventArgs e)
@@ -643,21 +667,21 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             //if (isStop)
             //    SocTelnetSendDirect("");
 
-            model.LoggingStream.WriteSteam(log);
+            _model.LoggingStream.WriteSteam(log);
 
-            model.AppendConsoleLog(log);
+            _model.AppendConsoleLog(log);
 
             if (log.IndexOf("Chat", StringComparison.Ordinal) > -1)
             {
-                model.AddChatText(log);
+                _model.AddChatText(log);
             }
             if (log.IndexOf("INF Created player with id=", StringComparison.Ordinal) > -1)
             {
-                WindowManageService.Dispatch(DispatcherPriority.Background, model.PlayerRefresh);
+                WindowManageService.Dispatch(DispatcherPriority.Background, _model.PlayerRefresh);
             }
             if (log.IndexOf("INF Player disconnected", StringComparison.Ordinal) > -1)
             {
-                model.RemoveUser(log);
+                _model.RemoveUser(log);
             }
         }
     }

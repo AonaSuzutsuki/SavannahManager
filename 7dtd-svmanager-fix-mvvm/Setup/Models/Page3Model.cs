@@ -51,7 +51,8 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
             string directoryPath = ConstantValues.DefaultDirectoryPath;
             string filename = FileSelector.GetFilePath(directoryPath, filter, "serverconfig.xml", FileSelector.FileSelectorType.Read);
 
-            ServerConfigPathText = filename;
+            if (!string.IsNullOrEmpty(filename))
+                ServerConfigPathText = filename;
         }
         public void AutoSearchAndGetFilePath()
         {
