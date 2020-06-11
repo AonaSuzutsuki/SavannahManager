@@ -13,19 +13,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using _7dtd_svmanager_fix_mvvm.Setup.ViewModels;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.Views
 {
     /// <summary>
     /// Page2.xaml の相互作用ロジック
     /// </summary>
-    public partial class Page2 : Page
+    public partial class Page2 : UserControl
     {
-        public Page2(InitializeData initializeData)
+        public Page2(NavigationWindowService<InitializeData> service)
         {
             InitializeComponent();
 
-            var model = new Page2Model(initializeData);
+            var model = new Page2Model(service.Share);
             model.CanChenged += Model_CanChenged;
             DataContext = new ViewModels.Page2ViewModel(this, model);
         }

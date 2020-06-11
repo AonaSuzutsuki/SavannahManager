@@ -32,8 +32,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
             {
                 SetProperty(ref serverFilePathText, value);
                 initializeData.ServerFilePath = value;
-                bool canChanged = false;
-                if (!string.IsNullOrEmpty(value)) canChanged = true;
+                var canChanged = !string.IsNullOrEmpty(value);
                 OnCanChenged(this, canChanged);
             }
         }
