@@ -82,6 +82,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
             set => SetProperty(ref _cancelBtVisibility, value);
         }
 
+        public Action CloseAction { get; set; }
 
         public virtual void InitDefaultValue()
         {
@@ -241,6 +242,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 
         public void Close()
         {
+            _navigationService?.NavigationValue?.CloseAction?.Invoke();
             base.MainWindowCloseBt_Click();
         }
 

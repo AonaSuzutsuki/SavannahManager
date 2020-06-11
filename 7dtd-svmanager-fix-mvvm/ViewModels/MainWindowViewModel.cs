@@ -359,14 +359,16 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                     Navigation = window.MainFrame,
                     Share = new InitializeData
                     {
-                        Setting = _model.Setting
+                        Setting = _model.Setting,
+                        ServerConfigFilePath = _model.Setting.ConfigFilePath,
+                        ServerFilePath = _model.Setting.ExeFilePath
                     },
                     Pages = new List<Tuple<Type, bool>>
                     {
                         new Tuple<Type, bool>(typeof(Page1), true),
                         new Tuple<Type, bool>(typeof(Page2), true),
                         new Tuple<Type, bool>(typeof(Page3), true),
-                        new Tuple<Type, bool>(typeof(Page4), false)
+                        new Tuple<Type, bool>(typeof(Page4), true)
                     }
                 };
                 service.NavigationValue.WindowTitle = "";

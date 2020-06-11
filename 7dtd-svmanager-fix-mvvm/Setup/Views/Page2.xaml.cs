@@ -28,7 +28,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Views
 
             var model = new Page2Model(service.Share);
             model.CanChenged += Model_CanChenged;
-            DataContext = new ViewModels.Page2ViewModel(this, model);
+            DataContext = new ViewModels.Page2ViewModel(service, model);
         }
 
         private void Model_CanChenged(object sender, CanChangedEventArgs e)

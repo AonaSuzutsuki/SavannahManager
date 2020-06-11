@@ -26,6 +26,8 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Views
         public Page4(NavigationWindowService<InitializeData> service)
         {
             InitializeComponent();
+
+            DataContext = new Page4ViewModel(service, new Page4Model(service.Share));
         }
     }
 }

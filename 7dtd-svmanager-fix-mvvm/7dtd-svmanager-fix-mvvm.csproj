@@ -316,11 +316,14 @@
     <Compile Include="Setup\Models\InitializeData.cs" />
     <Compile Include="Setup\Models\Page2Model.cs" />
     <Compile Include="Setup\Models\Page3Model.cs" />
+    <Compile Include="Setup\Models\Page4Model.cs" />
     <Compile Include="Setup\ViewModels\INavigationRefresh.cs" />
     <Compile Include="Setup\ViewModels\NavigationBaseViewModel.cs" />
     <Compile Include="Setup\ViewModels\NavigationPageViewModelBase.cs" />
+    <Compile Include="Setup\ViewModels\Page1ViewModel.cs" />
     <Compile Include="Setup\ViewModels\Page2ViewModel.cs" />
     <Compile Include="Setup\ViewModels\Page3ViewModel.cs" />
+    <Compile Include="Setup\ViewModels\Page4ViewModel.cs" />
     <Compile Include="Setup\Views\NavigationBase.xaml.cs">
       <DependentUpon>NavigationBase.xaml</DependentUpon>
     </Compile>

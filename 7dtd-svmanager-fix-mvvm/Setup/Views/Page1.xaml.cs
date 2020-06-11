@@ -25,6 +25,8 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Views
         public Page1(NavigationWindowService<InitializeData> service)
         {
             InitializeComponent();
+
+            DataContext = new Page1ViewModel(service);
         }
     }
 }
