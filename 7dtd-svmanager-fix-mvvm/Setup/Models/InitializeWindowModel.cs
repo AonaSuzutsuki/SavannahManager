@@ -152,8 +152,10 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
         {
             settingLoader.ExeFilePath = SharedInitializeData.ServerFilePath;
             settingLoader.ConfigFilePath = SharedInitializeData.ServerConfigFilePath;
-            settingLoader.IsFirstBoot = false;
-            return;
+            
+            Initialized();
         }
+
+        public void Initialized() => settingLoader.IsFirstBoot = false;
     }
 }

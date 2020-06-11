@@ -70,7 +70,7 @@
                         <Button Name="PrevBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_PrevBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" IsEnabled="{Binding PrevBTEnabled.Value}" Width="80" Height="25" Command="{Binding PrevBtClick}" />
                         <Button Name="NextBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_NextBT, Mode=OneWay}" IsEnabled="{Binding NextBTEnabled.Value}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" Command="{Binding NextBtClick}"  />
                         <Button Name="ExitBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_ExitBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" Visibility="{Binding ExitBTVisibility.Value}" Command="{Binding ExitBtClick}"  />
-                        <Button Name="CancelBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_CancelBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" Visibility="{Binding CancelBTVisibility.Value}" Command="{Binding MainWindowCloseBtClick}"  />
+                        <Button Name="CancelBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_CancelBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" Visibility="{Binding CancelBTVisibility.Value}" Command="{Binding CancelCommand}"  />
                     </StackPanel>
                 </Grid>
 

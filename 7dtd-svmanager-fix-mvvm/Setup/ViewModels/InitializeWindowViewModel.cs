@@ -2,6 +2,7 @@
 using _7dtd_svmanager_fix_mvvm.Setup.Models;
 using Reactive.Bindings;
 using System.Windows.Input;
+using CommonStyleLib.ExMessageBox;
 using Prism.Commands;
 using Reactive.Bindings.Extensions;
 using CommonStyleLib.ViewModels;
@@ -18,6 +19,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
             PrevBtClick = new DelegateCommand(PrevBt_Click);
             NextBtClick = new DelegateCommand(NextBt_Click);
             ExitBtClick = new DelegateCommand(ExitBt_Click);
+            CancelCommand = new DelegateCommand(CancelBt_Click);
 
             PrevBTEnabled = model.ToReactivePropertyAsSynchronized(m => m.PrevBTEnabled);
             NextBTEnabled = model.ToReactivePropertyAsSynchronized(m => m.NextBTEnabled);
@@ -35,6 +37,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         public ICommand PrevBtClick { get; set; }
         public ICommand NextBtClick { get; set; }
         public ICommand ExitBtClick { get; set; }
+        public ICommand CancelCommand { get; set; }
 
         private void PrevBt_Click()
         {
@@ -47,6 +50,19 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         private void ExitBt_Click()
         {
             model.Save();
+            WindowManageService.Close();
+        }
+
+        protected override void MainWindow_Closing()
+        {
+            var di = ExMessageBoxBase.Show(LangResources.SetupResource.Dialog_ShowAgainText, LangResources.SetupResource.Dialog_ShowAgainTitle,
+                ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+            if (di == ExMessageBoxBase.DialogResult.No)
+                model.Initialized();
+        }
+
+        private void CancelBt_Click()
+        {
             WindowManageService.Close();
         }
     }
