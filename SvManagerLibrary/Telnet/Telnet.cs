@@ -128,14 +128,18 @@ namespace SvManagerLibrary.Telnet
         {
             await Task.Factory.StartNew(() =>
             {
+                var logCollection = new LogCollection();
                 while (LockFunction((socket) => Connected))
                 {
                     if (DestructionEvent)
                         continue;
 
-                    var log = Read()?.TrimEnd('\0');
+                    logCollection.Append(Read()?.TrimEnd('\0'));
+
+                    var log = logCollection.GetFirst();
+
                     if (!string.IsNullOrEmpty(log))
-                        OnRead(new TelnetReadEventArgs() { IpAddress = end.Address.ToString(), Log = log });
+                        OnRead(new TelnetReadEventArgs() { IpAddress = end.Address.ToString(), Log = $"{log}\n" });
                     Thread.Sleep(10);
                 }
                 OnFinished(new TelnetReadEventArgs() { IpAddress = end.Address.ToString() });
