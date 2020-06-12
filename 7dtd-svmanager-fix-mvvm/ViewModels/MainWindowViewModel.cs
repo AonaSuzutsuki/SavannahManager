@@ -373,7 +373,17 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
                 service.NavigationValue.WindowTitle = LangResources.SetupResource.UI_NameLabel;
                 service.Initialize();
-                var vm = new NavigationBaseViewModel<InitializeData>(service, model);
+                var vm = new NavigationBaseViewModel<InitializeData>(service, model)
+                {
+                    CloseAction = (initData) =>
+                    {
+                        var di = ExMessageBoxBase.Show(LangResources.SetupResource.Dialog_ShowAgainText,
+                            LangResources.SetupResource.Dialog_ShowAgainTitle,
+                            ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+                        if (di == ExMessageBoxBase.DialogResult.No)
+                            initData.Setting.IsFirstBoot = false;
+                    }
+                };
 
                 return vm;
             });

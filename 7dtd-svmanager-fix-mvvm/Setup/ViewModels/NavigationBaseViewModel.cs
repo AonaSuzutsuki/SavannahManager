@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using CommonExtensionLib.Extensions;
+using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
@@ -196,6 +197,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
             BackBtCommand = new DelegateCommand(GoBack);
             NextBtCommand = new DelegateCommand(GoNext);
             CloseBtCommand = new DelegateCommand(Close);
+            CancelCommand = new DelegateCommand(Cancel);
         }
 
         #region Fields
@@ -217,6 +219,8 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         public ReactiveProperty<Visibility> CloseBtVisibility { get; set; }
         public ReactiveProperty<Visibility> CancelBtVisibility { get; set; }
 
+        public Action<T> CloseAction { get; set; }
+
         #endregion
 
         #region Event Properties
@@ -224,6 +228,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         public ICommand BackBtCommand { get; set; }
         public ICommand NextBtCommand { get; set; }
         public ICommand CloseBtCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
         #endregion
 
@@ -243,6 +248,19 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         public void Close()
         {
             _navigationService?.NavigationValue?.CloseAction?.Invoke();
+            base.MainWindowCloseBt_Click();
+        }
+
+        public void Cancel()
+        {
+            base.MainWindowCloseBt_Click();
+        }
+
+
+        protected override void MainWindowCloseBt_Click()
+        {
+            CloseAction?.Invoke(_navigationService.Share);
+
             base.MainWindowCloseBt_Click();
         }
 
