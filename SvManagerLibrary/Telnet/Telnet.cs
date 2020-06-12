@@ -134,11 +134,12 @@ namespace SvManagerLibrary.Telnet
                     if (DestructionEvent)
                         continue;
 
-                    logCollection.Append(Read()?.TrimEnd('\0'));
+                    var _log = Read()?.TrimEnd('\0');
+                    logCollection.Append(_log);
 
                     var log = logCollection.GetFirst();
 
-                    if (!string.IsNullOrEmpty(log))
+                    if (log != null)
                         OnRead(new TelnetReadEventArgs() { IpAddress = end.Address.ToString(), Log = $"{log}\n" });
                     Thread.Sleep(10);
                 }
