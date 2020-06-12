@@ -25,6 +25,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
             var setting = _initializeData.Setting;
             setting.ConfigFilePath = _initializeData.ServerConfigFilePath;
             setting.ExeFilePath = _initializeData.ServerFilePath;
+            setting.IsFirstBoot = false;
         }
     }
 }

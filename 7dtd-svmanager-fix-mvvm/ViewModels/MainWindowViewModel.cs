@@ -371,7 +371,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                         new Tuple<Type, bool>(typeof(Page4), true)
                     }
                 };
-                service.NavigationValue.WindowTitle = "";
+                service.NavigationValue.WindowTitle = LangResources.SetupResource.UI_NameLabel;
                 service.Initialize();
                 var vm = new NavigationBaseViewModel<InitializeData>(service, model);
 

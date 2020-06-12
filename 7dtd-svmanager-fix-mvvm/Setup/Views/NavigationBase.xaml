@@ -7,7 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:transitionControlLib="clr-namespace:TransitionControlLib;assembly=TransitionControlLib"
-        Title="{Binding WindowTitle.Value}" Height="350" Width="500" WindowStyle="None">
+        Title="{Binding WindowTitle.Value}" Height="350" Width="500" WindowStyle="None" WindowStartupLocation="CenterScreen">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
