@@ -61,6 +61,24 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   初期設定を起動時にもう一度起動しますか？ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Dialog_ShowAgainText {
+            get {
+                return ResourceManager.GetString("Dialog_ShowAgainText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   初期設定のキャンセル に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Dialog_ShowAgainTitle {
+            get {
+                return ResourceManager.GetString("Dialog_ShowAgainTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   実行可能ファイル (*.exe)|*.exe に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Filter_ExcutableFile {

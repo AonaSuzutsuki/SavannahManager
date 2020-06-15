@@ -1,6 +1,4 @@
-﻿using _7dtd_svmanager_fix_mvvm.Models;
-using _7dtd_svmanager_fix_mvvm.Setup.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,18 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.Views
 {
     /// <summary>
-    /// InitializeWindow.xaml の相互作用ロジック
+    /// NavigationBase.xaml の相互作用ロジック
     /// </summary>
-    public partial class InitializeWindow : Window
+    public partial class NavigationBase : Window
     {
-        public InitializeWindow()
+        public NavigationBase()
         {
             InitializeComponent();
         }

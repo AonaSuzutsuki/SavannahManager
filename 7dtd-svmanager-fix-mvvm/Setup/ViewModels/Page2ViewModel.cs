@@ -1,4 +1,5 @@
-﻿using _7dtd_svmanager_fix_mvvm.Setup.Models;
+﻿using System.Windows;
+using _7dtd_svmanager_fix_mvvm.Setup.Models;
 using Reactive.Bindings;
 using System.Windows.Input;
 using Reactive.Bindings.Extensions;
@@ -8,12 +9,10 @@ using CommonStyleLib.ViewModels;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
-    public class Page2ViewModel
+    public class Page2ViewModel : NavigationPageViewModelBase
     {
-        Page2 page;
-        public Page2ViewModel(Page2 page,Page2Model model)
+        public Page2ViewModel(NavigationWindowService<InitializeData> bindableValue, Page2Model model) : base(bindableValue?.NavigationValue)
         {
-            this.page = page;
             this.model = model;
 
             GetPathBtClick = new DelegateCommand(GetPathBt_Click);
@@ -36,6 +35,14 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         public void AutoSearchBt_Click()
         {
             model.AutoSearchAndGetFilePath();
+        }
+
+        public override void RefreshValues()
+        {
+            BindableValue.NextBtVisibility = Visibility.Visible;
+            BindableValue.BackBtVisibility = Visibility.Visible;
+            BindableValue.CancelBtVisibility = Visibility.Visible;
+            BindableValue.CloseBtVisibility = Visibility.Collapsed;
         }
     }
 }
