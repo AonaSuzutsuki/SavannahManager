@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.2.32.5">
+    1. fixed the problem that line feeds are not recognized correctly when getting the log of Telnet.
+    2. the initial setup screen has been replaced with a new system
+      This allows it to be skipped even when managing only other servers.
+  </update>
   <update version="2.2.31.4">
     1.　fixed an issue that telnet is not be able to connect after telnet is disconnected force.
   </update>
