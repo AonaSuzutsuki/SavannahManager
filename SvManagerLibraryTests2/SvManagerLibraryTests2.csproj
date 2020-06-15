@@ -78,6 +78,7 @@
     <Compile Include="Player\PlayerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SteamLibrary\SteamLibraryLoaderTests.cs" />
+    <Compile Include="Telnet\LogCollectionTest.cs" />
     <Compile Include="Time\TimeTests.cs" />
     <Compile Include="XmlWrapper\CommonXmlNodeTest.cs" />
     <Compile Include="XmlWrapper\CommonXmlReaderTest.cs" />

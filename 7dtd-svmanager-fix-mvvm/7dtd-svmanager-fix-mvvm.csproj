@@ -159,6 +159,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="TransitionControlLib">
+      <HintPath>..\Lib\TransitionControlLib.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -196,9 +199,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Setup\Views\InitializeWindow.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Setup\Views\NavigationBase.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Setup\Views\Page1.xaml">
       <SubType>Designer</SubType>
@@ -310,12 +313,20 @@
     </Compile>
     <Compile Include="Settings\ShortcutKey.cs" />
     <Compile Include="Setup\CanChangedEventHandler.cs" />
-    <Compile Include="Setup\Models\InitializeWindowModel.cs" />
+    <Compile Include="Setup\Models\InitializeData.cs" />
     <Compile Include="Setup\Models\Page2Model.cs" />
     <Compile Include="Setup\Models\Page3Model.cs" />
-    <Compile Include="Setup\ViewModels\InitializeWindowViewModel.cs" />
+    <Compile Include="Setup\Models\Page4Model.cs" />
+    <Compile Include="Setup\ViewModels\INavigationRefresh.cs" />
+    <Compile Include="Setup\ViewModels\NavigationBaseViewModel.cs" />
+    <Compile Include="Setup\ViewModels\NavigationPageViewModelBase.cs" />
+    <Compile Include="Setup\ViewModels\Page1ViewModel.cs" />
     <Compile Include="Setup\ViewModels\Page2ViewModel.cs" />
     <Compile Include="Setup\ViewModels\Page3ViewModel.cs" />
+    <Compile Include="Setup\ViewModels\Page4ViewModel.cs" />
+    <Compile Include="Setup\Views\NavigationBase.xaml.cs">
+      <DependentUpon>NavigationBase.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Setup\Views\Page1.xaml.cs">
       <DependentUpon>Page1.xaml</DependentUpon>
     </Compile>
@@ -385,9 +396,6 @@
     <Compile Include="ViewModels\IpAddressGetterViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Settings\ViewModels\SettingWindowViewModel.cs" />
-    <Compile Include="Setup\Views\InitializeWindow.xaml.cs">
-      <DependentUpon>InitializeWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Settings\Views\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
