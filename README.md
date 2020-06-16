@@ -13,7 +13,7 @@ Thank you very much.
 
 # Development environment
 1. Visual Studio 2019
-2. [Microsoft .NET Framework 4.7.1](https://docs.microsoft.com/dotnet/framework/install/guide-for-developers)
+2. [Microsoft .NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48)
 
 # Build
 ## Visual Studio 2019
