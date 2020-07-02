@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <ServerSettings>
   <property name="ServerName" value="My Game Host" selection="" type="string">Whatever you want the name of the server to be.</property>
   <property name="ServerDescription" value="A 7 Days to Die server" selection="" type="string">Whatever you want the server description to be, will be shown in the server browser.</property>
@@ -47,7 +47,7 @@
   <property name="DropOnQuit" value="0" selection="0/1/2/3" type="combo">0 = nothing, 1 = everything, 2 = toolbelt only, 3 = backpack only</property>
   <property name="BedrollDeadZoneSize" value="15" selection="" type="integer">Size of bedroll deadzone, no zombies will spawn inside this area, and any cleared sleeper volumes that touch a bedroll deadzone will not spawn after they've been cleared.</property>
   <property name="BedrollExpiryTime" value="45" selection="" type="">Number of days a bedroll stays active after owner was last online</property>
-  <property name="MaxSpawnedZombies" value="60" selection="" type="integer">Making this number too large (more than about 80) may cause servers to run at poor framerates which will effect lag and play quality for clients.</property>
+  <property name="MaxSpawnedZombies" value="64" selection="" type="integer">Making this number too large (more than about 80) may cause servers to run at poor framerates which will effect lag and play quality for clients.</property>
   <property name="MaxSpawnedAnimals" value="50" selection="" type="">If your server has a large number of players you can increase this limit to add more wildlife. Animals don't consume as much CPU as zombies. NOTE: That this doesn't cause more animals to spawn arbitrarily: The biome spawning system only spawns a certain number of animals in a given area, but if you have lots of players that are all spread out then you may be hitting the limit and can increase it.</property>
   <property name="ServerMaxAllowedViewDistance" value="12" selection="" type="">Max viewdistance a client may request (6 - 12). High impact on memory usage and performance.</property>
   <property name="EnemySpawnMode" value="true" selection="true/false" type="combo">Enable/Disable enemy spawning</property>
@@ -73,4 +73,5 @@
   <property name="LandClaimDecayMode" value="0" selection="" type="integer">Controls how offline players land claims decay. All claims have full protection for the first 24hrs. 0=Linear, 1=Exponential, 2=Full protection until claim is expired.</property>
   <property name="LandClaimOnlineDurabilityModifier" value="4" selection="" type="integer">How much protected claim area block hardness is increased when a player is online. 0 means infinite (no damage will ever be taken). Default is 4x</property>
   <property name="LandClaimOfflineDurabilityModifier" value="4" selection="" type="integer">How much protected claim area block hardness is increased when a player is offline. 0 means infinite (no damage will ever be taken). Default is 4x</property>
+  <property name="LandClaimOfflineDelay" value="0" selection="" type="">The number of minutes after a player logs out that the land claim area hardness transitions from online to offline. Default is 0</property>
 </ServerSettings>

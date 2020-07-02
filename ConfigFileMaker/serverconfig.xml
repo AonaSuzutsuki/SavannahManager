@@ -16,7 +16,7 @@
 
   <!-- Networking -->
   <property name="ServerPort"						value="26900"/>
-  <!-- Port you want the server to listen on. -->
+  <!-- Port you want the server to listen on. Keep it in the ranges 26900 to 26905 or 27015 to 27020 if you want PCs on the same LAN to find it as a LAN server. -->
   <property name="ServerVisibility"				value="2"/>
   <!-- Visibility of this server: 2 = public, 1 = only shown to friends, 0 = not listed. As you are never friend of a dedicated server setting this to "1" will only work when the first player connects manually by IP. -->
   <property name="ServerDisabledNetworkProtocols"	value="SteamNetworking"/>
@@ -125,8 +125,8 @@
   <!-- Number of days a bedroll stays active after owner was last online -->
 
   <!-- Performance related -->
-  <property name="MaxSpawnedZombies"				value="60" />
-  <!-- Making this number too large (more than about 80) may cause servers to run at poor framerates which will effect lag and play quality for clients. -->
+  <property name="MaxSpawnedZombies"				value="64" />
+  <!-- This setting covers the entire map. There can only be this many zombies on the entire map at one time. Changing this setting has a huge impact on performance. -->
   <property name="MaxSpawnedAnimals"				value="50" />
   <!-- If your server has a large number of players you can increase this limit to add more wildlife. Animals don't consume as much CPU as zombies. NOTE: That this doesn't cause more animals to spawn arbitrarily: The biome spawning system only spawns a certain number of animals in a given area, but if you have lots of players that are all spread out then you may be hitting the limit and can increase it. -->
   <property name="ServerMaxAllowedViewDistance"	value="12" />
@@ -152,7 +152,7 @@
   <property name="BloodMoonWarning"				value="8" />
   <!-- The Hour number that the red day number begins on a blood moon day. Setting this to -1 makes the red never show.  -->
   <property name="BloodMoonEnemyCount"			value="8" />
-  <!-- The number of zombies spawned during blood moons per player. -->
+  <!-- This is the number of zombies that can be alive (spawned at the same time) at any time PER PLAYER during a blood moon horde, however, MaxSpawnedZombies overrides this number in multiplayer games. Also note that your game stage sets the max number of zombies PER PARTY. Low game stage values can result in lower number of zombies than the BloodMoonEnemyCount setting. Changing this setting has a huge impact on performance. -->
 
   <!-- Loot -->
   <property name="LootAbundance"					value="100" />
@@ -180,11 +180,13 @@
   <property name="LandClaimExpiryTime"			value="7"/>
   <!-- The number of days a player can be offline before their claims expire and are no longer protected -->
   <property name="LandClaimDecayMode"				value="0"/>
-  <!-- Controls how offline players land claims decay. All claims have full protection for the first 24hrs. 0=Linear, 1=Exponential, 2=Full protection until claim is expired. -->
+  <!-- Controls how offline players land claims decay. 0=Slow (Linear) , 1=Fast (Exponential), 2=None (Full protection until claim is expired). -->
   <property name="LandClaimOnlineDurabilityModifier"	value="4"/>
   <!-- How much protected claim area block hardness is increased when a player is online. 0 means infinite (no damage will ever be taken). Default is 4x -->
   <property name="LandClaimOfflineDurabilityModifier"	value="4"/>
   <!-- How much protected claim area block hardness is increased when a player is offline. 0 means infinite (no damage will ever be taken). Default is 4x -->
+  <property name="LandClaimOfflineDelay"			value="0"/>
+  <!-- The number of minutes after a player logs out that the land claim area hardness transitions from online to offline. Default is 0 -->
 
 
   <!-- There are several game settings that you cannot change when starting a new game.
