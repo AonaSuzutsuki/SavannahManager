@@ -129,6 +129,9 @@
     <value>強制終了</value>
     <comment>UI, 強制終了</comment>
   </data>
+  <data name="UI_Message" xml:space="preserve">
+    <value>指定されたプロセスを強制終了します。</value>
+  </data>
   <data name="UI_NameLabel" xml:space="preserve">
     <value>名前</value>
     <comment>UI</comment>

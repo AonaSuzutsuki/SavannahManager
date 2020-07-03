@@ -45,8 +45,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void ShutdownBt_Click()
         {
-            var dialogResult = WindowManageService.MessageBoxShow("", "", ExMessageBoxBase.MessageType.Asterisk,
-                ExMessageBoxBase.ButtonType.YesNo);
+            var dialogResult = WindowManageService.MessageBoxShow(LangResources.ForceShutdownerResources.UI_Message,
+                LangResources.ForceShutdownerResources.UI_Title, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
             if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
             {
                 model.KillProcess(ProcessListSelectedIndex);

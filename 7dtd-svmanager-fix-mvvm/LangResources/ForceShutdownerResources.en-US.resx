@@ -129,6 +129,9 @@
     <value>Abort</value>
     <comment>UI, Abort</comment>
   </data>
+  <data name="UI_Message" xml:space="preserve">
+    <value>Force the specified process to terminate.</value>
+  </data>
   <data name="UI_NameLabel" xml:space="preserve">
     <value>Name</value>
     <comment>UI</comment>

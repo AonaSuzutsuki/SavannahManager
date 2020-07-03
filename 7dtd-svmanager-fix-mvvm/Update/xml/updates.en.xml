@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.2.33.6">
+    1. add a19b compatible config template
+    2. extended the text box for the number of days.
+    3. fixed a problem where the message box was empty on the force end screen.
+  </update>
   <update version="2.2.32.5">
     1. fixed the problem that line feeds are not recognized correctly when getting the log of Telnet.
     2. the initial setup screen has been replaced with a new system
