@@ -88,6 +88,15 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   指定されたプロセスを強制終了します。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Message {
+            get {
+                return ResourceManager.GetString("UI_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   名前 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_NameLabel {

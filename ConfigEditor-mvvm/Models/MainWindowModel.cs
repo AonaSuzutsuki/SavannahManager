@@ -259,6 +259,12 @@ namespace ConfigEditor_mvvm.Models
                 var configDic = configLoader.GetAll();
                 var keys = new List<string>(configDic.Keys);
 
+                //var templateKeysClone = new List<string>(templateKeys);
+                //var keysClone = new List<string>(keys);
+
+                //templateKeysClone.RemoveAll(keysClone.Contains);
+                //keysClone.RemoveAll(templateKeys.Contains);
+
                 // コンフィグファイルとtemplateに含まれるプロパティだけ追加
                 foreach (var configInfo in configDic.Values)
                 {
