@@ -39,7 +39,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
             VersionListSelectionChanged = new DelegateCommand<int?>(VersionList_SelectionChanged);
             UpdateBtClick = new DelegateCommand(UpdateBt_Clicked);
-            DoLoaded();
+            //DoLoaded();
         }
 
         #region Properties
@@ -78,7 +78,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             if (arg != null)
             {
                 int index = arg.Value;
-                var task = model.ShowDetails(index);
+                model.ShowDetails(index);
             }
         }
 

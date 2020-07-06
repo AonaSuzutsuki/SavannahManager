@@ -12,6 +12,7 @@ using System.Windows.Input;
 using LanguageEx;
 using Log;
 using _7dtd_svmanager_fix_mvvm.Settings;
+using _7dtd_svmanager_fix_mvvm.Update.Models;
 using _7dtd_svmanager_fix_mvvm.ViewModels;
 using CommonStyleLib.Models;
 using CommonStyleLib.ExMessageBox;
@@ -277,7 +278,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (Setting.IsAutoUpdate)
             {
-                var (availableUpdate, _) = await Update.Models.UpdateManager.CheckUpdateAsync(new Update.Models.UpdateLink().VersionUrl, ConstantValues.Version);
+                var availableUpdate = await UpdateManager.CheckCanUpdate(UpdateManager.GetUpdateClient());
+                //var (availableUpdate, _) = await Update.Models.UpdateManager.CheckUpdateAsync(new Update.Models.UpdateLink().VersionUrl, ConstantValues.Version);
                 if (availableUpdate)
                 {
                     var dialogResult = MessageBoxWindowService.MessageBoxShow("アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",

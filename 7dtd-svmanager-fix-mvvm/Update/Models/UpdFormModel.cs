@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using _7dtd_svmanager_fix_mvvm.Update.Views;
 using UpdateLib.Http;
 using UpdateLib.Update;
 
@@ -18,7 +19,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
     {
         #region Fiels
         private UpdateLink updLink = new UpdateLink();
-        private UpdateClient updateClient;
+        private UpdateManager updateManager;
 
         private ObservableCollection<string> versionList = new ObservableCollection<string>();
         private int versionListSelectedIndex = -1;
@@ -81,97 +82,105 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         #endregion
 
 
-
-        public UpdFormModel()
-        {
-        }
-
         public async Task Initialize()
         {
-            CurrentVersion = ConstantValues.Version;
+            updateManager = new UpdateManager();
+            await updateManager.Initialize();
 
-            var webClient = new UpdateWebClient
-            {
-                BaseUrl = "http://kimamalab.azurewebsites.net/updates/SavannahManager4/"
-            };
-            updateClient = new UpdateClient(webClient)
-            {
-                DetailVersionInfoDownloadUrlPath = $"details/{LangResources.UpdResources.Updater_XMLNAME}"
-            };
-            
+            CurrentVersion = updateManager.CurrentVersion;
+            LatestVersion = updateManager.LatestVersion;
 
-            CanCancel = false;
-            try
-            {
-                LatestVersion = await updateClient.GetVersion("main");
-                CanUpdate = LatestVersion != CurrentVersion;
-                var versionDetails = await updateClient.GetVersionInfo();
-                VersionList.AddAll(versionDetails.Keys);
-                CanCancel = true;
+            CanUpdate = updateManager.IsUpdate;
 
-                if (VersionList.Count > 0)
-                    VersionListSelectedIndex = 0;
-                await ShowDetails(0);
-            }
-            catch (NotEqualsHashException e)
-            {
-                Console.WriteLine(e.StackTrace);
-            }
+            VersionList.AddAll(updateManager.GetVersions());
+            if (VersionList.Count > 0)
+                VersionListSelectedIndex = 0;
+            ShowDetails(0);
+
+            //CurrentVersion = ConstantValues.Version;
+
+            //updateClient = GetUpdateClient();
+
+            //CanCancel = false;
+            //try
+            //{
+            //    LatestVersion = await updateClient.GetVersion("main");
+            //    CanUpdate = LatestVersion != CurrentVersion;
+            //    var versionDetails = await updateClient.GetVersionInfo();
+            //    VersionList.AddAll(versionDetails.Keys);
+            //    CanCancel = true;
+
+            //    var details = await updateClient.DownloadFile(updateClient.DetailVersionInfoDownloadUrlPath);
+            //    updateManager = new UpdateManager(details);
+
+            //    if (VersionList.Count > 0)
+            //        VersionListSelectedIndex = 0;
+            //    ShowDetails(0);
+            //}
+            //catch (NotEqualsHashException e)
+            //{
+            //    Console.WriteLine(e.StackTrace);
+            //}
         }
 
-        public async Task ShowDetails(int index)
+        public void ShowDetails(int index)
         {
             if (index < 0 || index >= VersionList.Count)
                 return;
             var version = VersionList[index];
-            var detail = (await updateClient.GetVersionInfo())[version];
-            DetailText = detail;
+            var detail = updateManager.Updates.Get(version);
+            RichDetailText = new ObservableCollection<RichTextItem>(detail);
         }
 
         public async Task Update()
         {
-            var updVersion = CommonCoreLib.CommonFile.Version.GetVersion(ConstantValues.UpdaterFilePath);
-            var latestUpdVersion = await updateClient.GetVersion("updater");
-
-            if (updVersion != latestUpdVersion)
+            if (updateManager.IsUpdUpdate)
             {
-                try
-                {
-                    var updData = await updateClient.DownloadUpdateFile();
-                    using var ms = new MemoryStream(updData.Length);
-                    ms.Write(updData, 0, updData.Length);
-                    ms.Seek(0, SeekOrigin.Begin);
-                    using var zip = new UpdateLib.Archive.Zip(ms, ConstantValues.AppDirectoryPath + "/");
-                    zip.Extract();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.StackTrace);
-                }
+                updateManager.ApplyUpdUpdate(Path.GetDirectoryName(ConstantValues.UpdaterFilePath) + "/");
             }
 
-            int id = System.Diagnostics.Process.GetCurrentProcess().Id;
-            var p = new System.Diagnostics.Process
-            {
-                StartInfo = new System.Diagnostics.ProcessStartInfo()
-                {
-                    FileName = ConstantValues.UpdaterFilePath,
-                    Arguments = $"{id} SavannahManager2.exe \"{updateClient.WebClient.BaseUrl}\" \"{updateClient.MainDownloadUrlPath}\""
-                }
-            };
-            //42428 SavannahManager2.exe "http://kimamalab.azurewebsites.net/updates/SavannahManager3/SavannahManager.zip"
+            //var updVersion = CommonCoreLib.CommonFile.Version.GetVersion(ConstantValues.UpdaterFilePath);
+            //var latestUpdVersion = await updateClient.GetVersion("updater");
 
-            try
-            {
-                p.Start();
-            }
-            catch (System.ComponentModel.Win32Exception)
-            {
-                ExMessageBoxBase.Show(string.Format(LangResources.UpdResources._0_is_not_found, LangResources.UpdResources.Updater)
-                    , LangResources.UpdResources.Error, ExMessageBoxBase.MessageType.Exclamation);
-                return;
-            }
-            Application.Current.Shutdown();
+            //if (updVersion != latestUpdVersion)
+            //{
+            //    try
+            //    {
+            //        var updData = await updateClient.DownloadUpdateFile();
+            //        using var ms = new MemoryStream(updData.Length);
+            //        ms.Write(updData, 0, updData.Length);
+            //        ms.Seek(0, SeekOrigin.Begin);
+            //        using var zip = new UpdateLib.Archive.Zip(ms, Path.GetDirectoryName(ConstantValues.UpdaterFilePath) + "/");
+            //        zip.Extract();
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.WriteLine(e.StackTrace);
+            //    }
+            //}
+
+            //int id = System.Diagnostics.Process.GetCurrentProcess().Id;
+            //var p = new System.Diagnostics.Process
+            //{
+            //    StartInfo = new System.Diagnostics.ProcessStartInfo()
+            //    {
+            //        FileName = ConstantValues.UpdaterFilePath,
+            //        Arguments = $"{id} SavannahManager2.exe \"{updateClient.WebClient.BaseUrl}\" \"{updateClient.MainDownloadUrlPath}\""
+            //    }
+            //};
+            ////42428 SavannahManager2.exe "http://kimamalab.azurewebsites.net/updates/SavannahManager3/SavannahManager.zip"
+
+            //try
+            //{
+            //    p.Start();
+            //}
+            //catch (System.ComponentModel.Win32Exception)
+            //{
+            //    ExMessageBoxBase.Show(string.Format(LangResources.UpdResources._0_is_not_found, LangResources.UpdResources.Updater)
+            //        , LangResources.UpdResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+            //    return;
+            //}
+            //Application.Current.Shutdown();
         }
     }
 }

@@ -313,7 +313,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
                 {
                     var updFormModel = new UpdFormModel();
-                    updFormModel.Initialize();
+                    _ = updFormModel.Initialize();
 
                     WindowManageService.Dispatch(() =>
                     {
