@@ -8,10 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using _7dtd_svmanager_fix_mvvm.Update.Views;
-using CommonStyleLib.Views;
-using Application = System.Windows.Application;
+using System.Windows;
+using UpdateLib.Http;
+using UpdateLib.Update;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.Models
 {
@@ -19,7 +18,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
     {
         #region Fiels
         private UpdateLink updLink = new UpdateLink();
-        private UpdateManager updManager = null;
+        private UpdateClient updateClient;
 
         private ObservableCollection<string> versionList = new ObservableCollection<string>();
         private int versionListSelectedIndex = -1;
@@ -82,7 +81,12 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         #endregion
 
 
-        public void Initialize()
+
+        public UpdFormModel()
+        {
+        }
+
+        public async Task Initialize()
         {
             CurrentVersion = ConstantValues.Version;
 
@@ -97,35 +101,60 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                 VersionListSelectedIndex = 0;
             ShowDetails(0);
 
-        }
-
-        public void ShowDetails(int index)
-        {
-            var version = VersionList[index];
-            var detail = updManager.Updates[version];
-            //DetailText = detail;
-            RichDetailText = new ObservableCollection<RichTextItem>(detail);
-        }
-
-        public void Update()
-        {
-            if (updManager.IsUpdUpdate)
+            //
+            var webClient = new UpdateWebClient
             {
-                Task tasks = Task.Factory.StartNew(() =>
-                {
-                    string upzippath = ConstantValues.AppDirectoryPath + @"\update.zip";
-                    using (var wc = new System.Net.WebClient())
-                    {
-                        wc.DownloadFile(updLink.UpPath, upzippath);
-                    }
-                    var fi = new FileInfo(upzippath);
-                    if (fi.Exists)
-                    {
-                        Archive.Zip.Extract(fi.FullName, ConstantValues.AppDirectoryPath);
-                        fi.Delete();
-                    }
-                });
-                tasks.Wait();
+                BaseUrl = "http://kimamalab.azurewebsites.net/updates/SavannahManager4/"
+            };
+            updateClient = new UpdateClient(webClient)
+            {
+                DetailVersionInfoDownloadUrlPath = $"details/{LangResources.UpdResources.Updater_XMLNAME}"
+            };
+            
+
+            CanCancel = false;
+            try
+            {
+                LatestVersion = await updateClient.GetVersion("main");
+                CanUpdate = LatestVersion != CurrentVersion;
+                var versionDetails = await updateClient.GetVersionInfo();
+                VersionList.AddAll(versionDetails.Keys);
+                CanCancel = true;
+
+                if (VersionList.Count > 0)
+                    VersionListSelectedIndex = 0;
+                await ShowDetails(0);
+            }
+            catch (NotEqualsHashException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            finally
+            {
+                loading.Close();
+            }
+        }
+
+        public async Task ShowDetails(int index)
+        {
+            if (index < 0 || index >= VersionList.Count)
+                return;
+            var version = VersionList[index];
+            var detail = (await updateClient.GetVersionInfo())[version];
+            DetailText = detail;
+        }
+
+        public async Task Update()
+        {
+            var updVersion = CommonCoreLib.CommonFile.Version.GetVersion(ConstantValues.UpdaterFilePath);
+            var latestUpdVersion = await updateClient.GetVersion("updater");
+
+            if (updVersion != latestUpdVersion)
+            {
+                var updData = await updateClient.DownloadUpdateFile();
+                using var ms = new MemoryStream(updData.Length);
+                var zip = new UpdateLib.Archive.Zip(ms, ConstantValues.AppDirectoryPath);
+                await Task.Factory.StartNew(zip.Extract);
             }
 
             int id = System.Diagnostics.Process.GetCurrentProcess().Id;
