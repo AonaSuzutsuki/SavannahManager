@@ -161,6 +161,7 @@
     </Reference>
     <Reference Include="TransitionControlLib">
       <HintPath>..\Lib\TransitionControlLib.dll</HintPath>
+    </Reference>
     <Reference Include="UpdateLib">
       <HintPath>..\Lib\UpdateLib.dll</HintPath>
     </Reference>
