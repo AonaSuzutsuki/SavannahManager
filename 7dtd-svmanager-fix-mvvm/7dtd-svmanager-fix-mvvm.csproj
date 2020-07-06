@@ -161,6 +161,8 @@
     </Reference>
     <Reference Include="TransitionControlLib">
       <HintPath>..\Lib\TransitionControlLib.dll</HintPath>
+    <Reference Include="UpdateLib">
+      <HintPath>..\Lib\UpdateLib.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
