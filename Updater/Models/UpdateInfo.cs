@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UpdateLib.Update;
 
 namespace Updater.Models
 {
@@ -12,13 +13,13 @@ namespace Updater.Models
 
         public string FileName { get; }
 
-        public string Url { get; }
+        public UpdateClient Client { get; }
 
-        public UpdateInfo(int pid, string fileName, string url)
+        public UpdateInfo(int pid, string fileName, UpdateClient updateClient)
         {
             Pid = pid;
             FileName = fileName;
-            Url = url;
+            Client = updateClient;
         }
     }
 }

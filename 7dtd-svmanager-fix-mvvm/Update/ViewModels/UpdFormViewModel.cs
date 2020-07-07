@@ -39,6 +39,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
             VersionListSelectionChanged = new DelegateCommand<int?>(VersionList_SelectionChanged);
             UpdateBtClick = new DelegateCommand(UpdateBt_Clicked);
+            //DoLoaded();
         }
 
         #region Properties
@@ -68,9 +69,8 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             var vm = new LoadingViewModel(windowService, loadingModel);
             WindowManageService.Show<Loading>(vm);
 
-            model.Initialize();
-
-            windowService.Close();
+            var task = model.Initialize();
+            task.ContinueWith(continueTask => WindowManageService.Dispatch(windowService.Close));
         }
 
         private void VersionList_SelectionChanged(int? arg)
@@ -84,7 +84,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
         private void UpdateBt_Clicked()
         {
-            model.Update();
+            var task = model.Update();
         }
         #endregion
     }
