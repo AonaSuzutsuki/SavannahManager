@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -69,8 +70,24 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             using var ms = new MemoryStream(updData.Length);
             ms.Write(updData, 0, updData.Length);
             ms.Seek(0, SeekOrigin.Begin);
-            using var zip = new UpdateLib.Archive.Zip(ms, Path.GetDirectoryName(ConstantValues.UpdaterFilePath) + "/");
+            using var zip = new UpdateLib.Archive.Zip(ms, ConstantValues.AppDirectoryPath + "/");
             zip.Extract();
+        }
+
+        public static UpdateClient GetUpdateClient()
+        {
+            return GetClient().Item1;
+        }
+
+        public ProcessStartInfo GetUpdaterInfo(int pid)
+        {
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = ConstantValues.UpdaterFilePath,
+                Arguments = $"{pid} SavannahManager2.exe \"{updateClient.WebClient.BaseUrl}\" \"{updateClient.MainDownloadUrlPath}\""
+            };
+
+            return startInfo;
         }
 
         private Dictionary<string, IEnumerable<RichTextItem>> Analyze(IEnumerable<CommonXmlNode> nodes)
@@ -174,11 +191,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             }
 
             return null;
-        }
-
-        public static UpdateClient GetUpdateClient()
-        {
-            return GetClient().Item1;
         }
 
         private static (UpdateClient, UpdateWebClient) GetClient()

@@ -136,51 +136,34 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         {
             if (updateManager.IsUpdUpdate)
             {
-                updateManager.ApplyUpdUpdate(Path.GetDirectoryName(ConstantValues.UpdaterFilePath) + "/");
+                try
+                {
+                    await updateManager.ApplyUpdUpdate(Path.GetDirectoryName(ConstantValues.UpdaterFilePath) + "/");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
 
-            //var updVersion = CommonCoreLib.CommonFile.Version.GetVersion(ConstantValues.UpdaterFilePath);
-            //var latestUpdVersion = await updateClient.GetVersion("updater");
+            int id = System.Diagnostics.Process.GetCurrentProcess().Id;
+            var p = new System.Diagnostics.Process
+            {
+                StartInfo = updateManager.GetUpdaterInfo(id)
+            };
 
-            //if (updVersion != latestUpdVersion)
-            //{
-            //    try
-            //    {
-            //        var updData = await updateClient.DownloadUpdateFile();
-            //        using var ms = new MemoryStream(updData.Length);
-            //        ms.Write(updData, 0, updData.Length);
-            //        ms.Seek(0, SeekOrigin.Begin);
-            //        using var zip = new UpdateLib.Archive.Zip(ms, Path.GetDirectoryName(ConstantValues.UpdaterFilePath) + "/");
-            //        zip.Extract();
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        Console.WriteLine(e.StackTrace);
-            //    }
-            //}
-
-            //int id = System.Diagnostics.Process.GetCurrentProcess().Id;
-            //var p = new System.Diagnostics.Process
-            //{
-            //    StartInfo = new System.Diagnostics.ProcessStartInfo()
-            //    {
-            //        FileName = ConstantValues.UpdaterFilePath,
-            //        Arguments = $"{id} SavannahManager2.exe \"{updateClient.WebClient.BaseUrl}\" \"{updateClient.MainDownloadUrlPath}\""
-            //    }
-            //};
-            ////42428 SavannahManager2.exe "http://kimamalab.azurewebsites.net/updates/SavannahManager3/SavannahManager.zip"
-
-            //try
-            //{
-            //    p.Start();
-            //}
-            //catch (System.ComponentModel.Win32Exception)
-            //{
-            //    ExMessageBoxBase.Show(string.Format(LangResources.UpdResources._0_is_not_found, LangResources.UpdResources.Updater)
-            //        , LangResources.UpdResources.Error, ExMessageBoxBase.MessageType.Exclamation);
-            //    return;
-            //}
-            //Application.Current.Shutdown();
+            try
+            {
+                p.Start();
+            }
+            catch (System.ComponentModel.Win32Exception)
+            {
+                ExMessageBoxBase.Show(string.Format(LangResources.UpdResources._0_is_not_found, LangResources.UpdResources.Updater)
+                    , LangResources.UpdResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                return;
+            }
+            Application.Current.Shutdown();
         }
     }
 }
