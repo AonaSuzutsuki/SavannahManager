@@ -20,9 +20,6 @@ namespace Updater.Models
         UpdateInfo updateInfo;
 
         private int exitCode = 1;
-        private bool finished = false;
-        private bool errored = false;
-        private bool cancelled = false;
         
         private string statusLabel;
         private double progressValue;
@@ -67,10 +64,6 @@ namespace Updater.Models
             set => SetProperty(ref canClose, value);
         }
         #endregion
-
-        public MainWindowModel()
-        {
-        }
 
         public void Close()
         {
@@ -205,42 +198,6 @@ namespace Updater.Models
         {
             CanClose = true;
             this.exitCode = exitCode;
-        }
-
-        private void Unzip(string zipFileName)
-        {
-            using (Archive.Zip archive = new Archive.Zip(ConstantValues.AppDirectoryPath + @"\" + zipFileName, System.IO.Path.GetDirectoryName(ConstantValues.AppDirectoryPath)))
-            {
-                ProgressMaximum = archive.Count;
-                archive.Extracted += Archive_Extracted;
-                archive.Extract();
-            }
-        }
-        private void Archive_Extracted(object sender, EventArgs e)
-        {
-            ProgressValue += 1;
-        }
-
-        private void DownloadClient_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
-        {
-            if (e.Cancelled)
-            {
-                cancelled = true;
-            }
-            else if (e.Error != null)
-            {
-                ExMessageBoxBase.Show(e.Error.Message, LangResources.Resources.Error, ExMessageBoxBase.MessageType.Exclamation, ExMessageBoxBase.ButtonType.OK);
-
-                errored = true;
-            }
-
-            finished = true;
-        }
-
-        private void DownloadClient_DownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs e)
-        {
-            ProgressValue = (int)e.ProgressPercentage;
-            ProgressLabel = e.ProgressPercentage.ToString() + "%";
         }
     }
 }
