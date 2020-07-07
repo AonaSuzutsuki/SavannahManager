@@ -307,13 +307,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 MenuFirstSettingsBt_Click();
 
             var task = _model.CheckUpdate();
-            var task2 = task.ContinueWith(continueTask =>
+            var task2 = task.ContinueWith(async continueTask =>
             {
                 var dialogResult = continueTask.Result;
                 if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
                 {
                     var updFormModel = new UpdFormModel();
-                    updFormModel.Initialize();
+                    await updFormModel.Initialize();
 
                     WindowManageService.Dispatch(() =>
                     {

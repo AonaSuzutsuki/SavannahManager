@@ -8,10 +8,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
 using _7dtd_svmanager_fix_mvvm.Update.Views;
-using CommonStyleLib.Views;
-using Application = System.Windows.Application;
+using UpdateLib.Http;
+using UpdateLib.Update;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.Models
 {
@@ -19,7 +19,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
     {
         #region Fiels
         private UpdateLink updLink = new UpdateLink();
-        private UpdateManager updManager = null;
+        private UpdateManager updateManager;
 
         private ObservableCollection<string> versionList = new ObservableCollection<string>();
         private int versionListSelectedIndex = -1;
@@ -82,60 +82,75 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         #endregion
 
 
-        public void Initialize()
+        public async Task Initialize()
         {
-            CurrentVersion = ConstantValues.Version;
+            updateManager = new UpdateManager();
+            await updateManager.Initialize();
 
-            CanCancel = false;
-            updManager = new UpdateManager(updLink, ConstantValues.UpdaterFilePath);
-            CanUpdate = updManager.IsUpdate;
-            LatestVersion = updManager.Version;
-            VersionList.AddAll(updManager.Updates.Keys);
-            CanCancel = true;
+            CurrentVersion = updateManager.CurrentVersion;
+            LatestVersion = updateManager.LatestVersion;
 
+            CanUpdate = updateManager.IsUpdate;
+
+            VersionList.AddAll(updateManager.GetVersions());
             if (VersionList.Count > 0)
                 VersionListSelectedIndex = 0;
             ShowDetails(0);
 
+            //CurrentVersion = ConstantValues.Version;
+
+            //updateClient = GetUpdateClient();
+
+            //CanCancel = false;
+            //try
+            //{
+            //    LatestVersion = await updateClient.GetVersion("main");
+            //    CanUpdate = LatestVersion != CurrentVersion;
+            //    var versionDetails = await updateClient.GetVersionInfo();
+            //    VersionList.AddAll(versionDetails.Keys);
+            //    CanCancel = true;
+
+            //    var details = await updateClient.DownloadFile(updateClient.DetailVersionInfoDownloadUrlPath);
+            //    updateManager = new UpdateManager(details);
+
+            //    if (VersionList.Count > 0)
+            //        VersionListSelectedIndex = 0;
+            //    ShowDetails(0);
+            //}
+            //catch (NotEqualsHashException e)
+            //{
+            //    Console.WriteLine(e.StackTrace);
+            //}
         }
 
         public void ShowDetails(int index)
         {
+            if (index < 0 || index >= VersionList.Count)
+                return;
             var version = VersionList[index];
-            var detail = updManager.Updates[version];
-            //DetailText = detail;
+            var detail = updateManager.Updates.Get(version);
             RichDetailText = new ObservableCollection<RichTextItem>(detail);
         }
 
-        public void Update()
+        public async Task Update()
         {
-            if (updManager.IsUpdUpdate)
+            if (updateManager.IsUpdUpdate)
             {
-                Task tasks = Task.Factory.StartNew(() =>
+                try
                 {
-                    string upzippath = ConstantValues.AppDirectoryPath + @"\update.zip";
-                    using (var wc = new System.Net.WebClient())
-                    {
-                        wc.DownloadFile(updLink.UpPath, upzippath);
-                    }
-                    var fi = new FileInfo(upzippath);
-                    if (fi.Exists)
-                    {
-                        Archive.Zip.Extract(fi.FullName, ConstantValues.AppDirectoryPath);
-                        fi.Delete();
-                    }
-                });
-                tasks.Wait();
+                    await updateManager.ApplyUpdUpdate(Path.GetDirectoryName(ConstantValues.UpdaterFilePath) + "/");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
 
             int id = System.Diagnostics.Process.GetCurrentProcess().Id;
             var p = new System.Diagnostics.Process
             {
-                StartInfo = new System.Diagnostics.ProcessStartInfo()
-                {
-                    FileName = ConstantValues.UpdaterFilePath,
-                    Arguments = id.ToString() + " " + "SavannahManager2.exe" + " " + @"""" + updLink.MainPath + @""""
-                }
+                StartInfo = updateManager.GetUpdaterInfo(id)
             };
 
             try
