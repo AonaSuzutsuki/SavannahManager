@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.3.34.0">
+    1. アップデートシステムを更新しました。
+  </update>
   <update version="2.2.33.6">
     1. a19b対応のConfigテンプレートを追加
     2. 日数のテキストボックスを大きくしました。

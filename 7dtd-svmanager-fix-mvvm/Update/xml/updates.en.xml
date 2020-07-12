@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.3.34.0">
+    1. Update system has been updated.
+  </update>
   <update version="2.2.33.6">
     1. add a19b compatible config template
     2. extended the text box for the number of days.

@@ -383,7 +383,6 @@
     <Compile Include="Models\SettingLoader.cs" />
     <Compile Include="Update\Models\Archive.cs" />
     <Compile Include="Update\Models\LoadingModel.cs" />
-    <Compile Include="Update\Models\UpdateLink.cs" />
     <Compile Include="Update\Models\UpdateManager.cs" />
     <Compile Include="Update\Models\UpdFormModel.cs" />
     <Compile Include="Update\ViewModels\LoadingViewModel.cs" />

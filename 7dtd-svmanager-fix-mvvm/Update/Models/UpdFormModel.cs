@@ -18,7 +18,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
     public class UpdFormModel : ModelBase
     {
         #region Fiels
-        private UpdateLink updLink = new UpdateLink();
         private UpdateManager updateManager;
 
         private ObservableCollection<string> versionList = new ObservableCollection<string>();
@@ -96,31 +95,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             if (VersionList.Count > 0)
                 VersionListSelectedIndex = 0;
             ShowDetails(0);
-
-            //CurrentVersion = ConstantValues.Version;
-
-            //updateClient = GetUpdateClient();
-
-            //CanCancel = false;
-            //try
-            //{
-            //    LatestVersion = await updateClient.GetVersion("main");
-            //    CanUpdate = LatestVersion != CurrentVersion;
-            //    var versionDetails = await updateClient.GetVersionInfo();
-            //    VersionList.AddAll(versionDetails.Keys);
-            //    CanCancel = true;
-
-            //    var details = await updateClient.DownloadFile(updateClient.DetailVersionInfoDownloadUrlPath);
-            //    updateManager = new UpdateManager(details);
-
-            //    if (VersionList.Count > 0)
-            //        VersionListSelectedIndex = 0;
-            //    ShowDetails(0);
-            //}
-            //catch (NotEqualsHashException e)
-            //{
-            //    Console.WriteLine(e.StackTrace);
-            //}
         }
 
         public void ShowDetails(int index)
