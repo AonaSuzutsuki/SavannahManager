@@ -56,6 +56,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             catch (NotEqualsHashException e)
             {
                 Console.WriteLine(e.StackTrace);
+                throw;
             }
         }
 

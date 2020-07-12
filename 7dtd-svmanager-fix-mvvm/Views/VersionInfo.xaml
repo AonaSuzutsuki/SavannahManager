@@ -10,7 +10,7 @@
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
-        Title="Settings" Height="570" Width="550" ResizeMode="CanMinimize">
+        Title="Settings" Height="350" Width="550" ResizeMode="CanMinimize">
     
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -87,9 +87,10 @@
                         <Label Content="Microsoft.Xaml.Behaviors.Wpf: Copyright (c) 2015 Microsoft" />
                         <Label Content="Newtonsoft.Json: Copyright (c) 2007 James Newton-King" />
                         <Label Content="Moq: Copyright (c) 2007, Clarius Consulting, Manas Technology Solutions, InSTEDD" />
+                        <Label  Content="This software includes the work that is distributed in the Apache License 2.0"/>
                     </StackPanel>
 
-                    <StackPanel Margin="0,20,0,0">
+                    <StackPanel Margin="0,20,0,0" Visibility="Collapsed">
                         <Label Content="Donation: " />
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="30,0,0,0">
                             <StackPanel VerticalAlignment="Center">
