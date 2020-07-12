@@ -18,7 +18,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
     public class UpdFormModel : ModelBase
     {
         #region Fiels
-        private UpdateLink updLink = new UpdateLink();
         private UpdateManager updateManager;
 
         private ObservableCollection<string> versionList = new ObservableCollection<string>();
