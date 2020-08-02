@@ -278,13 +278,19 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (Setting.IsAutoUpdate)
             {
-                var availableUpdate = await UpdateManager.CheckCanUpdate(UpdateManager.GetUpdateClient());
-                //var (availableUpdate, _) = await Update.Models.UpdateManager.CheckUpdateAsync(new Update.Models.UpdateLink().VersionUrl, ConstantValues.Version);
-                if (availableUpdate)
+                try
                 {
-                    var dialogResult = MessageBoxWindowService.MessageBoxShow("アップデートがあります。今すぐアップデートを行いますか？", "アップデートがあります。",
-                        ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
-                    return dialogResult;
+                    var availableUpdate = await UpdateManager.CheckCanUpdate(UpdateManager.GetUpdateClient());
+                    if (availableUpdate)
+                    {
+                        var dialogResult = MessageBoxWindowService.MessageBoxShow(LangResources.Resources.UI_DoUpdateAlertMessage,
+                            LangResources.Resources.UI_DoUpdateAlertTitle, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+                        return dialogResult;
+                    }
+                }
+                catch (System.Net.WebException e)
+                {
+                    App.ShowAndWriteException(e);
                 }
             }
             return ExMessageBoxBase.DialogResult.No;
