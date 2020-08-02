@@ -349,6 +349,24 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   アップデートがあります。今すぐアップデートを行いますか？ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_DoUpdateAlertMessage {
+            get {
+                return ResourceManager.GetString("UI_DoUpdateAlertMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   アップデートがあります。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_DoUpdateAlertTitle {
+            get {
+                return ResourceManager.GetString("UI_DoUpdateAlertTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   英語 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_EnglishLabel {
