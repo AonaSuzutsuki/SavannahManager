@@ -357,4 +357,12 @@
     <value>警告</value>
     <comment>メッセージ</comment>
   </data>
+  <data name="UI_DoUpdateAlertMessage" xml:space="preserve">
+    <value>アップデートがあります。今すぐアップデートを行いますか？</value>
+    <comment>メッセージ</comment>
+  </data>
+  <data name="UI_DoUpdateAlertTitle" xml:space="preserve">
+    <value>アップデートがあります。</value>
+    <comment>メッセージ</comment>
+  </data>
 </root>
