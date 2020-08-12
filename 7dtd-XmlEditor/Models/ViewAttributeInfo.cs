@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Commands;
-using SvManagerLibrary.XmlWrapper;
+using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_XmlEditor.Models
 {

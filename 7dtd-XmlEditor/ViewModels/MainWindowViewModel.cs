@@ -15,7 +15,7 @@ using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using SvManagerLibrary.XmlWrapper;
+using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_XmlEditor.ViewModels
 {

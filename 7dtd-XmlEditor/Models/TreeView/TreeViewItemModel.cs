@@ -13,7 +13,7 @@ using _7dtd_XmlEditor.ViewModels.NodeView;
 using CommonCoreLib.CommonLinq;
 using Prism.Mvvm;
 using Reactive.Bindings;
-using SvManagerLibrary.XmlWrapper;
+using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_XmlEditor.Models.TreeView
 {

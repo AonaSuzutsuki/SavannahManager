@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using _7dtd_XmlEditor.Models.TreeView;
 using CommonCoreLib.CommonLinq;
-using SvManagerLibrary.XmlWrapper;
+using SavannahXmlLib.XmlWrapper;
 using CommonExtensionLib.Extensions;
 using Prism.Mvvm;
 

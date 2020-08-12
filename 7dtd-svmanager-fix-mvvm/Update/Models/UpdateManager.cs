@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using _7dtd_svmanager_fix_mvvm.Update.Views;
 using CommonExtensionLib.Extensions;
-using SvManagerLibrary.XmlWrapper;
+using SavannahXmlLib.XmlWrapper;
 using CommonStyleLib.File;
 using UpdateLib.Http;
 using UpdateLib.Update;

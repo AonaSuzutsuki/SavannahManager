@@ -80,9 +80,6 @@
     <Compile Include="SteamLibrary\SteamLibraryLoaderTests.cs" />
     <Compile Include="Telnet\LogCollectionTest.cs" />
     <Compile Include="Time\TimeTests.cs" />
-    <Compile Include="XmlWrapper\CommonXmlNodeTest.cs" />
-    <Compile Include="XmlWrapper\CommonXmlReaderTest.cs" />
-    <Compile Include="XmlWrapper\CommonXmlWriterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">
@@ -92,9 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\Config.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestData\Test.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
