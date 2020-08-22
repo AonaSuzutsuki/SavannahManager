@@ -561,14 +561,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!IsConnected)
             {
-                TelnetConnect();
+                _ = TelnetConnect();
             }
             else
             {
                 TelnetDisconnect();
             }
         }
-        private void TelnetConnect()
+        private async Task TelnetConnect()
         {
             var address = Address;
             var port = this.port;
@@ -591,9 +591,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 password = checkedValues.Password;
                 port = checkedValues.Port;
             }
-            
+
+            TelnetBtIsEnabled = false;
+            var connected = await Task.Factory.StartNew(() => Telnet.Connect(address, port));
+            TelnetBtIsEnabled = true;
+
             IsFailed = false;
-            if (Telnet.Connect(address, port))
+            if (connected)
             {
                 LoggingStream.MakeStream(ConstantValues.LogDirectoryPath);
                 TelnetBtLabel = LangResources.Resources.UI_DisconnectFromTelnet;
