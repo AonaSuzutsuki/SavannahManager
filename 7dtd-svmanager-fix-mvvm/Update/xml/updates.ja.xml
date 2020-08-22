@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.3.35.1">
+    1. Telnetで接続できない際の待機を非同期に変更しました。
+    2. サーバが終了後、Savannah Managerを終了するとエラーが出る問題を修正しました。
+  </update>
   <update version="2.3.34.0">
     1. アップデートシステムを更新しました。
   </update>

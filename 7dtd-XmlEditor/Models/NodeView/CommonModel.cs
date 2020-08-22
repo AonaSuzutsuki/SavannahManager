@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using _7dtd_XmlEditor.Models.TreeView;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.Models;
-using SvManagerLibrary.XmlWrapper;
+using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_XmlEditor.Models.NodeView
 {

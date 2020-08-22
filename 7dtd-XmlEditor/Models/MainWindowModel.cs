@@ -14,7 +14,7 @@ using CommonCoreLib;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.File;
 using CommonStyleLib.Models;
-using SvManagerLibrary.XmlWrapper;
+using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_XmlEditor.Models
 {
