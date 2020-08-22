@@ -228,7 +228,7 @@ namespace SvManagerLibrary.Telnet
             {
                 LockAction((socket) =>
                 {
-                    if (socket == null || Connected) return;
+                    if (socket == null) return;
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Disconnect(false);
                     socket.Dispose();
