@@ -143,6 +143,8 @@ namespace SvManagerLibrary.Telnet
                         OnRead(new TelnetReadEventArgs() { IpAddress = end.Address.ToString(), Log = $"{log}\n" });
                     Thread.Sleep(10);
                 }
+
+                LockAction(socket => clientSocket = null);
                 OnFinished(new TelnetReadEventArgs() { IpAddress = end.Address.ToString() });
             });
         }
@@ -226,7 +228,7 @@ namespace SvManagerLibrary.Telnet
             {
                 LockAction((socket) =>
                 {
-                    if (socket == null) return;
+                    if (socket == null || Connected) return;
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Disconnect(false);
                     socket.Dispose();
