@@ -38,7 +38,7 @@ namespace SvManagerLibrary.Time
 
             telnet.DestructionEvent = true;
             telnet.WriteLine("gt");
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(200);
             var log = telnet.Read().TrimEnd('\0');
             telnet.DestructionEvent = false;
             return ConvertTime(log);

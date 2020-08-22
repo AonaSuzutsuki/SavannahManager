@@ -56,7 +56,7 @@ namespace SvManagerLibrary.Telnet
         /// <summary>
         /// Get or Set Receiving Buffer Size.
         /// </summary>
-        public int ReceiveBufferSize { set; get; } = 8192;
+        public int ReceiveBufferSize { set; get; } = 10240;
 
         /// <summary>
         /// Get or Set Sending and Receiving text encoding.
