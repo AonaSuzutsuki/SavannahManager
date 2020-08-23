@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.3.36.2">
+    1. fixed an issue where the server could start if a Telnet connection failed even when local server mode is off.
+    2. fixed an issue with stored addresses being rewritten when making a Telnet connection in local server mode.
+  </update>
   <update version="2.3.35.1">
     1. changed the wait time to asynchronous when it can't connect by Telnet.
     2. fixed the problem where there was an error when exiting Savannah Manager after the server exits.
