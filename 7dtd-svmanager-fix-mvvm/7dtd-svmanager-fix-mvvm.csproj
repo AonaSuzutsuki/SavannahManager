@@ -273,6 +273,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>VersionInfoResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Config\ConfigChecker.cs" />
     <Compile Include="Models\ForceShutdownerModel.cs" />
     <Compile Include="Models\IMainWindowTelnet.cs" />
     <Compile Include="Models\IpAddressManager.cs" />

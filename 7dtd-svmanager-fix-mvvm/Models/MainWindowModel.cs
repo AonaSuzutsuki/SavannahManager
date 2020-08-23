@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using LanguageEx;
@@ -14,6 +15,7 @@ using Log;
 using _7dtd_svmanager_fix_mvvm.Settings;
 using _7dtd_svmanager_fix_mvvm.Update.Models;
 using _7dtd_svmanager_fix_mvvm.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Models.Config;
 using CommonStyleLib.Models;
 using CommonStyleLib.ExMessageBox;
 using SvManagerLibrary.Time;
@@ -26,29 +28,6 @@ using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
-    public class CheckValue : ICheckValue, ICheckedValue
-    {
-        public string TelnetPort { get; set; }
-        public string ControlPanelPort { get; set; }
-        public string ServerPort { get; set; }
-        public string TelnetEnabled { get; set; }
-        public string Password { get; set; }
-        public int Port { get; set; }
-    }
-    interface ICheckValue
-    {
-        string TelnetPort { get; }
-        string ControlPanelPort { get; }
-        string ServerPort { get; }
-        string TelnetEnabled { get; }
-        string Password { get; }
-    }
-    interface ICheckedValue
-    {
-        string Password { get; }
-        int Port { get; }
-    }
-
     public class MainWindowModel : ModelBase, IMainWindowTelnet, IDisposable
     {
         #region AppendedLogTextEvent
@@ -57,12 +36,27 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             public int MaxLength { get; set; }
             public string AppendedLogText { get; set; }
         }
-        public delegate void AppendedLogTextEventHandler(object sender, AppendedLogTextEventArgs e);
-        public event AppendedLogTextEventHandler AppendConsoleText;
-        protected virtual void OnAppendConsoleText(AppendedLogTextEventArgs e)
+        private readonly Subject<AppendedLogTextEventArgs> consoleTextAppended = new Subject<AppendedLogTextEventArgs>();
+        public IObservable<AppendedLogTextEventArgs> ConsoleTextAppended => consoleTextAppended;
+        #endregion
+
+        #region ErrorEvent
+
+        public class MessageBoxOccurredEventArgs
         {
-            AppendConsoleText?.Invoke(this, e);
+            public string Message { get; set; }
+            public string Title { get; set; }
+            public ExMessageBoxBase.MessageType MessageType { get; set; } = ExMessageBoxBase.MessageType.Exclamation;
+            public ExMessageBoxBase.ButtonType ButtonType { get; set; } = ExMessageBoxBase.ButtonType.OK;
+
+            public Action<ExMessageBoxBase.DialogResult> CallBack { get; set; }
         }
+        private readonly Subject<MessageBoxOccurredEventArgs> messageBoxOccurred = new Subject<MessageBoxOccurredEventArgs>();
+        public IObservable<MessageBoxOccurredEventArgs> MessageBoxOccurred => messageBoxOccurred;
+
+        private readonly Subject<string> errorOccurred = new Subject<string>();
+        public IObservable<string> ErrorOccurred => errorOccurred;
+
         #endregion
 
         #region PropertiesForViewModel
@@ -191,7 +185,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         #region Properties
 
-        public IMessageBoxWindowService MessageBoxWindowService { get; set; }
+        //public IMessageBoxWindowService MessageBoxWindowService { get; set; }
 
         private bool isConnected;
         private bool IsConnected
@@ -274,26 +268,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             IsBeta = Setting.IsBetaMode;
         }
 
-        public async Task<ExMessageBoxBase.DialogResult> CheckUpdate()
+        public async Task<bool> CheckUpdate()
         {
             if (Setting.IsAutoUpdate)
             {
-                try
-                {
-                    var availableUpdate = await UpdateManager.CheckCanUpdate(UpdateManager.GetUpdateClient());
-                    if (availableUpdate)
-                    {
-                        var dialogResult = MessageBoxWindowService.MessageBoxShow(LangResources.Resources.UI_DoUpdateAlertMessage,
-                            LangResources.Resources.UI_DoUpdateAlertTitle, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
-                        return dialogResult;
-                    }
-                }
-                catch (System.Net.WebException e)
-                {
-                    App.ShowAndWriteException(e);
-                }
+                var availableUpdate = await UpdateManager.CheckCanUpdate(UpdateManager.GetUpdateClient());
+                return availableUpdate;
             }
-            return ExMessageBoxBase.DialogResult.No;
+            return false;
         }
         public void SettingsSave()
         {
@@ -348,24 +330,25 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!FileExistCheck()) return;
 
-            var address = "127.0.0.1";
-            var port = 0;
-            var password = string.Empty;
+            var checkedValues = ConfigChecker.GetConfigInfo(ConfigFilePath);
+            if (checkedValues.IsFailed)
+            {
+                errorOccurred.OnNext(checkedValues.Message);
+                return;
+            }
 
-            var checkedValues = GetConfigInfo();
-            if (checkedValues == null) { return; }
-            password = checkedValues.Password;
-            port = checkedValues.Port;
+            const string localAddress = "127.0.0.1";
+            var localPassword = checkedValues.Password;
+            var localPort = checkedValues.Port;
 
             if (IsConnected)
             {
-                MessageBoxWindowService.MessageBoxShow(LangResources.Resources.AlreadyConnected, LangResources.CommonResources.Error
-                       , ExMessageBoxBase.MessageType.Exclamation);
+                errorOccurred.OnNext(LangResources.Resources.AlreadyConnected);
                 return;
             }
 
             var serverProcessManager = new ServerProcessManager(ExeFilePath, ConfigFilePath);
-            void ProcessFailedAction(string message) => MessageBoxWindowService.MessageBoxShow(message, LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+            void ProcessFailedAction(string message) => errorOccurred.OnNext(message);
             if (!serverProcessManager.ProcessStart(ProcessFailedAction))
                 return;
 
@@ -396,7 +379,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         break;
                     }
 
-                    if (Telnet.Connect(address, port))
+                    if (Telnet.Connect(localAddress, localPort))
                     {
                         IsConnected = true;
                         IsTelnetLoading = false;
@@ -406,10 +389,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         LocalModeEnabled = false;
                         ConnectionPanelIsEnabled = false;
                         BottomNewsLabel = LangResources.Resources.UI_FinishedLaunching;
-                        base.SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor);
+                        SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor);
 
                         Telnet.Write(TelnetClient.Cr);
-                        AppendConsoleLog(SocTelnetSend(password));
+                        AppendConsoleLog(SocTelnetSend(localPassword));
 
                         LoggingStream.MakeStream(ConstantValues.LogDirectoryPath);
 
@@ -450,15 +433,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 FileInfo fi = new FileInfo(ExeFilePath);
                 if (!fi.Exists)
                 {
-                    MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources.Not_Found_0, "7DaysToDieServer.exe"), LangResources.CommonResources.Error
-                        , ExMessageBoxBase.MessageType.Exclamation);
+                    errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, "7DaysToDieServer.exe"));
                     return false;
                 }
             }
             catch (ArgumentException)
             {
-                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_Is_Invalid, LangResources.Resources.ServerFilePath), LangResources.CommonResources.Error
-                           , ExMessageBoxBase.MessageType.Exclamation);
+                errorOccurred.OnNext(string.Format(LangResources.Resources._0_Is_Invalid, LangResources.Resources.ServerFilePath));
                 return false;
             }
 
@@ -467,89 +448,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 FileInfo fi = new FileInfo(ConfigFilePath);
                 if (!fi.Exists)
                 {
-                    MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFilePath), LangResources.CommonResources.Error
-                           , ExMessageBoxBase.MessageType.Exclamation);
+                    errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFilePath));
                     return false;
                 }
             }
             catch (ArgumentException)
             {
-                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_Is_Invalid, "7DaysToDieServer.exe"), LangResources.CommonResources.Error
-                           , ExMessageBoxBase.MessageType.Exclamation);
+                errorOccurred.OnNext(string.Format(LangResources.Resources._0_Is_Invalid, "7DaysToDieServer.exe"));
                 return false;
             }
             return true;
         }
-        private ICheckedValue GetConfigInfo()
-        {
-            ConfigLoader configLoader = new ConfigLoader(ConfigFilePath);
-            var portConfig = configLoader.GetValue("TelnetPort");
-            string strPort = portConfig == null ? string.Empty : portConfig.Value;
-            var cpPortConfig = configLoader.GetValue("ControlPanelPort");
-            string cpPort = cpPortConfig == null ? string.Empty : cpPortConfig.Value;
-            var svPortConfig = configLoader.GetValue("ServerPort");
-            string svPort = svPortConfig == null ? string.Empty : svPortConfig.Value;
-
-            var passConfig = configLoader.GetValue("TelnetPassword");
-            string password = passConfig == null ? "CHANGEME" : passConfig.Value;
-            string telnetEnabledString = configLoader.GetValue("TelnetEnabled").Value;
-
-            ICheckValue checkValues = new CheckValue()
-            {
-                TelnetPort = strPort,
-                ControlPanelPort = cpPort,
-                ServerPort = svPort,
-                TelnetEnabled = telnetEnabledString,
-                Password = password
-            };
-            ICheckedValue checkedValues = CheckRightfulness(checkValues);
-
-            return checkedValues;
-        }
-        private ICheckedValue CheckRightfulness(ICheckValue checkValues)
-        {
-            var checkedValues = new CheckValue();
-
-            //TelnetEnabledチェック
-            if (!bool.TryParse(checkValues.TelnetEnabled, out bool telnetEnabled))
-            {
-                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_Is_Invalid, "TelnetEnabled"), LangResources.CommonResources.Error
-                       , ExMessageBoxBase.MessageType.Exclamation);
-                return null;
-            }
-            if (!telnetEnabled)
-            {
-                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_is_1, "TelnetEnabled", "False"), LangResources.CommonResources.Error
-                       , ExMessageBoxBase.MessageType.Exclamation);
-                return null;
-            }
-
-            // ポート被りチェック
-            if (checkValues.TelnetPort.Equals(checkValues.ControlPanelPort))
-            {
-                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources.Same_Port_as_0_has_been_used_in_1, "TelnetEnabled", "ControlPanelPort")
-                    , LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
-                return null;
-            }
-            if (checkValues.TelnetPort.Equals(checkValues.ServerPort))
-            {
-                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources.Same_Port_as_0_has_been_used_in_1, "TelnetEnabled", "ServerPort")
-                    , LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
-                return null;
-            }
-
-            // Telnetポート変換チェック
-            if (!int.TryParse(checkValues.TelnetPort, out int port))
-            {
-                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_Is_Invalid, LangResources.Resources.Port), LangResources.CommonResources.Error
-                                   , ExMessageBoxBase.MessageType.Exclamation);
-                return null;
-            }
-            checkedValues.Port = port;
-            checkedValues.Password = checkValues.Password;
-            return checkedValues;
-        }
-
+        
         public void TelnetConnectOrDisconnect()
         {
             if (!IsConnected)
@@ -564,7 +474,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private async Task TelnetConnect()
         {
             var localAddress = Address;
-            var localPort = this.port;
+            var localPort = port;
             var localPassword = Password;
 
             if (LocalMode)
@@ -573,13 +483,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 if (!File.Exists(ConfigFilePath))
                 {
-                    MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFile), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                    errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFile));
                     return;
                 }
 
-                ICheckedValue checkedValues = GetConfigInfo();
-                if (checkedValues == null)
+                var checkedValues = ConfigChecker.GetConfigInfo(ConfigFilePath);
+                if (checkedValues.IsFailed)
+                {
+                    errorOccurred.OnNext(checkedValues.Message);
                     return;
+                }
 
                 localPassword = checkedValues.Password;
                 localPort = checkedValues.Port;
@@ -774,19 +687,28 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!CheckConnected())
                 return;
-
-            var dialogResult = MessageBoxWindowService.MessageBoxShow(LangResources.Resources.DoYouChangeTime, LangResources.Resources.Warning, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
-            if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
+            
+            messageBoxOccurred.OnNext(new MessageBoxOccurredEventArgs
             {
-                var timeInfo = new TimeInfo()
+                Message = LangResources.Resources.DoYouChangeTime,
+                Title = LangResources.Resources.Warning,
+                MessageType = ExMessageBoxBase.MessageType.Asterisk,
+                ButtonType = ExMessageBoxBase.ButtonType.YesNo,
+                CallBack = (dialogResult) =>
                 {
-                    Day = TimeDayText.ToInt(),
-                    Hour = TimeHourText.ToInt(),
-                    Minute = TimeMinuteText.ToInt()
+                    if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
+                    {
+                        var timeInfo = new TimeInfo()
+                        {
+                            Day = TimeDayText.ToInt(),
+                            Hour = TimeHourText.ToInt(),
+                            Minute = TimeMinuteText.ToInt()
 
-                };
-                Time.SendTime(Telnet, timeInfo);
-            }
+                        };
+                        Time.SendTime(Telnet, timeInfo);
+                    }
+                }
+            });
         }
 
 
@@ -794,7 +716,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!string.IsNullOrEmpty(text))
             {
-                OnAppendConsoleText(new AppendedLogTextEventArgs()
+                consoleTextAppended.OnNext(new AppendedLogTextEventArgs()
                 {
                     AppendedLogText = text,
                     MaxLength = consoleTextLength
@@ -813,8 +735,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!IsConnected)
             {
-                MessageBoxWindowService.MessageBoxDispatchShow(LangResources.Resources.HasnotBeConnected, LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
-
+                errorOccurred.OnNext(LangResources.Resources.HasnotBeConnected);
                 return false;
             }
             return true;
@@ -865,7 +786,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var playerId = UsersList[index].ID;
             if (string.IsNullOrEmpty(playerId))
             {
-                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                messageBoxOccurred.OnNext(new MessageBoxOccurredEventArgs
+                {
+                    Message = string.Format(LangResources.Resources._0_is_Empty, "ID or Name"),
+                    Title = LangResources.CommonResources.Error
+                });
                 return;
             }
 
@@ -876,7 +801,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var playerId = UsersList[index].ID;
             if (string.IsNullOrEmpty(playerId))
             {
-                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"), LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                errorOccurred.OnNext(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"));
                 return;
             }
 
@@ -900,8 +825,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (fi.Exists)
                 Process.Start(fi.FullName, cfgArg);
             else
-                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_is_not_found, LangResources.Resources.ConfigEditor),
-                    LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                errorOccurred.OnNext(string.Format(LangResources.Resources._0_is_not_found, LangResources.Resources.ConfigEditor));
         }
 
         public void RunXmlEditor()
@@ -910,8 +834,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (fi.Exists)
                 Process.Start(fi.FullName);
             else
-                MessageBoxWindowService.MessageBoxShow(string.Format(LangResources.Resources._0_is_not_found, ConstantValues.XmlEditorFilePath),
-                    LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                errorOccurred.OnNext(string.Format(LangResources.Resources._0_is_not_found, ConstantValues.XmlEditorFilePath));
         }
 
 

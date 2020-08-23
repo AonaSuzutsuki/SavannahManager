@@ -80,7 +80,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
     {
         public MainWindowViewModel(MainWindowService windowService, MainWindowModel model, MainWindow view) : base(windowService, model)
         {
-            model.AppendConsoleText += Model_AppendConsoleText;
+            model.ConsoleTextAppended.Subscribe(Model_AppendConsoleText);
+            model.ErrorOccurred.Subscribe((message) => windowService.MessageBoxShow(message,
+                LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation));
             model.Telnet.Started += Telnet_Started;
             model.Telnet.Finished += Telnet_Finished;
             model.Telnet.ReadEvent += TelnetReadEvent;
@@ -306,10 +308,21 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             if (_model.Setting.IsFirstBoot)
                 MenuFirstSettingsBt_Click();
 
-            var task = _model.CheckUpdate();
-            var task2 = task.ContinueWith(async continueTask =>
+            var task = CheckUpdate().ContinueWith(t =>
             {
-                var dialogResult = continueTask.Result;
+                if (t.Exception != null)
+                    foreach (var exceptionInnerException in t.Exception.InnerExceptions)
+                        App.ShowAndWriteException(exceptionInnerException);
+            }, TaskContinuationOptions.OnlyOnFaulted);
+        }
+
+        private async Task CheckUpdate()
+        {
+            var availableUpdate = await _model.CheckUpdate();
+            if (availableUpdate)
+            {
+                var dialogResult = mainWindowService.MessageBoxShow(LangResources.Resources.UI_DoUpdateAlertMessage,
+                    LangResources.Resources.UI_DoUpdateAlertTitle, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
                 if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
                 {
                     var updFormModel = new UpdFormModel();
@@ -321,13 +334,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                         WindowManageService.Show<UpdForm>(vm);
                     });
                 }
-            }).ContinueWith(t =>
-            {
-                if (t.Exception != null)
-                    foreach (var exceptionInnerException in t.Exception.InnerExceptions)
-                        App.ShowAndWriteException(exceptionInnerException);
-            }, TaskContinuationOptions.OnlyOnFaulted);
+            }
         }
+
         protected override void MainWindow_Closing()
         {
             _model.SettingsSave();
@@ -620,7 +629,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
 
 
-        private void Model_AppendConsoleText(object sender, Models.MainWindowModel.AppendedLogTextEventArgs e)
+        private void Model_AppendConsoleText(MainWindowModel.AppendedLogTextEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.AppendedLogText))
             {
