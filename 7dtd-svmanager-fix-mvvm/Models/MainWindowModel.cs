@@ -570,10 +570,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         private async Task TelnetConnect()
         {
-            var address = Address;
-            var port = this.port;
-            var password = Password;
-
             if (LocalMode)
             {
                 address = "127.0.0.1";
@@ -592,9 +588,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 port = checkedValues.Port;
             }
 
+            StartBtEnabled = false;
             TelnetBtIsEnabled = false;
-            var connected = await Task.Factory.StartNew(() => Telnet.Connect(address, port));
+            var connected = await Task.Factory.StartNew(() => Telnet.Connect(Address, port));
             TelnetBtIsEnabled = true;
+            StartBtEnabled = true;
 
             IsFailed = false;
             if (connected)
@@ -607,7 +605,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 IsConnected = true;
                 Telnet.Write(TelnetClient.Cr);
-                AppendConsoleLog(SocTelnetSend(password));
+                AppendConsoleLog(SocTelnetSend(Password));
             }
             else
             {

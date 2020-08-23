@@ -287,8 +287,8 @@
                                                     </StackPanel>
                                                 </Grid>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0">
-                                                    <Button Name="GetTimeBT"  Content="Get Time" Style="{DynamicResource FlatButton}" Height="25" Width="70" Command="{Binding GetTimeBtClick}" />
-                                                    <Button Name="SetTimeBT" Content="Set Time" Style="{DynamicResource FlatButton}" Height="25" Width="70" Margin="10,0,0,0" Command="{Binding SetTimeBtClick}" />
+                                                    <Button Name="GetTimeBT"  Content="Get Time" Foreground="#81D1FF" BorderBrush="#81D1FF" Style="{DynamicResource FlatButton}" Height="25" Width="70" Command="{Binding GetTimeBtClick}" />
+                                                    <Button Name="SetTimeBT" Content="Set Time" Foreground="#FF8080" BorderBrush="#FF8080" Style="{DynamicResource FlatButton}" Height="25" Width="70" Margin="10,0,0,0" Command="{Binding SetTimeBtClick}" />
                                                 </StackPanel>
                                                 <Grid Margin="5,82,5,0" VerticalAlignment="Top">
                                                     <Grid.ColumnDefinitions>
