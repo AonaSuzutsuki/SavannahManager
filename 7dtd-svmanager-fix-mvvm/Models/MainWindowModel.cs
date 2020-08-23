@@ -570,9 +570,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         private async Task TelnetConnect()
         {
+            var localAddress = Address;
+            var localPort = this.port;
+            var localPassword = Password;
+
             if (LocalMode)
             {
-                address = "127.0.0.1";
+                localAddress = "127.0.0.1";
 
                 if (!File.Exists(ConfigFilePath))
                 {
@@ -584,13 +588,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 if (checkedValues == null)
                     return;
 
-                password = checkedValues.Password;
-                port = checkedValues.Port;
+                localPassword = checkedValues.Password;
+                localPort = checkedValues.Port;
             }
 
             StartBtEnabled = false;
             TelnetBtIsEnabled = false;
-            var connected = await Task.Factory.StartNew(() => Telnet.Connect(Address, port));
+            var connected = await Task.Factory.StartNew(() => Telnet.Connect(localAddress, localPort));
             TelnetBtIsEnabled = true;
             if (LocalMode)
                 StartBtEnabled = true;
@@ -606,7 +610,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 IsConnected = true;
                 Telnet.Write(TelnetClient.Cr);
-                AppendConsoleLog(SocTelnetSend(Password));
+                AppendConsoleLog(SocTelnetSend(localPassword));
             }
             else
             {
