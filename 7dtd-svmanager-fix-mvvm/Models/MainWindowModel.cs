@@ -85,8 +85,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             set => SetProperty(ref telnetBtLabel, value);
         }
 
-        private ObservableCollection<ViewModels.UserDetail> usersList;
-        public ObservableCollection<ViewModels.UserDetail> UsersList
+        private ObservableCollection<UserDetail> usersList;
+        public ObservableCollection<UserDetail> UsersList
         {
             get => usersList;
             set => SetProperty(ref usersList, value);
@@ -113,7 +113,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             set => SetProperty(ref connectionPanelIsEnabled, value);
         }
 
-        private bool isBeta = false;
+        private bool isBeta;
 
         public bool IsBeta
         {
@@ -200,10 +200,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             set => isConnected = value;
         }
         private bool RowConnected => Telnet != null && Telnet.Connected;
-        public bool IsFailed { get; private set; } = false;
-        public bool IsTelnetLoading { get; protected set; } = false;
-        public SettingLoader Setting { get; private set; }
-        public ShortcutKeyManager ShortcutKeyManager { get; private set; }
+        public bool IsFailed { get; private set; }
+        public bool IsTelnetLoading { get; protected set; }
+        public SettingLoader Setting { get; }
+        public ShortcutKeyManager ShortcutKeyManager { get; }
 
         private string ExeFilePath => Setting.ExeFilePath;
         private string ConfigFilePath => Setting.ConfigFilePath;
@@ -312,14 +312,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void RefreshLabels()
         {
-            if (IsConnected)
-            {
-                TelnetBtLabel = LangResources.Resources.UI_DisconnectFromTelnet;
-            }
-            else
-            {
-                TelnetBtLabel = LangResources.Resources.UI_ConnectWithTelnet;
-            }
+            TelnetBtLabel = IsConnected ? LangResources.Resources.UI_DisconnectFromTelnet : LangResources.Resources.UI_ConnectWithTelnet;
 
             if (IsTelnetLoading)
             {
