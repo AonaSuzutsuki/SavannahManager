@@ -308,11 +308,12 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             if (_model.Setting.IsFirstBoot)
                 MenuFirstSettingsBt_Click();
 
-            var task = CheckUpdate().ContinueWith(t =>
+            CheckUpdate().ContinueWith(t =>
             {
-                if (t.Exception != null)
-                    foreach (var exceptionInnerException in t.Exception.InnerExceptions)
-                        App.ShowAndWriteException(exceptionInnerException);
+                if (t.Exception == null)
+                    return;
+                foreach (var exceptionInnerException in t.Exception.InnerExceptions)
+                    App.ShowAndWriteException(exceptionInnerException);
             }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
