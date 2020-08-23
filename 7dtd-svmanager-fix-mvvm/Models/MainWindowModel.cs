@@ -592,7 +592,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             TelnetBtIsEnabled = false;
             var connected = await Task.Factory.StartNew(() => Telnet.Connect(Address, port));
             TelnetBtIsEnabled = true;
-            StartBtEnabled = true;
+            if (LocalMode)
+                StartBtEnabled = true;
 
             IsFailed = false;
             if (connected)
