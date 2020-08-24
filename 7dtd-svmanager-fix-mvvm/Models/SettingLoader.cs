@@ -17,182 +17,43 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
 
         #region Properties
-        private int width = ConstantValues.Width;
-        public int Width
-        {
-            get => width;
-            set
-            {
-                width = value;
-                iniLoader.SetValue("MAIN", "WIDTH", value);
-            }
-        }
-        private int height = ConstantValues.Height;
-        public int Height
-        {
-            get => height;
-            set
-            {
-                height = value;
-                iniLoader.SetValue("MAIN", "HEIGHT", value);
-            }
-        }
 
-        private string exeFilePath = string.Empty;
-        public string ExeFilePath
-        {
-            get => exeFilePath;
-            set
-            {
-                exeFilePath = value;
-                iniLoader.SetValue("SERVER", "EXEPATH", value);
-            }
-        }
-        private string configFilePath = string.Empty;
-        public string ConfigFilePath
-        {
-            get => configFilePath;
-            set
-            {
-                configFilePath = value;
-                iniLoader.SetValue("SERVER", "CONFIGPATH", value);
-            }
-        }
-        private string adminFilePath = string.Empty;
-        public string AdminFilePath
-        {
-            get => adminFilePath;
-            set
-            {
-                adminFilePath = value;
-                iniLoader.SetValue("SERVER", "ADMINPATH", value);
-            }
-        }
+        public int Width { get; set; } = ConstantValues.Width;
 
-        private string address = string.Empty;
-        public string Address
-        {
-            get => address;
-            set
-            {
-                address = value;
-                iniLoader.SetValue("MAIN", "ADDRESS", value);
-            }
-        }
-        private int port = ConstantValues.DefaultPort;
-        public int Port
-        {
-            get => port;
-            set
-            {
-                port = value;
-                iniLoader.SetValue("MAIN", "PORT", value);
-            }
-        }
-        private string password = string.Empty;
-        public string Password
-        {
-            get => password;
-            set
-            {
-                password = value;
-                iniLoader.SetValue("MAIN", "PASSWORD", value);
-            }
-        }
+        public int Height { get; set; } = ConstantValues.Height;
 
-        private bool localMode = true;
-        public bool LocalMode
-        {
-            get => localMode;
-            set
-            {
-                localMode = value;
-                iniLoader.SetValue("MAIN", "LOCALMODE", value);
-            }
-        }
+        public string ExeFilePath { get; set; } = string.Empty;
 
-        private string cultureName = string.Empty;
-        public string CultureName
-        {
-            get => cultureName;
-            set
-            {
-                cultureName = value;
-                ResourceService.Current.ChangeCulture(value);
-                iniLoader.SetValue("MAIN", "CULTURE", value);
-            }
-        }
+        public string ConfigFilePath { get; set; } = string.Empty;
 
-        private int consoleTextLength = 32768;
-        public int ConsoleTextLength
-        {
-            get => consoleTextLength;
-            set
-            {
-                consoleTextLength = value;
-                iniLoader.SetValue("SERVER", "CONSOLELOGLENGTH", value);
-            }
-        }
+        public string AdminFilePath { get; set; } = string.Empty;
 
-        private bool isBetaMode = true;
-        public bool IsBetaMode
-        {
-            get => isBetaMode;
-            set
-            {
-                isBetaMode = value;
-                iniLoader.SetValue("SERVER", "BETAMODE", value);
-            }
-        }
+        public string Address { get; set; } = string.Empty;
 
-        private bool isLogGetter;
-        public bool IsLogGetter
-        {
-            get => isLogGetter;
-            set
-            {
-                isLogGetter = value;
-                iniLoader.SetValue("SERVER", "LOGOUTPUT", value);
-            }
-        }
+        public int Port { get; set; } = ConstantValues.DefaultPort;
 
-        private bool isFirstBoot = true;
-        public bool IsFirstBoot
-        {
-            get => isFirstBoot;
-            set
-            {
-                isFirstBoot = value;
-                iniLoader.SetValue("MAIN", "FIRSTBOOT", value);
-            }
-        }
+        public string Password { get; set; } = string.Empty;
 
-        private bool isAutoUpdate = false;
-        public bool IsAutoUpdate
-        {
-            get => isAutoUpdate;
-            set
-            {
-                isAutoUpdate = value;
-                iniLoader.SetValue("MAIN", "AUTOCHECK", value);
-            }
-        }
+        public bool LocalMode { get; set; } = true;
 
-        private string backupDirPath;
-        public string BackupDirPath
-        {
-            get => backupDirPath;
-            set
-            {
-                backupDirPath = value;
-                iniLoader.SetValue("BACKUP", "DIRPATH", value);
-            }
-        }
+        public string CultureName { get; set; } = string.Empty;
+
+        public int ConsoleTextLength { get; set; } = 32768;
+
+        public bool IsBetaMode { get; set; } = true;
+
+        public bool IsLogGetter { get; set; }
+
+        public bool IsFirstBoot { get; set; } = true;
+
+        public bool IsAutoUpdate { get; set; }
+
+        public string BackupDirPath { get; set; }
 
         #endregion
 
 
-        private IniLoader iniLoader;
+        private readonly IniLoader iniLoader;
         public SettingLoader(string filename)
         {
             iniLoader = new IniLoader(filename);
@@ -203,39 +64,64 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!int.TryParse(iniLoader.GetValue("MAIN", "WIDTH", "900"), out int width)) { width = ConstantValues.Width; }
             if (!int.TryParse(iniLoader.GetValue("MAIN", "HEIGHT", "550"), out int height)) { height = ConstantValues.Height; }
-            this.width = width;
-            this.height = height;
+            this.Width = width;
+            this.Height = height;
 
-            exeFilePath = iniLoader.GetValue("SERVER", "EXEPATH", string.Empty);
-            configFilePath = iniLoader.GetValue("SERVER", "CONFIGPATH", string.Empty);
-            adminFilePath = iniLoader.GetValue("SERVER", "ADMINPATH", string.Empty);
+            ExeFilePath = iniLoader.GetValue("SERVER", "EXEPATH", string.Empty);
+            ConfigFilePath = iniLoader.GetValue("SERVER", "CONFIGPATH", string.Empty);
+            AdminFilePath = iniLoader.GetValue("SERVER", "ADMINPATH", string.Empty);
 
-            address = iniLoader.GetValue("MAIN", "ADDRESS", "");
+            Address = iniLoader.GetValue("MAIN", "ADDRESS", "");
 
             if (!int.TryParse(iniLoader.GetValue("MAIN", "PORT", ""), out int port))
             {
                 port = ConstantValues.DefaultPort;
             }
-            this.port = port;
+            this.Port = port;
 
-            password = iniLoader.GetValue("MAIN", "PASSWORD", "");
+            Password = iniLoader.GetValue("MAIN", "PASSWORD", "");
 
-            localMode = iniLoader.GetValue("MAIN", "LOCALMODE", true);
+            LocalMode = iniLoader.GetValue("MAIN", "LOCALMODE", true);
 
-            cultureName = iniLoader.GetValue("MAIN", "CULTURE", ResourceService.Current.Culture);
-            ResourceService.Current.ChangeCulture(cultureName);
+            CultureName = iniLoader.GetValue("MAIN", "CULTURE", ResourceService.Current.Culture);
+            ResourceService.Current.ChangeCulture(CultureName);
 
-            consoleTextLength = iniLoader.GetValue("SERVER", "CONSOLELOGLENGTH", consoleTextLength);
+            ConsoleTextLength = iniLoader.GetValue("SERVER", "CONSOLELOGLENGTH", ConsoleTextLength);
 
-            isBetaMode = iniLoader.GetValue("SERVER", "BETAMODE", false);
+            IsBetaMode = iniLoader.GetValue("SERVER", "BETAMODE", false);
 
-            isLogGetter = iniLoader.GetValue("SERVER", "LOGOUTPUT", true);
+            IsLogGetter = iniLoader.GetValue("SERVER", "LOGOUTPUT", true);
 
-            isFirstBoot = iniLoader.GetValue("MAIN", "FIRSTBOOT", true);
+            IsFirstBoot = iniLoader.GetValue("MAIN", "FIRSTBOOT", true);
 
-            isAutoUpdate = iniLoader.GetValue("MAIN", "AUTOCHECK", true);
+            IsAutoUpdate = iniLoader.GetValue("MAIN", "AUTOCHECK", true);
 
-            backupDirPath = iniLoader.GetValue("BACKUP", "DIRPATH", "backup").UnifiedSystemPathSeparator();
+            BackupDirPath = iniLoader.GetValue("BACKUP", "DIRPATH", "backup").UnifiedSystemPathSeparator();
+        }
+
+        public void ApplyCulture()
+        {
+            ResourceService.Current.ChangeCulture(CultureName);
+        }
+
+        public void Save()
+        {
+            iniLoader.SetValue("MAIN", "WIDTH", Width);
+            iniLoader.SetValue("MAIN", "HEIGHT", Height);
+            iniLoader.SetValue("SERVER", "EXEPATH", ExeFilePath);
+            iniLoader.SetValue("SERVER", "CONFIGPATH", ConfigFilePath);
+            iniLoader.SetValue("SERVER", "ADMINPATH", AdminFilePath);
+            iniLoader.SetValue("MAIN", "ADDRESS", Address);
+            iniLoader.SetValue("MAIN", "PORT", Port);
+            iniLoader.SetValue("MAIN", "PASSWORD", Password);
+            iniLoader.SetValue("MAIN", "LOCALMODE", LocalMode);
+            iniLoader.SetValue("MAIN", "CULTURE", CultureName);
+            iniLoader.SetValue("SERVER", "CONSOLELOGLENGTH", ConsoleTextLength);
+            iniLoader.SetValue("SERVER", "BETAMODE", IsBetaMode);
+            iniLoader.SetValue("SERVER", "LOGOUTPUT", IsLogGetter);
+            iniLoader.SetValue("MAIN", "FIRSTBOOT", IsFirstBoot);
+            iniLoader.SetValue("MAIN", "AUTOCHECK", IsAutoUpdate);
+            iniLoader.SetValue("BACKUP", "DIRPATH", BackupDirPath);
         }
     }
 }

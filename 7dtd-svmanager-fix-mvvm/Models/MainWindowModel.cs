@@ -887,6 +887,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (disposing)
             {
                 Telnet?.Dispose();
+                Setting.Save();
             }
 
             disposed = true;
