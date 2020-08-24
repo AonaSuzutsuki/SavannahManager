@@ -55,6 +55,7 @@
             <StackPanel Margin="1,25,1,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                 <Menu IsMainMenu="True" Name="Menu" Height="25" Padding="3" VerticalAlignment="Top">
                     <MenuItem Header="File(_F)">
+                        <MenuItem Header="New(_N)" Command="{Binding FileNewBtClick}" />
                         <MenuItem Header="Open(_O)" Command="{Binding FileOpenBtClick}" />
                         <Separator Style="{DynamicResource MLB_Separator}" />
                         <MenuItem Header="Save(_S)" Command="{Binding FileSaveBtClick}" />

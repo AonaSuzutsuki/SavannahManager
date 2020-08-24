@@ -41,7 +41,36 @@
 
             <views:BindableSelectedItemTreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="treeView:TreeViewItemInfo" ItemsSource="{Binding Children}">
-                    <TextBlock Text="{Binding Name}" />
+                    <Grid>
+                        <TextBlock Text="{Binding Name}" Visibility="{Binding TextBlockVisibility}" />
+                        <TextBox Text="{Binding TagName}" Visibility="{Binding TextBoxVisibility}">
+                            <TextBox.Resources>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Foreground" Value="white" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                                                <Border Name="TextBoxBorder" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderThickness="1" BorderBrush="Transparent">
+                                                    <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                        <Setter TargetName="TextBoxBorder" Property="BorderBrush" Value="LightGray" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TextBox.Resources>
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="LostFocus">
+                                    <i:InvokeCommandAction Command="{Binding TextBoxLostFocus}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
                 </HierarchicalDataTemplate>
             </views:BindableSelectedItemTreeView.ItemTemplate>
 
@@ -64,7 +93,8 @@
 
             <views:BindableSelectedItemTreeView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="AAA" />
+                    <MenuItem Header="Add Root" IsEnabled="{Binding AddRootEnabled.Value}" Command="{Binding AddRootCommand}" />
+                    <MenuItem Header="Change TagName" IsEnabled="{Binding ContextMenuEnabled.Value}" Command="{Binding ChangeTagNameCommand}" />
                 </ContextMenu>
             </views:BindableSelectedItemTreeView.ContextMenu>
         </views:BindableSelectedItemTreeView>

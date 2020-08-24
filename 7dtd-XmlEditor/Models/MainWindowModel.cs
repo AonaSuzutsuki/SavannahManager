@@ -63,6 +63,7 @@ namespace _7dtd_XmlEditor.Models
 
         private readonly NavigationService navigation;
         private INodeView commonPage;
+
         #endregion
 
         public MainWindowModel(NavigationService navigation)
@@ -83,6 +84,11 @@ namespace _7dtd_XmlEditor.Models
             //if (filePath == "vehicles.xml")
             //    EditModeSelectedItem = "Vehicle";
             NodeViewModeChange(EditModeSelectedItem);
+        }
+
+        public void NewFile()
+        {
+            commonPage?.Model.NewFile();
         }
 
         public void OpenFile()

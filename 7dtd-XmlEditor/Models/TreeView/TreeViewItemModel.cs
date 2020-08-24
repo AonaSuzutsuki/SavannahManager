@@ -6,11 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using _7dtd_XmlEditor.Models.NodeView;
 using _7dtd_XmlEditor.ViewModels.NodeView;
 using CommonCoreLib.CommonLinq;
+using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
 using SavannahXmlLib.XmlWrapper;
@@ -19,14 +21,30 @@ namespace _7dtd_XmlEditor.Models.TreeView
 {
     public class TreeViewItemInfo : BindableBase
     {
-        public string Name { get; set; }
+        public string Name
+        {
+            get => name;
+            set => SetProperty(ref name, value);
+        }
+        public string TagName
+        {
+            get => tagName;
+            set => SetProperty(ref tagName, value);
+        }
         public TreeViewItemInfo[] Children { get; set; }
 
         public bool IgnoreAttributeRedraw { get; set; }
         public bool IsEdited { get; set; }
 
+        private string name = string.Empty;
+        private string tagName = string.Empty;
+
+
         private bool isExpanded;
         private bool isSelected;
+
+        private Visibility textBlockVisibility = Visibility.Visible;
+        private Visibility textBoxVisibility = Visibility.Collapsed;
 
         public bool IsExpanded
         {
@@ -43,6 +61,21 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         public CommonXmlNode Node { get; }
 
+
+        public Visibility TextBlockVisibility
+        {
+            get => textBlockVisibility;
+            set => SetProperty(ref textBlockVisibility, value);
+        }
+        public Visibility TextBoxVisibility
+        {
+            get => textBoxVisibility;
+            set => SetProperty(ref textBoxVisibility, value);
+        }
+
+        public ICommand TextBoxLostFocus { get; set; }
+
+
         public TreeViewItemInfo(CommonXmlNode root, string parentPath = null)
         {
             bool.TryParse(root.GetAttribute(CommonModel.XML_EXPANDED).Value, out var isExpanded);
@@ -51,12 +84,41 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
             Node = root;
             Path = string.IsNullOrEmpty(parentPath) ? $"/{root.TagName}" : $"{parentPath}/{root.TagName}";
-            Name = Conditions.IfElse(root.Attributes.Any(), () => $"{root.TagName} {root.Attributes.ToAttributesText()}"
-                , () => $"{root.TagName}");
+            TagName = root.TagName;
+            Name = GetNodeName(Node);
 
             Children = (from node in root.ChildNodes
                 select new TreeViewItemInfo(node, Path)).ToArray();
+
+            TextBoxLostFocus = new DelegateCommand(() =>
+            {
+                DisableTextEdit();
+                ApplyTagChange();
+            });
         }
+
+        public void EnableTextEdit()
+        {
+            if (Node.NodeType != XmlNodeType.Tag)
+                return;
+
+            TextBlockVisibility = Visibility.Collapsed;
+            TextBoxVisibility = Visibility.Visible;
+        }
+        public void DisableTextEdit()
+        {
+            TextBlockVisibility = Visibility.Visible;
+            TextBoxVisibility = Visibility.Collapsed;
+        }
+
+        private void ApplyTagChange()
+        {
+            Node.TagName = TagName;
+            Name = GetNodeName(Node);
+        }
+
+        public static string GetNodeName(CommonXmlNode node) => Conditions.IfElse(node.Attributes.Any(),
+            () => $"{node.TagName} {node.Attributes.ToAttributesText()}" , () => $"{node.TagName}");
 
         public static string GetName(TreeViewItemInfo info)
         {

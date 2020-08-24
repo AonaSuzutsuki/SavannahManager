@@ -34,6 +34,7 @@ namespace _7dtd_XmlEditor.ViewModels
             EditModeComboItems = model.EditModeComboItems.ToReadOnlyReactiveCollection(m => m);
             EditModeSelectedItem = model.ToReactivePropertyAsSynchronized(m => m.EditModeSelectedItem);
 
+            FileNewBtClick = new DelegateCommand(FileNewBt_Click);
             FileOpenBtClick = new DelegateCommand(FileOpenBt_Click);
             FileSaveBtClick = new DelegateCommand(FileSaveBt_Click);
             FileSaveAsBtClick = new DelegateCommand(FileSaveAsBt_Click);
@@ -51,6 +52,7 @@ namespace _7dtd_XmlEditor.ViewModels
         #endregion
 
         #region Event Properties
+        public ICommand FileNewBtClick { get; set; }
         public ICommand FileOpenBtClick { get; set; }
         public ICommand FileSaveBtClick { get; set; }
         public ICommand FileSaveAsBtClick { get; set; }
@@ -58,7 +60,10 @@ namespace _7dtd_XmlEditor.ViewModels
         #endregion
 
         #region Event Methods
-
+        public void FileNewBt_Click()
+        {
+            model.NewFile();
+        }
         public void FileOpenBt_Click()
         {
             model.OpenFile();

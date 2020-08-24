@@ -176,5 +176,10 @@ namespace _7dtd_XmlEditor.Models.NodeView
         public void ChangeItem(TreeViewItemInfo info)
         {
         }
+
+        public void NewFile()
+        {
+
+        }
     }
 }

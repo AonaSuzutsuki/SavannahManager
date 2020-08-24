@@ -17,6 +17,7 @@ namespace _7dtd_XmlEditor.Models.NodeView
         event CommonModel.ItemAppliedEventHandler ItemApplied;
         TreeViewItemInfo SelectedItem { get; }
         string Declaration { get; set; }
+        void NewFile();
         void ChangeItem(TreeViewItemInfo info);
     }
 
@@ -79,13 +80,25 @@ namespace _7dtd_XmlEditor.Models.NodeView
             get => innerXml;
             set => SetProperty(ref innerXml, value);
         }
+
+        public bool ContextMenuEnabled
+        {
+            get => contextMenuEnabled;
+            set => SetProperty(ref contextMenuEnabled, value);
+        }
+
+        public bool AddRootEnabled
+        {
+            get => addRootEnabled;
+            set => SetProperty(ref addRootEnabled, value);
+        }
         #endregion
 
         #region Fields
         public string Declaration { get; set; }
 
         private TreeViewItemInfo root;
-        private ObservableCollection<TreeViewItemInfo> treeViewItems;
+        private ObservableCollection<TreeViewItemInfo> treeViewItems = new ObservableCollection<TreeViewItemInfo>();
         private TreeViewItemInfo selectedItem;
 
         private string fullPath;
@@ -93,6 +106,9 @@ namespace _7dtd_XmlEditor.Models.NodeView
         private ViewAttributeInfo attributesSelectedItem;
         private string innerXml;
         private CommonXmlNode node;
+
+        private bool contextMenuEnabled;
+        private bool addRootEnabled;
         #endregion
 
 
@@ -106,6 +122,10 @@ namespace _7dtd_XmlEditor.Models.NodeView
             };
         }
 
+        public void NewFile()
+        {
+
+        }
 
         public void SelectionChange()
         {

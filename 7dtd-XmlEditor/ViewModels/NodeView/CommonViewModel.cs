@@ -29,6 +29,8 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
             Attributes = model.Attributes.ToReadOnlyReactiveCollection(m => m);
             InnerXml = model.ToReactivePropertyAsSynchronized(m => m.InnerXml);
 
+            ContextMenuEnabled = model.ObserveProperty(m => m.ContextMenuEnabled).ToReactiveProperty();
+            AddRootEnabled = model.ObserveProperty(m => m.AddRootEnabled).ToReactiveProperty();
 
             ApplyBtClicked = new DelegateCommand(ApplyBt_Clicked);
             TreeViewSelectedItemChanged = new DelegateCommand(TreeView_SelectedItemChanged);
@@ -38,6 +40,8 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
             AttributesSelectionChanged = new DelegateCommand<ViewAttributeInfo>(Attributes_SelectionChanged);
             InnerXmlLostFocus = new DelegateCommand(InnerXml_LostFocus);
             InnerXmlTextChanged = new DelegateCommand(InnerXml_TextChanged);
+            ChangeTagNameCommand = new DelegateCommand(ChangeTagName);
+            AddRootCommand = new DelegateCommand(AddRoot);
         }
 
         #region Fields
@@ -51,6 +55,9 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
         public ReactiveProperty<string> FullPath { get; set; }
         public ReadOnlyReactiveCollection<ViewAttributeInfo> Attributes { get; set; }
         public ReactiveProperty<string> InnerXml { get; set; }
+
+        public ReactiveProperty<bool> ContextMenuEnabled { get; set; }
+        public ReactiveProperty<bool> AddRootEnabled { get; set; }
         #endregion
 
 
@@ -66,6 +73,11 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
 
         public ICommand InnerXmlLostFocus { get; set; }
         public ICommand InnerXmlTextChanged { get; set; }
+
+
+        public ICommand ChangeTagNameCommand { get; set; }
+
+        public ICommand AddRootCommand { get; set; }
         #endregion
 
         #region Event Methods
@@ -81,7 +93,9 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
 
         public void TreeView_MouseRightButtonDown()
         {
-            Console.WriteLine(TreeViewSelectedItem.Value.Path);
+            var item = TreeViewSelectedItem.Value;
+            model.ContextMenuEnabled = item != null;
+            model.AddRootEnabled = TreeViewItems.Count <= 0;
         }
 
         public void AddAttributeBt_Clicked()
@@ -107,9 +121,23 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
 
         public void InnerXml_TextChanged()
         {
-            if (model.SelectedItem != null)
-                if (model.SelectedItem.Node.InnerXml != model.InnerXml)
-                    model.SelectedItem.IsEdited = true;
+            if (model.SelectedItem == null) return;
+
+            if (model.SelectedItem.Node.InnerXml != model.InnerXml)
+                model.SelectedItem.IsEdited = true;
+        }
+
+
+        public void AddRoot()
+        {
+
+        }
+
+        public void ChangeTagName()
+        {
+            var item = TreeViewSelectedItem.Value;
+
+            item?.EnableTextEdit();
         }
         #endregion
     }
