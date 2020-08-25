@@ -120,12 +120,12 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel HorizontalAlignment="Left">
+                <StackPanel HorizontalAlignment="Left" IsEnabled="{Binding IsAttributesEnabled.Value}">
                     <Button Content="+" Width="25" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding AddAttributeBtClicked}" />
                     <Button Content="-" Width="25" Height="25" Margin="0,5,0,0" Style="{DynamicResource FlatButton}" Command="{Binding RemoveAttributeBtClicked}" />
                 </StackPanel>
 
-                <ListView Grid.Column="1" ItemsSource="{Binding Attributes}">
+                <ListView Grid.Column="1" ItemsSource="{Binding Attributes}" IsEnabled="{Binding IsAttributesEnabled.Value}">
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">

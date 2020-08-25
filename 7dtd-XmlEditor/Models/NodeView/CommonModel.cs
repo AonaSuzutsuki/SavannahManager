@@ -63,6 +63,12 @@ namespace _7dtd_XmlEditor.Models.NodeView
             set => SetProperty(ref fullPath, value);
         }
 
+        public bool IsAttributesEnabled
+        {
+            get => isAttributesEnabled;
+            set => SetProperty(ref isAttributesEnabled, value);
+        }
+
         public ObservableCollection<ViewAttributeInfo> Attributes
         {
             get => attributes;
@@ -103,6 +109,7 @@ namespace _7dtd_XmlEditor.Models.NodeView
         private TreeViewItemInfo selectedItem;
 
         private string fullPath;
+        private bool isAttributesEnabled;
         private ObservableCollection<ViewAttributeInfo> attributes = new ObservableCollection<ViewAttributeInfo>();
         private ViewAttributeInfo attributesSelectedItem;
         private string innerXml;
@@ -169,10 +176,9 @@ namespace _7dtd_XmlEditor.Models.NodeView
                 info.IgnoreAttributeRedraw = false;
             }
 
-            if (info.Node.NodeType == XmlNodeType.Tag)
-                InnerXml = info.Node.InnerXml;
-            else
-                InnerXml = info.Node.InnerText;
+            InnerXml = info.Node.NodeType == XmlNodeType.Tag ? info.Node.InnerXml : info.Node.InnerText;
+
+            IsAttributesEnabled = info.Node.NodeType != XmlNodeType.Text;
         }
 
         public void LostFocus(ViewAttributeInfo attributeInfo)

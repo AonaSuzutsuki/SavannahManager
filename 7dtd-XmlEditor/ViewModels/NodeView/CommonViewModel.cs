@@ -26,6 +26,7 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
             TreeViewSelectedItem = model.ToReactivePropertyAsSynchronized(m => m.SelectedItem);
 
             FullPath = model.ObserveProperty(m => m.FullPath).ToReactiveProperty();
+            IsAttributesEnabled = model.ObserveProperty(m => m.IsAttributesEnabled).ToReactiveProperty();
             Attributes = model.Attributes.ToReadOnlyReactiveCollection(m => m);
             InnerXml = model.ToReactivePropertyAsSynchronized(m => m.InnerXml);
 
@@ -52,6 +53,7 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
         public ReactiveProperty<TreeViewItemInfo> TreeViewSelectedItem { get; set; }
 
         public ReactiveProperty<string> FullPath { get; set; }
+        public ReactiveProperty<bool> IsAttributesEnabled { get; set; }
         public ReadOnlyReactiveCollection<ViewAttributeInfo> Attributes { get; set; }
         public ReactiveProperty<string> InnerXml { get; set; }
 
