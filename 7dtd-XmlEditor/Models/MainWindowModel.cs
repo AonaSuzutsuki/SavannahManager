@@ -54,7 +54,7 @@ namespace _7dtd_XmlEditor.Models
         #endregion
 
         #region Fields
-        private string declaration;
+        private string declaration = CommonXmlWriter.Utf8Declaration;
         private TreeViewItemInfo root;
         private bool isEdited;
         private string isEditedTitle;

@@ -202,7 +202,7 @@ namespace _7dtd_XmlEditor.Models.NodeView
         public void Apply(bool ignoreAttributeRedraw = false)
         {
             if (this.node.NodeType == XmlNodeType.Tag && InnerXml != this.node.InnerXml)
-                this.node.PrioritizeInneXml = InnerXml;
+                this.node.PrioritizeInnerXml = InnerXml;
             else if (this.node.NodeType == XmlNodeType.Text)
                 this.node.InnerText = InnerXml;
 
