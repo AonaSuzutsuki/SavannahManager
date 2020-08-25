@@ -44,7 +44,7 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
         }
 
         #region Fields
-        private CommonModel model;
+        private readonly CommonModel model;
         #endregion
 
         #region Properties

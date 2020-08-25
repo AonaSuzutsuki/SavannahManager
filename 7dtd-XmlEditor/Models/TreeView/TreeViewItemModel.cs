@@ -58,16 +58,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
             set => SetProperty(ref isSelected, value);
         }
 
-        public string ParentPath
-        {
-            get
-            {
-                if (Parent == null)
-                    return "/";
-
-                return $"{Parent.ParentPath}{Parent.TagName}/";
-            }
-        }
+        public string ParentPath => Parent == null ? "/" : $"{Parent.ParentPath}{Parent.TagName}/";
         public string Path => $"{ParentPath}{Node.TagName}";
 
         public TreeViewItemInfo Parent { get; }
