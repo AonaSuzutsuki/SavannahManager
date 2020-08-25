@@ -95,6 +95,7 @@ namespace _7dtd_XmlEditor.Models.NodeView
         #endregion
 
         #region Fields
+
         public string Declaration { get; set; }
 
         private TreeViewItemInfo root;
@@ -124,7 +125,13 @@ namespace _7dtd_XmlEditor.Models.NodeView
 
         public void NewFile()
         {
-
+            var commonXmlNode = new CommonXmlNode
+            {
+                TagName = "root"
+            };
+            root = new TreeViewItemInfo(commonXmlNode);
+            TreeViewItems.Clear();
+            TreeViewItems.Add(root);
         }
 
         public void SelectionChange()
