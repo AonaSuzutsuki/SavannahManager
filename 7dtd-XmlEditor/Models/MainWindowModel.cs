@@ -128,14 +128,15 @@ namespace _7dtd_XmlEditor.Models
                 SaveFile(filePath);
         }
 
-        public void NodeViewModeChange(string mode)
+        public ICommonModel NodeViewModeChange(string mode)
         {
             if (mode == "Common")
             {
                 var selected = commonPage?.Model.SelectedItem;
-                var model = new CommonModel(root)
+                var model = new CommonModel()
                 {
-                    Declaration = declaration
+                    Declaration = declaration,
+                    EditedModel = this
                 };
                 model.ItemApplied += (sender, args) =>
                 {
@@ -146,13 +147,15 @@ namespace _7dtd_XmlEditor.Models
                 if (selected != null)
                     model.ChangeItem(selected);
                 navigation.Navigate(commonPage);
+                return model;
             }
             else if (mode == "Vehicle")
             {
                 var selected = commonPage?.Model.SelectedItem;
-                var model = new VehicleModel(root)
+                var model = new VehicleModel()
                 {
-                    Declaration = declaration
+                    Declaration = declaration,
+                    EditedModel = this
                 };
                 model.ItemApplied += (sender, args) =>
                 {
@@ -163,19 +166,20 @@ namespace _7dtd_XmlEditor.Models
                 if (selected != null)
                     model.ChangeItem(selected);
                 navigation.Navigate(commonPage);
+                return model;
             }
+
+            return null;
         }
 
         private void OpenFile(string filePath)
         {
             var reader = new CommonXmlReader(filePath);
             declaration = reader.Declaration;
-            root = new TreeViewItemInfo(reader.GetAllNodes())
-            {
-                EditedModel = this
-            };
+            var model = NodeViewModeChange("Common");
+            root = new TreeViewItemInfo(reader.GetAllNodes(), model);
+            model.SetRoot(root);
 
-            NodeViewModeChange("Common");
 
             OpenedFilePath = filePath;
         }

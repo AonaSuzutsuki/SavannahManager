@@ -15,8 +15,11 @@ namespace _7dtd_XmlEditor.Models.NodeView
     public interface ICommonModel
     {
         event CommonModel.ItemAppliedEventHandler ItemApplied;
+        IEditedModel EditedModel { get; set; }
         TreeViewItemInfo SelectedItem { get; }
         string Declaration { get; set; }
+        string FullPath { get; set; }
+        void SetRoot(TreeViewItemInfo info);
         void NewFile();
         void ChangeItem(TreeViewItemInfo info);
     }
@@ -44,6 +47,8 @@ namespace _7dtd_XmlEditor.Models.NodeView
         #endregion
 
         #region Properties
+        public IEditedModel EditedModel { get; set; }
+
         public ObservableCollection<TreeViewItemInfo> TreeViewItems
         {
             get => treeViewItems;
@@ -120,26 +125,25 @@ namespace _7dtd_XmlEditor.Models.NodeView
         #endregion
 
 
-        public CommonModel(TreeViewItemInfo info)
+        public CommonModel()
+        {
+            
+        }
+
+        public void SetRoot(TreeViewItemInfo info)
         {
             root = info;
 
-            TreeViewItems = new ObservableCollection<TreeViewItemInfo>
-            {
-                root
-            };
+            TreeViewItems.Add(root);
         }
 
-        public void NewFile(IEditedModel model)
+        public void NewFile()
         {
             var commonXmlNode = new CommonXmlNode
             {
                 TagName = "root"
             };
-            root = new TreeViewItemInfo(commonXmlNode)
-            {
-                EditedModel = model
-            };
+            root = new TreeViewItemInfo(commonXmlNode, this);
             TreeViewItems.Clear();
             TreeViewItems.Add(root);
         }
@@ -237,7 +241,7 @@ namespace _7dtd_XmlEditor.Models.NodeView
             var reader = new CommonXmlReader(ms);
             var node = reader.GetAllNodes();
 
-            root = new TreeViewItemInfo(node);
+            root = new TreeViewItemInfo(node, this);
 
             TreeViewItems.Clear();
             TreeViewItems.Add(root);

@@ -32,6 +32,7 @@ namespace _7dtd_XmlEditor.Models.NodeView
 
         #endregion
         public event CommonModel.ItemAppliedEventHandler ItemApplied;
+        public IEditedModel EditedModel { get; set; }
 
         public VehicleInfo VehicleSelectedItem
         {
@@ -77,6 +78,8 @@ namespace _7dtd_XmlEditor.Models.NodeView
 
         public string Declaration { get; set; }
 
+        public string FullPath { get; set; }
+
         #region Fields
         private CommonXmlReader templaReader;
 
@@ -93,10 +96,14 @@ namespace _7dtd_XmlEditor.Models.NodeView
         private string vehicleAttributeText;
         #endregion
 
-        public VehicleModel(TreeViewItemInfo info)
+        public VehicleModel()
         {
             using var fs = new FileStream("XmlTemplates/a18/Vehicles/vehicles.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
             templaReader = new CommonXmlReader(fs);
+        }
+
+        public void SetRoot(TreeViewItemInfo info)
+        {
 
             root = info;
             DrawMainPage(info);
@@ -177,7 +184,7 @@ namespace _7dtd_XmlEditor.Models.NodeView
         {
         }
 
-        public void NewFile(IEditedModel model)
+        public void NewFile()
         {
 
         }

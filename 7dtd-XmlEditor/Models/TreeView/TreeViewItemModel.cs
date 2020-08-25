@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,6 +23,8 @@ namespace _7dtd_XmlEditor.Models.TreeView
     public class TreeViewItemInfo : BindableBase
     {
         public IEditedModel EditedModel { get; set; }
+        public ICommonModel ParentCommonModel { get; set; }
+
         public string Name
         {
             get => name;
@@ -80,7 +83,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
         public ICommand TextBoxLostFocus { get; set; }
 
 
-        public TreeViewItemInfo(CommonXmlNode root, TreeViewItemInfo parent = null)
+        public TreeViewItemInfo(CommonXmlNode root, ICommonModel commonModel, TreeViewItemInfo parent = null)
         {
             bool.TryParse(root.GetAttribute(CommonModel.XML_EXPANDED).Value, out var isExpanded);
             IsExpanded = isExpanded;
@@ -90,9 +93,13 @@ namespace _7dtd_XmlEditor.Models.TreeView
             Parent = parent;
             TagName = Node.TagName;
             Name = GetNodeName(Node);
+            ParentCommonModel = commonModel;
 
-            Children = (from node in root.ChildNodes
-                select new TreeViewItemInfo(node, this)).ToArray();
+            Children = (from node in Node.ChildNodes
+                select new TreeViewItemInfo(node, commonModel, this)
+                {
+                    EditedModel = this.EditedModel
+                }).ToArray();
 
             TextBoxLostFocus = new DelegateCommand(() =>
             {
@@ -126,9 +133,10 @@ namespace _7dtd_XmlEditor.Models.TreeView
                 return;
             }
 
-            EditedModel.IsEdited = true;
+            ParentCommonModel.EditedModel.IsEdited = true;
             Node.TagName = TagName;
             Name = GetNodeName(Node);
+            ParentCommonModel.FullPath = Path;
         }
 
         public static string GetNodeName(CommonXmlNode node) => Conditions.IfElse(node.Attributes.Any(),
