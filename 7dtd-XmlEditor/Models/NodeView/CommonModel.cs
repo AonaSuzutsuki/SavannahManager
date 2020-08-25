@@ -123,13 +123,16 @@ namespace _7dtd_XmlEditor.Models.NodeView
             };
         }
 
-        public void NewFile()
+        public void NewFile(IEditedModel model)
         {
             var commonXmlNode = new CommonXmlNode
             {
                 TagName = "root"
             };
-            root = new TreeViewItemInfo(commonXmlNode);
+            root = new TreeViewItemInfo(commonXmlNode)
+            {
+                EditedModel = model
+            };
             TreeViewItems.Clear();
             TreeViewItems.Add(root);
         }

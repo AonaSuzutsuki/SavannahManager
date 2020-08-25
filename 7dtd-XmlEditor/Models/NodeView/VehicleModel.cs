@@ -177,7 +177,7 @@ namespace _7dtd_XmlEditor.Models.NodeView
         {
         }
 
-        public void NewFile()
+        public void NewFile(IEditedModel model)
         {
 
         }

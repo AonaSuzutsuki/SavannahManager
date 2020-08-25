@@ -21,6 +21,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
 {
     public class TreeViewItemInfo : BindableBase
     {
+        public IEditedModel EditedModel { get; set; }
         public string Name
         {
             get => name;
@@ -116,6 +117,16 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         private void ApplyTagChange()
         {
+            if (Node.TagName == TagName)
+                return;
+
+            if (string.IsNullOrEmpty(TagName))
+            {
+                TagName = Node.TagName;
+                return;
+            }
+
+            EditedModel.IsEdited = true;
             Node.TagName = TagName;
             Name = GetNodeName(Node);
         }

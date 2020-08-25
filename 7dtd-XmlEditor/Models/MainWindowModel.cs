@@ -18,7 +18,12 @@ using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_XmlEditor.Models
 {
-    public class MainWindowModel : ModelBase
+    public interface IEditedModel
+    {
+        bool IsEdited { get; set; }
+    }
+
+    public class MainWindowModel : ModelBase, IEditedModel
     {
         #region Properties
 
@@ -165,7 +170,10 @@ namespace _7dtd_XmlEditor.Models
         {
             var reader = new CommonXmlReader(filePath);
             declaration = reader.Declaration;
-            root = new TreeViewItemInfo(reader.GetAllNodes());
+            root = new TreeViewItemInfo(reader.GetAllNodes())
+            {
+                EditedModel = this
+            };
 
             NodeViewModeChange("Common");
 
