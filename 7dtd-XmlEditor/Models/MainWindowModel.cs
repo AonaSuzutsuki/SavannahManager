@@ -108,8 +108,9 @@ namespace _7dtd_XmlEditor.Models
 
             if (string.IsNullOrEmpty(OpenedFilePath))
                 SaveAs();
+            else
+                SaveFile(OpenedFilePath);
 
-            SaveFile(OpenedFilePath);
             IsEdited = false;
         }
 
