@@ -41,7 +41,6 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
             InnerXmlLostFocus = new DelegateCommand(InnerXml_LostFocus);
             InnerXmlTextChanged = new DelegateCommand(InnerXml_TextChanged);
             ChangeTagNameCommand = new DelegateCommand(ChangeTagName);
-            AddRootCommand = new DelegateCommand(AddRoot);
         }
 
         #region Fields
@@ -125,12 +124,6 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
 
             if (model.SelectedItem.Node.InnerXml != model.InnerXml)
                 model.SelectedItem.IsEdited = true;
-        }
-
-
-        public void AddRoot()
-        {
-
         }
 
         public void ChangeTagName()

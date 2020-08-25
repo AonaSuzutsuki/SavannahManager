@@ -93,7 +93,6 @@
 
             <views:BindableSelectedItemTreeView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Add Root" IsEnabled="{Binding AddRootEnabled.Value}" Command="{Binding AddRootCommand}" />
                     <MenuItem Header="Change TagName" IsEnabled="{Binding ContextMenuEnabled.Value}" Command="{Binding ChangeTagNameCommand}" />
                 </ContextMenu>
             </views:BindableSelectedItemTreeView.ContextMenu>
