@@ -77,8 +77,6 @@ namespace _7dtd_XmlEditor.ViewModels.NodeView
 
 
         public ICommand ChangeTagNameCommand { get; set; }
-
-        public ICommand AddRootCommand { get; set; }
         #endregion
 
         #region Event Methods

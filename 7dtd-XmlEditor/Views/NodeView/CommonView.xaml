@@ -76,8 +76,16 @@
 
             <views:BindableSelectedItemTreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
-                    <!--<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
-                            <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />-->
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                         Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                                         Color="Black" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                         Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                         Color="Black" />
+                    </Style.Resources>
                     <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
                     <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded,Mode=TwoWay}"/>
                     <Setter Property="Foreground" Value="White" />

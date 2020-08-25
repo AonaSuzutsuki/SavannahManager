@@ -855,7 +855,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             else if (ShortcutKeyManager.IsPushed("ConTelnetKey", Keyboard.Modifiers, key))
             {
                 if (!IsConnected)
-                    TelnetConnect();
+                    _ = TelnetConnect();
             }
             else if (ShortcutKeyManager.IsPushed("DisConTelnetKey", Keyboard.Modifiers, key))
             {
