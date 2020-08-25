@@ -57,8 +57,20 @@ namespace _7dtd_XmlEditor.Models.TreeView
             get => isSelected;
             set => SetProperty(ref isSelected, value);
         }
-        public string Path { get; }
 
+        public string ParentPath
+        {
+            get
+            {
+                if (Parent == null)
+                    return "/";
+
+                return $"{Parent.ParentPath}{Parent.TagName}/";
+            }
+        }
+        public string Path => $"{ParentPath}{Node.TagName}";
+
+        public TreeViewItemInfo Parent { get; }
         public CommonXmlNode Node { get; }
 
 
@@ -76,19 +88,19 @@ namespace _7dtd_XmlEditor.Models.TreeView
         public ICommand TextBoxLostFocus { get; set; }
 
 
-        public TreeViewItemInfo(CommonXmlNode root, string parentPath = null)
+        public TreeViewItemInfo(CommonXmlNode root, TreeViewItemInfo parent = null)
         {
             bool.TryParse(root.GetAttribute(CommonModel.XML_EXPANDED).Value, out var isExpanded);
             IsExpanded = isExpanded;
             root.RemoveAttribute(CommonModel.XML_EXPANDED);
 
             Node = root;
-            Path = string.IsNullOrEmpty(parentPath) ? $"/{root.TagName}" : $"{parentPath}/{root.TagName}";
-            TagName = root.TagName;
+            Parent = parent;
+            TagName = Node.TagName;
             Name = GetNodeName(Node);
 
             Children = (from node in root.ChildNodes
-                select new TreeViewItemInfo(node, Path)).ToArray();
+                select new TreeViewItemInfo(node, this)).ToArray();
 
             TextBoxLostFocus = new DelegateCommand(() =>
             {
