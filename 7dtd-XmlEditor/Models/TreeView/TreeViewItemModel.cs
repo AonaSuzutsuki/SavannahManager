@@ -129,6 +129,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
                     ApplyTagChange();
                 else
                     failedLostFocus.OnNext(this);
+                failedLostFocus.OnCompleted();
             });
         }
 

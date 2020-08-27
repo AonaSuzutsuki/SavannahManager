@@ -257,6 +257,7 @@ namespace _7dtd_XmlEditor.Models
             commonXmlNodes.Remove(info.Node);
             parent.Node.ChildNodes = commonXmlNodes;
             info.Parent.RemoveChildren(info);
+            IsEdited = true;
         }
 
         public void AddAttribute()
