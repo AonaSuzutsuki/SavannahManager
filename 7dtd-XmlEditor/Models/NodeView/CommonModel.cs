@@ -143,7 +143,7 @@ namespace _7dtd_XmlEditor.Models.NodeView
             {
                 TagName = "root"
             };
-            root = new TreeViewItemInfo(commonXmlNode, this);
+            root = new TreeViewItemInfo(commonXmlNode);
             TreeViewItems.Clear();
             TreeViewItems.Add(root);
         }
@@ -241,7 +241,7 @@ namespace _7dtd_XmlEditor.Models.NodeView
             var reader = new CommonXmlReader(ms);
             var node = reader.GetAllNodes();
 
-            root = new TreeViewItemInfo(node, this);
+            root = new TreeViewItemInfo(node);
 
             TreeViewItems.Clear();
             TreeViewItems.Add(root);

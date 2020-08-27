@@ -177,9 +177,8 @@ namespace _7dtd_XmlEditor.Models
             var reader = new CommonXmlReader(filePath);
             declaration = reader.Declaration;
             var model = NodeViewModeChange("Common");
-            root = new TreeViewItemInfo(reader.GetAllNodes(), model);
+            root = new TreeViewItemInfo(reader.GetAllNodes());
             model.SetRoot(root);
-
 
             OpenedFilePath = filePath;
         }
