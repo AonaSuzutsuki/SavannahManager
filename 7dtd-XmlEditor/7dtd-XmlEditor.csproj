@@ -106,6 +106,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\IEditedModel.cs" />
     <Compile Include="Models\MainWindowModel2.cs" />
     <Compile Include="Models\ViewAttributeInfo.cs" />
     <Compile Include="ViewModels\MainWindowViewModel2.cs" />
@@ -127,6 +128,7 @@
     </Compile>
     <Compile Include="Models\TreeView\TreeViewItemModel.cs" />
     <Compile Include="Views\BindableSelectedItemTreeView.cs" />
+    <Compile Include="Views\FocusExtension.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

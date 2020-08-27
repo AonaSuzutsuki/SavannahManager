@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using _7dtd_XmlEditor.Models.NodeView;
 using _7dtd_XmlEditor.Models.TreeView;
 using CommonCoreLib;
 using CommonExtensionLib.Extensions;
@@ -15,7 +14,7 @@ using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_XmlEditor.Models
 {
-    public class MainWindowModel2 : ModelBase
+    public class MainWindowModel2 : ModelBase, IEditedModel
     {
         #region Constants
 
@@ -42,6 +41,8 @@ namespace _7dtd_XmlEditor.Models
         private ObservableCollection<ViewAttributeInfo> attributes = new ObservableCollection<ViewAttributeInfo>();
         private ViewAttributeInfo attributesSelectedItem;
         private string innerXml;
+        private bool contextMenuEnabled;
+        private bool _addElementEnabled;
         #endregion
 
         #region Properties
@@ -104,6 +105,18 @@ namespace _7dtd_XmlEditor.Models
             get => innerXml;
             set => SetProperty(ref innerXml, value);
         }
+
+        public bool ContextMenuEnabled
+        {
+            get => contextMenuEnabled;
+            set => SetProperty(ref contextMenuEnabled, value);
+        }
+
+        public bool AddElementEnabled
+        {
+            get => _addElementEnabled;
+            set => SetProperty(ref _addElementEnabled, value);
+        }
         #endregion
 
         public void NewFile()
@@ -112,13 +125,13 @@ namespace _7dtd_XmlEditor.Models
             Attributes.Clear();
             InnerXml = string.Empty;
             openedFilePath = string.Empty;
-            isEdited = false;
+            IsEdited = false;
 
             declaration = CommonXmlWriter.Utf8Declaration;
-            root = new TreeViewItemInfo(new CommonXmlNode
+            root = new TreeViewItemInfo(new CommonXmlNode { TagName = "root" }, this)
             {
-                TagName = "root"
-            });
+                IsRoot = true
+            };
             TreeViewItems.Add(root);
         }
 
@@ -128,13 +141,13 @@ namespace _7dtd_XmlEditor.Models
                 , "", FileSelector.FileSelectorType.Read);
             if (!string.IsNullOrEmpty(filePath))
             {
-                var (s, root) = OpenFile(filePath);
-                this.declaration = s;
-                this.root = root;
+                var (dec, itemInfo) = OpenFile(filePath, this);
+                declaration = dec;
+                root = itemInfo;
                 TreeViewItems.Clear();
-                TreeViewItems.Add(root);
+                TreeViewItems.Add(itemInfo);
 
-                isEdited = false;
+                IsEdited = false;
             }
             openedFilePath = filePath;
         }
@@ -198,8 +211,52 @@ namespace _7dtd_XmlEditor.Models
 
         public void LostFocus(ViewAttributeInfo info)
         {
-            if (info.isEdited)
+            if (info.IsEdited)
                 Apply(true);
+        }
+
+        public void AddChildElement()
+        {
+            var info = SelectedItem;
+            if (info == null)
+                return;
+
+            var currentNode = info.Node;
+            var node = new CommonXmlNode();
+            var prevChildren = currentNode.ChildNodes;
+            var currentNodeChildNodes = prevChildren.ToList();
+            var children = new List<CommonXmlNode>(currentNodeChildNodes)
+            {
+                node
+            };
+            currentNode.ChildNodes = children;
+
+            var newInfo = new TreeViewItemInfo(node, this, info);
+            newInfo.FailedLostFocus.Subscribe(failedInfo =>
+            {
+                currentNode.ChildNodes = currentNodeChildNodes;
+                info.RemoveChildren(failedInfo);
+            });
+
+            info.AddChildren(newInfo);
+            info.IsExpanded = true;
+            info.IsSelected = false;
+            newInfo.IsSelected = true;
+
+            newInfo.EnableTextEdit();
+        }
+
+        public void RemoveElement()
+        {
+            var info = SelectedItem;
+            if (info == null)
+                return;
+
+            var parent = info.Parent;
+            var commonXmlNodes = new List<CommonXmlNode>(parent.Node.ChildNodes);
+            commonXmlNodes.Remove(info.Node);
+            parent.Node.ChildNodes = commonXmlNodes;
+            info.Parent.RemoveChildren(info);
         }
 
         public void AddAttribute()
@@ -248,14 +305,20 @@ namespace _7dtd_XmlEditor.Models
             info.Node.AppendAttribute(XML_SELECTED, true.ToString());
 
             using var ms = new MemoryStream();
-            var writer = new CommonXmlWriter(declaration);
+            var writer = new CommonXmlWriter(declaration)
+            {
+                IgnoreComments = false
+            };
             writer.Write(ms, root.Node);
 
             ms.Seek(0, SeekOrigin.Begin);
-            var reader = new CommonXmlReader(ms);
+            var reader = new CommonXmlReader(ms, false);
             var readNode = reader.GetAllNodes();
 
-            root = new TreeViewItemInfo(readNode);
+            root = new TreeViewItemInfo(readNode, this)
+            {
+                IsRoot = true
+            };
 
             TreeViewItems.Clear();
             TreeViewItems.Add(root);
@@ -310,18 +373,24 @@ namespace _7dtd_XmlEditor.Models
             return null;
         }
 
-        private static (string declaration, TreeViewItemInfo root) OpenFile(string filePath)
+        private static (string declaration, TreeViewItemInfo root) OpenFile(string filePath, IEditedModel editedModel)
         {
-            var reader = new CommonXmlReader(filePath);
+            var reader = new CommonXmlReader(filePath, false);
             var declaration = reader.Declaration;
-            var root = new TreeViewItemInfo(reader.GetAllNodes());
+            var root = new TreeViewItemInfo(reader.GetAllNodes(), editedModel)
+            {
+                IsRoot = true
+            };
 
             return (declaration, root);
         }
 
         private static void SaveFile(string filePath, string declaration, CommonXmlNode node)
         {
-            var writer = new CommonXmlWriter(declaration);
+            var writer = new CommonXmlWriter(declaration)
+            {
+                IgnoreComments = false
+            };
             Console.WriteLine(node.InnerXml);
             writer.Write(filePath, node);
         }

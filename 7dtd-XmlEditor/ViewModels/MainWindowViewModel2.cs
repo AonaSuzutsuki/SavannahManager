@@ -29,7 +29,8 @@ namespace _7dtd_XmlEditor.ViewModels
             IsAttributesEnabled = model.ObserveProperty(m => m.IsAttributesEnabled).ToReactiveProperty();
             Attributes = model.Attributes.ToReadOnlyReactiveCollection(m => m);
             InnerXml = model.ToReactivePropertyAsSynchronized(m => m.InnerXml);
-
+            ContextMenuEnabled = model.ObserveProperty(m => m.ContextMenuEnabled).ToReactiveProperty();
+            AddElementEnabled = model.ObserveProperty(m => m.AddElementEnabled).ToReactiveProperty();
 
             FileNewBtClick = new DelegateCommand(FileNewBt_Click);
             FileOpenBtClick = new DelegateCommand(FileOpenBt_Click);
@@ -37,11 +38,15 @@ namespace _7dtd_XmlEditor.ViewModels
             FileSaveAsBtClick = new DelegateCommand(FileSaveAsBt_Click);
             TreeViewSelectedItemChangedCommand = new DelegateCommand(TreeViewSelectedItemChanged);
 
+            TreeViewMouseRightButtonDown = new DelegateCommand(TreeView_MouseRightButtonDown);
             AddAttributeBtClicked = new DelegateCommand(AddAttributeBt_Clicked);
             RemoveAttributeBtClicked = new DelegateCommand(RemoveAttributeBt_Clicked);
             AttributesSelectionChanged = new DelegateCommand<ViewAttributeInfo>(Attributes_SelectionChanged);
             InnerXmlLostFocus = new DelegateCommand(InnerXml_LostFocus);
             InnerXmlTextChanged = new DelegateCommand(InnerXml_TextChanged);
+            ChangeTagNameCommand = new DelegateCommand(ChangeTagName);
+            AddChildElementCommand = new DelegateCommand(AddChildElement);
+            RemoveElementCommand = new DelegateCommand(RemoveElement);
         }
 
         #region Fields
@@ -52,8 +57,6 @@ namespace _7dtd_XmlEditor.ViewModels
 
         #region Properties
         public ReactiveProperty<string> IsEditedTitle { get; set; }
-        public ReadOnlyReactiveCollection<string> EditModeComboItems { get; set; }
-        public ReactiveProperty<string> EditModeSelectedItem { get; set; }
 
         public ReadOnlyReactiveCollection<TreeViewItemInfo> TreeViewItems { get; set; }
         public ReactiveProperty<TreeViewItemInfo> TreeViewSelectedItem { get; set; }
@@ -64,7 +67,7 @@ namespace _7dtd_XmlEditor.ViewModels
         public ReactiveProperty<string> InnerXml { get; set; }
 
         public ReactiveProperty<bool> ContextMenuEnabled { get; set; }
-        public ReactiveProperty<bool> AddRootEnabled { get; set; }
+        public ReactiveProperty<bool> AddElementEnabled { get; set; }
         #endregion
 
         #region Event Properties
@@ -72,10 +75,8 @@ namespace _7dtd_XmlEditor.ViewModels
         public ICommand FileOpenBtClick { get; set; }
         public ICommand FileSaveBtClick { get; set; }
         public ICommand FileSaveAsBtClick { get; set; }
-        public ICommand EditModeComboSelectionChanged { get; set; }
 
 
-        public ICommand ApplyBtClicked { get; set; }
         public ICommand TreeViewSelectedItemChangedCommand { get; set; }
         public ICommand TreeViewMouseRightButtonDown { get; set; }
 
@@ -89,6 +90,8 @@ namespace _7dtd_XmlEditor.ViewModels
 
 
         public ICommand ChangeTagNameCommand { get; set; }
+        public ICommand AddChildElementCommand { get; set; }
+        public ICommand RemoveElementCommand { get; set; }
         #endregion
 
         #region Event Methods
@@ -117,6 +120,12 @@ namespace _7dtd_XmlEditor.ViewModels
             model.ItemChanged();
         }
 
+        public void TreeView_MouseRightButtonDown()
+        {
+            var item = TreeViewSelectedItem.Value;
+            model.ContextMenuEnabled = item != null;
+            model.AddElementEnabled = item != null && !item.IsRoot;
+        }
 
 
         public void AddAttributeBt_Clicked()
@@ -146,6 +155,23 @@ namespace _7dtd_XmlEditor.ViewModels
 
             if (model.SelectedItem.Node.InnerXml != model.InnerXml)
                 model.SelectedItem.IsEdited = true;
+        }
+
+        public void ChangeTagName()
+        {
+            var item = TreeViewSelectedItem.Value;
+
+            item?.EnableTextEdit();
+        }
+
+        public void AddChildElement()
+        {
+            model.AddChildElement();
+        }
+
+        public void RemoveElement()
+        {
+            model.RemoveElement();
         }
         #endregion
     }
