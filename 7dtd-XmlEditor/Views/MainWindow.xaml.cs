@@ -27,8 +27,8 @@ namespace _7dtd_XmlEditor.Views
         {
             InitializeComponent();
 
-            var model = new MainWindowModel(MainFrame.NavigationService);
-            var vm = new MainWindowViewModel(new WindowService(this), model);
+            var model = new MainWindowModel2();
+            var vm = new MainWindowViewModel2(new WindowService(this), model);
             this.DataContext = vm;
         }
     }
