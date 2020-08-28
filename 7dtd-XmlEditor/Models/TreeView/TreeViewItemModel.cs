@@ -31,7 +31,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         #region Event
 
-        private Subject<TreeViewItemInfo> failedLostFocus = new Subject<TreeViewItemInfo>();
+        private readonly Subject<TreeViewItemInfo> failedLostFocus = new Subject<TreeViewItemInfo>();
         public IObservable<TreeViewItemInfo> FailedLostFocus => failedLostFocus;
 
         #endregion
@@ -44,7 +44,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
         private bool isSelected;
         private bool isTextBoxFocus;
 
-        private ObservableCollection<TreeViewItemInfo> children;
+        private readonly ObservableCollection<TreeViewItemInfo> children;
 
         private Visibility textBlockVisibility = Visibility.Visible;
         private Visibility textBoxVisibility = Visibility.Collapsed;

@@ -51,7 +51,7 @@ namespace _7dtd_XmlEditor.ViewModels
 
         #region Fields
 
-        private MainWindowModel2 model;
+        private readonly MainWindowModel2 model;
 
         #endregion
 
