@@ -127,7 +127,7 @@ namespace _7dtd_XmlEditor.Models
             openedFilePath = string.Empty;
             IsEdited = false;
 
-            declaration = CommonXmlWriter.Utf8Declaration;
+            declaration = CommonXmlConstants.Utf8Declaration;
             root = new TreeViewItemInfo(new CommonXmlNode { TagName = "root" }, this)
             {
                 IsRoot = true
