@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using _7dtd_XmlEditor.Models;
+﻿using _7dtd_XmlEditor.Models;
 using _7dtd_XmlEditor.Models.TreeView;
 using _7dtd_XmlEditor.ViewModels;
 using CommonStyleLib.Views;
 using SavannahXmlLib.XmlWrapper;
-using Control = System.Windows.Controls.Control;
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using DragDropEffects = System.Windows.DragDropEffects;
 using DragEventArgs = System.Windows.DragEventArgs;
 using TreeView = System.Windows.Controls.TreeView;
@@ -56,7 +46,7 @@ namespace _7dtd_XmlEditor.Views
 
         private void ItemTreeViewOnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            _startPos = null;
+            startPos = null;
         }
 
         private void ItemTreeViewOnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -65,7 +55,7 @@ namespace _7dtd_XmlEditor.Views
                 return;
 
             var pos = e.GetPosition(itemsControl);
-            _startPos = itemsControl.PointToScreen(pos);
+            startPos = itemsControl.PointToScreen(pos);
         }
 
         private bool IsDragStartable(Vector delta)
@@ -74,25 +64,25 @@ namespace _7dtd_XmlEditor.Views
                    (SystemParameters.MinimumVerticalDragDistance < Math.Abs(delta.Y));
         }
 
-        private Dictionary<DependencyObject, (ColorChanger, TreeViewItemInfo)> changedBlocks = new Dictionary<DependencyObject, (ColorChanger, TreeViewItemInfo)>();
-        private InsertType _insertType;
-        private Point? _startPos;
+        private readonly Dictionary<DependencyObject, (ColorChanger, TreeViewItemInfo)> changedBlocks
+            = new Dictionary<DependencyObject, (ColorChanger, TreeViewItemInfo)>();
+        private InsertType insertType;
+        private Point? startPos;
         private void ItemTreeViewOnPreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (sender is TreeView lb && lb.SelectedItem != null && sender is ItemsControl itemsControl)
-            {
-                if (_startPos == null)
-                    return;
+            if (!(sender is TreeView lb) || lb.SelectedItem == null)
+                return;
+            if (startPos == null)
+                return;
 
-                var curPos = itemsControl.PointToScreen(e.GetPosition(itemsControl));
-                var diff = curPos - (Point)_startPos;
-                if (IsDragStartable(diff))
-                {
-                    DragDrop.DoDragDrop(lb, lb.SelectedItem, DragDropEffects.Move);
+            var curPos = lb.PointToScreen(e.GetPosition(lb));
+            var diff = curPos - (Point)startPos;
+            if (!IsDragStartable(diff))
+                return;
 
-                    _startPos = null;
-                }
-            }
+            DragDrop.DoDragDrop(lb, lb.SelectedItem, DragDropEffects.Move);
+
+            startPos = null;
         }
 
         private void ItemTreeViewOnDragOver(object sender, DragEventArgs e)
@@ -108,7 +98,7 @@ namespace _7dtd_XmlEditor.Views
                 var pt = e.GetPosition(itemsControl);
                 var result = VisualTreeHelper.HitTest(itemsControl, pt);
 
-                var colorChanger = GetColorChanger(result.VisualHit);
+                var colorChanger = GetColorChanger(result.VisualHit, changedBlocks);
 
                 if (!(result.VisualHit is FrameworkElement targetElement) || colorChanger == null)
                     return;
@@ -126,17 +116,17 @@ namespace _7dtd_XmlEditor.Views
                 var pos = e.GetPosition(grid);
                 if (pos.Y > 0 && pos.Y < 5)
                 {
-                    _insertType = InsertType.Before;
+                    insertType = InsertType.Before;
                     targetElementInfo.BeforeSeparatorVisibility = Visibility.Visible;
                 }
                 else if (pos.Y < grid.ActualHeight && pos.Y > grid.ActualHeight - 5)
                 {
-                    _insertType = InsertType.After;
+                    insertType = InsertType.After;
                     targetElementInfo.AfterSeparatorVisibility = Visibility.Visible;
                 }
                 else
                 {
-                    _insertType = InsertType.Children;
+                    insertType = InsertType.Children;
                     colorChanger.BackgroundAction(Brushes.Black);
                 }
 
@@ -148,34 +138,6 @@ namespace _7dtd_XmlEditor.Views
         public class ColorChanger
         {
             public Action<Brush> BackgroundAction { get; set; }
-        }
-
-        private ColorChanger GetColorChanger(DependencyObject obj)
-        {
-            ColorChanger colorChanger = null;
-
-            if (changedBlocks.ContainsKey(obj))
-                return changedBlocks[obj].Item1;
-
-            var textBlock = obj as TextBlock;
-            if (textBlock != null)
-            {
-                colorChanger = new ColorChanger
-                {
-                    BackgroundAction = brush => textBlock.Background = brush
-                };
-            }
-
-            var border = obj as Border;
-            if (border != null)
-            {
-                colorChanger = new ColorChanger
-                {
-                    BackgroundAction = brush => border.Background = brush
-                };
-            }
-
-            return colorChanger;
         }
 
         private void ItemTreeViewOnDrop(object sender, DragEventArgs e)
@@ -209,7 +171,7 @@ namespace _7dtd_XmlEditor.Views
                 sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
             }
 
-            if (_insertType == InsertType.Before)
+            if (insertType == InsertType.Before)
             {
                 RemoveCurrentItem();
 
@@ -217,7 +179,7 @@ namespace _7dtd_XmlEditor.Views
                 targetItemParent.Node.AddBeforeChildElement(targetItem.Node, sourceItem.Node);
                 sourceItem.Parent = targetItemParent;
             }
-            else if (_insertType == InsertType.After)
+            else if (insertType == InsertType.After)
             {
                 RemoveCurrentItem();
 
@@ -236,6 +198,32 @@ namespace _7dtd_XmlEditor.Views
                     sourceItem.Parent = targetItem;
                 }
             }
+        }
+
+        private static ColorChanger GetColorChanger(DependencyObject obj, Dictionary<DependencyObject, (ColorChanger, TreeViewItemInfo)> cache)
+        {
+            ColorChanger colorChanger = null;
+
+            if (cache.ContainsKey(obj))
+                return cache[obj].Item1;
+
+            switch (obj)
+            {
+                case TextBlock textBlock:
+                    colorChanger = new ColorChanger
+                    {
+                        BackgroundAction = brush => textBlock.Background = brush
+                    };
+                    break;
+                case Border border:
+                    colorChanger = new ColorChanger
+                    {
+                        BackgroundAction = brush => border.Background = brush
+                    };
+                    break;
+            }
+
+            return colorChanger;
         }
 
         private static void ResetSeparator(ColorChanger colorChanger, TreeViewItemInfo info)
