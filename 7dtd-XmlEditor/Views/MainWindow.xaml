@@ -94,7 +94,11 @@
                         <views:BindableSelectedItemTreeView.ItemTemplate>
                             <HierarchicalDataTemplate DataType="treeView:TreeViewItemInfo" ItemsSource="{Binding Children}">
                                 <Grid>
-                                    <TextBlock Text="{Binding Name}" Visibility="{Binding TextBlockVisibility}" />
+                                    <StackPanel>
+                                        <Separator BorderThickness="1" BorderBrush="White" Visibility="{Binding BeforeSeparatorVisibility}" />
+                                        <TextBlock Text="{Binding Name}" Visibility="{Binding TextBlockVisibility}" />
+                                        <Separator BorderThickness="1" BorderBrush="White" Visibility="{Binding AfterSeparatorVisibility}" />
+                                    </StackPanel>
                                     <TextBox Text="{Binding TagName}" Visibility="{Binding TextBoxVisibility}" MinWidth="100" views:FocusExtension.IsFocused="{Binding IsTextBoxFocus}">
                                         <TextBox.Resources>
                                             <Style TargetType="TextBox">

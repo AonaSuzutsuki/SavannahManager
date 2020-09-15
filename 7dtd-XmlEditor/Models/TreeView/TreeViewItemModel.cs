@@ -48,6 +48,8 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         private Visibility textBlockVisibility = Visibility.Visible;
         private Visibility textBoxVisibility = Visibility.Collapsed;
+        private Visibility beforeSeparatorVisibility = Visibility.Hidden;
+        private Visibility afterSeparatorVisibility = Visibility.Hidden;
 
         public IEditedModel EditedModel { get; set; }
 
@@ -90,7 +92,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
         public string ParentPath => Parent == null ? "/" : $"{Parent.ParentPath}{Parent.TagName}/";
         public string Path => $"{ParentPath}{Node.TagName}";
 
-        public TreeViewItemInfo Parent { get; }
+        public TreeViewItemInfo Parent { get; set; }
         public CommonXmlNode Node { get; }
 
 
@@ -103,6 +105,18 @@ namespace _7dtd_XmlEditor.Models.TreeView
         {
             get => textBoxVisibility;
             set => SetProperty(ref textBoxVisibility, value);
+        }
+
+        public Visibility BeforeSeparatorVisibility
+        {
+            get => beforeSeparatorVisibility;
+            set => SetProperty(ref beforeSeparatorVisibility, value);
+        }
+
+        public Visibility AfterSeparatorVisibility
+        {
+            get => afterSeparatorVisibility;
+            set => SetProperty(ref afterSeparatorVisibility, value);
         }
 
         public ICommand TextBoxLostFocus { get; set; }
@@ -141,6 +155,24 @@ namespace _7dtd_XmlEditor.Models.TreeView
         public void RemoveChildren(TreeViewItemInfo info)
         {
             children.Remove(info);
+        }
+
+        public void InsertBeforeChildren(TreeViewItemInfo from, TreeViewItemInfo to)
+        {
+            var index = children.IndexOf(to);
+            if (index < 0)
+                return;
+
+            children.Insert(index, from);
+        }
+
+        public void InsertAfterChildren(TreeViewItemInfo from, TreeViewItemInfo to)
+        {
+            var index = children.IndexOf(to);
+            if (index < 0)
+                return;
+
+            children.Insert(index + 1, from);
         }
 
         public void EnableTextEdit()
