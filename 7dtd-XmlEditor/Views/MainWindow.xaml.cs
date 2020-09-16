@@ -102,7 +102,7 @@ namespace _7dtd_XmlEditor.Views
 
                 if (!(result.VisualHit is FrameworkElement targetElement) || colorChanger == null)
                     return;
-                if (!(targetElement.DataContext is TreeViewItemInfo targetElementInfo) || !(targetElement.Parent is Grid grid))
+                if (!(targetElement.DataContext is TreeViewItemInfo targetElementInfo) || !(targetElement.Parent is FrameworkElement grid))
                     return;
 
                 foreach (var pair in changedBlocks)
@@ -112,6 +112,7 @@ namespace _7dtd_XmlEditor.Views
 
                 if (targetElementInfo == sourceItem)
                     return;
+                var targetParent = targetElementInfo.Parent;
 
                 var pos = e.GetPosition(grid);
                 if (pos.Y > 0 && pos.Y < 5)
@@ -119,7 +120,7 @@ namespace _7dtd_XmlEditor.Views
                     insertType = InsertType.Before;
                     targetElementInfo.BeforeSeparatorVisibility = Visibility.Visible;
                 }
-                else if (pos.Y < grid.ActualHeight && pos.Y > grid.ActualHeight - 5)
+                else if (targetParent.Children.Last() == targetElementInfo && pos.Y < grid.ActualHeight && pos.Y > grid.ActualHeight - 5)
                 {
                     insertType = InsertType.After;
                     targetElementInfo.AfterSeparatorVisibility = Visibility.Visible;
