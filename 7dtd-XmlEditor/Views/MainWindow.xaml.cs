@@ -43,8 +43,15 @@ namespace _7dtd_XmlEditor.Views
             ItemTreeView.PreviewMouseMove += ItemTreeViewOnPreviewMouseMove;
             ItemTreeView.Drop += ItemTreeViewOnDrop;
             ItemTreeView.DragOver += ItemTreeViewOnDragOver;
-            //ItemTreeView.PreviewDragOver += ItemTreeViewOnDragOver;
         }
+
+        #region Fields
+
+        private readonly HashSet<TreeViewItemInfo> changedBlocks = new HashSet<TreeViewItemInfo>();
+        private InsertType insertType;
+        private Point? startPos;
+
+        #endregion
 
         private void ItemTreeViewOnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -60,16 +67,6 @@ namespace _7dtd_XmlEditor.Views
             startPos = itemsControl.PointToScreen(pos);
         }
 
-        private static bool IsDragStartable(Vector delta)
-        {
-            return (SystemParameters.MinimumHorizontalDragDistance < Math.Abs(delta.X)) ||
-                   (SystemParameters.MinimumVerticalDragDistance < Math.Abs(delta.Y));
-        }
-
-        private readonly Dictionary<DependencyObject, (ColorChanger, TreeViewItemInfo)> changedBlocks
-            = new Dictionary<DependencyObject, (ColorChanger, TreeViewItemInfo)>();
-        private InsertType insertType;
-        private Point? startPos;
         private void ItemTreeViewOnPreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (!(sender is TreeView lb) || lb.SelectedItem == null)
@@ -97,28 +94,21 @@ namespace _7dtd_XmlEditor.Views
                     return;
 
                 var scrollViewer = itemsControl.Descendants<ScrollViewer>().FirstOrDefault();
-                const double tolerance = 10d;
-                const double offset = 3d;
-                var verticalPos = e.GetPosition(itemsControl).Y;
-                if (verticalPos < tolerance) // Top of visible list?
-                    scrollViewer?.ScrollToVerticalOffset(scrollViewer.VerticalOffset - offset); //Scroll up.
-                else if (verticalPos > itemsControl.ActualHeight - tolerance) //Bottom of visible list?
-                    scrollViewer?.ScrollToVerticalOffset(scrollViewer.VerticalOffset + offset); //Scroll down.
+                DragScroll(scrollViewer, itemsControl, e);
 
                 var sourceItem = (TreeViewItemInfo)e.Data.GetData(typeof(TreeViewItemInfo));
-                var pt = e.GetPosition(itemsControl);
-                var result = VisualTreeHelper.HitTest(itemsControl, pt);
+                var result = HitTest(itemsControl, e);
 
-                var colorChanger = GetColorChanger(result.VisualHit, changedBlocks);
+                //var colorChanger = GetColorChanger(result, changedBlocks);
 
-                if (!(result.VisualHit is FrameworkElement targetElement) || colorChanger == null)
+                if (!(result is FrameworkElement targetElement))
                     return;
                 if (!(targetElement.DataContext is TreeViewItemInfo targetElementInfo) || !(targetElement.Parent is FrameworkElement grid))
                     return;
 
                 foreach (var pair in changedBlocks)
                 {
-                    ResetSeparator(pair.Value.Item1, pair.Value.Item2);
+                    ResetSeparator(pair);
                 }
 
                 if (targetElementInfo == sourceItem)
@@ -139,53 +129,56 @@ namespace _7dtd_XmlEditor.Views
                 else
                 {
                     insertType = InsertType.Children;
-                    colorChanger.BackgroundAction(Brushes.Black);
+                    targetElementInfo.Background = Brushes.Black;
                 }
 
-                if (!changedBlocks.ContainsKey(grid))
-                    changedBlocks.Add(grid, (colorChanger, targetElementInfo));
+                if (!changedBlocks.Contains(targetElementInfo))
+                    changedBlocks.Add(targetElementInfo);
             }
         }
 
-        public class ColorChanger
+        private static void DragScroll(ScrollViewer scrollViewer, ItemsControl itemsControl, DragEventArgs e)
         {
-            public Action<Brush> BackgroundAction { get; set; }
+            const double tolerance = 10d;
+            const double offset = 3d;
+            var verticalPos = e.GetPosition(itemsControl).Y;
+            if (verticalPos < tolerance) // Top of visible list?
+                scrollViewer?.ScrollToVerticalOffset(scrollViewer.VerticalOffset - offset); //Scroll up.
+            else if (verticalPos > itemsControl.ActualHeight - tolerance) //Bottom of visible list?
+                scrollViewer?.ScrollToVerticalOffset(scrollViewer.VerticalOffset + offset); //Scroll down.
         }
 
         private void ItemTreeViewOnDrop(object sender, DragEventArgs e)
         {
+            foreach (var pair in changedBlocks)
+            {
+                ResetSeparator(pair);
+            }
+
             if (!(sender is ItemsControl itemsControl))
                 return;
 
             var sourceItem = (TreeViewItemInfo)e.Data.GetData(typeof(TreeViewItemInfo));
+            var result = HitTest(itemsControl, e);
 
-            var pt = e.GetPosition(itemsControl);
-            var result = VisualTreeHelper.HitTest(itemsControl, pt);
-
-            var targetElement = result.VisualHit as FrameworkElement;
+            var targetElement = result as FrameworkElement;
             if (!(targetElement?.DataContext is TreeViewItemInfo targetItem) || sourceItem == null)
                 return;
 
             if (sourceItem == targetItem)
                 return;
 
-            foreach (var pair in changedBlocks)
-            {
-                ResetSeparator(pair.Value.Item1, pair.Value.Item2);
-            }
-
-            var targetItemParent = targetItem.Parent;
-            var sourceItemParent = sourceItem.Parent;
-
-            void RemoveCurrentItem()
+            static void RemoveCurrentItem(TreeViewItemInfo sourceItemParent, TreeViewItemInfo sourceItem)
             {
                 sourceItemParent.RemoveChildren(sourceItem);
                 sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
             }
 
+            var targetItemParent = targetItem.Parent;
+            var sourceItemParent = sourceItem.Parent;
             if (insertType == InsertType.Before)
             {
-                RemoveCurrentItem();
+                RemoveCurrentItem(sourceItemParent, sourceItem);
 
                 targetItemParent.InsertBeforeChildren(sourceItem, targetItem);
                 targetItemParent.Node.AddBeforeChildElement(targetItem.Node, sourceItem.Node);
@@ -193,7 +186,7 @@ namespace _7dtd_XmlEditor.Views
             }
             else if (insertType == InsertType.After)
             {
-                RemoveCurrentItem();
+                RemoveCurrentItem(sourceItemParent, sourceItem);
 
                 targetItemParent.InsertAfterChildren(sourceItem, targetItem);
                 targetItemParent.Node.AddAfterChildElement(targetItem.Node, sourceItem.Node);
@@ -203,44 +196,33 @@ namespace _7dtd_XmlEditor.Views
             {
                 if (targetItem.Node.NodeType == XmlNodeType.Tag)
                 {
-                    RemoveCurrentItem();
+                    RemoveCurrentItem(sourceItemParent, sourceItem);
 
                     targetItem.AddChildren(sourceItem);
                     targetItem.Node.AddChildElement(sourceItem.Node);
+                    targetItem.IsExpanded = true;
                     sourceItem.Parent = targetItem;
                 }
             }
         }
 
-        private static ColorChanger GetColorChanger(DependencyObject obj, Dictionary<DependencyObject, (ColorChanger, TreeViewItemInfo)> cache)
+        private static DependencyObject HitTest(UIElement itemsControl, DragEventArgs e)
         {
-            ColorChanger colorChanger = null;
-
-            if (cache.ContainsKey(obj))
-                return cache[obj].Item1;
-
-            switch (obj)
-            {
-                case TextBlock textBlock:
-                    colorChanger = new ColorChanger
-                    {
-                        BackgroundAction = brush => textBlock.Background = brush
-                    };
-                    break;
-                case Border border:
-                    colorChanger = new ColorChanger
-                    {
-                        BackgroundAction = brush => border.Background = brush
-                    };
-                    break;
-            }
-
-            return colorChanger;
+            var pt = e.GetPosition(itemsControl);
+            var result = VisualTreeHelper.HitTest(itemsControl, pt);
+            return result.VisualHit;
         }
 
-        private static void ResetSeparator(ColorChanger colorChanger, TreeViewItemInfo info)
+        private static bool IsDragStartable(Vector delta)
         {
-            colorChanger.BackgroundAction(Brushes.Transparent);
+            return (SystemParameters.MinimumHorizontalDragDistance < Math.Abs(delta.X)) ||
+                   (SystemParameters.MinimumVerticalDragDistance < Math.Abs(delta.Y));
+        }
+
+        private static void ResetSeparator(TreeViewItemInfo info)
+        {
+            //colorChanger.BackgroundAction(Brushes.Transparent);
+            info.Background = Brushes.Transparent;
             info.BeforeSeparatorVisibility = Visibility.Hidden;
             info.AfterSeparatorVisibility = Visibility.Hidden;
         }
