@@ -93,10 +93,10 @@
 
                         <views:BindableSelectedItemTreeView.ItemTemplate>
                             <HierarchicalDataTemplate DataType="treeView:TreeViewItemInfo" ItemsSource="{Binding Children}">
-                                <Grid>
+                                <Grid Background="{Binding Background}">
                                     <StackPanel>
                                         <Separator BorderThickness="1" BorderBrush="White" Visibility="{Binding BeforeSeparatorVisibility}" />
-                                        <TextBlock Text="{Binding Name}" Visibility="{Binding TextBlockVisibility}" />
+                                        <TextBlock Text="{Binding Name}" MinWidth="60" Visibility="{Binding TextBlockVisibility}" />
                                         <Separator BorderThickness="1" BorderBrush="White" Visibility="{Binding AfterSeparatorVisibility}" />
                                     </StackPanel>
                                     <TextBox Text="{Binding TagName}" Visibility="{Binding TextBoxVisibility}" MinWidth="100" views:FocusExtension.IsFocused="{Binding IsTextBoxFocus}">
@@ -134,13 +134,13 @@
                             <Style TargetType="{x:Type TreeViewItem}">
                                 <Style.Resources>
                                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                         Color="Transparent" />
+                                         Color="#4090ff" />
                                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
-                                         Color="Black" />
+                                         Color="#4090ff" />
                                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
-                                         Color="Transparent" />
+                                         Color="#444" />
                                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
-                                         Color="Black" />
+                                         Color="#444" />
                                 </Style.Resources>
                                 <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
                                 <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded,Mode=TwoWay}"/>
@@ -148,7 +148,7 @@
                                 <Setter Property="FontWeight" Value="Normal" />
                                 <Style.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Foreground" Value="Gray" />
+                                        <Setter Property="Foreground" Value="White" />
                                         <Setter Property="FontWeight" Value="Bold" />
                                     </Trigger>
                                 </Style.Triggers>

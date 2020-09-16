@@ -39,12 +39,13 @@ namespace _7dtd_XmlEditor.Models.TreeView
         private string name = string.Empty;
         private string tagName = string.Empty;
 
-
         private bool isExpanded;
         private bool isSelected;
         private bool isTextBoxFocus;
 
         private readonly ObservableCollection<TreeViewItemInfo> children;
+
+        private Brush background = Brushes.Transparent;
 
         private Visibility textBlockVisibility = Visibility.Visible;
         private Visibility textBoxVisibility = Visibility.Collapsed;
@@ -89,6 +90,11 @@ namespace _7dtd_XmlEditor.Models.TreeView
             set => SetProperty(ref isTextBoxFocus, value);
         }
 
+        public Brush Background
+        {
+            get => background;
+            set => SetProperty(ref background, value);
+        }
         public string ParentPath => Parent == null ? "/" : $"{Parent.ParentPath}{Parent.TagName}/";
         public string Path => $"{ParentPath}{Node.TagName}";
 
