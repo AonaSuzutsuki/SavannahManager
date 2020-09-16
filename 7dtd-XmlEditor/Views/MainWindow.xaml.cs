@@ -5,10 +5,12 @@ using CommonStyleLib.Views;
 using SavannahXmlLib.XmlWrapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using _7dtd_XmlEditor.Extensions;
 using DragDropEffects = System.Windows.DragDropEffects;
 using DragEventArgs = System.Windows.DragEventArgs;
 using TreeView = System.Windows.Controls.TreeView;
@@ -58,7 +60,7 @@ namespace _7dtd_XmlEditor.Views
             startPos = itemsControl.PointToScreen(pos);
         }
 
-        private bool IsDragStartable(Vector delta)
+        private static bool IsDragStartable(Vector delta)
         {
             return (SystemParameters.MinimumHorizontalDragDistance < Math.Abs(delta.X)) ||
                    (SystemParameters.MinimumVerticalDragDistance < Math.Abs(delta.Y));
@@ -93,6 +95,15 @@ namespace _7dtd_XmlEditor.Views
 
                 if (!(sender is ItemsControl itemsControl))
                     return;
+
+                var scrollViewer = itemsControl.Descendants<ScrollViewer>().FirstOrDefault();
+                const double tolerance = 10d;
+                const double offset = 3d;
+                var verticalPos = e.GetPosition(itemsControl).Y;
+                if (verticalPos < tolerance) // Top of visible list?
+                    scrollViewer?.ScrollToVerticalOffset(scrollViewer.VerticalOffset - offset); //Scroll up.
+                else if (verticalPos > itemsControl.ActualHeight - tolerance) //Bottom of visible list?
+                    scrollViewer?.ScrollToVerticalOffset(scrollViewer.VerticalOffset + offset); //Scroll down.
 
                 var sourceItem = (TreeViewItemInfo)e.Data.GetData(typeof(TreeViewItemInfo));
                 var pt = e.GetPosition(itemsControl);
