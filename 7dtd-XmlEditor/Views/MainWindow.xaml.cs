@@ -97,31 +97,27 @@ namespace _7dtd_XmlEditor.Views
                 DragScroll(scrollViewer, itemsControl, e);
 
                 var sourceItem = (TreeViewItemInfo)e.Data.GetData(typeof(TreeViewItemInfo));
-                var result = HitTest(itemsControl, e);
+                var targetElement = HitTest<FrameworkElement>(itemsControl, e);
 
-                //var colorChanger = GetColorChanger(result, changedBlocks);
-
-                if (!(result is FrameworkElement targetElement))
-                    return;
-                if (!(targetElement.DataContext is TreeViewItemInfo targetElementInfo) || !(targetElement.Parent is FrameworkElement grid))
+                var parentGrid = targetElement?.Parent<Grid>();
+                if (parentGrid == null || !(targetElement.DataContext is TreeViewItemInfo targetElementInfo))
                     return;
 
-                foreach (var pair in changedBlocks)
-                {
-                    ResetSeparator(pair);
-                }
+                ResetSeparator(changedBlocks);
 
-                if (targetElementInfo == sourceItem)
-                    return;
                 var targetParent = targetElementInfo.Parent;
+                if (targetElementInfo == sourceItem || targetParent == null)
+                    return;
 
-                var pos = e.GetPosition(grid);
-                if (pos.Y > 0 && pos.Y < 5)
+                const int boundary = 10;
+                var pos = e.GetPosition(parentGrid);
+                if (pos.Y > 0 && pos.Y < boundary)
                 {
                     insertType = InsertType.Before;
                     targetElementInfo.BeforeSeparatorVisibility = Visibility.Visible;
                 }
-                else if (targetParent.Children.Last() == targetElementInfo && pos.Y < grid.ActualHeight && pos.Y > grid.ActualHeight - 5)
+                else if (targetParent.Children.Last() == targetElementInfo
+                         && pos.Y < parentGrid.ActualHeight && pos.Y > parentGrid.ActualHeight - boundary)
                 {
                     insertType = InsertType.After;
                     targetElementInfo.AfterSeparatorVisibility = Visibility.Visible;
@@ -150,29 +146,16 @@ namespace _7dtd_XmlEditor.Views
 
         private void ItemTreeViewOnDrop(object sender, DragEventArgs e)
         {
-            foreach (var pair in changedBlocks)
-            {
-                ResetSeparator(pair);
-            }
+            ResetSeparator(changedBlocks);
 
             if (!(sender is ItemsControl itemsControl))
                 return;
 
             var sourceItem = (TreeViewItemInfo)e.Data.GetData(typeof(TreeViewItemInfo));
-            var result = HitTest(itemsControl, e);
+            var targetItem = HitTest<FrameworkElement>(itemsControl, e)?.DataContext as TreeViewItemInfo;
 
-            var targetElement = result as FrameworkElement;
-            if (!(targetElement?.DataContext is TreeViewItemInfo targetItem) || sourceItem == null)
+            if (targetItem == null || sourceItem == null || sourceItem == targetItem)
                 return;
-
-            if (sourceItem == targetItem)
-                return;
-
-            static void RemoveCurrentItem(TreeViewItemInfo sourceItemParent, TreeViewItemInfo sourceItem)
-            {
-                sourceItemParent.RemoveChildren(sourceItem);
-                sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
-            }
 
             var targetItemParent = targetItem.Parent;
             var sourceItemParent = sourceItem.Parent;
@@ -206,11 +189,19 @@ namespace _7dtd_XmlEditor.Views
             }
         }
 
-        private static DependencyObject HitTest(UIElement itemsControl, DragEventArgs e)
+        private static void RemoveCurrentItem(TreeViewItemInfo sourceItemParent, TreeViewItemInfo sourceItem)
+        {
+            sourceItemParent.RemoveChildren(sourceItem);
+            sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
+        }
+
+        private static T HitTest<T>(UIElement itemsControl, DragEventArgs e) where T : class
         {
             var pt = e.GetPosition(itemsControl);
             var result = VisualTreeHelper.HitTest(itemsControl, pt);
-            return result.VisualHit;
+            if (result.VisualHit is T ret)
+                return ret;
+            return null;
         }
 
         private static bool IsDragStartable(Vector delta)
@@ -219,9 +210,16 @@ namespace _7dtd_XmlEditor.Views
                    (SystemParameters.MinimumVerticalDragDistance < Math.Abs(delta.Y));
         }
 
+        private static void ResetSeparator(IEnumerable<TreeViewItemInfo> enumerable)
+        {
+            foreach (var pair in enumerable)
+            {
+                ResetSeparator(pair);
+            }
+        }
+
         private static void ResetSeparator(TreeViewItemInfo info)
         {
-            //colorChanger.BackgroundAction(Brushes.Transparent);
             info.Background = Brushes.Transparent;
             info.BeforeSeparatorVisibility = Visibility.Hidden;
             info.AfterSeparatorVisibility = Visibility.Hidden;

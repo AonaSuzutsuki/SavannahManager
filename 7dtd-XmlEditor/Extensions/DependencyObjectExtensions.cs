@@ -10,6 +10,20 @@ namespace _7dtd_XmlEditor.Extensions
 {
     public static class DependencyObjectExtensions
     {
+        public static T Parent<T>(this DependencyObject obj)
+        {
+            var parent = VisualTreeHelper.GetParent(obj);
+            switch (parent)
+            {
+                case null:
+                    return default;
+                case T ret:
+                    return ret;
+                default:
+                    return parent.Parent<T>();
+            }
+        }
+
         //--- 子要素を取得
         public static IEnumerable<DependencyObject> Children(this DependencyObject obj)
         {
