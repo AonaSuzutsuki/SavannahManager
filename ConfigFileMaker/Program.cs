@@ -1,5 +1,5 @@
-﻿using CommonCoreLib.XMLWrapper;
-using CommonExtensionLib.Extensions;
+﻿using CommonExtensionLib.Extensions;
+using SavannahXmlLib.XmlWrapper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,8 +14,8 @@ namespace ConfigFileMaker
     {
         static void Main()
         {
-            var writer = new CommonXmlWriter();
-            var root = writer.CreateRoot("ServerSettings");
+            var writer = new SavannahXmlWriter();
+            var root = SavannahXmlNode.CreateRoot("ServerSettings");
 
             var text = GetInnerXml(File.ReadAllText("serverconfig.xml"));
             var regex = new Regex("^( |\\t)*<property( |\\t)+name=\"(?<name>.*)\"( |\\t)+value=\"(?<value>.*)\"( |\\t)*\\/>( |\\t)*([\r\n])*( |\t)*<!--(?<description>.*)-->",
@@ -48,8 +48,11 @@ namespace ConfigFileMaker
                 };
                 description = AddDescription(attributes, description);
 
-                var elem = writer.CreateElement("property", attributes.ToArray(), description);
-                root.Append(elem);
+                var elem = SavannahXmlNode.CreateElement("property", attributes.ToArray());
+                elem.InnerText = description;
+                elem.AddChildElement(SavannahXmlNode.CreateTextNode(description));
+
+                root.AddChildElement(elem);
 
                 match = match.NextMatch();
             }
@@ -61,10 +64,10 @@ namespace ConfigFileMaker
 
         static string AddDescription(List<AttributeInfo> attributeInfos, string description)
         {
-            var reader = new CommonXmlReader("template.xml");
+            var reader = new SavannahXmlReader("template.xml");
 
             string name = attributeInfos[0].Value;
-            var value = reader.GetValue("/ServerSettings/property[@name='{0}']".FormatString(name), true, false);
+            var value = reader.GetValue("/ServerSettings/property[@name='{0}']".FormatString(name));
             var selection = reader.GetAttribute("selection", "/ServerSettings/property[@name='{0}']".FormatString(name));
             var type = reader.GetAttribute("type", "/ServerSettings/property[@name='{0}']".FormatString(name));
 

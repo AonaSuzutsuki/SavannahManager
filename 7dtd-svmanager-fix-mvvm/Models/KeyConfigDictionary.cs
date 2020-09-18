@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
-    public class KeyConfigDictionary : Dictionary<string, List<string>>
+    public class KeyConfigDictionary : Dictionary<string, IList<string>>
     {
         public int MinValueCount { get; private set; } = 0;
 
-        public new void Add(string key, List<string> values)
+        public new void Add(string key, IList<string> values)
         {
             base.Add(key, values);
 

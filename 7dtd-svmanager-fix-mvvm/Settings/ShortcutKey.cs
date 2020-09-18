@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using CommonCoreLib.XMLWrapper;
+using SavannahXmlLib.XmlWrapper;
+using AttributeInfo = SavannahXmlLib.XmlWrapper.AttributeInfo;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings
 {
@@ -58,7 +60,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
         {
             if (!File.Exists(basePath)) return;
 
-            var xmlBaseReader = new CommonXmlReader(basePath);
+            var xmlBaseReader = new SavannahXmlReader(basePath);
             var baseDic = new KeyConfigDictionary()
             {
                 { "shortcutnames", xmlBaseReader.GetAttributes("shortcutname", "shortcuts/shortcut") },
@@ -80,7 +82,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
 
             if (!File.Exists(path)) return;
 
-            var xmlReader = new CommonXmlReader(path);
+            var xmlReader = new SavannahXmlReader(path);
             var dic = new KeyConfigDictionary
             {
                 { "shortcutnames", xmlReader.GetAttributes("shortcutname", "shortcuts/shortcut") },
@@ -110,10 +112,10 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
 
         public void Save()
         {
-            var xmlWriter = new CommonXmlWriter();
-            var root = xmlWriter.CreateRoot("shortcuts");
+            var xmlWriter = new SavannahXmlWriter();
+            var root = SavannahXmlNode.CreateRoot("shortcuts");
 
-            ShortcutKeies.ForEach((key, value) => root.Append(xmlWriter.CreateElement("shortcut", CreateAttributeInfo(value))));
+            ShortcutKeies.ForEach((key, value) => root.AddChildElement(SavannahXmlNode.CreateElement("shortcut", CreateAttributeInfo(value))));
 
             xmlWriter.Write(xmlPath, root);
         }
