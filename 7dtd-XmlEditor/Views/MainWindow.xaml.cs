@@ -61,7 +61,11 @@ namespace _7dtd_XmlEditor.Views
                 return;
 
             var pos = e.GetPosition(itemsControl);
-            startPos = itemsControl.PointToScreen(pos);
+            var hit = HitTest<FrameworkElement>(itemsControl, e.GetPosition);
+            if (hit.DataContext is TreeViewItemInfo)
+                startPos = itemsControl.PointToScreen(pos);
+            else
+                startPos = null;
         }
 
         private void ItemTreeViewOnPreviewMouseMove(object sender, MouseEventArgs e)
@@ -94,7 +98,7 @@ namespace _7dtd_XmlEditor.Views
                 DragScroll(scrollViewer, itemsControl, e);
 
                 var sourceItem = (TreeViewItemInfo)e.Data.GetData(typeof(TreeViewItemInfo));
-                var targetElement = HitTest<FrameworkElement>(itemsControl, e);
+                var targetElement = HitTest<FrameworkElement>(itemsControl, e.GetPosition);
 
                 var parentGrid = targetElement?.Parent<Grid>();
                 if (parentGrid == null || !(targetElement.DataContext is TreeViewItemInfo targetElementInfo))
@@ -149,7 +153,7 @@ namespace _7dtd_XmlEditor.Views
                 return;
 
             var sourceItem = (TreeViewItemInfo)e.Data.GetData(typeof(TreeViewItemInfo));
-            var targetItem = HitTest<FrameworkElement>(itemsControl, e)?.DataContext as TreeViewItemInfo;
+            var targetItem = HitTest<FrameworkElement>(itemsControl, e.GetPosition)?.DataContext as TreeViewItemInfo;
 
             if (targetItem == null || sourceItem == null || sourceItem == targetItem)
                 return;
@@ -192,9 +196,9 @@ namespace _7dtd_XmlEditor.Views
             sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
         }
 
-        private static T HitTest<T>(UIElement itemsControl, DragEventArgs e) where T : class
+        private static T HitTest<T>(UIElement itemsControl, Func<IInputElement, Point> getPosition) where T : class
         {
-            var pt = e.GetPosition(itemsControl);
+            var pt = getPosition(itemsControl);
             var result = VisualTreeHelper.HitTest(itemsControl, pt);
             if (result.VisualHit is T ret)
                 return ret;
