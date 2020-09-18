@@ -13,7 +13,7 @@ Thank you very much.
 
 # Development environment
 1. Visual Studio 2019
-2. [Microsoft .NET Framework 4.7.1](https://docs.microsoft.com/dotnet/framework/install/guide-for-developers)
+2. [Microsoft .NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48)
 
 # Build
 ## Visual Studio 2019
@@ -47,17 +47,13 @@ nuget restore SavannahManager.sln
 msbuild SavannahManager.sln /t:Clean;Build /p:Configuration=Release;Platform=x86
 ```
 
-# Donation
-BTC: 1DgYbNmZ4Ka3rcFWVUXvaPDiwcSUckKvFU  
-ETH: 0xF38a082c5E2F222558071BdbcdAa7FE98580811b  
-DOGE: DPQPwrjQXZndguKppSpiTiP21bFYzhuaUY  
-MONA: P9Py7EubLvrYaPzQDKx3mW36AxxniB8J8S  
-ZNY: ZfbDqN81h3wHTMaSupDAKQTguL8fcQyHUY  
-
-Thank you for using.  
-I'd appreciate your donating to the activities.  
-I will use it to motivation maintenance and activity expenses.  
-
 # Special Thanks
-ReactiveProperty:   Copyright (c) 2018 neuecc, xin9le, okazuki  
-Prism.Core:         Copyright (c) .NET Foundation
+ReactiveProperty:               Copyright (c) 2018 neuecc, xin9le, okazuki  
+Prism.Core:                     Copyright (c) .NET Foundation  
+Microsoft.Xaml.Behaviors.Wpf:   Copyright (c) 2015 Microsoft  
+NUnit:                          Copyright (c) 2019 Charlie Poole, Rob Prouse  
+Newtonsoft.Json:                Copyright (c) 2007 James Newton-King  
+Moq:                            Copyright (c) 2007, Clarius Consulting, Manas Technology Solutions, InSTEDD
+
+
+This software includes the work that is distributed in the Apache License 2.0
