@@ -11,9 +11,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using _7dtd_XmlEditor.Extensions;
-using DragDropEffects = System.Windows.DragDropEffects;
-using DragEventArgs = System.Windows.DragEventArgs;
-using TreeView = System.Windows.Controls.TreeView;
 
 namespace _7dtd_XmlEditor.Views
 {
@@ -33,8 +30,8 @@ namespace _7dtd_XmlEditor.Views
         {
             InitializeComponent();
 
-            var model = new MainWindowModel2();
-            var vm = new MainWindowViewModel2(new WindowService(this), model);
+            var model = new MainWindowModel();
+            var vm = new MainWindowViewModel(new WindowService(this), model);
             this.DataContext = vm;
 
             ItemTreeView.AllowDrop = true;

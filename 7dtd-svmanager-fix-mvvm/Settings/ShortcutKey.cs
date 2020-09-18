@@ -44,8 +44,8 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
     {
         public Dictionary<string, ShortcutKey> ShortcutKeies { set; get; } = new Dictionary<string, ShortcutKey>();
 
-        private string xmlPath;
-        private string xmlBasePath;
+        private readonly string xmlPath;
+        private readonly string xmlBasePath;
 
         public ShortcutKeyManager(string path, string basePath)
         {

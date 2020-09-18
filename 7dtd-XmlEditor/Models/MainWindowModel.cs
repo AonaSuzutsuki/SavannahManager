@@ -14,13 +14,13 @@ using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_XmlEditor.Models
 {
-    public class MainWindowModel2 : ModelBase, IEditedModel
+    public class MainWindowModel : ModelBase, IEditedModel
     {
         #region Constants
 
-        public const string XML_ID = "savannah.xml.id";
-        public const string XML_SELECTED = "savannah.selected";
-        public const string XML_EXPANDED = "savannah.expanded";
+        public const string XmlId = "savannah.xml.id";
+        public const string XmlSelected = "savannah.selected";
+        public const string XmlExpanded = "savannah.expanded";
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace _7dtd_XmlEditor.Models
         private ViewAttributeInfo attributesSelectedItem;
         private string innerXml;
         private bool contextMenuEnabled;
-        private bool _addElementEnabled;
+        private bool addElementEnabled;
         #endregion
 
         #region Properties
@@ -114,8 +114,8 @@ namespace _7dtd_XmlEditor.Models
 
         public bool AddElementEnabled
         {
-            get => _addElementEnabled;
-            set => SetProperty(ref _addElementEnabled, value);
+            get => addElementEnabled;
+            set => SetProperty(ref addElementEnabled, value);
         }
         #endregion
 
@@ -127,8 +127,8 @@ namespace _7dtd_XmlEditor.Models
             openedFilePath = string.Empty;
             IsEdited = false;
 
-            declaration = CommonXmlConstants.Utf8Declaration;
-            root = new TreeViewItemInfo(new CommonXmlNode { TagName = "root" }, this)
+            declaration = SavannahXmlConstants.Utf8Declaration;
+            root = new TreeViewItemInfo(new SavannahXmlNode { TagName = "root" }, this)
             {
                 IsRoot = true
             };
@@ -222,10 +222,10 @@ namespace _7dtd_XmlEditor.Models
                 return;
 
             var currentNode = info.Node;
-            var node = new CommonXmlNode();
+            var node = new SavannahXmlNode();
             var prevChildren = currentNode.ChildNodes;
             var currentNodeChildNodes = prevChildren.ToList();
-            var children = new List<CommonXmlNode>(currentNodeChildNodes)
+            var children = new List<SavannahXmlNode>(currentNodeChildNodes)
             {
                 node
             };
@@ -253,9 +253,9 @@ namespace _7dtd_XmlEditor.Models
                 return;
 
             var parent = info.Parent;
-            var commonXmlNodes = new List<CommonXmlNode>(parent.Node.ChildNodes);
-            commonXmlNodes.Remove(info.Node);
-            parent.Node.ChildNodes = commonXmlNodes;
+            var SavannahXmlNodes = new List<SavannahXmlNode>(parent.Node.ChildNodes);
+            SavannahXmlNodes.Remove(info.Node);
+            parent.Node.ChildNodes = SavannahXmlNodes;
             info.Parent.RemoveChildren(info);
             IsEdited = true;
         }
@@ -303,17 +303,17 @@ namespace _7dtd_XmlEditor.Models
 
             var info = SelectedItem;
             AssignExpanded(root);
-            info.Node.AppendAttribute(XML_SELECTED, true.ToString());
+            info.Node.AppendAttribute(XmlSelected, true.ToString());
 
             using var ms = new MemoryStream();
-            var writer = new CommonXmlWriter(declaration)
+            var writer = new SavannahXmlWriter(declaration)
             {
                 IgnoreComments = false
             };
             writer.Write(ms, root.Node);
 
             ms.Seek(0, SeekOrigin.Begin);
-            var reader = new CommonXmlReader(ms, false);
+            var reader = new SavannahXmlReader(ms, false);
             var readNode = reader.GetAllNodes();
 
             root = new TreeViewItemInfo(readNode, this)
@@ -342,7 +342,7 @@ namespace _7dtd_XmlEditor.Models
         {
             var node = info.Node;
             if (info.IsExpanded)
-                node.AppendAttribute(XML_EXPANDED, true.ToString());
+                node.AppendAttribute(XmlExpanded, true.ToString());
             foreach (var child in info.Children)
             {
                 AssignExpanded(child);
@@ -352,8 +352,8 @@ namespace _7dtd_XmlEditor.Models
         private TreeViewItemInfo GetSelectedInfo(TreeViewItemInfo info)
         {
             var node = info.Node;
-            bool.TryParse(node.GetAttribute(XML_SELECTED).Value, out var isSelected);
-            node.RemoveAttribute(XML_SELECTED);
+            bool.TryParse(node.GetAttribute(XmlSelected).Value, out var isSelected);
+            node.RemoveAttribute(XmlSelected);
             info.Name = TreeViewItemInfo.GetName(info);
             if (isSelected)
             {
@@ -376,7 +376,7 @@ namespace _7dtd_XmlEditor.Models
 
         private static (string declaration, TreeViewItemInfo root) OpenFile(string filePath, IEditedModel editedModel)
         {
-            var reader = new CommonXmlReader(filePath, false);
+            var reader = new SavannahXmlReader(filePath, false);
             var declaration = reader.Declaration;
             var root = new TreeViewItemInfo(reader.GetAllNodes(), editedModel)
             {
@@ -386,9 +386,9 @@ namespace _7dtd_XmlEditor.Models
             return (declaration, root);
         }
 
-        private static void SaveFile(string filePath, string declaration, CommonXmlNode node)
+        private static void SaveFile(string filePath, string declaration, SavannahXmlNode node)
         {
-            var writer = new CommonXmlWriter(declaration)
+            var writer = new SavannahXmlWriter(declaration)
             {
                 IgnoreComments = false
             };

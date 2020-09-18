@@ -12,7 +12,7 @@ namespace ConfigFileMaker
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var writer = new CommonXmlWriter();
             var root = writer.CreateRoot("ServerSettings");
@@ -29,12 +29,11 @@ namespace ConfigFileMaker
 
                 string selection = "";
                 string selectionType = "string";
-
-                if (int.TryParse(value, out var iresult))
+                if (int.TryParse(value, out _))
                 {
                     selectionType = "integer";
                 }
-                else if (bool.TryParse(value, out var bresult))
+                else if (bool.TryParse(value, out _))
                 {
                     selectionType = "combo";
                     selection = "true/false";

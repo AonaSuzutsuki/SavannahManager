@@ -13,15 +13,12 @@ namespace _7dtd_XmlEditor.Extensions
         public static T Parent<T>(this DependencyObject obj)
         {
             var parent = VisualTreeHelper.GetParent(obj);
-            switch (parent)
+            return parent switch
             {
-                case null:
-                    return default;
-                case T ret:
-                    return ret;
-                default:
-                    return parent.Parent<T>();
-            }
+                null => default,
+                T ret => ret,
+                _ => parent.Parent<T>()
+            };
         }
 
         //--- 子要素を取得

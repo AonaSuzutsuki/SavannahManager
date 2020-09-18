@@ -15,9 +15,9 @@ using Reactive.Bindings.Extensions;
 
 namespace _7dtd_XmlEditor.ViewModels
 {
-    public class MainWindowViewModel2 : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
-        public MainWindowViewModel2(IWindowService windowService, MainWindowModel2 model) : base(windowService, model)
+        public MainWindowViewModel(IWindowService windowService, MainWindowModel model) : base(windowService, model)
         {
             this.model = model;
 
@@ -51,7 +51,7 @@ namespace _7dtd_XmlEditor.ViewModels
 
         #region Fields
 
-        private readonly MainWindowModel2 model;
+        private readonly MainWindowModel model;
 
         #endregion
 

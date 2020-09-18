@@ -15,6 +15,7 @@ using CommonCoreLib.CommonLinq;
 using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
+using SavannahXmlLib.Extensions;
 using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_XmlEditor.Models.TreeView
@@ -99,7 +100,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
         public string Path => $"{ParentPath}{Node.TagName}";
 
         public TreeViewItemInfo Parent { get; set; }
-        public CommonXmlNode Node { get; }
+        public SavannahXmlNode Node { get; }
 
 
         public Visibility TextBlockVisibility
@@ -128,7 +129,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
         public ICommand TextBoxLostFocus { get; set; }
 
 
-        public TreeViewItemInfo(CommonXmlNode root, IEditedModel editedModel, TreeViewItemInfo parent = null)
+        public TreeViewItemInfo(SavannahXmlNode root, IEditedModel editedModel, TreeViewItemInfo parent = null)
         {
             bool.TryParse(root.GetAttribute(XmlExpanded).Value, out var isExpanded);
             IsExpanded = isExpanded;
@@ -218,7 +219,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
             EditedModel.FullPath = Path;
         }
 
-        public static string GetNodeName(CommonXmlNode node) => Conditions.IfElse(node.Attributes.Any(),
+        public static string GetNodeName(SavannahXmlNode node) => Conditions.IfElse(node.Attributes.Any(),
             () => $"{node.TagName} {node.Attributes.ToAttributesText(", ")}" , () => $"{node.TagName}");
 
         public static string GetName(TreeViewItemInfo info)

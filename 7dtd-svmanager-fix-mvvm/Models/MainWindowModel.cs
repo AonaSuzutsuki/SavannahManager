@@ -731,14 +731,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             SocTelnetSendNRT(cmd);
         }
-        private bool CheckConnected(bool isAlert = false)
+        private bool CheckConnected()
         {
-            if (!IsConnected)
-            {
-                errorOccurred.OnNext(LangResources.Resources.HasnotBeConnected);
-                return false;
-            }
-            return true;
+            if (IsConnected)
+                return true;
+
+            errorOccurred.OnNext(LangResources.Resources.HasnotBeConnected);
+            return false;
         }
         private void SocTelnetSendDirect(string cmd)
         {
@@ -751,10 +750,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 return null;
 
             SocTelnetSendDirect(cmd);
-            string log = string.Empty;
-
             Thread.Sleep(100);
-            log = Telnet.Read().TrimEnd('\0');
+            string log = Telnet.Read().TrimEnd('\0');
             log += Telnet.Read().TrimEnd('\0');
 
             return log;
