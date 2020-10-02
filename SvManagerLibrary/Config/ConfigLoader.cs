@@ -28,13 +28,13 @@ namespace SvManagerLibrary.Config
             {
                 using var fs = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
                 reader = new SavannahXmlReader(fs);
-                var names = reader.GetAttributes("name", "ServerSettings/property", true);
-                var values = reader.GetAttributes("value", "ServerSettings/property", true);
+                var names = reader.GetAttributes("name", "ServerSettings/property").ToList();
+                var values = reader.GetAttributes("value", "ServerSettings/property").ToList();
 
-                int length = names.Count > values.Count ? values.Count : names.Count;
-                for (int i = 0; i < length; ++i)
+                var length = names.Count > values.Count ? values.Count : names.Count;
+                for (var i = 0; i < length; ++i)
                 {
-                    ConfigInfo configInfo = new ConfigInfo()
+                    var configInfo = new ConfigInfo()
                     {
                         PropertyName = names[i],
                         Value = values[i],
@@ -56,7 +56,7 @@ namespace SvManagerLibrary.Config
             }
             else
             {
-                ConfigInfo configInfo = new ConfigInfo()
+                var configInfo = new ConfigInfo()
                 {
                     PropertyName = propertyName,
                     Value = value,
@@ -66,7 +66,7 @@ namespace SvManagerLibrary.Config
         }
         public void AddValues(ConfigInfo[] configs)
         {
-            foreach (ConfigInfo config in configs)
+            foreach (var config in configs)
             {
                 AddValue(config.PropertyName, config.Value);
             }

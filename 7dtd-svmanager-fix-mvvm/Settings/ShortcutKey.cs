@@ -63,10 +63,10 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
             var xmlBaseReader = new SavannahXmlReader(basePath);
             var baseDic = new KeyConfigDictionary()
             {
-                { "shortcutnames", xmlBaseReader.GetAttributes("shortcutname", "shortcuts/shortcut") },
-                { "specialkeies", xmlBaseReader.GetAttributes("specialkey", "shortcuts/shortcut") },
-                { "mainkeies", xmlBaseReader.GetAttributes("mainkey", "shortcuts/shortcut") },
-                { "descriptions", xmlBaseReader.GetValues("shortcuts/shortcut") }
+                { "shortcutnames", xmlBaseReader.GetAttributes("shortcutname", "shortcuts/shortcut").ToList() },
+                { "specialkeies", xmlBaseReader.GetAttributes("specialkey", "shortcuts/shortcut").ToList() },
+                { "mainkeies", xmlBaseReader.GetAttributes("mainkey", "shortcuts/shortcut").ToList() },
+                { "descriptions", xmlBaseReader.GetValues("shortcuts/shortcut").ToList() }
             };
 
             var modConverter = new ModifierKeysConverter();
@@ -85,9 +85,9 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
             var xmlReader = new SavannahXmlReader(path);
             var dic = new KeyConfigDictionary
             {
-                { "shortcutnames", xmlReader.GetAttributes("shortcutname", "shortcuts/shortcut") },
-                { "specialkeies", xmlReader.GetAttributes("specialkey", "shortcuts/shortcut") },
-                { "mainkeies", xmlReader.GetAttributes("mainkey", "shortcuts/shortcut") }
+                { "shortcutnames", xmlReader.GetAttributes("shortcutname", "shortcuts/shortcut").ToList() },
+                { "specialkeies", xmlReader.GetAttributes("specialkey", "shortcuts/shortcut").ToList() },
+                { "mainkeies", xmlReader.GetAttributes("mainkey", "shortcuts/shortcut").ToList() }
             };
 
             for (int i = 0; i < dic.MinValueCount; ++i)
