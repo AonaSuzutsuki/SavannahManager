@@ -77,7 +77,7 @@ namespace _7dtd_XmlEditor.Views
 
             var curPos = lb.PointToScreen(e.GetPosition(lb));
             var diff = curPos - (Point)startPos;
-            if (!IsDragStartable(diff))
+            if (!CanDrag(diff))
                 return;
 
             DragDrop.DoDragDrop(lb, lb.SelectedItem, DragDropEffects.Move);
@@ -205,17 +205,19 @@ namespace _7dtd_XmlEditor.Views
             return null;
         }
 
-        private static bool IsDragStartable(Vector delta)
+        private static bool CanDrag(Vector delta)
         {
             return (SystemParameters.MinimumHorizontalDragDistance < Math.Abs(delta.X)) ||
                    (SystemParameters.MinimumVerticalDragDistance < Math.Abs(delta.Y));
         }
 
-        private static void ResetSeparator(IEnumerable<TreeViewItemInfo> enumerable)
+        private static void ResetSeparator(ICollection<TreeViewItemInfo> collection)
         {
-            foreach (var pair in enumerable)
+            var list = collection.ToList();
+            foreach (var pair in list)
             {
                 ResetSeparator(pair);
+                collection.Remove(pair);
             }
         }
 
