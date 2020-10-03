@@ -91,7 +91,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
         private void UpdateBt_Clicked()
         {
-            var task = model.Update();
+            _ = model.Update();
         }
         #endregion
     }

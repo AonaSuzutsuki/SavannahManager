@@ -54,7 +54,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views
                 ConsoleTextBox =  ConsoleTextBox
             };
             var mainWindowModel = new Models.MainWindowModel();
-            var vm = new ViewModels.MainWindowViewModel(windowService, mainWindowModel, this);
+            var vm = new ViewModels.MainWindowViewModel(windowService, mainWindowModel);
             DataContext = vm;
             model = mainWindowModel;
 
