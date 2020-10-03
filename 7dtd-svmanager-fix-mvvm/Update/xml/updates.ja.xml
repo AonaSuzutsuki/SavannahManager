@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.4.37.0">
+    1. ショートカットキーの削除・設定ができない問題を修正しました。
+    2. ショートカットキーを削除した際に説明文が消える問題を修正しました。
+    3. Savannah Xml Editorをベータから正式版へと移行しました。
+      3.1. 同時に内部のXMLパーサを<space /><nobr /><a href="https://github.com/AonaSuzutsuki/SavannahXmlLib">SavannahXmlLib</a><nobr /><space />へとアップデートしました。
+
+    4. アップデートサーバに接続できない場合にアップデートチェックでエラー落ちする問題を修正しました。
+      4.1 エラーダイアログは発生しますが、正常な動作です。
+  </update>
   <update version="2.3.36.2">
     1. ローカルサーバモードがオフの場合でも、Telnet接続に失敗した場合にサーバが起動してしまう問題を修正しました。
     2. ローカルサーバモードでTelnet接続を行う際に、保存されたアドレスが書き換えられてしまう問題を修正しました。
