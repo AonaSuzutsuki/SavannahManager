@@ -3,6 +3,11 @@
   <update version="2.3.36.2">
     1. fixed an issue where the server could start if a Telnet connection failed even when local server mode is off.
     2. fixed an issue with stored addresses being rewritten when making a Telnet connection in local server mode.
+    3. Moved Savannah Xml Editor from beta to stable version.
+      3.1. Internal XML parser has been updated to <nobr /><a href="https://github.com/AonaSuzutsuki/SavannahXmlLib">SavannahXmlLib</a><nobr />.
+
+    4. Fixed a bug that caused an error in the update check when it could not connect to the update server.
+      4.1 An error dialog is display, but it works normally.
   </update>
   <update version="2.3.35.1">
     1. changed the wait time to asynchronous when it can't connect by Telnet.

@@ -17,7 +17,7 @@ namespace _7dtd_XmlEditor.Models
             AttributeNameTextChanged = new DelegateCommand(AttributeName_TextChanged);
         }
 
-        public bool isEdited { get; private set; }
+        public bool IsEdited { get; private set; }
         public AttributeInfo Attribute { get; set; } = new AttributeInfo();
         public Action<ViewAttributeInfo> LostFocusAction { get; set; }
 
@@ -27,12 +27,12 @@ namespace _7dtd_XmlEditor.Models
         public void AttributeName_LostFocus()
         {
             LostFocusAction?.Invoke(this);
-            isEdited = false;
+            IsEdited = false;
         }
 
         public void AttributeName_TextChanged()
         {
-            isEdited = true;
+            IsEdited = true;
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CommonCoreLib.XMLWrapper;
 using CommonExtensionLib.Extensions;
+using SavannahXmlLib.XmlWrapper;
 
 namespace ConfigEditor_mvvm.Models
 {
@@ -9,9 +11,9 @@ namespace ConfigEditor_mvvm.Models
         /// <summary>
         /// Get managed version list.
         /// </summary>
-        public List<string> VersionList { get; private set; }
+        public IList<string> VersionList { get; private set; }
 
-        private List<string> versionPathList;
+        private IList<string> versionPathList;
         /// <summary>
         /// Manage template data.
         /// &lt;Version, &lt;PropertyName, Element&gt;&gt;
@@ -33,9 +35,9 @@ namespace ConfigEditor_mvvm.Models
         /// </summary>
         private void VersionListLoad(string templateListPath)
         {
-            var xmlReader = new CommonXmlReader(templateListPath);
-            VersionList = xmlReader.GetAttributes("version", "/root/configs/config");
-            versionPathList = xmlReader.GetValues("/root/configs/config", false);
+            var xmlReader = new SavannahXmlReader(templateListPath);
+            VersionList = xmlReader.GetAttributes("version", "/root/configs/config").ToList();
+            versionPathList = xmlReader.GetValues("/root/configs/config", false).ToList();
         }
 
         /// <summary>
@@ -44,13 +46,13 @@ namespace ConfigEditor_mvvm.Models
         /// <param name="lang">言語名</param>
         private void TemplateLoad(string lang)
         {
-            versionPathList.ForEachInIndex((index, path) =>
+            foreach (var item in versionPathList.Select((v, i) => new { Index = i, Value = v }))
             {
-                var version = VersionList[index];
+                var version = VersionList[item.Index];
                 var dic = new Dictionary<string, ConfigListInfo>();
-                var baseReader = new CommonXmlReader(string.Format(ConstantValues.BaseTemplateFileName, path, lang));
+                var baseReader = new SavannahXmlReader(string.Format(ConstantValues.BaseTemplateFileName, item.Value, lang));
                 var names = baseReader.GetAttributes("name", "/ServerSettings/property");
-                names.ForEach((name) =>
+                foreach (var name in names)
                 {
                     var xpath = $"/ServerSettings/property[@name=\"{name}\"]";
                     var value = baseReader.GetAttribute("value", xpath);
@@ -65,10 +67,10 @@ namespace ConfigEditor_mvvm.Models
                         Type = ConvertConfigType(type),
                         Description = description
                     });
-                });
+                }
 
                 templateData.Add(version, dic);
-            });
+            }
         }
         /// <summary>
         /// Convert string to ConfigType.

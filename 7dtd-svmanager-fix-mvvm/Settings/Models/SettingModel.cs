@@ -112,6 +112,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
                 setting.IsBetaMode = IsBetaMode;
                 setting.IsAutoUpdate = IsAutoUpdate;
                 setting.BackupDirPath = BackupDirPath;
+                setting.Save();
             }
         }
 

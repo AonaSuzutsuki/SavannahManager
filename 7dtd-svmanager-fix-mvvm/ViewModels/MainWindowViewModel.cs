@@ -78,7 +78,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
     public class MainWindowViewModel : ViewModelBase
     {
-        public MainWindowViewModel(MainWindowService windowService, MainWindowModel model, MainWindow view) : base(windowService, model)
+        public MainWindowViewModel(MainWindowService windowService, MainWindowModel model) : base(windowService, model)
         {
             model.ConsoleTextAppended.Subscribe(Model_AppendConsoleText);
             model.ErrorOccurred.Subscribe((message) => windowService.MessageBoxShow(message,

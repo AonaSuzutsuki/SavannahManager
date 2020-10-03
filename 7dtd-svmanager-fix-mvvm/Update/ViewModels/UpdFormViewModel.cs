@@ -70,7 +70,14 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             WindowManageService.Show<Loading>(vm);
 
             var task = model.Initialize();
-            task.ContinueWith(continueTask => WindowManageService.Dispatch(windowService.Close));
+            task.ContinueWith(t =>
+                {
+                    if (t.Exception == null)
+                        return;
+                    foreach (var exceptionInnerException in t.Exception.InnerExceptions)
+                        App.ShowAndWriteException(exceptionInnerException);
+                }, TaskContinuationOptions.OnlyOnFaulted)
+                .ContinueWith(continueTask => WindowManageService.Dispatch(windowService.Close));
         }
 
         private void VersionList_SelectionChanged(int? arg)
@@ -84,7 +91,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
         private void UpdateBt_Clicked()
         {
-            var task = model.Update();
+            _ = model.Update();
         }
         #endregion
     }

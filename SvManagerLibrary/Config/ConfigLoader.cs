@@ -8,10 +8,10 @@ namespace SvManagerLibrary.Config
 {
     public class ConfigLoader
     {
-        private string fileName;
-        private CommonXmlReader reader;
+        private readonly string fileName;
+        private SavannahXmlReader reader;
 
-        private Dictionary<string, ConfigInfo> configs = new Dictionary<string, ConfigInfo>();
+        private readonly Dictionary<string, ConfigInfo> configs = new Dictionary<string, ConfigInfo>();
 
         public ConfigLoader(string path, bool newFile = false)
         {
@@ -26,22 +26,20 @@ namespace SvManagerLibrary.Config
         {
             try
             {
-                using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
-                {
-                    reader = new CommonXmlReader(fs);
-                    var names = reader.GetAttributes("name", "ServerSettings/property", true);
-                    var values = reader.GetAttributes("value", "ServerSettings/property", true);
+                using var fs = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+                reader = new SavannahXmlReader(fs);
+                var names = reader.GetAttributes("name", "ServerSettings/property").ToList();
+                var values = reader.GetAttributes("value", "ServerSettings/property").ToList();
 
-                    int length = names.Count > values.Count ? values.Count : names.Count;
-                    for (int i = 0; i < length; ++i)
+                var length = names.Count > values.Count ? values.Count : names.Count;
+                for (var i = 0; i < length; ++i)
+                {
+                    var configInfo = new ConfigInfo()
                     {
-                        ConfigInfo configInfo = new ConfigInfo()
-                        {
-                            PropertyName = names[i],
-                            Value = values[i],
-                        };
-                        configs.Add(names[i], configInfo);
-                    }
+                        PropertyName = names[i],
+                        Value = values[i],
+                    };
+                    configs.Add(names[i], configInfo);
                 }
             }
             catch
@@ -58,7 +56,7 @@ namespace SvManagerLibrary.Config
             }
             else
             {
-                ConfigInfo configInfo = new ConfigInfo()
+                var configInfo = new ConfigInfo()
                 {
                     PropertyName = propertyName,
                     Value = value,
@@ -68,7 +66,7 @@ namespace SvManagerLibrary.Config
         }
         public void AddValues(ConfigInfo[] configs)
         {
-            foreach (ConfigInfo config in configs)
+            foreach (var config in configs)
             {
                 AddValue(config.PropertyName, config.Value);
             }
@@ -104,19 +102,17 @@ namespace SvManagerLibrary.Config
 
         public void Write()
         {
-            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
-            {
-                Write(fs);
-            }
+            using var fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+            Write(fs);
         }
 
         public void Write(Stream stream)
         {
-            var writer = new CommonXmlWriter();
-            var root = CommonXmlNode.CreateRoot("ServerSettings");
+            var writer = new SavannahXmlWriter();
+            var root = SavannahXmlNode.CreateRoot("ServerSettings");
             var configXmlArray = (from config in configs.Values
                                   let configAttributeInfo = CreateConfigAttributeInfos(config)
-                                  select CommonXmlNode.CreateElement("property", configAttributeInfo)).ToArray();
+                                  select SavannahXmlNode.CreateElement("property", configAttributeInfo)).ToArray();
             root.ChildNodes = configXmlArray;
 
             writer.Write(stream, root);

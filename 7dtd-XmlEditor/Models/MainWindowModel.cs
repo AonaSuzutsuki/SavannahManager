@@ -5,11 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using _7dtd_XmlEditor.Models.NodeView;
 using _7dtd_XmlEditor.Models.TreeView;
-using _7dtd_XmlEditor.Views.NodeView;
 using CommonCoreLib;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.File;
@@ -18,8 +14,37 @@ using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_XmlEditor.Models
 {
-    public class MainWindowModel : ModelBase
+    public class MainWindowModel : ModelBase, IEditedModel
     {
+        #region Constants
+
+        public const string XmlId = "savannah.xml.id";
+        public const string XmlSelected = "savannah.selected";
+        public const string XmlExpanded = "savannah.expanded";
+
+        #endregion
+
+        #region Fields
+
+        private string declaration;
+
+        private string openedFilePath = string.Empty;
+        private string isEditedTitle;
+        private bool isEdited;
+
+        private TreeViewItemInfo root;
+        private ObservableCollection<TreeViewItemInfo> treeViewItems = new ObservableCollection<TreeViewItemInfo>();
+        private TreeViewItemInfo selectedItem;
+
+        private string fullPath;
+        private bool isAttributesEnabled;
+        private ObservableCollection<ViewAttributeInfo> attributes = new ObservableCollection<ViewAttributeInfo>();
+        private ViewAttributeInfo attributesSelectedItem;
+        private string innerXml;
+        private bool contextMenuEnabled;
+        private bool addElementEnabled;
+        #endregion
+
         #region Properties
 
         public string IsEditedTitle
@@ -27,20 +52,6 @@ namespace _7dtd_XmlEditor.Models
             get => isEditedTitle;
             set => SetProperty(ref isEditedTitle, value);
         }
-
-        public ObservableCollection<string> EditModeComboItems
-        {
-            get => editModeComboItems;
-            set => SetProperty(ref editModeComboItems, value);
-        }
-
-        public string EditModeSelectedItem
-        {
-            get => editModeSelectedItem;
-            set => SetProperty(ref editModeSelectedItem, value);
-        }
-
-        public string OpenedFilePath { get; private set; }
 
         public bool IsEdited
         {
@@ -51,38 +62,77 @@ namespace _7dtd_XmlEditor.Models
                 IsEditedTitle = value ? "*" : "";
             }
         }
-        #endregion
 
-        #region Fields
-        private string declaration;
-        private TreeViewItemInfo root;
-        private bool isEdited;
-        private string isEditedTitle;
-        private ObservableCollection<string> editModeComboItems;
-        private string editModeSelectedItem;
-
-        private readonly NavigationService navigation;
-        private INodeView commonPage;
-        #endregion
-
-        public MainWindowModel(NavigationService navigation)
+        public ObservableCollection<TreeViewItemInfo> TreeViewItems
         {
-            this.navigation = navigation;
-            EditModeComboItems = new ObservableCollection<string>();
+            get => treeViewItems;
+            set => SetProperty(ref treeViewItems, value);
+        }
 
-            EditModeComboItems.Clear();
-            EditModeComboItems.AddAll(new[]
+        public TreeViewItemInfo SelectedItem
+        {
+            get => selectedItem;
+            set => SetProperty(ref selectedItem, value);
+        }
+
+
+        public string FullPath
+        {
+            get => fullPath;
+            set => SetProperty(ref fullPath, value);
+        }
+
+        public bool IsAttributesEnabled
+        {
+            get => isAttributesEnabled;
+            set => SetProperty(ref isAttributesEnabled, value);
+        }
+
+        public ObservableCollection<ViewAttributeInfo> Attributes
+        {
+            get => attributes;
+            set => SetProperty(ref attributes, value);
+        }
+
+        public ViewAttributeInfo AttributesSelectedItem
+        {
+            get => attributesSelectedItem;
+            set => SetProperty(ref attributesSelectedItem, value);
+        }
+
+        public string InnerXml
+        {
+            get => innerXml;
+            set => SetProperty(ref innerXml, value);
+        }
+
+        public bool ContextMenuEnabled
+        {
+            get => contextMenuEnabled;
+            set => SetProperty(ref contextMenuEnabled, value);
+        }
+
+        public bool AddElementEnabled
+        {
+            get => addElementEnabled;
+            set => SetProperty(ref addElementEnabled, value);
+        }
+        #endregion
+
+        public void NewFile()
+        {
+            TreeViewItems.Clear();
+            Attributes.Clear();
+            InnerXml = string.Empty;
+            openedFilePath = string.Empty;
+            IsEdited = false;
+
+            declaration = SavannahXmlConstants.Utf8Declaration;
+            root = new TreeViewItemInfo(new SavannahXmlNode { TagName = "root" }, this)
             {
-                "Common",
-                "Vehicle"
-            });
-            EditModeSelectedItem = "Common";
-
-            //OpenFile("vehicles.xml");
-
-            //if (filePath == "vehicles.xml")
-            //    EditModeSelectedItem = "Vehicle";
-            NodeViewModeChange(EditModeSelectedItem);
+                IsRoot = true
+            };
+            TreeViewItems.Add(root);
         }
 
         public void OpenFile()
@@ -91,19 +141,31 @@ namespace _7dtd_XmlEditor.Models
                 , "", FileSelector.FileSelectorType.Read);
             if (!string.IsNullOrEmpty(filePath))
             {
-                OpenFile(filePath);
+                var (dec, itemInfo) = OpenFile(filePath, this);
+                declaration = dec;
+                root = itemInfo;
+                TreeViewItems.Clear();
+                TreeViewItems.Add(itemInfo);
+
+                IsEdited = false;
             }
+            openedFilePath = filePath;
         }
 
         public void Save()
         {
-            if (!IsEdited)
-                return;
-
-            if (string.IsNullOrEmpty(OpenedFilePath))
+            if (string.IsNullOrEmpty(openedFilePath))
+            {
                 SaveAs();
+            }
+            else
+            {
+                if (!IsEdited)
+                    return;
 
-            SaveFile(OpenedFilePath);
+                SaveFile(openedFilePath, declaration, root.Node);
+            }
+
             IsEdited = false;
         }
 
@@ -113,62 +175,225 @@ namespace _7dtd_XmlEditor.Models
                 "", FileSelector.FileSelectorType.Write);
 
             if (!string.IsNullOrEmpty(filePath))
-                SaveFile(filePath);
+                SaveFile(filePath, declaration, root.Node);
+            openedFilePath = filePath;
+            IsEdited = false;
         }
 
-        public void NodeViewModeChange(string mode)
+
+
+        public void ItemChanged()
         {
-            if (mode == "Common")
+            var info = SelectedItem;
+            if (info == null)
+                return;
+
+            FullPath = info.Path;
+            if (!info.IgnoreAttributeRedraw)
             {
-                var selected = commonPage?.Model.SelectedItem;
-                var model = new CommonModel(root)
-                {
-                    Declaration = declaration
-                };
-                model.ItemApplied += (sender, args) =>
-                {
-                    root = args.ItemInfo;
-                    IsEdited = true;
-                };
-                commonPage = new CommonView(model);
-                if (selected != null)
-                    model.ChangeItem(selected);
-                navigation.Navigate(commonPage);
+                Attributes.Clear();
+                Attributes.AddAll(from attribute in info.Node.Attributes
+                    select new ViewAttributeInfo
+                    {
+                        Attribute = new AttributeInfo { Name = attribute.Name, Value = attribute.Value },
+                        LostFocusAction = LostFocus
+                    });
             }
-            else if (mode == "Vehicle")
+            else
             {
-                var selected = commonPage?.Model.SelectedItem;
-                var model = new VehicleModel(root)
-                {
-                    Declaration = declaration
-                };
-                model.ItemApplied += (sender, args) =>
-                {
-                    root = args.ItemInfo;
-                    IsEdited = true;
-                };
-                commonPage = new VehicleView(model);
-                if (selected != null)
-                    model.ChangeItem(selected);
-                navigation.Navigate(commonPage);
+                info.IgnoreAttributeRedraw = false;
+            }
+
+            InnerXml = info.Node.NodeType == XmlNodeType.Tag ? info.Node.InnerXml : info.Node.InnerText;
+
+            IsAttributesEnabled = info.Node.NodeType != XmlNodeType.Text;
+        }
+
+        public void LostFocus(ViewAttributeInfo info)
+        {
+            if (info.IsEdited)
+                Apply(true);
+        }
+
+        public void AddChildElement()
+        {
+            var info = SelectedItem;
+            if (info == null)
+                return;
+
+            var currentNode = info.Node;
+            var node = new SavannahXmlNode();
+            var prevChildren = currentNode.ChildNodes;
+            var currentNodeChildNodes = prevChildren.ToList();
+            var children = new List<SavannahXmlNode>(currentNodeChildNodes)
+            {
+                node
+            };
+            currentNode.ChildNodes = children;
+
+            var newInfo = new TreeViewItemInfo(node, this, info);
+            newInfo.FailedLostFocus.Subscribe(failedInfo =>
+            {
+                currentNode.ChildNodes = currentNodeChildNodes;
+                info.RemoveChildren(failedInfo);
+            });
+
+            info.AddChildren(newInfo);
+            info.IsExpanded = true;
+            info.IsSelected = false;
+            newInfo.IsSelected = true;
+
+            newInfo.EnableTextEdit();
+        }
+
+        public void RemoveElement()
+        {
+            var info = SelectedItem;
+            if (info == null)
+                return;
+
+            var parent = info.Parent;
+            var SavannahXmlNodes = new List<SavannahXmlNode>(parent.Node.ChildNodes);
+            SavannahXmlNodes.Remove(info.Node);
+            parent.Node.ChildNodes = SavannahXmlNodes;
+            info.Parent.RemoveChildren(info);
+            IsEdited = true;
+        }
+
+        public void AddAttribute()
+        {
+            var last = Attributes.LastOrDefault();
+            if (last == null || !string.IsNullOrEmpty(last.Attribute.Name))
+            {
+                var attr = new ViewAttributeInfo() { LostFocusAction = LostFocus };
+                Attributes.Add(attr);
             }
         }
 
-        private void OpenFile(string filePath)
+        public void RemoveAttribute()
         {
-            var reader = new CommonXmlReader(filePath);
-            declaration = reader.Declaration;
-            root = new TreeViewItemInfo(reader.GetAllNodes());
-
-            NodeViewModeChange("Common");
-
-            OpenedFilePath = filePath;
+            if (AttributesSelectedItem != null)
+            {
+                Attributes.Remove(AttributesSelectedItem);
+                AttributesSelectedItem = null;
+                Apply();
+            }
         }
 
-        private void SaveFile(string filePath)
+        public void ApplyInnerXml()
         {
-            var writer = new CommonXmlWriter(declaration);
-            writer.Write(filePath, root.Node);
+            if (SelectedItem == null)
+                return;
+
+            if (SelectedItem.IsEdited)
+                Apply();
+        }
+
+        public void Apply(bool ignoreAttributeRedraw = false)
+        {
+            var node = SelectedItem.Node;
+            if (node.NodeType == XmlNodeType.Tag && InnerXml != node.InnerXml)
+                node.PrioritizeInnerXml = InnerXml;
+            else if (node.NodeType == XmlNodeType.Text)
+                node.InnerText = InnerXml;
+
+            node.Attributes = from attribute in Attributes
+                where !string.IsNullOrEmpty(attribute.Attribute.Name)
+                select new AttributeInfo { Name = attribute.Attribute.Name, Value = attribute.Attribute.Value };
+
+            var info = SelectedItem;
+            AssignExpanded(root);
+            info.Node.AppendAttribute(XmlSelected, true.ToString());
+
+            using var ms = new MemoryStream();
+            var writer = new SavannahXmlWriter(declaration)
+            {
+                IgnoreComments = false
+            };
+            writer.Write(ms, root.Node);
+
+            ms.Seek(0, SeekOrigin.Begin);
+            var reader = new SavannahXmlReader(ms, false);
+            var readNode = reader.GetAllNodes();
+
+            root = new TreeViewItemInfo(readNode, this)
+            {
+                IsRoot = true
+            };
+
+            TreeViewItems.Clear();
+            TreeViewItems.Add(root);
+
+            var item = GetSelectedInfo(root);
+            if (item != null)
+            {
+                item.IgnoreAttributeRedraw = ignoreAttributeRedraw;
+                item.IsEdited = false;
+                SelectedItem = item;
+            }
+
+            IsEdited = true;
+            //OnItemApplied(new CommonModel.ItemAppliedEventArgs { ItemInfo = root });
+
+            //SelectionChange();
+        }
+
+        private void AssignExpanded(TreeViewItemInfo info)
+        {
+            var node = info.Node;
+            if (info.IsExpanded)
+                node.AppendAttribute(XmlExpanded, true.ToString());
+            foreach (var child in info.Children)
+            {
+                AssignExpanded(child);
+            }
+        }
+
+        private TreeViewItemInfo GetSelectedInfo(TreeViewItemInfo info)
+        {
+            var node = info.Node;
+            bool.TryParse(node.GetAttribute(XmlSelected).Value, out var isSelected);
+            node.RemoveAttribute(XmlSelected);
+            info.Name = TreeViewItemInfo.GetName(info);
+            if (isSelected)
+            {
+                info.IsSelected = true;
+                return info;
+            }
+
+            if (info.Children.Any())
+            {
+                foreach (var treeViewItemInfo in info.Children)
+                {
+                    var retInfo = GetSelectedInfo(treeViewItemInfo);
+                    if (retInfo != null)
+                        return retInfo;
+                }
+            }
+
+            return null;
+        }
+
+        private static (string declaration, TreeViewItemInfo root) OpenFile(string filePath, IEditedModel editedModel)
+        {
+            var reader = new SavannahXmlReader(filePath, false);
+            var declaration = reader.Declaration;
+            var root = new TreeViewItemInfo(reader.GetAllNodes(), editedModel)
+            {
+                IsRoot = true
+            };
+
+            return (declaration, root);
+        }
+
+        private static void SaveFile(string filePath, string declaration, SavannahXmlNode node)
+        {
+            var writer = new SavannahXmlWriter(declaration)
+            {
+                IgnoreComments = false
+            };
+            Console.WriteLine(node.InnerXml);
+            writer.Write(filePath, node);
         }
     }
 }
