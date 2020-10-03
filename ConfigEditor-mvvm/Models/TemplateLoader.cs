@@ -36,8 +36,8 @@ namespace ConfigEditor_mvvm.Models
         private void VersionListLoad(string templateListPath)
         {
             var xmlReader = new SavannahXmlReader(templateListPath);
-            VersionList = xmlReader.GetAttributes("version", "/root/configs/config");
-            versionPathList = xmlReader.GetValues("/root/configs/config", false);
+            VersionList = xmlReader.GetAttributes("version", "/root/configs/config").ToList();
+            versionPathList = xmlReader.GetValues("/root/configs/config", false).ToList();
         }
 
         /// <summary>
