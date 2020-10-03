@@ -110,7 +110,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         {
             foreach (var node in nodes)
             {
-
                 if (node.NodeType == XmlNodeType.Text)
                 {
                     var array = node.InnerText.UnifiedBreakLine().Split('\n');
@@ -129,7 +128,21 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                 }
                 else
                 {
-                    if (node.TagName == "font")
+                    if (node.TagName == "nobr")
+                    {
+                        items.Add(new RichTextItem
+                        {
+                            TextType = RichTextType.NoBreakLine
+                        });
+                    }
+                    else if (node.TagName == "space")
+                    {
+                        items.Add(new RichTextItem
+                        {
+                            TextType = RichTextType.Space
+                        });
+                    }
+                    else if (node.TagName == "font")
                     {
                         var paragraph = new RichTextItem
                         {
@@ -189,6 +202,14 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                 };
 
                 return item;
+            }
+
+            if (node.NodeType == XmlNodeType.Text)
+            {
+                return new RichTextItem
+                {
+                    Text = node.InnerText
+                };
             }
 
             return null;
