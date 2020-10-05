@@ -219,7 +219,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         {
             var webClient = new UpdateWebClient
             {
-                BaseUrl = "https://aonsztk.xyz/KimamaLab/Updates/SavannahManager/"
+                BaseUrl = "https://aonsztk.xyz/KimamaLab/Updates/SavannahManager2/"
             };
             var updateClient = new UpdateClient(webClient)
             {
