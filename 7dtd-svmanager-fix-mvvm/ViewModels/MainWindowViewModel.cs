@@ -83,11 +83,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             model.ConsoleTextAppended.Subscribe(Model_AppendConsoleText);
             model.ErrorOccurred.Subscribe((message) => windowService.MessageBoxShow(message,
                 LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation));
-            model.MessageBoxOccurred.Subscribe((args =>
+            model.MessageBoxOccurred.Subscribe(args =>
             {
                 var dialogResult = windowService.MessageBoxShow(args.Message, args.Title, args.MessageType, args.ButtonType);
                 args.CallBack(dialogResult);
-            }));
+            });
             model.Telnet.Started += Telnet_Started;
             model.Telnet.Finished += Telnet_Finished;
             model.Telnet.ReadEvent += TelnetReadEvent;
