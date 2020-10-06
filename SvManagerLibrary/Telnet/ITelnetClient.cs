@@ -9,7 +9,6 @@ namespace SvManagerLibrary.Telnet
     public interface ITelnetClient
     {
         bool Connected { get; }
-        bool DestructionEvent { get; set; }
         Encoding Encoding { get; set; }
         int ReceiveBufferSize { get; set; }
         int ReceiveTimeout { get; set; }
@@ -22,6 +21,7 @@ namespace SvManagerLibrary.Telnet
         void Dispose();
         Task HandleTcp(IPEndPoint end);
         string Read();
+        string DestructionEventRead(string cmd);
         int Write(byte[] data);
         int Write(string cmd);
         int WriteLine(byte[] data);
