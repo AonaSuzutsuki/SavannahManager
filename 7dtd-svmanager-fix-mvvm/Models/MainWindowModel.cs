@@ -529,8 +529,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     FeedColorChange(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
                     FeedColorChange(CommonStyleLib.ConstantValues.ActivatedBorderColor);
                 });
-
-                return;
             }
         }
         private void TelnetDisconnect()
