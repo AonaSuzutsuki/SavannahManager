@@ -9,23 +9,10 @@ namespace SvManagerLibrary.Player
         {
             TelnetException.CheckTelnetClient(telnet);
 
-            telnet.DestructionEvent = true;
             var players = new List<PlayerInfo>();
-            telnet.WriteLine("lp");
-
-            var counter = new TelnetCounter();
-            while (counter.CanLoop)
-            {
-                var log = telnet.Read().TrimEnd('\0');
-                if (!string.IsNullOrEmpty(log))
-                {
-                    telnet.DestructionEvent = false;
-                    players.Add(log);
-                }
-
-                counter.Next();
-                System.Threading.Thread.Sleep(100);
-            }
+            var log = telnet.DestructionEventRead("lp");
+            if (!string.IsNullOrEmpty(log))
+                players.Add(log);
 
             return players;
         }
