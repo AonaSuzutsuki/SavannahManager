@@ -131,16 +131,17 @@ namespace SvManagerLibrary.Telnet
                 var logCollection = new LogCollection();
                 while (LockFunction((socket) => Connected))
                 {
-                        continue;
                     if (!destructionEvent)
+                    {
+                        var _log = Read()?.TrimEnd('\0');
+                        logCollection.Append(_log);
 
-                    var _log = Read()?.TrimEnd('\0');
-                    logCollection.Append(_log);
+                        var log = logCollection.GetFirst();
 
-                    var log = logCollection.GetFirst();
+                        if (log != null)
+                            OnRead(new TelnetReadEventArgs() { IpAddress = end.Address.ToString(), Log = $"{log}\n" });
+                    }
 
-                    if (log != null)
-                        OnRead(new TelnetReadEventArgs() { IpAddress = end.Address.ToString(), Log = $"{log}\n" });
                     Thread.Sleep(10);
                 }
 
