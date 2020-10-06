@@ -76,7 +76,7 @@ namespace SvManagerLibrary.Telnet
             }
         }
 
-        public bool DestructionEvent { get; set; } = false;
+        private bool destructionEvent;
 
         private Socket clientSocket;
 
@@ -131,8 +131,8 @@ namespace SvManagerLibrary.Telnet
                 var logCollection = new LogCollection();
                 while (LockFunction((socket) => Connected))
                 {
-                    if (DestructionEvent)
                         continue;
+                    if (!destructionEvent)
 
                     var _log = Read()?.TrimEnd('\0');
                     logCollection.Append(_log);
@@ -164,6 +164,28 @@ namespace SvManagerLibrary.Telnet
                 return returner;
 
             });
+        }
+
+        public string DestructionEventRead(string cmd)
+        {
+            destructionEvent = true;
+
+            WriteLine(cmd);
+            var counter = new TelnetCounter();
+            var log = "";
+            while (counter.CanLoop)
+            {
+                log = Read().TrimEnd('\0');
+                if (!string.IsNullOrEmpty(log))
+                    break;
+
+                counter.Next();
+                Thread.Sleep(100);
+            }
+
+            destructionEvent = false;
+
+            return log;
         }
 
         /// <summary>
