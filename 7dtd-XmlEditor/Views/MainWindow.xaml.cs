@@ -62,7 +62,8 @@ namespace _7dtd_XmlEditor.Views
 
             var pos = e.GetPosition(itemsControl);
             var hit = HitTest<FrameworkElement>(itemsControl, e.GetPosition);
-            if (hit.DataContext is TreeViewItemInfo)
+
+            if (hit?.DataContext is TreeViewItemInfo)
                 startPos = itemsControl.PointToScreen(pos);
             else
                 startPos = null;
@@ -199,8 +200,8 @@ namespace _7dtd_XmlEditor.Views
         private static T HitTest<T>(UIElement itemsControl, Func<IInputElement, Point> getPosition) where T : class
         {
             var pt = getPosition(itemsControl);
-            var result = VisualTreeHelper.HitTest(itemsControl, pt);
-            if (result.VisualHit is T ret)
+            var result = itemsControl.InputHitTest(pt) as DependencyObject;
+            if (result is T ret)
                 return ret;
             return null;
         }
