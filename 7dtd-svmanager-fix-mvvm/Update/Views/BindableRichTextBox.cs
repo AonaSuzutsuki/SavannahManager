@@ -28,6 +28,9 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Views
             var isNoBreakLine = false;
             foreach (var item in items)
             {
+                if (item == null)
+                    continue;
+
                 if (item.TextType == RichTextType.NoBreakLine)
                 {
                     isNoBreakLine = true;
