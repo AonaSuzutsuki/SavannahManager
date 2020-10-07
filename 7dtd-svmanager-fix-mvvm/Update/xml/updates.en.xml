@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
-  <update version="2.3.36.2">
+  <update version="2.3.38.4">
+    1. Fixed an issue where getting a player or time would not work properly.
+    2. Fixed an issue where the time setting button would not work properly.
+    3. Fixed an issue where an error would occur when selecting an element in the Savannah Xml Editor.
+    4. Fixed an issue where dragging a mouse move on an element in the Savannah Xml Editor would not work properly.
+    5. Changed the connection to the update server.
+      5.1. If you update from this version or earlier, it may take two updates.
+  </update>
+  <update version="2.3.37.3">
     1. fixed an issue where the server could start if a Telnet connection failed even when local server mode is off.
     2. fixed an issue with stored addresses being rewritten when making a Telnet connection in local server mode.
     3. Moved Savannah Xml Editor from beta to stable version.
