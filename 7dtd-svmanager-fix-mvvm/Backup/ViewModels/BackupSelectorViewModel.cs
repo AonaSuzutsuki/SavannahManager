@@ -35,14 +35,14 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
             DeleteBtEnabled = model.ObserveProperty(m => m.CanRestore).ToReactiveProperty();
             DeleteAllBtEnabled = model.ObserveProperty(m => m.CanDeleteAll).ToReactiveProperty();
 
-            RestoreBtClicked = new DelegateCommand(RestoreBt_Clicked);
-            BackupBtClicked = new DelegateCommand(BackupBt_Clicked);
-            DeleteBtClicked = new DelegateCommand(DeleteBt_Clicked);
-            DeleteAllBtClicked = new DelegateCommand(DeleteAllBt_Clicked);
+            RestoreCommand = new DelegateCommand(RestoreBt_Clicked);
+            BackupCommand = new DelegateCommand(BackupBt_Clicked);
+            DeleteBackupCommand = new DelegateCommand(DeleteBt_Clicked);
+            DeleteAllBackupCommand = new DelegateCommand(DeleteAllBt_Clicked);
             BackupListContextMenuOpened = new DelegateCommand(BackupListContextMenu_Opened);
             BackupListSelectionChanged = new DelegateCommand<int?>(BackupList_SelectionChanged);
-            ForwardBtClicked = new DelegateCommand(ForwardBt_Clicked);
-            BackBtClicked = new DelegateCommand(BackBt_Clicked);
+            ForwardPageCommand = new DelegateCommand(ForwardBt_Clicked);
+            BackPageCommand = new DelegateCommand(BackBt_Clicked);
             BackupFileListMouseDoubleClick = new DelegateCommand<PathMapItem>(BackupFileList_MouseDoubleClick);
         }
 
@@ -71,17 +71,17 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
 
         #region Event Properties
 
-        public ICommand RestoreBtClicked { get; set; }
-        public ICommand BackupBtClicked { get; set; }
-        public ICommand DeleteBtClicked { get; set; }
-        public ICommand DeleteAllBtClicked { get; set; }
+        public ICommand RestoreCommand { get; set; }
+        public ICommand BackupCommand { get; set; }
+        public ICommand DeleteBackupCommand { get; set; }
+        public ICommand DeleteAllBackupCommand { get; set; }
 
         public ICommand BackupListContextMenuOpened { get; set; }
 
         public ICommand BackupListSelectionChanged { get; set; }
 
-        public ICommand ForwardBtClicked { get; set; }
-        public ICommand BackBtClicked { get; set; }
+        public ICommand ForwardPageCommand { get; set; }
+        public ICommand BackPageCommand { get; set; }
         public ICommand BackupFileListMouseDoubleClick { get; set; }
 
 
