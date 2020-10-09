@@ -138,6 +138,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             GetTimeBtClick = new DelegateCommand(GetTimeBt_Click);
             SetTimeBtClick = new DelegateCommand(SetTimeBt_Click);
             SaveWorldBtClick = new DelegateCommand(SaveWorldBt_Click);
+            OpenPermissionEditorCommand = new DelegateCommand(OpenPermissionEditor);
 
             GetIpClicked = new DelegateCommand(GetIp_Clicked);
             CheckPortClicked = new DelegateCommand(CheckPort_Clicked);
@@ -220,6 +221,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand GetTimeBtClick { get; set; }
         public ICommand SetTimeBtClick { get; set; }
         public ICommand SaveWorldBtClick { get; set; }
+        public ICommand OpenPermissionEditorCommand { get; set; }
 
         public ICommand GetIpClicked { get; set; }
         public ICommand CheckPortClicked { get; set; }
@@ -619,6 +621,12 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void SaveWorldBt_Click()
         {
             _model.SendCommand("saveworld");
+        }
+
+        private void OpenPermissionEditor()
+        {
+            var vm = new PermissionEditorViewModel(new WindowService(), new PermissionEditorModel());
+            WindowManageService.Show<PermissionEditor>(vm);
         }
 
         private void GetIp_Clicked()
