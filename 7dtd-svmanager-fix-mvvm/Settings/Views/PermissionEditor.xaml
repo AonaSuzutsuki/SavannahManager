@@ -7,6 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Settings.Views"
+        xmlns:models="clr-namespace:_7dtd_svmanager_fix_mvvm.Settings.Models"
         mc:Ignorable="d"
         Title="Permission Editor" Height="450" Width="800">
     <i:Interaction.Triggers>
@@ -57,7 +58,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
-                <Label Content="Savannah Manager" Style="{DynamicResource ResourceKey=StatTitle}" />
+                <Label Content="Permission Editor" Style="{DynamicResource ResourceKey=StatTitle}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
@@ -75,7 +76,122 @@
             </StackPanel>
 
             <Grid Margin="10,55,10,0">
+                <TabControl>
+                    <TabItem Header="Command">
+                        <ListView ItemsSource="{Binding CommandPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}">
 
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding AttributesSelectionChanged}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, Path=SelectedItem}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="200" Header="Name">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="models:PermissionInfo">
+                                                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="LostFocus">
+                                                            <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="TextChanged">
+                                                            <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </TextBox>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Width="100" Header="Value">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="models:PermissionInfo">
+                                                <TextBox Text="{Binding Permission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="LostFocus">
+                                                            <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="TextChanged">
+                                                            <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </TextBox>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+
+                            <ListView.Resources>
+                                <Style x:Key="{x:Type TextBox}" TargetType="TextBox">
+                                    <Setter Property="Foreground" Value="white" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                                                <Border Name="TextBoxBorder" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderThickness="1" BorderBrush="Transparent">
+                                                    <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                        <Setter TargetName="TextBoxBorder" Property="BorderBrush" Value="LightGray" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.Resources>
+
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="FontFamily" Value="{StaticResource FontName}" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                <Border
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         Background="{TemplateBinding Background}">
+                                                    <GridViewRowPresenter HorizontalAlignment="Stretch" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Width="Auto" Margin="3" Content="{TemplateBinding Content}"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="true" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Background" Value="#4090ff" />
+                                        </MultiTrigger>
+                                        <Trigger Property="IsKeyboardFocusWithin" Value="true">
+                                            <Setter Property="IsSelected" Value="true" />
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#333"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </TabItem>
+
+                    <TabItem Header="Admin">
+
+                    </TabItem>
+
+                    <TabItem Header="Whitelist">
+
+                    </TabItem>
+
+                    <TabItem Header="Blacklist">
+
+                    </TabItem>
+                </TabControl>
             </Grid>
 
         </Grid>
