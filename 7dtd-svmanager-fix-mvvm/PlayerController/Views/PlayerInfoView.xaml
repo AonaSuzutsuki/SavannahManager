@@ -99,7 +99,7 @@
                         <Label Content="{Binding Player.Deaths}" />
                         <Label Content="{Binding Player.Score}" />
                         <Label Content="{Binding Player.Coord}" />
-                        <Button Content="{Binding Player.SteamId}" Command="{Binding SteamIdMouseDown}" Style="{DynamicResource LinkLabel}" />
+                        <Button Content="{Binding Player.SteamId}" Command="{Binding OpenSteamIdCommand}" Style="{DynamicResource LinkLabel}" />
                     </StackPanel>
                 </Grid>
 

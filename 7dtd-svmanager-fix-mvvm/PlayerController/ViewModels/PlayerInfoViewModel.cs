@@ -21,7 +21,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels
         {
             this.model = model;
 
-            SteamIdMouseDown = new DelegateCommand(SteamId_MouseDown);
+            OpenSteamIdCommand = new DelegateCommand(SteamId_MouseDown);
         }
 
         #region Fields
@@ -38,7 +38,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels
 
         #region Event Properties
 
-        public ICommand SteamIdMouseDown { get; set; }
+        public ICommand OpenSteamIdCommand { get; set; }
 
         #endregion
 
