@@ -19,7 +19,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             this.model = model;
 
             Loaded = new DelegateCommand(Window_Loaded);
-            ShutdownBtClick = new DelegateCommand(ShutdownBt_Click);
+            ForceShutdownCommand = new DelegateCommand(ShutdownBt_Click);
             SelectionChanged = new DelegateCommand<int?>(Selection_Changed);
 
             ProcessData = new ReadOnlyObservableCollection<ProcessTab>(model.ProcessData);
@@ -27,7 +27,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
 
         #region EventProperties
-        public ICommand ShutdownBtClick { get; }
+        public ICommand ForceShutdownCommand { get; }
         public ICommand SelectionChanged { get; }
         #endregion
 

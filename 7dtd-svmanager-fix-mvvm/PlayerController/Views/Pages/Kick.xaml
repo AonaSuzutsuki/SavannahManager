@@ -51,8 +51,8 @@
 
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" Margin="0,0,5,0" Grid.Row="1" Orientation="Horizontal">
-            <Button Name="kickBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=PlayerResources.UI_KickBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding KickBtClicked}" />
-            <Button Name="CancelBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=PlayerResources.UI_CancelBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding CancelBtClicked}" />
+            <Button Name="kickBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=PlayerResources.UI_KickBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding KickPlayerCommanded}" />
+            <Button Name="CancelBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=PlayerResources.UI_CancelBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding CancelCommand}" />
         </StackPanel>
     </Grid>
 </Page>

@@ -61,7 +61,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBox Text="{Binding ExternalIpAddress.Value}" IsReadOnly="True" />
-                            <Button Grid.Column="2" Content="Copy" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding CopyClicked}" CommandParameter="{Binding ExternalIpAddress.Value}" />
+                            <Button Grid.Column="2" Content="Copy" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding CopyCommand}" CommandParameter="{Binding ExternalIpAddress.Value}" />
                         </Grid>
 
                         <Label Content="Local IP Address" />
@@ -74,12 +74,12 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBox Text="{Binding LocalIpAddress.Value}" IsReadOnly="True" />
-                            <Button Grid.Column="2" Content="Copy" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding CopyClicked}" CommandParameter="{Binding LocalIpAddress.Value}" />
+                            <Button Grid.Column="2" Content="Copy" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding CopyCommand}" CommandParameter="{Binding LocalIpAddress.Value}" />
                         </Grid>
                     </StackPanel>
 
                     <Label Content="{Binding StatusLabel.Value}" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-                    <Button Content="Get" Width="70" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{DynamicResource FlatButton}" Command="{Binding GetIpClicked}" />
+                    <Button Content="Get" Width="70" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{DynamicResource FlatButton}" Command="{Binding OpenGetIpCommand}" />
 
                 </Grid>
             </Grid>

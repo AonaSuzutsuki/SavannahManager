@@ -21,8 +21,8 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels.Pages
 
             NameText = model.ToReactivePropertyAsSynchronized(m => m.Name);
 
-            KickBtClicked = new DelegateCommand(KickBt_Clicked);
-            CancelBtClicked = new DelegateCommand(model.Cancel);
+            KickPlayerCommanded = new DelegateCommand(KickBt_Clicked);
+            CancelCommand = new DelegateCommand(model.Cancel);
         }
 
         public ReactiveProperty<string> NameText { get; set; }
@@ -35,8 +35,8 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels.Pages
         }
 
         #region EventProperties
-        public ICommand KickBtClicked { get; }
-        public ICommand CancelBtClicked { get; }
+        public ICommand KickPlayerCommanded { get; }
+        public ICommand CancelCommand { get; }
         #endregion
 
         #region EventMethods

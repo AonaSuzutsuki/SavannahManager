@@ -38,7 +38,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             LatestVersion = model.ToReactivePropertyAsSynchronized(m => m.LatestVersion);
 
             VersionListSelectionChanged = new DelegateCommand<int?>(VersionList_SelectionChanged);
-            UpdateBtClick = new DelegateCommand(UpdateBt_Clicked);
+            DoUpdateCommand = new DelegateCommand(UpdateBt_Clicked);
             //DoLoaded();
         }
 
@@ -57,7 +57,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
         #region EventProperties
         public ICommand VersionListSelectionChanged { get; }
-        public ICommand UpdateBtClick { get; }
+        public ICommand DoUpdateCommand { get; }
         #endregion
 
         #region EventMethods

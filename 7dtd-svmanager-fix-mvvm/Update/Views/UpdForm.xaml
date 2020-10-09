@@ -110,7 +110,7 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_UpdBT, Mode=OneWay}" IsEnabled="{Binding UpdateBtIsEnabled.Value}" Name="UpdateBT" Style="{DynamicResource FlatButton}" Width="90" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding UpdateBtClick}" />
+                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_UpdBT, Mode=OneWay}" IsEnabled="{Binding UpdateBtIsEnabled.Value}" Name="UpdateBT" Style="{DynamicResource FlatButton}" Width="90" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding DoUpdateCommand}" />
                     <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_CancelBT, Mode=OneWay}" IsEnabled="{Binding CancelBtIsEnabled.Value}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding MainWindowCloseBtClick}" />
                 </StackPanel>
             </Grid>
