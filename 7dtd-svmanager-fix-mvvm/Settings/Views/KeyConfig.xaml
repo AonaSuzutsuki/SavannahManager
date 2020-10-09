@@ -94,7 +94,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <TextBox Text="{Binding CurrentKeyText.Value}" IsReadOnly="True" Grid.Column="0" Width="150" />
-                        <Button Grid.Column="1" Name="DeleteCurrentKeyBT" Width="50" Margin="5,0,0,0" Content="削除" Style="{DynamicResource FlatButton}" Command="{Binding DeleteCurrentKeyBtClick}" />
+                        <Button Grid.Column="1" Name="DeleteCurrentKeyBT" Width="50" Margin="5,0,0,0" Content="削除" Style="{DynamicResource FlatButton}" Command="{Binding DeleteCurrentKeyCommand}" />
                     </Grid>
 
                     <Label Content="キーを入力してください" Height="28" HorizontalAlignment="Left" />
@@ -110,12 +110,12 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
-                        <Button Grid.Column="1" Name="ApplyKeyBT" Width="50" Margin="5,0,0,0" Content="適用" Style="{DynamicResource FlatButton}" Command="{Binding ApplyKeyBtClick}" />
+                        <Button Grid.Column="1" Name="ApplyKeyBT" Width="50" Margin="5,0,0,0" Content="適用" Style="{DynamicResource FlatButton}" Command="{Binding ApplyKeyBtCommand}" />
                     </Grid>
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Name="OKayBT" Width="80" Height="25" Content="OK" Style="{DynamicResource FlatButton}" Command="{Binding OKayBtClick}" />
+                    <Button Name="OKayBT" Width="80" Height="25" Content="OK" Style="{DynamicResource FlatButton}" Command="{Binding OkayCommand}" />
                     <Button Name="CancelBT" Width="80" Height="25" Margin="5,0,0,0" Content="キャンセル" Style="{DynamicResource FlatButton}" Command="{Binding MainWindowCloseBtClick}" />
                 </StackPanel>
             </Grid>

@@ -12,21 +12,21 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 {
     public class SettingWindowViewModel : ViewModelBase
     {
-        SettingModel model;
+        private readonly SettingModel model;
         public SettingWindowViewModel(WindowService windowService, SettingModel model) : base(windowService, model)
         {
             this.model = model;
 
             #region Event Initialize
-            GetSvFilePathBtClick = new DelegateCommand(GetSvFilePathBt_Click);
-            GetConfFilePathBtClick = new DelegateCommand(GetConfFilePathBt_Click);
-            GetAdminFilePathBtClick = new DelegateCommand(GetAdminFilePathBt_Click);
+            GetSvFilePathCommand = new DelegateCommand(GetSvFilePathBt_Click);
+            GetConfFilePathCommand = new DelegateCommand(GetConfFilePathBt_Click);
+            GetAdminFilePathCommand = new DelegateCommand(GetAdminFilePathBt_Click);
 
-            KeyEditBtClick = new DelegateCommand(KeyEditBt_Click);
+            KeyEditCommand = new DelegateCommand(KeyEditBt_Click);
 
-            GetBackupDirBtClick = new DelegateCommand(GetBackupDirBt_Click);
+            GetBackupDirCommand = new DelegateCommand(GetBackupDirBt_Click);
 
-            SaveBtClick = new DelegateCommand(SaveBt_Click);
+            SaveBtCommand = new DelegateCommand(SaveBt_Click);
             #endregion
 
             #region Property Initialize
@@ -57,15 +57,15 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         #endregion
 
         #region Event Properties
-        public ICommand GetSvFilePathBtClick { get; set; }
-        public ICommand GetConfFilePathBtClick { get; set; }
-        public ICommand GetAdminFilePathBtClick { get; set; }
+        public ICommand GetSvFilePathCommand { get; set; }
+        public ICommand GetConfFilePathCommand { get; set; }
+        public ICommand GetAdminFilePathCommand { get; set; }
 
-        public ICommand KeyEditBtClick { get; set; }
+        public ICommand KeyEditCommand { get; set; }
 
-        public ICommand GetBackupDirBtClick { get; set; }
+        public ICommand GetBackupDirCommand { get; set; }
 
-        public ICommand SaveBtClick { get; set; }
+        public ICommand SaveBtCommand { get; set; }
         #endregion
 
         #region Event Methods
