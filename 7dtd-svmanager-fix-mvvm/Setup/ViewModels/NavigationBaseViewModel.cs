@@ -24,63 +24,63 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
     public class NavigationBindableValue : BindableBase
     {
 
-        private bool _canGoNext;
-        private bool _canGoBack;
+        private bool canGoNext;
+        private bool canGoBack;
 
-        private Visibility _backBtVisibility;
-        private Visibility _nextBtVisibility;
-        private Visibility _closeBtVisibility;
-        private Visibility _cancelBtVisibility;
+        private Visibility backBtVisibility;
+        private Visibility nextBtVisibility;
+        private Visibility closeBtVisibility;
+        private Visibility cancelBtVisibility;
 
-        private string _nextBtContent;
-        private string _windowTitle;
+        private string nextBtContent;
+        private string windowTitle;
 
         public string WindowTitle
         {
-            get => _windowTitle;
-            set => SetProperty(ref _windowTitle, value);
+            get => windowTitle;
+            set => SetProperty(ref windowTitle, value);
         }
 
         public string NextBtContent
         {
-            get => _nextBtContent;
-            set => SetProperty(ref _nextBtContent, value);
+            get => nextBtContent;
+            set => SetProperty(ref nextBtContent, value);
         }
 
         public bool CanGoNext
         {
-            get => _canGoNext;
-            set => SetProperty(ref _canGoNext, value);
+            get => canGoNext;
+            set => SetProperty(ref canGoNext, value);
         }
 
         public bool CanGoBack
         {
-            get => _canGoBack;
-            set => SetProperty(ref _canGoBack, value);
+            get => canGoBack;
+            set => SetProperty(ref canGoBack, value);
         }
 
         public Visibility BackBtVisibility
         {
-            get => _backBtVisibility;
-            set => SetProperty(ref _backBtVisibility, value);
+            get => backBtVisibility;
+            set => SetProperty(ref backBtVisibility, value);
         }
 
         public Visibility NextBtVisibility
         {
-            get => _nextBtVisibility;
-            set => SetProperty(ref _nextBtVisibility, value);
+            get => nextBtVisibility;
+            set => SetProperty(ref nextBtVisibility, value);
         }
 
         public Visibility CloseBtVisibility
         {
-            get => _closeBtVisibility;
-            set => SetProperty(ref _closeBtVisibility, value);
+            get => closeBtVisibility;
+            set => SetProperty(ref closeBtVisibility, value);
         }
 
         public Visibility CancelBtVisibility
         {
-            get => _cancelBtVisibility;
-            set => SetProperty(ref _cancelBtVisibility, value);
+            get => cancelBtVisibility;
+            set => SetProperty(ref cancelBtVisibility, value);
         }
 
         public Action CloseAction { get; set; }
@@ -98,7 +98,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 
     public class NavigationWindowService<T> : WindowService where T : new()
     {
-        private Dictionary<Type, Tuple<object, bool>> cacheDictionary = new Dictionary<Type, Tuple<object, bool>>();
+        private readonly Dictionary<Type, Tuple<object, bool>> cacheDictionary = new Dictionary<Type, Tuple<object, bool>>();
 
         public IList<Tuple<Type, bool>> Pages { get; set; }
         public ITransitionNavigationService Navigation { get; set; }

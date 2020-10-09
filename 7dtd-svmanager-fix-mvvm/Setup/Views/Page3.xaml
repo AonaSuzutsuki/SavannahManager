@@ -32,8 +32,8 @@
                     <ColumnDefinition Width="70" />
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0" Text="{Binding ServerConfigPathText.Value, UpdateSourceTrigger=PropertyChanged}" />
-                <Button Grid.Column="2" Name="GetPathBT" Content="..." Style="{DynamicResource FlatButton}" Command="{Binding GetPathBtClick}" />
-                <Button Grid.Column="5" Name="AutoSearchBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_AutoSearchBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Command="{Binding AutoSearchBtClick}" />
+                <Button Grid.Column="2" Name="GetPathBT" Content="..." Style="{DynamicResource FlatButton}" Command="{Binding GetPathCommand}" />
+                <Button Grid.Column="5" Name="AutoSearchBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_AutoSearchBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Command="{Binding AutoSearchCommand}" />
             </Grid>
         </StackPanel>
     </Grid>
