@@ -23,7 +23,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             this.model = model;
 
             Loaded = new DelegateCommand(Window_Loaded);
-            DonateBtClicked = new DelegateCommand<string>(DonateBt_Clicked);
+            CopyDonationAddressCommand = new DelegateCommand<string>(DonateBt_Clicked);
 
             VersionLabel = model.ObserveProperty(m => m.Version).ToReactiveProperty();
         }
@@ -33,7 +33,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region EventProperties
-        public ICommand DonateBtClicked { get; set; }
+        public ICommand CopyDonationAddressCommand { get; set; }
         #endregion
 
         #region EventMethods
