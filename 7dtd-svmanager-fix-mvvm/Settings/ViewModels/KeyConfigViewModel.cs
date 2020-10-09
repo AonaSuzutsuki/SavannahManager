@@ -19,9 +19,9 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 
             Loaded = new DelegateCommand(Window_Loaded);
             KeyListSelectionChanged = new DelegateCommand(KeyList_SelectionChanged);
-            DeleteCurrentKeyBtClick = new DelegateCommand(DeleteCurrentKeyBt_Click);
-            ApplyKeyBtClick = new DelegateCommand(ApplyKeyBt_Click);
-            OKayBtClick = new DelegateCommand(OKayBt_Click);
+            DeleteCurrentKeyCommand = new DelegateCommand(DeleteCurrentKeyBt_Click);
+            ApplyKeyBtCommand = new DelegateCommand(ApplyKeyBt_Click);
+            OkayCommand = new DelegateCommand(OKayBt_Click);
             InputKeyTextBoxKeyDown = new DelegateCommand<KeyEventArgs>(InputKeyTextBox_KeyDown);
 
             KeyList = new ReadOnlyObservableCollection<ShortcutKeyForList>(model.KeyList);
@@ -47,9 +47,9 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         #region EventProperties
         public ICommand KeyListSelectionChanged { get; }
 
-        public ICommand DeleteCurrentKeyBtClick { get; }
-        public ICommand ApplyKeyBtClick { get; }
-        public ICommand OKayBtClick { get; }
+        public ICommand DeleteCurrentKeyCommand { get; }
+        public ICommand ApplyKeyBtCommand { get; }
+        public ICommand OkayCommand { get; }
         public ICommand InputKeyTextBoxKeyDown { get; }
         #endregion
 

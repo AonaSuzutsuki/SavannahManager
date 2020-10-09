@@ -100,48 +100,48 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             Closing = new DelegateCommand(MainWindow_Closing);
             KeyDown = new DelegateCommand<KeyEventArgs>(MainWindow_KeyDown);
 
-            MenuSettingsBtClick = new DelegateCommand(MenuSettingsBt_Click);
-            MenuFirstSettingsBtClick = new DelegateCommand(MenuFirstSettingsBt_Click);
-            MenuLangJapaneseBtClick = new DelegateCommand(MenuLangJapaneseBt_Click);
-            MenuLangEnglishBtClick = new DelegateCommand(MenuLangEnglishBt_Click);
-            MenuConfigEditorBtClick = new DelegateCommand(MenuConfigEditorBt_Click);
-            MenuXmlEditorBtClick = new DelegateCommand(MenuXmlEditorBt_Click);
-            MenuBackupEditorBtClick = new DelegateCommand(MenuBackupEditorBt_Click);
-            MenuCheckUpdateBtClick = new DelegateCommand(MenuCheckUpdateBt_Click);
-            MenuVersionInfoClick = new DelegateCommand(MenuVersionInfo_Click);
+            OpenSettingCommand = new DelegateCommand(MenuSettingsBt_Click);
+            OpenFirstSettingsCommand = new DelegateCommand(MenuFirstSettingsBt_Click);
+            SetLangJapaneseCommand = new DelegateCommand(MenuLangJapaneseBt_Click);
+            SetLangEnglishCommand = new DelegateCommand(MenuLangEnglishBt_Click);
+            OpenConfigEditorCommand = new DelegateCommand(MenuConfigEditorBt_Click);
+            OpenXmlEditorCommand = new DelegateCommand(MenuXmlEditorBt_Click);
+            OpenBackupEditorCommand = new DelegateCommand(MenuBackupEditorBt_Click);
+            OpenCheckUpdateCommand = new DelegateCommand(MenuCheckUpdateBt_Click);
+            OpenVersionInfoCommand = new DelegateCommand(MenuVersionInfo_Click);
 
-            StartBtClick = new DelegateCommand(StartBt_Click);
-            StopBtClick = new DelegateCommand(StopBt_Click);
-            TelnetBtClick = new DelegateCommand(TelnetBt_Click);
-            CommandListBtClick = new DelegateCommand(CommandListBt_Click);
+            StartServerCommand = new DelegateCommand(StartBt_Click);
+            StopServerCommand = new DelegateCommand(StopBt_Click);
+            ConnectTelnetCommand = new DelegateCommand(TelnetBt_Click);
+            OpenCommandListCommand = new DelegateCommand(CommandListBt_Click);
 
-            PlayerListRefreshBtClick = new DelegateCommand(PlayerListRefreshBt_Click);
+            PlayerListRefreshCommand = new DelegateCommand(PlayerListRefreshBt_Click);
 
             PlayerContextMenuOpened = new DelegateCommand(PlayerContextMenu_Opened);
-            AdminAddBtClick = new DelegateCommand(AdminAddBt_Click);
-            AdminRemoveBtClick = new DelegateCommand(AdminRemoveBt_Click);
-            WhiteListAddBtClick = new DelegateCommand(WhiteListAddBt_Click);
-            WhiteListRemoveBtClick = new DelegateCommand(WhiteListRemoveBt_Click);
-            KickBtClick = new DelegateCommand(KickBt_Click);
-            BanBtClick = new DelegateCommand(BanBt_Click);
-            KillBtClick = new DelegateCommand(KillBt_Click);
-            WatchPlayerInfoBtClick = new DelegateCommand(WatchPlayerInfoBt_Click);
+            AddAdminCommand = new DelegateCommand(AdminAddBt_Click);
+            RemoveAdminCommand = new DelegateCommand(AdminRemoveBt_Click);
+            AddWhiteListCommand = new DelegateCommand(WhiteListAddBt_Click);
+            RemoveWhiteListCommand = new DelegateCommand(WhiteListRemoveBt_Click);
+            KickPlayerCommand = new DelegateCommand(KickBt_Click);
+            BanPlayerCommand = new DelegateCommand(BanBt_Click);
+            KillPlayerCommand = new DelegateCommand(KillBt_Click);
+            ShowPlayerInfoCommand = new DelegateCommand(WatchPlayerInfoBt_Click);
 
             ChatTextBoxEnterDown = new DelegateCommand<string>(ChatTextBoxEnter_Down);
 
             ConsoleTextBoxMouseEnter = new DelegateCommand(ConsoleTextBoxMouse_Enter);
             ConsoleTextBoxMouseLeave = new DelegateCommand(ConsoleTextBoxMouse_Leave);
-            DeleteLogBtClick = new DelegateCommand(DeleteLogBt_Click);
+            DeleteLogCommand = new DelegateCommand(DeleteLogBt_Click);
 
             CmdTextBoxEnterDown = new DelegateCommand<string>(CmdTextBox_EnterDown);
 
-            GetTimeBtClick = new DelegateCommand(GetTimeBt_Click);
-            SetTimeBtClick = new DelegateCommand(SetTimeBt_Click);
-            SaveWorldBtClick = new DelegateCommand(SaveWorldBt_Click);
+            GetTimeCommand = new DelegateCommand(GetTimeBt_Click);
+            SetTimeCommand = new DelegateCommand(SetTimeBt_Click);
+            SaveWorldCommand = new DelegateCommand(SaveWorldBt_Click);
             OpenPermissionEditorCommand = new DelegateCommand(OpenPermissionEditor);
 
-            GetIpClicked = new DelegateCommand(GetIp_Clicked);
-            CheckPortClicked = new DelegateCommand(CheckPort_Clicked);
+            OpenGetIpCommand = new DelegateCommand(GetIp_Clicked);
+            CheckPortCommand = new DelegateCommand(CheckPort_Clicked);
             #endregion
 
             #region Property Initialize
@@ -183,48 +183,48 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region EventProperties
-        public ICommand MenuSettingsBtClick { get; set; }
-        public ICommand MenuFirstSettingsBtClick { get; set; }
-        public ICommand MenuLangJapaneseBtClick { get; set; }
-        public ICommand MenuLangEnglishBtClick { get; set; }
-        public ICommand MenuConfigEditorBtClick { get; set; }
-        public ICommand MenuXmlEditorBtClick { get; set; }
-        public ICommand MenuBackupEditorBtClick { get; set; }
-        public ICommand MenuCheckUpdateBtClick { get; set; }
-        public ICommand MenuVersionInfoClick { get; set; }
+        public ICommand OpenSettingCommand { get; set; }
+        public ICommand OpenFirstSettingsCommand { get; set; }
+        public ICommand SetLangJapaneseCommand { get; set; }
+        public ICommand SetLangEnglishCommand { get; set; }
+        public ICommand OpenConfigEditorCommand { get; set; }
+        public ICommand OpenXmlEditorCommand { get; set; }
+        public ICommand OpenBackupEditorCommand { get; set; }
+        public ICommand OpenCheckUpdateCommand { get; set; }
+        public ICommand OpenVersionInfoCommand { get; set; }
 
-        public ICommand StartBtClick { get; set; }
-        public ICommand StopBtClick { get; set; }
-        public ICommand TelnetBtClick { get; set; }
-        public ICommand CommandListBtClick { get; set; }
+        public ICommand StartServerCommand { get; set; }
+        public ICommand StopServerCommand { get; set; }
+        public ICommand ConnectTelnetCommand { get; set; }
+        public ICommand OpenCommandListCommand { get; set; }
 
-        public ICommand PlayerListRefreshBtClick { get; set; }
+        public ICommand PlayerListRefreshCommand { get; set; }
         
         public ICommand PlayerContextMenuOpened { get; set; }
-        public ICommand AdminAddBtClick { get; set; }
-        public ICommand AdminRemoveBtClick { get; set; }
-        public ICommand WhiteListAddBtClick { get; set; }
-        public ICommand WhiteListRemoveBtClick { get; set; }
-        public ICommand KickBtClick { get; set; }
-        public ICommand BanBtClick { get; set; }
-        public ICommand KillBtClick { get; set; }
-        public ICommand WatchPlayerInfoBtClick { get; set; }
+        public ICommand AddAdminCommand { get; set; }
+        public ICommand RemoveAdminCommand { get; set; }
+        public ICommand AddWhiteListCommand { get; set; }
+        public ICommand RemoveWhiteListCommand { get; set; }
+        public ICommand KickPlayerCommand { get; set; }
+        public ICommand BanPlayerCommand { get; set; }
+        public ICommand KillPlayerCommand { get; set; }
+        public ICommand ShowPlayerInfoCommand { get; set; }
 
         public ICommand ChatTextBoxEnterDown { get; set; }
 
         public ICommand ConsoleTextBoxMouseEnter { get; set; }
         public ICommand ConsoleTextBoxMouseLeave { get; set; }
-        public ICommand DeleteLogBtClick { get; set; }
+        public ICommand DeleteLogCommand { get; set; }
 
         public ICommand CmdTextBoxEnterDown { get; set; }
 
-        public ICommand GetTimeBtClick { get; set; }
-        public ICommand SetTimeBtClick { get; set; }
-        public ICommand SaveWorldBtClick { get; set; }
+        public ICommand GetTimeCommand { get; set; }
+        public ICommand SetTimeCommand { get; set; }
+        public ICommand SaveWorldCommand { get; set; }
         public ICommand OpenPermissionEditorCommand { get; set; }
 
-        public ICommand GetIpClicked { get; set; }
-        public ICommand CheckPortClicked { get; set; }
+        public ICommand OpenGetIpCommand { get; set; }
+        public ICommand CheckPortCommand { get; set; }
         #endregion
 
         #region Properties

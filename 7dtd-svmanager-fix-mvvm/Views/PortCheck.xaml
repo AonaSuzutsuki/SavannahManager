@@ -61,7 +61,7 @@
                             </Grid.ColumnDefinitions>
                             
                             <TextBox Text="{Binding ExternalIpAddress.Value}" />
-                            <Button Grid.Column="2" Content="Auto Set" Command="{Binding AutoSetClicked}" Style="{DynamicResource FlatButton}" />
+                            <Button Grid.Column="2" Content="Auto Set" Command="{Binding AutoSetCommand}" Style="{DynamicResource FlatButton}" />
                         </Grid>
 
                         <Label Content="Port" />
@@ -69,7 +69,7 @@
                     </StackPanel>
 
                     <Label Content="{Binding StatusLabel.Value}" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-                    <Button Content="Check" Width="70" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{DynamicResource FlatButton}" Command="{Binding CheckClicked}" />
+                    <Button Content="Check" Width="70" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{DynamicResource FlatButton}" Command="{Binding CheckPortCommand}" />
 
                 </Grid>
             </Grid>
