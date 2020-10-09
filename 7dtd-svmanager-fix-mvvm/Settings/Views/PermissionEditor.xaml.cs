@@ -25,9 +25,6 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Views
         public PermissionEditor()
         {
             InitializeComponent();
-
-            var vm = new PermissionEditorViewModel(new WindowService(this), new PermissionEditorModel());
-            DataContext = vm;
         }
     }
 }
