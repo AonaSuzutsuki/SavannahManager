@@ -43,17 +43,23 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
 
     public class PermissionEditorModel : ModelBase
     {
-        private ObservableCollection<PermissionInfo> commandPermissions;
+        private ObservableCollection<PermissionInfo> commandPermissions = new ObservableCollection<PermissionInfo>();
+        private ObservableCollection<PermissionInfo> adminPermissions = new ObservableCollection<PermissionInfo>();
 
         public ObservableCollection<PermissionInfo> CommandPermissions
         {
             get => commandPermissions;
             set => SetProperty(ref commandPermissions, value);
         }
+        public ObservableCollection<PermissionInfo> AdminPermissions
+        {
+            get => adminPermissions;
+            set => SetProperty(ref adminPermissions, value);
+        }
 
         public PermissionEditorModel()
         {
-            CommandPermissions = new ObservableCollection<PermissionInfo>
+            CreatePermissions(CommandPermissions, new[]
             {
                 new PermissionInfo
                 {
@@ -65,12 +71,21 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
                     Name = "test2",
                     Permission = 2000
                 }
-            };
-            AssertTextChangedCommand(CommandPermissions);
-            AddDummyItem(CommandPermissions);
+            });
+            CreatePermissions(AdminPermissions, new PermissionInfo[0]);
         }
 
-        public void AssertTextChangedCommand(ICollection<PermissionInfo> collection)
+        public static void CreatePermissions(ICollection<PermissionInfo> collection, IEnumerable<PermissionInfo> enumerable)
+        {
+            foreach (var permissionInfo in enumerable)
+            {
+                collection.Add(permissionInfo);
+            }
+            AssertTextChangedCommand(collection);
+            AddDummyItem(collection);
+        }
+
+        public static void AssertTextChangedCommand(ICollection<PermissionInfo> collection)
         {
             foreach (var permissionInfo in collection)
             {
@@ -78,7 +93,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
             }
         }
 
-        public void AddDummyItem(ICollection<PermissionInfo> collection)
+        public static void AddDummyItem(ICollection<PermissionInfo> collection)
         {
             collection.Add(new PermissionInfo
             {

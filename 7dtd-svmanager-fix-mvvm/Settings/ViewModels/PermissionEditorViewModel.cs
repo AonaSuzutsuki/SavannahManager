@@ -17,6 +17,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         {
 
             CommandPermissions = model.CommandPermissions.ToReadOnlyReactiveCollection(m => m);
+            AdminPermissions = model.AdminPermissions.ToReadOnlyReactiveCollection(m => m);
         }
 
         #region Fields
@@ -28,6 +29,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         #region Properties
 
         public ReadOnlyReactiveCollection<PermissionInfo> CommandPermissions { get; set; }
+        public ReadOnlyReactiveCollection<PermissionInfo> AdminPermissions { get; set; }
 
         #endregion
 
