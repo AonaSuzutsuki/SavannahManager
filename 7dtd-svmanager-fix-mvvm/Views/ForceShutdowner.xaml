@@ -85,7 +85,7 @@
 
                 <Grid Margin="0,0,3,0" Grid.Row="1">
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=ForceShutdownerResources.UI_ForceShutdownBT, Mode=OneWay}" Name="ShutdownBT" Style="{DynamicResource FlatButton}" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="{Binding ShutdownBtIsEnabled.Value}" Command="{Binding ShutdownBtClick}" />
+                        <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=ForceShutdownerResources.UI_ForceShutdownBT, Mode=OneWay}" Name="ShutdownBT" Style="{DynamicResource FlatButton}" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="{Binding ShutdownBtIsEnabled.Value}" Command="{Binding ForceShutdownCommand}" />
                         <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=ForceShutdownerResources.UI_CloseBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding MainWindowCloseBtClick}" />
                     </StackPanel>
                 </Grid>
