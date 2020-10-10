@@ -12,6 +12,9 @@
         Title="Update Form" Height="400" Width="600" ResizeMode="CanResize">
 
     <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Loaded}" />
+        </i:EventTrigger>
         <i:EventTrigger EventName="Activated">
             <i:InvokeCommandAction Command="{Binding Activated}" />
         </i:EventTrigger>
