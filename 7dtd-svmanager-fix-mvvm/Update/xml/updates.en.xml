@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.4.39.0">
+    1. Fixed an issue where the focus would shift to another application when closing the update screen.
+  </update>
   <update version="2.3.38.4">
     1. Fixed an issue where getting a player or time would not work properly.
     2. Fixed an issue where the time setting button would not work properly.
