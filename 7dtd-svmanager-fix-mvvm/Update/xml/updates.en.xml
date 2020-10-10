@@ -2,6 +2,7 @@
 <updates>
   <update version="2.4.39.0">
     1. Fixed an issue where the focus would shift to another application when closing the update screen.
+    2. Added "Permission Editor" to edit serveradmin.xml.
   </update>
   <update version="2.3.38.4">
     1. Fixed an issue where getting a player or time would not work properly.
