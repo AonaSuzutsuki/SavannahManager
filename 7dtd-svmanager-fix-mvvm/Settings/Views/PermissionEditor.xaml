@@ -133,7 +133,7 @@
                         <ListView ItemsSource="{Binding CommandPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Width="200" Header="Name">
+                                    <GridViewColumn Width="200" Header="Command">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate DataType="models:PermissionInfo">
                                                 <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
@@ -149,7 +149,7 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="100" Header="Value">
+                                    <GridViewColumn Width="100" Header="Permission">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate DataType="models:PermissionInfo">
                                                 <TextBox Text="{Binding Permission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
@@ -171,13 +171,257 @@
                     </TabItem>
 
                     <TabItem Header="Admin">
-                        <ListView ItemsSource="{Binding AdminPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="5" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Label Content="User" />
+                                <ListView Grid.Row="1" ItemsSource="{Binding AdminPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Width="200" Header="Steam ID">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="models:AdminPermissionInfo">
+                                                        <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="TextChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="200" Header="Name">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="models:AdminPermissionInfo">
+                                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="TextChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="100" Header="Value">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="models:PermissionInfo">
+                                                        <TextBox Text="{Binding Permission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="TextChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
+
+                            <Grid Grid.Row="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Label Content="Group" />
+                                <ListView Grid.Row="1" ItemsSource="{Binding AdminGroupPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Width="200" Header="Steam ID">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="models:AdminPermissionInfo">
+                                                        <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="TextChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="200" Header="Name">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="models:AdminPermissionInfo">
+                                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="TextChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="150" Header="Default Permission">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="models:AdminPermissionInfo">
+                                                        <TextBox Text="{Binding DefaultPermission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="TextChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="150" Header="Moderator Permission">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="models:AdminPermissionInfo">
+                                                        <TextBox Text="{Binding ModeratorPermission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="TextChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Whitelist">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="5" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Label Content="User" />
+                                <ListView Grid.Row="1" ItemsSource="{Binding WhitelistPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Width="200" Header="Steam ID">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="models:AdminPermissionInfo">
+                                                        <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="TextChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="100" Header="Name">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="models:AdminPermissionInfo">
+                                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="TextChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
+
+                            <Grid Grid.Row="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Label Content="Group" />
+                                <ListView Grid.Row="1" ItemsSource="{Binding WhitelistGroupPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Width="200" Header="Steam ID">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="models:AdminPermissionInfo">
+                                                        <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="TextChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="100" Header="Name">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="models:AdminPermissionInfo">
+                                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="TextChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Blacklist">
+                        <ListView ItemsSource="{Binding BlacklistPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Width="200" Header="Name">
+                                    <GridViewColumn Width="200" Header="Steam ID">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate DataType="models:PermissionInfo">
-                                                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="LostFocus">
                                                             <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
@@ -190,7 +434,7 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="100" Header="Value">
+                                    <GridViewColumn Width="100" Header="UnBan date">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate DataType="models:PermissionInfo">
                                                 <TextBox Text="{Binding Permission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
@@ -209,14 +453,6 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                    </TabItem>
-
-                    <TabItem Header="Whitelist">
-
-                    </TabItem>
-
-                    <TabItem Header="Blacklist">
-
                     </TabItem>
                 </TabControl>
             </Grid>
