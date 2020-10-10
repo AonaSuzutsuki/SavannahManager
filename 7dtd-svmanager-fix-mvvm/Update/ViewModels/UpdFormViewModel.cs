@@ -25,8 +25,10 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
         {
             this.model = model;
 
-            if (!isAsync)
-                DoLoaded();
+            if (isAsync)
+            {
+                Loaded = new DelegateCommand(() => { });
+            }
 
             VersionListView = model.ToReactivePropertyAsSynchronized(m => m.VersionList);
             VersionListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.VersionListSelectedIndex);
@@ -39,7 +41,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
             VersionListSelectionChanged = new DelegateCommand<int?>(VersionList_SelectionChanged);
             DoUpdateCommand = new DelegateCommand(UpdateBt_Clicked);
-            //DoLoaded();
         }
 
         #region Properties
@@ -64,20 +65,14 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
         protected override void MainWindow_Loaded()
         {
-            var loadingModel = new LoadingModel();
-            var windowService = new WindowService();
-            var vm = new LoadingViewModel(windowService, loadingModel);
-            WindowManageService.Show<Loading>(vm);
-
             var task = model.Initialize();
             task.ContinueWith(t =>
-                {
-                    if (t.Exception == null)
-                        return;
-                    foreach (var exceptionInnerException in t.Exception.InnerExceptions)
-                        App.ShowAndWriteException(exceptionInnerException);
-                }, TaskContinuationOptions.OnlyOnFaulted)
-                .ContinueWith(continueTask => WindowManageService.Dispatch(windowService.Close));
+            {
+                if (t.Exception == null)
+                    return;
+                foreach (var exceptionInnerException in t.Exception.InnerExceptions)
+                    App.ShowAndWriteException(exceptionInnerException);
+            }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         private void VersionList_SelectionChanged(int? arg)
