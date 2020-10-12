@@ -54,7 +54,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views
             {
                 Text = placeHolder,
                 Padding = new Thickness(5, 1, 1, 1),
-                Foreground = new SolidColorBrush(Colors.Gray),
+                Foreground = new SolidColorBrush(Colors.LightGray),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
             };
