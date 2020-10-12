@@ -429,6 +429,7 @@
       <DependentUpon>IpAddressGetter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NumTextBehavior.cs" />
+    <Compile Include="Views\PlaceHolderBehavior.cs" />
     <Compile Include="Views\PortCheck.xaml.cs">
       <DependentUpon>PortCheck.xaml</DependentUpon>
     </Compile>

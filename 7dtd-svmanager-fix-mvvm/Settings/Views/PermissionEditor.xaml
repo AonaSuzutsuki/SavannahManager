@@ -6,6 +6,7 @@
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:views="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Settings.Views"
         xmlns:models="clr-namespace:_7dtd_svmanager_fix_mvvm.Settings.Models"
         mc:Ignorable="d"
@@ -75,10 +76,11 @@
 
                     <Style x:Key="TextBoxInListView" TargetType="TextBox">
                         <Setter Property="Foreground" Value="white" />
+                        <Setter Property="Background" Value="Transparent" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
-                                    <Border Name="TextBoxBorder" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderThickness="1" BorderBrush="Transparent">
+                                    <Border Name="TextBoxBorder" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="Transparent">
                                         <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
                                     </Border>
                                     <ControlTemplate.Triggers>
@@ -195,7 +197,7 @@
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition />
                                                                 <ColumnDefinition Width="5" />
-                                                                <ColumnDefinition Width="30" />
+                                                                <ColumnDefinition Width="25" />
                                                             </Grid.ColumnDefinitions>
 
                                                             <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
@@ -208,7 +210,7 @@
                                                                     </i:EventTrigger>
                                                                 </i:Interaction.Triggers>
                                                             </TextBox>
-                                                            <Button Name="GetSteamIdBt" Grid.Column="2" Content="?" Style="{StaticResource FlatButton}" />
+                                                            <Button Name="GetSteamIdBt" Grid.Column="2" Content="&#xE946;" FontFamily="Segoe MDL2 Assets" Style="{StaticResource FlatButton}" />
                                                         </Grid>
 
                                                         <DataTemplate.Triggers>
@@ -449,10 +451,42 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="100" Header="UnBan date">
+                                    <GridViewColumn Width="200" Header="UnBan date">
                                         <GridViewColumn.CellTemplate>
-                                            <DataTemplate DataType="models:PermissionInfo">
-                                                <TextBox Text="{Binding Permission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                            <DataTemplate DataType="models:BlackListPermissionInfo">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="5" />
+                                                        <ColumnDefinition Width="25" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBox Text="{Binding UnBanDate, UpdateSourceTrigger=PropertyChanged}" views:PlaceHolderBehavior.PlaceHolder="2035-12-31 23:59:59" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="LostFocus">
+                                                                <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
+                                                            </i:EventTrigger>
+                                                            <i:EventTrigger EventName="TextChanged">
+                                                                <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </TextBox>
+
+                                                    <Button Grid.Column="2" Name="DateTimeBt"  Content="&#xEC92;" FontFamily="Segoe MDL2 Assets" Style="{StaticResource FlatButton}" />
+                                                </Grid>
+
+                                                <DataTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="false">
+                                                        <Setter Property="Opacity" Value="0" TargetName="DateTimeBt" />
+                                                    </Trigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Width="200" Header="Reason">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="models:BlackListPermissionInfo">
+                                                <TextBox Text="{Binding Reason, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="LostFocus">
                                                             <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
