@@ -140,9 +140,6 @@
                                             <DataTemplate DataType="models:PermissionInfo">
                                                 <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                     <i:Interaction.Triggers>
-                                                        <i:EventTrigger EventName="LostFocus">
-                                                            <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
-                                                        </i:EventTrigger>
                                                         <i:EventTrigger EventName="TextChanged">
                                                             <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                         </i:EventTrigger>
@@ -156,9 +153,6 @@
                                             <DataTemplate DataType="models:PermissionInfo">
                                                 <TextBox Text="{Binding Permission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                     <i:Interaction.Triggers>
-                                                        <i:EventTrigger EventName="LostFocus">
-                                                            <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
-                                                        </i:EventTrigger>
                                                         <i:EventTrigger EventName="TextChanged">
                                                             <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                         </i:EventTrigger>
@@ -202,9 +196,6 @@
 
                                                             <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                                 <i:Interaction.Triggers>
-                                                                    <i:EventTrigger EventName="LostFocus">
-                                                                        <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
-                                                                    </i:EventTrigger>
                                                                     <i:EventTrigger EventName="TextChanged">
                                                                         <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                     </i:EventTrigger>
@@ -226,9 +217,6 @@
                                                     <DataTemplate DataType="models:AdminPermissionInfo">
                                                         <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
-                                                                <i:EventTrigger EventName="LostFocus">
-                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
-                                                                </i:EventTrigger>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                 </i:EventTrigger>
@@ -242,9 +230,6 @@
                                                     <DataTemplate DataType="models:PermissionInfo">
                                                         <TextBox Text="{Binding Permission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
-                                                                <i:EventTrigger EventName="LostFocus">
-                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
-                                                                </i:EventTrigger>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                 </i:EventTrigger>
@@ -273,9 +258,6 @@
                                                     <DataTemplate DataType="models:AdminPermissionInfo">
                                                         <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
-                                                                <i:EventTrigger EventName="LostFocus">
-                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
-                                                                </i:EventTrigger>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                 </i:EventTrigger>
@@ -289,9 +271,6 @@
                                                     <DataTemplate DataType="models:AdminPermissionInfo">
                                                         <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
-                                                                <i:EventTrigger EventName="LostFocus">
-                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
-                                                                </i:EventTrigger>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                 </i:EventTrigger>
@@ -305,9 +284,6 @@
                                                     <DataTemplate DataType="models:AdminPermissionInfo">
                                                         <TextBox Text="{Binding DefaultPermission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
-                                                                <i:EventTrigger EventName="LostFocus">
-                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
-                                                                </i:EventTrigger>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                 </i:EventTrigger>
@@ -321,9 +297,6 @@
                                                     <DataTemplate DataType="models:AdminPermissionInfo">
                                                         <TextBox Text="{Binding ModeratorPermission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
-                                                                <i:EventTrigger EventName="LostFocus">
-                                                                    <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
-                                                                </i:EventTrigger>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                 </i:EventTrigger>
@@ -440,9 +413,6 @@
                                             <DataTemplate DataType="models:BlackListPermissionInfo">
                                                 <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                     <i:Interaction.Triggers>
-                                                        <i:EventTrigger EventName="LostFocus">
-                                                            <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
-                                                        </i:EventTrigger>
                                                         <i:EventTrigger EventName="TextChanged">
                                                             <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                         </i:EventTrigger>
@@ -463,9 +433,6 @@
 
                                                     <TextBox Text="{Binding UnBanDate, UpdateSourceTrigger=PropertyChanged}" views:PlaceHolderBehavior.PlaceHolder="2035-12-31 23:59:59" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                         <i:Interaction.Triggers>
-                                                            <i:EventTrigger EventName="LostFocus">
-                                                                <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
-                                                            </i:EventTrigger>
                                                             <i:EventTrigger EventName="TextChanged">
                                                                 <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                             </i:EventTrigger>
@@ -488,9 +455,6 @@
                                             <DataTemplate DataType="models:BlackListPermissionInfo">
                                                 <TextBox Text="{Binding Reason, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                     <i:Interaction.Triggers>
-                                                        <i:EventTrigger EventName="LostFocus">
-                                                            <i:InvokeCommandAction Command="{Binding AttributeNameLostFocus}" />
-                                                        </i:EventTrigger>
                                                         <i:EventTrigger EventName="TextChanged">
                                                             <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                         </i:EventTrigger>
