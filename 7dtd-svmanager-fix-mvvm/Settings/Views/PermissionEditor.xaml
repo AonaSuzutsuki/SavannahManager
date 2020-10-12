@@ -435,7 +435,7 @@
                                 <GridView>
                                     <GridViewColumn Width="200" Header="Steam ID">
                                         <GridViewColumn.CellTemplate>
-                                            <DataTemplate DataType="models:PermissionInfo">
+                                            <DataTemplate DataType="models:BlackListPermissionInfo">
                                                 <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="LostFocus">

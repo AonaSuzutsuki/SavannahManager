@@ -37,7 +37,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         public ReadOnlyReactiveCollection<AdminPermissionInfo> AdminGroupPermissions { get; set; }
         public ReadOnlyReactiveCollection<AdminPermissionInfo> WhitelistPermissions { get; set; }
         public ReadOnlyReactiveCollection<AdminPermissionInfo> WhitelistGroupPermissions { get; set; }
-        public ReadOnlyReactiveCollection<PermissionInfo> BlacklistPermissions { get; set; }
+        public ReadOnlyReactiveCollection<BlackListPermissionInfo> BlacklistPermissions { get; set; }
 
         #endregion
 
