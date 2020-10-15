@@ -40,6 +40,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
+                <ResourceDictionary Source="/Styles/Calendar.xaml" />
                 <ResourceDictionary>
                     <Style x:Key="ItemInListView" TargetType="ListViewItem">
                         <Setter Property="Background" Value="Transparent" />
@@ -469,6 +470,10 @@
                     </TabItem>
                 </TabControl>
             </Grid>
+
+            <Calendar BorderThickness="0">
+                
+            </Calendar>
 
         </Grid>
     </Grid>
