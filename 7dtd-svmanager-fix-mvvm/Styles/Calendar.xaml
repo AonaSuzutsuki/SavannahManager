@@ -3,14 +3,11 @@
                     xmlns:styles="clr-namespace:_7dtd_svmanager_fix_mvvm.Styles"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <Color x:Key="DisableDay1">Black</Color>
-    <Color x:Key="DisableDay2">Black</Color>
+    <styles:DateTimeToDayOfWeekBrushConverter x:Key="DateTimeToDayOfWeekBrushConverter" SaturdayBrush="DodgerBlue" SundayBrush="IndianRed" />
 
-    <Color x:Key="NormalDay1">LightGray</Color>
-    <Color x:Key="NormalDay2">LightGray</Color>
-
-    <Color x:Key="SelectedDay1">White</Color>
-    <Color x:Key="SelectedDay2">White</Color>
+    <Color x:Key="DisableDay">Black</Color>
+    <Brush x:Key="NormalDay">LightGray</Brush>
+    <Color x:Key="SelectedDay">White</Color>
 
     <Style TargetType="{x:Type CalendarItem}">
         <Setter Property="Margin" Value="50"/>
@@ -137,6 +134,7 @@
                                         <Button x:Name="PART_HeaderButton" Grid.Column="1" FontWeight="Normal" Focusable="False" FontSize="13" HorizontalAlignment="Center" Grid.Row="0" Template="{StaticResource HeaderButtonTemplate}" VerticalAlignment="Center" />
                                         <Button x:Name="PART_NextButton" Grid.Column="2" Focusable="False" HorizontalAlignment="Right" Height="20" Grid.Row="0" Template="{StaticResource NextButtonTemplate}" Width="28"/>
                                     </Grid>
+
                                     <Grid x:Name="PART_MonthView" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="6,-1,6,6" Grid.Row="1" Visibility="Visible">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -202,16 +200,7 @@
 
     <Style x:Key="CalendarDayButtonStyle" TargetType="{x:Type CalendarDayButton}">
         <Setter Property="Background" Value="#4090ff" />
-        <Setter Property="Foreground">
-            <Setter.Value>
-                <LinearGradientBrush>
-                    <GradientStop Offset="0" Color="{DynamicResource SelectedDay1}" />
-                    <GradientStop Offset="0" Color="{DynamicResource SelectedDay2}" />
-                    <GradientStop Offset="0" Color="{DynamicResource NormalDay1}" />
-                    <GradientStop Offset="1" Color="{DynamicResource NormalDay2}" />
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Foreground" Value="{Binding Converter={StaticResource DateTimeToDayOfWeekBrushConverter}, FallbackValue={StaticResource NormalDay}, Mode=OneWay}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="FontSize" Value="20" />
@@ -281,8 +270,10 @@
                                 <VisualState x:Name="Active" />
                                 <VisualState x:Name="Inactive">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Content" Storyboard.TargetProperty="(ContentControl.Foreground).(GradientBrush.GradientStops)[2].(GradientStop.Color)" To="{DynamicResource DisableDay1}" Duration="0" />
-                                        <ColorAnimation Storyboard.TargetName="Content" Storyboard.TargetProperty="(ContentControl.Foreground).(GradientBrush.GradientStops)[3].(GradientStop.Color)" To="{DynamicResource DisableDay2}" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="Content" Storyboard.TargetProperty="Opacity" To=".5" Duration="0" />
+                                        <!--<ColorAnimation Duration="0" To="#555"
+                                                        Storyboard.TargetName="Content"
+                                                        Storyboard.TargetProperty="(Control.Foreground).(SolidColorBrush.Color)"/>-->
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -294,8 +285,6 @@
                                 <VisualState x:Name="Today">
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="TodayBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
-                                        <DoubleAnimation Storyboard.TargetName="Content" Storyboard.TargetProperty="(ContentControl.Foreground).(GradientBrush.GradientStops)[1].(GradientStop.Offset)" To="1" Duration="0" />
-                                        <DoubleAnimation Storyboard.TargetName="Content" Storyboard.TargetProperty="(ContentControl.Foreground).(GradientBrush.GradientStops)[2].(GradientStop.Offset)" To="1" Duration="0" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -312,7 +301,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Rectangle x:Name="TodayBackground" RadiusX="1" RadiusY="1" Opacity="0" Fill="#FFAAAAAA" />
+                        <Rectangle x:Name="TodayBackground" RadiusX="1" RadiusY="1" Opacity="0" Fill="#222" />
                         <Rectangle x:Name="SelectedBackground" RadiusX="1" RadiusY="1" Opacity="0" Fill="{TemplateBinding Background}" />
                         <Rectangle x:Name="Background" RadiusX="1" RadiusY="1" Opacity="0" Fill="{TemplateBinding Background}" />
 
@@ -354,23 +343,10 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Rectangle x:Name="TodayBackground" RadiusX="1" RadiusY="1" Opacity="0" Fill="#fff" />
-                        <Rectangle x:Name="SelectedBackground" RadiusX="1" RadiusY="1" Opacity="0" Fill="{TemplateBinding Background}" />
                         <Rectangle x:Name="Background" RadiusX="1" RadiusY="1" Opacity="0" Fill="{TemplateBinding Background}" />
 
                         <ContentControl x:Name="Content" IsTabStop="False" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" FontSize="{TemplateBinding FontSize}" Margin="5,1,5,1">
-                            <ContentControl.Foreground>
-                                <LinearGradientBrush>
-                                    <GradientStop Offset="0" Color="{DynamicResource SelectedDay1}" />
-                                    <GradientStop Offset="0" Color="{DynamicResource SelectedDay2}" />
-                                    <GradientStop Offset="0" Color="{DynamicResource NormalDay1}" />
-                                    <GradientStop Offset="1" Color="{DynamicResource NormalDay2}" />
-                                </LinearGradientBrush>
-                            </ContentControl.Foreground>
                         </ContentControl>
-
-                        <Path x:Name="BlackoutVisual" Opacity="0" Margin="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" Fill="#FF000000" Stretch="Fill" Data="M8.1772461,11.029181 L10.433105,11.029181 L11.700684,12.801641 L12.973633,11.029181 L15.191895,11.029181 L12.844727,13.999395 L15.21875,17.060919 L12.962891,17.060919 L11.673828,15.256231 L10.352539,17.060919 L8.1396484,17.060919 L10.519043,14.042364 z" />
-                        <Rectangle x:Name="FocusVisual" Visibility="Collapsed" IsHitTestVisible="false" RadiusX="1" RadiusY="1" Stroke="#FF6DBDD1" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
