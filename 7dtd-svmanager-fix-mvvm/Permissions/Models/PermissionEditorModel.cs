@@ -29,24 +29,9 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         public int? Permission { get; set; } = 0;
 
         public Action AddDummyAction { get; set; }
-
-        public ICommand TextChangedCommand { get; set; }
-
-        protected PermissionBase()
-        {
-            TextChangedCommand = new DelegateCommand(() =>
-            {
-                if (ItemType == PermissionItemType.Dummy)
-                {
-                    ItemType = PermissionItemType.Real;
-                    AddDummyAction();
-                }
-            });
-        }
     }
     public class PermissionInfo : PermissionBase
     {
-
     }
 
     public class AdminPermissionInfo : PermissionBase
