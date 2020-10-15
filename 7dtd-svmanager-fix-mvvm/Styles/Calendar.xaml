@@ -10,7 +10,7 @@
     <Color x:Key="SelectedDay">White</Color>
 
     <Style TargetType="{x:Type CalendarItem}">
-        <Setter Property="Margin" Value="50"/>
+        <Setter Property="Margin" Value="0"/>
 
         <Setter Property="Template">
             <Setter.Value>

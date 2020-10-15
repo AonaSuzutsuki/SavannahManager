@@ -9,7 +9,7 @@
         xmlns:views="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Permissions.Views"
         mc:Ignorable="d"
-        Title="UnBanDateSetting" Height="450" Width="800">
+        Title="UnBanDateSetting" Height="360" Width="500">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding Closing}" />
@@ -68,8 +68,32 @@
                 <Button Name="MainWindowCloseBt" Content="{Binding MainWindowCloseBtContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBtClick}" />
             </StackPanel>
 
-            <Grid Margin="1,25,1,0">
-                <Calendar BorderThickness="0" />
+            <Grid Margin="10,25,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid>
+                    <Calendar BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+
+                <Grid Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox VerticalAlignment="Top" />
+                    <Label Grid.Column="1" Content=":" HorizontalContentAlignment="Center" VerticalAlignment="Top" />
+                    <TextBox Grid.Column="2" VerticalAlignment="Top" />
+                    <Label Grid.Column="3" Content=":" HorizontalContentAlignment="Center" VerticalAlignment="Top" />
+                    <TextBox Grid.Column="4" VerticalAlignment="Top" />
+                </Grid>
             </Grid>
 
         </Grid>
