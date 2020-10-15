@@ -12,7 +12,7 @@ using CommonStyleLib.Models;
 using Prism.Commands;
 using SavannahXmlLib.XmlWrapper;
 
-namespace _7dtd_svmanager_fix_mvvm.Settings.Models
+namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 {
     public abstract class PermissionBase
     {

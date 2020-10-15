@@ -1,4 +1,4 @@
-﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Settings.Views.PermissionEditor"
+﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Permissions.Views.PermissionEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,8 +7,8 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:views="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
-        xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Settings.Views"
-        xmlns:models="clr-namespace:_7dtd_svmanager_fix_mvvm.Settings.Models"
+        xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Permissions.Views"
+        xmlns:models="clr-namespace:_7dtd_svmanager_fix_mvvm.Permissions.Models"
         mc:Ignorable="d"
         Title="Permission Editor" Height="450" Width="800">
     <i:Interaction.Triggers>
@@ -40,7 +40,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
-                <ResourceDictionary Source="/Styles/Calendar.xaml" />
                 <ResourceDictionary>
                     <Style x:Key="ItemInListView" TargetType="ListViewItem">
                         <Setter Property="Background" Value="Transparent" />
@@ -470,10 +469,6 @@
                     </TabItem>
                 </TabControl>
             </Grid>
-
-            <Calendar BorderThickness="0">
-                
-            </Calendar>
 
         </Grid>
     </Grid>

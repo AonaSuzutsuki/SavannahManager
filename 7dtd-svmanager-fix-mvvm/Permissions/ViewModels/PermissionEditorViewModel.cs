@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using _7dtd_svmanager_fix_mvvm.Settings.Models;
+using _7dtd_svmanager_fix_mvvm.Permissions.Models;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Reactive.Bindings;
 
-namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 {
     public class PermissionEditorViewModel : ViewModelBase
     {

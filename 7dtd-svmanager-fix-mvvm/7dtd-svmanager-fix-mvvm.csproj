@@ -211,7 +211,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Settings\Views\PermissionEditor.xaml">
+    <Page Include="Permissions\Views\PermissionEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -327,15 +330,15 @@
       <DependentUpon>PlayerInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\Models\KeyConfigModel.cs" />
-    <Compile Include="Settings\Models\PermissionEditorModel.cs" />
+    <Compile Include="Permissions\Models\PermissionEditorModel.cs" />
     <Compile Include="Settings\Models\SettingModel.cs" />
     <Compile Include="Settings\ViewModels\KeyConfigViewModel.cs" />
-    <Compile Include="Settings\ViewModels\PermissionEditorViewModel.cs" />
+    <Compile Include="Permissions\ViewModels\PermissionEditorViewModel.cs" />
     <Compile Include="Settings\Views\KeyConfig.xaml.cs">
       <DependentUpon>KeyConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\ShortcutKey.cs" />
-    <Compile Include="Settings\Views\PermissionEditor.xaml.cs">
+    <Compile Include="Permissions\Views\PermissionEditor.xaml.cs">
       <DependentUpon>PermissionEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Setup\CanChangedEventHandler.cs" />

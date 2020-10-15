@@ -11,11 +11,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using _7dtd_svmanager_fix_mvvm.Settings.Models;
-using _7dtd_svmanager_fix_mvvm.Settings.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Permissions.Models;
+using _7dtd_svmanager_fix_mvvm.Permissions.ViewModels;
 using CommonStyleLib.Views;
 
-namespace _7dtd_svmanager_fix_mvvm.Settings.Views
+namespace _7dtd_svmanager_fix_mvvm.Permissions.Views
 {
     /// <summary>
     /// PermissionEditor.xaml の相互作用ロジック
