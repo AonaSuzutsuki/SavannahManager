@@ -215,6 +215,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Permissions\Views\UnBanDateSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -340,6 +341,9 @@
     <Compile Include="Settings\ShortcutKey.cs" />
     <Compile Include="Permissions\Views\PermissionEditor.xaml.cs">
       <DependentUpon>PermissionEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Permissions\Views\UnBanDateSetting.xaml.cs">
+      <DependentUpon>UnBanDateSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Setup\CanChangedEventHandler.cs" />
     <Compile Include="Setup\Models\InitializeData.cs" />
