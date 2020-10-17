@@ -303,6 +303,8 @@
     <Compile Include="Models\PortCheckModel.cs" />
     <Compile Include="Models\ServerProcessManager.cs" />
     <Compile Include="Models\VersionInfoModel.cs" />
+    <Compile Include="Permissions\Models\UnBanDateSettingModel.cs" />
+    <Compile Include="Permissions\ViewModels\UnBanDateSettingViewModel.cs" />
     <Compile Include="PlayerController\Models\Pages\AdminAddModel.cs" />
     <Compile Include="PlayerController\Models\Pages\BanModel.cs" />
     <Compile Include="PlayerController\Models\Pages\KickModel.cs" />

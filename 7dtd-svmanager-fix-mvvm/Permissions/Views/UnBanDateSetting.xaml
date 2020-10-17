@@ -9,7 +9,7 @@
         xmlns:views="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Permissions.Views"
         mc:Ignorable="d"
-        Title="UnBanDateSetting" Height="360" Width="500">
+        Title="UnBanDateSetting" Height="350" Width="250" ResizeMode="CanMinimize">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding Closing}" />
@@ -64,22 +64,21 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
                 <Button Name="MainWindowMinimumBt" Content="{Binding MainWindowMinimumBtContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMinimumBtClick}" />
-                <Button Name="MainMaximumBt" Content="{Binding MainWindowMaximumBtContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMaximumBtClick}" />
                 <Button Name="MainWindowCloseBt" Content="{Binding MainWindowCloseBtContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBtClick}" />
             </StackPanel>
 
             <Grid Margin="10,25,10,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300" />
-                    <ColumnDefinition Width="5" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="250" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
                 <Grid>
-                    <Calendar BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Calendar Name="DateCalendar" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" SelectedDate="{Binding SelectedDate}" />
                 </Grid>
 
-                <Grid Grid.Column="2">
+                <Grid Grid.Row="2" Margin="10,0,10,0" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="20" />
@@ -88,11 +87,11 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <TextBox VerticalAlignment="Top" />
+                    <TextBox Text="{Binding HourText.Value}" VerticalAlignment="Top" />
                     <Label Grid.Column="1" Content=":" HorizontalContentAlignment="Center" VerticalAlignment="Top" />
-                    <TextBox Grid.Column="2" VerticalAlignment="Top" />
+                    <TextBox Text="{Binding MinuteText.Value}" Grid.Column="2" VerticalAlignment="Top" />
                     <Label Grid.Column="3" Content=":" HorizontalContentAlignment="Center" VerticalAlignment="Top" />
-                    <TextBox Grid.Column="4" VerticalAlignment="Top" />
+                    <TextBox Text="{Binding SecondText.Value}" Grid.Column="4" VerticalAlignment="Top" />
                 </Grid>
             </Grid>
 

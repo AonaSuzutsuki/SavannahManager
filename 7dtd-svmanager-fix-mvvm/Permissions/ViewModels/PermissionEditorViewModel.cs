@@ -74,9 +74,21 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
             SetDateTimeCommand = new DelegateCommand(() =>
             {
-                var model = new ModelBase();
-                var vm = new ViewModelBase(new WindowService(), model);
-                windowService.ShowDialog<UnBanDateSetting>(vm);
+                var model = new UnBanDateSettingModel();
+                windowService.ShowDialog<UnBanDateSetting>((setting =>
+                {
+                    var vm = new UnBanDateSettingViewModel(new WindowService(), model);
+                    var dateTime = UnBanDateSettingModel.ConvertStringToDateTime(UnBanDate);
+                    if (dateTime.HasValue)
+                    {
+                        setting.SetDisplayDate(dateTime.Value);
+                        vm.SelectedDate = dateTime;
+                        model.HourText = dateTime.Value.Hour;
+                        model.MinuteText = dateTime.Value.Minute;
+                        model.SecondText = dateTime.Value.Second;
+                    }
+                    return vm;
+                }));
             });
         }
     }

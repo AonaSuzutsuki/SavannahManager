@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using _7dtd_svmanager_fix_mvvm.Permissions.ViewModels;
 
 namespace _7dtd_svmanager_fix_mvvm.Permissions.Views
 {
@@ -22,6 +23,11 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Views
         public UnBanDateSetting()
         {
             InitializeComponent();
+        }
+
+        public void SetDisplayDate(DateTime dateTime)
+        {
+            DateCalendar.DisplayDate = dateTime;
         }
     }
 }
