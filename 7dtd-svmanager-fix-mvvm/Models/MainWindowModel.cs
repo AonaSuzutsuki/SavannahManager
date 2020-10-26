@@ -563,6 +563,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             var telnet = new TelnetClient()
             {
+                ThresholdSecond = Setting.TelnetWaitTime
             };
             telnet.Started += (sender, args) => telnetStartedSubject.OnNext(args);
             telnet.Finished += (sender, args) => telnetFinishedSubject.OnNext(args);

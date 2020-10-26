@@ -37,6 +37,8 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
             IsLogGetterChecked = model.ToReactivePropertyAsSynchronized(m => m.IsLogGetter);
             ConsoleLengthText = model.ToReactivePropertyAsSynchronized(m => m.ConsoleLengthText);
 
+            TelnetWaitTime = model.ToReactivePropertyAsSynchronized(m => m.TelnetWaitTime);
+
             IsBetaModeChecked = model.ToReactivePropertyAsSynchronized(m => m.IsBetaMode);
             IsAutoUpdateChecked = model.ToReactivePropertyAsSynchronized(m => m.IsAutoUpdate);
             BackupDirPath = model.ToReactivePropertyAsSynchronized(m => m.BackupDirPath);
@@ -50,6 +52,8 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 
         public ReactiveProperty<bool> IsLogGetterChecked { get; set; }
         public ReactiveProperty<string> ConsoleLengthText { get; set; }
+
+        public ReactiveProperty<int> TelnetWaitTime { get; set; }
 
         public ReactiveProperty<bool> IsBetaModeChecked { get; set; }
         public ReactiveProperty<bool> IsAutoUpdateChecked { get; set; }
