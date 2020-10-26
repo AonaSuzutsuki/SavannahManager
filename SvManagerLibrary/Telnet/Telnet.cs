@@ -51,12 +51,14 @@ namespace SvManagerLibrary.Telnet
         /// <summary>
         /// Get or Set Receiving Time Out Time (millisecond).
         /// </summary>
-        public int ReceiveTimeout { set; get; } = 5000;
+        public int ReceiveTimeout { get; set; } = 5000;
 
         /// <summary>
         /// Get or Set Receiving Buffer Size.
         /// </summary>
-        public int ReceiveBufferSize { set; get; } = 10240;
+        public int ReceiveBufferSize { get; set; } = 10240;
+
+        public int ThresholdSecond { get; set; } = 2;
 
         /// <summary>
         /// Get or Set Sending and Receiving text encoding.
@@ -172,7 +174,11 @@ namespace SvManagerLibrary.Telnet
             destructionEvent = true;
 
             WriteLine(cmd);
-            var counter = new TelnetCounter();
+            var counter = new TelnetCounter
+            {
+                Max = ThresholdSecond * 10
+            };
+
             var log = "";
             while (counter.CanLoop)
             {

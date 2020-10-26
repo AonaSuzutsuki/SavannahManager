@@ -223,11 +223,22 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         #endregion
 
+        #region Event
+
+        private readonly Subject<TelnetClient.TelnetReadEventArgs> telnetStartedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetStarted => telnetStartedSubject;
+
+        private readonly Subject<TelnetClient.TelnetReadEventArgs> telnetFinishedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetFinished => telnetFinishedSubject;
+
+        private readonly Subject<TelnetClient.TelnetReadEventArgs> telnetReadedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetReaded => telnetReadedSubject;
+
+        #endregion
+
 
         public MainWindowModel()
         {
-            Telnet = new TelnetClient();
-
             Setting = SettingLoader.SettingInstance;
             ShortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
                 ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
@@ -359,6 +370,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             BottomNewsLabel = LangResources.Resources.UI_WaitingServer;
             base.SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
 
+            Telnet = GenerateTelnetClient();
             var tasks = Task.Factory.StartNew(() =>
             {
                 IsTelnetLoading = true;
@@ -367,15 +379,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     if (isServerForceStop)
                     {
                         TelnetBtIsEnabled = true;
-                        TelnetBtLabel = LangResources.Resources.UI_ConnectWithTelnet;
-                        StartBtEnabled = true;
-                        LocalModeEnabled = true;
-                        ConnectionPanelIsEnabled = !LocalMode;
                         BottomNewsLabel = LangResources.Resources.UI_ReadyComplete;
                         AroundBorderColor = CommonStyleLib.ConstantValues.ActivatedBorderColor;
 
                         IsTelnetLoading = false;
                         isServerForceStop = false;
+
+                        TelnetFinish();
                         break;
                     }
 
@@ -500,6 +510,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             StartBtEnabled = false;
             TelnetBtIsEnabled = false;
+            Telnet = GenerateTelnetClient();
             var connected = await Task.Factory.StartNew(() => Telnet.Connect(localAddress, localPort));
             TelnetBtIsEnabled = true;
             if (LocalMode)
@@ -529,6 +540,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     FeedColorChange(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
                     FeedColorChange(CommonStyleLib.ConstantValues.ActivatedBorderColor);
                 });
+                TelnetFinish();
             }
         }
         private void TelnetDisconnect()
@@ -541,11 +553,21 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             {
 
             }
-            Telnet.Dispose();
 
             TelnetFinish();
 
             PlayerClean();
+        }
+
+        private TelnetClient GenerateTelnetClient()
+        {
+            var telnet = new TelnetClient()
+            {
+            };
+            telnet.Started += (sender, args) => telnetStartedSubject.OnNext(args);
+            telnet.Finished += (sender, args) => telnetFinishedSubject.OnNext(args);
+            telnet.ReadEvent += (sender, args) => telnetReadedSubject.OnNext(args);
+            return telnet;
         }
 
         public void TelnetFinish()
@@ -558,6 +580,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             StartBtEnabled = LocalMode;
 
             LoggingStream.StreamDisposer();
+            Telnet?.Dispose();
+            Telnet = null;
         }
 
         //private void TelnetDispose()

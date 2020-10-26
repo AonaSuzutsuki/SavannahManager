@@ -88,9 +88,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 var dialogResult = windowService.MessageBoxShow(args.Message, args.Title, args.MessageType, args.ButtonType);
                 args.CallBack(dialogResult);
             });
-            model.Telnet.Started += Telnet_Started;
-            model.Telnet.Finished += Telnet_Finished;
-            model.Telnet.ReadEvent += TelnetReadEvent;
+            model.TelnetStarted.Subscribe(Telnet_Started);
+            model.TelnetFinished.Subscribe(Telnet_Finished);
+            model.TelnetReaded.Subscribe(TelnetReadEvent);
 
             mainWindowService = windowService;
             this._model = model;
@@ -682,18 +682,18 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
 
-        private void Telnet_Started(object sender, TelnetClient.TelnetReadEventArgs e)
+        private void Telnet_Started(TelnetClient.TelnetReadEventArgs e)
         {
             _model.PlayerClean();
         }
 
-        private void Telnet_Finished(object sender, TelnetClient.TelnetReadEventArgs e)
+        private void Telnet_Finished(TelnetClient.TelnetReadEventArgs e)
         {
             _model.PlayerClean();
             _model.TelnetFinish();
         }
 
-        private void TelnetReadEvent(object sender, TelnetClient.TelnetReadEventArgs e)
+        private void TelnetReadEvent(TelnetClient.TelnetReadEventArgs e)
         {
             var log = "{0}".FormatString(e.Log);
 
