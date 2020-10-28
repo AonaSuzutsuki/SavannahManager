@@ -101,7 +101,7 @@ namespace _7dtd_XmlEditor.Views
                 var sourceItem = (TreeViewItemInfo)e.Data.GetData(typeof(TreeViewItemInfo));
                 var targetElement = HitTest<FrameworkElement>(itemsControl, e.GetPosition);
 
-                var parentGrid = targetElement?.Parent<Grid>();
+                var parentGrid = targetElement?.GetParent<Grid>();
                 if (parentGrid == null || !(targetElement.DataContext is TreeViewItemInfo targetElementInfo))
                     return;
 
