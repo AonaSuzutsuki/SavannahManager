@@ -585,25 +585,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             Telnet = null;
         }
 
-        //private void TelnetDispose()
-        //{
-        //    Telnet.Dispose();
-
-        //    isStop = false;
-        //    IsConnected = false;
-        //    PlayerClean();
-
-        //    TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
-        //    LocalModeEnabled = true;
-        //    ConnectionPanelIsEnabled = !LocalMode;
-        //    StartBTEnabled = LocalMode;
-
-        //    LoggingStream.StreamDisposer();
-        //}
-
-        //
-        // チャット
-        //
         public void AddChatText(string text)
         {
             chatArray.AddMultiLine(text);
