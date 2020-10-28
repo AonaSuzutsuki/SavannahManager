@@ -90,7 +90,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             });
             model.TelnetStarted.Subscribe(Telnet_Started);
             model.TelnetFinished.Subscribe(Telnet_Finished);
-            model.TelnetReaded.Subscribe(TelnetReadEvent);
+            model.TelnetRead.Subscribe(TelnetReadEvent);
 
             mainWindowService = windowService;
             this._model = model;

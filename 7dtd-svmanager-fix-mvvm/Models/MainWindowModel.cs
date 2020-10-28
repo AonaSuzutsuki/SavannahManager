@@ -231,8 +231,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private readonly Subject<TelnetClient.TelnetReadEventArgs> telnetFinishedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
         public IObservable<TelnetClient.TelnetReadEventArgs> TelnetFinished => telnetFinishedSubject;
 
-        private readonly Subject<TelnetClient.TelnetReadEventArgs> telnetReadedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
-        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetReaded => telnetReadedSubject;
+        private readonly Subject<TelnetClient.TelnetReadEventArgs> telnetReadSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetRead => telnetReadSubject;
 
         #endregion
 
@@ -567,7 +567,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             };
             telnet.Started += (sender, args) => model.telnetStartedSubject.OnNext(args);
             telnet.Finished += (sender, args) => model.telnetFinishedSubject.OnNext(args);
-            telnet.ReadEvent += (sender, args) => model.telnetReadedSubject.OnNext(args);
+            telnet.ReadEvent += (sender, args) => model.telnetReadSubject.OnNext(args);
             return telnet;
         }
 
@@ -888,6 +888,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (disposing)
             {
                 Telnet?.Dispose();
+                telnetFinishedSubject?.Dispose();
+                telnetStartedSubject?.Dispose();
+                telnetFinishedSubject?.Dispose();
                 Setting.Save();
             }
 
