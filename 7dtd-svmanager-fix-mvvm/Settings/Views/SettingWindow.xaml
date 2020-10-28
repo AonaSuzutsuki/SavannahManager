@@ -187,12 +187,12 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="5" />
-                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="40" />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBox Text="{Binding TelnetWaitTime.Value}" />
-                                    <Label Grid.Column="2" Content="sec" />
+                                    <TextBox Text="{Binding TelnetWaitTime.Value}" HorizontalContentAlignment="Right" />
+                                    <Label Grid.Column="2" Content="ms" />
                                 </Grid>
                             </Grid>
                         </StackPanel>

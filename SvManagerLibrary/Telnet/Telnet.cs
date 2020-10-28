@@ -58,7 +58,7 @@ namespace SvManagerLibrary.Telnet
         /// </summary>
         public int ReceiveBufferSize { get; set; } = 10240;
 
-        public int TelnetEventWaitTime { get; set; } = 2;
+        public int TelnetEventWaitTime { get; set; } = 2000;
 
         /// <summary>
         /// Get or Set Sending and Receiving text encoding.
@@ -78,8 +78,9 @@ namespace SvManagerLibrary.Telnet
             }
         }
 
-        private bool destructionEvent;
 
+        private int threadWaitTime = 100;
+        private bool destructionEvent;
         private Socket clientSocket;
 
         private void LockAction(Action<Socket> action)
@@ -174,9 +175,9 @@ namespace SvManagerLibrary.Telnet
             destructionEvent = true;
 
             WriteLine(cmd);
-            var counter = new TelnetCounter
+            var counter = new TelnetWaiter
             {
-                Max = TelnetEventWaitTime * 10
+                MaxMilliseconds = TelnetEventWaitTime
             };
 
             var log = "";
@@ -187,12 +188,36 @@ namespace SvManagerLibrary.Telnet
                     break;
 
                 counter.Next();
-                Thread.Sleep(100);
             }
 
             destructionEvent = false;
 
             return log;
+        }
+
+        public int CalculateWaitTime()
+        {
+            destructionEvent = true;
+
+            WriteLine("help");
+            var counter = new TelnetWaiter
+            {
+                MaxMilliseconds = 10000
+            };
+
+
+            while (counter.CanLoop)
+            {
+                var log = Read().TrimEnd('\0');
+                if (!string.IsNullOrEmpty(log))
+                    break;
+
+                counter.Next();
+            }
+
+            destructionEvent = false;
+
+            return counter.Count;
         }
 
         /// <summary>
