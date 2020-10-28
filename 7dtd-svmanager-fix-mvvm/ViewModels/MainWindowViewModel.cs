@@ -93,7 +93,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             model.TelnetRead.Subscribe(TelnetReadEvent);
 
             mainWindowService = windowService;
-            this._model = model;
+            _model = model;
 
             #region Event Initialize
             //Loaded = new DelegateCommand(MainWindow_Loaded);

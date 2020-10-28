@@ -646,23 +646,23 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var pDict = playersDictionary;
             var keys = connectedIds;
 
-            StringReader sr = new StringReader(log);
+            var sr = new StringReader(log);
             while (sr.Peek() > -1)
             {
                 //2017-04-20T00:01:57 11679.923 INF Player disconnected: EntityID=171, PlayerID='76561198010715714', OwnerID='76561198010715714', PlayerName='Aona Suzutsuki'
                 const string expression = "(?<date>.*?) (?<number>.*?) INF Player disconnected: EntityID=(?<entityid>.*?), PlayerID='(?<steamid>.*?)', OwnerID='(?<ownerid>.*?)', PlayerName='(?<name>.*?)'$";
                 var reg = new Regex(expression);
 
-                var match = reg.Match(sr.ReadLine());
-                if (match.Success == true)
+                var match = reg.Match(sr.ReadLine() ?? string.Empty);
+                if (match.Success)
                 {
-                    int id = match.Groups["entityid"].Value.ToInt();
+                    var id = match.Groups["entityid"].Value.ToInt();
                     pDict.Remove(id);
                     keys.Remove(id);
                 }
             }
-            var listdatas = new ObservableCollection<ViewModels.UserDetail>(pDict.Values);
-            UsersList = listdatas;
+            var collection = new ObservableCollection<UserDetail>(pDict.Values);
+            UsersList = collection;
         }
         public void PlayerClean()
         {
