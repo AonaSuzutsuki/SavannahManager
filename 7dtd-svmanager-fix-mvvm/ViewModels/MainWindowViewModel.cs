@@ -706,9 +706,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             var log = "{0}".FormatString(e.Log);
 
-            //if (isStop)
-            //    SocTelnetSendDirect("");
-
             _model.LoggingStream.WriteSteam(log);
 
             _model.AppendConsoleLog(log);

@@ -203,7 +203,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private string ConfigFilePath => Setting.ConfigFilePath;
         private string AdminFilePath => Setting.AdminFilePath;
 
-        private int consoleTextLength;
+        public int ConsoleTextLength { get; private set; }
 
         public TelnetClient Telnet { get; private set; }
         public LogStream LoggingStream { get; } = new LogStream();
@@ -270,11 +270,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             PortText = Setting.Port.ToString();
             Password = Setting.Password;
 
+            ConsoleTextLength = Setting.ConsoleTextLength;
+
             LoggingStream.IsLogGetter = Setting.IsLogGetter;
             LocalMode = Setting.LocalMode;
             StartBtEnabled = LocalMode;
-
-            consoleTextLength = Setting.ConsoleTextLength;
 
             IsBeta = Setting.IsBetaMode;
         }
@@ -723,7 +723,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 consoleTextAppended.OnNext(new AppendedLogTextEventArgs()
                 {
                     AppendedLogText = text,
-                    MaxLength = consoleTextLength
+                    MaxLength = ConsoleTextLength
                 });
             }
         }
@@ -735,7 +735,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             SocTelnetSendNRT(cmd);
         }
-        private bool CheckConnected()
+        public bool CheckConnected()
         {
             if (IsConnected)
                 return true;
@@ -755,7 +755,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             SocTelnetSendDirect(cmd);
             Thread.Sleep(100);
-            string log = Telnet.Read().TrimEnd('\0');
+            var log = Telnet.Read().TrimEnd('\0');
             log += Telnet.Read().TrimEnd('\0');
 
             return log;
