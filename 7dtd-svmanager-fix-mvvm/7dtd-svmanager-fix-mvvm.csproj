@@ -294,6 +294,7 @@
     <Compile Include="Models\PortChecker.cs" />
     <Compile Include="Models\PortCheckModel.cs" />
     <Compile Include="Models\ServerProcessManager.cs" />
+    <Compile Include="Models\TelnetWaitTimeCalculatorModel.cs" />
     <Compile Include="Models\VersionInfoModel.cs" />
     <Compile Include="PlayerController\Models\Pages\AdminAddModel.cs" />
     <Compile Include="PlayerController\Models\Pages\BanModel.cs" />
@@ -421,6 +422,7 @@
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\PortCheckViewModel.cs" />
+    <Compile Include="ViewModels\TelnetWaitTimeCalculatorViewModel.cs" />
     <Compile Include="ViewModels\VersionInfoViewModel.cs" />
     <Compile Include="Views\ForceShutdowner.xaml.cs">
       <DependentUpon>ForceShutdowner.xaml</DependentUpon>
@@ -431,6 +433,9 @@
     <Compile Include="Views\NumTextBehavior.cs" />
     <Compile Include="Views\PortCheck.xaml.cs">
       <DependentUpon>PortCheck.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TelnetWaitTimeCalculator.xaml.cs">
+      <DependentUpon>TelnetWaitTimeCalculator.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VersionInfo.xaml.cs">
       <DependentUpon>VersionInfo.xaml</DependentUpon>
@@ -444,6 +449,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PortCheck.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TelnetWaitTimeCalculator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

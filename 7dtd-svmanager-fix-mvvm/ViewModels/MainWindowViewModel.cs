@@ -135,6 +135,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             CmdTextBoxEnterDown = new DelegateCommand<string>(SendCmd);
 
+            OpenTelnetWaitTimeCalculatorCommand = new DelegateCommand(OpenTelnetWaitTimeCalculator);
             GetTimeCommand = new DelegateCommand(GetTime);
             SetTimeCommand = new DelegateCommand(SetTime);
             SaveWorldCommand = new DelegateCommand(SaveWorld);
@@ -218,6 +219,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         public ICommand CmdTextBoxEnterDown { get; set; }
 
+        public ICommand OpenTelnetWaitTimeCalculatorCommand { get; set; }
         public ICommand GetTimeCommand { get; set; }
         public ICommand SetTimeCommand { get; set; }
         public ICommand SaveWorldCommand { get; set; }
@@ -610,6 +612,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             CmdText = string.Empty;
         }
 
+
+        private void OpenTelnetWaitTimeCalculator()
+        {
+            var model = new TelnetWaitTimeCalculatorModel(_model);
+            var vm = new TelnetWaitTimeCalculatorViewModel(new WindowService(), model);
+            WindowManageService.ShowDialog<TelnetWaitTimeCalculator>(vm);
+        }
         private void GetTime()
         {
             _model.SetTimeToTextBox();

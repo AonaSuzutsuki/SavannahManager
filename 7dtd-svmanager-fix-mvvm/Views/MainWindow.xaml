@@ -241,6 +241,13 @@
                                                         <TextBox Text="{Binding TelnetPasswordText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" Style="{StaticResource PasswordStyle}" />
                                                     </StackPanel>
                                                 </Grid>
+
+                                                <Grid Grid.Row="2">
+                                                    <StackPanel>
+                                                        <Label Content="Calculate Telnet Wait Time" />
+                                                        <Button Content="Open Calculator" Style="{StaticResource FlatButton}" Command="{Binding OpenTelnetWaitTimeCalculatorCommand}" />
+                                                    </StackPanel>
+                                                </Grid>
                                             </Grid>
                                         </TabItem>
 
