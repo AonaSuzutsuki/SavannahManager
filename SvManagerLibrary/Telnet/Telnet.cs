@@ -58,7 +58,7 @@ namespace SvManagerLibrary.Telnet
         /// </summary>
         public int ReceiveBufferSize { get; set; } = 10240;
 
-        public int ThresholdSecond { get; set; } = 2;
+        public int TelnetEventWaitTime { get; set; } = 2;
 
         /// <summary>
         /// Get or Set Sending and Receiving text encoding.
@@ -176,7 +176,7 @@ namespace SvManagerLibrary.Telnet
             WriteLine(cmd);
             var counter = new TelnetCounter
             {
-                Max = ThresholdSecond * 10
+                Max = TelnetEventWaitTime * 10
             };
 
             var log = "";

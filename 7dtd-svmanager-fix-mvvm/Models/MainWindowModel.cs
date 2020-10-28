@@ -370,7 +370,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             BottomNewsLabel = LangResources.Resources.UI_WaitingServer;
             base.SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
 
-            Telnet = GenerateTelnetClient();
+            Telnet = GenerateTelnetClient(this);
             var tasks = Task.Factory.StartNew(() =>
             {
                 IsTelnetLoading = true;
@@ -510,7 +510,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             StartBtEnabled = false;
             TelnetBtIsEnabled = false;
-            Telnet = GenerateTelnetClient();
+            Telnet = GenerateTelnetClient(this);
             var connected = await Task.Factory.StartNew(() => Telnet.Connect(localAddress, localPort));
             TelnetBtIsEnabled = true;
             if (LocalMode)
@@ -559,15 +559,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             PlayerClean();
         }
 
-        private TelnetClient GenerateTelnetClient()
+        private static TelnetClient GenerateTelnetClient(MainWindowModel model)
         {
-            var telnet = new TelnetClient()
+            var telnet = new TelnetClient
             {
-                ThresholdSecond = Setting.TelnetWaitTime
+                TelnetEventWaitTime = model.Setting.TelnetWaitTime
             };
-            telnet.Started += (sender, args) => telnetStartedSubject.OnNext(args);
-            telnet.Finished += (sender, args) => telnetFinishedSubject.OnNext(args);
-            telnet.ReadEvent += (sender, args) => telnetReadedSubject.OnNext(args);
+            telnet.Started += (sender, args) => model.telnetStartedSubject.OnNext(args);
+            telnet.Finished += (sender, args) => model.telnetFinishedSubject.OnNext(args);
+            telnet.ReadEvent += (sender, args) => model.telnetReadedSubject.OnNext(args);
             return telnet;
         }
 
