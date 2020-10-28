@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using _7dtd_XmlEditor.Models;
 using _7dtd_XmlEditor.Models.TreeView;
+using _7dtd_XmlEditor.Views;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_XmlEditor.ViewModels
 {
@@ -36,8 +38,9 @@ namespace _7dtd_XmlEditor.ViewModels
             FileOpenBtClick = new DelegateCommand(FileOpenBt_Click);
             FileSaveBtClick = new DelegateCommand(FileSaveBt_Click);
             FileSaveAsBtClick = new DelegateCommand(FileSaveAsBt_Click);
-            TreeViewSelectedItemChangedCommand = new DelegateCommand(TreeViewSelectedItemChanged);
 
+            DropCommand = new DelegateCommand<DropArguments>(TreeViewDrop);
+            TreeViewSelectedItemChangedCommand = new DelegateCommand(TreeViewSelectedItemChanged);
             TreeViewMouseRightButtonDown = new DelegateCommand(TreeView_MouseRightButtonDown);
             AddAttributeBtClicked = new DelegateCommand(AddAttributeBt_Clicked);
             RemoveAttributeBtClicked = new DelegateCommand(RemoveAttributeBt_Clicked);
@@ -77,6 +80,7 @@ namespace _7dtd_XmlEditor.ViewModels
         public ICommand FileSaveAsBtClick { get; set; }
 
 
+        public ICommand DropCommand { get; set; }
         public ICommand TreeViewSelectedItemChangedCommand { get; set; }
         public ICommand TreeViewMouseRightButtonDown { get; set; }
 
@@ -115,6 +119,32 @@ namespace _7dtd_XmlEditor.ViewModels
         }
 
 
+        public void TreeViewDrop(DropArguments info)
+        {
+            var insertType = info.Type;
+            var targetItem = info.Target;
+            var sourceItem = info.Source;
+            var targetItemParent = targetItem.Parent;
+            var sourceItemParent = sourceItem.Parent;
+            if (insertType == MoveableTreeViewBehavior.InsertType.Before)
+            {
+                sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
+                targetItemParent.Node.AddBeforeChildElement(targetItem.Node, sourceItem.Node);
+            }
+            else if (insertType == MoveableTreeViewBehavior.InsertType.After)
+            {
+                sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
+                targetItemParent.Node.AddAfterChildElement(targetItem.Node, sourceItem.Node);
+            }
+            else
+            {
+                if (targetItem.Node.NodeType == XmlNodeType.Tag)
+                {
+                    sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
+                    targetItem.Node.AddChildElement(sourceItem.Node);
+                }
+            }
+        }
         public void TreeViewSelectedItemChanged()
         {
             model.ItemChanged();

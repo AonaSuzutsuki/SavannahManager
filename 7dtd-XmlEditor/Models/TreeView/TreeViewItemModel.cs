@@ -182,6 +182,13 @@ namespace _7dtd_XmlEditor.Models.TreeView
             children.Insert(index + 1, from);
         }
 
+        public bool ContainsParent(TreeViewItemInfo info)
+        {
+            if (Parent == null)
+                return false;
+            return Parent == info || Parent.ContainsParent(info);
+        }
+
         public void EnableTextEdit()
         {
             if (Node.NodeType != XmlNodeType.Tag)
