@@ -63,7 +63,11 @@
             </StackPanel>
 
             <Grid Margin="10,25,10,10">
-
+                <StackPanel>
+                    <Button Content="Calculate" Height="30" Style="{StaticResource FlatButton}" Command="{Binding CalculateWaitTimeCommand}" />
+                    <TextBox Text="{Binding WaitTime.Value}" />
+                    <TextBox Text="{Binding RecommendedWaitTime.Value}" />
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>
