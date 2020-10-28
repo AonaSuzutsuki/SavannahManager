@@ -8,14 +8,14 @@ namespace SvManagerLibrary.Telnet
 {
     public class TelnetCounter
     {
-        public bool CanLoop => count < Max;
+        public bool CanLoop => Count < Max;
         public int Max { get; set; } = 20;
 
-        private int count = 0;
+        public int Count { get; private set; } = 0;
 
         public void Next()
         {
-            count++;
+            Count++;
         }
     }
 }
