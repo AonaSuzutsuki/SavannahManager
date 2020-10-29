@@ -80,6 +80,7 @@
     <Compile Include="SteamLibrary\SteamLibraryLoaderTests.cs" />
     <Compile Include="Telnet\LogCollectionTest.cs" />
     <Compile Include="Time\TimeTests.cs" />
+    <Compile Include="Telnet\TelnetWaiterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">

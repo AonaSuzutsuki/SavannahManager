@@ -16,7 +16,7 @@ namespace SvManagerLibrary.Telnet
 
         public int Count => count * SleepTime;
 
-        public int SleepTime { get; } = 100;
+        public int SleepTime { get; set; } = 100;
 
         public void Next()
         {
