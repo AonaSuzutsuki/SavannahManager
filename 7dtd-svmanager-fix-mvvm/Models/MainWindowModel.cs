@@ -474,7 +474,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!IsConnected)
             {
-                _ = TelnetConnect();
+                _ = TelnetConnect().ContinueWith((task) =>
+                {
+                    var innerExceptions = task.Exception?.InnerExceptions;
+                    if (innerExceptions != null)
+                    {
+                        foreach (var exception in innerExceptions)
+                        {
+                            App.ShowAndWriteException(exception);
+                        }
+                    }
+                }, TaskContinuationOptions.OnlyOnFaulted);
             }
             else
             {
