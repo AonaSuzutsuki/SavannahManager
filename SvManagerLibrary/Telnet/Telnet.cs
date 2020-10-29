@@ -199,14 +199,14 @@ namespace SvManagerLibrary.Telnet
             return log;
         }
 
-        public int CalculateWaitTime()
+        public int CalculateWaitTime(int maxMilliseconds = 10000)
         {
             destructionEvent = true;
 
             WriteLine("help");
             var counter = new TelnetWaiter
             {
-                MaxMilliseconds = 10000
+                MaxMilliseconds = maxMilliseconds
             };
 
 
