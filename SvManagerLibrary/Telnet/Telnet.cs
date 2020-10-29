@@ -286,10 +286,13 @@ namespace SvManagerLibrary.Telnet
             {
                 LockAction((socket) =>
                 {
-                    if (socket == null) return;
-                    socket.Shutdown(SocketShutdown.Both);
-                    socket.Disconnect(false);
-                    socket.Dispose();
+                    if (socket != null && socket.Connected)
+                    {
+                        socket.Shutdown(SocketShutdown.Both);
+                        socket.Disconnect(false);
+                        socket.Dispose();
+                    }
+
                     clientSocket = null;
                 });
             }

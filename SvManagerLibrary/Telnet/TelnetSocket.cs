@@ -6,6 +6,7 @@ namespace SvManagerLibrary.Telnet
 {
     public interface ITelnetSocket : IDisposable
     {
+        bool Connected { get; }
         int Available { get; }
         EndPoint RemoteEndPoint { get; }
         int ReceiveBufferSize { get; set; }
