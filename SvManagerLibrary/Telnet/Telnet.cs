@@ -79,11 +79,19 @@ namespace SvManagerLibrary.Telnet
         }
 
 
+#if TELNET_TEST
+        public ITelnetSocket ClientSocket
+        {
+            get => clientSocket;
+            set => clientSocket = value;
+        }
+#endif
+
         private int threadWaitTime = 100;
         private bool destructionEvent;
-        private Socket clientSocket;
+        private ITelnetSocket clientSocket;
 
-        private void LockAction(Action<Socket> action)
+        private void LockAction(Action<ITelnetSocket> action)
         {
             if (clientSocket == null) return;
             lock (clientSocket)
@@ -92,7 +100,7 @@ namespace SvManagerLibrary.Telnet
             }
         }
 
-        private T LockFunction<T>(Func<Socket, T> func)
+        private T LockFunction<T>(Func<ITelnetSocket, T> func)
         {
             if (clientSocket == null) return default;
             lock (clientSocket)
@@ -104,7 +112,7 @@ namespace SvManagerLibrary.Telnet
         public bool Connect(string address, int port)
         {
             _disposedValue = false;
-            clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
+            clientSocket = new TelnetSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
             {
                 ReceiveTimeout = ReceiveTimeout,
                 ReceiveBufferSize = ReceiveBufferSize
@@ -272,7 +280,7 @@ namespace SvManagerLibrary.Telnet
             return sendByte;
         }
 
-        #region IDisposable Support
+#region IDisposable Support
         private bool _disposedValue = false;
         protected virtual void Dispose(bool disposing)
         {
@@ -306,6 +314,6 @@ namespace SvManagerLibrary.Telnet
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        #endregion
+#endregion
     }
 }

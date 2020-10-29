@@ -90,6 +90,7 @@
     <Compile Include="Telnet\TelnetException.cs" />
     <Compile Include="Time\Time.cs" />
     <Compile Include="Time\TimeInfo.cs" />
+    <Compile Include="Telnet\TelnetSocket.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
