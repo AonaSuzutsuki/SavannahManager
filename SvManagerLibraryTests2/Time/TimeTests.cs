@@ -35,7 +35,7 @@ namespace SvManagerLibraryTests2.Time
             };
 
             var mock = new Mock<ITelnetClient>();
-            mock.Setup(x => x.Read()).Returns(text);
+            mock.Setup(x => x.DestructionEventRead(It.IsAny<string>())).Returns(text);
             mock.Setup(x => x.Connected).Returns(true);
 
             var act = SvManagerLibrary.Time.Time.GetTimeFromTelnet(mock.Object);
