@@ -78,18 +78,22 @@ namespace SvManagerLibrary.Telnet
             }
         }
 
-
-#if TELNET_TEST
-        public ITelnetSocket ClientSocket
-        {
-            get => clientSocket;
-            set => clientSocket = value;
-        }
-#endif
-
         private int threadWaitTime = 100;
         private bool destructionEvent;
         private ITelnetSocket clientSocket;
+
+        public TelnetClient()
+        {
+            clientSocket = new TelnetSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
+            {
+                ReceiveTimeout = ReceiveTimeout,
+                ReceiveBufferSize = ReceiveBufferSize
+            };
+        }
+        public TelnetClient(ITelnetSocket socket)
+        {
+            clientSocket = socket;
+        }
 
         private void LockAction(Action<ITelnetSocket> action)
         {
@@ -112,11 +116,6 @@ namespace SvManagerLibrary.Telnet
         public bool Connect(string address, int port)
         {
             _disposedValue = false;
-            clientSocket = new TelnetSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
-            {
-                ReceiveTimeout = ReceiveTimeout,
-                ReceiveBufferSize = ReceiveBufferSize
-            };
 
             try
             {
@@ -130,7 +129,6 @@ namespace SvManagerLibrary.Telnet
             }
             catch
             {
-                clientSocket = null;
                 return false;
             }
         }
@@ -155,8 +153,6 @@ namespace SvManagerLibrary.Telnet
 
                     Thread.Sleep(10);
                 }
-
-                LockAction(socket => clientSocket = null);
                 OnFinished(new TelnetReadEventArgs() { IpAddress = end.Address.ToString() });
             });
         }

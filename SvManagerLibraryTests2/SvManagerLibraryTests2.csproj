@@ -81,6 +81,7 @@
     <Compile Include="Telnet\LogCollectionTest.cs" />
     <Compile Include="Time\TimeTests.cs" />
     <Compile Include="Telnet\TelnetWaiterTest.cs" />
+    <Compile Include="Telnet\TelnetTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">
