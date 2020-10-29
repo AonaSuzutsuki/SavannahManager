@@ -16,7 +16,7 @@ namespace SvManagerLibraryTests2.Config
     {
         public ConfigLoader GetConfigLoader()
         {
-            var xmlPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\TestData\\Test.xml".UnifiedSystemPathSeparator();
+            var xmlPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\TestData\\Config.xml".UnifiedSystemPathSeparator();
             return new ConfigLoader(xmlPath);
         }
 
@@ -54,7 +54,7 @@ namespace SvManagerLibraryTests2.Config
                 { "ServerName2", new ConfigInfo() { PropertyName = "ServerName2", Value = "My Game Host" } },
                 { "ServerDescription", new ConfigInfo() { PropertyName = "ServerDescription", Value = "A 7 Days to Die server" } },
                 { "ServerWebsiteURL", new ConfigInfo() { PropertyName = "ServerWebsiteURL", Value = "" } },
-                { "Nested", new ConfigInfo() { PropertyName = "Nested", Value = null } },
+                { "Nested", new ConfigInfo() { PropertyName = "Nested", Value = "" } },
                 { "test", new ConfigInfo { PropertyName = "test", Value = "test value" } },
                 { "test2", new ConfigInfo { PropertyName = "test2", Value = "test value 2" } },
             };
@@ -112,7 +112,7 @@ namespace SvManagerLibraryTests2.Config
                 { "ServerName2", new ConfigInfo() { PropertyName = "ServerName2", Value = "My Game Host" } },
                 { "ServerDescription", new ConfigInfo() { PropertyName = "ServerDescription", Value = "A 7 Days to Die server" } },
                 { "ServerWebsiteURL", new ConfigInfo() { PropertyName = "ServerWebsiteURL", Value = "" } },
-                { "Nested", new ConfigInfo() { PropertyName = "Nested", Value = null } }
+                { "Nested", new ConfigInfo() { PropertyName = "Nested", Value = "" } }
             };
 
             CollectionAssert.AreEqual(exp, dict);

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Moq;
 
 namespace SvManagerLibraryTests2.Player
 {
@@ -35,7 +36,7 @@ namespace SvManagerLibraryTests2.Player
             };
 
             var mock = new Moq.Mock<ITelnetClient>();
-            mock.Setup(x => x.Read()).Returns(text);
+            mock.Setup(x => x.DestructionEventRead(It.IsAny<string>())).Returns(text);
             mock.Setup(x => x.Connected).Returns(true);
 
             var act = SvManagerLibrary.Player.Player.SetPlayerInfo(mock.Object);
