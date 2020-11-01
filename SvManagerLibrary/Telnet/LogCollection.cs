@@ -71,7 +71,41 @@ namespace SvManagerLibrary.Telnet
                 return info.ToString();
             }
 
-            return null;
+            return string.Empty;
+        }
+
+        public string GetFirstNoneRemove()
+        {
+            var info = list.First?.Value;
+            if (info != null && info.EndLine)
+            {
+                return info.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        public string GetLastNoneRemove()
+        {
+            var info = list.Last?.Value;
+            if (info != null && info.EndLine)
+            {
+                return info.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            foreach (var stringInfo in list)
+            {
+                var end = stringInfo.EndLine ? "\n" : "";
+                sb.Append($"{stringInfo}{end}");
+            }
+
+            return sb.ToString();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -184,11 +185,15 @@ namespace SvManagerLibrary.Telnet
                 MaxMilliseconds = TelnetEventWaitTime
             };
 
-            var log = "";
+            var logCollection = new LogCollection();
             while (counter.CanLoop)
             {
-                log = Read().TrimEnd('\0');
-                if (!string.IsNullOrEmpty(log))
+                var log = Read().TrimEnd('\0');
+                logCollection.Append(log);
+
+                Console.WriteLine(logCollection.ToString());
+
+                if (!string.IsNullOrEmpty(logCollection.GetFirstNoneRemove()))
                     break;
 
                 counter.Next();
@@ -196,24 +201,61 @@ namespace SvManagerLibrary.Telnet
 
             destructionEvent = false;
 
-            return log;
+            return logCollection.ToString();
+        }
+
+        public string DestructionEventRead(string cmd, string expressionForLast)
+        {
+            static bool IsMatch(string text, string expression)
+            {
+                var regex = new Regex(expression);
+                var match = regex.Match(text);
+                return match.Success;
+            }
+
+            destructionEvent = true;
+
+            WriteLine(cmd);
+            var counter = new TelnetWaiter
+            {
+                MaxMilliseconds = TelnetEventWaitTime
+            };
+
+            var logCollection = new LogCollection();
+            while (counter.CanLoop)
+            {
+                var log = Read().TrimEnd('\0');
+                logCollection.Append(log);
+
+                if (IsMatch(logCollection.GetLastNoneRemove(), expressionForLast))
+                    break;
+
+                counter.Next();
+            }
+
+            destructionEvent = false;
+
+            return logCollection.ToString();
         }
 
         public int CalculateWaitTime(int maxMilliseconds = 10000)
         {
             destructionEvent = true;
 
-            WriteLine("help");
+            WriteLine("gt");
             var counter = new TelnetWaiter
             {
                 MaxMilliseconds = maxMilliseconds
             };
 
-
+            var logCollection = new LogCollection();
             while (counter.CanLoop)
             {
                 var log = Read().TrimEnd('\0');
-                if (!string.IsNullOrEmpty(log))
+                logCollection.Append(log);
+                Console.WriteLine(logCollection.ToString());
+
+                if (!string.IsNullOrEmpty(logCollection.GetFirstNoneRemove()))
                     break;
 
                 counter.Next();

@@ -23,5 +23,21 @@ namespace SvManagerLibraryTests2.Telnet
 
             Assert.AreEqual(300, waiter.Count);
         }
+
+        [Test]
+        public void NextText2()
+        {
+            var waiter = new TelnetWaiter
+            {
+                MaxMilliseconds = 0
+            };
+
+            while (waiter.CanLoop)
+            {
+                waiter.Next();
+            }
+
+            Assert.AreEqual(0, waiter.Count);
+        }
     }
 }
