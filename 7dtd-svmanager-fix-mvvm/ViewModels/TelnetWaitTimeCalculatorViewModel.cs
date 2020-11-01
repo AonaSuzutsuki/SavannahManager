@@ -24,6 +24,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             RecommendedWaitTime = model.ObserveProperty(m => m.RecommendedWaitTimeText).ToReactiveProperty();
 
             CalculateWaitTimeCommand = new DelegateCommand(CalculateWaitTime);
+            SetToSettingsCommand = new DelegateCommand<string>(SetToSettings);
         }
 
         private readonly TelnetWaitTimeCalculatorModel model;
@@ -32,10 +33,16 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ReactiveProperty<string> RecommendedWaitTime { get; set; }
 
         public ICommand CalculateWaitTimeCommand { get; set; }
+        public ICommand SetToSettingsCommand { get; set; }
 
         public void CalculateWaitTime()
         {
             model.CalculateWaitTime();
+        }
+
+        public void SetToSettings(string text)
+        {
+            model.SetToSettings(text);
         }
     }
 }

@@ -35,6 +35,7 @@ namespace LanguageEx
         public UpdResources UpdResources { get; } = new UpdResources();
         public PlayerResources PlayerResources { get; } = new PlayerResources();
         public SetupResource SetupResources { get; } = new SetupResource();
+        public ToolsResource ToolsResources { get; } = new ToolsResource();
         public VersionInfoResources VersionInfoResources { get; } = new VersionInfoResources();
 
 

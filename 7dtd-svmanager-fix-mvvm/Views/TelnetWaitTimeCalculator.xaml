@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:lang="clr-namespace:LanguageEx"
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
         xmlns:views="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         mc:Ignorable="d"
@@ -63,11 +64,43 @@
             </StackPanel>
 
             <Grid Margin="10,25,10,10">
-                <StackPanel>
-                    <Button Content="Calculate" Height="30" Style="{StaticResource FlatButton}" Command="{Binding CalculateWaitTimeCommand}" />
-                    <TextBox Text="{Binding WaitTime.Value}" />
-                    <TextBox Text="{Binding RecommendedWaitTime.Value}" />
-                </StackPanel>
+                <Grid VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Button Content="{Binding Source={x:Static lang:ResourceService.Current}, Path=ToolsResources.UI_Calculate, Mode=OneWay}" Height="30" Style="{StaticResource FlatButton}" Command="{Binding CalculateWaitTimeCommand}" />
+
+                    <StackPanel Grid.Row="2">
+                        <Label Content="Elapsed Time" />
+
+                        <Grid Height="30">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Text="{Binding WaitTime.Value}" />
+                            <Button Grid.Column="2" Content="Set to Settings" Style="{StaticResource FlatButton}" Command="{Binding SetToSettingsCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Path=Children[0].(TextBox.Text)}" />
+                        </Grid>
+
+                        <Label Content="Recommended Time" />
+
+                        <Grid Height="30">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Text="{Binding RecommendedWaitTime.Value}" />
+                            <Button Grid.Column="2" Content="Set to Settings" Style="{StaticResource FlatButton}" Command="{Binding SetToSettingsCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Path=Children[0].(TextBox.Text)}" />
+                        </Grid>
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

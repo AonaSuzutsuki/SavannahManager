@@ -278,6 +278,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CommonResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="LangResources\ToolsResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ToolsResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="LangResources\ToolsResource.en-US.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ToolsResource.en-US.resx</DependentUpon>
+    </Compile>
     <Compile Include="LangResources\VersionInfoResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -505,6 +515,14 @@
     <EmbeddedResource Include="LangResources\SetupResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SetupResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LangResources\ToolsResource.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ToolsResource.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LangResources\ToolsResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ToolsResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="LangResources\UpdResources.en-US.resx" />
     <EmbeddedResource Include="LangResources\UpdResources.resx">
