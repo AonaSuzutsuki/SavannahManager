@@ -116,8 +116,6 @@ namespace SvManagerLibrary.Telnet
 
         public bool Connect(string address, int port)
         {
-            _disposedValue = false;
-
             try
             {
                 clientSocket.Connect(address, port);
