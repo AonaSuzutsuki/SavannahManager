@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
@@ -10,19 +11,26 @@ namespace SvManagerLibrary.Telnet
 
     public class TelnetClient : IDisposable, ITelnetClient
     {
+        public enum BreakLineType
+        {
+            Cr,
+            Lf,
+            CrLf,
+        }
+
         #region StaticMember
         /// <summary>
         /// Carriage Return.
         /// </summary>
-        public static byte[] Cr { get; } = { 0x0D };
+        private static byte[] Cr { get; } = { 0x0D };
         /// <summary>
         /// Line Feed.
         /// </summary>
-        public static byte[] Lf { get; } = { 0x0A };
+        private static byte[] Lf { get; } = { 0x0A };
         /// <summary>
         /// Carriage Return & Line Feed.
         /// </summary>
-        public static byte[] Crlf { get; } = { 0x0D, 0x0A };
+        private static byte[] Crlf { get; } = { 0x0D, 0x0A };
         #endregion
 
         #region ReadedEvent
@@ -61,6 +69,22 @@ namespace SvManagerLibrary.Telnet
 
         public int TelnetEventWaitTime { get; set; } = 2000;
 
+        public BreakLineType BreakLine { get; set; } = BreakLineType.CrLf;
+
+        public byte[] BreakLineData
+        {
+            get
+            {
+                return BreakLine switch
+                {
+                    BreakLineType.Cr => Cr,
+                    BreakLineType.Lf => Lf,
+                    BreakLineType.CrLf => Crlf,
+                    _ => Crlf,
+                };
+            }
+        }
+
         /// <summary>
         /// Get or Set Sending and Receiving text encoding.
         /// </summary>
@@ -79,7 +103,6 @@ namespace SvManagerLibrary.Telnet
             }
         }
 
-        private int threadWaitTime = 100;
         private bool destructionEvent;
         private ITelnetSocket clientSocket;
 
@@ -309,9 +332,8 @@ namespace SvManagerLibrary.Telnet
         /// <returns>Length of sent byte</returns>
         public int WriteLine(byte[] data)
         {
-            var sendByte = clientSocket.Send(data, data.Length, SocketFlags.None);
-
-            clientSocket.Send(Crlf, Crlf.Length, SocketFlags.None);
+            var concat = data.Concat(BreakLineData).ToArray();
+            var sendByte = clientSocket.Send(concat, concat.Length, SocketFlags.None);
 
             return sendByte;
         }
