@@ -36,7 +36,7 @@ namespace SvManagerLibrary.Time
         {
             TelnetException.CheckTelnetClient(telnet);
 
-            var log = telnet.DestructionEventRead("gt");
+            var log = telnet.DestructionEventRead("gt", "^Day (?<day>.*?), (?<hour>.*?):(?<minute>.*?)$");
             return ConvertTime(log);
         }
         public static void SendTime(ITelnetClient telnet, TimeInfo timeInfo)

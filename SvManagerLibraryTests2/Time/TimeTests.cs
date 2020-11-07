@@ -1,6 +1,11 @@
-﻿using Moq;
+﻿using System.Linq;
+using System.Net.Sockets;
+using System.Text;
+using Moq;
 using NUnit.Framework;
+using SvManagerLibrary.Telnet;
 using SvManagerLibrary.Time;
+using SvManagerLibraryTests2.Telnet;
 using ITelnetClient = SvManagerLibrary.Telnet.ITelnetClient;
 
 namespace SvManagerLibraryTests2.Time
@@ -35,10 +40,37 @@ namespace SvManagerLibraryTests2.Time
             };
 
             var mock = new Mock<ITelnetClient>();
-            mock.Setup(x => x.DestructionEventRead(It.IsAny<string>())).Returns(text);
+            mock.Setup(x => x.DestructionEventRead(It.IsAny<string>(), It.IsAny<string>())).Returns(text);
             mock.Setup(x => x.Connected).Returns(true);
 
             var act = SvManagerLibrary.Time.Time.GetTimeFromTelnet(mock.Object);
+
+            Assert.AreEqual(exp, act);
+        }
+
+        [Test]
+        public void GetTimeFromTelnetTest2()
+        {
+            var text = "Day 256, 11:23";
+            var exp = new TimeInfo()
+            {
+                Day = 256,
+                Hour = 11,
+                Minute = 23
+            };
+
+            var mock = TelnetTest.GetSocketMock();
+            mock.Setup(m => m.Receive(It.IsAny<byte[]>(), It.IsAny<SocketFlags>())).Callback<byte[], SocketFlags>(
+                (buffer, flag) => {
+                    var data = Encoding.UTF8.GetBytes($"aaaaaa\n{text}\ntest\n");
+                    foreach (var item in data.Select((v, i) => new { Index = i, Value = v }))
+                    {
+                        buffer[item.Index] = item.Value;
+                    }
+                });
+
+            var telnetClient = new TelnetClient(mock.Object);
+            var act = SvManagerLibrary.Time.Time.GetTimeFromTelnet(telnetClient);
 
             Assert.AreEqual(exp, act);
         }

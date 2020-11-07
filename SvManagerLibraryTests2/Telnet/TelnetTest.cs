@@ -17,7 +17,7 @@ namespace SvManagerLibraryTests2.Telnet
     [TestFixture]
     public class TelnetTest
     {
-        public Mock<ITelnetSocket> GetSocketMock()
+        public static Mock<ITelnetSocket> GetSocketMock()
         {
             var mock = new Mock<ITelnetSocket>();
             mock.Setup(m => m.Poll(It.IsAny<int>(), It.IsAny<SelectMode>())).Returns(true);
