@@ -82,7 +82,7 @@
 
                     <views:BindableSelectedItemTreeView x:Name="ItemTreeView" ItemsSource="{Binding TreeViewItems}" BindableSelectedItem="{Binding TreeViewSelectedItem.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IgnoreNullSelectedItem="False" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
                         <i:Interaction.Behaviors>
-                            <views:MoveableTreeViewBehavior DropCommand="{Binding DropCommand}" />
+                            <views:MoveableTreeViewBehavior DropCommand="{Binding DropCommand}" DataType="treeView:TreeViewItemInfo" />
                         </i:Interaction.Behaviors>
 
                         <i:Interaction.Triggers>

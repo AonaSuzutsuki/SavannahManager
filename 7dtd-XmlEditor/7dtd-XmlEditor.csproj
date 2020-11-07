@@ -110,6 +110,7 @@
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Models\IEditedModel.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
+    <Compile Include="Models\TreeView\TreeViewItemInfoBase.cs" />
     <Compile Include="Models\ViewAttributeInfo.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MoveableTreeViewBehavior.cs" />
@@ -129,7 +130,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\TreeView\TreeViewItemModel.cs" />
+    <Compile Include="Models\TreeView\TreeViewItemInfo.cs" />
     <Compile Include="Views\BindableSelectedItemTreeView.cs" />
     <Compile Include="Views\FocusExtension.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">

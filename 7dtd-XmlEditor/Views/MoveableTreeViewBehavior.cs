@@ -17,8 +17,8 @@ namespace _7dtd_XmlEditor.Views
 
     public class DropArguments
     {
-        public TreeViewItemInfo Source { get; set; }
-        public TreeViewItemInfo Target { get; set; }
+        public TreeViewItemInfoBase Source { get; set; }
+        public TreeViewItemInfoBase Target { get; set; }
         public MoveableTreeViewBehavior.InsertType Type { get; set; }
     }
 
@@ -32,7 +32,7 @@ namespace _7dtd_XmlEditor.Views
             Children
         }
 
-        private readonly HashSet<TreeViewItemInfo> _changedBlocks = new HashSet<TreeViewItemInfo>();
+        private readonly HashSet<TreeViewItemInfoBase> _changedBlocks = new HashSet<TreeViewItemInfoBase>();
         private InsertType _insertType;
         private Point? _startPos;
 
@@ -49,6 +49,18 @@ namespace _7dtd_XmlEditor.Views
             typeof(MoveableTreeViewBehavior),
             new UIPropertyMetadata(null));
         #endregion
+
+        public Type DataType
+        {
+            get => (Type)GetValue(DataTypeProperty);
+            set => SetValue(DataTypeProperty, value);
+        }
+
+        public static readonly DependencyProperty DataTypeProperty = DependencyProperty.Register(
+            "DataType",
+            typeof(Type),
+            typeof(MoveableTreeViewBehavior),
+            new UIPropertyMetadata(null));
 
         protected override void OnAttached()
         {
@@ -76,16 +88,16 @@ namespace _7dtd_XmlEditor.Views
         {
             ResetSeparator(_changedBlocks);
 
-            if (!(sender is ItemsControl itemsControl) || !e.Data.GetDataPresent(typeof(TreeViewItemInfo)))
+            if (!(sender is ItemsControl itemsControl) || !e.Data.GetDataPresent(DataType))
                 return;
 
             DragScroll(itemsControl, e);
 
-            var sourceItem = (TreeViewItemInfo)e.Data.GetData(typeof(TreeViewItemInfo));
+            var sourceItem = (TreeViewItemInfoBase)e.Data.GetData(DataType);
             var targetElement = HitTest<FrameworkElement>(itemsControl, e.GetPosition);
 
             var parentGrid = targetElement?.GetParent<Grid>();
-            if (parentGrid == null || !(targetElement.DataContext is TreeViewItemInfo targetElementInfo) || targetElementInfo == sourceItem)
+            if (parentGrid == null || !(targetElement.DataContext is TreeViewItemInfoBase targetElementInfo) || targetElementInfo == sourceItem)
                 return;
 
             if (targetElementInfo.ContainsParent(sourceItem))
@@ -125,8 +137,8 @@ namespace _7dtd_XmlEditor.Views
             if (!(sender is ItemsControl itemsControl))
                 return;
 
-            var sourceItem = (TreeViewItemInfo)e.Data.GetData(typeof(TreeViewItemInfo));
-            var targetItem = HitTest<FrameworkElement>(itemsControl, e.GetPosition)?.DataContext as TreeViewItemInfo;
+            var sourceItem = (TreeViewItemInfoBase)e.Data.GetData(DataType);
+            var targetItem = HitTest<FrameworkElement>(itemsControl, e.GetPosition)?.DataContext as TreeViewItemInfoBase;
 
             if (targetItem == null || sourceItem == null || sourceItem == targetItem)
                 return;
@@ -192,7 +204,7 @@ namespace _7dtd_XmlEditor.Views
 
             var pos = e.GetPosition(itemsControl);
             var hit = HitTest<FrameworkElement>(itemsControl, e.GetPosition);
-            if (hit.DataContext is TreeViewItemInfo)
+            if (hit.DataContext is TreeViewItemInfoBase)
                 _startPos = itemsControl.PointToScreen(pos);
             else
                 _startPos = null;
@@ -201,19 +213,19 @@ namespace _7dtd_XmlEditor.Views
 
 
 
-        private static TreeViewItemInfo GetParentLastChild(TreeViewItemInfo info)
+        private static TreeViewItemInfoBase GetParentLastChild(TreeViewItemInfoBase info)
         {
             var targetParent = info.Parent;
             var last = targetParent?.Children.LastOrDefault();
             return last;
         }
 
-        private static void RemoveCurrentItem(TreeViewItemInfo sourceItemParent, TreeViewItemInfo sourceItem)
+        private static void RemoveCurrentItem(TreeViewItemInfoBase sourceItemParent, TreeViewItemInfoBase sourceItem)
         {
             sourceItemParent.RemoveChildren(sourceItem);
         }
 
-        private static void ResetSeparator(ICollection<TreeViewItemInfo> collection)
+        private static void ResetSeparator(ICollection<TreeViewItemInfoBase> collection)
         {
             var list = collection.ToList();
             foreach (var pair in list)
@@ -223,7 +235,7 @@ namespace _7dtd_XmlEditor.Views
             }
         }
 
-        private static void ResetSeparator(TreeViewItemInfo info)
+        private static void ResetSeparator(TreeViewItemInfoBase info)
         {
             info.Background = Brushes.Transparent;
             info.BeforeSeparatorVisibility = Visibility.Hidden;

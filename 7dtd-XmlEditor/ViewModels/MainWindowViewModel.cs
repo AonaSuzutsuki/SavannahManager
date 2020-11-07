@@ -122,8 +122,8 @@ namespace _7dtd_XmlEditor.ViewModels
         public void TreeViewDrop(DropArguments info)
         {
             var insertType = info.Type;
-            var targetItem = info.Target;
-            var sourceItem = info.Source;
+            var targetItem = (TreeViewItemInfo)info.Target;
+            var sourceItem = (TreeViewItemInfo)info.Source;
             var targetItemParent = targetItem.Parent;
             var sourceItemParent = sourceItem.Parent;
             if (insertType == MoveableTreeViewBehavior.InsertType.Before)
