@@ -227,11 +227,10 @@ namespace SvManagerLibrary.Telnet
 
         public string DestructionEventRead(string cmd, string expressionForLast)
         {
-            static bool IsMatch(string text, string expression)
+            static bool IsMatch(LogCollection logCollection, string expression)
             {
                 var regex = new Regex(expression);
-                var match = regex.Match(text);
-                return match.Success;
+                return logCollection.ReversEnumerable().Select(log => regex.Match(log.ToString())).Any(match => match.Success);
             }
 
             destructionEvent = true;
@@ -248,7 +247,7 @@ namespace SvManagerLibrary.Telnet
                 var log = Read().TrimEnd('\0');
                 logCollection.Append(log);
 
-                if (IsMatch(logCollection.GetLastNoneRemove(), expressionForLast))
+                if (IsMatch(logCollection, expressionForLast))
                     break;
 
                 counter.Next();
