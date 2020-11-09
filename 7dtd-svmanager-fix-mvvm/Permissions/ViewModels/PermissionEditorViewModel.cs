@@ -62,33 +62,35 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
     public class BlackListPermissionInfoViewModel : PermissionBaseViewModel
     {
         public string SteamId { get; set; }
-        public string UnBanDate { get; set; }
+        public ReactiveProperty<string> UnBanDate { get; set; }
         public string Reason { get; set; }
 
         public ICommand SetDateTimeCommand { get; set; }
         public BlackListPermissionInfoViewModel(BlackListPermissionInfo permissionBase, IWindowService windowService) : base(permissionBase, windowService)
         {
             SteamId = permissionBase.SteamId;
-            UnBanDate = permissionBase.UnBanDate;
+            UnBanDate = permissionBase.ToReactivePropertyAsSynchronized(m => m.UnBanDate);
             Reason = permissionBase.Reason;
 
             SetDateTimeCommand = new DelegateCommand(() =>
             {
                 var model = new UnBanDateSettingModel();
-                windowService.ShowDialog<UnBanDateSetting>((setting =>
+                windowService.ShowDialog<UnBanDateSetting>(setting =>
                 {
                     var vm = new UnBanDateSettingViewModel(new WindowService(), model);
-                    var dateTime = UnBanDateSettingModel.ConvertStringToDateTime(UnBanDate);
+                    var dateTime = UnBanDateSettingModel.ConvertStringToDateTime(permissionBase.UnBanDate);
                     if (dateTime.HasValue)
                     {
                         setting.SetDisplayDate(dateTime.Value);
-                        vm.SelectedDate = dateTime;
+                        model.SelectedDate = dateTime;
                         model.HourText = dateTime.Value.Hour;
                         model.MinuteText = dateTime.Value.Minute;
                         model.SecondText = dateTime.Value.Second;
                     }
                     return vm;
-                }));
+                });
+
+                permissionBase.UnBanDate = model.ConvertToString();
             });
         }
     }

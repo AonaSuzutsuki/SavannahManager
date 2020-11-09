@@ -75,7 +75,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid>
-                    <Calendar Name="DateCalendar" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" SelectedDate="{Binding SelectedDate}" />
+                    <Calendar Name="DateCalendar" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" SelectedDate="{Binding SelectedDate.Value}" />
                 </Grid>
 
                 <Grid Grid.Row="2" Margin="10,0,10,0" VerticalAlignment="Center">

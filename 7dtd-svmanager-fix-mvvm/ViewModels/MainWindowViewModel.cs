@@ -641,7 +641,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void OpenPermissionEditor()
         {
             var vm = new PermissionEditorViewModel(new WindowService(), new PermissionEditorModel());
-            WindowManageService.Show<PermissionEditor>(vm);
+            WindowManageService.ShowNonOwner<PermissionEditor>(vm);
         }
 
         private void OpenGetIp()

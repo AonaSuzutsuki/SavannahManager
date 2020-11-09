@@ -44,7 +44,13 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
     public class BlackListPermissionInfo : PermissionBase
     {
         public string SteamId { get; set; }
-        public string UnBanDate { get; set; }
+        private string unBanDate;
+
+        public string UnBanDate
+        {
+            get => unBanDate;
+            set => SetProperty(ref unBanDate, value);
+        }
         public string Reason { get; set; }
     }
 

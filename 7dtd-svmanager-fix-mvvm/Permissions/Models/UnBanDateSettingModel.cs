@@ -12,6 +12,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
     public class UnBanDateSettingModel : ModelBase
     {
 
+        private DateTime? selectedDate;
         private int hourText;
         private int minuteText;
         private int secondText;
@@ -30,6 +31,18 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         {
             get => secondText;
             set => SetProperty(ref secondText, value);
+        }
+
+        public DateTime? SelectedDate
+        {
+            get => selectedDate;
+            set => SetProperty(ref selectedDate, value);
+        }
+
+        public string ConvertToString()
+        {
+            //2035-12-31 23:59:59
+            return $"{SelectedDate?.ToString("yyyy-MM-dd")} {HourText}:{MinuteText}:{SecondText}";
         }
 
         public static DateTime? ConvertStringToDateTime(string text)

@@ -432,7 +432,7 @@
                                                         <ColumnDefinition Width="25" />
                                                     </Grid.ColumnDefinitions>
 
-                                                    <TextBox Text="{Binding UnBanDate, UpdateSourceTrigger=PropertyChanged}" views:PlaceHolderBehavior.PlaceHolder="2035-12-31 23:59:59" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                    <TextBox Text="{Binding UnBanDate.Value, UpdateSourceTrigger=PropertyChanged}" views:PlaceHolderBehavior.PlaceHolder="2035-12-31 23:59:59" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="TextChanged">
                                                                 <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
