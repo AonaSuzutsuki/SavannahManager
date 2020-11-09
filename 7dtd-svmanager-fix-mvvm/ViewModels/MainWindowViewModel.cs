@@ -383,13 +383,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                     {
                         Setting = _model.Setting,
                         ServerConfigFilePath = _model.Setting.ConfigFilePath,
-                        ServerFilePath = _model.Setting.ExeFilePath
+                        ServerFilePath = _model.Setting.ExeFilePath,
+                        ServerAdminConfigFilePath = _model.Setting.AdminFilePath
                     },
                     Pages = new List<Tuple<Type, bool>>
                     {
                         new Tuple<Type, bool>(typeof(FirstPage), true),
                         new Tuple<Type, bool>(typeof(ExecutablePage), true),
                         new Tuple<Type, bool>(typeof(ConfigPage), true),
+                        new Tuple<Type, bool>(typeof(AdminPage), true),
                         new Tuple<Type, bool>(typeof(FinishPage), true)
                     }
                 };

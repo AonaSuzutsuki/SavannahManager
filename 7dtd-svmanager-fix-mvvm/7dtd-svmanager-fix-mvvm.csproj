@@ -363,10 +363,12 @@
       <DependentUpon>UnBanDateSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Setup\CanChangedEventHandler.cs" />
+    <Compile Include="Setup\Models\AdminPageModel.cs" />
     <Compile Include="Setup\Models\InitializeData.cs" />
     <Compile Include="Setup\Models\ExecutablePageModel.cs" />
     <Compile Include="Setup\Models\ConfigPageModel.cs" />
     <Compile Include="Setup\Models\FinishPageModel.cs" />
+    <Compile Include="Setup\ViewModels\AdminPageViewModel.cs" />
     <Compile Include="Setup\ViewModels\INavigationRefresh.cs" />
     <Compile Include="Setup\ViewModels\NavigationBaseViewModel.cs" />
     <Compile Include="Setup\ViewModels\NavigationPageViewModelBase.cs" />
@@ -537,6 +539,7 @@
     <EmbeddedResource Include="LangResources\SetupResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SetupResource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="LangResources\ToolsResource.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>

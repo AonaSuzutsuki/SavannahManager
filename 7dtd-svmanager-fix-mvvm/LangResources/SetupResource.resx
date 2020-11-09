@@ -131,6 +131,12 @@
     <value>XMLファイル (*.xml)|*.xml|すべてのファイル(*.*)|*.*</value>
     <comment>フィルター</comment>
   </data>
+  <data name="UI_AdminPageDescription" xml:space="preserve">
+    <value>7Days To Dieのサーバーアドミンコンフィグファイルを選択してください。serveradmin.xmlがそのファイルです。(%AppData%\7DaysToDie¥Saves内部にあります。)</value>
+  </data>
+  <data name="UI_AdminPageTitle" xml:space="preserve">
+    <value>サーバーアドミンコンフィグファイルを選択してください。</value>
+  </data>
   <data name="UI_AutoSearchBT" xml:space="preserve">
     <value>自動検索</value>
   </data>
