@@ -42,6 +42,18 @@
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
                 <ResourceDictionary>
+                    <BitmapImage x:Key="InformationImage" UriSource="../../Images/Information.png" />
+                    <BitmapImage x:Key="CalendarImage" UriSource="../../Images/Calendar.png" />
+
+                    <Style x:Key="IconButton" TargetType="Button" BasedOn="{StaticResource FlatButton}">
+                        <Setter Property="Width" Value="25" />
+                        <Setter Property="Height" Value="25" />
+                    </Style>
+
+                    <Style x:Key="IconButtonImage" TargetType="Image">
+                        <Setter Property="Margin" Value="2" />
+                    </Style>
+
                     <Style x:Key="ItemInListView" TargetType="ListViewItem">
                         <Setter Property="Background" Value="Transparent" />
                         <Setter Property="Foreground" Value="White" />
@@ -78,6 +90,7 @@
                     <Style x:Key="TextBoxInListView" TargetType="TextBox">
                         <Setter Property="Foreground" Value="white" />
                         <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
@@ -133,7 +146,7 @@
             <Grid Margin="10,55,10,0">
                 <TabControl>
                     <TabItem Header="Command">
-                        <ListView ItemsSource="{Binding CommandPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
+                        <ListView ItemsSource="{Binding CommandPermissions}" ItemContainerStyle="{StaticResource ItemInListView}">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Width="200" Header="Command">
@@ -182,7 +195,7 @@
                                 </Grid.RowDefinitions>
 
                                 <Label Content="User" />
-                                <ListView Grid.Row="1" ItemsSource="{Binding AdminPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
+                                <ListView Grid.Row="1" ItemsSource="{Binding AdminPermissions}" ItemContainerStyle="{StaticResource ItemInListView}">
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Width="200" Header="Steam ID">
@@ -202,7 +215,9 @@
                                                                     </i:EventTrigger>
                                                                 </i:Interaction.Triggers>
                                                             </TextBox>
-                                                            <Button Name="GetSteamIdBt" Grid.Column="2" Content="&#xE946;" FontFamily="Segoe MDL2 Assets" Style="{StaticResource FlatButton}" Command="{Binding GetSteamIdCommand}" />
+                                                            <Button Name="GetSteamIdBt" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Style="{StaticResource IconButton}" Command="{Binding GetSteamIdCommand}">
+                                                                <Image Source="{StaticResource InformationImage}" Style="{StaticResource IconButtonImage}" />
+                                                            </Button>
                                                         </Grid>
 
                                                         <DataTemplate.Triggers>
@@ -251,7 +266,7 @@
                                 </Grid.RowDefinitions>
 
                                 <Label Content="Group" />
-                                <ListView Grid.Row="1" ItemsSource="{Binding AdminGroupPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
+                                <ListView Grid.Row="1" ItemsSource="{Binding AdminGroupPermissions}" ItemContainerStyle="{StaticResource ItemInListView}">
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Width="200" Header="Steam ID">
@@ -328,7 +343,7 @@
                                 </Grid.RowDefinitions>
 
                                 <Label Content="User" />
-                                <ListView Grid.Row="1" ItemsSource="{Binding WhitelistPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
+                                <ListView Grid.Row="1" ItemsSource="{Binding WhitelistPermissions}" ItemContainerStyle="{StaticResource ItemInListView}">
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Width="200" Header="Steam ID">
@@ -369,7 +384,7 @@
                                 </Grid.RowDefinitions>
 
                                 <Label Content="Group" />
-                                <ListView Grid.Row="1" ItemsSource="{Binding WhitelistGroupPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
+                                <ListView Grid.Row="1" ItemsSource="{Binding WhitelistGroupPermissions}" ItemContainerStyle="{StaticResource ItemInListView}">
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Width="200" Header="Steam ID">
@@ -406,7 +421,7 @@
                     </TabItem>
 
                     <TabItem Header="Blacklist">
-                        <ListView ItemsSource="{Binding BlacklistPermissions}" IsEnabled="{Binding IsAttributesEnabled.Value}" ItemContainerStyle="{StaticResource ItemInListView}">
+                        <ListView ItemsSource="{Binding BlacklistPermissions}" ItemContainerStyle="{StaticResource ItemInListView}">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Width="200" Header="Steam ID">
@@ -440,7 +455,9 @@
                                                         </i:Interaction.Triggers>
                                                     </TextBox>
 
-                                                    <Button Grid.Column="2" Name="DateTimeBt"  Content="&#xEC92;" FontFamily="Segoe MDL2 Assets" Style="{StaticResource FlatButton}" Command="{Binding SetDateTimeCommand}" />
+                                                    <Button Grid.Column="2" Name="DateTimeBt" FontFamily="Segoe MDL2 Assets" Style="{StaticResource IconButton}" Command="{Binding SetDateTimeCommand}">
+                                                        <Image Source="{StaticResource CalendarImage}" Style="{StaticResource IconButtonImage}" />
+                                                    </Button>
                                                 </Grid>
 
                                                 <DataTemplate.Triggers>

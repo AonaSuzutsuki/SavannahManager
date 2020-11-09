@@ -603,6 +603,12 @@
   <ItemGroup>
     <Folder Include="Extensions\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Calendar.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent># For Release
