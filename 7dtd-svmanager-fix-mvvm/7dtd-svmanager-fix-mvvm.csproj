@@ -368,6 +368,7 @@
     <Compile Include="Setup\Models\ExecutablePageModel.cs" />
     <Compile Include="Setup\Models\ConfigPageModel.cs" />
     <Compile Include="Setup\Models\FinishPageModel.cs" />
+    <Compile Include="Setup\Models\PageModelBase.cs" />
     <Compile Include="Setup\ViewModels\AdminPageViewModel.cs" />
     <Compile Include="Setup\ViewModels\INavigationRefresh.cs" />
     <Compile Include="Setup\ViewModels\NavigationBaseViewModel.cs" />

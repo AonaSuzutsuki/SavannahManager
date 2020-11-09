@@ -27,19 +27,19 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Views
             InitializeComponent();
 
             var model = new AdminPageModel(service.Share);
-            model.CanChenged += Model_CanChenged;
+            model.CanChanged += ModelCanChanged;
             DataContext = new ViewModels.AdminPageViewModel(service, model);
         }
 
-        private void Model_CanChenged(object sender, CanChangedEventArgs e)
+        private void ModelCanChanged(object sender, CanChangedEventArgs e)
         {
-            OnCanChenged(this, e.CanChanged);
+            OnCanChanged(this, e.CanChanged);
         }
 
-        public event CanChangedEventHandler CanChenged;
-        public void OnCanChenged(object sender, bool canChanged)
+        public event CanChangedEventHandler CanChanged;
+        public void OnCanChanged(object sender, bool canChanged)
         {
-            CanChenged?.Invoke(sender, new CanChangedEventArgs(canChanged));
+            CanChanged?.Invoke(sender, new CanChangedEventArgs(canChanged));
         }
     }
 }

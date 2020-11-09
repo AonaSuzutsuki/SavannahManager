@@ -7,25 +7,22 @@ using Prism.Mvvm;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.Models
 {
-    public class FinishPageModel : BindableBase
+    public class FinishPageModel : PageModelBase
     {
         #region Fields
 
-        private InitializeData _initializeData;
-
         #endregion
 
-        public FinishPageModel(InitializeData initializeData)
+        public FinishPageModel(InitializeData initializeData) : base(initializeData)
         {
-            _initializeData = initializeData;
         }
 
         public void ApplySetting()
         {
-            var setting = _initializeData.Setting;
-            setting.ConfigFilePath = _initializeData.ServerConfigFilePath;
-            setting.ExeFilePath = _initializeData.ServerFilePath;
-            setting.AdminFilePath = _initializeData.ServerAdminConfigFilePath;
+            var setting = InitializeData.Setting;
+            setting.ConfigFilePath = InitializeData.ServerConfigFilePath;
+            setting.ExeFilePath = InitializeData.ServerFilePath;
+            setting.AdminFilePath = InitializeData.ServerAdminConfigFilePath;
             setting.IsFirstBoot = false;
         }
     }

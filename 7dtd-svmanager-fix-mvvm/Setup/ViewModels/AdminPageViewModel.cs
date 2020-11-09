@@ -11,7 +11,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
     public class AdminPageViewModel : NavigationPageViewModelBase
     {
-        AdminPageModel model;
+        private readonly AdminPageModel model;
         public AdminPageViewModel(NavigationWindowService<InitializeData> bindableValue, AdminPageModel model) : base(bindableValue?.NavigationValue)
         {
             this.model = model;

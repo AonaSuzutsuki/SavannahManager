@@ -12,18 +12,10 @@ using CommonStyleLib.ExMessageBox;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.Models
 {
-    public class ConfigPageModel : BindableBase
+    public class ConfigPageModel : PageModelBase
     {
-        public event CanChangedEventHandler CanChenged;
-        private void OnCanChenged(object sender, bool canChanged)
+        public ConfigPageModel(InitializeData initializeData) : base(initializeData)
         {
-            CanChenged?.Invoke(sender, new CanChangedEventArgs(canChanged));
-        }
-
-        public ConfigPageModel(InitializeData initializeData)
-        {
-            this.initializeData = initializeData;
-
             ServerConfigPathText = initializeData.ServerConfigFilePath;
         }
 
@@ -35,28 +27,25 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
             set
             {
                 SetProperty(ref serverConfigPathText, value);
-                initializeData.ServerConfigFilePath = value;
-                bool canChanged = false;
-                if (!string.IsNullOrEmpty(value)) canChanged = true;
-                OnCanChenged(this, canChanged);
+                InitializeData.ServerConfigFilePath = value;
+                var canChanged = !string.IsNullOrEmpty(value);
+                OnCanChanged(this, canChanged);
             }
         }
         #endregion
 
-        InitializeData initializeData;
-
         public void SelectAndGetFilePath()
         {
-            string filter = LangResources.SetupResource.Filter_XmlFile;
-            string directoryPath = ConstantValues.DefaultDirectoryPath;
-            string filename = FileSelector.GetFilePath(directoryPath, filter, "serverconfig.xml", FileSelector.FileSelectorType.Read);
+            var filter = LangResources.SetupResource.Filter_XmlFile;
+            var directoryPath = ConstantValues.DefaultDirectoryPath;
+            var filename = FileSelector.GetFilePath(directoryPath, filter, "serverconfig.xml", FileSelector.FileSelectorType.Read);
 
             if (!string.IsNullOrEmpty(filename))
                 ServerConfigPathText = filename;
         }
         public void AutoSearchAndGetFilePath()
         {
-            string steamPath = string.Empty;
+            string steamPath;
             using (var rKey = Registry.CurrentUser.OpenSubKey(ConstantValues.RegSteamPath))
             {
                 if (rKey == null)
@@ -67,7 +56,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
                 steamPath = (string)rKey.GetValue(ConstantValues.RegSteamKey);
             }
 
-            string filename = GetFileName(steamPath);
+            var filename = GetFileName(steamPath);
 
             if (!string.IsNullOrEmpty(filename))
             {
@@ -75,45 +64,13 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
             }
         }
 
-        private string GetFileName(string steamPath)
+        protected static string GetFileName(string steamPath)
         {
-            string filename = GetFileName(steamPath, ConstantValues.ServerClientPath, ConstantValues.ServerConfigName);
+            var filename = GetFileName(steamPath, ConstantValues.ServerClientPath, ConstantValues.ServerConfigName);
 
             if (string.IsNullOrEmpty(filename))
                 filename = GetFileName(steamPath, ConstantValues.GameClientPath, ConstantValues.ServerConfigName);
 
-            return filename;
-        }
-        private string GetFileName(string steamPath, string target, string name)
-        {
-            string filename = GetSvPath(steamPath + target, name);
-
-            if (string.IsNullOrEmpty(filename))
-            {
-                try
-                {
-                    var slLoader = new SteamLibraryLoader(steamPath + ConstantValues.SteamLibraryPath);
-                    var dirPaths = slLoader.SteamLibraryPathList;
-                    foreach (SteamLibraryPath dirPath in dirPaths)
-                        filename = GetSvPath(dirPath.SteamDirPath + target, name);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
-
-            return filename;
-        }
-        private string GetSvPath(string dirPath, string exeName)
-        {
-            string filename = string.Empty;
-            if (Directory.Exists(dirPath))
-            {
-                var fi = new FileInfo(dirPath + @"\" + exeName);
-                if (fi.Exists)
-                    filename = fi.FullName;
-            }
             return filename;
         }
     }
