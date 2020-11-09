@@ -20,6 +20,7 @@ namespace _7dtd_XmlEditor.Views
         public TreeViewItemInfoBase Source { get; set; }
         public TreeViewItemInfoBase Target { get; set; }
         public MoveableTreeViewBehavior.InsertType Type { get; set; }
+        public bool Handled { get; set; } = false;
     }
 
     public class MoveableTreeViewBehavior : Behavior<TreeView>
@@ -100,7 +101,7 @@ namespace _7dtd_XmlEditor.Views
             if (parentGrid == null || !(targetElement.DataContext is TreeViewItemInfoBase targetElementInfo) || targetElementInfo == sourceItem)
                 return;
 
-            if (targetElementInfo.ContainsParent(sourceItem))
+            if (targetElementInfo.ContainsParent(sourceItem) || targetElementInfo.Parent == null)
                 return;
 
             e.Effects = DragDropEffects.Move;
@@ -140,7 +141,7 @@ namespace _7dtd_XmlEditor.Views
             var sourceItem = (TreeViewItemInfoBase)e.Data.GetData(DataType);
             var targetItem = HitTest<FrameworkElement>(itemsControl, e.GetPosition)?.DataContext as TreeViewItemInfoBase;
 
-            if (targetItem == null || sourceItem == null || sourceItem == targetItem)
+            if (targetItem == null || sourceItem == null || sourceItem == targetItem || targetItem.Parent == null)
                 return;
 
             if (targetItem.ContainsParent(sourceItem))
@@ -148,6 +149,18 @@ namespace _7dtd_XmlEditor.Views
 
             var sourceItemParent = sourceItem.Parent;
             var targetItemParent = targetItem.Parent;
+
+            var arguments = new DropArguments
+            {
+                Source = sourceItem,
+                Target = targetItem,
+                Type = _insertType
+            };
+            DropCommand?.Execute(arguments);
+
+            if (arguments.Handled)
+                return;
+
             RemoveCurrentItem(sourceItemParent, sourceItem);
             switch (_insertType)
             {
@@ -168,13 +181,6 @@ namespace _7dtd_XmlEditor.Views
                     sourceItem.Parent = targetItem;
                     break;
             }
-
-            DropCommand?.Execute(new DropArguments
-            {
-                Source = sourceItem,
-                Target = targetItem,
-                Type = _insertType
-            });
         }
 
         private void OnPreviewMouseMove(object sender, MouseEventArgs e)

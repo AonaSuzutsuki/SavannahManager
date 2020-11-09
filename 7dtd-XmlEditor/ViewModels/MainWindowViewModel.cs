@@ -126,6 +126,7 @@ namespace _7dtd_XmlEditor.ViewModels
             var sourceItem = (TreeViewItemInfo)info.Source;
             var targetItemParent = targetItem.Parent;
             var sourceItemParent = sourceItem.Parent;
+
             if (insertType == MoveableTreeViewBehavior.InsertType.Before)
             {
                 sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
@@ -142,6 +143,10 @@ namespace _7dtd_XmlEditor.ViewModels
                 {
                     sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
                     targetItem.Node.AddChildElement(sourceItem.Node);
+                }
+                else
+                {
+                    info.Handled = true;
                 }
             }
         }
