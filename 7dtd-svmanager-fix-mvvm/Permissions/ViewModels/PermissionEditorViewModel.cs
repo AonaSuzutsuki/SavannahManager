@@ -124,13 +124,25 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
                     GetSteamIdFunc = GetSteamId
                 });
             AdminGroupPermissions = model.AdminGroupPermissions.ToReadOnlyReactiveCollection(m
-                => new AdminPermissionInfoViewModel(m, WindowManageService));
+                => new AdminPermissionInfoViewModel(m, WindowManageService)
+                {
+                    GetSteamIdFunc = GetSteamGroupId
+                });
             WhitelistPermissions = model.WhitelistPermissions.ToReadOnlyReactiveCollection(m
-                => new AdminPermissionInfoViewModel(m, WindowManageService));
+                => new AdminPermissionInfoViewModel(m, WindowManageService)
+                {
+                    GetSteamIdFunc = GetSteamId
+                });
             WhitelistGroupPermissions = model.WhitelistGroupPermissions.ToReadOnlyReactiveCollection(m
-                => new AdminPermissionInfoViewModel(m, WindowManageService));
+                => new AdminPermissionInfoViewModel(m, WindowManageService)
+                {
+                    GetSteamIdFunc = GetSteamGroupId
+                });
             BlacklistPermissions = model.BlacklistPermissions.ToReadOnlyReactiveCollection(m
-                => new BlackListPermissionInfoViewModel(m, WindowManageService));
+                => new BlackListPermissionInfoViewModel(m, WindowManageService)
+                {
+                    GetSteamIdFunc = GetSteamId
+                });
         }
 
         #region Fields
@@ -159,6 +171,11 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
         #region Event Methods
 
         public string GetSteamId()
+        {
+            return "";
+        }
+
+        public string GetSteamGroupId()
         {
             return "";
         }
