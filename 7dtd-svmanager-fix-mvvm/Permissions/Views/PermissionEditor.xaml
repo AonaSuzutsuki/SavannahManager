@@ -215,7 +215,7 @@
                                                                     </i:EventTrigger>
                                                                 </i:Interaction.Triggers>
                                                             </TextBox>
-                                                            <Button Name="GetSteamIdBt" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Style="{StaticResource IconButton}" Command="{Binding GetSteamIdCommand}">
+                                                            <Button Name="GetSteamIdBt" Grid.Column="2" Style="{StaticResource IconButton}" Command="{Binding GetSteamIdCommand}">
                                                                 <Image Source="{StaticResource InformationImage}" Style="{StaticResource IconButtonImage}" />
                                                             </Button>
                                                         </Grid>
@@ -272,13 +272,31 @@
                                             <GridViewColumn Width="200" Header="Steam ID">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
-                                                            <i:Interaction.Triggers>
-                                                                <i:EventTrigger EventName="TextChanged">
-                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
-                                                                </i:EventTrigger>
-                                                            </i:Interaction.Triggers>
-                                                        </TextBox>
+
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition Width="5" />
+                                                                <ColumnDefinition Width="25" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="TextChanged">
+                                                                        <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                            <Button Name="GetSteamIdBt" Grid.Column="2" Style="{StaticResource IconButton}" Command="{Binding GetSteamIdCommand}">
+                                                                <Image Source="{StaticResource InformationImage}" Style="{StaticResource IconButtonImage}" />
+                                                            </Button>
+                                                        </Grid>
+
+                                                        <DataTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="false">
+                                                                <Setter Property="Opacity" Value="0" TargetName="GetSteamIdBt" />
+                                                            </Trigger>
+                                                        </DataTemplate.Triggers>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
@@ -349,13 +367,30 @@
                                             <GridViewColumn Width="200" Header="Steam ID">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
-                                                            <i:Interaction.Triggers>
-                                                                <i:EventTrigger EventName="TextChanged">
-                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
-                                                                </i:EventTrigger>
-                                                            </i:Interaction.Triggers>
-                                                        </TextBox>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition Width="5" />
+                                                                <ColumnDefinition Width="25" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="TextChanged">
+                                                                        <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                            <Button Name="GetSteamIdBt" Grid.Column="2" Style="{StaticResource IconButton}" Command="{Binding GetSteamIdCommand}">
+                                                                <Image Source="{StaticResource InformationImage}" Style="{StaticResource IconButtonImage}" />
+                                                            </Button>
+                                                        </Grid>
+
+                                                        <DataTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="false">
+                                                                <Setter Property="Opacity" Value="0" TargetName="GetSteamIdBt" />
+                                                            </Trigger>
+                                                        </DataTemplate.Triggers>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
@@ -390,13 +425,30 @@
                                             <GridViewColumn Width="200" Header="Steam ID">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
-                                                            <i:Interaction.Triggers>
-                                                                <i:EventTrigger EventName="TextChanged">
-                                                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
-                                                                </i:EventTrigger>
-                                                            </i:Interaction.Triggers>
-                                                        </TextBox>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition Width="5" />
+                                                                <ColumnDefinition Width="25" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="TextChanged">
+                                                                        <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                            <Button Name="GetSteamIdBt" Grid.Column="2" Style="{StaticResource IconButton}" Command="{Binding GetSteamIdCommand}">
+                                                                <Image Source="{StaticResource InformationImage}" Style="{StaticResource IconButtonImage}" />
+                                                            </Button>
+                                                        </Grid>
+
+                                                        <DataTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="false">
+                                                                <Setter Property="Opacity" Value="0" TargetName="GetSteamIdBt" />
+                                                            </Trigger>
+                                                        </DataTemplate.Triggers>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
@@ -427,13 +479,30 @@
                                     <GridViewColumn Width="200" Header="Steam ID">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate DataType="viewModels:BlackListPermissionInfoViewModel">
-                                                <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
-                                                    <i:Interaction.Triggers>
-                                                        <i:EventTrigger EventName="TextChanged">
-                                                            <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
-                                                        </i:EventTrigger>
-                                                    </i:Interaction.Triggers>
-                                                </TextBox>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="5" />
+                                                        <ColumnDefinition Width="25" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="TextChanged">
+                                                                <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </TextBox>
+                                                    <Button Name="GetSteamIdBt" Grid.Column="2" Style="{StaticResource IconButton}" Command="{Binding GetSteamIdCommand}">
+                                                        <Image Source="{StaticResource InformationImage}" Style="{StaticResource IconButtonImage}" />
+                                                    </Button>
+                                                </Grid>
+
+                                                <DataTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="false">
+                                                        <Setter Property="Opacity" Value="0" TargetName="GetSteamIdBt" />
+                                                    </Trigger>
+                                                </DataTemplate.Triggers>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
