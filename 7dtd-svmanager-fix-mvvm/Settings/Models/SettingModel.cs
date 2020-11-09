@@ -53,6 +53,13 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
             }
         }
 
+        private int telnetWaitTime = 2;
+        public int TelnetWaitTime
+        {
+            get => telnetWaitTime;
+            set => SetProperty(ref telnetWaitTime, value);
+        }
+
         private bool isBetaMode = false;
         public bool IsBetaMode
         {
@@ -74,18 +81,14 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
         }
 
 
-        private ShortcutKeyManager shortcutKeyManager;
-        public ShortcutKeyManager ShortcutKeyManager
-        {
-            get => shortcutKeyManager;
-        }
+        public ShortcutKeyManager ShortcutKeyManager { get; }
 
-        private SettingLoader setting;
+        private readonly SettingLoader setting;
 
         public SettingModel(SettingLoader setting, ShortcutKeyManager shortcutKeyManager)
         {
             this.setting = setting;
-            this.shortcutKeyManager = shortcutKeyManager;
+            this.ShortcutKeyManager = shortcutKeyManager;
 
             if (setting != null)
             {
@@ -94,6 +97,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
                 AdminFilePath = setting.AdminFilePath;
                 IsLogGetter = setting.IsLogGetter;
                 ConsoleLength = setting.ConsoleTextLength;
+                TelnetWaitTime = setting.TelnetWaitTime;
                 IsBetaMode = setting.IsBetaMode;
                 IsAutoUpdate = setting.IsAutoUpdate;
                 BackupDirPath = setting.BackupDirPath;
@@ -109,6 +113,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
                 setting.AdminFilePath = AdminFilePath;
                 setting.IsLogGetter = IsLogGetter;
                 setting.ConsoleTextLength = consoleLength;
+                setting.TelnetWaitTime = TelnetWaitTime;
                 setting.IsBetaMode = IsBetaMode;
                 setting.IsAutoUpdate = IsAutoUpdate;
                 setting.BackupDirPath = BackupDirPath;

@@ -278,6 +278,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CommonResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="LangResources\ToolsResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ToolsResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="LangResources\ToolsResource.en-US.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ToolsResource.en-US.resx</DependentUpon>
+    </Compile>
     <Compile Include="LangResources\VersionInfoResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -294,6 +304,7 @@
     <Compile Include="Models\PortChecker.cs" />
     <Compile Include="Models\PortCheckModel.cs" />
     <Compile Include="Models\ServerProcessManager.cs" />
+    <Compile Include="Models\TelnetWaitTimeCalculatorModel.cs" />
     <Compile Include="Models\VersionInfoModel.cs" />
     <Compile Include="PlayerController\Models\Pages\AdminAddModel.cs" />
     <Compile Include="PlayerController\Models\Pages\BanModel.cs" />
@@ -421,6 +432,7 @@
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\PortCheckViewModel.cs" />
+    <Compile Include="ViewModels\TelnetWaitTimeCalculatorViewModel.cs" />
     <Compile Include="ViewModels\VersionInfoViewModel.cs" />
     <Compile Include="Views\ForceShutdowner.xaml.cs">
       <DependentUpon>ForceShutdowner.xaml</DependentUpon>
@@ -431,6 +443,9 @@
     <Compile Include="Views\NumTextBehavior.cs" />
     <Compile Include="Views\PortCheck.xaml.cs">
       <DependentUpon>PortCheck.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TelnetWaitTimeCalculator.xaml.cs">
+      <DependentUpon>TelnetWaitTimeCalculator.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VersionInfo.xaml.cs">
       <DependentUpon>VersionInfo.xaml</DependentUpon>
@@ -444,6 +459,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PortCheck.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TelnetWaitTimeCalculator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -496,6 +515,14 @@
     <EmbeddedResource Include="LangResources\SetupResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SetupResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LangResources\ToolsResource.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ToolsResource.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LangResources\ToolsResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ToolsResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="LangResources\UpdResources.en-US.resx" />
     <EmbeddedResource Include="LangResources\UpdResources.resx">

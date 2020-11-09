@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using CommonExtensionLib.Extensions;
@@ -15,7 +17,7 @@ namespace SvManagerLibrary.Telnet
         public override string ToString() => Text.ToString();
     }
 
-    public class LogCollection
+    public class LogCollection : IEnumerable<StringInfo>
     {
         private LinkedList<StringInfo> list = new LinkedList<StringInfo>();
 
@@ -71,7 +73,58 @@ namespace SvManagerLibrary.Telnet
                 return info.ToString();
             }
 
-            return null;
+            return string.Empty;
+        }
+
+        public string GetFirstNoneRemove()
+        {
+            var info = list.First?.Value;
+            if (info != null && info.EndLine)
+            {
+                return info.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        public string GetLastNoneRemove()
+        {
+            var info = list.Last?.Value;
+            if (info != null && info.EndLine)
+            {
+                return info.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        public IEnumerable<StringInfo> ReversEnumerable()
+        {
+            var reverse = new List<StringInfo>(this.list);
+            reverse.Reverse();
+            return reverse;
+        }
+
+        public IEnumerator<StringInfo> GetEnumerator()
+        {
+            return list.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            foreach (var stringInfo in list)
+            {
+                var end = stringInfo.EndLine ? "\n" : "";
+                sb.Append($"{stringInfo}{end}");
+            }
+
+            return sb.ToString();
         }
     }
 }
