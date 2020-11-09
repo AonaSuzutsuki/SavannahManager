@@ -1,52 +1,58 @@
-﻿using CommonStyleLib.ExMessageBox;
-using CommonStyleLib.File;
+﻿using CommonStyleLib.File;
 using Microsoft.Win32;
 using Prism.Mvvm;
 using SvManagerLibrary.SteamLibrary;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CommonStyleLib.ExMessageBox;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.Models
 {
-    public class Page2Model : BindableBase
+    public class ConfigPageModel : BindableBase
     {
-
         public event CanChangedEventHandler CanChenged;
         private void OnCanChenged(object sender, bool canChanged)
         {
             CanChenged?.Invoke(sender, new CanChangedEventArgs(canChanged));
         }
 
-        public Page2Model(InitializeData initializeData)
+        public ConfigPageModel(InitializeData initializeData)
         {
             this.initializeData = initializeData;
 
-            ServerFilePathText = initializeData.ServerFilePath;
+            ServerConfigPathText = initializeData.ServerConfigFilePath;
         }
 
-        private string serverFilePathText = string.Empty;
-        public string ServerFilePathText
+        #region PropertiesForViewModel
+        private string serverConfigPathText = string.Empty;
+        public string ServerConfigPathText
         {
-            get => serverFilePathText;
+            get => serverConfigPathText;
             set
             {
-                SetProperty(ref serverFilePathText, value);
-                initializeData.ServerFilePath = value;
-                var canChanged = !string.IsNullOrEmpty(value);
+                SetProperty(ref serverConfigPathText, value);
+                initializeData.ServerConfigFilePath = value;
+                bool canChanged = false;
+                if (!string.IsNullOrEmpty(value)) canChanged = true;
                 OnCanChenged(this, canChanged);
             }
         }
+        #endregion
 
-        private InitializeData initializeData;
+        InitializeData initializeData;
 
         public void SelectAndGetFilePath()
         {
-            string filter = LangResources.SetupResource.Filter_ExcutableFile;
+            string filter = LangResources.SetupResource.Filter_XmlFile;
             string directoryPath = ConstantValues.DefaultDirectoryPath;
-            string filename = FileSelector.GetFilePath(directoryPath, filter, "7DaysToDieServer.exe", FileSelector.FileSelectorType.Read);
+            string filename = FileSelector.GetFilePath(directoryPath, filter, "serverconfig.xml", FileSelector.FileSelectorType.Read);
 
             if (!string.IsNullOrEmpty(filename))
-                ServerFilePathText = filename;
+                ServerConfigPathText = filename;
         }
         public void AutoSearchAndGetFilePath()
         {
@@ -63,15 +69,18 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
 
             string filename = GetFileName(steamPath);
 
-            if (!string.IsNullOrEmpty(filename)) { ServerFilePathText = filename; }
+            if (!string.IsNullOrEmpty(filename))
+            {
+                ServerConfigPathText = filename;
+            }
         }
 
         private string GetFileName(string steamPath)
         {
-            string filename = GetFileName(steamPath, ConstantValues.ServerClientPath, ConstantValues.ServerClientName);
+            string filename = GetFileName(steamPath, ConstantValues.ServerClientPath, ConstantValues.ServerConfigName);
 
             if (string.IsNullOrEmpty(filename))
-                filename = GetFileName(steamPath, ConstantValues.GameClientPath, ConstantValues.GameClientName);
+                filename = GetFileName(steamPath, ConstantValues.GameClientPath, ConstantValues.ServerConfigName);
 
             return filename;
         }

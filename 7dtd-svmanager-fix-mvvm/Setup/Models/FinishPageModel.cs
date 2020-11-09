@@ -7,7 +7,7 @@ using Prism.Mvvm;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.Models
 {
-    public class Page4Model : BindableBase
+    public class FinishPageModel : BindableBase
     {
         #region Fields
 
@@ -15,7 +15,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
 
         #endregion
 
-        public Page4Model(InitializeData initializeData)
+        public FinishPageModel(InitializeData initializeData)
         {
             _initializeData = initializeData;
         }

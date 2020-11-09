@@ -9,10 +9,10 @@ using System.Windows.Input;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
-    public class Page3ViewModel : NavigationPageViewModelBase
+    public class ConfigPageViewModel : NavigationPageViewModelBase
     {
-        Page3Model model;
-        public Page3ViewModel(NavigationWindowService<InitializeData> bindableValue, Page3Model model) : base(bindableValue?.NavigationValue)
+        ConfigPageModel model;
+        public ConfigPageViewModel(NavigationWindowService<InitializeData> bindableValue, ConfigPageModel model) : base(bindableValue?.NavigationValue)
         {
             this.model = model;
 

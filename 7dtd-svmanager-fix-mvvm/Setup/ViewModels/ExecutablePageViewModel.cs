@@ -9,9 +9,9 @@ using CommonStyleLib.ViewModels;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
-    public class Page2ViewModel : NavigationPageViewModelBase
+    public class ExecutablePageViewModel : NavigationPageViewModelBase
     {
-        public Page2ViewModel(NavigationWindowService<InitializeData> bindableValue, Page2Model model) : base(bindableValue?.NavigationValue)
+        public ExecutablePageViewModel(NavigationWindowService<InitializeData> bindableValue, ExecutablePageModel model) : base(bindableValue?.NavigationValue)
         {
             this.model = model;
 
@@ -26,7 +26,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         public ICommand GetPathCommand { get; set; }
         public ICommand AutoSearchCommand { get; set; }
 
-        private Page2Model model;
+        private ExecutablePageModel model;
 
         public void GetPathBt_Click()
         {

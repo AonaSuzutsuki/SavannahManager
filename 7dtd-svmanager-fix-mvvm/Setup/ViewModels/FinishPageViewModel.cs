@@ -8,9 +8,9 @@ using _7dtd_svmanager_fix_mvvm.Setup.Models;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
-    public class Page4ViewModel : NavigationPageViewModelBase
+    public class FinishPageViewModel : NavigationPageViewModelBase
     {
-        public Page4ViewModel(NavigationWindowService<InitializeData> bindableValue, Page4Model model) : base(bindableValue?.NavigationValue)
+        public FinishPageViewModel(NavigationWindowService<InitializeData> bindableValue, FinishPageModel model) : base(bindableValue?.NavigationValue)
         {
             _model = model;
 
@@ -19,7 +19,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 
         #region Fields
 
-        private Page4Model _model;
+        private FinishPageModel _model;
 
         #endregion
 

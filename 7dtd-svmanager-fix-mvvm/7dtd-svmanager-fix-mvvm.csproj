@@ -219,23 +219,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Setup\Views\AdminPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Setup\Views\NavigationBase.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Setup\Views\Page1.xaml">
+    <Page Include="Setup\Views\FirstPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Setup\Views\Page2.xaml">
+    <Page Include="Setup\Views\ExecutablePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Setup\Views\Page3.xaml">
+    <Page Include="Setup\Views\ConfigPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Setup\Views\Page4.xaml">
+    <Page Include="Setup\Views\FinishPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -360,30 +364,33 @@
     </Compile>
     <Compile Include="Setup\CanChangedEventHandler.cs" />
     <Compile Include="Setup\Models\InitializeData.cs" />
-    <Compile Include="Setup\Models\Page2Model.cs" />
-    <Compile Include="Setup\Models\Page3Model.cs" />
-    <Compile Include="Setup\Models\Page4Model.cs" />
+    <Compile Include="Setup\Models\ExecutablePageModel.cs" />
+    <Compile Include="Setup\Models\ConfigPageModel.cs" />
+    <Compile Include="Setup\Models\FinishPageModel.cs" />
     <Compile Include="Setup\ViewModels\INavigationRefresh.cs" />
     <Compile Include="Setup\ViewModels\NavigationBaseViewModel.cs" />
     <Compile Include="Setup\ViewModels\NavigationPageViewModelBase.cs" />
-    <Compile Include="Setup\ViewModels\Page1ViewModel.cs" />
-    <Compile Include="Setup\ViewModels\Page2ViewModel.cs" />
-    <Compile Include="Setup\ViewModels\Page3ViewModel.cs" />
-    <Compile Include="Setup\ViewModels\Page4ViewModel.cs" />
+    <Compile Include="Setup\ViewModels\FirstPageViewModel.cs" />
+    <Compile Include="Setup\ViewModels\ExecutablePageViewModel.cs" />
+    <Compile Include="Setup\ViewModels\ConfigPageViewModel.cs" />
+    <Compile Include="Setup\ViewModels\FinishPageViewModel.cs" />
+    <Compile Include="Setup\Views\AdminPage.xaml.cs">
+      <DependentUpon>AdminPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Setup\Views\NavigationBase.xaml.cs">
       <DependentUpon>NavigationBase.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Setup\Views\Page1.xaml.cs">
-      <DependentUpon>Page1.xaml</DependentUpon>
+    <Compile Include="Setup\Views\FirstPage.xaml.cs">
+      <DependentUpon>FirstPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Setup\Views\Page2.xaml.cs">
-      <DependentUpon>Page2.xaml</DependentUpon>
+    <Compile Include="Setup\Views\ExecutablePage.xaml.cs">
+      <DependentUpon>ExecutablePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Setup\Views\Page3.xaml.cs">
-      <DependentUpon>Page3.xaml</DependentUpon>
+    <Compile Include="Setup\Views\ConfigPage.xaml.cs">
+      <DependentUpon>ConfigPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Setup\Views\Page4.xaml.cs">
-      <DependentUpon>Page4.xaml</DependentUpon>
+    <Compile Include="Setup\Views\FinishPage.xaml.cs">
+      <DependentUpon>FinishPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConstantValues.cs" />
     <Compile Include="LangResources\CmdListResources.Designer.cs">

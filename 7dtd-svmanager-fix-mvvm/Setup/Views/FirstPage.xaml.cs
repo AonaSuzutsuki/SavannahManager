@@ -12,22 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using _7dtd_svmanager_fix_mvvm.Models;
 using _7dtd_svmanager_fix_mvvm.Setup.Models;
 using _7dtd_svmanager_fix_mvvm.Setup.ViewModels;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.Views
 {
     /// <summary>
-    /// Page4.xaml の相互作用ロジック
+    /// FirstPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class Page4 : UserControl
+    public partial class FirstPage : UserControl
     {
-        public Page4(NavigationWindowService<InitializeData> service)
+        public FirstPage(NavigationWindowService<InitializeData> service)
         {
             InitializeComponent();
 
-            DataContext = new Page4ViewModel(service, new Page4Model(service.Share));
+            DataContext = new FirstPageViewModel(service);
         }
     }
 }

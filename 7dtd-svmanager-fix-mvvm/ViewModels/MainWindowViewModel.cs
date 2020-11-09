@@ -387,10 +387,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                     },
                     Pages = new List<Tuple<Type, bool>>
                     {
-                        new Tuple<Type, bool>(typeof(Page1), true),
-                        new Tuple<Type, bool>(typeof(Page2), true),
-                        new Tuple<Type, bool>(typeof(Page3), true),
-                        new Tuple<Type, bool>(typeof(Page4), true)
+                        new Tuple<Type, bool>(typeof(FirstPage), true),
+                        new Tuple<Type, bool>(typeof(ExecutablePage), true),
+                        new Tuple<Type, bool>(typeof(ConfigPage), true),
+                        new Tuple<Type, bool>(typeof(FinishPage), true)
                     }
                 };
                 service.NavigationValue.WindowTitle = LangResources.SetupResource.UI_NameLabel;

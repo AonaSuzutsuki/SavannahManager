@@ -18,17 +18,17 @@ using _7dtd_svmanager_fix_mvvm.Setup.ViewModels;
 namespace _7dtd_svmanager_fix_mvvm.Setup.Views
 {
     /// <summary>
-    /// Page2.xaml の相互作用ロジック
+    /// ConfigPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class Page2 : UserControl
+    public partial class ConfigPage : UserControl
     {
-        public Page2(NavigationWindowService<InitializeData> service)
+        public ConfigPage(NavigationWindowService<InitializeData> service)
         {
             InitializeComponent();
 
-            var model = new Page2Model(service.Share);
+            var model = new ConfigPageModel(service.Share);
             model.CanChenged += Model_CanChenged;
-            DataContext = new ViewModels.Page2ViewModel(service, model);
+            DataContext = new ViewModels.ConfigPageViewModel(service, model);
         }
 
         private void Model_CanChenged(object sender, CanChangedEventArgs e)
