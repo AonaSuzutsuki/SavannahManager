@@ -2,6 +2,10 @@
 <updates>
   <update version="2.4.39.0">
     1. Fixed an issue where the focus would shift to another application when closing the update screen.
+    2. Fixed internal process for creating TelnetClient.
+    3. Changed to specify a separate timeout period for telnet logging.
+    4. Fixed an issue processing of player and time acquisition.
+      4.1. This solves the issue of output to the central log, such as player and time acquisition.
   </update>
   <update version="2.3.38.4">
     1. Fixed an issue where getting a player or time would not work properly.

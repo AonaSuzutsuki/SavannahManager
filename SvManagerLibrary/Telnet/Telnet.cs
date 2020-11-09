@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,6 +11,13 @@ namespace SvManagerLibrary.Telnet
 
     public class TelnetClient : IDisposable, ITelnetClient
     {
+        public enum BreakLineType
+        {
+            Cr,
+            Lf,
+            CrLf,
+        }
+
         #region StaticMember
         /// <summary>
         /// Carriage Return.
@@ -51,12 +60,30 @@ namespace SvManagerLibrary.Telnet
         /// <summary>
         /// Get or Set Receiving Time Out Time (millisecond).
         /// </summary>
-        public int ReceiveTimeout { set; get; } = 5000;
+        public int ReceiveTimeout { get; set; } = 5000;
 
         /// <summary>
         /// Get or Set Receiving Buffer Size.
         /// </summary>
-        public int ReceiveBufferSize { set; get; } = 10240;
+        public int ReceiveBufferSize { get; set; } = 10240;
+
+        public int TelnetEventWaitTime { get; set; } = 2000;
+
+        public BreakLineType BreakLine { get; set; } = BreakLineType.CrLf;
+
+        public byte[] BreakLineData
+        {
+            get
+            {
+                return BreakLine switch
+                {
+                    BreakLineType.Cr => Cr,
+                    BreakLineType.Lf => Lf,
+                    BreakLineType.CrLf => Crlf,
+                    _ => Crlf,
+                };
+            }
+        }
 
         /// <summary>
         /// Get or Set Sending and Receiving text encoding.
@@ -77,10 +104,22 @@ namespace SvManagerLibrary.Telnet
         }
 
         private bool destructionEvent;
+        private ITelnetSocket clientSocket;
 
-        private Socket clientSocket;
+        public TelnetClient()
+        {
+            clientSocket = new TelnetSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
+            {
+                ReceiveTimeout = ReceiveTimeout,
+                ReceiveBufferSize = ReceiveBufferSize
+            };
+        }
+        public TelnetClient(ITelnetSocket socket)
+        {
+            clientSocket = socket;
+        }
 
-        private void LockAction(Action<Socket> action)
+        private void LockAction(Action<ITelnetSocket> action)
         {
             if (clientSocket == null) return;
             lock (clientSocket)
@@ -89,7 +128,7 @@ namespace SvManagerLibrary.Telnet
             }
         }
 
-        private T LockFunction<T>(Func<Socket, T> func)
+        private T LockFunction<T>(Func<ITelnetSocket, T> func)
         {
             if (clientSocket == null) return default;
             lock (clientSocket)
@@ -100,13 +139,6 @@ namespace SvManagerLibrary.Telnet
 
         public bool Connect(string address, int port)
         {
-            _disposedValue = false;
-            clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
-            {
-                ReceiveTimeout = ReceiveTimeout,
-                ReceiveBufferSize = ReceiveBufferSize
-            };
-
             try
             {
                 clientSocket.Connect(address, port);
@@ -119,7 +151,6 @@ namespace SvManagerLibrary.Telnet
             }
             catch
             {
-                clientSocket = null;
                 return false;
             }
         }
@@ -133,19 +164,17 @@ namespace SvManagerLibrary.Telnet
                 {
                     if (!destructionEvent)
                     {
-                        var _log = Read()?.TrimEnd('\0');
-                        logCollection.Append(_log);
+                        var temp = Read()?.TrimEnd('\0');
+                        logCollection.Append(temp);
 
                         var log = logCollection.GetFirst();
 
-                        if (log != null)
+                        if (!string.IsNullOrEmpty(log))
                             OnRead(new TelnetReadEventArgs() { IpAddress = end.Address.ToString(), Log = $"{log}\n" });
                     }
 
                     Thread.Sleep(10);
                 }
-
-                LockAction(socket => clientSocket = null);
                 OnFinished(new TelnetReadEventArgs() { IpAddress = end.Address.ToString() });
             });
         }
@@ -154,7 +183,7 @@ namespace SvManagerLibrary.Telnet
         {
             return LockFunction((socket) =>
             {
-                if (socket == null) return null;
+                if (socket == null) return string.Empty;
                 if (!Connected) return string.Empty;
                 if (socket.Available <= 0) return string.Empty;
 
@@ -172,21 +201,89 @@ namespace SvManagerLibrary.Telnet
             destructionEvent = true;
 
             WriteLine(cmd);
-            var counter = new TelnetCounter();
-            var log = "";
+            var counter = new TelnetWaiter
+            {
+                MaxMilliseconds = TelnetEventWaitTime
+            };
+
+            var logCollection = new LogCollection();
             while (counter.CanLoop)
             {
-                log = Read().TrimEnd('\0');
-                if (!string.IsNullOrEmpty(log))
+                var log = Read().TrimEnd('\0');
+                logCollection.Append(log);
+
+                Console.WriteLine(logCollection.ToString());
+
+                if (!string.IsNullOrEmpty(logCollection.GetFirstNoneRemove()))
                     break;
 
                 counter.Next();
-                Thread.Sleep(100);
             }
 
             destructionEvent = false;
 
-            return log;
+            return logCollection.ToString();
+        }
+
+        public string DestructionEventRead(string cmd, string expressionForLast)
+        {
+            static bool IsMatch(LogCollection logCollection, string expression)
+            {
+                var regex = new Regex(expression);
+                return logCollection.ReversEnumerable().Select(log => regex.Match(log.ToString())).Any(match => match.Success);
+            }
+
+            destructionEvent = true;
+
+            WriteLine(cmd);
+            var counter = new TelnetWaiter
+            {
+                MaxMilliseconds = TelnetEventWaitTime
+            };
+
+            var logCollection = new LogCollection();
+            while (counter.CanLoop)
+            {
+                var log = Read().TrimEnd('\0');
+                logCollection.Append(log);
+
+                if (IsMatch(logCollection, expressionForLast))
+                    break;
+
+                counter.Next();
+            }
+
+            destructionEvent = false;
+
+            return logCollection.ToString();
+        }
+
+        public int CalculateWaitTime(int maxMilliseconds = 10000)
+        {
+            destructionEvent = true;
+
+            WriteLine("gt");
+            var counter = new TelnetWaiter
+            {
+                MaxMilliseconds = maxMilliseconds
+            };
+
+            var logCollection = new LogCollection();
+            while (counter.CanLoop)
+            {
+                var log = Read().TrimEnd('\0');
+                logCollection.Append(log);
+                Console.WriteLine(logCollection.ToString());
+
+                if (!string.IsNullOrEmpty(logCollection.GetFirstNoneRemove()))
+                    break;
+
+                counter.Next();
+            }
+
+            destructionEvent = false;
+
+            return counter.Count;
         }
 
         /// <summary>
@@ -234,14 +331,13 @@ namespace SvManagerLibrary.Telnet
         /// <returns>Length of sent byte</returns>
         public int WriteLine(byte[] data)
         {
-            var sendByte = clientSocket.Send(data, data.Length, SocketFlags.None);
-
-            clientSocket.Send(Crlf, Crlf.Length, SocketFlags.None);
+            var concat = data.Concat(BreakLineData).ToArray();
+            var sendByte = clientSocket.Send(concat, concat.Length, SocketFlags.None);
 
             return sendByte;
         }
 
-        #region IDisposable Support
+#region IDisposable Support
         private bool _disposedValue = false;
         protected virtual void Dispose(bool disposing)
         {
@@ -251,10 +347,13 @@ namespace SvManagerLibrary.Telnet
             {
                 LockAction((socket) =>
                 {
-                    if (socket == null) return;
-                    socket.Shutdown(SocketShutdown.Both);
-                    socket.Disconnect(false);
-                    socket.Dispose();
+                    if (socket != null && socket.Connected)
+                    {
+                        socket.Shutdown(SocketShutdown.Both);
+                        socket.Disconnect(false);
+                        socket.Dispose();
+                    }
+
                     clientSocket = null;
                 });
             }
@@ -275,6 +374,6 @@ namespace SvManagerLibrary.Telnet
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        #endregion
+#endregion
     }
 }

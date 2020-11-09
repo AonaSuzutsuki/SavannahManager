@@ -22,6 +22,8 @@ namespace SvManagerLibrary.Telnet
         Task HandleTcp(IPEndPoint end);
         string Read();
         string DestructionEventRead(string cmd);
+        string DestructionEventRead(string cmd, string expressionForLast);
+        int CalculateWaitTime(int maxMilliseconds = 10000);
         int Write(byte[] data);
         int Write(string cmd);
         int WriteLine(byte[] data);

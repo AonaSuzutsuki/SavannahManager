@@ -203,7 +203,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private string ConfigFilePath => Setting.ConfigFilePath;
         private string AdminFilePath => Setting.AdminFilePath;
 
-        private int consoleTextLength;
+        public int ConsoleTextLength { get; private set; }
 
         public TelnetClient Telnet { get; private set; }
         public LogStream LoggingStream { get; } = new LogStream();
@@ -223,11 +223,22 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         #endregion
 
+        #region Event
+
+        private readonly Subject<TelnetClient.TelnetReadEventArgs> telnetStartedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetStarted => telnetStartedSubject;
+
+        private readonly Subject<TelnetClient.TelnetReadEventArgs> telnetFinishedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetFinished => telnetFinishedSubject;
+
+        private readonly Subject<TelnetClient.TelnetReadEventArgs> telnetReadSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetRead => telnetReadSubject;
+
+        #endregion
+
 
         public MainWindowModel()
         {
-            Telnet = new TelnetClient();
-
             Setting = SettingLoader.SettingInstance;
             ShortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
                 ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
@@ -259,11 +270,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             PortText = Setting.Port.ToString();
             Password = Setting.Password;
 
+            ConsoleTextLength = Setting.ConsoleTextLength;
+
             LoggingStream.IsLogGetter = Setting.IsLogGetter;
             LocalMode = Setting.LocalMode;
             StartBtEnabled = LocalMode;
-
-            consoleTextLength = Setting.ConsoleTextLength;
 
             IsBeta = Setting.IsBetaMode;
         }
@@ -359,6 +370,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             BottomNewsLabel = LangResources.Resources.UI_WaitingServer;
             base.SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
 
+            Telnet = GenerateTelnetClient(this);
             var tasks = Task.Factory.StartNew(() =>
             {
                 IsTelnetLoading = true;
@@ -367,15 +379,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     if (isServerForceStop)
                     {
                         TelnetBtIsEnabled = true;
-                        TelnetBtLabel = LangResources.Resources.UI_ConnectWithTelnet;
-                        StartBtEnabled = true;
-                        LocalModeEnabled = true;
-                        ConnectionPanelIsEnabled = !LocalMode;
                         BottomNewsLabel = LangResources.Resources.UI_ReadyComplete;
                         AroundBorderColor = CommonStyleLib.ConstantValues.ActivatedBorderColor;
 
                         IsTelnetLoading = false;
                         isServerForceStop = false;
+
+                        TelnetFinish();
                         break;
                     }
 
@@ -464,7 +474,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!IsConnected)
             {
-                _ = TelnetConnect();
+                _ = TelnetConnect().ContinueWith((task) =>
+                {
+                    var innerExceptions = task.Exception?.InnerExceptions;
+                    if (innerExceptions != null)
+                    {
+                        foreach (var exception in innerExceptions)
+                        {
+                            App.ShowAndWriteException(exception);
+                        }
+                    }
+                }, TaskContinuationOptions.OnlyOnFaulted);
             }
             else
             {
@@ -500,6 +520,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             StartBtEnabled = false;
             TelnetBtIsEnabled = false;
+            Telnet = GenerateTelnetClient(this);
             var connected = await Task.Factory.StartNew(() => Telnet.Connect(localAddress, localPort));
             TelnetBtIsEnabled = true;
             if (LocalMode)
@@ -529,6 +550,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     FeedColorChange(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
                     FeedColorChange(CommonStyleLib.ConstantValues.ActivatedBorderColor);
                 });
+                TelnetFinish();
             }
         }
         private void TelnetDisconnect()
@@ -541,11 +563,22 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             {
 
             }
-            Telnet.Dispose();
 
             TelnetFinish();
 
             PlayerClean();
+        }
+
+        private static TelnetClient GenerateTelnetClient(MainWindowModel model)
+        {
+            var telnet = new TelnetClient
+            {
+                TelnetEventWaitTime = model.Setting.TelnetWaitTime
+            };
+            telnet.Started += (sender, args) => model.telnetStartedSubject.OnNext(args);
+            telnet.Finished += (sender, args) => model.telnetFinishedSubject.OnNext(args);
+            telnet.ReadEvent += (sender, args) => model.telnetReadSubject.OnNext(args);
+            return telnet;
         }
 
         public void TelnetFinish()
@@ -558,27 +591,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             StartBtEnabled = LocalMode;
 
             LoggingStream.StreamDisposer();
+            Telnet?.Dispose();
+            Telnet = null;
         }
 
-        //private void TelnetDispose()
-        //{
-        //    Telnet.Dispose();
-
-        //    isStop = false;
-        //    IsConnected = false;
-        //    PlayerClean();
-
-        //    TelnetBTLabel = LangResources.Resources.UI_ConnectWithTelnet;
-        //    LocalModeEnabled = true;
-        //    ConnectionPanelIsEnabled = !LocalMode;
-        //    StartBTEnabled = LocalMode;
-
-        //    LoggingStream.StreamDisposer();
-        //}
-
-        //
-        // チャット
-        //
         public void AddChatText(string text)
         {
             chatArray.AddMultiLine(text);
@@ -640,23 +656,23 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var pDict = playersDictionary;
             var keys = connectedIds;
 
-            StringReader sr = new StringReader(log);
+            var sr = new StringReader(log);
             while (sr.Peek() > -1)
             {
                 //2017-04-20T00:01:57 11679.923 INF Player disconnected: EntityID=171, PlayerID='76561198010715714', OwnerID='76561198010715714', PlayerName='Aona Suzutsuki'
                 const string expression = "(?<date>.*?) (?<number>.*?) INF Player disconnected: EntityID=(?<entityid>.*?), PlayerID='(?<steamid>.*?)', OwnerID='(?<ownerid>.*?)', PlayerName='(?<name>.*?)'$";
                 var reg = new Regex(expression);
 
-                var match = reg.Match(sr.ReadLine());
-                if (match.Success == true)
+                var match = reg.Match(sr.ReadLine() ?? string.Empty);
+                if (match.Success)
                 {
-                    int id = match.Groups["entityid"].Value.ToInt();
+                    var id = match.Groups["entityid"].Value.ToInt();
                     pDict.Remove(id);
                     keys.Remove(id);
                 }
             }
-            var listdatas = new ObservableCollection<ViewModels.UserDetail>(pDict.Values);
-            UsersList = listdatas;
+            var collection = new ObservableCollection<UserDetail>(pDict.Values);
+            UsersList = collection;
         }
         public void PlayerClean()
         {
@@ -717,7 +733,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 consoleTextAppended.OnNext(new AppendedLogTextEventArgs()
                 {
                     AppendedLogText = text,
-                    MaxLength = consoleTextLength
+                    MaxLength = ConsoleTextLength
                 });
             }
         }
@@ -729,7 +745,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             SocTelnetSendNRT(cmd);
         }
-        private bool CheckConnected()
+        public bool CheckConnected()
         {
             if (IsConnected)
                 return true;
@@ -749,7 +765,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             SocTelnetSendDirect(cmd);
             Thread.Sleep(100);
-            string log = Telnet.Read().TrimEnd('\0');
+            var log = Telnet.Read().TrimEnd('\0');
             log += Telnet.Read().TrimEnd('\0');
 
             return log;
@@ -882,6 +898,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (disposing)
             {
                 Telnet?.Dispose();
+                telnetFinishedSubject?.Dispose();
+                telnetStartedSubject?.Dispose();
+                telnetFinishedSubject?.Dispose();
                 Setting.Save();
             }
 
