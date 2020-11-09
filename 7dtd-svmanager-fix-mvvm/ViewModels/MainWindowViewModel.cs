@@ -642,7 +642,14 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void OpenPermissionEditor()
         {
-            var vm = new PermissionEditorViewModel(new WindowService(), new PermissionEditorModel());
+            var adminFilePath = _model.Setting.AdminFilePath;
+            if (string.IsNullOrEmpty(adminFilePath))
+            {
+                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_Empty, "AdminFilePath"),
+                    LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                return;
+            }
+            var vm = new PermissionEditorViewModel(new WindowService(), new PermissionEditorModel(adminFilePath));
             WindowManageService.ShowNonOwner<PermissionEditor>(vm);
         }
 

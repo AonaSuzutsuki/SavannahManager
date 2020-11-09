@@ -111,9 +111,9 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
         #endregion
 
-        public PermissionEditorModel()
+        public PermissionEditorModel(string adminFilePath)
         {
-            var path = @"C:\Users\rvv\AppData\Roaming\7DaysToDie\Saves\serveradmin.xml";
+            var path = adminFilePath;
             var reader = new SavannahXmlReader(path);
             var cmdPermissions = LoadCommand(reader);
             var (adminPlayers, adminGroups) = LoadAdmin(reader);
