@@ -615,7 +615,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void OpenTelnetWaitTimeCalculator()
         {
-            var model = new TelnetWaitTimeCalculatorModel(_model);
+            if (!_model.CheckConnected())
+                return;
+
+            var model = new TelnetWaitTimeCalculatorModel(_model.Telnet, _model.Setting);
             var vm = new TelnetWaitTimeCalculatorViewModel(new WindowService(), model);
             WindowManageService.ShowDialog<TelnetWaitTimeCalculator>(vm);
         }

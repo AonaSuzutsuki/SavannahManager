@@ -22,15 +22,15 @@ namespace SvManagerLibrary.Telnet
         /// <summary>
         /// Carriage Return.
         /// </summary>
-        private static byte[] Cr { get; } = { 0x0D };
+        public static byte[] Cr { get; } = { 0x0D };
         /// <summary>
         /// Line Feed.
         /// </summary>
-        private static byte[] Lf { get; } = { 0x0A };
+        public static byte[] Lf { get; } = { 0x0A };
         /// <summary>
         /// Carriage Return & Line Feed.
         /// </summary>
-        private static byte[] Crlf { get; } = { 0x0D, 0x0A };
+        public static byte[] Crlf { get; } = { 0x0D, 0x0A };
         #endregion
 
         #region ReadedEvent
@@ -164,12 +164,12 @@ namespace SvManagerLibrary.Telnet
                 {
                     if (!destructionEvent)
                     {
-                        var _log = Read()?.TrimEnd('\0');
-                        logCollection.Append(_log);
+                        var temp = Read()?.TrimEnd('\0');
+                        logCollection.Append(temp);
 
                         var log = logCollection.GetFirst();
 
-                        if (log != null)
+                        if (!string.IsNullOrEmpty(log))
                             OnRead(new TelnetReadEventArgs() { IpAddress = end.Address.ToString(), Log = $"{log}\n" });
                     }
 
@@ -183,7 +183,7 @@ namespace SvManagerLibrary.Telnet
         {
             return LockFunction((socket) =>
             {
-                if (socket == null) return null;
+                if (socket == null) return string.Empty;
                 if (!Connected) return string.Empty;
                 if (socket.Available <= 0) return string.Empty;
 

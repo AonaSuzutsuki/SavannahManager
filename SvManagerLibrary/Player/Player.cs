@@ -10,7 +10,7 @@ namespace SvManagerLibrary.Player
             TelnetException.CheckTelnetClient(telnet);
 
             var players = new List<PlayerInfo>();
-            var log = telnet.DestructionEventRead("lp");
+            var log = telnet.DestructionEventRead("lp", "Total of [0-9]+ in the game");
             if (!string.IsNullOrEmpty(log))
                 players.Add(log);
 
