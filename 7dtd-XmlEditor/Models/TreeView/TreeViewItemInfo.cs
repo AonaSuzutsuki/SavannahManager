@@ -20,7 +20,7 @@ using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_XmlEditor.Models.TreeView
 {
-    public class TreeViewItemInfo : BindableBase
+    public class TreeViewItemInfo : TreeViewItemInfoBase
     {
         #region Constants
 
@@ -37,53 +37,31 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         #endregion
 
-        private string name = string.Empty;
         private string tagName = string.Empty;
 
-        private bool isExpanded;
-        private bool isSelected;
         private bool isTextBoxFocus;
-
-        private readonly ObservableCollection<TreeViewItemInfo> children;
-
-        private Brush background = Brushes.Transparent;
 
         private Visibility textBlockVisibility = Visibility.Visible;
         private Visibility textBoxVisibility = Visibility.Collapsed;
-        private Visibility beforeSeparatorVisibility = Visibility.Hidden;
-        private Visibility afterSeparatorVisibility = Visibility.Hidden;
 
         public IEditedModel EditedModel { get; set; }
 
         public bool IsRoot { get; set; }
 
-        public string Name
-        {
-            get => name;
-            set => SetProperty(ref name, value);
-        }
         public string TagName
         {
             get => tagName;
             set => SetProperty(ref tagName, value);
         }
 
-        public IEnumerable<TreeViewItemInfo> Children => children;
+        public new TreeViewItemInfo Parent
+        {
+            get => (TreeViewItemInfo) base.Parent;
+            set => base.Parent = value;
+        }
 
         public bool IgnoreAttributeRedraw { get; set; }
         public bool IsEdited { get; set; }
-
-        public bool IsExpanded
-        {
-            get => isExpanded;
-            set => SetProperty(ref isExpanded, value);
-        }
-
-        public bool IsSelected
-        {
-            get => isSelected;
-            set => SetProperty(ref isSelected, value);
-        }
 
         public bool IsTextBoxFocus
         {
@@ -91,15 +69,9 @@ namespace _7dtd_XmlEditor.Models.TreeView
             set => SetProperty(ref isTextBoxFocus, value);
         }
 
-        public Brush Background
-        {
-            get => background;
-            set => SetProperty(ref background, value);
-        }
         public string ParentPath => Parent == null ? "/" : $"{Parent.ParentPath}{Parent.TagName}/";
         public string Path => $"{ParentPath}{Node.TagName}";
 
-        public TreeViewItemInfo Parent { get; set; }
         public SavannahXmlNode Node { get; }
 
 
@@ -112,18 +84,6 @@ namespace _7dtd_XmlEditor.Models.TreeView
         {
             get => textBoxVisibility;
             set => SetProperty(ref textBoxVisibility, value);
-        }
-
-        public Visibility BeforeSeparatorVisibility
-        {
-            get => beforeSeparatorVisibility;
-            set => SetProperty(ref beforeSeparatorVisibility, value);
-        }
-
-        public Visibility AfterSeparatorVisibility
-        {
-            get => afterSeparatorVisibility;
-            set => SetProperty(ref afterSeparatorVisibility, value);
         }
 
         public ICommand TextBoxLostFocus { get; set; }
@@ -141,7 +101,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
             Name = GetNodeName(Node);
             EditedModel = editedModel;
 
-            children = new ObservableCollection<TreeViewItemInfo>(from node in Node.ChildNodes
+            children = new ObservableCollection<TreeViewItemInfoBase>(from node in Node.ChildNodes
                 select new TreeViewItemInfo(node, editedModel, this));
 
             TextBoxLostFocus = new DelegateCommand(() =>
@@ -152,34 +112,6 @@ namespace _7dtd_XmlEditor.Models.TreeView
                     failedLostFocus.OnNext(this);
                 failedLostFocus.OnCompleted();
             });
-        }
-
-        public void AddChildren(TreeViewItemInfo info)
-        {
-            children.Add(info);
-        }
-
-        public void RemoveChildren(TreeViewItemInfo info)
-        {
-            children.Remove(info);
-        }
-
-        public void InsertBeforeChildren(TreeViewItemInfo from, TreeViewItemInfo to)
-        {
-            var index = children.IndexOf(to);
-            if (index < 0)
-                return;
-
-            children.Insert(index, from);
-        }
-
-        public void InsertAfterChildren(TreeViewItemInfo from, TreeViewItemInfo to)
-        {
-            var index = children.IndexOf(to);
-            if (index < 0)
-                return;
-
-            children.Insert(index + 1, from);
         }
 
         public void EnableTextEdit()
@@ -217,6 +149,14 @@ namespace _7dtd_XmlEditor.Models.TreeView
             Node.TagName = TagName;
             Name = GetNodeName(Node);
             EditedModel.FullPath = Path;
+        }
+
+        public IEnumerable<TreeViewItemInfo> GetChildrenEnumerable()
+        {
+            foreach (var info in children)
+            {
+                yield return info as TreeViewItemInfo;
+            }
         }
 
         public static string GetNodeName(SavannahXmlNode node) => Conditions.IfElse(node.Attributes.Any(),

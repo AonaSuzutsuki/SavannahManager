@@ -39,7 +39,7 @@ namespace SvManagerLibraryTests2.Telnet
                 "fffff",
                 "ggg",
                 "hhhh",
-                null
+                string.Empty
             };
 
             foreach (var exp in expList)

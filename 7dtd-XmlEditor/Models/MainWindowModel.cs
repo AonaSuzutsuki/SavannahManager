@@ -253,9 +253,9 @@ namespace _7dtd_XmlEditor.Models
                 return;
 
             var parent = info.Parent;
-            var SavannahXmlNodes = new List<SavannahXmlNode>(parent.Node.ChildNodes);
-            SavannahXmlNodes.Remove(info.Node);
-            parent.Node.ChildNodes = SavannahXmlNodes;
+            var savannahXmlNodes = new List<SavannahXmlNode>(parent.Node.ChildNodes);
+            savannahXmlNodes.Remove(info.Node);
+            parent.Node.ChildNodes = savannahXmlNodes;
             info.Parent.RemoveChildren(info);
             IsEdited = true;
         }
@@ -343,7 +343,7 @@ namespace _7dtd_XmlEditor.Models
             var node = info.Node;
             if (info.IsExpanded)
                 node.AppendAttribute(XmlExpanded, true.ToString());
-            foreach (var child in info.Children)
+            foreach (var child in info.GetChildrenEnumerable())
             {
                 AssignExpanded(child);
             }
@@ -363,7 +363,7 @@ namespace _7dtd_XmlEditor.Models
 
             if (info.Children.Any())
             {
-                foreach (var treeViewItemInfo in info.Children)
+                foreach (var treeViewItemInfo in info.GetChildrenEnumerable())
                 {
                     var retInfo = GetSelectedInfo(treeViewItemInfo);
                     if (retInfo != null)

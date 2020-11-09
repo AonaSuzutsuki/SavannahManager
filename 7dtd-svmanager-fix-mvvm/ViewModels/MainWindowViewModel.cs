@@ -91,60 +91,61 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 var dialogResult = windowService.MessageBoxShow(args.Message, args.Title, args.MessageType, args.ButtonType);
                 args.CallBack(dialogResult);
             });
-            model.Telnet.Started += Telnet_Started;
-            model.Telnet.Finished += Telnet_Finished;
-            model.Telnet.ReadEvent += TelnetReadEvent;
+            model.TelnetStarted.Subscribe(Telnet_Started);
+            model.TelnetFinished.Subscribe(Telnet_Finished);
+            model.TelnetRead.Subscribe(TelnetReadEvent);
 
             mainWindowService = windowService;
-            this._model = model;
+            _model = model;
 
             #region Event Initialize
             //Loaded = new DelegateCommand(MainWindow_Loaded);
             Closing = new DelegateCommand(MainWindow_Closing);
             KeyDown = new DelegateCommand<KeyEventArgs>(MainWindow_KeyDown);
 
-            OpenSettingCommand = new DelegateCommand(MenuSettingsBt_Click);
-            OpenFirstSettingsCommand = new DelegateCommand(MenuFirstSettingsBt_Click);
-            SetLangJapaneseCommand = new DelegateCommand(MenuLangJapaneseBt_Click);
-            SetLangEnglishCommand = new DelegateCommand(MenuLangEnglishBt_Click);
-            OpenConfigEditorCommand = new DelegateCommand(MenuConfigEditorBt_Click);
-            OpenXmlEditorCommand = new DelegateCommand(MenuXmlEditorBt_Click);
-            OpenBackupEditorCommand = new DelegateCommand(MenuBackupEditorBt_Click);
-            OpenCheckUpdateCommand = new DelegateCommand(MenuCheckUpdateBt_Click);
-            OpenVersionInfoCommand = new DelegateCommand(MenuVersionInfo_Click);
+            OpenSettingCommand = new DelegateCommand(OpenMenuSettings);
+            OpenFirstSettingsCommand = new DelegateCommand(OpenMenuFirstSettings);
+            SetLangJapaneseCommand = new DelegateCommand(SetMenuLangJapanese);
+            SetLangEnglishCommand = new DelegateCommand(SetMenuLangEnglish);
+            OpenConfigEditorCommand = new DelegateCommand(OpenConfigEditor);
+            OpenXmlEditorCommand = new DelegateCommand(OpenMenuXmlEditor);
+            OpenBackupEditorCommand = new DelegateCommand(OpenMenuBackupEditor);
+            OpenCheckUpdateCommand = new DelegateCommand(OpenMenuCheckUpdate);
+            OpenVersionInfoCommand = new DelegateCommand(OpenMenuVersionInfo);
 
-            StartServerCommand = new DelegateCommand(StartBt_Click);
-            StopServerCommand = new DelegateCommand(StopBt_Click);
-            ConnectTelnetCommand = new DelegateCommand(TelnetBt_Click);
-            OpenCommandListCommand = new DelegateCommand(CommandListBt_Click);
+            StartServerCommand = new DelegateCommand(StartServer);
+            StopServerCommand = new DelegateCommand(StopServer);
+            ConnectTelnetCommand = new DelegateCommand(ConnectTelnet);
+            OpenCommandListCommand = new DelegateCommand(OpenCommandList);
 
-            PlayerListRefreshCommand = new DelegateCommand(PlayerListRefreshBt_Click);
+            PlayerListRefreshCommand = new DelegateCommand(PlayerListRefresh);
 
             PlayerContextMenuOpened = new DelegateCommand(PlayerContextMenu_Opened);
-            AddAdminCommand = new DelegateCommand(AdminAddBt_Click);
-            RemoveAdminCommand = new DelegateCommand(AdminRemoveBt_Click);
-            AddWhiteListCommand = new DelegateCommand(WhiteListAddBt_Click);
-            RemoveWhiteListCommand = new DelegateCommand(WhiteListRemoveBt_Click);
-            KickPlayerCommand = new DelegateCommand(KickBt_Click);
-            BanPlayerCommand = new DelegateCommand(BanBt_Click);
-            KillPlayerCommand = new DelegateCommand(KillBt_Click);
-            ShowPlayerInfoCommand = new DelegateCommand(WatchPlayerInfoBt_Click);
+            AddAdminCommand = new DelegateCommand(AdminAddPlayer);
+            RemoveAdminCommand = new DelegateCommand(AdminRemovePlayer);
+            AddWhiteListCommand = new DelegateCommand(WhiteListAddPlayer);
+            RemoveWhiteListCommand = new DelegateCommand(WhiteListRemovePlayer);
+            KickPlayerCommand = new DelegateCommand(KickPlayer);
+            BanPlayerCommand = new DelegateCommand(BanPlayer);
+            KillPlayerCommand = new DelegateCommand(KillPlayer);
+            ShowPlayerInfoCommand = new DelegateCommand(WatchPlayerInfo);
 
             ChatTextBoxEnterDown = new DelegateCommand<string>(ChatTextBoxEnter_Down);
 
             ConsoleTextBoxMouseEnter = new DelegateCommand(ConsoleTextBoxMouse_Enter);
             ConsoleTextBoxMouseLeave = new DelegateCommand(ConsoleTextBoxMouse_Leave);
-            DeleteLogCommand = new DelegateCommand(DeleteLogBt_Click);
+            DeleteLogCommand = new DelegateCommand(DeleteLog);
 
-            CmdTextBoxEnterDown = new DelegateCommand<string>(CmdTextBox_EnterDown);
+            CmdTextBoxEnterDown = new DelegateCommand<string>(SendCmd);
 
-            GetTimeCommand = new DelegateCommand(GetTimeBt_Click);
-            SetTimeCommand = new DelegateCommand(SetTimeBt_Click);
-            SaveWorldCommand = new DelegateCommand(SaveWorldBt_Click);
+            OpenTelnetWaitTimeCalculatorCommand = new DelegateCommand(OpenTelnetWaitTimeCalculator);
+            GetTimeCommand = new DelegateCommand(GetTime);
+            SetTimeCommand = new DelegateCommand(SetTime);
+            SaveWorldCommand = new DelegateCommand(SaveWorld);
             OpenPermissionEditorCommand = new DelegateCommand(OpenPermissionEditor);
 
-            OpenGetIpCommand = new DelegateCommand(GetIp_Clicked);
-            CheckPortCommand = new DelegateCommand(CheckPort_Clicked);
+            OpenGetIpCommand = new DelegateCommand(OpenGetIp);
+            CheckPortCommand = new DelegateCommand(OpenCheckPort);
             #endregion
 
             #region Property Initialize
@@ -221,6 +222,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         public ICommand CmdTextBoxEnterDown { get; set; }
 
+        public ICommand OpenTelnetWaitTimeCalculatorCommand { get; set; }
         public ICommand GetTimeCommand { get; set; }
         public ICommand SetTimeCommand { get; set; }
         public ICommand SaveWorldCommand { get; set; }
@@ -316,7 +318,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             _model.RefreshLabels();
 
             if (_model.Setting.IsFirstBoot)
-                MenuFirstSettingsBt_Click();
+                OpenMenuFirstSettings();
 
             CheckUpdate().ContinueWith(t =>
             {
@@ -358,7 +360,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             _model.PushShortcutKey(e.Key);
         }
 
-        private void MenuSettingsBt_Click()
+        private void OpenMenuSettings()
         {
             var setting = _model.Setting;
             var keyManager = _model.ShortcutKeyManager;
@@ -368,7 +370,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             WindowManageService.ShowDialog<SettingWindow>(vm);
             _model.IsBeta = setting.IsBetaMode;
         }
-        private void MenuFirstSettingsBt_Click()
+        private void OpenMenuFirstSettings()
         {
             WindowManageService.ShowDialog<NavigationBase>(window =>
             {
@@ -408,50 +410,50 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 return vm;
             });
         }
-        private void MenuLangJapaneseBt_Click()
+        private void SetMenuLangJapanese()
         {
             _model.ChangeCulture(ResourceService.Japanese);
             _model.RefreshLabels();
         }
-        private void MenuLangEnglishBt_Click()
+        private void SetMenuLangEnglish()
         {
             _model.ChangeCulture(ResourceService.English);
             _model.RefreshLabels();
         }
-        private void MenuConfigEditorBt_Click()
+        private void OpenConfigEditor()
         {
             _model.RunConfigEditor();
         }
 
-        private void MenuXmlEditorBt_Click()
+        private void OpenMenuXmlEditor()
         {
             _model.RunXmlEditor();
         }
-        private void MenuBackupEditorBt_Click()
+        private void OpenMenuBackupEditor()
         {
             var setting = _model.Setting;
             var backupModel = new BackupSelectorModel(setting);
             var vm = new BackupSelectorViewModel(new WindowService(), backupModel);
             WindowManageService.Show<BackupSelector>(vm);
         }
-        private void MenuCheckUpdateBt_Click()
+        private void OpenMenuCheckUpdate()
         {
             var updFormModel = new UpdFormModel();
             var vm = new UpdFormViewModel(new WindowService(), updFormModel);
             WindowManageService.Show<UpdForm>(vm);
         }
-        private void MenuVersionInfo_Click()
+        private void OpenMenuVersionInfo()
         {
             var versionInfoModel = new VersionInfoModel();
             var vm = new VersionInfoViewModel(new WindowService(), versionInfoModel);
             WindowManageService.ShowDialog<VersionInfo>(vm);
         }
 
-        private void StartBt_Click()
+        private void StartServer()
         {
             _model.ServerStart();
         }
-        private void StopBt_Click()
+        private void StopServer()
         {
             var isForceShutdown = _model.ServerStop();
             if (!isForceShutdown)
@@ -461,16 +463,16 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var vm = new ForceShutdownerViewModel(new WindowService(), forceShutdownerModel);
             WindowManageService.Show<ForceShutdowner>(vm);
         }
-        private void TelnetBt_Click()
+        private void ConnectTelnet()
         {
             _model.TelnetConnectOrDisconnect();
         }
-        private void CommandListBt_Click()
+        private void OpenCommandList()
         {
 
         }
 
-        private void PlayerListRefreshBt_Click()
+        private void PlayerListRefresh()
         {
             _model.PlayerRefresh();
         }
@@ -495,7 +497,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 WatchPlayerInfoContextEnabled = true;
             }
         }
-        private void AdminAddBt_Click()
+        private void AdminAddPlayer()
         {
             var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
@@ -513,11 +515,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
             });
         }
-        private void AdminRemoveBt_Click()
+        private void AdminRemovePlayer()
         {
             _model.RemoveAdmin(UsersListSelectedIndex);
         }
-        private void WhiteListAddBt_Click()
+        private void WhiteListAddPlayer()
         {
             var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
@@ -535,11 +537,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
             });
         }
-        private void WhiteListRemoveBt_Click()
+        private void WhiteListRemovePlayer()
         {
             _model.RemoveWhitelist(UsersListSelectedIndex);
         }
-        private void KickBt_Click()
+        private void KickPlayer()
         {
             var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
@@ -557,7 +559,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
             });
         }
-        private void BanBt_Click()
+        private void BanPlayer()
         {
             var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
             var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
@@ -575,11 +577,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
             });
         }
-        private void KillBt_Click()
+        private void KillPlayer()
         {
 
         }
-        private void WatchPlayerInfoBt_Click()
+        private void WatchPlayerInfo()
         {
             var playerInfo = _model.GetSelectedPlayerInfo(UsersListSelectedIndex);
             var playerInfoModel = new PlayerInfoModel();
@@ -601,27 +603,37 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             consoleIsFocus = false;
         }
-        private void DeleteLogBt_Click()
+        private void DeleteLog()
         {
             consoleLog.Clear();
             ConsoleLogText = "";
         }
 
-        private void CmdTextBox_EnterDown(string e)
+        private void SendCmd(string e)
         {
             _model.SendCommand(e);
             CmdText = string.Empty;
         }
 
-        private void GetTimeBt_Click()
+
+        private void OpenTelnetWaitTimeCalculator()
+        {
+            if (!_model.CheckConnected())
+                return;
+
+            var model = new TelnetWaitTimeCalculatorModel(_model.Telnet, _model.Setting);
+            var vm = new TelnetWaitTimeCalculatorViewModel(new WindowService(), model);
+            WindowManageService.ShowDialog<TelnetWaitTimeCalculator>(vm);
+        }
+        private void GetTime()
         {
             _model.SetTimeToTextBox();
         }
-        private void SetTimeBt_Click()
+        private void SetTime()
         {
             _model.SetTimeToGame();
         }
-        private void SaveWorldBt_Click()
+        private void SaveWorld()
         {
             _model.SendCommand("saveworld");
         }
@@ -632,13 +644,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             WindowManageService.Show<PermissionEditor>(vm);
         }
 
-        private void GetIp_Clicked()
+        private void OpenGetIp()
         {
             var ipAddressGetterModel = new IpAddressGetterModel();
             var vm = new IpAddressGetterViewModel(new WindowService(), ipAddressGetterModel);
             WindowManageService.Show<IpAddressGetter>(vm);
         }
-        private void CheckPort_Clicked()
+        private void OpenCheckPort()
         {
             var portCheckModel = new PortCheckModel();
             var vm = new PortCheckViewModel(new WindowService(), portCheckModel);
@@ -685,23 +697,20 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
 
-        private void Telnet_Started(object sender, TelnetClient.TelnetReadEventArgs e)
+        private void Telnet_Started(TelnetClient.TelnetReadEventArgs e)
         {
             _model.PlayerClean();
         }
 
-        private void Telnet_Finished(object sender, TelnetClient.TelnetReadEventArgs e)
+        private void Telnet_Finished(TelnetClient.TelnetReadEventArgs e)
         {
             _model.PlayerClean();
             _model.TelnetFinish();
         }
 
-        private void TelnetReadEvent(object sender, TelnetClient.TelnetReadEventArgs e)
+        private void TelnetReadEvent(TelnetClient.TelnetReadEventArgs e)
         {
             var log = "{0}".FormatString(e.Log);
-
-            //if (isStop)
-            //    SocTelnetSendDirect("");
 
             _model.LoggingStream.WriteSteam(log);
 

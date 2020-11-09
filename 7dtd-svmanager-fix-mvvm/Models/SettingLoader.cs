@@ -40,6 +40,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public int ConsoleTextLength { get; set; } = 32768;
 
+        public int TelnetWaitTime { get; set; } = 2;
+
         public bool IsBetaMode { get; set; } = true;
 
         public bool IsLogGetter { get; set; }
@@ -88,6 +90,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             ConsoleTextLength = iniLoader.GetValue("SERVER", "CONSOLELOGLENGTH", ConsoleTextLength);
 
+            TelnetWaitTime = iniLoader.GetValue("SERVER", "TELNETWAITTIME", 2);
+
             IsBetaMode = iniLoader.GetValue("SERVER", "BETAMODE", false);
 
             IsLogGetter = iniLoader.GetValue("SERVER", "LOGOUTPUT", true);
@@ -117,6 +121,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             iniLoader.SetValue("MAIN", "LOCALMODE", LocalMode);
             iniLoader.SetValue("MAIN", "CULTURE", CultureName);
             iniLoader.SetValue("SERVER", "CONSOLELOGLENGTH", ConsoleTextLength);
+            iniLoader.SetValue("SERVER", "TELNETWAITTIME", TelnetWaitTime);
             iniLoader.SetValue("SERVER", "BETAMODE", IsBetaMode);
             iniLoader.SetValue("SERVER", "LOGOUTPUT", IsLogGetter);
             iniLoader.SetValue("MAIN", "FIRSTBOOT", IsFirstBoot);
