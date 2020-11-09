@@ -195,14 +195,14 @@
                                                                 <ColumnDefinition Width="25" />
                                                             </Grid.ColumnDefinitions>
 
-                                                            <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                            <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                                 <i:Interaction.Triggers>
                                                                     <i:EventTrigger EventName="TextChanged">
                                                                         <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                     </i:EventTrigger>
                                                                 </i:Interaction.Triggers>
                                                             </TextBox>
-                                                            <Button Name="GetSteamIdBt" Grid.Column="2" Content="&#xE946;" FontFamily="Segoe MDL2 Assets" Style="{StaticResource FlatButton}" />
+                                                            <Button Name="GetSteamIdBt" Grid.Column="2" Content="&#xE946;" FontFamily="Segoe MDL2 Assets" Style="{StaticResource FlatButton}" Command="{Binding GetSteamIdCommand}" />
                                                         </Grid>
 
                                                         <DataTemplate.Triggers>
@@ -257,7 +257,7 @@
                                             <GridViewColumn Width="200" Header="Steam ID">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                        <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
@@ -334,7 +334,7 @@
                                             <GridViewColumn Width="200" Header="Steam ID">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                        <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
@@ -375,7 +375,7 @@
                                             <GridViewColumn Width="200" Header="Steam ID">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                        <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
@@ -412,7 +412,7 @@
                                     <GridViewColumn Width="200" Header="Steam ID">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate DataType="viewModels:BlackListPermissionInfoViewModel">
-                                                <TextBox Text="{Binding SteamId, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                <TextBox Text="{Binding SteamId.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="TextChanged">
                                                             <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />

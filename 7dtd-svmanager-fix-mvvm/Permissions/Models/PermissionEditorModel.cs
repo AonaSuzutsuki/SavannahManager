@@ -10,11 +10,12 @@ using System.Windows.Input;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.Models;
 using Prism.Commands;
+using Prism.Mvvm;
 using SavannahXmlLib.XmlWrapper;
 
 namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 {
-    public abstract class PermissionBase
+    public abstract class PermissionBase : BindableBase
     {
 
         public enum PermissionItemType
@@ -23,9 +24,17 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             Real
         }
 
-        public PermissionItemType ItemType = PermissionItemType.Real;
+        private string steamId;
+
+        public PermissionItemType ItemType { get; set; } = PermissionItemType.Real;
 
         public string Name { get; set; }
+
+        public string SteamId
+        {
+            get => steamId;
+            set => SetProperty(ref steamId, value);
+        }
         public int? Permission { get; set; } = 0;
 
         public Action AddDummyAction { get; set; }
@@ -36,14 +45,12 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
     public class AdminPermissionInfo : PermissionBase
     {
-        public string SteamId { get; set; }
         public int? DefaultPermission { get; set; }
         public int? ModeratorPermission { get; set; }
     }
 
     public class BlackListPermissionInfo : PermissionBase
     {
-        public string SteamId { get; set; }
         private string unBanDate;
 
         public string UnBanDate
