@@ -30,7 +30,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
         public ICommand TextChangedCommand { get; set; }
 
 
-        public Func<string> GetSteamIdFunc { get; set; }
+        public Func<string, string> GetSteamIdFunc { get; set; }
         public ICommand GetSteamIdCommand { get; set; }
 
         protected PermissionBaseViewModel(PermissionBase permissionBase, IWindowService windowService)
@@ -53,7 +53,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
             GetSteamIdCommand = new DelegateCommand(() =>
             {
-                permissionBase.SteamId = GetSteamIdFunc();
+                permissionBase.SteamId = GetSteamIdFunc(permissionBase.SteamId);
             });
         }
     }
@@ -170,14 +170,22 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
         #region Event Methods
 
-        public string GetSteamId()
+        public string GetSteamId(string currentId)
         {
-            return "";
+            var model = new GetProfileSteamIdModel();
+            var vm = new GetSteamIdViewModel(new WindowService(), model);
+            WindowManageService.ShowDialogNonOwner<GetSteamId>(vm);
+
+            return model.IsWritten ? model.Steam64Id : currentId;
         }
 
-        public string GetSteamGroupId()
+        public string GetSteamGroupId(string currentId)
         {
-            return "";
+            var model = new GetGroupSteamIdModel();
+            var vm = new GetSteamIdViewModel(new WindowService(), model);
+            WindowManageService.ShowDialogNonOwner<GetSteamId>(vm);
+
+            return model.IsWritten ? model.Steam64Id : currentId;
         }
 
         #endregion

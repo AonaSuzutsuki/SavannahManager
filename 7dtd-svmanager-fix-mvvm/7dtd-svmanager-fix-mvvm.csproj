@@ -187,6 +187,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Permissions\Views\GetSteamId.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PlayerController\Views\Pages\AdminAdd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -318,8 +322,15 @@
     <Compile Include="Models\ServerProcessManager.cs" />
     <Compile Include="Models\TelnetWaitTimeCalculatorModel.cs" />
     <Compile Include="Models\VersionInfoModel.cs" />
+    <Compile Include="Permissions\Models\AbstractGetSteamIdModel.cs" />
+    <Compile Include="Permissions\Models\GetGroupSteamIdModel.cs" />
+    <Compile Include="Permissions\Models\GetProfileSteamIdModel.cs" />
     <Compile Include="Permissions\Models\UnBanDateSettingModel.cs" />
+    <Compile Include="Permissions\ViewModels\GetSteamIdViewModel.cs" />
     <Compile Include="Permissions\ViewModels\UnBanDateSettingViewModel.cs" />
+    <Compile Include="Permissions\Views\GetSteamId.xaml.cs">
+      <DependentUpon>GetSteamId.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlayerController\Models\Pages\AdminAddModel.cs" />
     <Compile Include="PlayerController\Models\Pages\BanModel.cs" />
     <Compile Include="PlayerController\Models\Pages\KickModel.cs" />
