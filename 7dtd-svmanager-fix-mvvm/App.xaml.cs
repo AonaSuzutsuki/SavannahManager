@@ -63,13 +63,9 @@ namespace _7dtd_svmanager_fix_mvvm
 
         private static void OutToFile(string filename, string text)
         {
-            using (var fs = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
-            {
-                using (var sw = new StreamWriter(fs, System.Text.Encoding.UTF8))
-                {
-                    sw.Write(text);
-                }
-            }
+            using var fs = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+            using var sw = new StreamWriter(fs, System.Text.Encoding.UTF8);
+            sw.Write(text);
         }
     }
 }

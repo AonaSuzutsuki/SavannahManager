@@ -116,10 +116,9 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
         #region Fields
 
-        private SettingLoader settingLoader;
         private TimeBackup timeBackup;
 
-        private string backupDirPath;
+        private readonly string backupDirPath;
 
         private string sevenDaysSavePath;
 
@@ -138,7 +137,6 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
         public BackupSelectorModel(SettingLoader settingLoader)
         {
-            this.settingLoader = settingLoader;
             backupDirPath = settingLoader.BackupDirPath;
 
             Initialize();

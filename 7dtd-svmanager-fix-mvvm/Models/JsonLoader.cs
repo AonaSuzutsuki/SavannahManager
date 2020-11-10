@@ -15,25 +15,21 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 {
     public class JsonLoader
     {
-        private List<Dictionary<string, string>> nodes = new List<Dictionary<string, string>>();
+        private readonly List<Dictionary<string, string>> nodes = new List<Dictionary<string, string>>();
 
         public JsonLoader(string url, bool localFile = false)
         {
             string json;
             if (localFile)
             {
-                using (var fs = new FileStream(url, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    using (var sr = new StreamReader(fs))
-                    {
-                        json = sr.ReadToEnd();
-                    }
-                }
+                using var fs = new FileStream(url, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using var sr = new StreamReader(fs);
+                json = sr.ReadToEnd();
             }
             else
             {
                 var webClient = new WebClient();
-                byte[] data = webClient.DownloadData(url);
+                var data = webClient.DownloadData(url);
                 webClient.Dispose();
                 json = Encoding.UTF8.GetString(data);
             }
