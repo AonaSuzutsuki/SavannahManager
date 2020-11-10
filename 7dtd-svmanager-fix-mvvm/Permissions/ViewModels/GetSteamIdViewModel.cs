@@ -57,8 +57,11 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
         {
             _ = model.Analyze(UrlText).ContinueWith(task =>
             {
-                var exception = task.Exception?.InnerException;
-                App.ShowAndWriteException(exception);
+                var exceptions = task.Exception?.InnerExceptions;
+                if (exceptions == null)
+                    return;
+                foreach (var exception in exceptions)
+                    App.ShowAndWriteException(exception);
             }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
