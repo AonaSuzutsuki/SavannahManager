@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.Permissions.Models;
 using _7dtd_svmanager_fix_mvvm.Permissions.Views;
+using CommonStyleLib.File;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
@@ -78,6 +79,13 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
         }
     }
 
+    public class WhitelistPermissionInfoViewModel : PermissionBaseViewModel
+    {
+        public WhitelistPermissionInfoViewModel(WhitelistPermissionInfo permissionBase, IWindowService windowService) : base(permissionBase, windowService)
+        {
+        }
+    }
+
     public class BlackListPermissionInfoViewModel : PermissionBaseViewModel
     {
         public ReactiveProperty<string> UnBanDate { get; set; }
@@ -116,8 +124,12 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
     {
         public PermissionEditorViewModel(IWindowService windowService, PermissionEditorModel model) : base(windowService, model)
         {
+            this.model = model;
+
+            CanSave = model.ObserveProperty(m => m.CanSave).ToReactiveProperty();
+
             CommandPermissions = model.CommandPermissions.ToReadOnlyReactiveCollection(m
-                =>new PermissionInfoViewModel(m, WindowManageService));
+                => new PermissionInfoViewModel(m, WindowManageService));
             AdminPermissions = model.AdminPermissions.ToReadOnlyReactiveCollection(m
                 => new AdminPermissionInfoViewModel(m, WindowManageService)
                 {
@@ -129,12 +141,12 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
                     GetSteamIdFunc = GetSteamGroupId
                 });
             WhitelistPermissions = model.WhitelistPermissions.ToReadOnlyReactiveCollection(m
-                => new AdminPermissionInfoViewModel(m, WindowManageService)
+                => new WhitelistPermissionInfoViewModel(m, WindowManageService)
                 {
                     GetSteamIdFunc = GetSteamId
                 });
             WhitelistGroupPermissions = model.WhitelistGroupPermissions.ToReadOnlyReactiveCollection(m
-                => new AdminPermissionInfoViewModel(m, WindowManageService)
+                => new WhitelistPermissionInfoViewModel(m, WindowManageService)
                 {
                     GetSteamIdFunc = GetSteamGroupId
                 });
@@ -163,8 +175,8 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
         public ReadOnlyReactiveCollection<PermissionInfoViewModel> CommandPermissions { get; set; }
         public ReadOnlyReactiveCollection<AdminPermissionInfoViewModel> AdminPermissions { get; set; }
         public ReadOnlyReactiveCollection<AdminPermissionInfoViewModel> AdminGroupPermissions { get; set; }
-        public ReadOnlyReactiveCollection<AdminPermissionInfoViewModel> WhitelistPermissions { get; set; }
-        public ReadOnlyReactiveCollection<AdminPermissionInfoViewModel> WhitelistGroupPermissions { get; set; }
+        public ReadOnlyReactiveCollection<WhitelistPermissionInfoViewModel> WhitelistPermissions { get; set; }
+        public ReadOnlyReactiveCollection<WhitelistPermissionInfoViewModel> WhitelistGroupPermissions { get; set; }
         public ReadOnlyReactiveCollection<BlackListPermissionInfoViewModel> BlacklistPermissions { get; set; }
 
         #endregion
@@ -182,18 +194,28 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
         public void NewFile()
         {
+            model.NewFile();
         }
 
         public void OpenFile()
         {
+            var dirPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\7DaysToDie\\Saves";
+            var filePath = FileSelector.GetFilePath(dirPath,
+                LangResources.SettingsResources.Filter_XmlFile,"serveradmin.xml", FileSelector.FileSelectorType.Read);
+            model.OpenFile(filePath);
         }
 
         public void SaveFile()
         {
+            model.Save();
         }
 
         public void SaveAsFile()
         {
+            var dirPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\7DaysToDie\\Saves";
+            var filePath = FileSelector.GetFilePath(dirPath,
+                LangResources.SettingsResources.Filter_XmlFile, "serveradmin.xml", FileSelector.FileSelectorType.Write);
+            model.Save(filePath);
         }
 
         public string GetSteamId(string currentId)

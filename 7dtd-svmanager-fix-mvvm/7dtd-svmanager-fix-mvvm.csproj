@@ -525,6 +525,7 @@
     <EmbeddedResource Include="LangResources\CommonResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="LangResources\ForceShutdownerResources.en-US.resx" />
     <EmbeddedResource Include="LangResources\ForceShutdownerResources.resx">
@@ -546,6 +547,7 @@
     <EmbeddedResource Include="LangResources\SettingsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SettingsResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="LangResources\SetupResource.en-US.resx" />
     <EmbeddedResource Include="LangResources\SetupResource.resx">
@@ -619,6 +621,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Calendar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Settings\Permissions\serveradmin.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
