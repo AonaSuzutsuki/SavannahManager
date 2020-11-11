@@ -143,15 +143,22 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
                 {
                     GetSteamIdFunc = GetSteamId
                 });
+
+            NewFileCommand = new DelegateCommand(NewFile);
+            OpenFileCommand = new DelegateCommand(OpenFile);
+            SaveFileCommand = new DelegateCommand(SaveFile);
+            SaveAsFileCommand = new DelegateCommand(SaveAsFile);
         }
 
         #region Fields
 
-
+        private readonly PermissionEditorModel model;
 
         #endregion
 
         #region Properties
+
+        public ReactiveProperty<bool> CanSave { get; set; }
 
         public ReadOnlyReactiveCollection<PermissionInfoViewModel> CommandPermissions { get; set; }
         public ReadOnlyReactiveCollection<AdminPermissionInfoViewModel> AdminPermissions { get; set; }
@@ -164,11 +171,30 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
         #region Event Properties
 
-
+        public ICommand NewFileCommand { get; set; }
+        public ICommand OpenFileCommand { get; set; }
+        public ICommand SaveFileCommand { get; set; }
+        public ICommand SaveAsFileCommand { get; set; }
 
         #endregion
 
         #region Event Methods
+
+        public void NewFile()
+        {
+        }
+
+        public void OpenFile()
+        {
+        }
+
+        public void SaveFile()
+        {
+        }
+
+        public void SaveAsFile()
+        {
+        }
 
         public string GetSteamId(string currentId)
         {

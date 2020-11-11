@@ -138,6 +138,12 @@
             <StackPanel Margin="1,25,1,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                 <Menu IsMainMenu="True" Name="Menu" Height="25" Padding="3" VerticalAlignment="Top">
                     <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_FileBT, Mode=OneWay}">
+                        <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=CommonResources.UI_NewFile, Mode=OneWay}" Command="{Binding NewFileCommand}" />
+                        <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=CommonResources.UI_OpenFIle, Mode=OneWay}" Command="{Binding OpenFileCommand}" />
+                        <Separator Style="{StaticResource MLB_Separator}" />
+                        <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=CommonResources.UI_SaveFIle, Mode=OneWay}" IsEnabled="{Binding CanSave.Value}" Command="{Binding SaveFileCommand}" />
+                        <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=CommonResources.UI_SaveAsFile, Mode=OneWay}" Command="{Binding SaveAsFileCommand}" />
+                        <Separator Style="{StaticResource MLB_Separator}" />
                         <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ExitBT, Mode=OneWay}" Command="{Binding MainWindowCloseBtClick}" />
                     </MenuItem>
                 </Menu>

@@ -65,6 +65,8 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
     {
         #region Fields
 
+        private bool canSave;
+
         private ObservableCollection<PermissionInfo> commandPermissions = new ObservableCollection<PermissionInfo>();
         private ObservableCollection<AdminPermissionInfo> adminPermissions = new ObservableCollection<AdminPermissionInfo>();
         private ObservableCollection<AdminPermissionInfo> adminGroupPermissions = new ObservableCollection<AdminPermissionInfo>();
@@ -75,6 +77,12 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         #endregion
 
         #region Properties
+
+        public bool CanSave
+        {
+            get => canSave;
+            set => SetProperty(ref canSave, value);
+        }
 
         public ObservableCollection<PermissionInfo> CommandPermissions
         {
