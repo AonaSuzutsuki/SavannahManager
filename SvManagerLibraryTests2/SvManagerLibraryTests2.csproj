@@ -82,6 +82,7 @@
     <Compile Include="Time\TimeTests.cs" />
     <Compile Include="Telnet\TelnetWaiterTest.cs" />
     <Compile Include="Telnet\TelnetTest.cs" />
+    <Compile Include="Steam\SteamIdValidatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">
@@ -102,6 +103,9 @@
     </None>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Steam\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

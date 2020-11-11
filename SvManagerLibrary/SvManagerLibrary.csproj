@@ -91,9 +91,13 @@
     <Compile Include="Time\Time.cs" />
     <Compile Include="Time\TimeInfo.cs" />
     <Compile Include="Telnet\TelnetSocket.cs" />
+    <Compile Include="Steam\SteamIdValidator.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Steam\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
