@@ -2,7 +2,7 @@
 
 namespace SvManagerLibrary.Steam
 {
-    public class SteamIdValidator
+    public class SteamIdConverter
     {
         public enum Universe : ulong
         {
@@ -35,19 +35,22 @@ namespace SvManagerLibrary.Steam
         public const ulong AccountNumberMask = 0x00000000FFFFFFFE;
         public const ulong LsbMask = 0x0000000000000001;
 
-        public static bool ValidateSteamId(ulong steamId)
+        public static string ToSteamId(ulong steam64Id)
         {
-            var universe = (steamId & UniverseMask) >> 56;
-            var type = (steamId & TypeMask) >> 52;
-            //var instance = (steamId & InstanceMask) >> 32;
-            //var accountNumber = (steamId & AccountNumberMask) >> 1;
-            //var lsb = steamId & LsbMask;
+            var universe = (steam64Id & UniverseMask) >> 56;
+            var type = (steam64Id & TypeMask) >> 52;
+            var instance = (steam64Id & InstanceMask) >> 32;
+            var accountNumber = (steam64Id & AccountNumberMask) >> 1;
+            var lsb = steam64Id & LsbMask;
 
             if (!Enum.IsDefined(typeof(Universe), universe))
-                return false;
+                return string.Empty;
             if (!Enum.IsDefined(typeof(AccountType), type))
-                return false;
-            return true;
+                return string.Empty;
+
+            var steamId = $"STEAM_{universe}:{lsb}:{accountNumber}";
+
+            return steamId;
         }
     }
 }

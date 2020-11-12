@@ -82,7 +82,7 @@
     <Compile Include="Time\TimeTests.cs" />
     <Compile Include="Telnet\TelnetWaiterTest.cs" />
     <Compile Include="Telnet\TelnetTest.cs" />
-    <Compile Include="Steam\SteamIdValidatorTest.cs" />
+    <Compile Include="Steam\SteamIdConverterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">

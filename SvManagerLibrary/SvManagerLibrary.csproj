@@ -91,7 +91,7 @@
     <Compile Include="Time\Time.cs" />
     <Compile Include="Time\TimeInfo.cs" />
     <Compile Include="Telnet\TelnetSocket.cs" />
-    <Compile Include="Steam\SteamIdValidator.cs" />
+    <Compile Include="Steam\SteamIdConverter.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
