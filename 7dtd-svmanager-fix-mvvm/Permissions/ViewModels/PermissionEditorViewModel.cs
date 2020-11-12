@@ -220,20 +220,20 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
         public string GetSteamId(string currentId)
         {
-            var model = new GetProfileSteamIdModel();
-            var vm = new GetSteamIdViewModel(new WindowService(), model);
+            var steamIdModel = new GetProfileSteamIdModel();
+            var vm = new GetSteamIdViewModel(new WindowService(), steamIdModel);
             WindowManageService.ShowDialogNonOwner<GetSteamId>(vm);
 
-            return model.IsWritten ? model.Steam64Id : currentId;
+            return steamIdModel.IsWritten ? steamIdModel.Steam64Id : currentId;
         }
 
         public string GetSteamGroupId(string currentId)
         {
-            var model = new GetGroupSteamIdModel();
-            var vm = new GetSteamIdViewModel(new WindowService(), model);
+            var steamIdModel = new GetGroupSteamIdModel();
+            var vm = new GetSteamIdViewModel(new WindowService(), steamIdModel);
             WindowManageService.ShowDialogNonOwner<GetSteamId>(vm);
 
-            return model.IsWritten ? model.Steam64Id : currentId;
+            return steamIdModel.IsWritten ? steamIdModel.Steam64Id : currentId;
         }
 
         #endregion

@@ -14,27 +14,28 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 {
     public class GetProfileSteamIdModel : AbstractGetSteamIdModel
     {
-        public class ProfileApiInfo
+        public override async Task Analyze(string url)
         {
-            public string SteamId { get; set; }
-        }
-        public override async Task Analyze(string username)
-        {
-            //76561198010715714
-            //https://aonsztk.xyz/api/?mode=SteamId&username=rvv-jp
-            var url = $"https://aonsztk.xyz/api/?mode=SteamId&username={username}";
+            url += "?xml=1";
 
             try
             {
                 using var webClient = new WebClient();
-                var json = await webClient.DownloadStringTaskAsync(url);
-                var obj = JsonConvert.DeserializeObject<ProfileApiInfo>(json);
-                var steamId = obj.SteamId;
+                var xml = await webClient.DownloadDataTaskAsync(url);
+                using var ms = new MemoryStream(xml);
+
+                var reader = new SavannahXmlReader(ms);
+                var steamId = reader.GetNode("/profile/steamID64").InnerText;
 
                 CanWrite = !string.IsNullOrEmpty(steamId);
                 Steam64Id = steamId;
             }
             catch (WebException)
+            {
+                CanWrite = false;
+                Steam64Id = "Invalid URL.";
+            }
+            catch (System.Xml.XmlException)
             {
                 CanWrite = false;
                 Steam64Id = "Invalid URL.";

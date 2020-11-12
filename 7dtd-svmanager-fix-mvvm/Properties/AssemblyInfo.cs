@@ -52,6 +52,6 @@ using System.Windows;
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.4.39.0")]
-[assembly: AssemblyFileVersion("2.4.38.0")]
+[assembly: AssemblyFileVersion("2.4.39.0")]
 [assembly: Guid("0390F43C-5BCB-4973-B0F7-E98EBECC0102")]
 
