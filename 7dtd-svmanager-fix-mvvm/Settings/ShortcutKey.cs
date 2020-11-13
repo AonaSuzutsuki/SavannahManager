@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Input;
 using CommonCoreLib.XMLWrapper;
 using SavannahXmlLib.XmlWrapper;
+using SavannahXmlLib.XmlWrapper.Nodes;
 using AttributeInfo = SavannahXmlLib.XmlWrapper.AttributeInfo;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings
@@ -113,9 +114,9 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
         public void Save()
         {
             var xmlWriter = new SavannahXmlWriter();
-            var root = SavannahXmlNode.CreateRoot("shortcuts");
+            var root = SavannahTagNode.CreateRoot("shortcuts");
 
-            ShortcutKeies.ForEach((key, value) => root.AddChildElement(SavannahXmlNode.CreateElement("shortcut", CreateAttributeInfo(value))));
+            ShortcutKeies.ForEach((key, value) => root.AddChildElement(SavannahTagNode.CreateElement("shortcut", CreateAttributeInfo(value))));
 
             xmlWriter.Write(xmlPath, root);
         }

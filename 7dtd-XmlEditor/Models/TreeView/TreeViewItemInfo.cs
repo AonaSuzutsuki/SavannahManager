@@ -17,6 +17,7 @@ using Prism.Mvvm;
 using Reactive.Bindings;
 using SavannahXmlLib.Extensions;
 using SavannahXmlLib.XmlWrapper;
+using SavannahXmlLib.XmlWrapper.Nodes;
 
 namespace _7dtd_XmlEditor.Models.TreeView
 {
@@ -72,7 +73,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
         public string ParentPath => Parent == null ? "/" : $"{Parent.ParentPath}{Parent.TagName}/";
         public string Path => $"{ParentPath}{Node.TagName}";
 
-        public SavannahXmlNode Node { get; }
+        public AbstractSavannahXmlNode Node { get; }
 
 
         public Visibility TextBlockVisibility
@@ -89,20 +90,24 @@ namespace _7dtd_XmlEditor.Models.TreeView
         public ICommand TextBoxLostFocus { get; set; }
 
 
-        public TreeViewItemInfo(SavannahXmlNode root, IEditedModel editedModel, TreeViewItemInfo parent = null)
+        public TreeViewItemInfo(AbstractSavannahXmlNode root, IEditedModel editedModel, TreeViewItemInfo parent = null)
         {
-            bool.TryParse(root.GetAttribute(XmlExpanded).Value, out var isExpanded);
-            IsExpanded = isExpanded;
-            root.RemoveAttribute(XmlExpanded);
+            if (root is SavannahTagNode tagRoot)
+            {
+                bool.TryParse(tagRoot.GetAttribute(XmlExpanded).Value, out var isExpanded);
+                IsExpanded = isExpanded;
+                tagRoot.RemoveAttribute(XmlExpanded);
+
+
+                children = new ObservableCollection<TreeViewItemInfoBase>(from node in tagRoot.ChildNodes
+                    select new TreeViewItemInfo(node, editedModel, this));
+            }
 
             Node = root;
             Parent = parent;
             TagName = Node.TagName;
             Name = GetNodeName(Node);
             EditedModel = editedModel;
-
-            children = new ObservableCollection<TreeViewItemInfoBase>(from node in Node.ChildNodes
-                select new TreeViewItemInfo(node, editedModel, this));
 
             TextBoxLostFocus = new DelegateCommand(() =>
             {
@@ -116,7 +121,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         public void EnableTextEdit()
         {
-            if (Node.NodeType != XmlNodeType.Tag)
+            if (!(Node is SavannahTagNode))
                 return;
 
             TextBlockVisibility = Visibility.Collapsed;
@@ -159,14 +164,18 @@ namespace _7dtd_XmlEditor.Models.TreeView
             }
         }
 
-        public static string GetNodeName(SavannahXmlNode node) => Conditions.IfElse(node.Attributes.Any(),
-            () => $"{node.TagName} {node.Attributes.ToAttributesText(", ")}" , () => $"{node.TagName}");
+        public static string GetNodeName(AbstractSavannahXmlNode node)
+        {
+            if (!(node is SavannahTagNode tagNode))
+                return $"{node.TagName}";
+
+            return tagNode.Attributes.Any() ? $"{node.TagName} {tagNode.Attributes.ToAttributesText(", ")}" : $"{node.TagName}";
+        }
 
         public static string GetName(TreeViewItemInfo info)
         {
             var root = info.Node;
-            return Conditions.IfElse(root.Attributes.Any(), () => $"{root.TagName} {root.Attributes.ToAttributesText(", ")}"
-                , () => $"{root.TagName}");
+            return GetNodeName(root);
         }
     }
 }

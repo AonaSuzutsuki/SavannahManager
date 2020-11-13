@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using SavannahXmlLib.XmlWrapper;
+using SavannahXmlLib.XmlWrapper.Nodes;
 
 namespace SvManagerLibrary.Config
 {
@@ -109,10 +110,10 @@ namespace SvManagerLibrary.Config
         public void Write(Stream stream)
         {
             var writer = new SavannahXmlWriter();
-            var root = SavannahXmlNode.CreateRoot("ServerSettings");
+            var root = SavannahTagNode.CreateRoot("ServerSettings");
             var configXmlArray = (from config in configs.Values
                                   let configAttributeInfo = CreateConfigAttributeInfos(config)
-                                  select SavannahXmlNode.CreateElement("property", configAttributeInfo)).ToArray();
+                                  select SavannahTagNode.CreateElement("property", configAttributeInfo)).ToArray();
             root.ChildNodes = configXmlArray;
 
             writer.Write(stream, root);

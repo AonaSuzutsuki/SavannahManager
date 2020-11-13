@@ -12,6 +12,7 @@ using CommonStyleLib.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using SavannahXmlLib.XmlWrapper;
+using SavannahXmlLib.XmlWrapper.Nodes;
 
 namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 {
@@ -26,7 +27,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
         private string steamId;
 
-        public SavannahXmlNode Node { get; set; }
+        public SavannahTagNode Node { get; set; }
 
         public PermissionItemType ItemType { get; set; } = PermissionItemType.Real;
 
@@ -124,7 +125,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         private bool canSave;
         private string openedFilePath;
         private string declaration;
-        private SavannahXmlNode root;
+        private SavannahTagNode root;
 
         private ObservableCollection<PermissionInfo> commandPermissions = new ObservableCollection<PermissionInfo>();
         private ObservableCollection<AdminPermissionInfo> adminPermissions = new ObservableCollection<AdminPermissionInfo>();
@@ -276,8 +277,9 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
         private static IEnumerable<PermissionInfo> LoadCommand(SavannahXmlReader reader)
         {
-            var nodes = reader.GetNode("/adminTools/permissions")?.ChildNodes;
-            var permissions = from node in nodes
+            var nodes = (reader.GetNode("/adminTools/permissions") as SavannahTagNode)?.ChildNodes;
+            var children = (nodes ?? Array.Empty<AbstractSavannahXmlNode>()).OfType<SavannahTagNode>();
+            var permissions = from node in children
                 let cmd = node.GetAttribute("cmd")
                 let permission = node.GetAttribute("permission_level")
                 where cmd != null && permission != null
@@ -293,13 +295,12 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
         private static (IEnumerable<AdminPermissionInfo>, IEnumerable<AdminPermissionInfo>) LoadAdmin(SavannahXmlReader reader)
         {
-            var admin = reader.GetNode("/adminTools/admins");
-            if (admin == null)
+            if (!(reader.GetNode("/adminTools/admins") is SavannahTagNode admin))
                 return (new AdminPermissionInfo[0], new AdminPermissionInfo[0]);
 
             var groups = new List<AdminPermissionInfo>();
             var players = new List<AdminPermissionInfo>();
-            var children = admin.ChildNodes;
+            var children = admin.ChildNodes.OfType<SavannahTagNode>();
             foreach (var node in children)
             {
                 var info = new AdminPermissionInfo
@@ -328,13 +329,13 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
         private static (IEnumerable<WhitelistPermissionInfo>, IEnumerable<WhitelistPermissionInfo>) LoadWhitelist(SavannahXmlReader reader)
         {
-            var admin = reader.GetNode("/adminTools/whitelist");
+            var admin = reader.GetNode("/adminTools/whitelist") as SavannahTagNode;
             if (admin == null)
                 return (new WhitelistPermissionInfo[0], new WhitelistPermissionInfo[0]);
 
             var groups = new List<WhitelistPermissionInfo>();
             var players = new List<WhitelistPermissionInfo>();
-            var children = admin.ChildNodes;
+            var children = admin.ChildNodes.OfType<SavannahTagNode>();
             foreach (var node in children)
             {
                 var info = new WhitelistPermissionInfo
@@ -360,8 +361,9 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
         private static IEnumerable<BlackListPermissionInfo> LoadBlacklist(SavannahXmlReader reader)
         {
-            var nodes = reader.GetNode("/adminTools/blacklist")?.ChildNodes;
-            var permissions = from node in nodes
+            var nodes = (reader.GetNode("/adminTools/blacklist") as SavannahTagNode)?.ChildNodes;
+            var children = nodes.OfType<SavannahTagNode>();
+            var permissions = from node in children
                 let steamId = node.GetAttribute("steamID")
                 let unBanDate = node.GetAttribute("unbandate")
                 let reason = node.GetAttribute("reason")

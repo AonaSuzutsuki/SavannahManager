@@ -12,6 +12,7 @@ using _7dtd_svmanager_fix_mvvm.Update.Views;
 using CommonExtensionLib.Extensions;
 using SavannahXmlLib.XmlWrapper;
 using CommonStyleLib.File;
+using SavannahXmlLib.XmlWrapper.Nodes;
 using UpdateLib.Http;
 using UpdateLib.Update;
 using Color = System.Drawing.Color;
@@ -47,7 +48,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
                 using var stream = new MemoryStream(details);
                 var reader = new SavannahXmlReader(stream);
-                var nodes = reader.GetNodes("/updates/update");
+                var nodes = reader.GetNodes("/updates/update").OfType<SavannahTagNode>();
 
                 Updates = Analyze(nodes);
 
@@ -91,7 +92,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             return startInfo;
         }
 
-        private Dictionary<string, IEnumerable<RichTextItem>> Analyze(IEnumerable<SavannahXmlNode> nodes)
+        private Dictionary<string, IEnumerable<RichTextItem>> Analyze(IEnumerable<SavannahTagNode> nodes)
         {
             var dict = new Dictionary<string, IEnumerable<RichTextItem>>();
 
@@ -106,11 +107,11 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             return dict;
         }
 
-        private static void AddRichTextItem(IEnumerable<SavannahXmlNode> nodes, List<RichTextItem> items)
+        private static void AddRichTextItem(IEnumerable<AbstractSavannahXmlNode> nodes, List<RichTextItem> items)
         {
             foreach (var node in nodes)
             {
-                if (node.NodeType == XmlNodeType.Text)
+                if (node is SavannahTextNode)
                 {
                     var array = node.InnerText.UnifiedBreakLine().Split('\n');
                     foreach (var text in array)
@@ -126,37 +127,37 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                         items.Add(paragraph);
                     }
                 }
-                else
+                else if (node is SavannahTagNode tagNode)
                 {
-                    if (node.TagName == "nobr")
+                    if (tagNode.TagName == "nobr")
                     {
                         items.Add(new RichTextItem
                         {
                             TextType = RichTextType.NoBreakLine
                         });
                     }
-                    else if (node.TagName == "space")
+                    else if (tagNode.TagName == "space")
                     {
                         items.Add(new RichTextItem
                         {
                             TextType = RichTextType.Space
                         });
                     }
-                    else if (node.TagName == "font")
+                    else if (tagNode.TagName == "font")
                     {
                         var paragraph = new RichTextItem
                         {
                             TextType = RichTextType.Paragraph,
                             Children = new []
                             {
-                                AnalyzeTag(node)
+                                AnalyzeTag(tagNode)
                             }
                         };
                         items.Add(paragraph);
                     }
-                    else if (node.TagName == "a")
+                    else if (tagNode.TagName == "a")
                     {
-                        var link = node.GetAttribute("href").Value;
+                        var link = tagNode.GetAttribute("href").Value;
                         var paragraph = new RichTextItem
                         {
                             TextType = RichTextType.Paragraph
@@ -167,7 +168,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                             Link = link
                         };
 
-                        foreach (var child in node.ChildNodes)
+                        foreach (var child in tagNode.ChildNodes)
                         {
                             item.AddChildren(AnalyzeTag(child));
                         }
@@ -187,11 +188,11 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             }
         }
 
-        private static RichTextItem AnalyzeTag(SavannahXmlNode node)
+        private static RichTextItem AnalyzeTag(AbstractSavannahXmlNode node)
         {
-            if (node.TagName == "font")
+            if (node.TagName == "font" && node is SavannahTagNode tagNode)
             {
-                var colorCode = node.GetAttribute("color").Value;
+                var colorCode = tagNode.GetAttribute("color").Value;
                 var c = ColorTranslator.FromHtml(colorCode);
                 var color = System.Windows.Media.Color.FromRgb(c.R, c.G, c.B);
 
@@ -204,7 +205,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                 return item;
             }
 
-            if (node.NodeType == XmlNodeType.Text)
+            if (node is SavannahTextNode)
             {
                 return new RichTextItem
                 {
