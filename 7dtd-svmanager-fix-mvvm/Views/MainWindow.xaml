@@ -312,7 +312,7 @@
 
                                 </Grid>
                             </TabItem>
-                            <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ConfigLabel, Mode=OneWay}" IsEnabled="False">
+                            <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ConfigLabel, Mode=OneWay}">
                                 <Grid Style="{StaticResource TabGrid}">
                                     <StackPanel>
                                         <Label Content="Permissions" />

@@ -113,8 +113,8 @@
                                         <ColumnDefinition Width="340" />
                                         <ColumnDefinition Width="36" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBox Text="{Binding AdminFilePathText.Value}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Height="24" IsEnabled="False" />
-                                    <Button Name="getAdminFilePathBT" Grid.Column="1" Style="{DynamicResource FlatButton}" Content="..." HorizontalAlignment="Center" VerticalAlignment="Top"  Width="26" Height="24" IsEnabled="False" Command="{Binding GetAdminFilePathCommand}" />
+                                    <TextBox Text="{Binding AdminFilePathText.Value}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Height="24" />
+                                    <Button Name="getAdminFilePathBT" Grid.Column="1" Style="{DynamicResource FlatButton}" Content="..." HorizontalAlignment="Center" VerticalAlignment="Top"  Width="26" Height="24" Command="{Binding GetAdminFilePathCommand}" />
                                 </Grid>
                             </Grid>
 

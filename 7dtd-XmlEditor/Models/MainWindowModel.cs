@@ -11,6 +11,7 @@ using CommonExtensionLib.Extensions;
 using CommonStyleLib.File;
 using CommonStyleLib.Models;
 using SavannahXmlLib.XmlWrapper;
+using SavannahXmlLib.XmlWrapper.Nodes;
 
 namespace _7dtd_XmlEditor.Models
 {
@@ -128,7 +129,7 @@ namespace _7dtd_XmlEditor.Models
             IsEdited = false;
 
             declaration = SavannahXmlConstants.Utf8Declaration;
-            root = new TreeViewItemInfo(new SavannahXmlNode { TagName = "root" }, this)
+            root = new TreeViewItemInfo(new SavannahTagNode { TagName = "root" }, this)
             {
                 IsRoot = true
             };
@@ -189,10 +190,10 @@ namespace _7dtd_XmlEditor.Models
                 return;
 
             FullPath = info.Path;
-            if (!info.IgnoreAttributeRedraw)
+            if (!info.IgnoreAttributeRedraw && info.Node is SavannahTagNode tagNode)
             {
                 Attributes.Clear();
-                Attributes.AddAll(from attribute in info.Node.Attributes
+                Attributes.AddAll(from attribute in tagNode.Attributes
                     select new ViewAttributeInfo
                     {
                         Attribute = new AttributeInfo { Name = attribute.Name, Value = attribute.Value },
@@ -204,9 +205,9 @@ namespace _7dtd_XmlEditor.Models
                 info.IgnoreAttributeRedraw = false;
             }
 
-            InnerXml = info.Node.NodeType == XmlNodeType.Tag ? info.Node.InnerXml : info.Node.InnerText;
+            InnerXml = info.Node is SavannahTagNode ? info.Node.InnerXml : info.Node.InnerText;
 
-            IsAttributesEnabled = info.Node.NodeType != XmlNodeType.Text;
+            IsAttributesEnabled = !(info.Node is SavannahTextNode);
         }
 
         public void LostFocus(ViewAttributeInfo info)
@@ -218,14 +219,13 @@ namespace _7dtd_XmlEditor.Models
         public void AddChildElement()
         {
             var info = SelectedItem;
-            if (info == null)
+            if (info == null || !(info.Node is SavannahTagNode currentNode))
                 return;
 
-            var currentNode = info.Node;
-            var node = new SavannahXmlNode();
+            var node = new SavannahTagNode();
             var prevChildren = currentNode.ChildNodes;
             var currentNodeChildNodes = prevChildren.ToList();
-            var children = new List<SavannahXmlNode>(currentNodeChildNodes)
+            var children = new List<AbstractSavannahXmlNode>(currentNodeChildNodes)
             {
                 node
             };
@@ -249,13 +249,12 @@ namespace _7dtd_XmlEditor.Models
         public void RemoveElement()
         {
             var info = SelectedItem;
-            if (info == null)
+            if (info == null || !(info.Parent.Node is SavannahTagNode parentNode))
                 return;
 
-            var parent = info.Parent;
-            var savannahXmlNodes = new List<SavannahXmlNode>(parent.Node.ChildNodes);
+            var savannahXmlNodes = new List<AbstractSavannahXmlNode>(parentNode.ChildNodes);
             savannahXmlNodes.Remove(info.Node);
-            parent.Node.ChildNodes = savannahXmlNodes;
+            parentNode.ChildNodes = savannahXmlNodes;
             info.Parent.RemoveChildren(info);
             IsEdited = true;
         }
@@ -292,25 +291,27 @@ namespace _7dtd_XmlEditor.Models
         public void Apply(bool ignoreAttributeRedraw = false)
         {
             var node = SelectedItem.Node;
-            if (node.NodeType == XmlNodeType.Tag && InnerXml != node.InnerXml)
-                node.PrioritizeInnerXml = InnerXml;
-            else if (node.NodeType == XmlNodeType.Text)
+            if (node is SavannahTagNode tagNode && InnerXml != node.InnerXml)
+            {
+                tagNode.PrioritizeInnerXml = InnerXml;
+                tagNode.Attributes = from attribute in Attributes
+                    where !string.IsNullOrEmpty(attribute.Attribute.Name)
+                    select new AttributeInfo { Name = attribute.Attribute.Name, Value = attribute.Attribute.Value };
+                tagNode.AppendAttribute(XmlSelected, true.ToString());
+            }
+            else if (node is SavannahTextNode)
+            {
                 node.InnerText = InnerXml;
+            }
 
-            node.Attributes = from attribute in Attributes
-                where !string.IsNullOrEmpty(attribute.Attribute.Name)
-                select new AttributeInfo { Name = attribute.Attribute.Name, Value = attribute.Attribute.Value };
-
-            var info = SelectedItem;
             AssignExpanded(root);
-            info.Node.AppendAttribute(XmlSelected, true.ToString());
 
             using var ms = new MemoryStream();
             var writer = new SavannahXmlWriter(declaration)
             {
                 IgnoreComments = false
             };
-            writer.Write(ms, root.Node);
+            writer.Write(ms, root.Node as SavannahTagNode);
 
             ms.Seek(0, SeekOrigin.Begin);
             var reader = new SavannahXmlReader(ms, false);
@@ -341,8 +342,8 @@ namespace _7dtd_XmlEditor.Models
         private void AssignExpanded(TreeViewItemInfo info)
         {
             var node = info.Node;
-            if (info.IsExpanded)
-                node.AppendAttribute(XmlExpanded, true.ToString());
+            if (node is SavannahTagNode tagNode && info.IsExpanded)
+                tagNode.AppendAttribute(XmlExpanded, true.ToString());
             foreach (var child in info.GetChildrenEnumerable())
             {
                 AssignExpanded(child);
@@ -352,8 +353,11 @@ namespace _7dtd_XmlEditor.Models
         private TreeViewItemInfo GetSelectedInfo(TreeViewItemInfo info)
         {
             var node = info.Node;
-            bool.TryParse(node.GetAttribute(XmlSelected).Value, out var isSelected);
-            node.RemoveAttribute(XmlSelected);
+            if (!(node is SavannahTagNode tagNode))
+                return info;
+
+            bool.TryParse(tagNode.GetAttribute(XmlSelected).Value, out var isSelected);
+            tagNode.RemoveAttribute(XmlSelected);
             info.Name = TreeViewItemInfo.GetName(info);
             if (isSelected)
             {
@@ -386,14 +390,17 @@ namespace _7dtd_XmlEditor.Models
             return (declaration, root);
         }
 
-        private static void SaveFile(string filePath, string declaration, SavannahXmlNode node)
+        private static void SaveFile(string filePath, string declaration, AbstractSavannahXmlNode node)
         {
+            if (!(node is SavannahTagNode tagNode))
+                return;
+
             var writer = new SavannahXmlWriter(declaration)
             {
                 IgnoreComments = false
             };
             Console.WriteLine(node.InnerXml);
-            writer.Write(filePath, node);
+            writer.Write(filePath, tagNode);
         }
     }
 }

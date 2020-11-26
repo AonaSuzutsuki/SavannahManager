@@ -97,6 +97,24 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   7Days To Dieのサーバーアドミンコンフィグファイルを選択してください。serveradmin.xmlがそのファイルです。(%AppData%\7DaysToDie¥Saves内部にあります。) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_AdminPageDescription {
+            get {
+                return ResourceManager.GetString("UI_AdminPageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   サーバーアドミンコンフィグファイルを選択してください。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_AdminPageTitle {
+            get {
+                return ResourceManager.GetString("UI_AdminPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   自動検索 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_AutoSearchBT {

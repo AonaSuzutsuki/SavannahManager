@@ -50,6 +50,9 @@ namespace _7dtd_svmanager_fix_mvvm
 
         public static void ShowAndWriteException(Exception exception)
         {
+            if (exception == null)
+                return;
+
             var mes = string.Format("予期せぬエラーが発生しました。\r\nお手数ですが、開発者に例外内容を報告してください。\r\n\r\n---\r\n\r\n{0}\r\n\r\n{1}",
                 exception.Message, exception.StackTrace);
             MessageBox.Show(mes, "予期せぬエラー", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -60,13 +63,9 @@ namespace _7dtd_svmanager_fix_mvvm
 
         private static void OutToFile(string filename, string text)
         {
-            using (var fs = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
-            {
-                using (var sw = new StreamWriter(fs, System.Text.Encoding.UTF8))
-                {
-                    sw.Write(text);
-                }
-            }
+            using var fs = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+            using var sw = new StreamWriter(fs, System.Text.Encoding.UTF8);
+            sw.Write(text);
         }
     }
 }

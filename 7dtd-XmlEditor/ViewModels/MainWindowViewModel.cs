@@ -14,6 +14,7 @@ using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using SavannahXmlLib.XmlWrapper;
+using SavannahXmlLib.XmlWrapper.Nodes;
 
 namespace _7dtd_XmlEditor.ViewModels
 {
@@ -127,22 +128,25 @@ namespace _7dtd_XmlEditor.ViewModels
             var targetItemParent = targetItem.Parent;
             var sourceItemParent = sourceItem.Parent;
 
+            if (!(sourceItemParent.Node is SavannahTagNode sourceItemParentNode) || !(targetItemParent.Node is SavannahTagNode targetItemParentNode))
+                return;
+
             if (insertType == MoveableTreeViewBehavior.InsertType.Before)
             {
-                sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
-                targetItemParent.Node.AddBeforeChildElement(targetItem.Node, sourceItem.Node);
+                sourceItemParentNode.RemoveChildElement(sourceItem.Node);
+                targetItemParentNode.AddBeforeChildElement(targetItem.Node, sourceItem.Node);
             }
             else if (insertType == MoveableTreeViewBehavior.InsertType.After)
             {
-                sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
-                targetItemParent.Node.AddAfterChildElement(targetItem.Node, sourceItem.Node);
+                sourceItemParentNode.RemoveChildElement(sourceItem.Node);
+                targetItemParentNode.AddAfterChildElement(targetItem.Node, sourceItem.Node);
             }
             else
             {
-                if (targetItem.Node.NodeType == XmlNodeType.Tag)
+                if (targetItem.Node is SavannahTagNode targetNode)
                 {
-                    sourceItemParent.Node.RemoveChildElement(sourceItem.Node);
-                    targetItem.Node.AddChildElement(sourceItem.Node);
+                    sourceItemParentNode.RemoveChildElement(sourceItem.Node);
+                    targetNode.AddChildElement(sourceItem.Node);
                 }
                 else
                 {

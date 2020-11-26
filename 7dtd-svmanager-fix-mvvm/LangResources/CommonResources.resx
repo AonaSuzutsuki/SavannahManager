@@ -121,4 +121,16 @@
     <value>エラー</value>
     <comment>メッセージ</comment>
   </data>
+  <data name="UI_NewFile" xml:space="preserve">
+    <value>新規作成(_N)</value>
+  </data>
+  <data name="UI_OpenFIle" xml:space="preserve">
+    <value>開く(_O)</value>
+  </data>
+  <data name="UI_SaveAsFile" xml:space="preserve">
+    <value>名前を付けて保存(_A)</value>
+  </data>
+  <data name="UI_SaveFIle" xml:space="preserve">
+    <value>保存(_S)</value>
+  </data>
 </root>

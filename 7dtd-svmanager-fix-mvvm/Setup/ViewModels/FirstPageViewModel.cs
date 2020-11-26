@@ -7,9 +7,9 @@ using _7dtd_svmanager_fix_mvvm.Setup.Models;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
-    public class Page1ViewModel : NavigationPageViewModelBase
+    public class FirstPageViewModel : NavigationPageViewModelBase
     {
-        public Page1ViewModel(NavigationWindowService<InitializeData> bindableValue) : base(bindableValue?.NavigationValue)
+        public FirstPageViewModel(NavigationWindowService<InitializeData> bindableValue) : base(bindableValue?.NavigationValue)
         {
         }
     }

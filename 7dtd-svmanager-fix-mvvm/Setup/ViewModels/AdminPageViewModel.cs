@@ -1,32 +1,31 @@
 ﻿using System.Windows;
 using _7dtd_svmanager_fix_mvvm.Setup.Models;
-using Reactive.Bindings;
-using System.Windows.Input;
-using Reactive.Bindings.Extensions;
-using Prism.Commands;
 using _7dtd_svmanager_fix_mvvm.Setup.Views;
 using CommonStyleLib.ViewModels;
+using Prism.Commands;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
+using System.Windows.Input;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
-    public class Page2ViewModel : NavigationPageViewModelBase
+    public class AdminPageViewModel : NavigationPageViewModelBase
     {
-        public Page2ViewModel(NavigationWindowService<InitializeData> bindableValue, Page2Model model) : base(bindableValue?.NavigationValue)
+        private readonly AdminPageModel model;
+        public AdminPageViewModel(NavigationWindowService<InitializeData> bindableValue, AdminPageModel model) : base(bindableValue?.NavigationValue)
         {
             this.model = model;
 
             GetPathCommand = new DelegateCommand(GetPathBt_Click);
             AutoSearchCommand = new DelegateCommand(AutoSearchBt_Click);
 
-            ServerFilePathText = model.ToReactivePropertyAsSynchronized(m => m.ServerFilePathText);
+            ServerConfigPathText = model.ToReactivePropertyAsSynchronized(m => m.ServerConfigPathText);
         }
 
-        public ReactiveProperty<string> ServerFilePathText { get; set; }
+        public ReactiveProperty<string> ServerConfigPathText { get; set; }
 
         public ICommand GetPathCommand { get; set; }
         public ICommand AutoSearchCommand { get; set; }
-
-        private Page2Model model;
 
         public void GetPathBt_Click()
         {

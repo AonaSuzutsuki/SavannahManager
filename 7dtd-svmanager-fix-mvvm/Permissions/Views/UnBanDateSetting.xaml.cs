@@ -11,23 +11,23 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using _7dtd_svmanager_fix_mvvm.Settings.Models;
-using _7dtd_svmanager_fix_mvvm.Settings.ViewModels;
-using CommonStyleLib.Views;
+using _7dtd_svmanager_fix_mvvm.Permissions.ViewModels;
 
-namespace _7dtd_svmanager_fix_mvvm.Settings.Views
+namespace _7dtd_svmanager_fix_mvvm.Permissions.Views
 {
     /// <summary>
-    /// PermissionEditor.xaml の相互作用ロジック
+    /// UnBanDateSetting.xaml の相互作用ロジック
     /// </summary>
-    public partial class PermissionEditor : Window
+    public partial class UnBanDateSetting : Window
     {
-        public PermissionEditor()
+        public UnBanDateSetting()
         {
             InitializeComponent();
+        }
 
-            var vm = new PermissionEditorViewModel(new WindowService(this), new PermissionEditorModel());
-            DataContext = vm;
+        public void SetDisplayDate(DateTime dateTime)
+        {
+            DateCalendar.DisplayDate = dateTime;
         }
     }
 }

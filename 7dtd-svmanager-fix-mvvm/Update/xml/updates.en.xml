@@ -9,6 +9,7 @@
     5. Fixed internal processing of XmlEditor.
       5.1. Fixed an issue where XmlEditor could move to a layer above the root node in a drag move.
       5.2. Fixed an issue where drag moves in XmlEditor could be put into child elements other than tags.
+    6. Added "Permission Editor" to edit serveradmin.xml.
   </update>
   <update version="2.3.38.4">
     1. Fixed an issue where getting a player or time would not work properly.

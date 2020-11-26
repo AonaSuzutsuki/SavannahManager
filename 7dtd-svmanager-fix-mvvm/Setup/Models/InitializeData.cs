@@ -6,6 +6,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
     {
         public string ServerFilePath { get; set; } = string.Empty;
         public string ServerConfigFilePath { get; set; } = string.Empty;
+        public string ServerAdminConfigFilePath { get; set; } = string.Empty;
         public SettingLoader Setting { get; set; }
     }
 }

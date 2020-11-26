@@ -121,4 +121,16 @@
     <value>Error</value>
     <comment>メッセージ</comment>
   </data>
+  <data name="UI_NewFile" xml:space="preserve">
+    <value>New File(_N)</value>
+  </data>
+  <data name="UI_OpenFIle" xml:space="preserve">
+    <value>Open(_O)</value>
+  </data>
+  <data name="UI_SaveAsFile" xml:space="preserve">
+    <value>Save As(_A)</value>
+  </data>
+  <data name="UI_SaveFIle" xml:space="preserve">
+    <value>Save(_S)</value>
+  </data>
 </root>

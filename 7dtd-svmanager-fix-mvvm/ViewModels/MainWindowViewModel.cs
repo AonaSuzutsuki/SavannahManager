@@ -17,6 +17,9 @@ using _7dtd_svmanager_fix_mvvm.Backup.Models;
 using _7dtd_svmanager_fix_mvvm.Backup.ViewModels;
 using _7dtd_svmanager_fix_mvvm.Backup.Views;
 using _7dtd_svmanager_fix_mvvm.Models;
+using _7dtd_svmanager_fix_mvvm.Permissions.Models;
+using _7dtd_svmanager_fix_mvvm.Permissions.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Permissions.Views;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Models;
 using _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Views;
@@ -380,14 +383,16 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                     {
                         Setting = _model.Setting,
                         ServerConfigFilePath = _model.Setting.ConfigFilePath,
-                        ServerFilePath = _model.Setting.ExeFilePath
+                        ServerFilePath = _model.Setting.ExeFilePath,
+                        ServerAdminConfigFilePath = _model.Setting.AdminFilePath
                     },
                     Pages = new List<Tuple<Type, bool>>
                     {
-                        new Tuple<Type, bool>(typeof(Page1), true),
-                        new Tuple<Type, bool>(typeof(Page2), true),
-                        new Tuple<Type, bool>(typeof(Page3), true),
-                        new Tuple<Type, bool>(typeof(Page4), true)
+                        new Tuple<Type, bool>(typeof(FirstPage), true),
+                        new Tuple<Type, bool>(typeof(ExecutablePage), true),
+                        new Tuple<Type, bool>(typeof(ConfigPage), true),
+                        new Tuple<Type, bool>(typeof(AdminPage), true),
+                        new Tuple<Type, bool>(typeof(FinishPage), true)
                     }
                 };
                 service.NavigationValue.WindowTitle = LangResources.SetupResource.UI_NameLabel;
@@ -637,8 +642,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void OpenPermissionEditor()
         {
-            var vm = new PermissionEditorViewModel(new WindowService(), new PermissionEditorModel());
-            WindowManageService.Show<PermissionEditor>(vm);
+            var adminFilePath = _model.Setting.AdminFilePath;
+            if (string.IsNullOrEmpty(adminFilePath))
+            {
+                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_Empty, "AdminFilePath"),
+                    LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                return;
+            }
+            var vm = new PermissionEditorViewModel(new WindowService(), new PermissionEditorModel(adminFilePath));
+            WindowManageService.ShowNonOwner<PermissionEditor>(vm);
         }
 
         private void OpenGetIp()

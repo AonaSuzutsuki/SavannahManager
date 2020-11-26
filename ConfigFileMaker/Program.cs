@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using SavannahXmlLib.XmlWrapper.Nodes;
 
 namespace ConfigFileMaker
 {
@@ -15,7 +16,7 @@ namespace ConfigFileMaker
         static void Main()
         {
             var writer = new SavannahXmlWriter();
-            var root = SavannahXmlNode.CreateRoot("ServerSettings");
+            var root = SavannahTagNode.CreateRoot("ServerSettings");
 
             var text = GetInnerXml(File.ReadAllText("serverconfig.xml"));
             var regex = new Regex("^( |\\t)*<property( |\\t)+name=\"(?<name>.*)\"( |\\t)+value=\"(?<value>.*)\"( |\\t)*\\/>( |\\t)*([\r\n])*( |\t)*<!--(?<description>.*)-->",
@@ -48,9 +49,9 @@ namespace ConfigFileMaker
                 };
                 description = AddDescription(attributes, description);
 
-                var elem = SavannahXmlNode.CreateElement("property", attributes.ToArray());
+                var elem = SavannahTagNode.CreateElement("property", attributes.ToArray());
                 elem.InnerText = description;
-                elem.AddChildElement(SavannahXmlNode.CreateTextNode(description));
+                elem.AddChildElement(SavannahTextNode.CreateTextNode(description));
 
                 root.AddChildElement(elem);
 

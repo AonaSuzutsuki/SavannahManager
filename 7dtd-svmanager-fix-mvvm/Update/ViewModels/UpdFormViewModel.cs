@@ -20,7 +20,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 {
     public class UpdFormViewModel : ViewModelBase
     {
-        private UpdFormModel model;
+        private readonly UpdFormModel model;
         public UpdFormViewModel(WindowService windowService, UpdFormModel model, bool isAsync = false) : base(windowService, model)
         {
             this.model = model;

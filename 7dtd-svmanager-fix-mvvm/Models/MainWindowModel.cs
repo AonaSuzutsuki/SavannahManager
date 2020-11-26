@@ -201,7 +201,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private string ExeFilePath => Setting.ExeFilePath;
         private string ConfigFilePath => Setting.ConfigFilePath;
-        private string AdminFilePath => Setting.AdminFilePath;
 
         public int ConsoleTextLength { get; private set; }
 
