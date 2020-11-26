@@ -55,4 +55,137 @@
         </Setter>
     </Style>
 
+    <!-- StartButton -->
+    <Style x:Key="StartBT" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Canvas Height="22" Width="22" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                        <Path x:Name="triangle" Data="M80.375001,97.20943 L80.375,88 87.828125,92.625 z" Fill="White" Height="12" StrokeThickness="0" Stretch="Fill" Stroke="Black" Width="10" Canvas.Left="7" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="5.2"/>
+                        <Ellipse x:Name="ellipse" Fill="#00F4F4F5" HorizontalAlignment="Left" Height="22" Stroke="White" VerticalAlignment="Top" Width="22" RenderTransformOrigin="-0.667,-0.206" OpacityMask="Black"/>
+                    </Canvas>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ellipse" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="triangle" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- StopButton -->
+    <Style x:Key="StopBT" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Canvas Height="22" Width="22" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Rectangle x:Name="rectangle" Fill="White" Height="8" StrokeThickness="0" Stroke="Black" Width="8" Margin="7,7,6,6" />
+                        <Ellipse x:Name="ellipse" Fill="#00F4F4F5" Height="22" Stroke="White" Width="22" RenderTransformOrigin="0.5,0.511" OpacityMask="Black" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    </Canvas>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="rectangle" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="ellipse" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- TelnetBT -->
+    <Style x:Key="TelnetBT" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#fff" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Orientation="Horizontal" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Path Data="M0,0 L13,0 13,4.9169998 12,4.9169998 12,0.99999994 0.99999994,0.99999994 0.99999994,12 4.9169998,12 4.9169998,13 0,13 z" Fill="White" HorizontalAlignment="Left" Height="15.895" Margin="2.5,2.915,0,0" Stretch="Fill" Stroke="White" StrokeThickness="0" VerticalAlignment="Top" Width="16.908"/>
+                            <TextBlock FontFamily="Script" Foreground="White" Padding="0" HorizontalAlignment="Left" Height="13.448" Margin="10.556,7.551,0,0" TextWrapping="Wrap" Text="T" VerticalAlignment="Top" Width="9.694"/>
+                        </Grid>
+                        <ContentPresenter Margin="4,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- CommandListBT -->
+    <Style x:Key="CommandListBT" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#fff" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Orientation="Horizontal" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Path Data="M0,0 L13,0 13,4.9169998 12,4.9169998 12,0.99999994 0.99999994,0.99999994 0.99999994,12 4.9169998,12 4.9169998,13 0,13 z" Fill="White" HorizontalAlignment="Left" Height="15.895" Margin="2.5,2.915,0,0" Stretch="Fill" Stroke="{TemplateBinding Foreground}" StrokeThickness="0" VerticalAlignment="Top" Width="16.908"/>
+                            <TextBlock FontFamily="Script" Foreground="{TemplateBinding Foreground}" Padding="0" HorizontalAlignment="Left" Height="13.448" Margin="10.556,7.551,0,0" TextWrapping="Wrap" Text="C" VerticalAlignment="Top" Width="9.694"/>
+                        </Grid>
+                        <ContentPresenter Margin="4,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <BitmapImage x:Key="RefreshImage" UriSource="/Images/Refresh.png" />
+
+    <Style x:Key="RefreshButton" TargetType="Button">
+        <Setter Property="Width" Value="23" />
+        <Setter Property="Height" Value="23" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Orientation="Horizontal" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Canvas Height="22" Width="22" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <Ellipse x:Name="ellipse" Fill="#00F4F4F5" Height="22" Stroke="White" Width="22" RenderTransformOrigin="0.5,0.511" OpacityMask="Black" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            </Canvas>
+                            <Image Width="15" Source="{StaticResource RefreshImage}" />
+                        </Grid>
+                        <ContentPresenter Margin="4,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

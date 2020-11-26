@@ -577,6 +577,9 @@
   <ItemGroup>
     <Folder Include="Extensions\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Refresh.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent># For Release

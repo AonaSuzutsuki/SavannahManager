@@ -36,6 +36,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ButtonIcon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -114,7 +115,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid HorizontalAlignment="Stretch" Margin="0,0,5,0" Width="Auto" Grid.Column="0">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="25">
-                            <Button Name="PlayerListRefreshBT" Width="23" Height="23" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource ResourceKey=RefreshBT}"  Margin="0,0,0,0" Command="{Binding PlayerListRefreshCommand}" />
+                            <Button Name="PlayerListRefreshBT" Width="23" Height="23" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource ResourceKey=RefreshButton}"  Margin="0,0,0,0" Command="{Binding PlayerListRefreshCommand}" />
                         </StackPanel>
                         <Grid HorizontalAlignment="Stretch" Margin="0,26,0,0">
                             <Grid.RowDefinitions>
