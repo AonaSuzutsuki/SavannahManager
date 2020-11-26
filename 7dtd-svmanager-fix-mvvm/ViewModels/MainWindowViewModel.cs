@@ -437,7 +437,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             var updFormModel = new UpdFormModel();
             var vm = new UpdFormViewModel(new WindowService(), updFormModel);
-            WindowManageService.Show<UpdForm>(vm);
+            WindowManageService.ShowNonOwner<UpdForm>(vm);
         }
         private void OpenMenuVersionInfo()
         {
