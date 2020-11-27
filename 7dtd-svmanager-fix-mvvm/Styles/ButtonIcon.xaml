@@ -167,12 +167,12 @@
                 <ControlTemplate TargetType="{x:Type Button}">
                     <StackPanel Orientation="Horizontal" Background="{TemplateBinding Background}">
                         <Grid>
-                            <Canvas Height="22" Width="22" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                <Ellipse x:Name="ellipse" Fill="#00F4F4F5" Height="22" Stroke="White" Width="22" RenderTransformOrigin="0.5,0.511" OpacityMask="Black" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Canvas Height="23" Width="23" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <Ellipse x:Name="ellipse" Fill="#00F4F4F5" Height="23" Stroke="White" Width="23" RenderTransformOrigin="0.5,0.511" OpacityMask="Black" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                             </Canvas>
-                            <Image Width="15" Source="{StaticResource RefreshImage}" />
+                            <Image Width="16" Margin="0,0,0,0" Source="{StaticResource RefreshImage}" />
                         </Grid>
-                        <ContentPresenter Margin="4,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ContentPresenter Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
