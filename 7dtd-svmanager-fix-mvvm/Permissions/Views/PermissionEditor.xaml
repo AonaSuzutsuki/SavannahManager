@@ -91,6 +91,7 @@
                         <Setter Property="Foreground" Value="white" />
                         <Setter Property="Background" Value="Transparent" />
                         <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="ContextMenu" Value="{StaticResource CopyCutPaste}"></Setter>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
