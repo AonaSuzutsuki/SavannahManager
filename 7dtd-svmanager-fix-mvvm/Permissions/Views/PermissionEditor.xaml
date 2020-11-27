@@ -159,7 +159,7 @@
                                     <GridViewColumn Width="200" Header="Command">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate DataType="viewModels:PermissionInfoViewModel">
-                                                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                <TextBox Text="{Binding Name.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="TextChanged">
                                                             <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
@@ -172,7 +172,7 @@
                                     <GridViewColumn Width="100" Header="Permission">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate DataType="viewModels:PermissionInfoViewModel">
-                                                <TextBox Text="{Binding Permission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                <TextBox Text="{Binding Permission.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="TextChanged">
                                                             <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
@@ -238,7 +238,7 @@
                                             <GridViewColumn Width="200" Header="Name">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                        <TextBox Text="{Binding Name.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
@@ -251,7 +251,7 @@
                                             <GridViewColumn Width="100" Header="Permission">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding Permission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                        <TextBox Text="{Binding Permission.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
@@ -310,7 +310,7 @@
                                             <GridViewColumn Width="200" Header="Name">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
+                                                        <TextBox Text="{Binding Name.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
@@ -404,7 +404,7 @@
                                             <GridViewColumn Width="100" Header="Name">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                        <TextBox Text="{Binding Name.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
@@ -462,7 +462,7 @@
                                             <GridViewColumn Width="100" Header="Name">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                        <TextBox Text="{Binding Name.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />

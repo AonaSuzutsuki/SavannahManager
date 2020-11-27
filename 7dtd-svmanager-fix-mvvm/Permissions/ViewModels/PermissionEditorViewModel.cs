@@ -21,10 +21,10 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
     {
         public PermissionBase.PermissionItemType ItemType { get; set; }
 
-        public string Name { get; set; }
+        public ReactiveProperty<string> Name { get; set; }
 
         public ReactiveProperty<string> SteamId { get; set; }
-        public int? Permission { get; set; } = 0;
+        public ReactiveProperty<string> Permission { get; set; }
 
         public Action AddDummyAction { get; set; }
         public IWindowService WindowManageService { get; }
@@ -40,8 +40,8 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
             WindowManageService = windowService;
             AddDummyAction = permissionBase.AddDummyAction;
             ItemType = permissionBase.ItemType;
-            Name = permissionBase.Name;
-            Permission = permissionBase.Permission;
+            Name = permissionBase.ToReactivePropertyAsSynchronized(m => m.Name);
+            Permission = permissionBase.ToReactivePropertyAsSynchronized(m => m.Permission);
 
             TextChangedCommand = new DelegateCommand(() =>
             {

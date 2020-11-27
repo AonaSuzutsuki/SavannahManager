@@ -26,19 +26,30 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         }
 
         private string steamId;
+        private string name;
+        private string permission;
 
         public SavannahTagNode Node { get; set; }
 
         public PermissionItemType ItemType { get; set; } = PermissionItemType.Real;
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get => name;
+            set => SetProperty(ref name, value);
+        }
 
         public string SteamId
         {
             get => steamId;
             set => SetProperty(ref steamId, value);
         }
-        public int? Permission { get; set; } = 0;
+
+        public string Permission
+        {
+            get => permission;
+            set => SetProperty(ref permission, value);
+        }
 
         public Action AddDummyAction { get; set; }
 
@@ -287,7 +298,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
                 {
                     Node = node,
                     Name = cmd.Value,
-                    Permission = permission.Value.ToInt()
+                    Permission = permission.Value
                 };
 
             return permissions;
@@ -312,7 +323,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
                 if (node.TagName == "user")
                 {
-                    info.Permission = node.GetAttribute("permission_level")?.Value.ToInt();
+                    info.Permission = node.GetAttribute("permission_level")?.Value;
                     players.Add(info);
                 }
                 else
