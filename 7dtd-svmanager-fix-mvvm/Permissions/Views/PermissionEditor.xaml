@@ -164,6 +164,9 @@
                                                         <i:EventTrigger EventName="TextChanged">
                                                             <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                         </i:EventTrigger>
+                                                        <i:EventTrigger EventName="LostFocus">
+                                                            <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+                                                        </i:EventTrigger>
                                                     </i:Interaction.Triggers>
                                                 </TextBox>
                                             </DataTemplate>
@@ -176,6 +179,9 @@
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="TextChanged">
                                                             <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="LostFocus">
+                                                            <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
                                                         </i:EventTrigger>
                                                     </i:Interaction.Triggers>
                                                 </TextBox>
@@ -220,6 +226,9 @@
                                                                     <i:EventTrigger EventName="TextChanged">
                                                                         <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                     </i:EventTrigger>
+                                                                    <i:EventTrigger EventName="LostFocus">
+                                                                        <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+                                                                    </i:EventTrigger>
                                                                 </i:Interaction.Triggers>
                                                             </TextBox>
                                                             <Button Name="GetSteamIdBt" Grid.Column="2" Style="{StaticResource IconButton}" Command="{Binding GetSteamIdCommand}">
@@ -243,6 +252,9 @@
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                 </i:EventTrigger>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+                                                                </i:EventTrigger>
                                                             </i:Interaction.Triggers>
                                                         </TextBox>
                                                     </DataTemplate>
@@ -255,6 +267,9 @@
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
                                                                 </i:EventTrigger>
                                                             </i:Interaction.Triggers>
                                                         </TextBox>
@@ -292,6 +307,9 @@
                                                                     <i:EventTrigger EventName="TextChanged">
                                                                         <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                     </i:EventTrigger>
+                                                                    <i:EventTrigger EventName="LostFocus">
+                                                                        <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+                                                                    </i:EventTrigger>
                                                                 </i:Interaction.Triggers>
                                                             </TextBox>
                                                             <Button Name="GetSteamIdBt" Grid.Column="2" Style="{StaticResource IconButton}" Command="{Binding GetSteamIdCommand}">
@@ -315,6 +333,9 @@
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                 </i:EventTrigger>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+                                                                </i:EventTrigger>
                                                             </i:Interaction.Triggers>
                                                         </TextBox>
                                                     </DataTemplate>
@@ -328,6 +349,9 @@
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                 </i:EventTrigger>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+                                                                </i:EventTrigger>
                                                             </i:Interaction.Triggers>
                                                         </TextBox>
                                                     </DataTemplate>
@@ -340,6 +364,9 @@
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
                                                                 </i:EventTrigger>
                                                             </i:Interaction.Triggers>
                                                         </TextBox>
@@ -386,6 +413,9 @@
                                                                     <i:EventTrigger EventName="TextChanged">
                                                                         <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                     </i:EventTrigger>
+                                                                    <i:EventTrigger EventName="LostFocus">
+                                                                        <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+                                                                    </i:EventTrigger>
                                                                 </i:Interaction.Triggers>
                                                             </TextBox>
                                                             <Button Name="GetSteamIdBt" Grid.Column="2" Style="{StaticResource IconButton}" Command="{Binding GetSteamIdCommand}">
@@ -408,6 +438,9 @@
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
                                                                 </i:EventTrigger>
                                                             </i:Interaction.Triggers>
                                                         </TextBox>
@@ -444,6 +477,9 @@
                                                                     <i:EventTrigger EventName="TextChanged">
                                                                         <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                                     </i:EventTrigger>
+                                                                    <i:EventTrigger EventName="LostFocus">
+                                                                        <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+                                                                    </i:EventTrigger>
                                                                 </i:Interaction.Triggers>
                                                             </TextBox>
                                                             <Button Name="GetSteamIdBt" Grid.Column="2" Style="{StaticResource IconButton}" Command="{Binding GetSteamIdCommand}">
@@ -466,6 +502,9 @@
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="LostFocus">
+                                                                    <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
                                                                 </i:EventTrigger>
                                                             </i:Interaction.Triggers>
                                                         </TextBox>
@@ -498,6 +537,9 @@
                                                             <i:EventTrigger EventName="TextChanged">
                                                                 <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                             </i:EventTrigger>
+                                                            <i:EventTrigger EventName="LostFocus">
+                                                                <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+                                                            </i:EventTrigger>
                                                         </i:Interaction.Triggers>
                                                     </TextBox>
                                                     <Button Name="GetSteamIdBt" Grid.Column="2" Style="{StaticResource IconButton}" Command="{Binding GetSteamIdCommand}">
@@ -528,10 +570,13 @@
                                                             <i:EventTrigger EventName="TextChanged">
                                                                 <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
                                                             </i:EventTrigger>
+                                                            <i:EventTrigger EventName="LostFocus">
+                                                                <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+                                                            </i:EventTrigger>
                                                         </i:Interaction.Triggers>
                                                     </TextBox>
 
-                                                    <Button Grid.Column="2" Name="DateTimeBt" FontFamily="Segoe MDL2 Assets" Style="{StaticResource IconButton}" Command="{Binding SetDateTimeCommand}">
+                                                    <Button Grid.Column="2" Name="DateTimeBt" Style="{StaticResource IconButton}" Command="{Binding SetDateTimeCommand}">
                                                         <Image Source="{StaticResource CalendarImage}" Style="{StaticResource IconButtonImage}" />
                                                     </Button>
                                                 </Grid>
@@ -551,6 +596,9 @@
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="TextChanged">
                                                             <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="LostFocus">
+                                                            <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
                                                         </i:EventTrigger>
                                                     </i:Interaction.Triggers>
                                                 </TextBox>

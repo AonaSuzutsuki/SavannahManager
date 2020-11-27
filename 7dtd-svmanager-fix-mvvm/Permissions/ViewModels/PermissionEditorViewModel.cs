@@ -26,13 +26,18 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
         public IWindowService WindowManageService { get; }
         public ICommand TextChangedCommand { get; set; }
+        public ICommand LostFocusCommand { get; set; }
 
 
         public Func<string, string> GetSteamIdFunc { get; set; }
         public ICommand GetSteamIdCommand { get; set; }
 
+        private readonly PermissionBase permissionBase;
+
         protected PermissionBaseViewModel(PermissionBase permissionBase, IWindowService windowService)
         {
+            this.permissionBase = permissionBase;
+
             SteamId = permissionBase.ToReactivePropertyAsSynchronized(m => m.SteamId);
             WindowManageService = windowService;
             Name = permissionBase.ToReactivePropertyAsSynchronized(m => m.Name);
@@ -47,10 +52,18 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
                 }
             });
 
+            LostFocusCommand = new DelegateCommand(LostFocus);
+
             GetSteamIdCommand = new DelegateCommand(() =>
             {
                 permissionBase.SteamId = GetSteamIdFunc(permissionBase.SteamId);
             });
+        }
+
+        protected virtual void LostFocus()
+        {
+            if (permissionBase.CanRemove())
+                permissionBase.RemoveAction?.Invoke();
         }
     }
 

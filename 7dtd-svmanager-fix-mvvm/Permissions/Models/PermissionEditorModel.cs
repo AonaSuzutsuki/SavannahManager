@@ -52,8 +52,21 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         }
 
         public Action AddDummyAction { get; set; }
+        public Action RemoveAction { get; set; }
 
         public abstract void ApplyNode();
+
+        public virtual bool CanRemove()
+        {
+            if (ItemType == PermissionItemType.Dummy)
+                return false;
+
+            if (!string.IsNullOrEmpty(Name))
+                return false;
+            if (!string.IsNullOrEmpty(steamId))
+                return false;
+            return string.IsNullOrEmpty(Permission);
+        }
     }
     public class PermissionInfo : PermissionBase
     {
@@ -397,24 +410,26 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
                 collection.Add(permissionInfo);
             }
             AssertTextChangedCommand(collection, initializer);
-            AddDummyItem(collection, initializer);
+            AddDummyItemAction(collection, initializer);
         }
 
         private static void AssertTextChangedCommand<T>(ICollection<T> collection, Action<T> initializer) where T : PermissionBase, new()
         {
             foreach (var permissionInfo in collection)
             {
-                permissionInfo.AddDummyAction = () => AddDummyItem(collection, initializer);
+                permissionInfo.AddDummyAction = () => AddDummyItemAction(collection, initializer);
+                permissionInfo.RemoveAction = () => collection.Remove(permissionInfo);
             }
         }
 
-        private static void AddDummyItem<T>(ICollection<T> collection, Action<T> initializer) where T : PermissionBase, new()
+        private static void AddDummyItemAction<T>(ICollection<T> collection, Action<T> initializer) where T : PermissionBase, new()
         {
             var info = new T
             {
                 ItemType = PermissionBase.PermissionItemType.Dummy,
-                AddDummyAction = () => AddDummyItem(collection, initializer)
+                AddDummyAction = () => AddDummyItemAction(collection, initializer)
             };
+            info.RemoveAction = () => collection.Remove(info);
             initializer?.Invoke(info);
             collection.Add(info);
         }
