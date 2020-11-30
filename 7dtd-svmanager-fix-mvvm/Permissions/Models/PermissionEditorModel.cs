@@ -29,8 +29,6 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         private string name;
         private string permission;
 
-        public SavannahTagNode Node { get; set; }
-
         public PermissionItemType ItemType { get; set; } = PermissionItemType.Real;
 
         public string Name
@@ -54,7 +52,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         public Action AddDummyAction { get; set; }
         public Action RemoveAction { get; set; }
 
-        public abstract void ApplyNode();
+        public abstract void ApplyNode(SavannahTagNode parent);
 
         public virtual bool CanRemove()
         {
@@ -70,10 +68,11 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
     }
     public class PermissionInfo : PermissionBase
     {
-        public override void ApplyNode()
+        public override void ApplyNode(SavannahTagNode parent)
         {
-            Node.ChangeAttribute("cmd", Name);
-            Node.ChangeAttribute("permission_level", Permission.ToString());
+            var node = parent.CreateChildElement("permission");
+            node.AppendAttribute("cmd", Name);
+            node.AppendAttribute("permission_level", Permission.ToString());
         }
     }
 
@@ -84,20 +83,22 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
         public bool IsGroup { get; set; }
 
-        public override void ApplyNode()
+        public override void ApplyNode(SavannahTagNode parent)
         {
             if (IsGroup)
             {
-                Node.ChangeAttribute("steamID", SteamId);
-                Node.ChangeAttribute("name", Name);
-                Node.ChangeAttribute("permission_level_default", DefaultPermission.ToString());
-                Node.ChangeAttribute("permission_level_mod", ModeratorPermission.ToString());
+                var node = parent.CreateChildElement("group");
+                node.AppendAttribute("steamID", SteamId);
+                node.AppendAttribute("name", Name);
+                node.AppendAttribute("permission_level_default", DefaultPermission.ToString());
+                node.AppendAttribute("permission_level_mod", ModeratorPermission.ToString());
             }
             else
             {
-                Node.ChangeAttribute("steamID", SteamId);
-                Node.ChangeAttribute("name", Name);
-                Node.ChangeAttribute("permission_level", Permission.ToString());
+                var node = parent.CreateChildElement("user");
+                node.AppendAttribute("steamID", SteamId);
+                node.AppendAttribute("name", Name);
+                node.AppendAttribute("permission_level", Permission);
             }
         }
     }
@@ -106,17 +107,19 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
     {
         public bool IsGroup { get; set; }
 
-        public override void ApplyNode()
+        public override void ApplyNode(SavannahTagNode parent)
         {
             if (IsGroup)
             {
-                Node.ChangeAttribute("steamID", SteamId);
-                Node.ChangeAttribute("name", Name);
+                var node = parent.CreateChildElement("group");
+                node.AppendAttribute("steamID", SteamId);
+                node.AppendAttribute("name", Name);
             }
             else
             {
-                Node.ChangeAttribute("steamID", SteamId);
-                Node.ChangeAttribute("name", Name);
+                var node = parent.CreateChildElement("user");
+                node.AppendAttribute("steamID", SteamId);
+                node.AppendAttribute("name", Name);
             }
         }
     }
@@ -133,12 +136,13 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         public string Reason { get; set; }
 
 
-        public override void ApplyNode()
+        public override void ApplyNode(SavannahTagNode parent)
         {
-            Node.ChangeAttribute("steamID", SteamId);
-            Node.ChangeAttribute("name", Name);
-            Node.ChangeAttribute("unbandate", UnBanDate);
-            Node.ChangeAttribute("reason", Reason);
+            var node = parent.CreateChildElement("blacklisted");
+            node.AppendAttribute("steamID", SteamId);
+            node.AppendAttribute("name", Name);
+            node.AppendAttribute("unbandate", UnBanDate);
+            node.AppendAttribute("reason", Reason);
         }
     }
 
@@ -149,7 +153,6 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         private bool canSave;
         private string openedFilePath;
         private string declaration;
-        private SavannahTagNode root;
 
         private ObservableCollection<PermissionInfo> commandPermissions = new ObservableCollection<PermissionInfo>();
         private ObservableCollection<AdminPermissionInfo> adminPermissions = new ObservableCollection<AdminPermissionInfo>();
@@ -221,7 +224,6 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
                 return;
 
             var reader = new SavannahXmlReader(path);
-            root = reader.GetAllNodes();
             declaration = reader.Declaration;
             var cmdPermissions = LoadCommand(reader);
             var (adminPlayers, adminGroups) = LoadAdmin(reader);
@@ -278,12 +280,22 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             if (string.IsNullOrEmpty(filePath))
                 return;
 
-            ApplyNodes(CommandPermissions);
-            ApplyNodes(AdminPermissions);
-            ApplyNodes(AdminGroupPermissions);
-            ApplyNodes(WhitelistPermissions);
-            ApplyNodes(WhitelistGroupPermissions);
-            ApplyNodes(BlacklistPermissions);
+            var root = new SavannahTagNode
+            {
+                TagName = "adminTools"
+            };
+
+            var permissions = root.CreateChildElement("permissions");
+            var admins = root.CreateChildElement("admins");
+            var whitelist = root.CreateChildElement("whitelist");
+            var blacklist = root.CreateChildElement("blacklist");
+
+            ApplyNodes(CommandPermissions, permissions);
+            ApplyNodes(AdminPermissions, admins);
+            ApplyNodes(AdminGroupPermissions, admins);
+            ApplyNodes(WhitelistPermissions, whitelist);
+            ApplyNodes(WhitelistGroupPermissions, whitelist);
+            ApplyNodes(BlacklistPermissions, blacklist);
 
             var writer = new SavannahXmlWriter(declaration);
             writer.Write("test.xml", root);
@@ -292,11 +304,11 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             openedFilePath = filePath;
         }
 
-        public static void ApplyNodes<T>(ICollection<T> collection) where T : PermissionBase
+        public static void ApplyNodes<T>(ICollection<T> collection, SavannahTagNode node) where T : PermissionBase
         {
             var selectItems = collection.Where(item => item.ItemType == PermissionBase.PermissionItemType.Real).Select(item => item);
             foreach (var permission in selectItems)
-                permission.ApplyNode();
+                permission.ApplyNode(node);
         }
 
         private static IEnumerable<PermissionInfo> LoadCommand(SavannahXmlReader reader)
@@ -309,7 +321,6 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
                 where cmd != null && permission != null
                 select new PermissionInfo
                 {
-                    Node = node,
                     Name = cmd.Value,
                     Permission = permission.Value
                 };
@@ -329,7 +340,6 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             {
                 var info = new AdminPermissionInfo
                 {
-                    Node = node,
                     SteamId = node.GetAttribute("steamID")?.Value,
                     Name = node.GetAttribute("name")?.Value
                 };
@@ -364,7 +374,6 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             {
                 var info = new WhitelistPermissionInfo
                 {
-                    Node = node,
                     SteamId = node.GetAttribute("steamID")?.Value,
                     Name = node.GetAttribute("name")?.Value
                 };
@@ -394,7 +403,6 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
                 where steamId != null && unBanDate != null && reason != null
                 select new BlackListPermissionInfo
                 {
-                    Node = node,
                     SteamId = steamId.Value,
                     UnBanDate = unBanDate.Value,
                     Reason = reason.Value
@@ -405,7 +413,8 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
         private static void CreatePermissions<T>(ICollection<T> collection, IEnumerable<T> enumerable, Action<T> initializer) where T : PermissionBase, new()
         {
-            foreach (var permissionInfo in enumerable)
+            var permissionBases = enumerable as T[] ?? enumerable.ToArray();
+            foreach (var permissionInfo in permissionBases)
             {
                 collection.Add(permissionInfo);
             }
