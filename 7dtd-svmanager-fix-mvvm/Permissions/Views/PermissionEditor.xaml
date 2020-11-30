@@ -344,7 +344,7 @@
                                             <GridViewColumn Width="150" Header="Default Permission">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding DefaultPermission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                        <TextBox Text="{Binding DefaultPermission.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
@@ -360,7 +360,7 @@
                                             <GridViewColumn Width="150" Header="Moderator Permission">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="viewModels:AdminPermissionInfoViewModel">
-                                                        <TextBox Text="{Binding ModeratorPermission, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                        <TextBox Text="{Binding ModeratorPermission.Value, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="TextChanged">
                                                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />

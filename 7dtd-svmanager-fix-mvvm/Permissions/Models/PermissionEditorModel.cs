@@ -72,55 +72,65 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         {
             var node = parent.CreateChildElement("permission");
             node.AppendAttribute("cmd", Name);
-            node.AppendAttribute("permission_level", Permission.ToString());
+            node.AppendAttribute("permission_level", Permission);
         }
     }
 
     public class AdminPermissionInfo : PermissionBase
     {
-        public int? DefaultPermission { get; set; }
-        public int? ModeratorPermission { get; set; }
+        public override void ApplyNode(SavannahTagNode parent)
+        {
+            var node = parent.CreateChildElement("user");
+            node.AppendAttribute("steamID", SteamId);
+            node.AppendAttribute("name", Name);
+            node.AppendAttribute("permission_level", Permission);
+        }
+    }
 
-        public bool IsGroup { get; set; }
+    public class AdminGroupPermissionInfo : PermissionBase
+    {
+        private string defaultPermission;
+        private string moderatorPermission;
+
+        public string DefaultPermission
+        {
+            get => defaultPermission;
+            set => SetProperty(ref defaultPermission, value);
+        }
+
+        public string ModeratorPermission
+        {
+            get => moderatorPermission;
+            set => SetProperty(ref moderatorPermission, value);
+        }
 
         public override void ApplyNode(SavannahTagNode parent)
         {
-            if (IsGroup)
-            {
-                var node = parent.CreateChildElement("group");
-                node.AppendAttribute("steamID", SteamId);
-                node.AppendAttribute("name", Name);
-                node.AppendAttribute("permission_level_default", DefaultPermission.ToString());
-                node.AppendAttribute("permission_level_mod", ModeratorPermission.ToString());
-            }
-            else
-            {
-                var node = parent.CreateChildElement("user");
-                node.AppendAttribute("steamID", SteamId);
-                node.AppendAttribute("name", Name);
-                node.AppendAttribute("permission_level", Permission);
-            }
+            var node = parent.CreateChildElement("group");
+            node.AppendAttribute("steamID", SteamId);
+            node.AppendAttribute("name", Name);
+            node.AppendAttribute("permission_level_default", DefaultPermission);
+            node.AppendAttribute("permission_level_mod", ModeratorPermission);
         }
     }
 
     public class WhitelistPermissionInfo : PermissionBase
     {
-        public bool IsGroup { get; set; }
-
         public override void ApplyNode(SavannahTagNode parent)
         {
-            if (IsGroup)
-            {
-                var node = parent.CreateChildElement("group");
-                node.AppendAttribute("steamID", SteamId);
-                node.AppendAttribute("name", Name);
-            }
-            else
-            {
-                var node = parent.CreateChildElement("user");
-                node.AppendAttribute("steamID", SteamId);
-                node.AppendAttribute("name", Name);
-            }
+            var node = parent.CreateChildElement("user");
+            node.AppendAttribute("steamID", SteamId);
+            node.AppendAttribute("name", Name);
+        }
+    }
+
+    public class WhitelistGroupPermissionInfo : PermissionBase
+    {
+        public override void ApplyNode(SavannahTagNode parent)
+        {
+            var node = parent.CreateChildElement("group");
+            node.AppendAttribute("steamID", SteamId);
+            node.AppendAttribute("name", Name);
         }
     }
 
@@ -156,9 +166,9 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
         private ObservableCollection<PermissionInfo> commandPermissions = new ObservableCollection<PermissionInfo>();
         private ObservableCollection<AdminPermissionInfo> adminPermissions = new ObservableCollection<AdminPermissionInfo>();
-        private ObservableCollection<AdminPermissionInfo> adminGroupPermissions = new ObservableCollection<AdminPermissionInfo>();
+        private ObservableCollection<AdminGroupPermissionInfo> adminGroupPermissions = new ObservableCollection<AdminGroupPermissionInfo>();
         private ObservableCollection<WhitelistPermissionInfo> whitelistPermissions = new ObservableCollection<WhitelistPermissionInfo>();
-        private ObservableCollection<WhitelistPermissionInfo> whitelistGroupPermissions = new ObservableCollection<WhitelistPermissionInfo>();
+        private ObservableCollection<WhitelistGroupPermissionInfo> whitelistGroupPermissions = new ObservableCollection<WhitelistGroupPermissionInfo>();
         private ObservableCollection<BlackListPermissionInfo> blacklistPermissions = new ObservableCollection<BlackListPermissionInfo>();
 
         #endregion
@@ -182,7 +192,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             set => SetProperty(ref adminPermissions, value);
         }
 
-        public ObservableCollection<AdminPermissionInfo> AdminGroupPermissions
+        public ObservableCollection<AdminGroupPermissionInfo> AdminGroupPermissions
         {
             get => adminGroupPermissions;
             set => SetProperty(ref adminGroupPermissions, value);
@@ -193,7 +203,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             set => SetProperty(ref whitelistPermissions, value);
         }
 
-        public ObservableCollection<WhitelistPermissionInfo> WhitelistGroupPermissions
+        public ObservableCollection<WhitelistGroupPermissionInfo> WhitelistGroupPermissions
         {
             get => whitelistGroupPermissions;
             set => SetProperty(ref whitelistGroupPermissions, value);
@@ -328,32 +338,37 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             return permissions;
         }
 
-        private static (IEnumerable<AdminPermissionInfo>, IEnumerable<AdminPermissionInfo>) LoadAdmin(SavannahXmlReader reader)
+        private static (IEnumerable<AdminPermissionInfo>, IEnumerable<AdminGroupPermissionInfo>) LoadAdmin(SavannahXmlReader reader)
         {
             if (!(reader.GetNode("/adminTools/admins") is SavannahTagNode admin))
-                return (new AdminPermissionInfo[0], new AdminPermissionInfo[0]);
+                return (new AdminPermissionInfo[0], new AdminGroupPermissionInfo[0]);
 
-            var groups = new List<AdminPermissionInfo>();
+            var groups = new List<AdminGroupPermissionInfo>();
             var players = new List<AdminPermissionInfo>();
             var children = admin.ChildNodes.OfType<SavannahTagNode>();
             foreach (var node in children)
             {
-                var info = new AdminPermissionInfo
-                {
-                    SteamId = node.GetAttribute("steamID")?.Value,
-                    Name = node.GetAttribute("name")?.Value
-                };
-
                 if (node.TagName == "user")
                 {
-                    info.Permission = node.GetAttribute("permission_level")?.Value;
+                    var info = new AdminPermissionInfo
+                    {
+                        SteamId = node.GetAttribute("steamID")?.Value,
+                        Name = node.GetAttribute("name")?.Value,
+                        Permission = node.GetAttribute("permission_level")?.Value
+                    };
+
                     players.Add(info);
                 }
                 else
                 {
-                    info.IsGroup = true;
-                    info.DefaultPermission = node.GetAttribute("permission_level_default")?.Value.ToInt();
-                    info.ModeratorPermission = node.GetAttribute("permission_level_mod")?.Value.ToInt();
+                    var info = new AdminGroupPermissionInfo
+                    {
+                        SteamId = node.GetAttribute("steamID")?.Value,
+                        Name = node.GetAttribute("name")?.Value,
+                        DefaultPermission = node.GetAttribute("permission_level_default")?.Value,
+                        ModeratorPermission = node.GetAttribute("permission_level_mod")?.Value
+                    };
+
                     groups.Add(info);
                 }
             }
@@ -361,30 +376,34 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             return (players, groups);
         }
 
-        private static (IEnumerable<WhitelistPermissionInfo>, IEnumerable<WhitelistPermissionInfo>) LoadWhitelist(SavannahXmlReader reader)
+        private static (IEnumerable<WhitelistPermissionInfo>, IEnumerable<WhitelistGroupPermissionInfo>) LoadWhitelist(SavannahXmlReader reader)
         {
             var admin = reader.GetNode("/adminTools/whitelist") as SavannahTagNode;
             if (admin == null)
-                return (new WhitelistPermissionInfo[0], new WhitelistPermissionInfo[0]);
+                return (new WhitelistPermissionInfo[0], new WhitelistGroupPermissionInfo[0]);
 
-            var groups = new List<WhitelistPermissionInfo>();
+            var groups = new List<WhitelistGroupPermissionInfo>();
             var players = new List<WhitelistPermissionInfo>();
             var children = admin.ChildNodes.OfType<SavannahTagNode>();
             foreach (var node in children)
             {
-                var info = new WhitelistPermissionInfo
-                {
-                    SteamId = node.GetAttribute("steamID")?.Value,
-                    Name = node.GetAttribute("name")?.Value
-                };
-
                 if (node.TagName == "user")
                 {
+                    var info = new WhitelistPermissionInfo
+                    {
+                        SteamId = node.GetAttribute("steamID")?.Value,
+                        Name = node.GetAttribute("name")?.Value
+                    };
                     players.Add(info);
                 }
                 else
                 {
-                    info.IsGroup = true;
+
+                    var info = new WhitelistGroupPermissionInfo
+                    {
+                        SteamId = node.GetAttribute("steamID")?.Value,
+                        Name = node.GetAttribute("name")?.Value
+                    };
                     groups.Add(info);
                 }
             }

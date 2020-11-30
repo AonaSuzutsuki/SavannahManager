@@ -76,20 +76,27 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
     public class AdminPermissionInfoViewModel : PermissionBaseViewModel
     {
-        public int? DefaultPermission { get; set; }
-        public int? ModeratorPermission { get; set; }
+        public ReactiveProperty<string> DefaultPermission { get; set; }
+        public ReactiveProperty<string> ModeratorPermission { get; set; }
 
 
         public AdminPermissionInfoViewModel(AdminPermissionInfo permissionBase, IWindowService windowService) : base(permissionBase, windowService)
         {
-            DefaultPermission = permissionBase.DefaultPermission;
-            ModeratorPermission = permissionBase.ModeratorPermission;
+        }
+
+        public AdminPermissionInfoViewModel(AdminGroupPermissionInfo permissionBase, IWindowService windowService) : base(permissionBase, windowService)
+        {
+            DefaultPermission = permissionBase.ToReactivePropertyAsSynchronized(m => m.DefaultPermission);
+            ModeratorPermission = permissionBase.ToReactivePropertyAsSynchronized(m => m.ModeratorPermission);
         }
     }
 
     public class WhitelistPermissionInfoViewModel : PermissionBaseViewModel
     {
         public WhitelistPermissionInfoViewModel(WhitelistPermissionInfo permissionBase, IWindowService windowService) : base(permissionBase, windowService)
+        {
+        }
+        public WhitelistPermissionInfoViewModel(WhitelistGroupPermissionInfo permissionBase, IWindowService windowService) : base(permissionBase, windowService)
         {
         }
     }
