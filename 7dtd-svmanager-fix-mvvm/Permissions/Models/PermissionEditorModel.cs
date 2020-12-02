@@ -82,7 +82,8 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         {
             var node = parent.CreateChildElement("user");
             node.AppendAttribute("steamID", SteamId);
-            node.AppendAttribute("name", Name);
+            if (!string.IsNullOrEmpty(Name))
+                node.AppendAttribute("name", Name);
             node.AppendAttribute("permission_level", Permission);
         }
     }
@@ -108,7 +109,8 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         {
             var node = parent.CreateChildElement("group");
             node.AppendAttribute("steamID", SteamId);
-            node.AppendAttribute("name", Name);
+            if (!string.IsNullOrEmpty(Name))
+                node.AppendAttribute("name", Name);
             node.AppendAttribute("permission_level_default", DefaultPermission);
             node.AppendAttribute("permission_level_mod", ModeratorPermission);
         }
@@ -120,7 +122,8 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         {
             var node = parent.CreateChildElement("user");
             node.AppendAttribute("steamID", SteamId);
-            node.AppendAttribute("name", Name);
+            if (!string.IsNullOrEmpty(Name))
+                node.AppendAttribute("name", Name);
         }
     }
 
@@ -130,7 +133,8 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         {
             var node = parent.CreateChildElement("group");
             node.AppendAttribute("steamID", SteamId);
-            node.AppendAttribute("name", Name);
+            if (!string.IsNullOrEmpty(Name))
+                node.AppendAttribute("name", Name);
         }
     }
 
@@ -150,7 +154,8 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         {
             var node = parent.CreateChildElement("blacklisted");
             node.AppendAttribute("steamID", SteamId);
-            node.AppendAttribute("name", Name);
+            if (!string.IsNullOrEmpty(Name))
+                node.AppendAttribute("name", Name);
             node.AppendAttribute("unbandate", UnBanDate);
             node.AppendAttribute("reason", Reason);
         }
@@ -244,8 +249,8 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             CreatePermissions(AdminPermissions, adminPlayers, info => info.Permission = null);
             CreatePermissions(AdminGroupPermissions, adminGroups, info =>
             {
-                info.DefaultPermission = null;
-                info.ModeratorPermission = null;
+                info.DefaultPermission = string.Empty;
+                info.ModeratorPermission = string.Empty;
             });
             CreatePermissions(WhitelistPermissions, whitelistPlayers, null);
             CreatePermissions(WhitelistGroupPermissions, whitelistGroups, null);
