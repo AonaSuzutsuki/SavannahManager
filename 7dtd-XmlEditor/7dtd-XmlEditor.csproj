@@ -184,9 +184,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if not defined pipelines exit /b
-
-# For Debug
+    <PostBuildEvent># For Debug
 SET MainProjectName=7dtd-svmanager-fix-mvvm
 
 SET OutDir=$(SolutionDir)%25MainProjectName%25\$(OutDir)\XmlEditor
