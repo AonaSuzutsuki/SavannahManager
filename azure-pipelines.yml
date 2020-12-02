@@ -1,0 +1,65 @@
+# .NET Desktop
+# Build and run tests for .NET Desktop or Windows classic desktop solutions.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  openCover: 'packages\OpenCover.4.7.922\tools\OpenCover.Console.exe'
+  nunitConsole: 'packages\NUnit.ConsoleRunner.3.11.1\tools\nunit3-console.exe'
+  disable.coverage.autogenerate: 'true'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: CmdLine@2
+  displayName: "NUnit & OpenCover"
+  inputs:
+    script: >
+      $(openCover)
+      -register:Path64
+      -target:"$(nunitConsole)"
+      -targetargs:"SvManagerLibraryTests2.dll"
+      -targetdir:"SvManagerLibraryTests2\bin\$(buildConfiguration)"
+      -returntargetcode
+      -output:"coverage.xml"
+      -filter:"+[SvManagerLibraryTests2]*"
+
+- task: PublishTestResults@2
+  displayName: "Publish unit test result"
+  condition: always()
+  inputs:
+    testResultsFormat: 'NUnit'
+    testResultsFiles: '**\TestResult.xml'
+    failTaskOnFailedTests: false
+
+- task: reportgenerator@4
+  condition: always()
+  inputs:
+    reports: '**\coverage.xml'
+    targetdir: 'CoverageReport'
+
+- task: PublishCodeCoverageResults@1
+  condition: always()
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: 'CoverageReport\Cobertura.xml'
+    reportDirectory: 'CoverageReport'
