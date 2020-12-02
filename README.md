@@ -44,7 +44,7 @@ nuget restore SavannahManager.sln
 
 5. Build with MSBuild.
 ```sh
-msbuild SavannahManager.sln /t:Clean;Build /p:Configuration=Release;Platform=x86
+msbuild SavannahManager.sln /t:Clean;Build /p:Configuration=Release;Platform="Any CPU"
 ```
 
 # Special Thanks
