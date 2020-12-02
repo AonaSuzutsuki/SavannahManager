@@ -201,7 +201,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>SET TargetUpdateDir=$(SolutionDir)7dtd-svmanager-fix-mvvm\$(OutDir)\Updater
+    <PostBuildEvent>if not defined pipelines exit /b
+
+SET TargetUpdateDir=$(SolutionDir)7dtd-svmanager-fix-mvvm\$(OutDir)\Updater
 if exist "%25TargetUpdateDir%25" (
     echo ""
 ) else (

@@ -615,7 +615,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent># For Release
+    <PostBuildEvent>if not defined pipelines exit /b
+
+# For Release
 SET BinDir=$(SolutionDir)\bin
 if exist "%25BinDir%25" (
     echo ""
