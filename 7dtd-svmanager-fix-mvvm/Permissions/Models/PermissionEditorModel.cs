@@ -26,74 +26,115 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         }
 
         private string steamId;
-
-        public SavannahTagNode Node { get; set; }
+        private string name;
+        private string permission;
 
         public PermissionItemType ItemType { get; set; } = PermissionItemType.Real;
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get => name;
+            set => SetProperty(ref name, value);
+        }
 
         public string SteamId
         {
             get => steamId;
             set => SetProperty(ref steamId, value);
         }
-        public int? Permission { get; set; } = 0;
+
+        public string Permission
+        {
+            get => permission;
+            set => SetProperty(ref permission, value);
+        }
 
         public Action AddDummyAction { get; set; }
+        public Action RemoveAction { get; set; }
 
-        public abstract void ApplyNode();
+        public abstract void ApplyNode(SavannahTagNode parent);
+
+        public virtual bool CanRemove()
+        {
+            if (ItemType == PermissionItemType.Dummy)
+                return false;
+
+            if (!string.IsNullOrEmpty(Name))
+                return false;
+            if (!string.IsNullOrEmpty(steamId))
+                return false;
+            return string.IsNullOrEmpty(Permission);
+        }
     }
     public class PermissionInfo : PermissionBase
     {
-        public override void ApplyNode()
+        public override void ApplyNode(SavannahTagNode parent)
         {
-            Node.ChangeAttribute("cmd", Name);
-            Node.ChangeAttribute("permission_level", Permission.ToString());
+            var node = parent.CreateChildElement("permission");
+            node.AppendAttribute("cmd", Name);
+            node.AppendAttribute("permission_level", Permission);
         }
     }
 
     public class AdminPermissionInfo : PermissionBase
     {
-        public int? DefaultPermission { get; set; }
-        public int? ModeratorPermission { get; set; }
-
-        public bool IsGroup { get; set; }
-
-        public override void ApplyNode()
+        public override void ApplyNode(SavannahTagNode parent)
         {
-            if (IsGroup)
-            {
-                Node.ChangeAttribute("steamID", SteamId);
-                Node.ChangeAttribute("name", Name);
-                Node.ChangeAttribute("permission_level_default", DefaultPermission.ToString());
-                Node.ChangeAttribute("permission_level_mod", ModeratorPermission.ToString());
-            }
-            else
-            {
-                Node.ChangeAttribute("steamID", SteamId);
-                Node.ChangeAttribute("name", Name);
-                Node.ChangeAttribute("permission_level", Permission.ToString());
-            }
+            var node = parent.CreateChildElement("user");
+            node.AppendAttribute("steamID", SteamId);
+            if (!string.IsNullOrEmpty(Name))
+                node.AppendAttribute("name", Name);
+            node.AppendAttribute("permission_level", Permission);
+        }
+    }
+
+    public class AdminGroupPermissionInfo : PermissionBase
+    {
+        private string defaultPermission;
+        private string moderatorPermission;
+
+        public string DefaultPermission
+        {
+            get => defaultPermission;
+            set => SetProperty(ref defaultPermission, value);
+        }
+
+        public string ModeratorPermission
+        {
+            get => moderatorPermission;
+            set => SetProperty(ref moderatorPermission, value);
+        }
+
+        public override void ApplyNode(SavannahTagNode parent)
+        {
+            var node = parent.CreateChildElement("group");
+            node.AppendAttribute("steamID", SteamId);
+            if (!string.IsNullOrEmpty(Name))
+                node.AppendAttribute("name", Name);
+            node.AppendAttribute("permission_level_default", DefaultPermission);
+            node.AppendAttribute("permission_level_mod", ModeratorPermission);
         }
     }
 
     public class WhitelistPermissionInfo : PermissionBase
     {
-        public bool IsGroup { get; set; }
-
-        public override void ApplyNode()
+        public override void ApplyNode(SavannahTagNode parent)
         {
-            if (IsGroup)
-            {
-                Node.ChangeAttribute("steamID", SteamId);
-                Node.ChangeAttribute("name", Name);
-            }
-            else
-            {
-                Node.ChangeAttribute("steamID", SteamId);
-                Node.ChangeAttribute("name", Name);
-            }
+            var node = parent.CreateChildElement("user");
+            node.AppendAttribute("steamID", SteamId);
+            if (!string.IsNullOrEmpty(Name))
+                node.AppendAttribute("name", Name);
+        }
+    }
+
+    public class WhitelistGroupPermissionInfo : PermissionBase
+    {
+        public override void ApplyNode(SavannahTagNode parent)
+        {
+            var node = parent.CreateChildElement("group");
+            node.AppendAttribute("steamID", SteamId);
+            if (!string.IsNullOrEmpty(Name))
+                node.AppendAttribute("name", Name);
         }
     }
 
@@ -109,12 +150,14 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         public string Reason { get; set; }
 
 
-        public override void ApplyNode()
+        public override void ApplyNode(SavannahTagNode parent)
         {
-            Node.ChangeAttribute("steamID", SteamId);
-            Node.ChangeAttribute("name", Name);
-            Node.ChangeAttribute("unbandate", UnBanDate);
-            Node.ChangeAttribute("reason", Reason);
+            var node = parent.CreateChildElement("blacklisted");
+            node.AppendAttribute("steamID", SteamId);
+            if (!string.IsNullOrEmpty(Name))
+                node.AppendAttribute("name", Name);
+            node.AppendAttribute("unbandate", UnBanDate);
+            node.AppendAttribute("reason", Reason);
         }
     }
 
@@ -125,13 +168,12 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         private bool canSave;
         private string openedFilePath;
         private string declaration;
-        private SavannahTagNode root;
 
         private ObservableCollection<PermissionInfo> commandPermissions = new ObservableCollection<PermissionInfo>();
         private ObservableCollection<AdminPermissionInfo> adminPermissions = new ObservableCollection<AdminPermissionInfo>();
-        private ObservableCollection<AdminPermissionInfo> adminGroupPermissions = new ObservableCollection<AdminPermissionInfo>();
+        private ObservableCollection<AdminGroupPermissionInfo> adminGroupPermissions = new ObservableCollection<AdminGroupPermissionInfo>();
         private ObservableCollection<WhitelistPermissionInfo> whitelistPermissions = new ObservableCollection<WhitelistPermissionInfo>();
-        private ObservableCollection<WhitelistPermissionInfo> whitelistGroupPermissions = new ObservableCollection<WhitelistPermissionInfo>();
+        private ObservableCollection<WhitelistGroupPermissionInfo> whitelistGroupPermissions = new ObservableCollection<WhitelistGroupPermissionInfo>();
         private ObservableCollection<BlackListPermissionInfo> blacklistPermissions = new ObservableCollection<BlackListPermissionInfo>();
 
         #endregion
@@ -155,7 +197,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             set => SetProperty(ref adminPermissions, value);
         }
 
-        public ObservableCollection<AdminPermissionInfo> AdminGroupPermissions
+        public ObservableCollection<AdminGroupPermissionInfo> AdminGroupPermissions
         {
             get => adminGroupPermissions;
             set => SetProperty(ref adminGroupPermissions, value);
@@ -166,7 +208,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             set => SetProperty(ref whitelistPermissions, value);
         }
 
-        public ObservableCollection<WhitelistPermissionInfo> WhitelistGroupPermissions
+        public ObservableCollection<WhitelistGroupPermissionInfo> WhitelistGroupPermissions
         {
             get => whitelistGroupPermissions;
             set => SetProperty(ref whitelistGroupPermissions, value);
@@ -197,7 +239,6 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
                 return;
 
             var reader = new SavannahXmlReader(path);
-            root = reader.GetAllNodes();
             declaration = reader.Declaration;
             var cmdPermissions = LoadCommand(reader);
             var (adminPlayers, adminGroups) = LoadAdmin(reader);
@@ -208,8 +249,8 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             CreatePermissions(AdminPermissions, adminPlayers, info => info.Permission = null);
             CreatePermissions(AdminGroupPermissions, adminGroups, info =>
             {
-                info.DefaultPermission = null;
-                info.ModeratorPermission = null;
+                info.DefaultPermission = string.Empty;
+                info.ModeratorPermission = string.Empty;
             });
             CreatePermissions(WhitelistPermissions, whitelistPlayers, null);
             CreatePermissions(WhitelistGroupPermissions, whitelistGroups, null);
@@ -254,12 +295,22 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             if (string.IsNullOrEmpty(filePath))
                 return;
 
-            ApplyNodes(CommandPermissions);
-            ApplyNodes(AdminPermissions);
-            ApplyNodes(AdminGroupPermissions);
-            ApplyNodes(WhitelistPermissions);
-            ApplyNodes(WhitelistGroupPermissions);
-            ApplyNodes(BlacklistPermissions);
+            var root = new SavannahTagNode
+            {
+                TagName = "adminTools"
+            };
+
+            var permissions = root.CreateChildElement("permissions");
+            var admins = root.CreateChildElement("admins");
+            var whitelist = root.CreateChildElement("whitelist");
+            var blacklist = root.CreateChildElement("blacklist");
+
+            ApplyNodes(CommandPermissions, permissions);
+            ApplyNodes(AdminPermissions, admins);
+            ApplyNodes(AdminGroupPermissions, admins);
+            ApplyNodes(WhitelistPermissions, whitelist);
+            ApplyNodes(WhitelistGroupPermissions, whitelist);
+            ApplyNodes(BlacklistPermissions, blacklist);
 
             var writer = new SavannahXmlWriter(declaration);
             writer.Write("test.xml", root);
@@ -268,11 +319,11 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             openedFilePath = filePath;
         }
 
-        public static void ApplyNodes<T>(ICollection<T> collection) where T : PermissionBase
+        public static void ApplyNodes<T>(ICollection<T> collection, SavannahTagNode node) where T : PermissionBase
         {
             var selectItems = collection.Where(item => item.ItemType == PermissionBase.PermissionItemType.Real).Select(item => item);
             foreach (var permission in selectItems)
-                permission.ApplyNode();
+                permission.ApplyNode(node);
         }
 
         private static IEnumerable<PermissionInfo> LoadCommand(SavannahXmlReader reader)
@@ -285,41 +336,44 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
                 where cmd != null && permission != null
                 select new PermissionInfo
                 {
-                    Node = node,
                     Name = cmd.Value,
-                    Permission = permission.Value.ToInt()
+                    Permission = permission.Value
                 };
 
             return permissions;
         }
 
-        private static (IEnumerable<AdminPermissionInfo>, IEnumerable<AdminPermissionInfo>) LoadAdmin(SavannahXmlReader reader)
+        private static (IEnumerable<AdminPermissionInfo>, IEnumerable<AdminGroupPermissionInfo>) LoadAdmin(SavannahXmlReader reader)
         {
             if (!(reader.GetNode("/adminTools/admins") is SavannahTagNode admin))
-                return (new AdminPermissionInfo[0], new AdminPermissionInfo[0]);
+                return (new AdminPermissionInfo[0], new AdminGroupPermissionInfo[0]);
 
-            var groups = new List<AdminPermissionInfo>();
+            var groups = new List<AdminGroupPermissionInfo>();
             var players = new List<AdminPermissionInfo>();
             var children = admin.ChildNodes.OfType<SavannahTagNode>();
             foreach (var node in children)
             {
-                var info = new AdminPermissionInfo
-                {
-                    Node = node,
-                    SteamId = node.GetAttribute("steamID")?.Value,
-                    Name = node.GetAttribute("name")?.Value
-                };
-
                 if (node.TagName == "user")
                 {
-                    info.Permission = node.GetAttribute("permission_level")?.Value.ToInt();
+                    var info = new AdminPermissionInfo
+                    {
+                        SteamId = node.GetAttribute("steamID")?.Value,
+                        Name = node.GetAttribute("name")?.Value,
+                        Permission = node.GetAttribute("permission_level")?.Value
+                    };
+
                     players.Add(info);
                 }
                 else
                 {
-                    info.IsGroup = true;
-                    info.DefaultPermission = node.GetAttribute("permission_level_default")?.Value.ToInt();
-                    info.ModeratorPermission = node.GetAttribute("permission_level_mod")?.Value.ToInt();
+                    var info = new AdminGroupPermissionInfo
+                    {
+                        SteamId = node.GetAttribute("steamID")?.Value,
+                        Name = node.GetAttribute("name")?.Value,
+                        DefaultPermission = node.GetAttribute("permission_level_default")?.Value,
+                        ModeratorPermission = node.GetAttribute("permission_level_mod")?.Value
+                    };
+
                     groups.Add(info);
                 }
             }
@@ -327,31 +381,34 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             return (players, groups);
         }
 
-        private static (IEnumerable<WhitelistPermissionInfo>, IEnumerable<WhitelistPermissionInfo>) LoadWhitelist(SavannahXmlReader reader)
+        private static (IEnumerable<WhitelistPermissionInfo>, IEnumerable<WhitelistGroupPermissionInfo>) LoadWhitelist(SavannahXmlReader reader)
         {
             var admin = reader.GetNode("/adminTools/whitelist") as SavannahTagNode;
             if (admin == null)
-                return (new WhitelistPermissionInfo[0], new WhitelistPermissionInfo[0]);
+                return (new WhitelistPermissionInfo[0], new WhitelistGroupPermissionInfo[0]);
 
-            var groups = new List<WhitelistPermissionInfo>();
+            var groups = new List<WhitelistGroupPermissionInfo>();
             var players = new List<WhitelistPermissionInfo>();
             var children = admin.ChildNodes.OfType<SavannahTagNode>();
             foreach (var node in children)
             {
-                var info = new WhitelistPermissionInfo
-                {
-                    Node = node,
-                    SteamId = node.GetAttribute("steamID")?.Value,
-                    Name = node.GetAttribute("name")?.Value
-                };
-
                 if (node.TagName == "user")
                 {
+                    var info = new WhitelistPermissionInfo
+                    {
+                        SteamId = node.GetAttribute("steamID")?.Value,
+                        Name = node.GetAttribute("name")?.Value
+                    };
                     players.Add(info);
                 }
                 else
                 {
-                    info.IsGroup = true;
+
+                    var info = new WhitelistGroupPermissionInfo
+                    {
+                        SteamId = node.GetAttribute("steamID")?.Value,
+                        Name = node.GetAttribute("name")?.Value
+                    };
                     groups.Add(info);
                 }
             }
@@ -370,7 +427,6 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
                 where steamId != null && unBanDate != null && reason != null
                 select new BlackListPermissionInfo
                 {
-                    Node = node,
                     SteamId = steamId.Value,
                     UnBanDate = unBanDate.Value,
                     Reason = reason.Value
@@ -381,29 +437,32 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
         private static void CreatePermissions<T>(ICollection<T> collection, IEnumerable<T> enumerable, Action<T> initializer) where T : PermissionBase, new()
         {
-            foreach (var permissionInfo in enumerable)
+            var permissionBases = enumerable as T[] ?? enumerable.ToArray();
+            foreach (var permissionInfo in permissionBases)
             {
                 collection.Add(permissionInfo);
             }
             AssertTextChangedCommand(collection, initializer);
-            AddDummyItem(collection, initializer);
+            AddDummyItemAction(collection, initializer);
         }
 
         private static void AssertTextChangedCommand<T>(ICollection<T> collection, Action<T> initializer) where T : PermissionBase, new()
         {
             foreach (var permissionInfo in collection)
             {
-                permissionInfo.AddDummyAction = () => AddDummyItem(collection, initializer);
+                permissionInfo.AddDummyAction = () => AddDummyItemAction(collection, initializer);
+                permissionInfo.RemoveAction = () => collection.Remove(permissionInfo);
             }
         }
 
-        private static void AddDummyItem<T>(ICollection<T> collection, Action<T> initializer) where T : PermissionBase, new()
+        private static void AddDummyItemAction<T>(ICollection<T> collection, Action<T> initializer) where T : PermissionBase, new()
         {
             var info = new T
             {
                 ItemType = PermissionBase.PermissionItemType.Dummy,
-                AddDummyAction = () => AddDummyItem(collection, initializer)
+                AddDummyAction = () => AddDummyItemAction(collection, initializer)
             };
+            info.RemoveAction = () => collection.Remove(info);
             initializer?.Invoke(info);
             collection.Add(info);
         }

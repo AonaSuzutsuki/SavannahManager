@@ -19,43 +19,51 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 {
     public abstract class PermissionBaseViewModel : BindableBase
     {
-        public PermissionBase.PermissionItemType ItemType { get; set; }
-
-        public string Name { get; set; }
+        public ReactiveProperty<string> Name { get; set; }
 
         public ReactiveProperty<string> SteamId { get; set; }
-        public int? Permission { get; set; } = 0;
+        public ReactiveProperty<string> Permission { get; set; }
 
-        public Action AddDummyAction { get; set; }
         public IWindowService WindowManageService { get; }
         public ICommand TextChangedCommand { get; set; }
+        public ICommand LostFocusCommand { get; set; }
 
 
         public Func<string, string> GetSteamIdFunc { get; set; }
         public ICommand GetSteamIdCommand { get; set; }
 
+        private readonly PermissionBase permissionBase;
+
         protected PermissionBaseViewModel(PermissionBase permissionBase, IWindowService windowService)
         {
+            this.permissionBase = permissionBase;
+
             SteamId = permissionBase.ToReactivePropertyAsSynchronized(m => m.SteamId);
             WindowManageService = windowService;
-            AddDummyAction = permissionBase.AddDummyAction;
-            ItemType = permissionBase.ItemType;
-            Name = permissionBase.Name;
-            Permission = permissionBase.Permission;
+            Name = permissionBase.ToReactivePropertyAsSynchronized(m => m.Name);
+            Permission = permissionBase.ToReactivePropertyAsSynchronized(m => m.Permission);
 
             TextChangedCommand = new DelegateCommand(() =>
             {
-                if (ItemType == PermissionBase.PermissionItemType.Dummy)
+                if (permissionBase.ItemType == PermissionBase.PermissionItemType.Dummy)
                 {
-                    ItemType = PermissionBase.PermissionItemType.Real;
-                    AddDummyAction();
+                    permissionBase.ItemType = PermissionBase.PermissionItemType.Real;
+                    permissionBase.AddDummyAction?.Invoke();
                 }
             });
+
+            LostFocusCommand = new DelegateCommand(LostFocus);
 
             GetSteamIdCommand = new DelegateCommand(() =>
             {
                 permissionBase.SteamId = GetSteamIdFunc(permissionBase.SteamId);
             });
+        }
+
+        protected virtual void LostFocus()
+        {
+            if (permissionBase.CanRemove())
+                permissionBase.RemoveAction?.Invoke();
         }
     }
 
@@ -68,20 +76,27 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
     public class AdminPermissionInfoViewModel : PermissionBaseViewModel
     {
-        public int? DefaultPermission { get; set; }
-        public int? ModeratorPermission { get; set; }
+        public ReactiveProperty<string> DefaultPermission { get; set; }
+        public ReactiveProperty<string> ModeratorPermission { get; set; }
 
 
         public AdminPermissionInfoViewModel(AdminPermissionInfo permissionBase, IWindowService windowService) : base(permissionBase, windowService)
         {
-            DefaultPermission = permissionBase.DefaultPermission;
-            ModeratorPermission = permissionBase.ModeratorPermission;
+        }
+
+        public AdminPermissionInfoViewModel(AdminGroupPermissionInfo permissionBase, IWindowService windowService) : base(permissionBase, windowService)
+        {
+            DefaultPermission = permissionBase.ToReactivePropertyAsSynchronized(m => m.DefaultPermission);
+            ModeratorPermission = permissionBase.ToReactivePropertyAsSynchronized(m => m.ModeratorPermission);
         }
     }
 
     public class WhitelistPermissionInfoViewModel : PermissionBaseViewModel
     {
         public WhitelistPermissionInfoViewModel(WhitelistPermissionInfo permissionBase, IWindowService windowService) : base(permissionBase, windowService)
+        {
+        }
+        public WhitelistPermissionInfoViewModel(WhitelistGroupPermissionInfo permissionBase, IWindowService windowService) : base(permissionBase, windowService)
         {
         }
     }
