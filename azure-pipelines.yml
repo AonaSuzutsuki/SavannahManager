@@ -28,8 +28,10 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
+    msbuildArgs: '/p:PostBuildEvent='
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
 
 - task: CmdLine@2
   displayName: "NUnit & OpenCover"
