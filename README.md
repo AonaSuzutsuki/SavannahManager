@@ -43,8 +43,14 @@ nuget restore SavannahManager.sln
 ```
 
 5. Build with MSBuild.
-```sh
-msbuild SavannahManager.sln /t:Clean;Build /p:Configuration=Release;Platform="Any CPU"
+```ps
+msbuild SavannahManager.sln /t:Clean;Build /p:PostBuildEvent= /p:Configuration=Release;Platform="Any CPU"
+```
+
+6. Move builded files.
+Move all assemblies to "bin" directory on same directory of SavannahManager.sln.
+```ps
+powershell -NoProfile -ExecutionPolicy Unrestricted build.ps1
 ```
 
 # Special Thanks
@@ -53,7 +59,7 @@ Prism.Core:                     Copyright (c) .NET Foundation
 Microsoft.Xaml.Behaviors.Wpf:   Copyright (c) 2015 Microsoft  
 NUnit:                          Copyright (c) 2019 Charlie Poole, Rob Prouse  
 Newtonsoft.Json:                Copyright (c) 2007 James Newton-King  
-Moq:                            Copyright (c) 2007, Clarius Consulting, Manas Technology Solutions, InSTEDD
+Moq:                            Copyright (c) 2007, Clarius Consulting, Manas Technology Solutions, InSTEDD  
 OpenCover:                      Copyright (c) 2011-2019 Shaun Wilde  
 
 
