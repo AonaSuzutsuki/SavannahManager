@@ -51,11 +51,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #region EventMethods
         private void AutoSet_Clicked()
         {
-            model.AutoSetIpAddress();
+            _ = model.AutoSetIpAddress();
         }
         private void Check_Clicked()
         {
-            model.CheckPort();
+            _ = model.CheckPort();
         }
         #endregion
     }

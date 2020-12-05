@@ -40,20 +40,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         #endregion
 
-        public void AutoSetIpAddress()
+        public async Task AutoSetIpAddress()
         {
-            var ip = IpAddressManager.GetExternalIpAddress(ConstantValues.ExternalIpUrl);
+            var ip = await IpAddressManager.GetExternalIpAddress(ConstantValues.ExternalIpUrl);
             ExternalIpAddress = ip;
         }
 
-        public void CheckPort()
+        public async Task CheckPort()
         {
             var portChecker = new PortChecker(ExternalIpAddress, port);
-            var isOpened = portChecker.Search();
-            if (isOpened)
-                StatusLabel = "Opened!";
-            else
-                StatusLabel = "Not Opened!";
+            var isOpened = await portChecker.Search();
+            StatusLabel = isOpened ? "Opened!" : "Not Opened!";
         }
     }
 }

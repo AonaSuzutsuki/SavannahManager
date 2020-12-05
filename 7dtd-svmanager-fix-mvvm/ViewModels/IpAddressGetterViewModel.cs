@@ -51,7 +51,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #region EventMethods
         private void GetIp_Clicked()
         {
-            model.SetIpAddress();
+            _ = model.SetIpAddress();
         }
 
         private void Copy_Clicked(string text)

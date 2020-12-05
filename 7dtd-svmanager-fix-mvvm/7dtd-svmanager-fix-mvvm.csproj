@@ -308,7 +308,6 @@
     <Compile Include="Models\IMainWindowTelnet.cs" />
     <Compile Include="Models\IpAddressManager.cs" />
     <Compile Include="Models\IpAddressGetterModel.cs" />
-    <Compile Include="Models\JsonLoader.cs" />
     <Compile Include="Models\KeyConfigDictionary.cs" />
     <Compile Include="Models\LogStream.cs" />
     <Compile Include="Models\PortChecker.cs" />

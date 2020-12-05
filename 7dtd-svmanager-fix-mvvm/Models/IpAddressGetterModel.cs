@@ -36,10 +36,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         #endregion
 
 
-        public void SetIpAddress()
+        public async Task SetIpAddress()
         {
-            ExternalIpAddress = IpAddressManager.GetExternalIpAddress(ConstantValues.ExternalIpUrl);
-            LocalIpAddress = IpAddressManager.GetLocalIPAddress();
+            ExternalIpAddress = await IpAddressManager.GetExternalIpAddress(ConstantValues.ExternalIpUrl);
+            LocalIpAddress = IpAddressManager.GetLocalIpAddress();
         }
 
         public void CopyClipboard(string text)
