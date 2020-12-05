@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
 using System.Text;
-using System.Threading.Tasks;
 using CommonExtensionLib.Extensions;
 
 namespace SvManagerLibrary.Telnet
@@ -19,7 +16,7 @@ namespace SvManagerLibrary.Telnet
 
     public class LogCollection : IEnumerable<StringInfo>
     {
-        private LinkedList<StringInfo> list = new LinkedList<StringInfo>();
+        private readonly LinkedList<StringInfo> _list = new LinkedList<StringInfo>();
 
         public void Append(string text)
         {
@@ -45,31 +42,31 @@ namespace SvManagerLibrary.Telnet
 
         private StringInfo GetStringBuilder()
         {
-            if (list.Count <= 0)
+            if (_list.Count <= 0)
             {
                 var builder = new StringInfo();
-                list.AddLast(builder);
+                _list.AddLast(builder);
                 return builder;
             }
 
-            var last = list.Last.Value;
+            var last = _list.Last.Value;
             if (last.EndLine)
             {
                 var builder = new StringInfo();
-                list.AddLast(builder);
+                _list.AddLast(builder);
                 return builder;
             }
 
-            return list.Last.Value;
+            return _list.Last.Value;
 
         }
 
         public string GetFirst()
         {
-            var info = list.First?.Value;
+            var info = _list.First?.Value;
             if (info != null && info.EndLine)
             {
-                list.RemoveFirst();
+                _list.RemoveFirst();
                 return info.ToString();
             }
 
@@ -78,7 +75,7 @@ namespace SvManagerLibrary.Telnet
 
         public string GetFirstNoneRemove()
         {
-            var info = list.First?.Value;
+            var info = _list.First?.Value;
             if (info != null && info.EndLine)
             {
                 return info.ToString();
@@ -89,7 +86,7 @@ namespace SvManagerLibrary.Telnet
 
         public string GetLastNoneRemove()
         {
-            var info = list.Last?.Value;
+            var info = _list.Last?.Value;
             if (info != null && info.EndLine)
             {
                 return info.ToString();
@@ -100,14 +97,14 @@ namespace SvManagerLibrary.Telnet
 
         public IEnumerable<StringInfo> ReversEnumerable()
         {
-            var reverse = new List<StringInfo>(this.list);
+            var reverse = new List<StringInfo>(this._list);
             reverse.Reverse();
             return reverse;
         }
 
         public IEnumerator<StringInfo> GetEnumerator()
         {
-            return list.GetEnumerator();
+            return _list.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -118,7 +115,7 @@ namespace SvManagerLibrary.Telnet
         public override string ToString()
         {
             var sb = new StringBuilder();
-            foreach (var stringInfo in list)
+            foreach (var stringInfo in _list)
             {
                 var end = stringInfo.EndLine ? "\n" : "";
                 sb.Append($"{stringInfo}{end}");

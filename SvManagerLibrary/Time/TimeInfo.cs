@@ -4,7 +4,7 @@
     {
         public int Day { set; get; } = 1;
 
-        private int _hour = 0;
+        private int _hour;
         public int Hour
         {
             set
@@ -16,12 +16,9 @@
                 else
                     _hour = value;
             }
-            get
-            {
-                return _hour;
-            }
+            get => _hour;
         }
-        private int _minute = 0;
+        private int _minute;
         public int Minute
         {
             set
@@ -33,10 +30,7 @@
                 else
                     _minute = value;
             }
-            get
-            {
-                return _minute;
-            }
+            get => _minute;
         }
 
         public override bool Equals(object obj)
