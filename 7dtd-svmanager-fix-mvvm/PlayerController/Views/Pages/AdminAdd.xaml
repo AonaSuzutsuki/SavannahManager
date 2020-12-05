@@ -4,8 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:app="clr-namespace:LanguageEx"
-      xmlns:NumText="clr-namespace:NumTextBox"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
       mc:Ignorable="d" 
       TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
       d:DesignHeight="170" d:DesignWidth="450"
@@ -43,7 +43,7 @@
                 <Label Grid.Column="0" Content="Permission" Foreground="White" Padding="2" VerticalAlignment="Top" />
                 <TextBox Text="{Binding PermissionText.Value}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Height="24">
                     <i:Interaction.Behaviors>
-                        <NumText:NumTextBehavior />
+                        <behaviors:NumTextBehavior />
                     </i:Interaction.Behaviors>
                 </TextBox>
                 <Label Grid.Column="2" Content="0-1000" Foreground="White" Padding="10,2,2,2" VerticalAlignment="Top" />

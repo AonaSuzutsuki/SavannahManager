@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:app="clr-namespace:LanguageEx"
-        xmlns:NumText="clr-namespace:NumTextBox"
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"

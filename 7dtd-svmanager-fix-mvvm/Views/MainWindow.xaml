@@ -4,7 +4,7 @@
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
-        xmlns:NumText="clr-namespace:NumTextBox"
+        xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         Title="Savannah Manager" Name="_MainWindow" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True">
     <!--xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"-->
@@ -235,7 +235,7 @@
                                                         <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_PortLabel, Mode=OneWay}" Padding="0" Margin="0,0,0,0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
                                                         <TextBox Text="{Binding TelnetPortText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}"><!--NumText:TextBoxBehaviors.IsNumeric="True"-->
                                                             <i:Interaction.Behaviors>
-                                                                <NumText:NumTextBehavior />
+                                                                <behaviors:NumTextBehavior />
                                                             </i:Interaction.Behaviors>
                                                         </TextBox>
                                                         <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_PasswordLabel, Mode=OneWay}" Padding="0" Margin="0,0,0,0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
@@ -279,18 +279,18 @@
                                                         <Label Content="Day" />
                                                         <TextBox Text="{Binding TimeDayText.Value}" Width="50" Margin="0,0,10,0" VerticalContentAlignment="Center">
                                                             <i:Interaction.Behaviors>
-                                                                <NumText:NumTextBehavior />
+                                                                <behaviors:NumTextBehavior />
                                                             </i:Interaction.Behaviors>
                                                         </TextBox>
                                                         <TextBox Text="{Binding TimeHourText.Value}" Width="30" VerticalContentAlignment="Center">
                                                             <i:Interaction.Behaviors>
-                                                                <NumText:NumTextBehavior Max="23" />
+                                                                <behaviors:NumTextBehavior Max="23" />
                                                             </i:Interaction.Behaviors>
                                                         </TextBox>
                                                         <Label Content=":" />
                                                         <TextBox Text="{Binding TimeMinuteText.Value}" Width="30" VerticalContentAlignment="Center">
                                                             <i:Interaction.Behaviors>
-                                                                <NumText:NumTextBehavior Max="59" />
+                                                                <behaviors:NumTextBehavior Max="59" />
                                                             </i:Interaction.Behaviors>
                                                         </TextBox>
                                                     </StackPanel>

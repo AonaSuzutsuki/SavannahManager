@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace _7dtd_svmanager_fix_mvvm.Views
+namespace _7dtd_svmanager_fix_mvvm.Views.Behaviors
 {
     public static class SaveableTitleBehavior
     {
