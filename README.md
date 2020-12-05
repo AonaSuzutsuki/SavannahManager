@@ -50,7 +50,7 @@ msbuild SavannahManager.sln /t:Clean;Build /p:PostBuildEvent= /p:Configuration=R
 6. Move builded files.
 Move all assemblies to "bin" directory on same directory of SavannahManager.sln.
 ```ps
-powershell -NoProfile -ExecutionPolicy Unrestricted build.ps1
+powershell -NoProfile -ExecutionPolicy Unrestricted .\build.ps1
 ```
 
 # Special Thanks
