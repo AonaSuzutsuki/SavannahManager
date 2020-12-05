@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:NumText="clr-namespace:NumTextBox"
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Settings" Height="300" Width="400" ResizeMode="CanMinimize">
@@ -149,7 +149,7 @@
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="1" Text="{Binding ConsoleLengthText.Value}">
                                                 <i:Interaction.Behaviors>
-                                                    <NumText:NumTextBehavior />
+                                                    <behaviors:NumTextBehavior />
                                                 </i:Interaction.Behaviors>
                                             </TextBox>
                                             <Label Grid.Column="2" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_TextLength, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />

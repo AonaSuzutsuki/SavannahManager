@@ -10,6 +10,7 @@
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Permissions.Views"
         xmlns:models="clr-namespace:_7dtd_svmanager_fix_mvvm.Permissions.Models"
         xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.Permissions.ViewModels"
+        xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
         mc:Ignorable="d"
         Title="Permission Editor" Height="450" Width="800">
     <i:Interaction.Triggers>
@@ -127,7 +128,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
-                <TextBlock Text="Permission Editor" views:SaveableTitleBehavior.CanSave="{Binding IsEdited.Value}" Style="{DynamicResource ResourceKey=StatTitleTextBlock}" />
+                <TextBlock Text="Permission Editor" behaviors:SaveableTitleBehavior.CanSave="{Binding IsEdited.Value}" Style="{DynamicResource ResourceKey=StatTitleTextBlock}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
@@ -565,7 +566,7 @@
                                                         <ColumnDefinition Width="25" />
                                                     </Grid.ColumnDefinitions>
 
-                                                    <TextBox Text="{Binding UnBanDate.Value, UpdateSourceTrigger=PropertyChanged}" views:PlaceHolderBehavior.PlaceHolder="2035-12-31 23:59:59" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                    <TextBox Text="{Binding UnBanDate.Value, UpdateSourceTrigger=PropertyChanged}" behaviors:PlaceHolderBehavior.PlaceHolder="2035-12-31 23:59:59" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="TextChanged">
                                                                 <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />

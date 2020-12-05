@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
 
-namespace NumTextBox
+namespace _7dtd_svmanager_fix_mvvm.Views.Behaviors
 {
     public class NumTextBehavior : Behavior<TextBox>
     {

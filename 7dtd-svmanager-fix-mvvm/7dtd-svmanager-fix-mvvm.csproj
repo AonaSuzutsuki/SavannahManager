@@ -468,12 +468,12 @@
     <Compile Include="Views\IpAddressGetter.xaml.cs">
       <DependentUpon>IpAddressGetter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NumTextBehavior.cs" />
-    <Compile Include="Views\PlaceHolderBehavior.cs" />
+    <Compile Include="Views\Behaviors\NumTextBehavior.cs" />
+    <Compile Include="Views\Behaviors\PlaceHolderBehavior.cs" />
     <Compile Include="Views\PortCheck.xaml.cs">
       <DependentUpon>PortCheck.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SaveableTitleBehavior.cs" />
+    <Compile Include="Views\Behaviors\SaveableTitleBehavior.cs" />
     <Compile Include="Views\TelnetWaitTimeCalculator.xaml.cs">
       <DependentUpon>TelnetWaitTimeCalculator.xaml</DependentUpon>
     </Compile>
