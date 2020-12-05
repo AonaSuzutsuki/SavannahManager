@@ -15,133 +15,133 @@ namespace ConfigEditor_mvvm.Models
     public class MainWindowModel : ModelBase
     {
         #region Public Property
-        private Visibility modifiedVisibility = Visibility.Hidden;
+        private Visibility _modifiedVisibility = Visibility.Hidden;
         /// <summary>
         /// Set or get the presence or absence of the edit mark of the title.
         /// </summary>
         public Visibility ModifiedVisibility
         {
-            get => modifiedVisibility;
-            set => SetProperty(ref modifiedVisibility, value);
+            get => _modifiedVisibility;
+            set => SetProperty(ref _modifiedVisibility, value);
         }
 
-        private bool saveBtEnabled;
+        private bool _saveBtEnabled;
         /// <summary>
         /// Set or get enable / disable of save button.
         /// </summary>
         public bool SaveBtEnabled
         {
-            get => saveBtEnabled;
-            set => SetProperty(ref saveBtEnabled, value);
+            get => _saveBtEnabled;
+            set => SetProperty(ref _saveBtEnabled, value);
         }
 
-        private ObservableCollection<string> versionList;
+        private ObservableCollection<string> _versionList;
         /// <summary>
         /// Set or get the body of the Version combo box.
         /// </summary>
         public ObservableCollection<string> VersionList
         {
-            get => versionList;
-            set => SetProperty(ref versionList, value);
+            get => _versionList;
+            set => SetProperty(ref _versionList, value);
         }
-        private ObservableCollection<ConfigListInfo> configList;
+        private ObservableCollection<ConfigListInfo> _configList;
         /// <summary>
         /// Set or get the body of the ConfigList and list for management.
         /// </summary>
         public ObservableCollection<ConfigListInfo> ConfigList
         {
-            get => configList;
-            set => SetProperty(ref configList, value);
+            get => _configList;
+            set => SetProperty(ref _configList, value);
         }
-        private ObservableCollection<string> valueList;
+        private ObservableCollection<string> _valueList;
         /// <summary>
         /// Set or get body of value candidate list.
         /// </summary>
         public ObservableCollection<string> ValueList
         {
-            get => valueList;
-            set => SetProperty(ref valueList, value);
+            get => _valueList;
+            set => SetProperty(ref _valueList, value);
         }
 
-        private int versionListSelectedIndex;
+        private int _versionListSelectedIndex;
         /// <summary>
         /// Set or get the selected index value of the Version combo box.
         /// </summary>
         public int VersionListSelectedIndex
         {
-            get => versionListSelectedIndex;
-            set => SetProperty(ref versionListSelectedIndex, value);
+            get => _versionListSelectedIndex;
+            set => SetProperty(ref _versionListSelectedIndex, value);
         }
-        private int configListSelectedIndex;
+        private int _configListSelectedIndex;
         /// <summary>
         /// Set or get the selected index value of the ConfigList.
         /// </summary>
         public int ConfigListSelectedIndex
         {
-            get => configListSelectedIndex;
-            set => SetProperty(ref configListSelectedIndex, value);
+            get => _configListSelectedIndex;
+            set => SetProperty(ref _configListSelectedIndex, value);
         }
-        private int valueListSelectedIndex;
+        private int _valueListSelectedIndex;
         /// <summary>
         /// Set or get the selected index value of the Value candidate list.
         /// </summary>
         public int ValueListSelectedIndex
         {
-            get => valueListSelectedIndex;
-            set => SetProperty(ref valueListSelectedIndex, value);
+            get => _valueListSelectedIndex;
+            set => SetProperty(ref _valueListSelectedIndex, value);
         }
 
-        private string nameLabel;
+        private string _nameLabel;
         /// <summary>
         /// Set or get displaied property name.
         /// </summary>
         public string NameLabel
         {
-            get => nameLabel;
-            set => SetProperty(ref nameLabel, value);
+            get => _nameLabel;
+            set => SetProperty(ref _nameLabel, value);
         }
-        private string descriptionLabel;
+        private string _descriptionLabel;
         /// <summary>
         /// Set or get displaied description label.
         /// </summary>
         public string DescriptionLabel
         {
-            get => descriptionLabel;
-            set => SetProperty(ref descriptionLabel, value);
+            get => _descriptionLabel;
+            set => SetProperty(ref _descriptionLabel, value);
         }
 
-        private string valueText;
+        private string _valueText;
         /// <summary>
         /// Set or get displaied config value.
         /// </summary>
         public string ValueText
         {
-            get => valueText;
-            set => SetProperty(ref valueText, value);
+            get => _valueText;
+            set => SetProperty(ref _valueText, value);
         }
 
-        private Visibility valueListVisibility = Visibility.Hidden;
+        private Visibility _valueListVisibility = Visibility.Hidden;
         /// <summary>
         /// Set or get whether to display value candidate list.
         /// </summary>
         public Visibility ValueListVisibility
         {
-            get => valueListVisibility;
-            set => SetProperty(ref valueListVisibility, value);
+            get => _valueListVisibility;
+            set => SetProperty(ref _valueListVisibility, value);
         }
-        private Visibility valueTextBoxVisibility = Visibility.Hidden;
+        private Visibility _valueTextBoxVisibility = Visibility.Hidden;
         /// <summary>
         /// Set or get whether to display text box for value setting.
         /// </summary>
         public Visibility ValueTextBoxVisibility
         {
-            get => valueTextBoxVisibility;
-            set => SetProperty(ref valueTextBoxVisibility, value);
+            get => _valueTextBoxVisibility;
+            set => SetProperty(ref _valueTextBoxVisibility, value);
         }
         #endregion
 
         #region Properties
-        private bool isModified = false;
+        private bool _isModified;
         /// <summary>
         /// Set or get the state of editing. Also change the presence or absence of the title mark.
         /// true: Edited
@@ -149,10 +149,10 @@ namespace ConfigEditor_mvvm.Models
         /// </summary>
         private bool IsModified
         {
-            get => isModified;
+            get => _isModified;
             set
             {
-                isModified = value;
+                _isModified = value;
                 if (value)
                     ModifiedVisibility = Visibility.Visible;
                 else
@@ -162,12 +162,12 @@ namespace ConfigEditor_mvvm.Models
         #endregion
 
         #region Fields
-        private SettingLoader settingLoader;
-        private ConfigLoader configLoader;
-        private TemplateLoader templateLoader;
+        private readonly SettingLoader _settingLoader;
+        private ConfigLoader _configLoader;
+        private readonly TemplateLoader _templateLoader;
 
         // Event avoidance at loading
-        private bool isSetConfig = false;
+        private bool _isSetConfig;
         #endregion
 
         /// <summary>
@@ -179,18 +179,18 @@ namespace ConfigEditor_mvvm.Models
             ConfigList = new ObservableCollection<ConfigListInfo>();
             ValueList = new ObservableCollection<string>();
 
-            settingLoader = new SettingLoader(ConstantValues.SettingFilePath);
+            _settingLoader = new SettingLoader(ConstantValues.SettingFilePath);
 
             var language = LangResources.CommonResources.Language;
-            templateLoader = new TemplateLoader(language, ConstantValues.VersionListPath);
-            VersionList.AddAll(templateLoader.VersionList);
+            _templateLoader = new TemplateLoader(language, ConstantValues.VersionListPath);
+            VersionList.AddAll(_templateLoader.VersionList);
 
             var cmdArray = Environment.GetCommandLineArgs();
             if (cmdArray.Length > 1)
             {
                 string filePath = cmdArray[1];
                 if (File.Exists(filePath))
-                    configLoader = new ConfigLoader(cmdArray[1]);
+                    _configLoader = new ConfigLoader(cmdArray[1]);
             }
 
             // Select Version
@@ -218,7 +218,7 @@ namespace ConfigEditor_mvvm.Models
         /// </summary>
         public void LoadNewData()
         {
-            configLoader = null;
+            _configLoader = null;
             LoadToConfigList();
         }
         /// <summary>
@@ -226,14 +226,14 @@ namespace ConfigEditor_mvvm.Models
         /// </summary>
         public void OpenFile()
         {
-            var dirName = settingLoader.OpenDirectoryPath;
+            var dirName = _settingLoader.OpenDirectoryPath;
             var filePath = FileSelector.GetFilePath(dirName, 
                 LangResources.CommonResources.Filter_XmlFile, ConstantValues.ServerConfigFileName, FileSelector.FileSelectorType.Read);
             if (!string.IsNullOrEmpty(filePath))
             {
-                configLoader = new ConfigLoader(filePath);
+                _configLoader = new ConfigLoader(filePath);
                 LoadToConfigList();
-                settingLoader.OpenDirectoryPath = Path.GetDirectoryName(filePath);
+                _settingLoader.OpenDirectoryPath = Path.GetDirectoryName(filePath);
             }
         }
 
@@ -246,17 +246,17 @@ namespace ConfigEditor_mvvm.Models
 
             ConfigList.Clear();
             var version = VersionList[VersionListSelectedIndex];
-            if (configLoader == null)
+            if (_configLoader == null)
             {
-                var list = new List<ConfigListInfo>(templateLoader.GetConfigList(version));
+                var list = new List<ConfigListInfo>(_templateLoader.GetConfigList(version));
                 ConfigList.AddAll(list);
                 SaveBtEnabled = false;
             }
             else
             {
-                var templateDic = templateLoader.GetConfigDictionary(version);
+                var templateDic = _templateLoader.GetConfigDictionary(version);
                 var templateKeys = new List<string>(templateDic.Keys);
-                var configDic = configLoader.GetAll();
+                var configDic = _configLoader.GetAll();
                 var keys = new List<string>(configDic.Keys);
 
                 //var templateKeysClone = new List<string>(templateKeys);
@@ -300,7 +300,7 @@ namespace ConfigEditor_mvvm.Models
             if (ConfigListSelectedIndex < 0) return;
             var configListInfo = ConfigList[ConfigListSelectedIndex];
 
-            isSetConfig = true;
+            _isSetConfig = true;
             ValueListSelectedIndex = -1;
             ValueList.Clear();
 
@@ -335,9 +335,9 @@ namespace ConfigEditor_mvvm.Models
         /// <param name="confType"></param>
         public void ChangeValue(ConfigType confType)
         {
-            if (isSetConfig)
+            if (_isSetConfig)
             {
-                isSetConfig = false;
+                _isSetConfig = false;
                 return;
             }
 
@@ -361,12 +361,12 @@ namespace ConfigEditor_mvvm.Models
         /// <returns></returns>
         private bool SelectFileOnSaveAs()
         {
-            var dirName = settingLoader.OpenDirectoryPath;
+            var dirName = _settingLoader.OpenDirectoryPath;
             var filePath = FileSelector.GetFilePath(dirName,
                 LangResources.CommonResources.Filter_XmlFile, ConstantValues.ServerConfigFileName, FileSelector.FileSelectorType.Write);
             if (!string.IsNullOrEmpty(filePath))
             {
-                configLoader = new ConfigLoader(filePath, true);
+                _configLoader = new ConfigLoader(filePath, true);
                 SaveBtEnabled = true;
                 return true;
             }
@@ -385,20 +385,20 @@ namespace ConfigEditor_mvvm.Models
         /// </summary>
         public void Save()
         {
-            if (configLoader == null)
+            if (_configLoader == null)
             {
                 if (!SelectFileOnSaveAs()) return;
             }
 
-            configLoader.Clear();
+            _configLoader.Clear();
             foreach (var configListInfo in ConfigList)
             {
                 if (configListInfo.Property.Equals("SaveGameFolder") && string.IsNullOrEmpty(configListInfo.Value))
                     continue;
-                configLoader.AddValue(configListInfo.Property, configListInfo.Value);
+                _configLoader.AddValue(configListInfo.Property, configListInfo.Value);
             }
 
-            configLoader.Write();
+            _configLoader.Write();
             IsModified = false;
         }
     }

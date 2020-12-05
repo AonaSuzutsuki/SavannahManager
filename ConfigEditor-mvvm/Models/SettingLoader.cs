@@ -6,13 +6,13 @@ namespace ConfigEditor_mvvm.Models
     {
         public const string DirectoryPath = @"C:\";
 
-        private string openDirectoryPath = DirectoryPath;
+        private string _openDirectoryPath = DirectoryPath;
         public string OpenDirectoryPath
         {
-            get => openDirectoryPath;
+            get => _openDirectoryPath;
             set
             {
-                openDirectoryPath = value;
+                _openDirectoryPath = value;
                 iniLoader.SetValue("CONFIGEDITOR", "DIRPATH", value);
             }
         }
