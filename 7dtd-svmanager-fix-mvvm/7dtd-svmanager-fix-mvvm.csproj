@@ -613,6 +613,13 @@
   <ItemGroup>
     <Resource Include="Images\Refresh.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Calendar.png" />
+    <Resource Include="Images\Information.png" />
+    <Content Include="Settings\Permissions\serveradmin.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent># For Release
