@@ -117,7 +117,7 @@
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="25">
                             <Button Name="PlayerListRefreshBT" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource ResourceKey=RefreshButton}"  Margin="0,0,0,0" Command="{Binding PlayerListRefreshCommand}" />
                         </StackPanel>
-                        <Grid HorizontalAlignment="Stretch" Margin="0,26,0,0">
+                        <Grid HorizontalAlignment="Stretch" Margin="0,30,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="179*" />
                                 <RowDefinition Height="5" />
