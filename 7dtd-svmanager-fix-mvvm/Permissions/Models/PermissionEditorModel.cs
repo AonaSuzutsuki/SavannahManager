@@ -165,6 +165,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
     {
         #region Fields
 
+        private bool isEdited;
         private bool canSave;
         private string openedFilePath;
         private string declaration;
@@ -179,6 +180,12 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         #endregion
 
         #region Properties
+
+        public bool IsEdited
+        {
+            get => isEdited;
+            set => SetProperty(ref isEdited, value);
+        }
 
         public bool CanSave
         {
@@ -276,6 +283,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             LoadFile(filePath);
             openedFilePath = filePath;
             CanSave = true;
+            isEdited = false;
         }
 
         public void NewFile()
@@ -283,6 +291,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             OpenFile($"{ConstantValues.AppDirectoryPath}\\Settings\\Permissions\\serveradmin.xml");
             openedFilePath = string.Empty;
             CanSave = false;
+            isEdited = false;
         }
 
         public void Save()
@@ -313,7 +322,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             ApplyNodes(BlacklistPermissions, blacklist);
 
             var writer = new SavannahXmlWriter(declaration);
-            writer.Write("test.xml", root);
+            writer.Write(filePath, root);
 
             CanSave = true;
             openedFilePath = filePath;

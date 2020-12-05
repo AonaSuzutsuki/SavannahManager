@@ -30,6 +30,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
 
         public Func<string, string> GetSteamIdFunc { get; set; }
+        public Action TextBoxChangedAction { get; set; }
         public ICommand GetSteamIdCommand { get; set; }
 
         private readonly PermissionBase permissionBase;
@@ -50,6 +51,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
                     permissionBase.ItemType = PermissionBase.PermissionItemType.Real;
                     permissionBase.AddDummyAction?.Invoke();
                 }
+                TextBoxChangedAction?.Invoke();
             });
 
             LostFocusCommand = new DelegateCommand(LostFocus);
@@ -141,6 +143,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
         {
             this.model = model;
 
+            IsEdited = model.ObserveProperty(m => m.IsEdited).ToReactiveProperty();
             CanSave = model.ObserveProperty(m => m.CanSave).ToReactiveProperty();
 
             CommandPermissions = model.CommandPermissions.ToReadOnlyReactiveCollection(m
@@ -148,27 +151,32 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
             AdminPermissions = model.AdminPermissions.ToReadOnlyReactiveCollection(m
                 => new AdminPermissionInfoViewModel(m, WindowManageService)
                 {
-                    GetSteamIdFunc = GetSteamId
+                    GetSteamIdFunc = GetSteamId,
+                    TextBoxChangedAction = Edited
                 });
             AdminGroupPermissions = model.AdminGroupPermissions.ToReadOnlyReactiveCollection(m
                 => new AdminPermissionInfoViewModel(m, WindowManageService)
                 {
-                    GetSteamIdFunc = GetSteamGroupId
+                    GetSteamIdFunc = GetSteamGroupId,
+                    TextBoxChangedAction = Edited
                 });
             WhitelistPermissions = model.WhitelistPermissions.ToReadOnlyReactiveCollection(m
                 => new WhitelistPermissionInfoViewModel(m, WindowManageService)
                 {
-                    GetSteamIdFunc = GetSteamId
+                    GetSteamIdFunc = GetSteamId,
+                    TextBoxChangedAction = Edited
                 });
             WhitelistGroupPermissions = model.WhitelistGroupPermissions.ToReadOnlyReactiveCollection(m
                 => new WhitelistPermissionInfoViewModel(m, WindowManageService)
                 {
-                    GetSteamIdFunc = GetSteamGroupId
+                    GetSteamIdFunc = GetSteamGroupId,
+                    TextBoxChangedAction = Edited
                 });
             BlacklistPermissions = model.BlacklistPermissions.ToReadOnlyReactiveCollection(m
                 => new BlackListPermissionInfoViewModel(m, WindowManageService)
                 {
-                    GetSteamIdFunc = GetSteamId
+                    GetSteamIdFunc = GetSteamId,
+                    TextBoxChangedAction = Edited
                 });
 
             NewFileCommand = new DelegateCommand(NewFile);
@@ -185,6 +193,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
         #region Properties
 
+        public ReactiveProperty<bool> IsEdited { get; set; }
         public ReactiveProperty<bool> CanSave { get; set; }
 
         public ReadOnlyReactiveCollection<PermissionInfoViewModel> CommandPermissions { get; set; }
@@ -231,6 +240,11 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
             var filePath = FileSelector.GetFilePath(dirPath,
                 LangResources.SettingsResources.Filter_XmlFile, "serveradmin.xml", FileSelector.FileSelectorType.Write);
             model.Save(filePath);
+        }
+
+        public void Edited()
+        {
+            model.IsEdited = true;
         }
 
         public string GetSteamId(string currentId)
