@@ -151,9 +151,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             IsBeta = model.ObserveProperty(m => m.IsBeta).ToReactiveProperty();
 
-            StartBTEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled);
-            TelnetBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled);
-            TelnetBTLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel);
+            StartBtEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled);
+            TelnetBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled);
+            TelnetBtLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel);
 
             UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
             
@@ -245,9 +245,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         public TextBox ConsoleTextBox { get; set; }
         
-        public ReactiveProperty<bool> StartBTEnabled { get; set; }
-        public ReactiveProperty<bool> TelnetBTIsEnabled { get; set; }
-        public ReactiveProperty<string> TelnetBTLabel { get; set; }
+        public ReactiveProperty<bool> StartBtEnabled { get; set; }
+        public ReactiveProperty<bool> TelnetBtIsEnabled { get; set; }
+        public ReactiveProperty<string> TelnetBtLabel { get; set; }
         
         public ReactiveProperty<ObservableCollection<UserDetail>> UsersList { get; set; }
         public int UsersListSelectedIndex

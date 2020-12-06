@@ -93,12 +93,12 @@
             </StackPanel>
 
             <StackPanel Margin="10,55,10,0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25">
-                <Button Width="23" Height="23" Name="StartBt" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding StartBTEnabled.Value}" Style="{StaticResource ResourceKey=StartBT}" Margin="0,0,0,0" Command="{Binding StartServerCommand}" />
-                <Button Width="23" Height="23" Name="StopBt" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource ResourceKey=StopBT}" Margin="3,0,0,0" Command="{Binding StopServerCommand}" />
+                <Button Width="23" Height="23" Name="StartBt" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding StartBtEnabled.Value}" Style="{StaticResource ResourceKey=StartBt}" Margin="0,0,0,0" Command="{Binding StartServerCommand}" />
+                <Button Width="23" Height="23" Name="StopBt" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource ResourceKey=StopBt}" Margin="3,0,0,0" Command="{Binding StopServerCommand}" />
                 <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" BorderThickness="1" />
-                <Button Name="TelnetBt" IsEnabled="{Binding TelnetBTIsEnabled.Value}" Style="{StaticResource TelnetBT}" Margin="4,0,0,0" Content="{Binding TelnetBTLabel.Value}" Command="{Binding ConnectTelnetCommand}" />
+                <Button Name="TelnetBt" IsEnabled="{Binding TelnetBtIsEnabled.Value}" Style="{StaticResource TelnetBt}" Margin="4,0,0,0" Content="{Binding TelnetBtLabel.Value}" Command="{Binding ConnectTelnetCommand}" />
                 <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" BorderThickness="1" />
-                <Button Name="CommandListBt" Style="{StaticResource CommandListBT}" Margin="4,0,0,0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ShowCommandListBT, Mode=OneWay}" Command="{Binding OpenCommandListCommand}" IsEnabled="False" />
+                <Button Name="CommandListBt" Style="{StaticResource CommandListBt}" Margin="4,0,0,0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ShowCommandListBT, Mode=OneWay}" Command="{Binding OpenCommandListCommand}" IsEnabled="False" />
                 <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" BorderThickness="1" Visibility="Hidden" />
             </StackPanel>
             
@@ -149,18 +149,18 @@
                                         </i:Interaction.Triggers>
 
                                         <MenuItem Header="Admin" IsEnabled="{Binding AdminContextEnabled}">
-                                            <MenuItem Header="Add" Name="AdminAddBT" Command="{Binding AddAdminCommand}" />
-                                            <MenuItem Header="Remove" Name="AdminRemoveBT" Command="{Binding RemoveAdminCommand}" />
+                                            <MenuItem Header="Add" Name="AdminAddBt" Command="{Binding AddAdminCommand}" />
+                                            <MenuItem Header="Remove" Name="AdminRemoveBt" Command="{Binding RemoveAdminCommand}" />
                                         </MenuItem>
                                         <MenuItem Header="Whitelist" IsEnabled="{Binding WhitelistContextEnabled}">
-                                            <MenuItem Header="Add" Name="WhiteListAddBT" Command="{Binding AddWhiteListCommand}" />
-                                            <MenuItem Header="Remove" Name="WhiteListRemoveBT" Command="{Binding RemoveWhiteListCommand}" />
+                                            <MenuItem Header="Add" Name="WhiteListAddBt" Command="{Binding AddWhiteListCommand}" />
+                                            <MenuItem Header="Remove" Name="WhiteListRemoveBt" Command="{Binding RemoveWhiteListCommand}" />
                                         </MenuItem>
-                                        <MenuItem Header="Kick" Name="KickBT" IsEnabled="{Binding KickContextEnabled}" Command="{Binding KickPlayerCommand}" />
-                                        <MenuItem Header="Ban" Name="BanBT" IsEnabled="{Binding BanContextEnabled}" Command="{Binding BanPlayerCommand}" />
-                                        <MenuItem Header="Kill" Name="KillBT" IsEnabled="False" Command="{Binding KillPlayerCommand}" />
+                                        <MenuItem Header="Kick" Name="KickBt" IsEnabled="{Binding KickContextEnabled}" Command="{Binding KickPlayerCommand}" />
+                                        <MenuItem Header="Ban" Name="BanBt" IsEnabled="{Binding BanContextEnabled}" Command="{Binding BanPlayerCommand}" />
+                                        <MenuItem Header="Kill" Name="KillBt" IsEnabled="False" Command="{Binding KillPlayerCommand}" />
                                         <Separator Style="{StaticResource MLB_Separator}" />
-                                        <MenuItem Header="Watch Player Info" Name="WatchPlayerInfoBT" IsEnabled="{Binding WatchPlayerInfoContextEnabled}" Command="{Binding ShowPlayerInfoCommand}" />
+                                        <MenuItem Header="Watch Player Info" Name="WatchPlayerInfoBt" IsEnabled="{Binding WatchPlayerInfoContextEnabled}" Command="{Binding ShowPlayerInfoCommand}" />
                                     </ContextMenu>
                                 </ListView.ContextMenu>
                             </ListView>
@@ -191,7 +191,7 @@
                                     <ContextMenu>
                                         <MenuItem Command="ApplicationCommands.Copy" />
                                         <Separator Style="{StaticResource MLB_Separator}" />
-                                        <MenuItem Name="DeleteLogBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_DeleteLogBTLabel, Mode=OneWay}" Command="{Binding DeleteLogCommand}" />
+                                        <MenuItem Name="DeleteLogBt" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_DeleteLogBTLabel, Mode=OneWay}" Command="{Binding DeleteLogCommand}" />
                                     </ContextMenu>
                                 </TextBox.ContextMenu>
                             </TextBox>
@@ -296,8 +296,8 @@
                                                     </StackPanel>
                                                 </Grid>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0">
-                                                    <Button Name="GetTimeBT"  Content="Get Time" Foreground="#81D1FF" BorderBrush="#81D1FF" Style="{StaticResource FlatButton}" Height="25" Width="70" Command="{Binding GetTimeCommand}" />
-                                                    <Button Name="SetTimeBT" Content="Set Time" Foreground="#FF8080" BorderBrush="#FF8080" Style="{StaticResource FlatButton}" Height="25" Width="70" Margin="10,0,0,0" Command="{Binding SetTimeCommand}" />
+                                                    <Button Name="GetTimeBt"  Content="Get Time" Foreground="#81D1FF" BorderBrush="#81D1FF" Style="{StaticResource FlatButton}" Height="25" Width="70" Command="{Binding GetTimeCommand}" />
+                                                    <Button Name="SetTimeBt" Content="Set Time" Foreground="#FF8080" BorderBrush="#FF8080" Style="{StaticResource FlatButton}" Height="25" Width="70" Margin="10,0,0,0" Command="{Binding SetTimeCommand}" />
                                                 </StackPanel>
                                                 <Grid Margin="5,82,5,0" VerticalAlignment="Top">
                                                     <Grid.ColumnDefinitions>
@@ -305,7 +305,7 @@
                                                         <ColumnDefinition />
                                                     </Grid.ColumnDefinitions>
                                                     <Label Grid.Column="0" HorizontalAlignment="Left" Content="Save World" />
-                                                    <Button Name="SaveWorldBT" Grid.Column="1" Content="Save World" Style="{StaticResource FlatButton}" Command="{Binding SaveWorldCommand}" />
+                                                    <Button Name="SaveWorldBt" Grid.Column="1" Content="Save World" Style="{StaticResource FlatButton}" Command="{Binding SaveWorldCommand}" />
                                                 </Grid>
                                             </Grid>
                                         </TabItem>

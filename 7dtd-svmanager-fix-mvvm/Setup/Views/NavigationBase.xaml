@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:transitionControlLib="clr-namespace:TransitionControlLib;assembly=TransitionControlLib"
         Title="{Binding WindowTitle.Value}" Height="350" Width="500" WindowStyle="None" WindowStartupLocation="CenterScreen">
 
@@ -23,7 +23,7 @@
             <i:InvokeCommandAction Command="{Binding StateChanged}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="KeyDown">
-            <CommonViews:InvokeDelegateCommandAction Command="{Binding KeyDown}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}" />
+            <commonViews:InvokeDelegateCommandAction Command="{Binding KeyDown}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -53,7 +53,7 @@
                 <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
-                            <CommonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
+                            <commonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
