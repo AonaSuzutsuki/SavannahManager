@@ -33,11 +33,11 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
         public Action TextBoxChangedAction { get; set; }
         public ICommand GetSteamIdCommand { get; set; }
 
-        private readonly PermissionBase permissionBase;
+        private readonly PermissionBase _permissionBase;
 
         protected PermissionBaseViewModel(PermissionBase permissionBase, IWindowService windowService)
         {
-            this.permissionBase = permissionBase;
+            this._permissionBase = permissionBase;
 
             SteamId = permissionBase.ToReactivePropertyAsSynchronized(m => m.SteamId);
             WindowManageService = windowService;
@@ -64,8 +64,8 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
         protected virtual void LostFocus()
         {
-            if (permissionBase.CanRemove())
-                permissionBase.RemoveAction?.Invoke();
+            if (_permissionBase.CanRemove())
+                _permissionBase.RemoveAction?.Invoke();
         }
     }
 
@@ -141,7 +141,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
     {
         public PermissionEditorViewModel(IWindowService windowService, PermissionEditorModel model) : base(windowService, model)
         {
-            this.model = model;
+            this._model = model;
 
             IsEdited = model.ObserveProperty(m => m.IsEdited).ToReactiveProperty();
             CanSave = model.ObserveProperty(m => m.CanSave).ToReactiveProperty();
@@ -187,7 +187,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
         #region Fields
 
-        private readonly PermissionEditorModel model;
+        private readonly PermissionEditorModel _model;
 
         #endregion
 
@@ -218,7 +218,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
         public void NewFile()
         {
-            model.NewFile();
+            _model.NewFile();
         }
 
         public void OpenFile()
@@ -226,12 +226,12 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
             var dirPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\7DaysToDie\\Saves";
             var filePath = FileSelector.GetFilePath(dirPath,
                 LangResources.SettingsResources.Filter_XmlFile,"serveradmin.xml", FileSelector.FileSelectorType.Read);
-            model.OpenFile(filePath);
+            _model.OpenFile(filePath);
         }
 
         public void SaveFile()
         {
-            model.Save();
+            _model.Save();
         }
 
         public void SaveAsFile()
@@ -239,12 +239,12 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
             var dirPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\7DaysToDie\\Saves";
             var filePath = FileSelector.GetFilePath(dirPath,
                 LangResources.SettingsResources.Filter_XmlFile, "serveradmin.xml", FileSelector.FileSelectorType.Write);
-            model.Save(filePath);
+            _model.Save(filePath);
         }
 
         public void Edited()
         {
-            model.IsEdited = true;
+            _model.IsEdited = true;
         }
 
         public string GetSteamId(string currentId)

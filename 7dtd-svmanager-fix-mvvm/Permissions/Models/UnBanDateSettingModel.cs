@@ -12,31 +12,31 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
     public class UnBanDateSettingModel : ModelBase
     {
 
-        private DateTime? selectedDate;
-        private int hourText;
-        private int minuteText;
-        private int secondText;
+        private DateTime? _selectedDate;
+        private int _hourText;
+        private int _minuteText;
+        private int _secondText;
 
         public int HourText
         {
-            get => hourText;
-            set => SetProperty(ref hourText, value);
+            get => _hourText;
+            set => SetProperty(ref _hourText, value);
         }
         public int MinuteText
         {
-            get => minuteText;
-            set => SetProperty(ref minuteText, value);
+            get => _minuteText;
+            set => SetProperty(ref _minuteText, value);
         }
         public int SecondText
         {
-            get => secondText;
-            set => SetProperty(ref secondText, value);
+            get => _secondText;
+            set => SetProperty(ref _secondText, value);
         }
 
         public DateTime? SelectedDate
         {
-            get => selectedDate;
-            set => SetProperty(ref selectedDate, value);
+            get => _selectedDate;
+            set => SetProperty(ref _selectedDate, value);
         }
 
         public string ConvertToString()

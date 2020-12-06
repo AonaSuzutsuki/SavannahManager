@@ -10,8 +10,7 @@ using System.Collections.Generic;
 using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
-using LanguageEx;
-using Log;
+using _7dtd_svmanager_fix_mvvm.LangResources;
 using _7dtd_svmanager_fix_mvvm.Settings;
 using _7dtd_svmanager_fix_mvvm.Update.Models;
 using _7dtd_svmanager_fix_mvvm.ViewModels;
@@ -36,8 +35,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             public int MaxLength { get; set; }
             public string AppendedLogText { get; set; }
         }
-        private readonly Subject<AppendedLogTextEventArgs> consoleTextAppended = new Subject<AppendedLogTextEventArgs>();
-        public IObservable<AppendedLogTextEventArgs> ConsoleTextAppended => consoleTextAppended;
+        private readonly Subject<AppendedLogTextEventArgs> _consoleTextAppended = new Subject<AppendedLogTextEventArgs>();
+        public IObservable<AppendedLogTextEventArgs> ConsoleTextAppended => _consoleTextAppended;
         #endregion
 
         #region ErrorEvent
@@ -51,135 +50,135 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             public Action<ExMessageBoxBase.DialogResult> CallBack { get; set; }
         }
-        private readonly Subject<MessageBoxOccurredEventArgs> messageBoxOccurred = new Subject<MessageBoxOccurredEventArgs>();
-        public IObservable<MessageBoxOccurredEventArgs> MessageBoxOccurred => messageBoxOccurred;
+        private readonly Subject<MessageBoxOccurredEventArgs> _messageBoxOccurred = new Subject<MessageBoxOccurredEventArgs>();
+        public IObservable<MessageBoxOccurredEventArgs> MessageBoxOccurred => _messageBoxOccurred;
 
-        private readonly Subject<string> errorOccurred = new Subject<string>();
-        public IObservable<string> ErrorOccurred => errorOccurred;
+        private readonly Subject<string> _errorOccurred = new Subject<string>();
+        public IObservable<string> ErrorOccurred => _errorOccurred;
 
         #endregion
 
         #region PropertiesForViewModel
-        private bool startBtEnabled = true;
+        private bool _startBtEnabled = true;
         public bool StartBtEnabled
         {
-            get => startBtEnabled;
-            set => SetProperty(ref startBtEnabled, value);
+            get => _startBtEnabled;
+            set => SetProperty(ref _startBtEnabled, value);
         }
-        private bool telnetBtIsEnabled = true;
+        private bool _telnetBtIsEnabled = true;
         public bool TelnetBtIsEnabled
         {
-            get => telnetBtIsEnabled;
-            set => SetProperty(ref telnetBtIsEnabled, value);
+            get => _telnetBtIsEnabled;
+            set => SetProperty(ref _telnetBtIsEnabled, value);
         }
-        private string telnetBtLabel;
+        private string _telnetBtLabel;
         public string TelnetBtLabel
         {
-            get => telnetBtLabel;
-            set => SetProperty(ref telnetBtLabel, value);
+            get => _telnetBtLabel;
+            set => SetProperty(ref _telnetBtLabel, value);
         }
 
-        private ObservableCollection<UserDetail> usersList;
+        private ObservableCollection<UserDetail> _usersList;
         public ObservableCollection<UserDetail> UsersList
         {
-            get => usersList;
-            set => SetProperty(ref usersList, value);
+            get => _usersList;
+            set => SetProperty(ref _usersList, value);
         }
 
 
-        private string chatLogText;
+        private string _chatLogText;
         public string ChatLogText
         {
-            get => chatLogText;
-            set => SetProperty(ref chatLogText, value);
+            get => _chatLogText;
+            set => SetProperty(ref _chatLogText, value);
         }
-        private string chatInputText;
+        private string _chatInputText;
         public string ChatInputText
         {
-            get => chatInputText;
-            set => SetProperty(ref chatInputText, value);
+            get => _chatInputText;
+            set => SetProperty(ref _chatInputText, value);
         }
 
-        private bool connectionPanelIsEnabled = true;
+        private bool _connectionPanelIsEnabled = true;
         public bool ConnectionPanelIsEnabled
         {
-            get => connectionPanelIsEnabled;
-            set => SetProperty(ref connectionPanelIsEnabled, value);
+            get => _connectionPanelIsEnabled;
+            set => SetProperty(ref _connectionPanelIsEnabled, value);
         }
 
-        private bool isBeta;
+        private bool _isBeta;
 
         public bool IsBeta
         {
-            get => isBeta;
-            set => SetProperty(ref isBeta, value);
+            get => _isBeta;
+            set => SetProperty(ref _isBeta, value);
         }
 
-        private bool localMode = true;
+        private bool _localMode = true;
         public bool LocalMode
         {
-            get => localMode;
+            get => _localMode;
             set
             {
-                SetProperty(ref localMode, value);
+                SetProperty(ref _localMode, value);
                 ConnectionPanelIsEnabled = !value;
                 StartBtEnabled = value;
             }
         }
-        private bool localModeEnabled = true;
+        private bool _localModeEnabled = true;
         public bool LocalModeEnabled
         {
-            get => localModeEnabled;
-            set => SetProperty(ref localModeEnabled, value);
+            get => _localModeEnabled;
+            set => SetProperty(ref _localModeEnabled, value);
         }
         public string Address
         {
-            get => address;
-            set => SetProperty(ref address, value);
+            get => _address;
+            set => SetProperty(ref _address, value);
         }
-        private string portText = string.Empty;
+        private string _portText = string.Empty;
         public string PortText
         {
-            get => portText;
+            get => _portText;
             set
             {
-                SetProperty(ref portText, value);
+                SetProperty(ref _portText, value);
                 if (int.TryParse(value, out int port))
                 {
-                    this.port = port;
+                    this._port = port;
                 }
             }
         }
         public string Password
         {
-            get => password;
-            set => SetProperty(ref password, value);
+            get => _password;
+            set => SetProperty(ref _password, value);
         }
 
-        private string timeDayText = "0";
+        private string _timeDayText = "0";
         public string TimeDayText
         {
-            get => timeDayText;
-            set => SetProperty(ref timeDayText, value);
+            get => _timeDayText;
+            set => SetProperty(ref _timeDayText, value);
         }
-        private string timeHourText = "0";
+        private string _timeHourText = "0";
         public string TimeHourText
         {
-            get => timeHourText;
-            set => SetProperty(ref timeHourText, value);
+            get => _timeHourText;
+            set => SetProperty(ref _timeHourText, value);
         }
-        private string timeMinuteText = "0";
+        private string _timeMinuteText = "0";
         public string TimeMinuteText
         {
-            get => timeMinuteText;
-            set => SetProperty(ref timeMinuteText, value);
+            get => _timeMinuteText;
+            set => SetProperty(ref _timeMinuteText, value);
         }
 
-        private string bottomNewsLabel;
+        private string _bottomNewsLabel;
         public string BottomNewsLabel
         {
-            get => bottomNewsLabel;
-            set => SetProperty(ref bottomNewsLabel, value);
+            get => _bottomNewsLabel;
+            set => SetProperty(ref _bottomNewsLabel, value);
         }
         #endregion
 
@@ -187,11 +186,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         //public IMessageBoxWindowService MessageBoxWindowService { get; set; }
 
-        private bool isConnected;
+        private bool _isConnected;
         private bool IsConnected
         {
-            get => isConnected && RowConnected;
-            set => isConnected = value;
+            get => _isConnected && RowConnected;
+            set => _isConnected = value;
         }
         private bool RowConnected => Telnet != null && Telnet.Connected;
         public bool IsFailed { get; private set; }
@@ -209,29 +208,29 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         #endregion
 
         #region Fiels
-        private string address = string.Empty;
-        private int port = 0;
-        private string password = string.Empty;
+        private string _address = string.Empty;
+        private int _port;
+        private string _password = string.Empty;
 
-        private readonly List<ChatInfo> chatArray = new List<ChatInfo>();
+        private readonly List<ChatInfo> _chatArray = new List<ChatInfo>();
 
-        private readonly Dictionary<int, ViewModels.UserDetail> playersDictionary = new Dictionary<int, ViewModels.UserDetail>();
-        private readonly List<int> connectedIds = new List<int>();
+        private readonly Dictionary<int, UserDetail> _playersDictionary = new Dictionary<int, UserDetail>();
+        private readonly List<int> _connectedIds = new List<int>();
 
-        private bool isServerForceStop = false;
+        private bool _isServerForceStop = false;
 
         #endregion
 
         #region Event
 
-        private readonly Subject<TelnetClient.TelnetReadEventArgs> telnetStartedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
-        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetStarted => telnetStartedSubject;
+        private readonly Subject<TelnetClient.TelnetReadEventArgs> _telnetStartedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetStarted => _telnetStartedSubject;
 
-        private readonly Subject<TelnetClient.TelnetReadEventArgs> telnetFinishedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
-        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetFinished => telnetFinishedSubject;
+        private readonly Subject<TelnetClient.TelnetReadEventArgs> _telnetFinishedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetFinished => _telnetFinishedSubject;
 
-        private readonly Subject<TelnetClient.TelnetReadEventArgs> telnetReadSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
-        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetRead => telnetReadSubject;
+        private readonly Subject<TelnetClient.TelnetReadEventArgs> _telnetReadSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        public IObservable<TelnetClient.TelnetReadEventArgs> TelnetRead => _telnetReadSubject;
 
         #endregion
 
@@ -291,10 +290,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             Setting.Width = (int)width;
             Setting.Height = (int)height;
-            Setting.Address = address;
-            Setting.LocalMode = localMode;
-            Setting.Port = port;
-            Setting.Password = password;
+            Setting.Address = _address;
+            Setting.LocalMode = _localMode;
+            Setting.Port = _port;
+            Setting.Password = _password;
         }
         public void ChangeCulture(string cultureName)
         {
@@ -321,15 +320,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         private void FeedColorChange(SolidColorBrush color)
         {
-            for (double _i = 1; _i >= 0; _i -= 0.1)
+            for (double i = 1; i >= 0; i -= 0.1)
             {
-                AroundBorderOpacity = _i;
+                AroundBorderOpacity = i;
                 Thread.Sleep(5);
             }
             AroundBorderColor = color;
-            for (double _i = 0; _i <= 1; _i += 0.1)
+            for (double i = 0; i <= 1; i += 0.1)
             {
-                AroundBorderOpacity = _i;
+                AroundBorderOpacity = i;
                 Thread.Sleep(5);
             }
         }
@@ -343,7 +342,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var checkedValues = ConfigChecker.GetConfigInfo(ConfigFilePath);
             if (checkedValues.IsFailed)
             {
-                errorOccurred.OnNext(checkedValues.Message);
+                _errorOccurred.OnNext(checkedValues.Message);
                 return;
             }
 
@@ -353,12 +352,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             if (IsConnected)
             {
-                errorOccurred.OnNext(LangResources.Resources.AlreadyConnected);
+                _errorOccurred.OnNext(LangResources.Resources.AlreadyConnected);
                 return;
             }
 
             var serverProcessManager = new ServerProcessManager(ExeFilePath, ConfigFilePath);
-            void ProcessFailedAction(string message) => errorOccurred.OnNext(message);
+            void ProcessFailedAction(string message) => _errorOccurred.OnNext(message);
             if (!serverProcessManager.ProcessStart(ProcessFailedAction))
                 return;
 
@@ -375,14 +374,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 IsTelnetLoading = true;
                 while (true)
                 {
-                    if (isServerForceStop)
+                    if (_isServerForceStop)
                     {
                         TelnetBtIsEnabled = true;
                         BottomNewsLabel = LangResources.Resources.UI_ReadyComplete;
                         AroundBorderColor = CommonStyleLib.ConstantValues.ActivatedBorderColor;
 
                         IsTelnetLoading = false;
-                        isServerForceStop = false;
+                        _isServerForceStop = false;
 
                         TelnetFinish();
                         break;
@@ -416,7 +415,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (IsTelnetLoading)
             {
-                isServerForceStop = true;
+                _isServerForceStop = true;
                 return false;
             }
 
@@ -442,13 +441,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 FileInfo fi = new FileInfo(ExeFilePath);
                 if (!fi.Exists)
                 {
-                    errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, "7DaysToDieServer.exe"));
+                    _errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, "7DaysToDieServer.exe"));
                     return false;
                 }
             }
             catch (ArgumentException)
             {
-                errorOccurred.OnNext(string.Format(LangResources.Resources._0_Is_Invalid, LangResources.Resources.ServerFilePath));
+                _errorOccurred.OnNext(string.Format(LangResources.Resources._0_Is_Invalid, LangResources.Resources.ServerFilePath));
                 return false;
             }
 
@@ -457,13 +456,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 FileInfo fi = new FileInfo(ConfigFilePath);
                 if (!fi.Exists)
                 {
-                    errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFilePath));
+                    _errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFilePath));
                     return false;
                 }
             }
             catch (ArgumentException)
             {
-                errorOccurred.OnNext(string.Format(LangResources.Resources._0_Is_Invalid, "7DaysToDieServer.exe"));
+                _errorOccurred.OnNext(string.Format(LangResources.Resources._0_Is_Invalid, "7DaysToDieServer.exe"));
                 return false;
             }
             return true;
@@ -493,7 +492,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private async Task TelnetConnect()
         {
             var localAddress = Address;
-            var localPort = port;
+            var localPort = _port;
             var localPassword = Password;
 
             if (LocalMode)
@@ -502,14 +501,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 if (!File.Exists(ConfigFilePath))
                 {
-                    errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFile));
+                    _errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFile));
                     return;
                 }
 
                 var checkedValues = ConfigChecker.GetConfigInfo(ConfigFilePath);
                 if (checkedValues.IsFailed)
                 {
-                    errorOccurred.OnNext(checkedValues.Message);
+                    _errorOccurred.OnNext(checkedValues.Message);
                     return;
                 }
 
@@ -556,7 +555,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             try
             {
-                SocTelnetSendNRT("exit");
+                SocTelnetSendNrt("exit");
             }
             catch (System.Net.Sockets.SocketException)
             {
@@ -574,9 +573,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             {
                 TelnetEventWaitTime = model.Setting.TelnetWaitTime
             };
-            telnet.Started += (sender, args) => model.telnetStartedSubject.OnNext(args);
-            telnet.Finished += (sender, args) => model.telnetFinishedSubject.OnNext(args);
-            telnet.ReadEvent += (sender, args) => model.telnetReadSubject.OnNext(args);
+            telnet.Started += (sender, args) => model._telnetStartedSubject.OnNext(args);
+            telnet.Finished += (sender, args) => model._telnetFinishedSubject.OnNext(args);
+            telnet.ReadEvent += (sender, args) => model._telnetReadSubject.OnNext(args);
             return telnet;
         }
 
@@ -596,8 +595,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void AddChatText(string text)
         {
-            chatArray.AddMultiLine(text);
-            var cData = chatArray.GetLast();
+            _chatArray.AddMultiLine(text);
+            var cData = _chatArray.GetLast();
             if (cData != null)
                 ChatLogText += string.Format("{0}: {1}\r\n", cData.Name, cData.Message);
         }
@@ -616,8 +615,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (!CheckConnected())
                 return;
 
-            connectedIds.Clear();
-            playersDictionary.Clear();
+            _connectedIds.Clear();
+            _playersDictionary.Clear();
             var playerInfoArray = Player.SetPlayerInfo(Telnet);
             foreach (PlayerInfo uDetail in playerInfoArray)
                 AddUser(uDetail);
@@ -625,13 +624,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private void AddUser(PlayerInfo playerInfo)
         {
             int id = playerInfo.Id.ToInt();
-            var pDict = playersDictionary;
-            var keys = connectedIds;
+            var pDict = _playersDictionary;
+            var keys = _connectedIds;
             if (!pDict.ContainsKey(id))
             {
                 var uDetail = new ViewModels.UserDetail()
                 {
-                    ID = playerInfo.Id,
+                    Id = playerInfo.Id,
                     Level = playerInfo.Level,
                     Name = playerInfo.Name,
                     Health = playerInfo.Health,
@@ -652,8 +651,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         public void RemoveUser(string log)
         {
-            var pDict = playersDictionary;
-            var keys = connectedIds;
+            var pDict = _playersDictionary;
+            var keys = _connectedIds;
 
             var sr = new StringReader(log);
             while (sr.Peek() > -1)
@@ -675,7 +674,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         public void PlayerClean()
         {
-            playersDictionary.Clear();
+            _playersDictionary.Clear();
             UsersList = null;
         }
         public PlayerInfo GetSelectedPlayerInfo(int index)
@@ -701,7 +700,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (!CheckConnected())
                 return;
             
-            messageBoxOccurred.OnNext(new MessageBoxOccurredEventArgs
+            _messageBoxOccurred.OnNext(new MessageBoxOccurredEventArgs
             {
                 Message = LangResources.Resources.DoYouChangeTime,
                 Title = LangResources.Resources.Warning,
@@ -729,7 +728,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!string.IsNullOrEmpty(text))
             {
-                consoleTextAppended.OnNext(new AppendedLogTextEventArgs()
+                _consoleTextAppended.OnNext(new AppendedLogTextEventArgs()
                 {
                     AppendedLogText = text,
                     MaxLength = ConsoleTextLength
@@ -742,14 +741,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
          */
         public void SendCommand(string cmd)
         {
-            SocTelnetSendNRT(cmd);
+            SocTelnetSendNrt(cmd);
         }
         public bool CheckConnected()
         {
             if (IsConnected)
                 return true;
 
-            errorOccurred.OnNext(LangResources.Resources.HasnotBeConnected);
+            _errorOccurred.OnNext(LangResources.Resources.HasnotBeConnected);
             return false;
         }
         private void SocTelnetSendDirect(string cmd)
@@ -770,7 +769,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             return log;
         }
 
-        public bool SocTelnetSendNRT(string cmd)
+        public bool SocTelnetSendNrt(string cmd)
         {
             if (!CheckConnected())
                 return false;
@@ -793,10 +792,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         }
         public void RemoveAdmin(int index)
         {
-            var playerId = UsersList[index].ID;
+            var playerId = UsersList[index].Id;
             if (string.IsNullOrEmpty(playerId))
             {
-                messageBoxOccurred.OnNext(new MessageBoxOccurredEventArgs
+                _messageBoxOccurred.OnNext(new MessageBoxOccurredEventArgs
                 {
                     Message = string.Format(LangResources.Resources._0_is_Empty, "ID or Name"),
                     Title = LangResources.CommonResources.Error
@@ -804,18 +803,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 return;
             }
 
-            SocTelnetSendNRT("admin remove " + playerId);
+            SocTelnetSendNrt("admin remove " + playerId);
         }
         public void RemoveWhitelist(int index)
         {
-            var playerId = UsersList[index].ID;
+            var playerId = UsersList[index].Id;
             if (string.IsNullOrEmpty(playerId))
             {
-                errorOccurred.OnNext(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"));
+                _errorOccurred.OnNext(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"));
                 return;
             }
 
-            SocTelnetSendNRT("whitelist remove " + playerId);
+            SocTelnetSendNrt("whitelist remove " + playerId);
         }
 
 
@@ -835,7 +834,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (fi.Exists)
                 Process.Start(fi.FullName, cfgArg);
             else
-                errorOccurred.OnNext(string.Format(LangResources.Resources._0_is_not_found, LangResources.Resources.ConfigEditor));
+                _errorOccurred.OnNext(string.Format(LangResources.Resources._0_is_not_found, LangResources.Resources.ConfigEditor));
         }
 
         public void RunXmlEditor()
@@ -844,7 +843,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (fi.Exists)
                 Process.Start(fi.FullName);
             else
-                errorOccurred.OnNext(string.Format(LangResources.Resources._0_is_not_found, ConstantValues.XmlEditorFilePath));
+                _errorOccurred.OnNext(string.Format(LangResources.Resources._0_is_not_found, ConstantValues.XmlEditorFilePath));
         }
 
 
@@ -879,7 +878,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         #region IDisposable
         // Flag: Has Dispose already been called?
-        private bool disposed = false;
+        private bool _disposed;
 
         // Public implementation of Dispose pattern callable by consumers.
         public void Dispose()
@@ -891,19 +890,19 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         // Protected implementation of Dispose pattern.
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed)
+            if (_disposed)
                 return;
 
             if (disposing)
             {
                 Telnet?.Dispose();
-                telnetFinishedSubject?.Dispose();
-                telnetStartedSubject?.Dispose();
-                telnetFinishedSubject?.Dispose();
+                _telnetFinishedSubject?.Dispose();
+                _telnetStartedSubject?.Dispose();
+                _telnetFinishedSubject?.Dispose();
                 Setting.Save();
             }
 
-            disposed = true;
+            _disposed = true;
         }
         #endregion
     }

@@ -12,10 +12,10 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 {
     public class SettingWindowViewModel : ViewModelBase
     {
-        private readonly SettingModel model;
+        private readonly SettingModel _model;
         public SettingWindowViewModel(WindowService windowService, SettingModel model) : base(windowService, model)
         {
-            this.model = model;
+            _model = model;
 
             #region Event Initialize
             GetSvFilePathCommand = new DelegateCommand(GetSvFilePathBt_Click);
@@ -75,20 +75,20 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         #region Event Methods
         private void GetSvFilePathBt_Click()
         {
-            model.GetServerFilePath();
+            _model.GetServerFilePath();
         }
         private void GetConfFilePathBt_Click()
         {
-            model.GetConfFilePath();
+            _model.GetConfFilePath();
         }
         private void GetAdminFilePathBt_Click()
         {
-            model.GetAdminFilePath();
+            _model.GetAdminFilePath();
         }
 
         private void KeyEditBt_Click()
         {
-            var shortcutManager = model.ShortcutKeyManager;
+            var shortcutManager = _model.ShortcutKeyManager;
             var keyConfModel = new KeyConfigModel(shortcutManager);
             var vm = new KeyConfigViewModel(new WindowService(), keyConfModel);
             WindowManageService.ShowDialog<KeyConfig>(vm);
@@ -96,12 +96,12 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
 
         private void GetBackupDirBt_Click()
         {
-            model.GetBackupDirPath();
+            _model.GetBackupDirPath();
         }
 
         private void SaveBt_Click()
         {
-            model.Save();
+            _model.Save();
             WindowManageService.Close();
         }
         #endregion

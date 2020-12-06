@@ -29,7 +29,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 RedirectStandardInput = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                WorkingDirectory = Path.GetDirectoryName(exeFilePath)
+                WorkingDirectory = Path.GetDirectoryName(exeFilePath) ?? throw new InvalidOperationException()
             };
             p.StartInfo.EnvironmentVariables["SteamAppId"] = "251570";
             p.StartInfo.EnvironmentVariables["SteamGameId"] = "251570";

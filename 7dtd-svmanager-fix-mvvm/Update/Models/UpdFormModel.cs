@@ -18,80 +18,80 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
     public class UpdFormModel : ModelBase
     {
         #region Fiels
-        private UpdateManager updateManager;
+        private UpdateManager _updateManager;
 
-        private ObservableCollection<string> versionList = new ObservableCollection<string>();
-        private int versionListSelectedIndex = -1;
+        private ObservableCollection<string> _versionList = new ObservableCollection<string>();
+        private int _versionListSelectedIndex = -1;
 
-        private bool canUpdate = false;
-        private bool canCancel = true;
+        private bool _canUpdate;
+        private bool _canCancel = true;
 
-        private ObservableCollection<RichTextItem> richDetailText = new ObservableCollection<RichTextItem>();
+        private ObservableCollection<RichTextItem> _richDetailText = new ObservableCollection<RichTextItem>();
 
-        private string detailText;
-        private string currentVersion;
-        private string latestVersion;
+        private string _detailText;
+        private string _currentVersion;
+        private string _latestVersion;
         #endregion
 
         #region Properties
         public ObservableCollection<string> VersionList
         {
-            get => versionList;
-            set => SetProperty(ref versionList, value);
+            get => _versionList;
+            set => SetProperty(ref _versionList, value);
         }
         public int VersionListSelectedIndex
         {
-            get => versionListSelectedIndex;
-            set => SetProperty(ref versionListSelectedIndex, value);
+            get => _versionListSelectedIndex;
+            set => SetProperty(ref _versionListSelectedIndex, value);
         }
 
         public bool CanUpdate
         {
-            get => canUpdate;
-            set => SetProperty(ref canUpdate, value);
+            get => _canUpdate;
+            set => SetProperty(ref _canUpdate, value);
         }
         public bool CanCancel
         {
-            get => canCancel;
-            set => SetProperty(ref canCancel, value);
+            get => _canCancel;
+            set => SetProperty(ref _canCancel, value);
         }
 
 
         public ObservableCollection<RichTextItem> RichDetailText
         {
-            get => richDetailText;
-            set => SetProperty(ref richDetailText, value);
+            get => _richDetailText;
+            set => SetProperty(ref _richDetailText, value);
         }
 
         public string DetailText
         {
-            get => detailText;
-            set => SetProperty(ref detailText, value);
+            get => _detailText;
+            set => SetProperty(ref _detailText, value);
         }
         public string CurrentVersion
         {
-            get => currentVersion;
-            set => SetProperty(ref currentVersion, value);
+            get => _currentVersion;
+            set => SetProperty(ref _currentVersion, value);
         }
         public string LatestVersion
         {
-            get => latestVersion;
-            set => SetProperty(ref latestVersion, value);
+            get => _latestVersion;
+            set => SetProperty(ref _latestVersion, value);
         }
         #endregion
 
 
         public async Task Initialize()
         {
-            updateManager = new UpdateManager();
-            await updateManager.Initialize();
+            _updateManager = new UpdateManager();
+            await _updateManager.Initialize();
 
-            CurrentVersion = updateManager.CurrentVersion;
-            LatestVersion = updateManager.LatestVersion;
+            CurrentVersion = _updateManager.CurrentVersion;
+            LatestVersion = _updateManager.LatestVersion;
 
-            CanUpdate = updateManager.IsUpdate;
+            CanUpdate = _updateManager.IsUpdate;
 
-            VersionList.AddAll(updateManager.GetVersions());
+            VersionList.AddAll(_updateManager.GetVersions());
             if (VersionList.Count > 0)
                 VersionListSelectedIndex = 0;
             ShowDetails(0);
@@ -102,17 +102,17 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             if (index < 0 || index >= VersionList.Count)
                 return;
             var version = VersionList[index];
-            var detail = updateManager.Updates.Get(version);
+            var detail = _updateManager.Updates.Get(version);
             RichDetailText = new ObservableCollection<RichTextItem>(detail);
         }
 
         public async Task Update()
         {
-            if (updateManager.IsUpdUpdate)
+            if (_updateManager.IsUpdUpdate)
             {
                 try
                 {
-                    await updateManager.ApplyUpdUpdate(Path.GetDirectoryName(ConstantValues.UpdaterFilePath) + "/");
+                    await _updateManager.ApplyUpdUpdate(Path.GetDirectoryName(ConstantValues.UpdaterFilePath) + "/");
                 }
                 catch (Exception e)
                 {
@@ -124,7 +124,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             int id = System.Diagnostics.Process.GetCurrentProcess().Id;
             var p = new System.Diagnostics.Process
             {
-                StartInfo = updateManager.GetUpdaterInfo(id)
+                StartInfo = _updateManager.GetUpdaterInfo(id)
             };
 
             try

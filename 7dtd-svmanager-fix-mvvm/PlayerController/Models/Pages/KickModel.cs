@@ -20,20 +20,20 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
         }
         #endregion
 
-        private string name = default;
         public string Name
         {
-            get => name;
-            set => SetProperty(ref name, value);
+            get => _name;
+            set => SetProperty(ref _name, value);
         }
 
         #region Fiels
-        private IMainWindowTelnet telnet;
+        private string _name;
+        private readonly IMainWindowTelnet _telnet;
         #endregion
 
         public KickModel(IMainWindowTelnet telnet)
         {
-            this.telnet = telnet;
+            _telnet = telnet;
         }
 
         public void Kick(string reason)
@@ -44,8 +44,8 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
                 return;
             }
 
-            string cmd = string.Format("kick {0} {1}", Name, reason);
-            bool isSended = telnet.SocTelnetSendNRT(cmd);
+            var cmd = $"kick {Name} {reason}";
+            var isSended = _telnet.SocTelnetSendNrt(cmd);
             if (!isSended)
                 return;
 

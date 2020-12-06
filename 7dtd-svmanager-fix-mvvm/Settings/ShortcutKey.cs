@@ -47,13 +47,13 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
     {
         public Dictionary<string, ShortcutKey> ShortcutKeies { set; get; } = new Dictionary<string, ShortcutKey>();
 
-        private readonly string xmlPath;
-        private readonly string xmlBasePath;
+        private readonly string _xmlPath;
+        private readonly string _xmlBasePath;
 
         public ShortcutKeyManager(string path, string basePath)
         {
-            xmlPath = path;
-            xmlBasePath = basePath;
+            _xmlPath = path;
+            _xmlBasePath = basePath;
             Load(path, basePath);
         }
         
@@ -118,7 +118,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
 
             ShortcutKeies.ForEach((key, value) => root.AddChildElement(SavannahTagNode.CreateElement("shortcut", CreateAttributeInfo(value))));
 
-            xmlWriter.Write(xmlPath, root);
+            xmlWriter.Write(_xmlPath, root);
         }
         private AttributeInfo[] CreateAttributeInfo(ShortcutKey shortcutKey)
         {

@@ -15,13 +15,13 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
             ServerFilePathText = initializeData.ServerFilePath;
         }
 
-        private string serverFilePathText = string.Empty;
+        private string _serverFilePathText = string.Empty;
         public string ServerFilePathText
         {
-            get => serverFilePathText;
+            get => _serverFilePathText;
             set
             {
-                SetProperty(ref serverFilePathText, value);
+                SetProperty(ref _serverFilePathText, value);
                 InitializeData.ServerFilePath = value;
                 var canChanged = !string.IsNullOrEmpty(value);
                 OnCanChanged(this, canChanged);

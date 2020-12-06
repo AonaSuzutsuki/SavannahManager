@@ -18,7 +18,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
     {
         public GetSteamIdViewModel(IWindowService windowService, AbstractGetSteamIdModel model) : base(windowService, model)
         {
-            this.model = model;
+            _model = model;
 
             SteamId = model.ObserveProperty(m => m.Steam64Id).ToReactiveProperty();
             ApplyBtEnabled = model.ObserveProperty(m => m.CanWrite).ToReactiveProperty();
@@ -27,25 +27,25 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
             ApplyCommand = new DelegateCommand(Apply);
         }
 
-        private readonly AbstractGetSteamIdModel model;
-        private bool analyzeBtEnabled;
-        private string urlText;
+        private readonly AbstractGetSteamIdModel _model;
+        private bool _analyzeBtEnabled;
+        private string _urlText;
 
         public ReactiveProperty<string> SteamId { get; set; }
         public ReactiveProperty<bool> ApplyBtEnabled { get; set; }
 
         public bool AnalyzeBtEnabled
         {
-            get => analyzeBtEnabled;
-            set => SetProperty(ref analyzeBtEnabled, value);
+            get => _analyzeBtEnabled;
+            set => SetProperty(ref _analyzeBtEnabled, value);
         }
 
         public string UrlText
         {
-            get => urlText;
+            get => _urlText;
             set
             {
-                urlText = value;
+                _urlText = value;
                 AnalyzeBtEnabled = !string.IsNullOrEmpty(value);
             }
         }
@@ -55,7 +55,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
         public void Analyze()
         {
-            _ = model.Analyze(UrlText).ContinueWith(task =>
+            _ = _model.Analyze(UrlText).ContinueWith(task =>
             {
                 var exceptions = task.Exception?.InnerExceptions;
                 if (exceptions == null)
@@ -67,7 +67,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
         public void Apply()
         {
-            model.IsWritten = true;
+            _model.IsWritten = true;
             WindowManageService.Close();
         }
     }

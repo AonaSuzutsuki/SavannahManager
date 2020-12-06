@@ -20,10 +20,10 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 {
     public class UpdFormViewModel : ViewModelBase
     {
-        private readonly UpdFormModel model;
+        private readonly UpdFormModel _model;
         public UpdFormViewModel(WindowService windowService, UpdFormModel model, bool isAsync = false) : base(windowService, model)
         {
-            this.model = model;
+            _model = model;
 
             if (isAsync)
             {
@@ -65,7 +65,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
         protected override void MainWindow_Loaded()
         {
-            var task = model.Initialize();
+            var task = _model.Initialize();
             task.ContinueWith(t =>
             {
                 if (t.Exception == null)
@@ -80,13 +80,13 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             if (arg != null)
             {
                 int index = arg.Value;
-                model.ShowDetails(index);
+                _model.ShowDetails(index);
             }
         }
 
         private void UpdateBt_Clicked()
         {
-            _ = model.Update();
+            _ = _model.Update();
         }
         #endregion
     }

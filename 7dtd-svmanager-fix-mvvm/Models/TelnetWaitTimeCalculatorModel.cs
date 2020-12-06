@@ -13,26 +13,26 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 {
     public class TelnetWaitTimeCalculatorModel : ModelBase
     {
-        private readonly ITelnetClient telnet;
-        private readonly SettingLoader settingLoader;
-        private string waitTimeText;
-        private string recommendedWaitTimeText;
+        private readonly ITelnetClient _telnet;
+        private readonly SettingLoader _settingLoader;
+        private string _waitTimeText;
+        private string _recommendedWaitTimeText;
 
         public string WaitTimeText
         {
-            get => waitTimeText;
-            set => SetProperty(ref waitTimeText, value);
+            get => _waitTimeText;
+            set => SetProperty(ref _waitTimeText, value);
         }
 
         public string RecommendedWaitTimeText
         {
-            get => recommendedWaitTimeText;
-            set => SetProperty(ref recommendedWaitTimeText, value);
+            get => _recommendedWaitTimeText;
+            set => SetProperty(ref _recommendedWaitTimeText, value);
         }
 
         public int WaitTime
         {
-            get => waitTimeText.ToInt();
+            get => _waitTimeText.ToInt();
             set => WaitTimeText = value.ToString();
         }
 
@@ -45,15 +45,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public TelnetWaitTimeCalculatorModel(ITelnetClient telnet, SettingLoader settingLoader)
         {
-            this.telnet = telnet;
-            this.settingLoader = settingLoader;
+            this._telnet = telnet;
+            this._settingLoader = settingLoader;
         }
 
         public void CalculateWaitTime()
         {
-            if (telnet == null || !telnet.Connected)
+            if (_telnet == null || !_telnet.Connected)
                 return;
-            var time = telnet.CalculateWaitTime();
+            var time = _telnet.CalculateWaitTime();
             WaitTime = time;
 
             if (time < 900)
@@ -67,7 +67,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (value <= 0)
                 return;
 
-            settingLoader.TelnetWaitTime = value;
+            _settingLoader.TelnetWaitTime = value;
 
             ExMessageBoxBase.Show(string.Format(LangResources.ToolsResource.UI_SetTelnetWaitTimeMessage, value), "Set To Settings",
                 ExMessageBoxBase.MessageType.Exclamation);

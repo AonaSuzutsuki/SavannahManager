@@ -28,35 +28,36 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
         #endregion
 
         #region Properties
-        private string name = default;
         public string Name
         {
-            get => name;
-            set => SetProperty(ref name, value);
+            get => _name;
+            set => SetProperty(ref _name, value);
         }
 
-        private int duration;
         public int Duration
         {
-            get => duration;
-            set => SetProperty(ref duration, value);
+            get => _duration;
+            set => SetProperty(ref _duration, value);
         }
         #endregion
 
-        private ObservableCollection<DurationInfo> durationList;
         public ObservableCollection<DurationInfo> DurationList
         {
-            get => durationList;
-            set => SetProperty(ref durationList, value);
+            get => _durationList;
+            set => SetProperty(ref _durationList, value);
         }
 
         #region Fiels
-        private IMainWindowTelnet telnet;
+        private string _name;
+        private int _duration;
+        private ObservableCollection<DurationInfo> _durationList;
+
+        private readonly IMainWindowTelnet _telnet;
         #endregion
 
         public BanModel(IMainWindowTelnet telnet)
         {
-            this.telnet = telnet;
+            _telnet = telnet;
 
             DurationList = new ObservableCollection<DurationInfo>
             {
@@ -83,7 +84,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
 
             var durationUnit = DurationList[index].Command;
             string cmd = string.Format("ban {0} {1} {2}", Name, Duration.ToString(), durationUnit);
-            bool isSended = telnet.SocTelnetSendNRT(cmd);
+            bool isSended = _telnet.SocTelnetSendNrt(cmd);
             if (!isSended)
                 return;
 

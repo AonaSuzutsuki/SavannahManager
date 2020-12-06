@@ -13,10 +13,10 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 {
     public class LoadingViewModel : ViewModelBase
     {
-        LoadingModel model;
+        private readonly LoadingModel _model;
         public LoadingViewModel(WindowService windowService, LoadingModel model) : base(windowService, model)
         {
-            this.model = model;
+            _model = model;
         }
     }
 }

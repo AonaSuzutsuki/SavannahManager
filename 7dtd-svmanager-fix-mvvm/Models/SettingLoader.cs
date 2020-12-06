@@ -1,6 +1,6 @@
-﻿using CommonCoreLib.CommonPath;
+﻿using _7dtd_svmanager_fix_mvvm.LangResources;
+using CommonCoreLib.CommonPath;
 using CommonCoreLib.Ini;
-using LanguageEx;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -55,52 +55,52 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         #endregion
 
 
-        private readonly IniLoader iniLoader;
+        private readonly IniLoader _iniLoader;
         public SettingLoader(string filename)
         {
-            iniLoader = new IniLoader(filename);
+            _iniLoader = new IniLoader(filename);
             Load();
         }
 
         private void Load()
         {
-            if (!int.TryParse(iniLoader.GetValue("MAIN", "WIDTH", "900"), out int width)) { width = ConstantValues.Width; }
-            if (!int.TryParse(iniLoader.GetValue("MAIN", "HEIGHT", "550"), out int height)) { height = ConstantValues.Height; }
+            if (!int.TryParse(_iniLoader.GetValue("MAIN", "WIDTH", "900"), out int width)) { width = ConstantValues.Width; }
+            if (!int.TryParse(_iniLoader.GetValue("MAIN", "HEIGHT", "550"), out int height)) { height = ConstantValues.Height; }
             this.Width = width;
             this.Height = height;
 
-            ExeFilePath = iniLoader.GetValue("SERVER", "EXEPATH", string.Empty);
-            ConfigFilePath = iniLoader.GetValue("SERVER", "CONFIGPATH", string.Empty);
-            AdminFilePath = iniLoader.GetValue("SERVER", "ADMINPATH", string.Empty);
+            ExeFilePath = _iniLoader.GetValue("SERVER", "EXEPATH", string.Empty);
+            ConfigFilePath = _iniLoader.GetValue("SERVER", "CONFIGPATH", string.Empty);
+            AdminFilePath = _iniLoader.GetValue("SERVER", "ADMINPATH", string.Empty);
 
-            Address = iniLoader.GetValue("MAIN", "ADDRESS", "");
+            Address = _iniLoader.GetValue("MAIN", "ADDRESS", "");
 
-            if (!int.TryParse(iniLoader.GetValue("MAIN", "PORT", ""), out int port))
+            if (!int.TryParse(_iniLoader.GetValue("MAIN", "PORT", ""), out int port))
             {
                 port = ConstantValues.DefaultPort;
             }
             this.Port = port;
 
-            Password = iniLoader.GetValue("MAIN", "PASSWORD", "");
+            Password = _iniLoader.GetValue("MAIN", "PASSWORD", "");
 
-            LocalMode = iniLoader.GetValue("MAIN", "LOCALMODE", true);
+            LocalMode = _iniLoader.GetValue("MAIN", "LOCALMODE", true);
 
-            CultureName = iniLoader.GetValue("MAIN", "CULTURE", ResourceService.Current.Culture);
+            CultureName = _iniLoader.GetValue("MAIN", "CULTURE", ResourceService.Current.Culture);
             ResourceService.Current.ChangeCulture(CultureName);
 
-            ConsoleTextLength = iniLoader.GetValue("SERVER", "CONSOLELOGLENGTH", ConsoleTextLength);
+            ConsoleTextLength = _iniLoader.GetValue("SERVER", "CONSOLELOGLENGTH", ConsoleTextLength);
 
-            TelnetWaitTime = iniLoader.GetValue("SERVER", "TELNETWAITTIME", 2);
+            TelnetWaitTime = _iniLoader.GetValue("SERVER", "TELNETWAITTIME", 2);
 
-            IsBetaMode = iniLoader.GetValue("SERVER", "BETAMODE", false);
+            IsBetaMode = _iniLoader.GetValue("SERVER", "BETAMODE", false);
 
-            IsLogGetter = iniLoader.GetValue("SERVER", "LOGOUTPUT", true);
+            IsLogGetter = _iniLoader.GetValue("SERVER", "LOGOUTPUT", true);
 
-            IsFirstBoot = iniLoader.GetValue("MAIN", "FIRSTBOOT", true);
+            IsFirstBoot = _iniLoader.GetValue("MAIN", "FIRSTBOOT", true);
 
-            IsAutoUpdate = iniLoader.GetValue("MAIN", "AUTOCHECK", true);
+            IsAutoUpdate = _iniLoader.GetValue("MAIN", "AUTOCHECK", true);
 
-            BackupDirPath = iniLoader.GetValue("BACKUP", "DIRPATH", "backup").UnifiedSystemPathSeparator();
+            BackupDirPath = _iniLoader.GetValue("BACKUP", "DIRPATH", "backup").UnifiedSystemPathSeparator();
         }
 
         public void ApplyCulture()
@@ -110,23 +110,23 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void Save()
         {
-            iniLoader.SetValue("MAIN", "WIDTH", Width);
-            iniLoader.SetValue("MAIN", "HEIGHT", Height);
-            iniLoader.SetValue("SERVER", "EXEPATH", ExeFilePath);
-            iniLoader.SetValue("SERVER", "CONFIGPATH", ConfigFilePath);
-            iniLoader.SetValue("SERVER", "ADMINPATH", AdminFilePath);
-            iniLoader.SetValue("MAIN", "ADDRESS", Address);
-            iniLoader.SetValue("MAIN", "PORT", Port);
-            iniLoader.SetValue("MAIN", "PASSWORD", Password);
-            iniLoader.SetValue("MAIN", "LOCALMODE", LocalMode);
-            iniLoader.SetValue("MAIN", "CULTURE", CultureName);
-            iniLoader.SetValue("SERVER", "CONSOLELOGLENGTH", ConsoleTextLength);
-            iniLoader.SetValue("SERVER", "TELNETWAITTIME", TelnetWaitTime);
-            iniLoader.SetValue("SERVER", "BETAMODE", IsBetaMode);
-            iniLoader.SetValue("SERVER", "LOGOUTPUT", IsLogGetter);
-            iniLoader.SetValue("MAIN", "FIRSTBOOT", IsFirstBoot);
-            iniLoader.SetValue("MAIN", "AUTOCHECK", IsAutoUpdate);
-            iniLoader.SetValue("BACKUP", "DIRPATH", BackupDirPath);
+            _iniLoader.SetValue("MAIN", "WIDTH", Width);
+            _iniLoader.SetValue("MAIN", "HEIGHT", Height);
+            _iniLoader.SetValue("SERVER", "EXEPATH", ExeFilePath);
+            _iniLoader.SetValue("SERVER", "CONFIGPATH", ConfigFilePath);
+            _iniLoader.SetValue("SERVER", "ADMINPATH", AdminFilePath);
+            _iniLoader.SetValue("MAIN", "ADDRESS", Address);
+            _iniLoader.SetValue("MAIN", "PORT", Port);
+            _iniLoader.SetValue("MAIN", "PASSWORD", Password);
+            _iniLoader.SetValue("MAIN", "LOCALMODE", LocalMode);
+            _iniLoader.SetValue("MAIN", "CULTURE", CultureName);
+            _iniLoader.SetValue("SERVER", "CONSOLELOGLENGTH", ConsoleTextLength);
+            _iniLoader.SetValue("SERVER", "TELNETWAITTIME", TelnetWaitTime);
+            _iniLoader.SetValue("SERVER", "BETAMODE", IsBetaMode);
+            _iniLoader.SetValue("SERVER", "LOGOUTPUT", IsLogGetter);
+            _iniLoader.SetValue("MAIN", "FIRSTBOOT", IsFirstBoot);
+            _iniLoader.SetValue("MAIN", "AUTOCHECK", IsAutoUpdate);
+            _iniLoader.SetValue("BACKUP", "DIRPATH", BackupDirPath);
         }
     }
 }

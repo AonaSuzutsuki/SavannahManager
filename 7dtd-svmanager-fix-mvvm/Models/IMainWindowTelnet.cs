@@ -8,6 +8,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 {
     public interface IMainWindowTelnet
     {
-        bool SocTelnetSendNRT(string cmd);
+        bool SocTelnetSendNrt(string cmd);
     }
 }
