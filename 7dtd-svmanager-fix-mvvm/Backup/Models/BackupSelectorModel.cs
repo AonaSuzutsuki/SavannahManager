@@ -54,7 +54,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
                     FullPath = pathMapItem.FullPath,
                     ItemType = pathMapItem.ItemType,
                     Files = pathMapItem.Files,
-                    Date = pathMapItem.Date,
+                    Date = pathMapItem.Date
                 });
             }
 

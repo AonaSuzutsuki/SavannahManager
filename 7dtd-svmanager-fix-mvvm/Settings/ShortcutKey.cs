@@ -28,12 +28,12 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
 
         public bool IsPushed(ModifierKeys specialKey, Key mainKey)
         {
-            return (SpecialKey == specialKey && MainKey == mainKey);
+            return SpecialKey == specialKey && MainKey == mainKey;
         }
 
         public override string ToString()
         {
-            string str = string.Empty;
+            var str = string.Empty;
             if (SpecialKey != 0)
             {
                 str += SpecialKey.ToString() + " + ";
@@ -73,10 +73,10 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
             var modConverter = new ModifierKeysConverter();
             var keyConverter = new KeyConverter();
             
-            for (int i = 0; i < baseDic.MinValueCount; ++i)
+            for (var i = 0; i < baseDic.MinValueCount; ++i)
             {
-                ModifierKeys specialKey = (ModifierKeys)modConverter.ConvertFromString(baseDic["specialkeies"][i]);
-                Key mainKey = (Key)keyConverter.ConvertFromString(baseDic["mainkeies"][i]);
+                var specialKey = (ModifierKeys)modConverter.ConvertFromString(baseDic["specialkeies"][i]);
+                var mainKey = (Key)keyConverter.ConvertFromString(baseDic["mainkeies"][i]);
                 ShortcutKeies.Add(baseDic["shortcutnames"][i],
                     new ShortcutKey(baseDic["shortcutnames"][i], specialKey, mainKey, baseDic["descriptions"][i].TrimEnd('\n').TrimEnd('\r')));
             }
@@ -91,15 +91,15 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
                 { "mainkeies", xmlReader.GetAttributes("mainkey", "shortcuts/shortcut").ToList() }
             };
 
-            for (int i = 0; i < dic.MinValueCount; ++i)
+            for (var i = 0; i < dic.MinValueCount; ++i)
             {
                 ModifierKeys specialKey;
                 if (dic["specialkeies"][i].Equals("None"))
                     specialKey = ModifierKeys.None;
                 else
                     specialKey = (ModifierKeys)modConverter.ConvertFromString(dic["specialkeies"][i]);
-                Key mainKey = (Key)keyConverter.ConvertFromString(dic["mainkeies"][i]);
-                string description = ShortcutKeies[dic["shortcutnames"][i]].Description;
+                var mainKey = (Key)keyConverter.ConvertFromString(dic["mainkeies"][i]);
+                var description = ShortcutKeies[dic["shortcutnames"][i]].Description;
                 ShortcutKeies[dic["shortcutnames"][i]] = new ShortcutKey(dic["shortcutnames"][i], specialKey, mainKey, description);
             }
             return;
@@ -122,7 +122,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
         }
         private AttributeInfo[] CreateAttributeInfo(ShortcutKey shortcutKey)
         {
-            AttributeInfo[] attributes = new AttributeInfo[3];
+            var attributes = new AttributeInfo[3];
             attributes[0] = new AttributeInfo()
             {
                 Name = "shortcutname",

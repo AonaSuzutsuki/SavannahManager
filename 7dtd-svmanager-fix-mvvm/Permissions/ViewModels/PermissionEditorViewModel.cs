@@ -37,7 +37,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
 
         protected PermissionBaseViewModel(PermissionBase permissionBase, IWindowService windowService)
         {
-            this._permissionBase = permissionBase;
+            _permissionBase = permissionBase;
 
             SteamId = permissionBase.ToReactivePropertyAsSynchronized(m => m.SteamId);
             WindowManageService = windowService;
@@ -141,7 +141,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
     {
         public PermissionEditorViewModel(IWindowService windowService, PermissionEditorModel model) : base(windowService, model)
         {
-            this._model = model;
+            _model = model;
 
             IsEdited = model.ObserveProperty(m => m.IsEdited).ToReactiveProperty();
             CanSave = model.ObserveProperty(m => m.CanSave).ToReactiveProperty();

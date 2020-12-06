@@ -45,8 +45,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public TelnetWaitTimeCalculatorModel(ITelnetClient telnet, SettingLoader settingLoader)
         {
-            this._telnet = telnet;
-            this._settingLoader = settingLoader;
+            _telnet = telnet;
+            _settingLoader = settingLoader;
         }
 
         public void CalculateWaitTime()

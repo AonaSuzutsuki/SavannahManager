@@ -143,9 +143,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             set
             {
                 SetProperty(ref _portText, value);
-                if (int.TryParse(value, out int port))
+                if (int.TryParse(value, out var port))
                 {
-                    this._port = port;
+                    _port = port;
                 }
             }
         }
@@ -256,8 +256,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             Width = Setting.Width;
             Height = Setting.Height;
-            int screenWidth = (int)SystemParameters.WorkArea.Width;
-            int screenHeight = (int)SystemParameters.WorkArea.Height;
+            var screenWidth = (int)SystemParameters.WorkArea.Width;
+            var screenHeight = (int)SystemParameters.WorkArea.Height;
             Top = (screenHeight - Height) / 2;
             Left = (screenWidth - Width) / 2;
         }
@@ -438,7 +438,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             try
             {
-                FileInfo fi = new FileInfo(ExeFilePath);
+                var fi = new FileInfo(ExeFilePath);
                 if (!fi.Exists)
                 {
                     _errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, "7DaysToDieServer.exe"));
@@ -453,7 +453,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             try
             {
-                FileInfo fi = new FileInfo(ConfigFilePath);
+                var fi = new FileInfo(ConfigFilePath);
                 if (!fi.Exists)
                 {
                     _errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFilePath));
@@ -618,12 +618,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _connectedIds.Clear();
             _playersDictionary.Clear();
             var playerInfoArray = Player.SetPlayerInfo(Telnet);
-            foreach (PlayerInfo uDetail in playerInfoArray)
+            foreach (var uDetail in playerInfoArray)
                 AddUser(uDetail);
         }
         private void AddUser(PlayerInfo playerInfo)
         {
-            int id = playerInfo.Id.ToInt();
+            var id = playerInfo.Id.ToInt();
             var pDict = _playersDictionary;
             var keys = _connectedIds;
             if (!pDict.ContainsKey(id))
@@ -639,7 +639,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     Death = playerInfo.Deaths,
                     Score = playerInfo.Score,
                     Coord = playerInfo.Coord,
-                    SteamId = playerInfo.SteamId,
+                    SteamId = playerInfo.SteamId
 
                 };
                 pDict.Add(id, uDetail);

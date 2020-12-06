@@ -27,8 +27,8 @@ namespace _7dtd_svmanager_fix_mvvm.Views.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
-            this.AssociatedObject.KeyDown += OnKeyDown;
-            this.AssociatedObject.TextChanged += OnTextChanged;
+            AssociatedObject.KeyDown += OnKeyDown;
+            AssociatedObject.TextChanged += OnTextChanged;
             DataObject.AddPastingHandler(this.AssociatedObject, TextBoxPastingEventHandler);
         }
         protected override void OnDetaching()

@@ -59,7 +59,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
         public void Load()
         {
             var shortcutKeies = _shortcutKeyManager.ShortcutKeies;
-            foreach (KeyValuePair<string, ShortcutKey> pair in shortcutKeies)
+            foreach (var pair in shortcutKeies)
             {
                 _internalKeyList.Add(pair.Key, pair.Value);
 
@@ -126,7 +126,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
         }
         public void DeleteKey()
         {
-            int index = CurrentIndex;
+            var index = CurrentIndex;
             if (index < 0)
                 return;
 

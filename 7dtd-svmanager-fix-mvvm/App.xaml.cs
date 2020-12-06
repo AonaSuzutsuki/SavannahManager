@@ -20,7 +20,7 @@ namespace _7dtd_svmanager_fix_mvvm
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 
             var mainWindow = new MainWindow();
-            this._mainWindow = mainWindow;
+            _mainWindow = mainWindow;
             mainWindow.Show();
         }
 
@@ -57,7 +57,7 @@ namespace _7dtd_svmanager_fix_mvvm
                 exception.Message, exception.StackTrace);
             MessageBox.Show(mes, "予期せぬエラー", MessageBoxButton.OK, MessageBoxImage.Error);
 
-            DateTime dt = DateTime.Now;
+            var dt = DateTime.Now;
             OutToFile(AppInfo.GetAppPath() + @"\error-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
         }
 

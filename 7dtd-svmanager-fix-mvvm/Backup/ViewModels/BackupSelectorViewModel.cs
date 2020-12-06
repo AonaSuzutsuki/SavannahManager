@@ -22,7 +22,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
     {
         public BackupSelectorViewModel(WindowService windowService, BackupSelectorModel model) : base(windowService, model)
         {
-            this._model = model;
+            _model = model;
 
             BackupList = model.BackupList.ToReadOnlyReactiveCollection();
             BackupFileList = model.BackupFileList.ToReadOnlyReactiveCollection();

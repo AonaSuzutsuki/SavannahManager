@@ -23,8 +23,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public PortChecker(string host, uint port)
         {
-            this.Host = host;
-            this.Port = port;
+            Host = host;
+            Port = port;
         }
 
         public async Task<bool> Search()

@@ -83,8 +83,8 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
             }
 
             var durationUnit = DurationList[index].Command;
-            string cmd = string.Format("ban {0} {1} {2}", Name, Duration.ToString(), durationUnit);
-            bool isSended = _telnet.SocTelnetSendNrt(cmd);
+            var cmd = string.Format("ban {0} {1} {2}", Name, Duration.ToString(), durationUnit);
+            var isSended = _telnet.SocTelnetSendNrt(cmd);
             if (!isSended)
                 return;
 

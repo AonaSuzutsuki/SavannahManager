@@ -43,7 +43,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels.Pages
         #region EventMethods
         private void BanBt_Clicked()
         {
-            int index = DurationUnitListSelectedIndex;
+            var index = DurationUnitListSelectedIndex;
             model.AddBan(index);
         }
         #endregion

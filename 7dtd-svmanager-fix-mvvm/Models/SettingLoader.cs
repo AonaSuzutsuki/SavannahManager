@@ -64,10 +64,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private void Load()
         {
-            if (!int.TryParse(_iniLoader.GetValue("MAIN", "WIDTH", "900"), out int width)) { width = ConstantValues.Width; }
-            if (!int.TryParse(_iniLoader.GetValue("MAIN", "HEIGHT", "550"), out int height)) { height = ConstantValues.Height; }
-            this.Width = width;
-            this.Height = height;
+            if (!int.TryParse(_iniLoader.GetValue("MAIN", "WIDTH", "900"), out var width)) { width = ConstantValues.Width; }
+            if (!int.TryParse(_iniLoader.GetValue("MAIN", "HEIGHT", "550"), out var height)) { height = ConstantValues.Height; }
+            Width = width;
+            Height = height;
 
             ExeFilePath = _iniLoader.GetValue("SERVER", "EXEPATH", string.Empty);
             ConfigFilePath = _iniLoader.GetValue("SERVER", "CONFIGPATH", string.Empty);
@@ -75,11 +75,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             Address = _iniLoader.GetValue("MAIN", "ADDRESS", "");
 
-            if (!int.TryParse(_iniLoader.GetValue("MAIN", "PORT", ""), out int port))
+            if (!int.TryParse(_iniLoader.GetValue("MAIN", "PORT", ""), out var port))
             {
                 port = ConstantValues.DefaultPort;
             }
-            this.Port = port;
+            Port = port;
 
             Password = _iniLoader.GetValue("MAIN", "PASSWORD", "");
 

@@ -123,26 +123,26 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
 
         public void GetServerFilePath()
         {
-            var exeFilePath = GetFilePath(this._exeFilePath, LangResources.SettingsResources.Filter_ExcutableFile, ConstantValues.ServerClientName);
+            var exeFilePath = GetFilePath(_exeFilePath, LangResources.SettingsResources.Filter_ExcutableFile, ConstantValues.ServerClientName);
             if (!string.IsNullOrEmpty(exeFilePath))
                 ExeFilePath = exeFilePath;
         }
         public void GetConfFilePath()
         {
-            var confFilePath = GetFilePath(this._configFilePath, LangResources.SettingsResources.Filter_XmlFile, ConstantValues.ServerConfigName);
+            var confFilePath = GetFilePath(_configFilePath, LangResources.SettingsResources.Filter_XmlFile, ConstantValues.ServerConfigName);
             if (!string.IsNullOrEmpty(confFilePath))
                 ConfigFilePath = confFilePath;
         }
         public void GetAdminFilePath()
         {
-            var adminFilePath = GetFilePath(this._adminFilePath, LangResources.SettingsResources.Filter_XmlFile, ConstantValues.ServerConfigName);
+            var adminFilePath = GetFilePath(_adminFilePath, LangResources.SettingsResources.Filter_XmlFile, ConstantValues.ServerConfigName);
             if (!string.IsNullOrEmpty(adminFilePath))
                 AdminFilePath = adminFilePath;
         }
 
         public void GetBackupDirPath()
         {
-            var dirPath = DirectorySelector.GetDirPath(this._backupDirPath);
+            var dirPath = DirectorySelector.GetDirPath(_backupDirPath);
             if (!string.IsNullOrEmpty(dirPath))
                 BackupDirPath = dirPath;
         }
@@ -152,7 +152,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
             var directoryPath = ConstantValues.DefaultDirectoryPath;
             if (!string.IsNullOrEmpty(filePathForDir))
             {
-                DirectoryInfo di = new DirectoryInfo(Path.GetDirectoryName(filePathForDir) ?? string.Empty);
+                var di = new DirectoryInfo(Path.GetDirectoryName(filePathForDir) ?? string.Empty);
                 if (di.Exists)
                 {
                     directoryPath = di.FullName;
