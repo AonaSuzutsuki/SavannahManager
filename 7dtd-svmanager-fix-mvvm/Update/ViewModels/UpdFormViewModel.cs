@@ -79,7 +79,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
         {
             if (arg != null)
             {
-                int index = arg.Value;
+                var index = arg.Value;
                 _model.ShowDetails(index);
             }
         }

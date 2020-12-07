@@ -121,7 +121,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                 }
             }
 
-            int id = System.Diagnostics.Process.GetCurrentProcess().Id;
+            var id = System.Diagnostics.Process.GetCurrentProcess().Id;
             var p = new System.Diagnostics.Process
             {
                 StartInfo = _updateManager.GetUpdaterInfo(id)

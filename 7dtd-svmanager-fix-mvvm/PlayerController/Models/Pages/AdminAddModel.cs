@@ -56,8 +56,8 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
                 return;
             }
 
-            string cmd = string.Format("{0} add {1} {2}", _commandHead, Name, Permission.ToString());
-            bool isSended = _telnet.SocTelnetSendNrt(cmd);
+            var cmd = string.Format("{0} add {1} {2}", _commandHead, Name, Permission.ToString());
+            var isSended = _telnet.SocTelnetSendNrt(cmd);
             if (!isSended)
                 return;
 

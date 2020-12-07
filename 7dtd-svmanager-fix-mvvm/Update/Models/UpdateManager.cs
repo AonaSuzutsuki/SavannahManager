@@ -122,7 +122,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                         };
                         paragraph.AddChildren(new RichTextItem
                         {
-                            Text = text,
+                            Text = text
                         });
                         items.Add(paragraph);
                     }

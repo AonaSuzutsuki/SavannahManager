@@ -481,7 +481,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void PlayerContextMenu_Opened()
         {
-            int index = UsersListSelectedIndex;
+            var index = UsersListSelectedIndex;
             if (index < 0)
             {
                 AdminContextEnabled = false;

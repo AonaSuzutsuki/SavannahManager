@@ -217,7 +217,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private readonly Dictionary<int, UserDetail> _playersDictionary = new Dictionary<int, UserDetail>();
         private readonly List<int> _connectedIds = new List<int>();
 
-        private bool _isServerForceStop = false;
+        private bool _isServerForceStop;
 
         #endregion
 
@@ -369,7 +369,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             base.SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
 
             Telnet = GenerateTelnetClient(this);
-            var tasks = Task.Factory.StartNew(() =>
+            _ = Task.Factory.StartNew(() =>
             {
                 IsTelnetLoading = true;
                 while (true)

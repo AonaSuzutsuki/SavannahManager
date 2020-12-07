@@ -18,7 +18,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
     {
         public TelnetWaitTimeCalculatorViewModel(IWindowService windowService, TelnetWaitTimeCalculatorModel model) : base(windowService, model)
         {
-            this._model = model;
+            _model = model;
 
             WaitTime = model.ObserveProperty(m => m.WaitTimeText).ToReactiveProperty();
             RecommendedWaitTime = model.ObserveProperty(m => m.RecommendedWaitTimeText).ToReactiveProperty();

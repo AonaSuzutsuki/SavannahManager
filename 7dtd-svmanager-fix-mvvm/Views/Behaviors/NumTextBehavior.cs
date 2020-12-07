@@ -29,14 +29,14 @@ namespace _7dtd_svmanager_fix_mvvm.Views.Behaviors
             base.OnAttached();
             AssociatedObject.KeyDown += OnKeyDown;
             AssociatedObject.TextChanged += OnTextChanged;
-            DataObject.AddPastingHandler(this.AssociatedObject, TextBoxPastingEventHandler);
+            DataObject.AddPastingHandler(AssociatedObject, TextBoxPastingEventHandler);
         }
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            this.AssociatedObject.KeyDown -= OnKeyDown;
-            this.AssociatedObject.TextChanged -= OnTextChanged;
-            DataObject.RemovePastingHandler(this.AssociatedObject, TextBoxPastingEventHandler);
+            AssociatedObject.KeyDown -= OnKeyDown;
+            AssociatedObject.TextChanged -= OnTextChanged;
+            DataObject.RemovePastingHandler(AssociatedObject, TextBoxPastingEventHandler);
         }
 
         private void TextBoxPastingEventHandler(object sender, DataObjectPastingEventArgs e)
@@ -59,9 +59,9 @@ namespace _7dtd_svmanager_fix_mvvm.Views.Behaviors
             if (!(sender is TextBox))
                 return;
 
-            if ((Key.D0 <= e.Key && e.Key <= Key.D9) ||
-                (Key.NumPad0 <= e.Key && e.Key <= Key.NumPad9) ||
-                (Key.Delete == e.Key) || (Key.Back == e.Key) || (Key.Tab == e.Key))
+            if (Key.D0 <= e.Key && e.Key <= Key.D9 ||
+                Key.NumPad0 <= e.Key && e.Key <= Key.NumPad9 ||
+                Key.Delete == e.Key || Key.Back == e.Key || Key.Tab == e.Key)
             {
                 e.Handled = false;
             }

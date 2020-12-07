@@ -14,7 +14,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
         private readonly AdminPageModel _model;
         public AdminPageViewModel(NavigationWindowService<InitializeData> bindableValue, AdminPageModel model) : base(bindableValue?.NavigationValue)
         {
-            this._model = model;
+            _model = model;
 
             GetPathCommand = new DelegateCommand(GetPathBt_Click);
             AutoSearchCommand = new DelegateCommand(AutoSearchBt_Click);
