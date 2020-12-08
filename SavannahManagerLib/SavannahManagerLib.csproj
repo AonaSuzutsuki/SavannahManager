@@ -5,6 +5,14 @@
     <AssemblyName>SvManagerLibrary</AssemblyName>
     <LangVersion>latest</LangVersion>
     <RootNamespace>SvManagerLibrary</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>SavannahManagerLib</PackageId>
+    <Product>SavannahManagerLib</Product>
+    <Authors>Aona Suzutsuki</Authors>
+    <Company>Kimama Lab.</Company>
+    <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2020</Copyright>
+    <AssemblyVersion>1.0.2.2</AssemblyVersion>
+    <FileVersion>1.0.2.2</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
