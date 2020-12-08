@@ -30,7 +30,7 @@ steps:
 - task: CmdLine@2
   displayName: "dotnet build"
   inputs:
-    script: dotnet build --configuration $(buildConfiguration)
+    script: dotnet build --configuration $(buildConfiguration) .\SavannahManagerLibTests\SavannahManagerLibTests.csproj
 
 
 - task: DotNetCoreCLI@2
