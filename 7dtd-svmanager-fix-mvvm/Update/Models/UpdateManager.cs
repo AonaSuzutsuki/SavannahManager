@@ -39,7 +39,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             {
                 var latestVersion = await _updateClient.GetVersion("main");
                 var latestUpdVersion = await _updateClient.GetVersion("updater");
-                var updVersion = CommonCoreLib.CommonFile.Version.GetVersion(ConstantValues.UpdaterFilePath);
+                var updVersion = CommonCoreLib.File.Version.GetVersion(ConstantValues.UpdaterFilePath);
 
                 IsUpdate = latestVersion != CurrentVersion;
                 IsUpdUpdate = updVersion != latestUpdVersion;
