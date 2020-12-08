@@ -22,7 +22,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
     {
         public BackupSelectorViewModel(WindowService windowService, BackupSelectorModel model) : base(windowService, model)
         {
-            this.model = model;
+            _model = model;
 
             BackupList = model.BackupList.ToReadOnlyReactiveCollection();
             BackupFileList = model.BackupFileList.ToReadOnlyReactiveCollection();
@@ -35,20 +35,20 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
             DeleteBtEnabled = model.ObserveProperty(m => m.CanRestore).ToReactiveProperty();
             DeleteAllBtEnabled = model.ObserveProperty(m => m.CanDeleteAll).ToReactiveProperty();
 
-            RestoreBtClicked = new DelegateCommand(RestoreBt_Clicked);
-            BackupBtClicked = new DelegateCommand(BackupBt_Clicked);
-            DeleteBtClicked = new DelegateCommand(DeleteBt_Clicked);
-            DeleteAllBtClicked = new DelegateCommand(DeleteAllBt_Clicked);
+            RestoreCommand = new DelegateCommand(RestoreBt_Clicked);
+            BackupCommand = new DelegateCommand(BackupBt_Clicked);
+            DeleteBackupCommand = new DelegateCommand(DeleteBt_Clicked);
+            DeleteAllBackupCommand = new DelegateCommand(DeleteAllBt_Clicked);
             BackupListContextMenuOpened = new DelegateCommand(BackupListContextMenu_Opened);
             BackupListSelectionChanged = new DelegateCommand<int?>(BackupList_SelectionChanged);
-            ForwardBtClicked = new DelegateCommand(ForwardBt_Clicked);
-            BackBtClicked = new DelegateCommand(BackBt_Clicked);
+            ForwardPageCommand = new DelegateCommand(ForwardBt_Clicked);
+            BackPageCommand = new DelegateCommand(BackBt_Clicked);
             BackupFileListMouseDoubleClick = new DelegateCommand<PathMapItem>(BackupFileList_MouseDoubleClick);
         }
 
         #region Fields
 
-        private readonly BackupSelectorModel model;
+        private readonly BackupSelectorModel _model;
 
         #endregion
 
@@ -71,17 +71,17 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
 
         #region Event Properties
 
-        public ICommand RestoreBtClicked { get; set; }
-        public ICommand BackupBtClicked { get; set; }
-        public ICommand DeleteBtClicked { get; set; }
-        public ICommand DeleteAllBtClicked { get; set; }
+        public ICommand RestoreCommand { get; set; }
+        public ICommand BackupCommand { get; set; }
+        public ICommand DeleteBackupCommand { get; set; }
+        public ICommand DeleteAllBackupCommand { get; set; }
 
         public ICommand BackupListContextMenuOpened { get; set; }
 
         public ICommand BackupListSelectionChanged { get; set; }
 
-        public ICommand ForwardBtClicked { get; set; }
-        public ICommand BackBtClicked { get; set; }
+        public ICommand ForwardPageCommand { get; set; }
+        public ICommand BackPageCommand { get; set; }
         public ICommand BackupFileListMouseDoubleClick { get; set; }
 
 
@@ -91,25 +91,25 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
 
         public void RestoreBt_Clicked()
         {
-            model.Restore();
+            _model.Restore();
         }
         public void BackupBt_Clicked()
         {
-            model.Backup();
+            _model.Backup();
         }
 
         public void DeleteBt_Clicked()
         {
-            model.Delete();
+            _model.Delete();
         }
         public void DeleteAllBt_Clicked()
         {
-            model.DeleteAll();
+            _model.DeleteAll();
         }
 
         public void BackupListContextMenu_Opened()
         {
-            model.MenuOpened();
+            _model.MenuOpened();
         }
 
         public void BackupList_SelectionChanged(int? index)
@@ -118,24 +118,24 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
                 return;
 
             var value = index.Value;
-            model.SelectBackup(value);
-            model.DrawBackup();
+            _model.SelectBackup(value);
+            _model.DrawBackup();
         }
 
         public void ForwardBt_Clicked()
         {
-            model.DirectoryForward();
+            _model.DirectoryForward();
         }
 
         public void BackBt_Clicked()
         {
-            model.DirectoryBack();
+            _model.DirectoryBack();
         }
 
         public void BackupFileList_MouseDoubleClick(PathMapItem pathMapItem)
         {
-            model.NewDirectoryChange();
-            model.DirectoryChange(pathMapItem);
+            _model.NewDirectoryChange();
+            _model.DirectoryChange(pathMapItem);
         }
 
         #endregion

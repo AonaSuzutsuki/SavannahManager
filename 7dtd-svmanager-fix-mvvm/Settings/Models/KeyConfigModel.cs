@@ -17,50 +17,51 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
     {
         public ObservableCollection<ShortcutKeyForList> KeyList { get; } = new ObservableCollection<ShortcutKeyForList>();
 
-        private readonly Dictionary<string, ShortcutKey> internalKeyList = new Dictionary<string, ShortcutKey>();
+        private readonly Dictionary<string, ShortcutKey> _internalKeyList = new Dictionary<string, ShortcutKey>();
 
-        private readonly ShortcutKeyManager shortcutKeyManager;
+        private readonly ShortcutKeyManager _shortcutKeyManager;
 
-        private ModifierKeys specialKey;
-        private Key mainKey;
+        private ModifierKeys _specialKey;
+        private Key _mainKey;
 
-        private string currentKeyText;
+        private string _currentKeyText;
+        private string _commandText;
+        private string _keyString;
+        private int _currentIndex;
+
         public string CurrentKeyText
         {
-            get => currentKeyText;
-            set => SetProperty(ref currentKeyText, value);
+            get => _currentKeyText;
+            set => SetProperty(ref _currentKeyText, value);
         }
-        private string commandText;
         public string CommandText
         {
-            get => commandText;
-            set => SetProperty(ref commandText, value);
+            get => _commandText;
+            set => SetProperty(ref _commandText, value);
         }
-        private string keyString;
         public string KeyString
         {
-            get => keyString;
-            set => SetProperty(ref keyString, value);
+            get => _keyString;
+            set => SetProperty(ref _keyString, value);
         }
-        private int currentIndex;
 
         public int CurrentIndex
         {
-            get => currentIndex;
-            set => SetProperty(ref currentIndex, value);
+            get => _currentIndex;
+            set => SetProperty(ref _currentIndex, value);
         }
 
         public KeyConfigModel(ShortcutKeyManager shortcutKeyManager)
         {
-            this.shortcutKeyManager = shortcutKeyManager;
+            _shortcutKeyManager = shortcutKeyManager;
         }
 
         public void Load()
         {
-            var shortcutKeies = shortcutKeyManager.ShortcutKeies;
-            foreach (KeyValuePair<string, ShortcutKey> pair in shortcutKeies)
+            var shortcutKeies = _shortcutKeyManager.ShortcutKeies;
+            foreach (var pair in shortcutKeies)
             {
-                internalKeyList.Add(pair.Key, pair.Value);
+                _internalKeyList.Add(pair.Key, pair.Value);
 
                 var keyForList = new ShortcutKeyForList()
                 {
@@ -73,8 +74,8 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
         }
         public void Save(Action closer)
         {
-            shortcutKeyManager.ShortcutKeies = internalKeyList;
-            shortcutKeyManager.Save();
+            _shortcutKeyManager.ShortcutKeies = _internalKeyList;
+            _shortcutKeyManager.Save();
             closer();
         }
 
@@ -104,7 +105,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
 
         public void InputKey(Key key)
         {
-            specialKey = Keyboard.Modifiers;
+            _specialKey = Keyboard.Modifiers;
 
             switch(key)
             {
@@ -114,18 +115,18 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
                 case Key.RightAlt:
                 case Key.LeftCtrl:
                 case Key.RightCtrl:
-                    mainKey = Key.None;
+                    _mainKey = Key.None;
                     break;
                 default:
-                    mainKey = key;
+                    _mainKey = key;
                     break;
             }
 
-            KeyString = specialKey != ModifierKeys.None ? $"{specialKey} + {mainKey}" : mainKey.ToString();
+            KeyString = _specialKey != ModifierKeys.None ? $"{_specialKey} + {_mainKey}" : _mainKey.ToString();
         }
         public void DeleteKey()
         {
-            int index = CurrentIndex;
+            var index = CurrentIndex;
             if (index < 0)
                 return;
 
@@ -137,7 +138,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
                 Key = string.Empty,
                 Description = description
             };
-            internalKeyList[keyName] = new ShortcutKey(keyName, ModifierKeys.None, Key.None, description);
+            _internalKeyList[keyName] = new ShortcutKey(keyName, ModifierKeys.None, Key.None, description);
         }
         public void ApplyKey()
         {
@@ -150,11 +151,11 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
             KeyList[index] = new ShortcutKeyForList()
             {
                 Name = KeyList[index].Name,
-                Key = keyString,
+                Key = _keyString,
                 Description = KeyList[index].Description
             };
-            var description = internalKeyList[keyName].Description;
-            internalKeyList[keyName] = new ShortcutKey(keyName, specialKey, mainKey, description);
+            var description = _internalKeyList[keyName].Description;
+            _internalKeyList[keyName] = new ShortcutKey(keyName, _specialKey, _mainKey, description);
         }
     }
 }

@@ -1,29 +1,25 @@
 ﻿using System.IO;
 using System.IO.Compression;
 
-namespace Archive
+namespace _7dtd_svmanager_fix_mvvm.Update.Models
 {
     public static class Zip
     {
         public static void Extract(string zipPath, string extractDirPath)
         {
-            var directoryInfo = Directory.CreateDirectory(extractDirPath);
-
-            using (ZipArchive archive = ZipFile.OpenRead(zipPath))
+            using var archive = ZipFile.OpenRead(zipPath);
+            foreach (var entry in archive.Entries)
             {
-                foreach (ZipArchiveEntry entry in archive.Entries)
+                var outPath = entry.FullName;
+                if (outPath.EndsWith("/"))
                 {
-                    var outPath = entry.FullName;
-                    if (outPath.EndsWith("/"))
-                    {
-                        var di = new DirectoryInfo(extractDirPath + @"\" + outPath);
-                        if (!di.Exists)
-                            di.Create();
-                    }
-                    else
-                    {
-                        entry.ExtractToFile(Path.Combine(extractDirPath, entry.FullName), true);
-                    }
+                    var di = new DirectoryInfo(extractDirPath + @"\" + outPath);
+                    if (!di.Exists)
+                        di.Create();
+                }
+                else
+                {
+                    entry.ExtractToFile(Path.Combine(extractDirPath, entry.FullName), true);
                 }
             }
         }

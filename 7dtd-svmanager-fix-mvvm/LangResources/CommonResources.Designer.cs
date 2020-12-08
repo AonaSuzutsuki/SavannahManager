@@ -68,5 +68,41 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
                 return ResourceManager.GetString("Error", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   新規作成(_N) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_NewFile {
+            get {
+                return ResourceManager.GetString("UI_NewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   開く(_O) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_OpenFIle {
+            get {
+                return ResourceManager.GetString("UI_OpenFIle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   名前を付けて保存(_A) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_SaveAsFile {
+            get {
+                return ResourceManager.GetString("UI_SaveAsFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   保存(_S) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_SaveFIle {
+            get {
+                return ResourceManager.GetString("UI_SaveFIle", resourceCulture);
+            }
+        }
     }
 }

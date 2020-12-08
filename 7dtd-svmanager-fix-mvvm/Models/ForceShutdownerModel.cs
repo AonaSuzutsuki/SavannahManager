@@ -12,7 +12,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 {
     public class ProcessTab
     {
-        public string PID { get; set; }
+        public string Pid { get; set; }
         public string Name { get; set; }
     }
 
@@ -22,12 +22,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public bool ProcessSelected
         {
-            get => processSelected;
-            set => SetProperty(ref processSelected, value);
+            get => _processSelected;
+            set => SetProperty(ref _processSelected, value);
         }
 
-        private readonly List<int> processIds = new List<int>();
-        private bool processSelected;
+        private readonly List<int> _processIds = new List<int>();
+        private bool _processSelected;
         
         public void Refresh()
         {
@@ -39,10 +39,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             {
                 ProcessData.Add(new ProcessTab()
                 {
-                    PID = p.Id.ToString(),
-                    Name = p.ProcessName,
+                    Pid = p.Id.ToString(),
+                    Name = p.ProcessName
                 });
-                processIds.Add(p.Id);
+                _processIds.Add(p.Id);
             }
         }
 
@@ -50,7 +50,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             try
             {
-                var p = Process.GetProcessById(processIds[index]);
+                var p = Process.GetProcessById(_processIds[index]);
                 p.Kill();
 
                 System.Threading.Thread.Sleep(500);

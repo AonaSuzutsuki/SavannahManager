@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:_7dtd_XmlEditor"
-        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:treeView="clr-namespace:_7dtd_XmlEditor.Models.TreeView"
         xmlns:views="clr-namespace:_7dtd_XmlEditor.Views"
         mc:Ignorable="d"
@@ -38,7 +38,7 @@
                 <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
-                            <CommonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
+                            <commonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
@@ -81,6 +81,10 @@
                     </Grid.ColumnDefinitions>
 
                     <views:BindableSelectedItemTreeView x:Name="ItemTreeView" ItemsSource="{Binding TreeViewItems}" BindableSelectedItem="{Binding TreeViewSelectedItem.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IgnoreNullSelectedItem="False" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                        <i:Interaction.Behaviors>
+                            <views:MoveableTreeViewBehavior DropCommand="{Binding DropCommand}" DataType="treeView:TreeViewItemInfo" />
+                        </i:Interaction.Behaviors>
+
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseRightButtonDown">
                                 <i:InvokeCommandAction Command="{Binding TreeViewMouseRightButtonDown}" />

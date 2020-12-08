@@ -11,7 +11,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages
         public enum Type
         {
             Admin,
-            Whitelist,
+            Whitelist
         }
 
         private Type type;

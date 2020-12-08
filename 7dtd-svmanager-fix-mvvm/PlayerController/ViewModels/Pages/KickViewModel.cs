@@ -14,35 +14,36 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels.Pages
 {
     public class KickViewModel : BindableBase
     {
-        private KickModel model;
         public KickViewModel(KickModel model)
         {
-            this.model = model;
+            _model = model;
 
             NameText = model.ToReactivePropertyAsSynchronized(m => m.Name);
 
-            KickBtClicked = new DelegateCommand(KickBt_Clicked);
-            CancelBtClicked = new DelegateCommand(model.Cancel);
+            KickPlayerCommanded = new DelegateCommand(KickBt_Clicked);
+            CancelCommand = new DelegateCommand(model.Cancel);
         }
+
+        private readonly KickModel _model;
+        private string _reasonText;
 
         public ReactiveProperty<string> NameText { get; set; }
 
-        private string reasonText = default;
         public string ReasonText
         {
-            get => reasonText;
-            set => SetProperty(ref reasonText, value);
+            get => _reasonText;
+            set => SetProperty(ref _reasonText, value);
         }
 
         #region EventProperties
-        public ICommand KickBtClicked { get; }
-        public ICommand CancelBtClicked { get; }
+        public ICommand KickPlayerCommanded { get; }
+        public ICommand CancelCommand { get; }
         #endregion
 
         #region EventMethods
         private void KickBt_Clicked()
         {
-            model.Kick(ReasonText);
+            _model.Kick(ReasonText);
         }
         #endregion
     }

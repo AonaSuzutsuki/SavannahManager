@@ -1,9 +1,9 @@
 ﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Settings.Views.KeyConfig"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Settings" Height="300" Width="600" ResizeMode="CanMinimize">
@@ -44,7 +44,7 @@
             <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDown">
-                        <CommonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
+                        <commonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Image>
@@ -94,7 +94,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <TextBox Text="{Binding CurrentKeyText.Value}" IsReadOnly="True" Grid.Column="0" Width="150" />
-                        <Button Grid.Column="1" Name="DeleteCurrentKeyBT" Width="50" Margin="5,0,0,0" Content="削除" Style="{DynamicResource FlatButton}" Command="{Binding DeleteCurrentKeyBtClick}" />
+                        <Button Grid.Column="1" Name="DeleteCurrentKeyBt" Width="50" Margin="5,0,0,0" Content="削除" Style="{DynamicResource FlatButton}" Command="{Binding DeleteCurrentKeyCommand}" />
                     </Grid>
 
                     <Label Content="キーを入力してください" Height="28" HorizontalAlignment="Left" />
@@ -106,17 +106,17 @@
                         <TextBox Name="InputKeyTextBox" Text="{Binding InputKeyText.Value}" IsReadOnly="True" Grid.Column="0" Width="150">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="KeyDown">
-                                    <CommonViews:InvokeDelegateCommandAction Command="{Binding InputKeyTextBoxKeyDown}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}" />
+                                    <commonViews:InvokeDelegateCommandAction Command="{Binding InputKeyTextBoxKeyDown}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
-                        <Button Grid.Column="1" Name="ApplyKeyBT" Width="50" Margin="5,0,0,0" Content="適用" Style="{DynamicResource FlatButton}" Command="{Binding ApplyKeyBtClick}" />
+                        <Button Grid.Column="1" Name="ApplyKeyBt" Width="50" Margin="5,0,0,0" Content="適用" Style="{DynamicResource FlatButton}" Command="{Binding ApplyKeyBtCommand}" />
                     </Grid>
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Name="OKayBT" Width="80" Height="25" Content="OK" Style="{DynamicResource FlatButton}" Command="{Binding OKayBtClick}" />
-                    <Button Name="CancelBT" Width="80" Height="25" Margin="5,0,0,0" Content="キャンセル" Style="{DynamicResource FlatButton}" Command="{Binding MainWindowCloseBtClick}" />
+                    <Button Name="OKayBt" Width="80" Height="25" Content="OK" Style="{DynamicResource FlatButton}" Command="{Binding OkayCommand}" />
+                    <Button Name="CancelBt" Width="80" Height="25" Margin="5,0,0,0" Content="キャンセル" Style="{DynamicResource FlatButton}" Command="{Binding MainWindowCloseBtClick}" />
                 </StackPanel>
             </Grid>
             

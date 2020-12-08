@@ -5,12 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:app="clr-namespace:LanguageEx"
-        xmlns:NumText="clr-namespace:NumTextBox"
-        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
-        Title="Settings" Height="350" Width="550" ResizeMode="CanMinimize">
+        Title="Settings" Height="380" Width="550" ResizeMode="CanMinimize">
     
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -51,7 +50,7 @@
                 <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
-                            <CommonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
+                            <commonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
@@ -87,6 +86,7 @@
                         <Label Content="Microsoft.Xaml.Behaviors.Wpf: Copyright (c) 2015 Microsoft" />
                         <Label Content="Newtonsoft.Json: Copyright (c) 2007 James Newton-King" />
                         <Label Content="Moq: Copyright (c) 2007, Clarius Consulting, Manas Technology Solutions, InSTEDD" />
+                        <Label Content="OpenCover: Copyright (c) 2011-2019 Shaun Wilde " />
                         <Label  Content="This software includes the work that is distributed in the Apache License 2.0"/>
                     </StackPanel>
 
@@ -101,11 +101,11 @@
                                 <Label Content="ZNY: " />
                             </StackPanel>
                             <StackPanel VerticalAlignment="Center">
-                                <Button Content="3PHwg9r19NtNcKRopBpSjTthSNpEJbowGD" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
-                                <Button Content="0xF38a082c5E2F222558071BdbcdAa7FE98580811b" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
-                                <Button Content="DPQPwrjQXZndguKppSpiTiP21bFYzhuaUY" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
-                                <Button Content="P9Py7EubLvrYaPzQDKx3mW36AxxniB8J8S" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
-                                <Button Content="ZfbDqN81h3wHTMaSupDAKQTguL8fcQyHUY" Style="{DynamicResource LinkLabel}" Command="{Binding DonateBtClicked}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
+                                <Button Content="3PHwg9r19NtNcKRopBpSjTthSNpEJbowGD" Style="{DynamicResource LinkLabel}" Command="{Binding CopyDonationAddressCommand}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
+                                <Button Content="0xF38a082c5E2F222558071BdbcdAa7FE98580811b" Style="{DynamicResource LinkLabel}" Command="{Binding CopyDonationAddressCommand}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
+                                <Button Content="DPQPwrjQXZndguKppSpiTiP21bFYzhuaUY" Style="{DynamicResource LinkLabel}" Command="{Binding CopyDonationAddressCommand}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
+                                <Button Content="P9Py7EubLvrYaPzQDKx3mW36AxxniB8J8S" Style="{DynamicResource LinkLabel}" Command="{Binding CopyDonationAddressCommand}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
+                                <Button Content="ZfbDqN81h3wHTMaSupDAKQTguL8fcQyHUY" Style="{DynamicResource LinkLabel}" Command="{Binding CopyDonationAddressCommand}" CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}" />
                             </StackPanel>
                         </StackPanel>
                         <TextBlock Margin="30,0,0,0" TextWrapping="WrapWithOverflow" Foreground="White" Text="{Binding Source={x:Static app:ResourceService.Current}, Path=VersionInfoResources.ThanksMessage, Mode=OneWay}" />

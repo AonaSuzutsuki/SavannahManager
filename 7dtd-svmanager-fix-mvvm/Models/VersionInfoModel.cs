@@ -14,11 +14,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
     public class VersionInfoModel : ModelBase
     {
 
-        private string version = default;
+        private string _version;
         public string Version
         {
-            get => version;
-            set => SetProperty(ref version, value);
+            get => _version;
+            set => SetProperty(ref _version, value);
         }
 
         public void SetVersion()

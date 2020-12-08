@@ -98,7 +98,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 
     public class NavigationWindowService<T> : WindowService where T : new()
     {
-        private Dictionary<Type, Tuple<object, bool>> cacheDictionary = new Dictionary<Type, Tuple<object, bool>>();
+        private readonly Dictionary<Type, Tuple<object, bool>> _cacheDictionary = new Dictionary<Type, Tuple<object, bool>>();
 
         public IList<Tuple<Type, bool>> Pages { get; set; }
         public ITransitionNavigationService Navigation { get; set; }
@@ -121,9 +121,9 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
                 if (type == null || Pages.Count - 1 < i)
                     return (new object(), false);
 
-                var page = cacheDictionary.GetCallback(type, () => new Tuple<object, bool>(Activator.CreateInstance(type, this), Pages[i].Item2));
-                if (!cacheDictionary.ContainsKey(type))
-                    cacheDictionary.Add(type, page);
+                var page = _cacheDictionary.GetCallback(type, () => new Tuple<object, bool>(Activator.CreateInstance(type, this), Pages[i].Item2));
+                if (!_cacheDictionary.ContainsKey(type))
+                    _cacheDictionary.Add(type, page);
                 return (page.Item1, page.Item2);
             };
             Navigation.HorizontalOffsetAction = () => Owner.Width + 10;
@@ -169,7 +169,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
             }
         }
 
-        private void RefreshValues(object page)
+        private static void RefreshValues(object page)
         {
             if (page is UserControl cPage)
             {

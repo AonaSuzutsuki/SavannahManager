@@ -13,23 +13,23 @@ namespace _7dtd_svmanager_fix_mvvm.Models
     public class ServerProcessManager
     {
 
-        private const string copiedConfigFileName = "serverconfig.savannah.xml";
+        private const string CopiedConfigFileName = "serverconfig.savannah.xml";
 
         private Process p = new Process();
         public ServerProcessManager(string exeFilePath, string configFilePath)
         {
             var exeDirPath = Path.GetDirectoryName(exeFilePath);
-            File.Copy(configFilePath, "{0}/{1}".FormatString(exeDirPath, copiedConfigFileName), true);
+            File.Copy(configFilePath, "{0}/{1}".FormatString(exeDirPath, CopiedConfigFileName), true);
 
             p.StartInfo = new ProcessStartInfo() {
                 FileName = exeFilePath,
-                Arguments = string.Format("-logfile 7DaysToDieServer_Data\\output_log.txt -quit -batchmode -nographics -configfile={0} -dedicated", copiedConfigFileName),
+                Arguments = string.Format("-logfile 7DaysToDieServer_Data\\output_log.txt -quit -batchmode -nographics -configfile={0} -dedicated", CopiedConfigFileName),
                 UseShellExecute = false,
                 CreateNoWindow = false,
                 RedirectStandardInput = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                WorkingDirectory = Path.GetDirectoryName(exeFilePath)
+                WorkingDirectory = Path.GetDirectoryName(exeFilePath) ?? throw new InvalidOperationException()
             };
             p.StartInfo.EnvironmentVariables["SteamAppId"] = "251570";
             p.StartInfo.EnvironmentVariables["SteamGameId"] = "251570";

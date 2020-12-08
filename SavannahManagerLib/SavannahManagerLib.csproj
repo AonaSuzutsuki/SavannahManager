@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;net48</TargetFrameworks>
+    <AssemblyName>SvManagerLibrary</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>SvManagerLibrary</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SavannahXmlLib" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>

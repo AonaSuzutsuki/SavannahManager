@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Settings" Height="90" Width="400" ResizeMode="NoResize">
@@ -43,7 +43,7 @@
             <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDown">
-                        <CommonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
+                        <commonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Image>

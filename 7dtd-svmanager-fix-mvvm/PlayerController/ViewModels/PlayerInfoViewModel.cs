@@ -19,14 +19,14 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels
     {
         public PlayerInfoViewModel(WindowService service, PlayerInfoModel model) : base(service, model)
         {
-            this.model = model;
+            _model = model;
 
-            SteamIdMouseDown = new DelegateCommand(SteamId_MouseDown);
+            OpenSteamIdCommand = new DelegateCommand(SteamId_MouseDown);
         }
 
         #region Fields
 
-        private readonly PlayerInfoModel model;
+        private readonly PlayerInfoModel _model;
 
         #endregion
 
@@ -38,7 +38,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels
 
         #region Event Properties
 
-        public ICommand SteamIdMouseDown { get; set; }
+        public ICommand OpenSteamIdCommand { get; set; }
 
         #endregion
 
@@ -49,7 +49,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels
             var dialogResult = ExMessageBoxBase.Show("Are you sure open steam profile with default browser?", "Open Browser", ExMessageBoxBase.MessageType.Question,
                 ExMessageBoxBase.ButtonType.YesNo);
             if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
-                Process.Start(model.UserPageLink);
+                Process.Start(_model.UserPageLink);
         }
 
         #endregion
@@ -59,7 +59,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels
         public void SetPlayer(PlayerInfo player)
         {
             Player = player;
-            model.SetUserPageLink(player.SteamId);
+            _model.SetUserPageLink(player.SteamId);
         }
 
         #endregion

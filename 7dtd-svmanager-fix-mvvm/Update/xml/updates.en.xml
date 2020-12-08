@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.4.39.0">
+    1. Fixed an issue where the focus would shift to another application when closing the update screen.
+    2. Fixed internal process for creating TelnetClient.
+    3. Changed to specify a separate timeout period for telnet logging.
+    4. Fixed an issue processing of player and time acquisition.
+      4.1. This solves the issue of output to the central log, such as player and time acquisition.
+    5. Fixed internal processing of XmlEditor.
+      5.1. Fixed an issue where XmlEditor could move to a layer above the root node in a drag move.
+      5.2. Fixed an issue where drag moves in XmlEditor could be put into child elements other than tags.
+    6. Added "Permission Editor" to edit serveradmin.xml.
+  </update>
   <update version="2.3.38.4">
     1. Fixed an issue where getting a player or time would not work properly.
     2. Fixed an issue where the time setting button would not work properly.
@@ -7,6 +18,8 @@
     4. Fixed an issue where dragging a mouse move on an element in the Savannah Xml Editor would not work properly.
     5. Changed the connection to the update server.
       5.1. If you update from this version or earlier, it may take two updates.
+    6. 32bit priority has been removed.
+      6.1. On 64bit OS, it works as 64bit.
   </update>
   <update version="2.3.37.3">
     1. fixed an issue where the server could start if a Telnet connection failed even when local server mode is off.

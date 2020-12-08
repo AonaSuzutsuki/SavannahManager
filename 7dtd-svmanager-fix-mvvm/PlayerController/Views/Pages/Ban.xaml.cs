@@ -22,7 +22,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages
         }
         #endregion
         
-        public Ban(IMainWindowTelnet telnet, string playerID = "")
+        public Ban(IMainWindowTelnet telnet, string playerId = "")
         {
             InitializeComponent();
 
@@ -32,7 +32,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages
 
             model.Ended += Model_Ended;
 
-            model.Name = playerID;
+            model.Name = playerId;
         }
 
         private void Model_Ended(object sender, EventArgs e)

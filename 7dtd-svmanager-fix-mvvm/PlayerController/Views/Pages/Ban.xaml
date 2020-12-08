@@ -3,9 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-      xmlns:app="clr-namespace:LanguageEx"
-      xmlns:NumText="clr-namespace:NumTextBox"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
+      xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
       mc:Ignorable="d" 
       TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
       d:DesignHeight="170" d:DesignWidth="450"
@@ -44,7 +44,7 @@
                 <Label Grid.Column="0" Content="Duration" Foreground="White" Padding="2" VerticalAlignment="Top" />
                 <TextBox Text="{Binding Duration.Value}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Height="24">
                     <i:Interaction.Behaviors>
-                        <NumText:NumTextBehavior />
+                        <behaviors:NumTextBehavior />
                     </i:Interaction.Behaviors>
                 </TextBox>
                 <ComboBox ItemsSource="{Binding DurationUnitList, Mode=OneWay}" SelectedIndex="{Binding DurationUnitListSelectedIndex, Mode=OneWayToSource}" Grid.Column="2" Width="120" Height="24" Margin="0,0,120,0" />
@@ -52,8 +52,8 @@
 
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" Margin="0,0,5,0" Grid.Row="1" Orientation="Horizontal">
-            <Button Name="BanBT" Content="BAN" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding BanBtClicked}" />
-            <Button Name="CancelBT" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=PlayerResources.UI_CancelBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding CancelBtClicked}" />
+            <Button Name="BanBt" Content="BAN" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding BanPlayerCommanded}" />
+            <Button Name="CancelBt" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=PlayerResources.UI_CancelBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding CancelCommand}" />
         </StackPanel>
     </Grid>
 </Page>

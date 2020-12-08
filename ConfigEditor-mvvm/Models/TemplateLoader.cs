@@ -13,12 +13,12 @@ namespace ConfigEditor_mvvm.Models
         /// </summary>
         public IList<string> VersionList { get; private set; }
 
-        private IList<string> versionPathList;
+        private IList<string> _versionPathList;
         /// <summary>
         /// Manage template data.
         /// &lt;Version, &lt;PropertyName, Element&gt;&gt;
         /// </summary>
-        private readonly Dictionary<string, Dictionary<string, ConfigListInfo>> templateData = new Dictionary<string, Dictionary<string, ConfigListInfo>>();
+        private readonly Dictionary<string, Dictionary<string, ConfigListInfo>> _templateData = new Dictionary<string, Dictionary<string, ConfigListInfo>>();
 
         /// <summary>
         /// Load template files.
@@ -37,7 +37,7 @@ namespace ConfigEditor_mvvm.Models
         {
             var xmlReader = new SavannahXmlReader(templateListPath);
             VersionList = xmlReader.GetAttributes("version", "/root/configs/config").ToList();
-            versionPathList = xmlReader.GetValues("/root/configs/config", false).ToList();
+            _versionPathList = xmlReader.GetValues("/root/configs/config", false).ToList();
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace ConfigEditor_mvvm.Models
         /// <param name="lang">言語名</param>
         private void TemplateLoad(string lang)
         {
-            foreach (var item in versionPathList.Select((v, i) => new { Index = i, Value = v }))
+            foreach (var item in _versionPathList.Select((v, i) => new { Index = i, Value = v }))
             {
                 var version = VersionList[item.Index];
                 var dic = new Dictionary<string, ConfigListInfo>();
@@ -69,7 +69,7 @@ namespace ConfigEditor_mvvm.Models
                     });
                 }
 
-                templateData.Add(version, dic);
+                _templateData.Add(version, dic);
             }
         }
         /// <summary>
@@ -102,10 +102,10 @@ namespace ConfigEditor_mvvm.Models
         /// <returns>Template dictionary by version</returns>
         public Dictionary<string, ConfigListInfo> GetConfigDictionary(string version)
         {
-            if (templateData.ContainsKey(version))
+            if (_templateData.ContainsKey(version))
             {
                 var dic = new Dictionary<string, ConfigListInfo>();
-                templateData[version].ForEach((key, val) => dic.Add(key, val.Clone() as ConfigListInfo));
+                _templateData[version].ForEach((key, val) => dic.Add(key, val.Clone() as ConfigListInfo));
 
                 return dic;
             }

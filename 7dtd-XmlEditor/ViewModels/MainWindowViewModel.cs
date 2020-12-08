@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using _7dtd_XmlEditor.Models;
 using _7dtd_XmlEditor.Models.TreeView;
+using _7dtd_XmlEditor.Views;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using SavannahXmlLib.XmlWrapper;
+using SavannahXmlLib.XmlWrapper.Nodes;
 
 namespace _7dtd_XmlEditor.ViewModels
 {
@@ -19,7 +22,7 @@ namespace _7dtd_XmlEditor.ViewModels
     {
         public MainWindowViewModel(IWindowService windowService, MainWindowModel model) : base(windowService, model)
         {
-            this.model = model;
+            this._model = model;
 
             IsEditedTitle = model.ObserveProperty(m => m.IsEditedTitle).ToReactiveProperty();
             TreeViewItems = model.TreeViewItems.ToReadOnlyReactiveCollection(m => m);
@@ -36,8 +39,9 @@ namespace _7dtd_XmlEditor.ViewModels
             FileOpenBtClick = new DelegateCommand(FileOpenBt_Click);
             FileSaveBtClick = new DelegateCommand(FileSaveBt_Click);
             FileSaveAsBtClick = new DelegateCommand(FileSaveAsBt_Click);
-            TreeViewSelectedItemChangedCommand = new DelegateCommand(TreeViewSelectedItemChanged);
 
+            DropCommand = new DelegateCommand<DropArguments>(TreeViewDrop);
+            TreeViewSelectedItemChangedCommand = new DelegateCommand(TreeViewSelectedItemChanged);
             TreeViewMouseRightButtonDown = new DelegateCommand(TreeView_MouseRightButtonDown);
             AddAttributeBtClicked = new DelegateCommand(AddAttributeBt_Clicked);
             RemoveAttributeBtClicked = new DelegateCommand(RemoveAttributeBt_Clicked);
@@ -51,7 +55,7 @@ namespace _7dtd_XmlEditor.ViewModels
 
         #region Fields
 
-        private readonly MainWindowModel model;
+        private readonly MainWindowModel _model;
 
         #endregion
 
@@ -77,6 +81,7 @@ namespace _7dtd_XmlEditor.ViewModels
         public ICommand FileSaveAsBtClick { get; set; }
 
 
+        public ICommand DropCommand { get; set; }
         public ICommand TreeViewSelectedItemChangedCommand { get; set; }
         public ICommand TreeViewMouseRightButtonDown { get; set; }
 
@@ -97,64 +102,98 @@ namespace _7dtd_XmlEditor.ViewModels
         #region Event Methods
         public void FileNewBt_Click()
         {
-            model.NewFile();
+            _model.NewFile();
         }
         public void FileOpenBt_Click()
         {
-            model.OpenFile();
+            _model.OpenFile();
         }
 
         public void FileSaveBt_Click()
         {
-            model.Save();
+            _model.Save();
         }
 
         public void FileSaveAsBt_Click()
         {
-            model.SaveAs();
+            _model.SaveAs();
         }
 
 
+        public void TreeViewDrop(DropArguments info)
+        {
+            var insertType = info.Type;
+            var targetItem = (TreeViewItemInfo)info.Target;
+            var sourceItem = (TreeViewItemInfo)info.Source;
+            var targetItemParent = targetItem.Parent;
+            var sourceItemParent = sourceItem.Parent;
+
+            if (!(sourceItemParent.Node is SavannahTagNode sourceItemParentNode) || !(targetItemParent.Node is SavannahTagNode targetItemParentNode))
+                return;
+
+            if (insertType == MoveableTreeViewBehavior.InsertType.Before)
+            {
+                sourceItemParentNode.RemoveChildElement(sourceItem.Node);
+                targetItemParentNode.AddBeforeChildElement(targetItem.Node, sourceItem.Node);
+            }
+            else if (insertType == MoveableTreeViewBehavior.InsertType.After)
+            {
+                sourceItemParentNode.RemoveChildElement(sourceItem.Node);
+                targetItemParentNode.AddAfterChildElement(targetItem.Node, sourceItem.Node);
+            }
+            else
+            {
+                if (targetItem.Node is SavannahTagNode targetNode)
+                {
+                    sourceItemParentNode.RemoveChildElement(sourceItem.Node);
+                    targetNode.AddChildElement(sourceItem.Node);
+                }
+                else
+                {
+                    info.Handled = true;
+                }
+            }
+        }
         public void TreeViewSelectedItemChanged()
         {
-            model.ItemChanged();
+            _model.ItemChanged();
         }
 
         public void TreeView_MouseRightButtonDown()
         {
             var item = TreeViewSelectedItem.Value;
-            model.ContextMenuEnabled = item != null;
-            model.AddElementEnabled = item != null && !item.IsRoot;
+            _model.ContextMenuEnabled = item != null;
+            _model.AddElementEnabled = item != null && !item.IsRoot;
         }
 
 
         public void AddAttributeBt_Clicked()
         {
-            model.AddAttribute();
+            _model.AddAttribute();
         }
 
         public void RemoveAttributeBt_Clicked()
         {
-            model.RemoveAttribute();
+            _model.RemoveAttribute();
         }
 
         public void Attributes_SelectionChanged(ViewAttributeInfo info)
         {
             if (info != null)
-                model.AttributesSelectedItem = info;
+                _model.AttributesSelectedItem = info;
         }
 
         public void InnerXml_LostFocus()
         {
-            model.ApplyInnerXml();
+            _model.ApplyInnerXml();
         }
 
         public void InnerXml_TextChanged()
         {
-            if (model.SelectedItem == null) return;
+            if (_model.SelectedItem == null) return;
 
-            if (model.SelectedItem.Node.InnerXml != model.InnerXml)
-                model.SelectedItem.IsEdited = true;
+            if (_model.SelectedItem.Node.InnerXml != _model.InnerXml)
+                _model.SelectedItem.IsEdited = true;
         }
 
         public void ChangeTagName()
@@ -166,12 +205,12 @@ namespace _7dtd_XmlEditor.ViewModels
 
         public void AddChildElement()
         {
-            model.AddChildElement();
+            _model.AddChildElement();
         }
 
         public void RemoveElement()
         {
-            model.RemoveElement();
+            _model.RemoveElement();
         }
         #endregion
     }

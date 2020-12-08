@@ -1,16 +1,16 @@
-﻿using CommonCoreLib;
-using System;
+﻿using System;
 using System.IO;
+using CommonCoreLib;
 
-namespace Log
+namespace _7dtd_svmanager_fix_mvvm.Models
 {
     public class LogStream
     {
 
         public bool IsLogGetter { get; set; }
 
-        private FileStream fs = null;
-        private StreamWriter sw = null;
+        private FileStream _fs;
+        private StreamWriter _sw;
 
         /// <summary>
         /// Create Instance of LogFile Stream.
@@ -25,10 +25,10 @@ namespace Log
                 di.Create();
             var dt = DateTime.Now;
 
-            fs = new FileStream(dirPath +
+            _fs = new FileStream(dirPath +
                                 dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
 
-            sw = new StreamWriter(fs, System.Text.Encoding.UTF8)
+            _sw = new StreamWriter(_fs, System.Text.Encoding.UTF8)
             {
                 AutoFlush = true
             };
@@ -39,27 +39,27 @@ namespace Log
         /// </summary>
         public void StreamDisposer()
         {
-            if (sw != null)
+            if (_sw != null)
             {
-                lock (sw)
+                lock (_sw)
                 {
-                    sw?.Dispose();
-                    sw = null;
+                    _sw?.Dispose();
+                    _sw = null;
                 }
             }
 
-            if (fs != null)
+            if (_fs != null)
             {
-                lock (fs)
+                lock (_fs)
                 {
-                    fs?.Dispose();
-                    fs = null;
+                    _fs?.Dispose();
+                    _fs = null;
                 }
             }
         }
 
         public void WriteSteam(string text) {
-            sw?.Write(text);
+            _sw?.Write(text);
         }
     }
 }

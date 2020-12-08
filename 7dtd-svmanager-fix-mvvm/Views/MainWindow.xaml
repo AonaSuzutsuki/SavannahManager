@@ -1,12 +1,12 @@
 ﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
-        xmlns:NumText="clr-namespace:NumTextBox"
+        xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
+        xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
-        Title="Savannah Manager" Name="_MainWindow" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True">
+        Title="Savannah Manager" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True">
     <!--xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"-->
 
     <i:Interaction.Triggers>
@@ -23,7 +23,7 @@
             <i:InvokeCommandAction Command="{Binding StateChanged}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="KeyDown">
-            <CommonViews:InvokeDelegateCommandAction Command="{Binding KeyDown}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}" />
+            <commonViews:InvokeDelegateCommandAction Command="{Binding KeyDown}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -36,13 +36,14 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ButtonIcon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
+    <Grid Style="{StaticResource ResourceKey=BackgroundGrid}">
         <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" Opacity="{Binding AroundBorderOpacity.Value}" BorderThickness="1" />
         
         <Grid Margin="{Binding MainWindowMargin}">
@@ -53,52 +54,52 @@
                 <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
-                            <CommonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
+                            <commonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
-                <Label Content="Savannah Manager" Style="{DynamicResource ResourceKey=StatTitle}" />
+                <Label Content="Savannah Manager" Style="{StaticResource ResourceKey=StatTitle}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
-                <Button Name="MainWindowMinimumBt" Content="{Binding MainWindowMinimumBtContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMinimumBtClick}" />
-                <Button Name="MainMaximumBt" Content="{Binding MainWindowMaximumBtContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMaximumBtClick}" />
-                <Button Name="MainWindowCloseBt" Content="{Binding MainWindowCloseBtContent}" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBtClick}" />
+                <Button Name="MainWindowMinimumBt" Content="{Binding MainWindowMinimumBtContent}" Style="{StaticResource CaptionButtonStyleKey}" Command="{Binding MainWindowMinimumBtClick}" />
+                <Button Name="MainMaximumBt" Content="{Binding MainWindowMaximumBtContent}" Style="{StaticResource CaptionButtonStyleKey}" Command="{Binding MainWindowMaximumBtClick}" />
+                <Button Name="MainWindowCloseBt" Content="{Binding MainWindowCloseBtContent}" Style="{StaticResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBtClick}" />
             </StackPanel>
             <StackPanel Margin="1,25,1,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                 <Menu IsMainMenu="True" Name="Menu" Height="25" Padding="3" VerticalAlignment="Top">
                     <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_FileBT, Mode=OneWay}">
-                        <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ExitBT, Mode=OneWay}" Name="MenuExitBT" Command="{Binding MainWindowCloseBtClick}" />
+                        <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ExitBT, Mode=OneWay}" Name="MenuExitBt" Command="{Binding MainWindowCloseBtClick}" />
                     </MenuItem>
                     <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ToolBT, Mode=OneWay}">
-                        <MenuItem  Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_SettingsBT, Mode=OneWay}" Name="SettingsBT" Command="{Binding MenuSettingsBtClick}" />
-                        <MenuItem  Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_FirstSettingBT, Mode=OneWay}" Name="FirstSettingsBT" Command="{Binding MenuFirstSettingsBtClick}" />
-                        <Separator Style="{DynamicResource MLB_Separator}" />
+                        <MenuItem  Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_SettingsBT, Mode=OneWay}" Name="SettingsBt" Command="{Binding OpenSettingCommand}" />
+                        <MenuItem  Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_FirstSettingBT, Mode=OneWay}" Name="FirstSettingsBt" Command="{Binding OpenFirstSettingsCommand}" />
+                        <Separator Style="{StaticResource MLB_Separator}" />
                         <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_LanguageLabel, Mode=OneWay}">
-                            <MenuItem Name="LangJapaneseBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_JapaneseLabel, Mode=OneWay}" Command="{Binding MenuLangJapaneseBtClick}" />
-                            <MenuItem Name="LangEnglishBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_EnglishLabel, Mode=OneWay}" Command="{Binding MenuLangEnglishBtClick}" />
+                            <MenuItem Name="LangJapaneseBt" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_JapaneseLabel, Mode=OneWay}" Command="{Binding SetLangJapaneseCommand}" />
+                            <MenuItem Name="LangEnglishBt" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_EnglishLabel, Mode=OneWay}" Command="{Binding SetLangEnglishCommand}" />
                         </MenuItem>
-                        <Separator Style="{DynamicResource MLB_Separator}" />
-                        <MenuItem Header="Config Editor" Name="ConfigEditorBT" Command="{Binding MenuConfigEditorBtClick}" />
-                        <MenuItem Header="Xml Editor" Command="{Binding MenuXmlEditorBtClick}" />
-                        <MenuItem Header="Backup Editor" Name="BackupEditorBT" Command="{Binding MenuBackupEditorBtClick}" IsEnabled="{Binding IsBeta.Value}" />
+                        <Separator Style="{StaticResource MLB_Separator}" />
+                        <MenuItem Header="Config Editor" Name="ConfigEditorBt" Command="{Binding OpenConfigEditorCommand}" />
+                        <MenuItem Header="Xml Editor" Command="{Binding OpenXmlEditorCommand}" />
+                        <MenuItem Header="Backup Editor" Name="BackupEditorBt" Command="{Binding OpenBackupEditorCommand}" IsEnabled="{Binding IsBeta.Value}" />
                     </MenuItem>
                     <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_HelpBT, Mode=OneWay}" IsEnabled="True">
-                        <MenuItem IsEnabled="True" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_UpdateCheckBT, Mode=OneWay}" Name="MenuCheckUpdateBT" Command="{Binding MenuCheckUpdateBtClick}" />
-                        <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_VersionBT, Mode=OneWay}" Name="MenuVersionInfo" Command="{Binding MenuVersionInfoClick}" />
+                        <MenuItem IsEnabled="True" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_UpdateCheckBT, Mode=OneWay}" Name="MenuCheckUpdateBt" Command="{Binding OpenCheckUpdateCommand}" />
+                        <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_VersionBT, Mode=OneWay}" Name="MenuVersionInfo" Command="{Binding OpenVersionInfoCommand}" />
                     </MenuItem>
                 </Menu>
             </StackPanel>
 
             <StackPanel Margin="10,55,10,0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25">
-                <Button Width="23" Height="23" Name="StartBT" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding StartBTEnabled.Value}" Style="{DynamicResource ResourceKey=StartBT}" Margin="0,0,0,0" Command="{Binding StartBtClick}" />
-                <Button Width="23" Height="23" Name="StopBT" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{DynamicResource ResourceKey=StopBT}" Margin="3,0,0,0" Command="{Binding StopBtClick}" />
-                <Border Width="1" Margin="3,2,0,0" BorderBrush="{DynamicResource BorderWhiteColor}" BorderThickness="1" />
-                <Button Name="TelnetBT" IsEnabled="{Binding TelnetBTIsEnabled.Value}" Style="{DynamicResource TelnetBT}" Margin="4,0,0,0" Content="{Binding TelnetBTLabel.Value}" Command="{Binding TelnetBtClick}" />
-                <Border Width="1" Margin="3,2,0,0" BorderBrush="{DynamicResource BorderWhiteColor}" BorderThickness="1" />
-                <Button Name="CommandListBT" Style="{DynamicResource CommandListBT}" Margin="4,0,0,0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ShowCommandListBT, Mode=OneWay}" Command="{Binding CommandListBtClick}" IsEnabled="False" />
-                <Border Width="1" Margin="3,2,0,0" BorderBrush="{DynamicResource BorderWhiteColor}" BorderThickness="1" Visibility="Hidden" />
+                <Button Width="23" Height="23" Name="StartBt" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding StartBtEnabled.Value}" Style="{StaticResource ResourceKey=StartBt}" Margin="0,0,0,0" Command="{Binding StartServerCommand}" />
+                <Button Width="23" Height="23" Name="StopBt" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource ResourceKey=StopBt}" Margin="3,0,0,0" Command="{Binding StopServerCommand}" />
+                <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" BorderThickness="1" />
+                <Button Name="TelnetBt" IsEnabled="{Binding TelnetBtIsEnabled.Value}" Style="{StaticResource TelnetBt}" Margin="4,0,0,0" Content="{Binding TelnetBtLabel.Value}" Command="{Binding ConnectTelnetCommand}" />
+                <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" BorderThickness="1" />
+                <Button Name="CommandListBt" Style="{StaticResource CommandListBt}" Margin="4,0,0,0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ShowCommandListBT, Mode=OneWay}" Command="{Binding OpenCommandListCommand}" IsEnabled="False" />
+                <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" BorderThickness="1" Visibility="Hidden" />
             </StackPanel>
             
             <Grid Margin="0,85,0,0">
@@ -114,9 +115,9 @@
                     </Grid.ColumnDefinitions>
                     <Grid HorizontalAlignment="Stretch" Margin="0,0,5,0" Width="Auto" Grid.Column="0">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="25">
-                            <Button Name="PlayerListRefreshBT" Width="23" Height="23" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{DynamicResource ResourceKey=RefreshBT}"  Margin="0,0,0,0" Command="{Binding PlayerListRefreshBtClick}" />
+                            <Button Name="PlayerListRefreshBt" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource ResourceKey=RefreshButton}"  Margin="0,0,0,0" Command="{Binding PlayerListRefreshCommand}" />
                         </StackPanel>
-                        <Grid HorizontalAlignment="Stretch" Margin="0,26,0,0">
+                        <Grid HorizontalAlignment="Stretch" Margin="0,30,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="179*" />
                                 <RowDefinition Height="5" />
@@ -127,7 +128,7 @@
                                 <ListView.View>
                                     <GridView>
                                         <!-- 1. id=171, Aona Suzutsuki, pos=(-3125.2, 171.1, 2675.3), rot=(0.0, 0.0, 0.0), remote=True, health=74, deaths=7, zombies=132, players=0, score=98, level=14, steamid=76561198010715714, ip=192.168.1.45, ping=0 -->
-                                        <GridViewColumn Width="40" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_IDLabel, Mode=OneWay}" DisplayMemberBinding="{Binding Path=ID}" />
+                                        <GridViewColumn Width="40" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_IDLabel, Mode=OneWay}" DisplayMemberBinding="{Binding Path=Id}" />
                                         <GridViewColumn Width="50" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_LevelLabel, Mode=OneWay}" DisplayMemberBinding="{Binding Path=Level}" />
                                         <GridViewColumn Width="150" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_NameLabel, Mode=OneWay}" DisplayMemberBinding="{Binding Path=Name}" />
                                         <GridViewColumn Width="40" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_HealthLabel, Mode=OneWay}" DisplayMemberBinding="{Binding Path=Health}" />
@@ -148,18 +149,18 @@
                                         </i:Interaction.Triggers>
 
                                         <MenuItem Header="Admin" IsEnabled="{Binding AdminContextEnabled}">
-                                            <MenuItem Header="Add" Name="AdminAddBT" Command="{Binding AdminAddBtClick}" />
-                                            <MenuItem Header="Remove" Name="AdminRemoveBT" Command="{Binding AdminRemoveBtClick}" />
+                                            <MenuItem Header="Add" Name="AdminAddBt" Command="{Binding AddAdminCommand}" />
+                                            <MenuItem Header="Remove" Name="AdminRemoveBt" Command="{Binding RemoveAdminCommand}" />
                                         </MenuItem>
                                         <MenuItem Header="Whitelist" IsEnabled="{Binding WhitelistContextEnabled}">
-                                            <MenuItem Header="Add" Name="WhiteListAddBT" Command="{Binding WhiteListAddBtClick}" />
-                                            <MenuItem Header="Remove" Name="WhiteListRemoveBT" Command="{Binding WhiteListRemoveBtClick}" />
+                                            <MenuItem Header="Add" Name="WhiteListAddBt" Command="{Binding AddWhiteListCommand}" />
+                                            <MenuItem Header="Remove" Name="WhiteListRemoveBt" Command="{Binding RemoveWhiteListCommand}" />
                                         </MenuItem>
-                                        <MenuItem Header="Kick" Name="KickBT" IsEnabled="{Binding KickContextEnabled}" Command="{Binding KickBtClick}" />
-                                        <MenuItem Header="Ban" Name="BanBT" IsEnabled="{Binding BanContextEnabled}" Command="{Binding BanBtClick}" />
-                                        <MenuItem Header="Kill" Name="KillBT" IsEnabled="False" Command="{Binding KillBtClick}" />
-                                        <Separator Style="{DynamicResource MLB_Separator}" />
-                                        <MenuItem Header="Watch Player Info" Name="WatchPlayerInfoBT" IsEnabled="{Binding WatchPlayerInfoContextEnabled}" Command="{Binding WatchPlayerInfoBtClick}" />
+                                        <MenuItem Header="Kick" Name="KickBt" IsEnabled="{Binding KickContextEnabled}" Command="{Binding KickPlayerCommand}" />
+                                        <MenuItem Header="Ban" Name="BanBt" IsEnabled="{Binding BanContextEnabled}" Command="{Binding BanPlayerCommand}" />
+                                        <MenuItem Header="Kill" Name="KillBt" IsEnabled="False" Command="{Binding KillPlayerCommand}" />
+                                        <Separator Style="{StaticResource MLB_Separator}" />
+                                        <MenuItem Header="Watch Player Info" Name="WatchPlayerInfoBt" IsEnabled="{Binding WatchPlayerInfoContextEnabled}" Command="{Binding ShowPlayerInfoCommand}" />
                                     </ContextMenu>
                                 </ListView.ContextMenu>
                             </ListView>
@@ -189,8 +190,8 @@
                                 <TextBox.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Command="ApplicationCommands.Copy" />
-                                        <Separator Style="{DynamicResource MLB_Separator}" />
-                                        <MenuItem Name="DeleteLogBT" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_DeleteLogBTLabel, Mode=OneWay}" Command="{Binding DeleteLogBtClick}" />
+                                        <Separator Style="{StaticResource MLB_Separator}" />
+                                        <MenuItem Name="DeleteLogBt" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_DeleteLogBTLabel, Mode=OneWay}" Command="{Binding DeleteLogCommand}" />
                                     </ContextMenu>
                                 </TextBox.ContextMenu>
                             </TextBox>
@@ -215,29 +216,37 @@
                     <Grid Grid.Column="2" Name="RightPanel" HorizontalAlignment="Right" Margin="0,0,0,0" Width="230">
                         <TabControl Name="SettingTab" Background="Transparent" BorderThickness="1" BorderBrush="#FFE7E7E7">
                             <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ServerLabel, Mode=OneWay}">
-                                <Grid Style="{DynamicResource TabGrid}">
+                                <Grid Style="{StaticResource TabGrid}">
 
                                     <TabControl Margin="2">
                                         <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_TelnetLabel, Mode=OneWay}">
                                             <Grid Margin="5">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="20" />
-                                                    <RowDefinition Height="220" />
+                                                    <RowDefinition Height="135" />
+                                                    <RowDefinition Height="*" />
                                                 </Grid.RowDefinitions>
                                                 <CheckBox Grid.Row="0" Foreground="White" IsEnabled="{Binding LocalModeEnabled.Value}" IsChecked="{Binding LocalModeChecked.Value}" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_LocalServerModeLabel, Mode=OneWay}" />
                                                 <Grid Grid.Row="1">
-                                                    <Border Style="{DynamicResource GridBorder}" />
+                                                    <Border Style="{StaticResource GridBorder}" />
                                                     <StackPanel IsEnabled="{Binding ConnectionPanelIsEnabled.Value}" Margin="5">
                                                         <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_AddressLabel, Mode=OneWay}" Padding="0" Margin="0,0,0,0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
                                                         <TextBox Text="{Binding TelnetAddressText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
                                                         <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_PortLabel, Mode=OneWay}" Padding="0" Margin="0,0,0,0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
                                                         <TextBox Text="{Binding TelnetPortText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}"><!--NumText:TextBoxBehaviors.IsNumeric="True"-->
                                                             <i:Interaction.Behaviors>
-                                                                <NumText:NumTextBehavior />
+                                                                <behaviors:NumTextBehavior />
                                                             </i:Interaction.Behaviors>
                                                         </TextBox>
                                                         <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_PasswordLabel, Mode=OneWay}" Padding="0" Margin="0,0,0,0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
                                                         <TextBox Text="{Binding TelnetPasswordText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" Style="{StaticResource PasswordStyle}" />
+                                                    </StackPanel>
+                                                </Grid>
+
+                                                <Grid Grid.Row="2">
+                                                    <StackPanel>
+                                                        <Label Content="Calculate Telnet Wait Time" />
+                                                        <Button Content="Open Calculator" Style="{StaticResource FlatButton}" Command="{Binding OpenTelnetWaitTimeCalculatorCommand}" />
                                                     </StackPanel>
                                                 </Grid>
                                             </Grid>
@@ -247,10 +256,10 @@
                                             <Grid Margin="5">
                                                 <StackPanel>
                                                     <Label Content="IP Address Checker" />
-                                                    <Button Grid.Column="2" Content="Open" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding GetIpClicked}" />
+                                                    <Button Grid.Column="2" Content="Open" Height="25" Style="{StaticResource FlatButton}" Command="{Binding OpenGetIpCommand}" />
 
                                                     <Label Content="Port Checker" />
-                                                    <Button Grid.Column="2" Content="Open" Height="25" Style="{DynamicResource FlatButton}" Command="{Binding CheckPortClicked}" />
+                                                    <Button Grid.Column="2" Content="Open" Height="25" Style="{StaticResource FlatButton}" Command="{Binding CheckPortCommand}" />
                                                 </StackPanel>
                                             </Grid>
                                         </TabItem>
@@ -259,36 +268,36 @@
                                 </Grid>
                             </TabItem>
                             <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_CommandLabel, Mode=OneWay}">
-                                <Grid Style="{DynamicResource TabGrid}">
+                                <Grid Style="{StaticResource TabGrid}">
 
                                     <TabControl SelectedIndex="0">
                                         <TabItem Header="General">
-                                            <Grid Style="{DynamicResource TabGrid}">
+                                            <Grid Style="{StaticResource TabGrid}">
                                                 <Grid Margin="5" VerticalAlignment="Top">
                                                     <Label HorizontalAlignment="Left" Width="40" Content="Time" />
                                                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="40,0,0,0">
                                                         <Label Content="Day" />
                                                         <TextBox Text="{Binding TimeDayText.Value}" Width="50" Margin="0,0,10,0" VerticalContentAlignment="Center">
                                                             <i:Interaction.Behaviors>
-                                                                <NumText:NumTextBehavior />
+                                                                <behaviors:NumTextBehavior />
                                                             </i:Interaction.Behaviors>
                                                         </TextBox>
                                                         <TextBox Text="{Binding TimeHourText.Value}" Width="30" VerticalContentAlignment="Center">
                                                             <i:Interaction.Behaviors>
-                                                                <NumText:NumTextBehavior Max="23" />
+                                                                <behaviors:NumTextBehavior Max="23" />
                                                             </i:Interaction.Behaviors>
                                                         </TextBox>
                                                         <Label Content=":" />
                                                         <TextBox Text="{Binding TimeMinuteText.Value}" Width="30" VerticalContentAlignment="Center">
                                                             <i:Interaction.Behaviors>
-                                                                <NumText:NumTextBehavior Max="59" />
+                                                                <behaviors:NumTextBehavior Max="59" />
                                                             </i:Interaction.Behaviors>
                                                         </TextBox>
                                                     </StackPanel>
                                                 </Grid>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0">
-                                                    <Button Name="GetTimeBT"  Content="Get Time" Foreground="#81D1FF" BorderBrush="#81D1FF" Style="{DynamicResource FlatButton}" Height="25" Width="70" Command="{Binding GetTimeBtClick}" />
-                                                    <Button Name="SetTimeBT" Content="Set Time" Foreground="#FF8080" BorderBrush="#FF8080" Style="{DynamicResource FlatButton}" Height="25" Width="70" Margin="10,0,0,0" Command="{Binding SetTimeBtClick}" />
+                                                    <Button Name="GetTimeBt"  Content="Get Time" Foreground="#81D1FF" BorderBrush="#81D1FF" Style="{StaticResource FlatButton}" Height="25" Width="70" Command="{Binding GetTimeCommand}" />
+                                                    <Button Name="SetTimeBt" Content="Set Time" Foreground="#FF8080" BorderBrush="#FF8080" Style="{StaticResource FlatButton}" Height="25" Width="70" Margin="10,0,0,0" Command="{Binding SetTimeCommand}" />
                                                 </StackPanel>
                                                 <Grid Margin="5,82,5,0" VerticalAlignment="Top">
                                                     <Grid.ColumnDefinitions>
@@ -296,7 +305,7 @@
                                                         <ColumnDefinition />
                                                     </Grid.ColumnDefinitions>
                                                     <Label Grid.Column="0" HorizontalAlignment="Left" Content="Save World" />
-                                                    <Button Name="SaveWorldBT" Grid.Column="1" Content="Save World" Style="{DynamicResource FlatButton}" Command="{Binding SaveWorldBtClick}" />
+                                                    <Button Name="SaveWorldBt" Grid.Column="1" Content="Save World" Style="{StaticResource FlatButton}" Command="{Binding SaveWorldCommand}" />
                                                 </Grid>
                                             </Grid>
                                         </TabItem>
@@ -304,9 +313,12 @@
 
                                 </Grid>
                             </TabItem>
-                            <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ConfigLabel, Mode=OneWay}" IsEnabled="False">
-                                <Grid Style="{DynamicResource TabGrid}">
-
+                            <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ConfigLabel, Mode=OneWay}">
+                                <Grid Style="{StaticResource TabGrid}">
+                                    <StackPanel>
+                                        <Label Content="Permissions" />
+                                        <Button Content="Open Editor" Style="{StaticResource FlatButton}" Command="{Binding OpenPermissionEditorCommand}" />
+                                    </StackPanel>
                                 </Grid>
                             </TabItem>
                         </TabControl>

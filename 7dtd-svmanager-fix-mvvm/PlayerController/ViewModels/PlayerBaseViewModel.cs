@@ -14,22 +14,22 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels
 {
     public class PlayerBaseViewModel : ViewModelBase
     {
-        private PlayerBaseModel model;
         public PlayerBaseViewModel(WindowService windowService, PlayerBaseModel model) : base(windowService, model)
         {
-            this.model = model;
+            _model = model;
         }
 
+        private readonly PlayerBaseModel _model;
+        private string _windowTitle;
 
         #region EventProperties
         #endregion
 
         #region Properties
-        private string windowTitle = default;
         public string WindowTitle
         {
-            get => windowTitle;
-            set => SetProperty(ref windowTitle, value);
+            get => _windowTitle;
+            set => SetProperty(ref _windowTitle, value);
         }
         #endregion
     }

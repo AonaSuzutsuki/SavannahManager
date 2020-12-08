@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         mc:Ignorable="d"
         Title="Backup Selector" Height="500" Width="650">
@@ -37,7 +37,7 @@
                 <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
-                            <CommonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
+                            <commonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
@@ -79,8 +79,8 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
 
-                                <MenuItem Header="Delete" IsEnabled="{Binding DeleteBtEnabled.Value}" Command="{Binding DeleteBtClicked}" />
-                                <MenuItem Header="Delete All" IsEnabled="{Binding DeleteAllBtEnabled.Value}" Command="{Binding DeleteAllBtClicked}" />
+                                <MenuItem Header="Delete" IsEnabled="{Binding DeleteBtEnabled.Value}" Command="{Binding DeleteBackupCommand}" />
+                                <MenuItem Header="Delete All" IsEnabled="{Binding DeleteAllBtEnabled.Value}" Command="{Binding DeleteAllBackupCommand}" />
                             </ContextMenu>
                         </ListBox.ContextMenu>
                     </ListBox>
@@ -103,9 +103,9 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Orientation="Horizontal">
-                                <Button Width="25" Height="25" IsEnabled="{Binding BackBtIsEnabled.Value}" Style="{DynamicResource BackBtIcon}" Command="{Binding BackBtClicked}" />
+                                <Button Width="25" Height="25" IsEnabled="{Binding BackBtIsEnabled.Value}" Style="{DynamicResource BackBtIcon}" Command="{Binding BackPageCommand}" />
                                 <Border Width="1" Margin="5,2,5,0" BorderBrush="{DynamicResource BorderWhiteColor}" BorderThickness="1" />
-                                <Button Width="25" Height="25" IsEnabled="{Binding ForwardBtIsEnabled.Value}" Style="{DynamicResource ForwardBtIcon}" Command="{Binding ForwardBtClicked}" />
+                                <Button Width="25" Height="25" IsEnabled="{Binding ForwardBtIsEnabled.Value}" Style="{DynamicResource ForwardBtIcon}" Command="{Binding ForwardPageCommand}" />
                                 <Border Width="1" Margin="5,2,5,0" BorderBrush="{DynamicResource BorderWhiteColor}" BorderThickness="1" />
                             </StackPanel>
 
@@ -140,50 +140,6 @@
                             </i:Interaction.Triggers>
                         </ListBox>
                     </Grid>
-                    
-                    <!--<ListBox Name="FileDirectoryListBox" Grid.Row="0" SelectionMode="Extended" ItemsSource="{Binding FileDirectoryItems.Value}" SelectedItem="{Binding SelectedItem}" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel ItemHeight="100" ItemWidth="100" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Image Source="{Binding ImageSource}" Width="50" Height="50" HorizontalAlignment="Center" />
-                                    <Label Content="{Binding Text}" HorizontalAlignment="Center" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseDoubleClick">
-                                <i:InvokeCommandAction Command="{Binding ListBoxDoubleClicked}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox} }, Path=SelectedItem}" />
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding ListBoxSelectionChanged}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox} }, Path=SelectedItems}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-
-                        <ListBox.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Add File" Command="{Binding AddFileBtClicked}" IsEnabled="{Binding IsOpened.Value}" />
-                                <MenuItem Header="Add Files In Directory" Command="{Binding AddFilesInDirectoryBtClicked}" IsEnabled="{Binding IsOpened.Value}" />
-                                <Separator Style="{DynamicResource MLB_Separator}" />
-                                <MenuItem Header="Create Directory" Command="{Binding CreateDirectoryBtClicked}" IsEnabled="{Binding IsOpened.Value}" />
-                                <Separator Style="{DynamicResource MLB_Separator}" />
-                                <MenuItem Header="Delete" Command="{Binding DeleteBtClicked}" IsEnabled="{Binding IsOpenedAndFileSelected.Value}" />
-                                <Separator Style="{DynamicResource MLB_Separator}" />
-                                <MenuItem Header="Extract selected files" Command="{Binding ExtractSelectedFilesClicked}" IsEnabled="{Binding IsOpenedAndFileSelected.Value}"  />
-                            </ContextMenu>
-                        </ListBox.ContextMenu>
-                        
-                    </ListBox>-->
                 </Grid>
 
                 <Grid Grid.Row="1" VerticalAlignment="Center" Height="25">
@@ -201,8 +157,8 @@
                         <Label Margin="10,0,0,0" Content="{Binding ProgressLabel.Value}" VerticalContentAlignment="Center" />
                     </Grid>
 
-                    <Button Grid.Column="2" Content="Restore" Style="{DynamicResource FlatButton}" Foreground="#FF8080" BorderBrush="#FF8080" IsEnabled="{Binding RestoreBtEnabled.Value}" Command="{Binding RestoreBtClicked}" />
-                    <Button Grid.Column="4" Content="Backup" Style="{DynamicResource FlatButton}" Foreground="#81D1FF" BorderBrush="#81D1FF" Command="{Binding BackupBtClicked}" />
+                    <Button Grid.Column="2" Content="Restore" Style="{DynamicResource FlatButton}" Foreground="#FF8080" BorderBrush="#FF8080" IsEnabled="{Binding RestoreBtEnabled.Value}" Command="{Binding RestoreCommand}" />
+                    <Button Grid.Column="4" Content="Backup" Style="{DynamicResource FlatButton}" Foreground="#81D1FF" BorderBrush="#81D1FF" Command="{Binding BackupCommand}" />
 
                 </Grid>
 

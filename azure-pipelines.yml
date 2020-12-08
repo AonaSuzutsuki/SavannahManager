@@ -1,0 +1,60 @@
+# .NET Desktop
+# Build and run tests for .NET Desktop or Windows classic desktop solutions.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  disable.coverage.autogenerate: 'true'
+
+steps:
+- task: NuGetToolInstaller@1
+  inputs:
+    checkLatest: true
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'config'
+    nugetConfigPath: './nuget.config'
+
+- task: CmdLine@2
+  displayName: "dotnet build"
+  inputs:
+    script: dotnet build --configuration $(buildConfiguration) .\SavannahManagerLibTests\SavannahManagerLibTests.csproj
+
+
+- task: DotNetCoreCLI@2
+  displayName: "dotnet test"
+  inputs:
+    command: 'test'
+    projects: '**/*.csproj'
+    arguments: '--logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    publishTestResults: false
+
+- task: PublishTestResults@2
+  condition: always()
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/*.trx'
+
+- task: reportgenerator@4
+  inputs:
+    reports: '**/coverage.cobertura.xml'
+    targetdir: 'CoverageReport'
+    reporttypes: 'HtmlInline_AzurePipelines'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '**/coverage.cobertura.xml'
+    reportDirectory: 'CoverageReport'

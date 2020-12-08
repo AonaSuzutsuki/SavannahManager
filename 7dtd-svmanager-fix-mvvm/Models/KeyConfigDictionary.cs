@@ -8,7 +8,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 {
     public class KeyConfigDictionary : Dictionary<string, IList<string>>
     {
-        public int MinValueCount { get; private set; } = 0;
+        public int MinValueCount { get; private set; }
 
         public new void Add(string key, IList<string> values)
         {

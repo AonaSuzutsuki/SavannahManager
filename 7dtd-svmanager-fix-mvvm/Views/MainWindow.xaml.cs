@@ -44,7 +44,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views
     /// </summary>
     public partial class MainWindow : Window, IDisposable
     {
-        private readonly IDisposable model;
+        private readonly IDisposable _model;
         public MainWindow()
         {
             InitializeComponent();
@@ -56,14 +56,14 @@ namespace _7dtd_svmanager_fix_mvvm.Views
             var mainWindowModel = new Models.MainWindowModel();
             var vm = new ViewModels.MainWindowViewModel(windowService, mainWindowModel);
             DataContext = vm;
-            model = mainWindowModel;
+            _model = mainWindowModel;
 
             Loaded += (sender, args) => { vm.Loaded.Execute(null); };
         }
 
         #region IDisposable
         // Flag: Has Dispose already been called?
-        private bool disposed = false;
+        private bool _disposed;
 
         // Public implementation of Dispose pattern callable by consumers.
         public void Dispose()
@@ -75,15 +75,15 @@ namespace _7dtd_svmanager_fix_mvvm.Views
         // Protected implementation of Dispose pattern.
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed)
+            if (_disposed)
                 return;
 
             if (disposing)
             {
-                model?.Dispose();
+                _model?.Dispose();
             }
 
-            disposed = true;
+            _disposed = true;
         }
         #endregion
 

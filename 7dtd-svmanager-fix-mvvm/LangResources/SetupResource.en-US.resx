@@ -131,6 +131,12 @@
     <value>XML Files (*.xml)|*.xml|All Files(*.*)|*.*</value>
     <comment>Filter</comment>
   </data>
+  <data name="UI_AdminPageDescription" xml:space="preserve">
+    <value>Please select server config file. It is named serverconfig.xml. (There is in %AppData%\7DaysToDie¥Saves.)</value>
+  </data>
+  <data name="UI_AdminPageTitle" xml:space="preserve">
+    <value>Please select Server Admin Config File.</value>
+  </data>
   <data name="UI_AutoSearchBT" xml:space="preserve">
     <value>Auto Set</value>
   </data>

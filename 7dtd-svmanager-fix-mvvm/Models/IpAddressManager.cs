@@ -5,28 +5,30 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
     public class IpAddressManager
     {
-        public static string GetExternalIpAddress(string url)
+        public class IpAddressJsonInfo
         {
-            var jsonLoader = new JsonLoader(url);
-            return jsonLoader.GetValue(0, "External_Ip");
+            [JsonProperty("External_Ip")]
+            public string ExternalIp { get; set; }
         }
 
-        public static string GetLocalIPAddress()
+        public static async Task<string> GetExternalIpAddress(string url)
+        {
+            using var webClient = new WebClient();
+            var json = await webClient.DownloadStringTaskAsync(url);
+            var obj = JsonConvert.DeserializeObject<IpAddressJsonInfo>(json);
+            return obj.ExternalIp;
+        }
+
+        public static string GetLocalIpAddress()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-            return null;
+            return (from ip in host.AddressList where ip.AddressFamily == AddressFamily.InterNetwork select ip.ToString()).FirstOrDefault();
         }
     }
 }

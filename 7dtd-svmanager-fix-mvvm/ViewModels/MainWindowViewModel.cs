@@ -1,6 +1,5 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Views;
 using CommonStyleLib.ViewModels;
-using LanguageEx;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -16,7 +15,11 @@ using System.Windows.Threading;
 using _7dtd_svmanager_fix_mvvm.Backup.Models;
 using _7dtd_svmanager_fix_mvvm.Backup.ViewModels;
 using _7dtd_svmanager_fix_mvvm.Backup.Views;
+using _7dtd_svmanager_fix_mvvm.LangResources;
 using _7dtd_svmanager_fix_mvvm.Models;
+using _7dtd_svmanager_fix_mvvm.Permissions.Models;
+using _7dtd_svmanager_fix_mvvm.Permissions.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Permissions.Views;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Models;
 using _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Views;
@@ -34,7 +37,6 @@ using _7dtd_svmanager_fix_mvvm.Update.Views;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.Models;
-using Log;
 using SvManagerLibrary.Player;
 using SvManagerLibrary.Telnet;
 
@@ -42,7 +44,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
     public class UserDetail
     {
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string Level { get; set; }
         public string Name { get; set; }
         public string Health { get; set; }
@@ -57,7 +59,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             return new PlayerInfo
             {
-                Id = ID,
+                Id = Id,
                 Level = Level,
                 Name = Name,
                 Health = Health,
@@ -72,7 +74,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         public override string ToString()
         {
-            return $"{ID} {Level} {Name} {Health} {ZombieKills} {PlayerKills} {Death} {Score} {Coord} {SteamId}\r\n";
+            return $"{Id} {Level} {Name} {Health} {ZombieKills} {PlayerKills} {Death} {Score} {Coord} {SteamId}\r\n";
         }
     }
 
@@ -88,68 +90,70 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 var dialogResult = windowService.MessageBoxShow(args.Message, args.Title, args.MessageType, args.ButtonType);
                 args.CallBack(dialogResult);
             });
-            model.Telnet.Started += Telnet_Started;
-            model.Telnet.Finished += Telnet_Finished;
-            model.Telnet.ReadEvent += TelnetReadEvent;
+            model.TelnetStarted.Subscribe(Telnet_Started);
+            model.TelnetFinished.Subscribe(Telnet_Finished);
+            model.TelnetRead.Subscribe(TelnetReadEvent);
 
-            mainWindowService = windowService;
-            this._model = model;
+            _mainWindowService = windowService;
+            _model = model;
 
             #region Event Initialize
             //Loaded = new DelegateCommand(MainWindow_Loaded);
             Closing = new DelegateCommand(MainWindow_Closing);
             KeyDown = new DelegateCommand<KeyEventArgs>(MainWindow_KeyDown);
 
-            MenuSettingsBtClick = new DelegateCommand(MenuSettingsBt_Click);
-            MenuFirstSettingsBtClick = new DelegateCommand(MenuFirstSettingsBt_Click);
-            MenuLangJapaneseBtClick = new DelegateCommand(MenuLangJapaneseBt_Click);
-            MenuLangEnglishBtClick = new DelegateCommand(MenuLangEnglishBt_Click);
-            MenuConfigEditorBtClick = new DelegateCommand(MenuConfigEditorBt_Click);
-            MenuXmlEditorBtClick = new DelegateCommand(MenuXmlEditorBt_Click);
-            MenuBackupEditorBtClick = new DelegateCommand(MenuBackupEditorBt_Click);
-            MenuCheckUpdateBtClick = new DelegateCommand(MenuCheckUpdateBt_Click);
-            MenuVersionInfoClick = new DelegateCommand(MenuVersionInfo_Click);
+            OpenSettingCommand = new DelegateCommand(OpenMenuSettings);
+            OpenFirstSettingsCommand = new DelegateCommand(OpenMenuFirstSettings);
+            SetLangJapaneseCommand = new DelegateCommand(SetMenuLangJapanese);
+            SetLangEnglishCommand = new DelegateCommand(SetMenuLangEnglish);
+            OpenConfigEditorCommand = new DelegateCommand(OpenConfigEditor);
+            OpenXmlEditorCommand = new DelegateCommand(OpenMenuXmlEditor);
+            OpenBackupEditorCommand = new DelegateCommand(OpenMenuBackupEditor);
+            OpenCheckUpdateCommand = new DelegateCommand(OpenMenuCheckUpdate);
+            OpenVersionInfoCommand = new DelegateCommand(OpenMenuVersionInfo);
 
-            StartBtClick = new DelegateCommand(StartBt_Click);
-            StopBtClick = new DelegateCommand(StopBt_Click);
-            TelnetBtClick = new DelegateCommand(TelnetBt_Click);
-            CommandListBtClick = new DelegateCommand(CommandListBt_Click);
+            StartServerCommand = new DelegateCommand(StartServer);
+            StopServerCommand = new DelegateCommand(StopServer);
+            ConnectTelnetCommand = new DelegateCommand(ConnectTelnet);
+            OpenCommandListCommand = new DelegateCommand(OpenCommandList);
 
-            PlayerListRefreshBtClick = new DelegateCommand(PlayerListRefreshBt_Click);
+            PlayerListRefreshCommand = new DelegateCommand(PlayerListRefresh);
 
             PlayerContextMenuOpened = new DelegateCommand(PlayerContextMenu_Opened);
-            AdminAddBtClick = new DelegateCommand(AdminAddBt_Click);
-            AdminRemoveBtClick = new DelegateCommand(AdminRemoveBt_Click);
-            WhiteListAddBtClick = new DelegateCommand(WhiteListAddBt_Click);
-            WhiteListRemoveBtClick = new DelegateCommand(WhiteListRemoveBt_Click);
-            KickBtClick = new DelegateCommand(KickBt_Click);
-            BanBtClick = new DelegateCommand(BanBt_Click);
-            KillBtClick = new DelegateCommand(KillBt_Click);
-            WatchPlayerInfoBtClick = new DelegateCommand(WatchPlayerInfoBt_Click);
+            AddAdminCommand = new DelegateCommand(AdminAddPlayer);
+            RemoveAdminCommand = new DelegateCommand(AdminRemovePlayer);
+            AddWhiteListCommand = new DelegateCommand(WhiteListAddPlayer);
+            RemoveWhiteListCommand = new DelegateCommand(WhiteListRemovePlayer);
+            KickPlayerCommand = new DelegateCommand(KickPlayer);
+            BanPlayerCommand = new DelegateCommand(BanPlayer);
+            KillPlayerCommand = new DelegateCommand(KillPlayer);
+            ShowPlayerInfoCommand = new DelegateCommand(WatchPlayerInfo);
 
             ChatTextBoxEnterDown = new DelegateCommand<string>(ChatTextBoxEnter_Down);
 
             ConsoleTextBoxMouseEnter = new DelegateCommand(ConsoleTextBoxMouse_Enter);
             ConsoleTextBoxMouseLeave = new DelegateCommand(ConsoleTextBoxMouse_Leave);
-            DeleteLogBtClick = new DelegateCommand(DeleteLogBt_Click);
+            DeleteLogCommand = new DelegateCommand(DeleteLog);
 
-            CmdTextBoxEnterDown = new DelegateCommand<string>(CmdTextBox_EnterDown);
+            CmdTextBoxEnterDown = new DelegateCommand<string>(SendCmd);
 
-            GetTimeBtClick = new DelegateCommand(GetTimeBt_Click);
-            SetTimeBtClick = new DelegateCommand(SetTimeBt_Click);
-            SaveWorldBtClick = new DelegateCommand(SaveWorldBt_Click);
+            OpenTelnetWaitTimeCalculatorCommand = new DelegateCommand(OpenTelnetWaitTimeCalculator);
+            GetTimeCommand = new DelegateCommand(GetTime);
+            SetTimeCommand = new DelegateCommand(SetTime);
+            SaveWorldCommand = new DelegateCommand(SaveWorld);
+            OpenPermissionEditorCommand = new DelegateCommand(OpenPermissionEditor);
 
-            GetIpClicked = new DelegateCommand(GetIp_Clicked);
-            CheckPortClicked = new DelegateCommand(CheckPort_Clicked);
+            OpenGetIpCommand = new DelegateCommand(OpenGetIp);
+            CheckPortCommand = new DelegateCommand(OpenCheckPort);
             #endregion
 
             #region Property Initialize
 
             IsBeta = model.ObserveProperty(m => m.IsBeta).ToReactiveProperty();
 
-            StartBTEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled);
-            TelnetBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled);
-            TelnetBTLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel);
+            StartBtEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled);
+            TelnetBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled);
+            TelnetBtLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel);
 
             UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
             
@@ -174,55 +178,66 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
 
         #region Fields
-        private readonly MainWindowService mainWindowService;
-        private readonly Models.MainWindowModel _model;
-        private StringBuilder consoleLog = new StringBuilder();
+        private readonly MainWindowService _mainWindowService;
+        private readonly MainWindowModel _model;
+        private StringBuilder _consoleLog = new StringBuilder();
 
-        private bool consoleIsFocus = false;
+        private bool _consoleIsFocus;
+
+        private int _usersListSelectedIndex = -1;
+        private bool _adminContextEnabled;
+        private bool _whitelistContextEnabled;
+        private bool _kickContextEnabled;
+        private bool _banContextEnabled;
+        private bool _watchPlayerInfoContextEnabled;
+        private string _consoleLogText;
+        private string _cmdText;
         #endregion
 
         #region EventProperties
-        public ICommand MenuSettingsBtClick { get; set; }
-        public ICommand MenuFirstSettingsBtClick { get; set; }
-        public ICommand MenuLangJapaneseBtClick { get; set; }
-        public ICommand MenuLangEnglishBtClick { get; set; }
-        public ICommand MenuConfigEditorBtClick { get; set; }
-        public ICommand MenuXmlEditorBtClick { get; set; }
-        public ICommand MenuBackupEditorBtClick { get; set; }
-        public ICommand MenuCheckUpdateBtClick { get; set; }
-        public ICommand MenuVersionInfoClick { get; set; }
+        public ICommand OpenSettingCommand { get; set; }
+        public ICommand OpenFirstSettingsCommand { get; set; }
+        public ICommand SetLangJapaneseCommand { get; set; }
+        public ICommand SetLangEnglishCommand { get; set; }
+        public ICommand OpenConfigEditorCommand { get; set; }
+        public ICommand OpenXmlEditorCommand { get; set; }
+        public ICommand OpenBackupEditorCommand { get; set; }
+        public ICommand OpenCheckUpdateCommand { get; set; }
+        public ICommand OpenVersionInfoCommand { get; set; }
 
-        public ICommand StartBtClick { get; set; }
-        public ICommand StopBtClick { get; set; }
-        public ICommand TelnetBtClick { get; set; }
-        public ICommand CommandListBtClick { get; set; }
+        public ICommand StartServerCommand { get; set; }
+        public ICommand StopServerCommand { get; set; }
+        public ICommand ConnectTelnetCommand { get; set; }
+        public ICommand OpenCommandListCommand { get; set; }
 
-        public ICommand PlayerListRefreshBtClick { get; set; }
+        public ICommand PlayerListRefreshCommand { get; set; }
         
         public ICommand PlayerContextMenuOpened { get; set; }
-        public ICommand AdminAddBtClick { get; set; }
-        public ICommand AdminRemoveBtClick { get; set; }
-        public ICommand WhiteListAddBtClick { get; set; }
-        public ICommand WhiteListRemoveBtClick { get; set; }
-        public ICommand KickBtClick { get; set; }
-        public ICommand BanBtClick { get; set; }
-        public ICommand KillBtClick { get; set; }
-        public ICommand WatchPlayerInfoBtClick { get; set; }
+        public ICommand AddAdminCommand { get; set; }
+        public ICommand RemoveAdminCommand { get; set; }
+        public ICommand AddWhiteListCommand { get; set; }
+        public ICommand RemoveWhiteListCommand { get; set; }
+        public ICommand KickPlayerCommand { get; set; }
+        public ICommand BanPlayerCommand { get; set; }
+        public ICommand KillPlayerCommand { get; set; }
+        public ICommand ShowPlayerInfoCommand { get; set; }
 
         public ICommand ChatTextBoxEnterDown { get; set; }
 
         public ICommand ConsoleTextBoxMouseEnter { get; set; }
         public ICommand ConsoleTextBoxMouseLeave { get; set; }
-        public ICommand DeleteLogBtClick { get; set; }
+        public ICommand DeleteLogCommand { get; set; }
 
         public ICommand CmdTextBoxEnterDown { get; set; }
 
-        public ICommand GetTimeBtClick { get; set; }
-        public ICommand SetTimeBtClick { get; set; }
-        public ICommand SaveWorldBtClick { get; set; }
+        public ICommand OpenTelnetWaitTimeCalculatorCommand { get; set; }
+        public ICommand GetTimeCommand { get; set; }
+        public ICommand SetTimeCommand { get; set; }
+        public ICommand SaveWorldCommand { get; set; }
+        public ICommand OpenPermissionEditorCommand { get; set; }
 
-        public ICommand GetIpClicked { get; set; }
-        public ICommand CheckPortClicked { get; set; }
+        public ICommand OpenGetIpCommand { get; set; }
+        public ICommand CheckPortCommand { get; set; }
         #endregion
 
         #region Properties
@@ -230,63 +245,55 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         public TextBox ConsoleTextBox { get; set; }
         
-        public ReactiveProperty<bool> StartBTEnabled { get; set; }
-        public ReactiveProperty<bool> TelnetBTIsEnabled { get; set; }
-        public ReactiveProperty<string> TelnetBTLabel { get; set; }
+        public ReactiveProperty<bool> StartBtEnabled { get; set; }
+        public ReactiveProperty<bool> TelnetBtIsEnabled { get; set; }
+        public ReactiveProperty<string> TelnetBtLabel { get; set; }
         
         public ReactiveProperty<ObservableCollection<UserDetail>> UsersList { get; set; }
-        private int usersListSelectedIndex = -1;
         public int UsersListSelectedIndex
         {
-            get => usersListSelectedIndex;
-            set => SetProperty(ref usersListSelectedIndex, value);
+            get => _usersListSelectedIndex;
+            set => SetProperty(ref _usersListSelectedIndex, value);
         }
 
-        private bool adminContextEnabled;
         public bool AdminContextEnabled
         {
-            get => adminContextEnabled;
-            set => SetProperty(ref adminContextEnabled, value);
+            get => _adminContextEnabled;
+            set => SetProperty(ref _adminContextEnabled, value);
         }
-        private bool whitelistContextEnabled;
         public bool WhitelistContextEnabled
         {
-            get => whitelistContextEnabled;
-            set => SetProperty(ref whitelistContextEnabled, value);
+            get => _whitelistContextEnabled;
+            set => SetProperty(ref _whitelistContextEnabled, value);
         }
-        private bool kickContextEnabled;
         public bool KickContextEnabled
         {
-            get => kickContextEnabled;
-            set => SetProperty(ref kickContextEnabled, value);
+            get => _kickContextEnabled;
+            set => SetProperty(ref _kickContextEnabled, value);
         }
-        private bool banContextEnabled;
         public bool BanContextEnabled
         {
-            get => banContextEnabled;
-            set => SetProperty(ref banContextEnabled, value);
+            get => _banContextEnabled;
+            set => SetProperty(ref _banContextEnabled, value);
         }
-        private bool watchPlayerInfoContextEnabled;
         public bool WatchPlayerInfoContextEnabled
         {
-            get => watchPlayerInfoContextEnabled;
-            set => SetProperty(ref watchPlayerInfoContextEnabled, value);
+            get => _watchPlayerInfoContextEnabled;
+            set => SetProperty(ref _watchPlayerInfoContextEnabled, value);
         }
         
         public ReactiveProperty<string> ChatLogText { get; set; }
         public ReactiveProperty<string> ChatInputText { get; set; }
 
-        private string consoleLogText;
         public string ConsoleLogText
         {
-            get => consoleLogText;
-            set => SetProperty(ref consoleLogText, value);
+            get => _consoleLogText;
+            set => SetProperty(ref _consoleLogText, value);
         }
-        private string cmdText;
         public string CmdText
         {
-            get => cmdText;
-            set => SetProperty(ref cmdText, value);
+            get => _cmdText;
+            set => SetProperty(ref _cmdText, value);
         }
         
         public ReactiveProperty<bool> ConnectionPanelIsEnabled { get; set; }
@@ -311,7 +318,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             _model.RefreshLabels();
 
             if (_model.Setting.IsFirstBoot)
-                MenuFirstSettingsBt_Click();
+                OpenMenuFirstSettings();
 
             CheckUpdate().ContinueWith(t =>
             {
@@ -327,7 +334,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var availableUpdate = await _model.CheckUpdate();
             if (availableUpdate)
             {
-                var dialogResult = mainWindowService.MessageBoxShow(LangResources.Resources.UI_DoUpdateAlertMessage,
+                var dialogResult = _mainWindowService.MessageBoxShow(LangResources.Resources.UI_DoUpdateAlertMessage,
                     LangResources.Resources.UI_DoUpdateAlertTitle, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
                 if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
                 {
@@ -353,7 +360,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             _model.PushShortcutKey(e.Key);
         }
 
-        private void MenuSettingsBt_Click()
+        private void OpenMenuSettings()
         {
             var setting = _model.Setting;
             var keyManager = _model.ShortcutKeyManager;
@@ -363,7 +370,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             WindowManageService.ShowDialog<SettingWindow>(vm);
             _model.IsBeta = setting.IsBetaMode;
         }
-        private void MenuFirstSettingsBt_Click()
+        private void OpenMenuFirstSettings()
         {
             WindowManageService.ShowDialog<NavigationBase>(window =>
             {
@@ -376,14 +383,16 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                     {
                         Setting = _model.Setting,
                         ServerConfigFilePath = _model.Setting.ConfigFilePath,
-                        ServerFilePath = _model.Setting.ExeFilePath
+                        ServerFilePath = _model.Setting.ExeFilePath,
+                        ServerAdminConfigFilePath = _model.Setting.AdminFilePath
                     },
                     Pages = new List<Tuple<Type, bool>>
                     {
-                        new Tuple<Type, bool>(typeof(Page1), true),
-                        new Tuple<Type, bool>(typeof(Page2), true),
-                        new Tuple<Type, bool>(typeof(Page3), true),
-                        new Tuple<Type, bool>(typeof(Page4), true)
+                        new Tuple<Type, bool>(typeof(FirstPage), true),
+                        new Tuple<Type, bool>(typeof(ExecutablePage), true),
+                        new Tuple<Type, bool>(typeof(ConfigPage), true),
+                        new Tuple<Type, bool>(typeof(AdminPage), true),
+                        new Tuple<Type, bool>(typeof(FinishPage), true)
                     }
                 };
                 service.NavigationValue.WindowTitle = LangResources.SetupResource.UI_NameLabel;
@@ -403,50 +412,50 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 return vm;
             });
         }
-        private void MenuLangJapaneseBt_Click()
+        private void SetMenuLangJapanese()
         {
             _model.ChangeCulture(ResourceService.Japanese);
             _model.RefreshLabels();
         }
-        private void MenuLangEnglishBt_Click()
+        private void SetMenuLangEnglish()
         {
             _model.ChangeCulture(ResourceService.English);
             _model.RefreshLabels();
         }
-        private void MenuConfigEditorBt_Click()
+        private void OpenConfigEditor()
         {
             _model.RunConfigEditor();
         }
 
-        private void MenuXmlEditorBt_Click()
+        private void OpenMenuXmlEditor()
         {
             _model.RunXmlEditor();
         }
-        private void MenuBackupEditorBt_Click()
+        private void OpenMenuBackupEditor()
         {
             var setting = _model.Setting;
             var backupModel = new BackupSelectorModel(setting);
             var vm = new BackupSelectorViewModel(new WindowService(), backupModel);
             WindowManageService.Show<BackupSelector>(vm);
         }
-        private void MenuCheckUpdateBt_Click()
+        private void OpenMenuCheckUpdate()
         {
             var updFormModel = new UpdFormModel();
             var vm = new UpdFormViewModel(new WindowService(), updFormModel);
-            WindowManageService.Show<UpdForm>(vm);
+            WindowManageService.ShowNonOwner<UpdForm>(vm);
         }
-        private void MenuVersionInfo_Click()
+        private void OpenMenuVersionInfo()
         {
             var versionInfoModel = new VersionInfoModel();
             var vm = new VersionInfoViewModel(new WindowService(), versionInfoModel);
             WindowManageService.ShowDialog<VersionInfo>(vm);
         }
 
-        private void StartBt_Click()
+        private void StartServer()
         {
             _model.ServerStart();
         }
-        private void StopBt_Click()
+        private void StopServer()
         {
             var isForceShutdown = _model.ServerStop();
             if (!isForceShutdown)
@@ -456,23 +465,23 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var vm = new ForceShutdownerViewModel(new WindowService(), forceShutdownerModel);
             WindowManageService.Show<ForceShutdowner>(vm);
         }
-        private void TelnetBt_Click()
+        private void ConnectTelnet()
         {
             _model.TelnetConnectOrDisconnect();
         }
-        private void CommandListBt_Click()
+        private void OpenCommandList()
         {
 
         }
 
-        private void PlayerListRefreshBt_Click()
+        private void PlayerListRefresh()
         {
             _model.PlayerRefresh();
         }
 
         private void PlayerContextMenu_Opened()
         {
-            int index = UsersListSelectedIndex;
+            var index = UsersListSelectedIndex;
             if (index < 0)
             {
                 AdminContextEnabled = false;
@@ -490,10 +499,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 WatchPlayerInfoContextEnabled = true;
             }
         }
-        private void AdminAddBt_Click()
+        private void AdminAddPlayer()
         {
             var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
-            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+            var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
             var adminAdd = new AdminAdd(_model, AddType.Type.Admin, name);
@@ -508,14 +517,14 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
             });
         }
-        private void AdminRemoveBt_Click()
+        private void AdminRemovePlayer()
         {
             _model.RemoveAdmin(UsersListSelectedIndex);
         }
-        private void WhiteListAddBt_Click()
+        private void WhiteListAddPlayer()
         {
             var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
-            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+            var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
             var whitelistAdd = new AdminAdd(_model, AddType.Type.Whitelist, name);
@@ -530,14 +539,14 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
             });
         }
-        private void WhiteListRemoveBt_Click()
+        private void WhiteListRemovePlayer()
         {
             _model.RemoveWhitelist(UsersListSelectedIndex);
         }
-        private void KickBt_Click()
+        private void KickPlayer()
         {
             var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
-            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+            var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
             var kick = new Kick(_model, name);
@@ -552,10 +561,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
             });
         }
-        private void BanBt_Click()
+        private void BanPlayer()
         {
             var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
-            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+            var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
             var ban = new Ban(_model, name);
@@ -570,11 +579,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 };
             });
         }
-        private void KillBt_Click()
+        private void KillPlayer()
         {
 
         }
-        private void WatchPlayerInfoBt_Click()
+        private void WatchPlayerInfo()
         {
             var playerInfo = _model.GetSelectedPlayerInfo(UsersListSelectedIndex);
             var playerInfoModel = new PlayerInfoModel();
@@ -590,44 +599,67 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void ConsoleTextBoxMouse_Enter()
         {
-            consoleIsFocus = true;
+            _consoleIsFocus = true;
         }
         private void ConsoleTextBoxMouse_Leave()
         {
-            consoleIsFocus = false;
+            _consoleIsFocus = false;
         }
-        private void DeleteLogBt_Click()
+        private void DeleteLog()
         {
-            consoleLog.Clear();
+            _consoleLog.Clear();
             ConsoleLogText = "";
         }
 
-        private void CmdTextBox_EnterDown(string e)
+        private void SendCmd(string e)
         {
             _model.SendCommand(e);
             CmdText = string.Empty;
         }
 
-        private void GetTimeBt_Click()
+
+        private void OpenTelnetWaitTimeCalculator()
+        {
+            if (!_model.CheckConnected())
+                return;
+
+            var model = new TelnetWaitTimeCalculatorModel(_model.Telnet, _model.Setting);
+            var vm = new TelnetWaitTimeCalculatorViewModel(new WindowService(), model);
+            WindowManageService.ShowDialog<TelnetWaitTimeCalculator>(vm);
+        }
+        private void GetTime()
         {
             _model.SetTimeToTextBox();
         }
-        private void SetTimeBt_Click()
+        private void SetTime()
         {
             _model.SetTimeToGame();
         }
-        private void SaveWorldBt_Click()
+        private void SaveWorld()
         {
             _model.SendCommand("saveworld");
         }
 
-        private void GetIp_Clicked()
+        private void OpenPermissionEditor()
+        {
+            var adminFilePath = _model.Setting.AdminFilePath;
+            if (string.IsNullOrEmpty(adminFilePath))
+            {
+                ExMessageBoxBase.Show(string.Format(LangResources.Resources._0_is_Empty, "AdminFilePath"),
+                    LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                return;
+            }
+            var vm = new PermissionEditorViewModel(new WindowService(), new PermissionEditorModel(adminFilePath));
+            WindowManageService.ShowNonOwner<PermissionEditor>(vm);
+        }
+
+        private void OpenGetIp()
         {
             var ipAddressGetterModel = new IpAddressGetterModel();
             var vm = new IpAddressGetterViewModel(new WindowService(), ipAddressGetterModel);
             WindowManageService.Show<IpAddressGetter>(vm);
         }
-        private void CheckPort_Clicked()
+        private void OpenCheckPort()
         {
             var portCheckModel = new PortCheckModel();
             var vm = new PortCheckViewModel(new WindowService(), portCheckModel);
@@ -650,47 +682,44 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #region Methods
         private void AppendConsoleText(string text, int maxLength)
         {
-            if (consoleLog == null)
+            if (_consoleLog == null)
             {
-                consoleLog = new StringBuilder(maxLength * 2);
+                _consoleLog = new StringBuilder(maxLength * 2);
             }
-            consoleLog.Append(text);
-            if (consoleLog.Length > maxLength)
+            _consoleLog.Append(text);
+            if (_consoleLog.Length > maxLength)
             {
-                consoleLog.Remove(0, consoleLog.Length - maxLength);
+                _consoleLog.Remove(0, _consoleLog.Length - maxLength);
             }
 
-            ConsoleLogText = consoleLog.ToString();
+            ConsoleLogText = _consoleLog.ToString();
 
-            if (!consoleIsFocus)
+            if (!_consoleIsFocus)
             {
-                if (!consoleIsFocus)
+                if (!_consoleIsFocus)
                 {
-                    mainWindowService.Select(ConsoleLogText.Length, 0);
-                    mainWindowService.ScrollToEnd();
+                    _mainWindowService.Select(ConsoleLogText.Length, 0);
+                    _mainWindowService.ScrollToEnd();
                 }
             }
         }
         #endregion
 
 
-        private void Telnet_Started(object sender, TelnetClient.TelnetReadEventArgs e)
+        private void Telnet_Started(TelnetClient.TelnetReadEventArgs e)
         {
             _model.PlayerClean();
         }
 
-        private void Telnet_Finished(object sender, TelnetClient.TelnetReadEventArgs e)
+        private void Telnet_Finished(TelnetClient.TelnetReadEventArgs e)
         {
             _model.PlayerClean();
             _model.TelnetFinish();
         }
 
-        private void TelnetReadEvent(object sender, TelnetClient.TelnetReadEventArgs e)
+        private void TelnetReadEvent(TelnetClient.TelnetReadEventArgs e)
         {
             var log = "{0}".FormatString(e.Log);
-
-            //if (isStop)
-            //    SocTelnetSendDirect("");
 
             _model.LoggingStream.WriteSteam(log);
 

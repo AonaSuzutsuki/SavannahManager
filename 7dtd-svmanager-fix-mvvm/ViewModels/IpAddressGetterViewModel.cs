@@ -22,8 +22,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             this.model = model;
 
             #region EventInitialize
-            GetIpClicked = new DelegateCommand(GetIp_Clicked);
-            CopyClicked = new DelegateCommand<string>(Copy_Clicked);
+            OpenGetIpCommand = new DelegateCommand(GetIp_Clicked);
+            CopyCommand = new DelegateCommand<string>(Copy_Clicked);
             #endregion
 
             #region PropertyInitialize
@@ -44,14 +44,14 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region EventProperties
-        public ICommand GetIpClicked { get; set; }
-        public ICommand CopyClicked { get; set; }
+        public ICommand OpenGetIpCommand { get; set; }
+        public ICommand CopyCommand { get; set; }
         #endregion
 
         #region EventMethods
         private void GetIp_Clicked()
         {
-            model.SetIpAddress();
+            _ = model.SetIpAddress();
         }
 
         private void Copy_Clicked(string text)

@@ -20,13 +20,15 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 {
     public class UpdFormViewModel : ViewModelBase
     {
-        private UpdFormModel model;
+        private readonly UpdFormModel _model;
         public UpdFormViewModel(WindowService windowService, UpdFormModel model, bool isAsync = false) : base(windowService, model)
         {
-            this.model = model;
+            _model = model;
 
-            if (!isAsync)
-                DoLoaded();
+            if (isAsync)
+            {
+                Loaded = new DelegateCommand(() => { });
+            }
 
             VersionListView = model.ToReactivePropertyAsSynchronized(m => m.VersionList);
             VersionListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.VersionListSelectedIndex);
@@ -38,8 +40,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             LatestVersion = model.ToReactivePropertyAsSynchronized(m => m.LatestVersion);
 
             VersionListSelectionChanged = new DelegateCommand<int?>(VersionList_SelectionChanged);
-            UpdateBtClick = new DelegateCommand(UpdateBt_Clicked);
-            //DoLoaded();
+            DoUpdateCommand = new DelegateCommand(UpdateBt_Clicked);
         }
 
         #region Properties
@@ -57,41 +58,35 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
         #region EventProperties
         public ICommand VersionListSelectionChanged { get; }
-        public ICommand UpdateBtClick { get; }
+        public ICommand DoUpdateCommand { get; }
         #endregion
 
         #region EventMethods
 
         protected override void MainWindow_Loaded()
         {
-            var loadingModel = new LoadingModel();
-            var windowService = new WindowService();
-            var vm = new LoadingViewModel(windowService, loadingModel);
-            WindowManageService.Show<Loading>(vm);
-
-            var task = model.Initialize();
+            var task = _model.Initialize();
             task.ContinueWith(t =>
-                {
-                    if (t.Exception == null)
-                        return;
-                    foreach (var exceptionInnerException in t.Exception.InnerExceptions)
-                        App.ShowAndWriteException(exceptionInnerException);
-                }, TaskContinuationOptions.OnlyOnFaulted)
-                .ContinueWith(continueTask => WindowManageService.Dispatch(windowService.Close));
+            {
+                if (t.Exception == null)
+                    return;
+                foreach (var exceptionInnerException in t.Exception.InnerExceptions)
+                    App.ShowAndWriteException(exceptionInnerException);
+            }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         private void VersionList_SelectionChanged(int? arg)
         {
             if (arg != null)
             {
-                int index = arg.Value;
-                model.ShowDetails(index);
+                var index = arg.Value;
+                _model.ShowDetails(index);
             }
         }
 
         private void UpdateBt_Clicked()
         {
-            _ = model.Update();
+            _ = _model.Update();
         }
         #endregion
     }

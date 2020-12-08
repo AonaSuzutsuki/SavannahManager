@@ -101,15 +101,15 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Views
 
         public IEnumerable<RichTextItem> Children
         {
-            get => children;
-            set => children = new List<RichTextItem>(value);
+            get => _children;
+            set => _children = new List<RichTextItem>(value);
         }
 
-        private List<RichTextItem> children = new List<RichTextItem>();
+        private List<RichTextItem> _children = new List<RichTextItem>();
 
         public void AddChildren(RichTextItem item)
         {
-            children.Add(item);
+            _children.Add(item);
         }
 
         public override string ToString()

@@ -31,12 +31,12 @@ namespace ConfigEditor_mvvm.Views
             DataContext = vm;
         }
 
-        private static readonly FieldInfo _menuDropAlignmentField;
+        private static readonly FieldInfo MenuDropAlignmentField;
         static MainWindow()
         {
-            _menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+            MenuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
 
-            System.Diagnostics.Debug.Assert(_menuDropAlignmentField != null);
+            System.Diagnostics.Debug.Assert(MenuDropAlignmentField != null);
 
             EnsureStandardPopupAlignment();
             SystemParameters.StaticPropertyChanged += SystemParameters_StaticPropertyChanged;
@@ -47,9 +47,9 @@ namespace ConfigEditor_mvvm.Views
         }
         private static void EnsureStandardPopupAlignment()
         {
-            if (SystemParameters.MenuDropAlignment && _menuDropAlignmentField != null)
+            if (SystemParameters.MenuDropAlignment && MenuDropAlignmentField != null)
             {
-                _menuDropAlignmentField.SetValue(null, false);
+                MenuDropAlignmentField.SetValue(null, false);
             }
         }
     }

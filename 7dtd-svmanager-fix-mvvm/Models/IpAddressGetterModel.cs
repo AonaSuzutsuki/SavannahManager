@@ -12,34 +12,34 @@ namespace _7dtd_svmanager_fix_mvvm.Models
     public class IpAddressGetterModel : ModelBase
     {
         #region Fields
-        private string externalIpAddress;
-        private string localIpAddress;
-        private string statusLabel;
+        private string _externalIpAddress;
+        private string _localIpAddress;
+        private string _statusLabel;
         #endregion
 
         #region Properties
         public string ExternalIpAddress
         {
-            get => externalIpAddress;
-            set => SetProperty(ref externalIpAddress, value);
+            get => _externalIpAddress;
+            set => SetProperty(ref _externalIpAddress, value);
         }
         public string LocalIpAddress
         {
-            get => localIpAddress;
-            set => SetProperty(ref localIpAddress, value);
+            get => _localIpAddress;
+            set => SetProperty(ref _localIpAddress, value);
         }
         public string StatusLabel
         {
-            get => statusLabel;
-            set => SetProperty(ref statusLabel, value);
+            get => _statusLabel;
+            set => SetProperty(ref _statusLabel, value);
         }
         #endregion
 
 
-        public void SetIpAddress()
+        public async Task SetIpAddress()
         {
-            ExternalIpAddress = IpAddressManager.GetExternalIpAddress(ConstantValues.ExternalIpUrl);
-            LocalIpAddress = IpAddressManager.GetLocalIPAddress();
+            ExternalIpAddress = await IpAddressManager.GetExternalIpAddress(ConstantValues.ExternalIpUrl);
+            LocalIpAddress = IpAddressManager.GetLocalIpAddress();
         }
 
         public void CopyClipboard(string text)
