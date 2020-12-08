@@ -33,17 +33,17 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         #region Event
 
-        private readonly Subject<TreeViewItemInfo> failedLostFocus = new Subject<TreeViewItemInfo>();
-        public IObservable<TreeViewItemInfo> FailedLostFocus => failedLostFocus;
+        private readonly Subject<TreeViewItemInfo> _failedLostFocus = new Subject<TreeViewItemInfo>();
+        public IObservable<TreeViewItemInfo> FailedLostFocus => _failedLostFocus;
 
         #endregion
 
-        private string tagName = string.Empty;
+        private string _tagName = string.Empty;
 
-        private bool isTextBoxFocus;
+        private bool _isTextBoxFocus;
 
-        private Visibility textBlockVisibility = Visibility.Visible;
-        private Visibility textBoxVisibility = Visibility.Collapsed;
+        private Visibility _textBlockVisibility = Visibility.Visible;
+        private Visibility _textBoxVisibility = Visibility.Collapsed;
 
         public IEditedModel EditedModel { get; set; }
 
@@ -51,8 +51,8 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         public string TagName
         {
-            get => tagName;
-            set => SetProperty(ref tagName, value);
+            get => _tagName;
+            set => SetProperty(ref _tagName, value);
         }
 
         public new TreeViewItemInfo Parent
@@ -66,8 +66,8 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         public bool IsTextBoxFocus
         {
-            get => isTextBoxFocus;
-            set => SetProperty(ref isTextBoxFocus, value);
+            get => _isTextBoxFocus;
+            set => SetProperty(ref _isTextBoxFocus, value);
         }
 
         public string ParentPath => Parent == null ? "/" : $"{Parent.ParentPath}{Parent.TagName}/";
@@ -78,13 +78,13 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         public Visibility TextBlockVisibility
         {
-            get => textBlockVisibility;
-            set => SetProperty(ref textBlockVisibility, value);
+            get => _textBlockVisibility;
+            set => SetProperty(ref _textBlockVisibility, value);
         }
         public Visibility TextBoxVisibility
         {
-            get => textBoxVisibility;
-            set => SetProperty(ref textBoxVisibility, value);
+            get => _textBoxVisibility;
+            set => SetProperty(ref _textBoxVisibility, value);
         }
 
         public ICommand TextBoxLostFocus { get; set; }
@@ -114,8 +114,8 @@ namespace _7dtd_XmlEditor.Models.TreeView
                 if (DisableTextEdit())
                     ApplyTagChange();
                 else
-                    failedLostFocus.OnNext(this);
-                failedLostFocus.OnCompleted();
+                    _failedLostFocus.OnNext(this);
+                _failedLostFocus.OnCompleted();
             });
         }
 

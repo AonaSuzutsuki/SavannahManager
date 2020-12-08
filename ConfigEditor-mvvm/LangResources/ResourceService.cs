@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
-using ConfigEditor_mvvm.LangResources;
 
-namespace LanguageEx
+namespace ConfigEditor_mvvm.LangResources
 {
     /// <summary>
     /// 多言語化されたリソースと、言語の切り替え機能を提供します。
@@ -16,22 +15,17 @@ namespace LanguageEx
 
         #region singleton members
 
-        private static readonly ResourceService current = new ResourceService();
-        public static ResourceService Current
-        {
-            get { return current; }
-        }
+        public static ResourceService Current { get; } = new ResourceService();
 
         #endregion
-
-        private readonly CommonResources commonResources = new CommonResources();
-        private readonly Resources resources = new Resources();
 
         /// <summary>
         /// 多言語化されたリソースを取得します。
         /// </summary>
-        public CommonResources CommonResources => commonResources;
-        public Resources Resources => resources;
+        public CommonResources CommonResources { get; } = new CommonResources();
+
+        public Resources Resources { get; } = new Resources();
+
         #region INotifyPropertyChanged members
 
         public event PropertyChangedEventHandler PropertyChanged;

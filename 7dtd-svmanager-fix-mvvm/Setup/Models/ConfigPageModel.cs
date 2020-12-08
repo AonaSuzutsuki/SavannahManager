@@ -20,13 +20,13 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Models
         }
 
         #region PropertiesForViewModel
-        private string serverConfigPathText = string.Empty;
+        private string _serverConfigPathText = string.Empty;
         public string ServerConfigPathText
         {
-            get => serverConfigPathText;
+            get => _serverConfigPathText;
             set
             {
-                SetProperty(ref serverConfigPathText, value);
+                SetProperty(ref _serverConfigPathText, value);
                 InitializeData.ServerConfigFilePath = value;
                 var canChanged = !string.IsNullOrEmpty(value);
                 OnCanChanged(this, canChanged);

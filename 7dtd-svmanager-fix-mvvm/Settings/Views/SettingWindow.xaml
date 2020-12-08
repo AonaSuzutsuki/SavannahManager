@@ -1,10 +1,10 @@
 ﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Settings.Views.SettingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:app="clr-namespace:LanguageEx"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
+        xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Settings" Height="300" Width="400" ResizeMode="CanMinimize">
@@ -47,7 +47,7 @@
                 <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
-                            <CommonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
+                            <commonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
@@ -82,7 +82,7 @@
                                         <ColumnDefinition Width="36" />
                                     </Grid.ColumnDefinitions>
                                     <TextBox Text="{Binding ExeFilePathText.Value}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Height="24" />
-                                    <Button Name="getSvFilePathBT" Grid.Column="1" Style="{DynamicResource FlatButton}" Content="..." HorizontalAlignment="Center" VerticalAlignment="Top"  Width="26" Height="24" Command="{Binding GetSvFilePathCommand}" />
+                                    <Button Name="GetSvFilePathBt" Grid.Column="1" Style="{DynamicResource FlatButton}" Content="..." HorizontalAlignment="Center" VerticalAlignment="Top"  Width="26" Height="24" Command="{Binding GetSvFilePathCommand}" />
                                 </Grid>
                             </Grid>
 
@@ -98,7 +98,7 @@
                                         <ColumnDefinition Width="36" />
                                     </Grid.ColumnDefinitions>
                                     <TextBox Text="{Binding ConfigFilePathText.Value}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Height="24" />
-                                    <Button Name="getConfFilePathBT" Grid.Column="1" Style="{DynamicResource FlatButton}" Content="..." HorizontalAlignment="Center" VerticalAlignment="Top"  Width="26" Height="24" Command="{Binding GetConfFilePathCommand}" />
+                                    <Button Name="GetConfFilePathBt" Grid.Column="1" Style="{DynamicResource FlatButton}" Content="..." HorizontalAlignment="Center" VerticalAlignment="Top"  Width="26" Height="24" Command="{Binding GetConfFilePathCommand}" />
                                 </Grid>
                             </Grid>
 
@@ -114,7 +114,7 @@
                                         <ColumnDefinition Width="36" />
                                     </Grid.ColumnDefinitions>
                                     <TextBox Text="{Binding AdminFilePathText.Value}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Height="24" />
-                                    <Button Name="getAdminFilePathBT" Grid.Column="1" Style="{DynamicResource FlatButton}" Content="..." HorizontalAlignment="Center" VerticalAlignment="Top"  Width="26" Height="24" Command="{Binding GetAdminFilePathCommand}" />
+                                    <Button Name="GetAdminFilePathBt" Grid.Column="1" Style="{DynamicResource FlatButton}" Content="..." HorizontalAlignment="Center" VerticalAlignment="Top"  Width="26" Height="24" Command="{Binding GetAdminFilePathCommand}" />
                                 </Grid>
                             </Grid>
 
@@ -167,7 +167,7 @@
 
                                 <StackPanel Orientation="Horizontal">
                                     <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_ShortcutKeyLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                    <Button Name="KeyEditBT" Width="100" Height="25" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_KeyEditBTLabel, Mode=OneWay}" Margin="50,0,0,0" Style="{DynamicResource FlatButton}" Command="{Binding KeyEditCommand}" />
+                                    <Button Name="KeyEditBt" Width="100" Height="25" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_KeyEditBTLabel, Mode=OneWay}" Margin="50,0,0,0" Style="{DynamicResource FlatButton}" Command="{Binding KeyEditCommand}" />
                                 </StackPanel>
 
                             </StackPanel>
@@ -257,7 +257,7 @@
 
                 <Grid Margin="0,0,3,0" Grid.Row="1">
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_SaveBT, Mode=OneWay}" Name="SaveBT" Style="{DynamicResource FlatButton}" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding SaveBtCommand}" />
+                        <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_SaveBT, Mode=OneWay}" Name="SaveBt" Style="{DynamicResource FlatButton}" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding SaveBtCommand}" />
                         <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_CancelBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding MainWindowCloseBtClick}" />
                     </StackPanel>
                 </Grid>

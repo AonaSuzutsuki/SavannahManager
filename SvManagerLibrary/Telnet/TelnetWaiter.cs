@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 
 namespace SvManagerLibrary.Telnet
 {
     public class TelnetWaiter
     {
-        private int count;
+        private int _count;
 
         public bool CanLoop => Count < MaxMilliseconds;
         public int MaxMilliseconds { get; set; } = 2000;
 
-        public int Count => count * SleepTime;
+        public int Count => _count * SleepTime;
 
         public int SleepTime { get; set; } = 100;
 
         public void Next()
         {
-            count++;
+            _count++;
             Thread.Sleep(SleepTime);
         }
     }

@@ -25,28 +25,28 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             Real
         }
 
-        private string steamId;
-        private string name;
-        private string permission;
+        private string _steamId;
+        private string _name;
+        private string _permission;
 
         public PermissionItemType ItemType { get; set; } = PermissionItemType.Real;
 
         public string Name
         {
-            get => name;
-            set => SetProperty(ref name, value);
+            get => _name;
+            set => SetProperty(ref _name, value);
         }
 
         public string SteamId
         {
-            get => steamId;
-            set => SetProperty(ref steamId, value);
+            get => _steamId;
+            set => SetProperty(ref _steamId, value);
         }
 
         public string Permission
         {
-            get => permission;
-            set => SetProperty(ref permission, value);
+            get => _permission;
+            set => SetProperty(ref _permission, value);
         }
 
         public Action AddDummyAction { get; set; }
@@ -61,7 +61,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
             if (!string.IsNullOrEmpty(Name))
                 return false;
-            if (!string.IsNullOrEmpty(steamId))
+            if (!string.IsNullOrEmpty(_steamId))
                 return false;
             return string.IsNullOrEmpty(Permission);
         }
@@ -90,19 +90,19 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
     public class AdminGroupPermissionInfo : PermissionBase
     {
-        private string defaultPermission;
-        private string moderatorPermission;
+        private string _defaultPermission;
+        private string _moderatorPermission;
 
         public string DefaultPermission
         {
-            get => defaultPermission;
-            set => SetProperty(ref defaultPermission, value);
+            get => _defaultPermission;
+            set => SetProperty(ref _defaultPermission, value);
         }
 
         public string ModeratorPermission
         {
-            get => moderatorPermission;
-            set => SetProperty(ref moderatorPermission, value);
+            get => _moderatorPermission;
+            set => SetProperty(ref _moderatorPermission, value);
         }
 
         public override void ApplyNode(SavannahTagNode parent)
@@ -140,12 +140,12 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
     public class BlackListPermissionInfo : PermissionBase
     {
-        private string unBanDate;
+        private string _unBanDate;
 
         public string UnBanDate
         {
-            get => unBanDate;
-            set => SetProperty(ref unBanDate, value);
+            get => _unBanDate;
+            set => SetProperty(ref _unBanDate, value);
         }
         public string Reason { get; set; }
 
@@ -165,17 +165,17 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
     {
         #region Fields
 
-        private bool isEdited;
-        private bool canSave;
-        private string openedFilePath;
-        private string declaration;
+        private bool _isEdited;
+        private bool _canSave;
+        private string _openedFilePath;
+        private string _declaration;
 
-        private ObservableCollection<PermissionInfo> commandPermissions = new ObservableCollection<PermissionInfo>();
-        private ObservableCollection<AdminPermissionInfo> adminPermissions = new ObservableCollection<AdminPermissionInfo>();
-        private ObservableCollection<AdminGroupPermissionInfo> adminGroupPermissions = new ObservableCollection<AdminGroupPermissionInfo>();
-        private ObservableCollection<WhitelistPermissionInfo> whitelistPermissions = new ObservableCollection<WhitelistPermissionInfo>();
-        private ObservableCollection<WhitelistGroupPermissionInfo> whitelistGroupPermissions = new ObservableCollection<WhitelistGroupPermissionInfo>();
-        private ObservableCollection<BlackListPermissionInfo> blacklistPermissions = new ObservableCollection<BlackListPermissionInfo>();
+        private ObservableCollection<PermissionInfo> _commandPermissions = new ObservableCollection<PermissionInfo>();
+        private ObservableCollection<AdminPermissionInfo> _adminPermissions = new ObservableCollection<AdminPermissionInfo>();
+        private ObservableCollection<AdminGroupPermissionInfo> _adminGroupPermissions = new ObservableCollection<AdminGroupPermissionInfo>();
+        private ObservableCollection<WhitelistPermissionInfo> _whitelistPermissions = new ObservableCollection<WhitelistPermissionInfo>();
+        private ObservableCollection<WhitelistGroupPermissionInfo> _whitelistGroupPermissions = new ObservableCollection<WhitelistGroupPermissionInfo>();
+        private ObservableCollection<BlackListPermissionInfo> _blacklistPermissions = new ObservableCollection<BlackListPermissionInfo>();
 
         #endregion
 
@@ -183,47 +183,47 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
         public bool IsEdited
         {
-            get => isEdited;
-            set => SetProperty(ref isEdited, value);
+            get => _isEdited;
+            set => SetProperty(ref _isEdited, value);
         }
 
         public bool CanSave
         {
-            get => canSave;
-            set => SetProperty(ref canSave, value);
+            get => _canSave;
+            set => SetProperty(ref _canSave, value);
         }
 
         public ObservableCollection<PermissionInfo> CommandPermissions
         {
-            get => commandPermissions;
-            set => SetProperty(ref commandPermissions, value);
+            get => _commandPermissions;
+            set => SetProperty(ref _commandPermissions, value);
         }
         public ObservableCollection<AdminPermissionInfo> AdminPermissions
         {
-            get => adminPermissions;
-            set => SetProperty(ref adminPermissions, value);
+            get => _adminPermissions;
+            set => SetProperty(ref _adminPermissions, value);
         }
 
         public ObservableCollection<AdminGroupPermissionInfo> AdminGroupPermissions
         {
-            get => adminGroupPermissions;
-            set => SetProperty(ref adminGroupPermissions, value);
+            get => _adminGroupPermissions;
+            set => SetProperty(ref _adminGroupPermissions, value);
         }
         public ObservableCollection<WhitelistPermissionInfo> WhitelistPermissions
         {
-            get => whitelistPermissions;
-            set => SetProperty(ref whitelistPermissions, value);
+            get => _whitelistPermissions;
+            set => SetProperty(ref _whitelistPermissions, value);
         }
 
         public ObservableCollection<WhitelistGroupPermissionInfo> WhitelistGroupPermissions
         {
-            get => whitelistGroupPermissions;
-            set => SetProperty(ref whitelistGroupPermissions, value);
+            get => _whitelistGroupPermissions;
+            set => SetProperty(ref _whitelistGroupPermissions, value);
         }
         public ObservableCollection<BlackListPermissionInfo> BlacklistPermissions
         {
-            get => blacklistPermissions;
-            set => SetProperty(ref blacklistPermissions, value);
+            get => _blacklistPermissions;
+            set => SetProperty(ref _blacklistPermissions, value);
         }
 
         #endregion
@@ -236,7 +236,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         public PermissionEditorModel(string adminFilePath)
         {
             LoadFile(adminFilePath);
-            openedFilePath = adminFilePath;
+            _openedFilePath = adminFilePath;
             CanSave = true;
         }
 
@@ -246,7 +246,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
                 return;
 
             var reader = new SavannahXmlReader(path);
-            declaration = reader.Declaration;
+            _declaration = reader.Declaration;
             var cmdPermissions = LoadCommand(reader);
             var (adminPlayers, adminGroups) = LoadAdmin(reader);
             var (whitelistPlayers, whitelistGroups) = LoadWhitelist(reader);
@@ -281,22 +281,22 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
             ClearPermissions();
             LoadFile(filePath);
-            openedFilePath = filePath;
+            _openedFilePath = filePath;
             CanSave = true;
-            isEdited = false;
+            _isEdited = false;
         }
 
         public void NewFile()
         {
             OpenFile($"{ConstantValues.AppDirectoryPath}\\Settings\\Permissions\\serveradmin.xml");
-            openedFilePath = string.Empty;
+            _openedFilePath = string.Empty;
             CanSave = false;
-            isEdited = false;
+            _isEdited = false;
         }
 
         public void Save()
         {
-            Save(openedFilePath);
+            Save(_openedFilePath);
         }
 
         public void Save(string filePath)
@@ -321,11 +321,11 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
             ApplyNodes(WhitelistGroupPermissions, whitelist);
             ApplyNodes(BlacklistPermissions, blacklist);
 
-            var writer = new SavannahXmlWriter(declaration);
+            var writer = new SavannahXmlWriter(_declaration);
             writer.Write(filePath, root);
 
             CanSave = true;
-            openedFilePath = filePath;
+            _openedFilePath = filePath;
         }
 
         public static void ApplyNodes<T>(ICollection<T> collection, SavannahTagNode node) where T : PermissionBase
@@ -428,7 +428,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
         private static IEnumerable<BlackListPermissionInfo> LoadBlacklist(SavannahXmlReader reader)
         {
             var nodes = (reader.GetNode("/adminTools/blacklist") as SavannahTagNode)?.ChildNodes;
-            var children = nodes.OfType<SavannahTagNode>();
+            var children = (nodes ?? Array.Empty<AbstractSavannahXmlNode>()).OfType<SavannahTagNode>();
             var permissions = from node in children
                 let steamId = node.GetAttribute("steamID")
                 let unBanDate = node.GetAttribute("unbandate")

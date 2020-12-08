@@ -22,7 +22,7 @@ namespace _7dtd_XmlEditor.ViewModels
     {
         public MainWindowViewModel(IWindowService windowService, MainWindowModel model) : base(windowService, model)
         {
-            this.model = model;
+            this._model = model;
 
             IsEditedTitle = model.ObserveProperty(m => m.IsEditedTitle).ToReactiveProperty();
             TreeViewItems = model.TreeViewItems.ToReadOnlyReactiveCollection(m => m);
@@ -55,7 +55,7 @@ namespace _7dtd_XmlEditor.ViewModels
 
         #region Fields
 
-        private readonly MainWindowModel model;
+        private readonly MainWindowModel _model;
 
         #endregion
 
@@ -102,21 +102,21 @@ namespace _7dtd_XmlEditor.ViewModels
         #region Event Methods
         public void FileNewBt_Click()
         {
-            model.NewFile();
+            _model.NewFile();
         }
         public void FileOpenBt_Click()
         {
-            model.OpenFile();
+            _model.OpenFile();
         }
 
         public void FileSaveBt_Click()
         {
-            model.Save();
+            _model.Save();
         }
 
         public void FileSaveAsBt_Click()
         {
-            model.SaveAs();
+            _model.SaveAs();
         }
 
 
@@ -156,44 +156,44 @@ namespace _7dtd_XmlEditor.ViewModels
         }
         public void TreeViewSelectedItemChanged()
         {
-            model.ItemChanged();
+            _model.ItemChanged();
         }
 
         public void TreeView_MouseRightButtonDown()
         {
             var item = TreeViewSelectedItem.Value;
-            model.ContextMenuEnabled = item != null;
-            model.AddElementEnabled = item != null && !item.IsRoot;
+            _model.ContextMenuEnabled = item != null;
+            _model.AddElementEnabled = item != null && !item.IsRoot;
         }
 
 
         public void AddAttributeBt_Clicked()
         {
-            model.AddAttribute();
+            _model.AddAttribute();
         }
 
         public void RemoveAttributeBt_Clicked()
         {
-            model.RemoveAttribute();
+            _model.RemoveAttribute();
         }
 
         public void Attributes_SelectionChanged(ViewAttributeInfo info)
         {
             if (info != null)
-                model.AttributesSelectedItem = info;
+                _model.AttributesSelectedItem = info;
         }
 
         public void InnerXml_LostFocus()
         {
-            model.ApplyInnerXml();
+            _model.ApplyInnerXml();
         }
 
         public void InnerXml_TextChanged()
         {
-            if (model.SelectedItem == null) return;
+            if (_model.SelectedItem == null) return;
 
-            if (model.SelectedItem.Node.InnerXml != model.InnerXml)
-                model.SelectedItem.IsEdited = true;
+            if (_model.SelectedItem.Node.InnerXml != _model.InnerXml)
+                _model.SelectedItem.IsEdited = true;
         }
 
         public void ChangeTagName()
@@ -205,12 +205,12 @@ namespace _7dtd_XmlEditor.ViewModels
 
         public void AddChildElement()
         {
-            model.AddChildElement();
+            _model.AddChildElement();
         }
 
         public void RemoveElement()
         {
-            model.RemoveElement();
+            _model.RemoveElement();
         }
         #endregion
     }

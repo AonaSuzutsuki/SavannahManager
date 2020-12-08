@@ -51,14 +51,14 @@ namespace _7dtd_svmanager_fix_mvvm.Views.Behaviors
                 Padding = new Thickness(5, 1, 1, 1),
                 Foreground = new SolidColorBrush(Colors.LightGray),
                 HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
             };
             return new VisualBrush(visual)
             {
                 Stretch = Stretch.None,
                 TileMode = TileMode.None,
                 AlignmentX = AlignmentX.Left,
-                AlignmentY = AlignmentY.Center,
+                AlignmentY = AlignmentY.Center
             };
         }
 

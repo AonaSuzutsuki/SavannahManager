@@ -80,7 +80,7 @@
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\PlayerInfo.cs" />
     <Compile Include="Player\PlayerInfoConverter.cs" />
-    <Compile Include="Player\PlayerInfoListExtention.cs" />
+    <Compile Include="Player\PlayerInfoListExtension.cs" />
     <Compile Include="SteamLibrary\SteamLibraryLoader.cs" />
     <Compile Include="Telnet\ITelnetClient.cs" />
     <Compile Include="Telnet\LogCollection.cs" />

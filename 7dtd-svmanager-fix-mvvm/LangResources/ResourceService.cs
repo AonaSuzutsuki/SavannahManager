@@ -1,8 +1,7 @@
-﻿using _7dtd_svmanager_fix_mvvm.LangResources;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
 
-namespace LanguageEx
+namespace _7dtd_svmanager_fix_mvvm.LangResources
 {
     /// <summary>
     /// 多言語化されたリソースと、言語の切り替え機能を提供します。
@@ -16,11 +15,7 @@ namespace LanguageEx
 
         #region singleton members
 
-        private static readonly ResourceService current = new ResourceService();
-        public static ResourceService Current
-        {
-            get { return current; }
-        }
+        public static ResourceService Current { get; } = new ResourceService();
 
         #endregion
         

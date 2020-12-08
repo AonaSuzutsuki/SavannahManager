@@ -27,96 +27,96 @@ namespace _7dtd_XmlEditor.Models
 
         #region Fields
 
-        private string declaration;
+        private string _declaration;
 
-        private string openedFilePath = string.Empty;
-        private string isEditedTitle;
-        private bool isEdited;
+        private string _openedFilePath = string.Empty;
+        private string _isEditedTitle;
+        private bool _isEdited;
 
-        private TreeViewItemInfo root;
-        private ObservableCollection<TreeViewItemInfo> treeViewItems = new ObservableCollection<TreeViewItemInfo>();
-        private TreeViewItemInfo selectedItem;
+        private TreeViewItemInfo _root;
+        private ObservableCollection<TreeViewItemInfo> _treeViewItems = new ObservableCollection<TreeViewItemInfo>();
+        private TreeViewItemInfo _selectedItem;
 
-        private string fullPath;
-        private bool isAttributesEnabled;
-        private ObservableCollection<ViewAttributeInfo> attributes = new ObservableCollection<ViewAttributeInfo>();
-        private ViewAttributeInfo attributesSelectedItem;
-        private string innerXml;
-        private bool contextMenuEnabled;
-        private bool addElementEnabled;
+        private string _fullPath;
+        private bool _isAttributesEnabled;
+        private ObservableCollection<ViewAttributeInfo> _attributes = new ObservableCollection<ViewAttributeInfo>();
+        private ViewAttributeInfo _attributesSelectedItem;
+        private string _innerXml;
+        private bool _contextMenuEnabled;
+        private bool _addElementEnabled;
         #endregion
 
         #region Properties
 
         public string IsEditedTitle
         {
-            get => isEditedTitle;
-            set => SetProperty(ref isEditedTitle, value);
+            get => _isEditedTitle;
+            set => SetProperty(ref _isEditedTitle, value);
         }
 
         public bool IsEdited
         {
-            get => isEdited;
+            get => _isEdited;
             set
             {
-                isEdited = value;
+                _isEdited = value;
                 IsEditedTitle = value ? "*" : "";
             }
         }
 
         public ObservableCollection<TreeViewItemInfo> TreeViewItems
         {
-            get => treeViewItems;
-            set => SetProperty(ref treeViewItems, value);
+            get => _treeViewItems;
+            set => SetProperty(ref _treeViewItems, value);
         }
 
         public TreeViewItemInfo SelectedItem
         {
-            get => selectedItem;
-            set => SetProperty(ref selectedItem, value);
+            get => _selectedItem;
+            set => SetProperty(ref _selectedItem, value);
         }
 
 
         public string FullPath
         {
-            get => fullPath;
-            set => SetProperty(ref fullPath, value);
+            get => _fullPath;
+            set => SetProperty(ref _fullPath, value);
         }
 
         public bool IsAttributesEnabled
         {
-            get => isAttributesEnabled;
-            set => SetProperty(ref isAttributesEnabled, value);
+            get => _isAttributesEnabled;
+            set => SetProperty(ref _isAttributesEnabled, value);
         }
 
         public ObservableCollection<ViewAttributeInfo> Attributes
         {
-            get => attributes;
-            set => SetProperty(ref attributes, value);
+            get => _attributes;
+            set => SetProperty(ref _attributes, value);
         }
 
         public ViewAttributeInfo AttributesSelectedItem
         {
-            get => attributesSelectedItem;
-            set => SetProperty(ref attributesSelectedItem, value);
+            get => _attributesSelectedItem;
+            set => SetProperty(ref _attributesSelectedItem, value);
         }
 
         public string InnerXml
         {
-            get => innerXml;
-            set => SetProperty(ref innerXml, value);
+            get => _innerXml;
+            set => SetProperty(ref _innerXml, value);
         }
 
         public bool ContextMenuEnabled
         {
-            get => contextMenuEnabled;
-            set => SetProperty(ref contextMenuEnabled, value);
+            get => _contextMenuEnabled;
+            set => SetProperty(ref _contextMenuEnabled, value);
         }
 
         public bool AddElementEnabled
         {
-            get => addElementEnabled;
-            set => SetProperty(ref addElementEnabled, value);
+            get => _addElementEnabled;
+            set => SetProperty(ref _addElementEnabled, value);
         }
         #endregion
 
@@ -125,15 +125,15 @@ namespace _7dtd_XmlEditor.Models
             TreeViewItems.Clear();
             Attributes.Clear();
             InnerXml = string.Empty;
-            openedFilePath = string.Empty;
+            _openedFilePath = string.Empty;
             IsEdited = false;
 
-            declaration = SavannahXmlConstants.Utf8Declaration;
-            root = new TreeViewItemInfo(new SavannahTagNode { TagName = "root" }, this)
+            _declaration = SavannahXmlConstants.Utf8Declaration;
+            _root = new TreeViewItemInfo(new SavannahTagNode { TagName = "root" }, this)
             {
                 IsRoot = true
             };
-            TreeViewItems.Add(root);
+            TreeViewItems.Add(_root);
         }
 
         public void OpenFile()
@@ -143,19 +143,19 @@ namespace _7dtd_XmlEditor.Models
             if (!string.IsNullOrEmpty(filePath))
             {
                 var (dec, itemInfo) = OpenFile(filePath, this);
-                declaration = dec;
-                root = itemInfo;
+                _declaration = dec;
+                _root = itemInfo;
                 TreeViewItems.Clear();
                 TreeViewItems.Add(itemInfo);
 
                 IsEdited = false;
             }
-            openedFilePath = filePath;
+            _openedFilePath = filePath;
         }
 
         public void Save()
         {
-            if (string.IsNullOrEmpty(openedFilePath))
+            if (string.IsNullOrEmpty(_openedFilePath))
             {
                 SaveAs();
             }
@@ -164,7 +164,7 @@ namespace _7dtd_XmlEditor.Models
                 if (!IsEdited)
                     return;
 
-                SaveFile(openedFilePath, declaration, root.Node);
+                SaveFile(_openedFilePath, _declaration, _root.Node);
             }
 
             IsEdited = false;
@@ -176,8 +176,8 @@ namespace _7dtd_XmlEditor.Models
                 "", FileSelector.FileSelectorType.Write);
 
             if (!string.IsNullOrEmpty(filePath))
-                SaveFile(filePath, declaration, root.Node);
-            openedFilePath = filePath;
+                SaveFile(filePath, _declaration, _root.Node);
+            _openedFilePath = filePath;
             IsEdited = false;
         }
 
@@ -304,28 +304,28 @@ namespace _7dtd_XmlEditor.Models
                 node.InnerText = InnerXml;
             }
 
-            AssignExpanded(root);
+            AssignExpanded(_root);
 
             using var ms = new MemoryStream();
-            var writer = new SavannahXmlWriter(declaration)
+            var writer = new SavannahXmlWriter(_declaration)
             {
                 IgnoreComments = false
             };
-            writer.Write(ms, root.Node as SavannahTagNode);
+            writer.Write(ms, _root.Node as SavannahTagNode);
 
             ms.Seek(0, SeekOrigin.Begin);
             var reader = new SavannahXmlReader(ms, false);
             var readNode = reader.GetAllNodes();
 
-            root = new TreeViewItemInfo(readNode, this)
+            _root = new TreeViewItemInfo(readNode, this)
             {
                 IsRoot = true
             };
 
             TreeViewItems.Clear();
-            TreeViewItems.Add(root);
+            TreeViewItems.Add(_root);
 
-            var item = GetSelectedInfo(root);
+            var item = GetSelectedInfo(_root);
             if (item != null)
             {
                 item.IgnoreAttributeRedraw = ignoreAttributeRedraw;

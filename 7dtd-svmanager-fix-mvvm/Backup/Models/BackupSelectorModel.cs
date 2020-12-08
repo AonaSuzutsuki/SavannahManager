@@ -54,7 +54,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
                     FullPath = pathMapItem.FullPath,
                     ItemType = pathMapItem.ItemType,
                     Files = pathMapItem.Files,
-                    Date = pathMapItem.Date,
+                    Date = pathMapItem.Date
                 });
             }
 
@@ -73,71 +73,71 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
         public bool CanRestore
         {
-            get => canRestore;
-            set => SetProperty(ref canRestore, value);
+            get => _canRestore;
+            set => SetProperty(ref _canRestore, value);
         }
 
         public bool CanDeleteAll
         {
-            get => canDeleteAll;
-            set => SetProperty(ref canDeleteAll, value);
+            get => _canDeleteAll;
+            set => SetProperty(ref _canDeleteAll, value);
         }
 
         public bool ForwardBtIsEnabled
         {
-            get => forwardBtIsEnabled;
-            set => SetProperty(ref forwardBtIsEnabled, value);
+            get => _forwardBtIsEnabled;
+            set => SetProperty(ref _forwardBtIsEnabled, value);
         }
 
         public bool BackBtIsEnabled
         {
-            get => backBtIsEnabled;
-            set => SetProperty(ref backBtIsEnabled, value);
+            get => _backBtIsEnabled;
+            set => SetProperty(ref _backBtIsEnabled, value);
         }
 
         public string PathText
         {
-            get => pathText;
-            set => SetProperty(ref pathText, value);
+            get => _pathText;
+            set => SetProperty(ref _pathText, value);
         }
 
         public int BackupProgressValue
         {
-            get => backupProgressValue;
-            set => SetProperty(ref backupProgressValue, value);
+            get => _backupProgressValue;
+            set => SetProperty(ref _backupProgressValue, value);
         }
 
         public string ProgressLabel
         {
-            get => progressLabel;
-            set => SetProperty(ref progressLabel, value);
+            get => _progressLabel;
+            set => SetProperty(ref _progressLabel, value);
         }
         #endregion
 
         #region Fields
 
-        private TimeBackup timeBackup;
+        private TimeBackup _timeBackup;
 
-        private readonly string backupDirPath;
+        private readonly string _backupDirPath;
 
-        private string sevenDaysSavePath;
+        private string _sevenDaysSavePath;
 
-        private bool canRestore;
-        private bool canDeleteAll;
-        private bool forwardBtIsEnabled;
-        private bool backBtIsEnabled;
-        private string pathText;
-        private int backupProgressValue;
-        private string progressLabel;
+        private bool _canRestore;
+        private bool _canDeleteAll;
+        private bool _forwardBtIsEnabled;
+        private bool _backBtIsEnabled;
+        private string _pathText;
+        private int _backupProgressValue;
+        private string _progressLabel;
 
-        private Stack<PathMapItem> forwardStack = new Stack<PathMapItem>();
-        private PathMapItem current;
+        private Stack<PathMapItem> _forwardStack = new Stack<PathMapItem>();
+        private PathMapItem _current;
         #endregion
 
 
         public BackupSelectorModel(SettingLoader settingLoader)
         {
-            backupDirPath = settingLoader.BackupDirPath;
+            _backupDirPath = settingLoader.BackupDirPath;
 
             Initialize();
         }
@@ -145,12 +145,12 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         public void Initialize()
         {
             var userDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            sevenDaysSavePath = $"{userDir}/7DaysToDie";
-            timeBackup = new TimeBackup(backupDirPath, sevenDaysSavePath);
-            timeBackup.BackupCompleted += TimeBackupOnBackupCompleted;
-            timeBackup.BackupProgress += TimeBackupOnBackupProgress;
-            timeBackup.BackupStarted += TimeBackupOnBackupStarted;
-            timeBackup.RestoreProgress += TimeBackupOnRestoreProgress;
+            _sevenDaysSavePath = $"{userDir}/7DaysToDie";
+            _timeBackup = new TimeBackup(_backupDirPath, _sevenDaysSavePath);
+            _timeBackup.BackupCompleted += TimeBackupOnBackupCompleted;
+            _timeBackup.BackupProgress += TimeBackupOnBackupProgress;
+            _timeBackup.BackupStarted += TimeBackupOnBackupStarted;
+            _timeBackup.RestoreProgress += TimeBackupOnRestoreProgress;
 
             InitializeBackupList();
         }
@@ -158,7 +158,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         private void InitializeBackupList()
         {
             BackupList.Clear();
-            var trace = timeBackup.TraceBackup();
+            var trace = _timeBackup.TraceBackup();
             foreach (var backupDate in trace)
             {
                 BackupList.Add(backupDate);
@@ -209,62 +209,62 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
         public void MenuOpened()
         {
-            CanDeleteAll = new List<string>(timeBackup.TraceBackup()).Count > 0;
+            CanDeleteAll = new List<string>(_timeBackup.TraceBackup()).Count > 0;
         }
 
         public void Restore()
         {
-            if (!timeBackup.CanRestore)
+            if (!_timeBackup.CanRestore)
                 return;
 
             var result = ExMessageBoxBase.Show("Are you sure to start restoring?", "Start to restore",
                 ExMessageBoxBase.MessageType.Exclamation, ExMessageBoxBase.ButtonType.YesNo);
             if (result == ExMessageBoxBase.DialogResult.Yes)
-                Task.Factory.StartNew(() => timeBackup.Restore());
+                Task.Factory.StartNew(() => _timeBackup.Restore());
         }
 
         public void Backup()
         {
-            Task.Factory.StartNew(timeBackup.Backup).ContinueWith((t) => InitializeBackupList());
+            Task.Factory.StartNew(_timeBackup.Backup).ContinueWith((t) => InitializeBackupList());
         }
 
         public void SelectBackup(int index)
         {
             if (index > -1)
             {
-                timeBackup.SelectBackup(index);
-                forwardStack = new Stack<PathMapItem>();
-                ForwardBtIsEnabled = forwardStack.Count > 0;
+                _timeBackup.SelectBackup(index);
+                _forwardStack = new Stack<PathMapItem>();
+                ForwardBtIsEnabled = _forwardStack.Count > 0;
             }
-            CanRestore = timeBackup.CanRestore;
+            CanRestore = _timeBackup.CanRestore;
         }
 
         public void NewDirectoryChange()
         {
-            forwardStack = new Stack<PathMapItem>();
+            _forwardStack = new Stack<PathMapItem>();
             ForwardBtIsEnabled = false;
         }
 
         public void DirectoryForward()
         {
-            var pathMapItem = forwardStack.Pop();
+            var pathMapItem = _forwardStack.Pop();
             DirectoryChange(pathMapItem);
-            ForwardBtIsEnabled = forwardStack.Count > 0;
+            ForwardBtIsEnabled = _forwardStack.Count > 0;
         }
         
         public void DirectoryBack()
         {
-            if (current?.Parent != null)
+            if (_current?.Parent != null)
             {
-                forwardStack.Push(current);
-                DirectoryChange(current.Parent);
+                _forwardStack.Push(_current);
+                DirectoryChange(_current.Parent);
             }
-            ForwardBtIsEnabled = forwardStack.Count > 0;
+            ForwardBtIsEnabled = _forwardStack.Count > 0;
         }
 
         public void DrawBackup()
         {
-            var root = timeBackup.GetFileAndDirectories();
+            var root = _timeBackup.GetFileAndDirectories();
             if (root != null && root.Files.Count > 0)
                 DirectoryChange(root);
         }
@@ -278,7 +278,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
                 if (pathMapItem.Files.Count > 0)
                     BackupFileList.AddAll(BackupItem.ToBackupItem(pathMapItem.Files));
 
-                current = pathMapItem;
+                _current = pathMapItem;
                 BackBtIsEnabled = pathMapItem.Parent != null;
                 PathText = pathMapItem.ToString();
             }
@@ -286,22 +286,22 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
         public void Delete()
         {
-            if (!timeBackup.CanRestore)
+            if (!_timeBackup.CanRestore)
                 return;
 
-            timeBackup.DeleteBackup();
+            _timeBackup.DeleteBackup();
             InitializeBackupList();
 
             BackupFileList.Clear();
-            CanRestore = timeBackup.CanRestore;
+            CanRestore = _timeBackup.CanRestore;
         }
 
         public void DeleteAll()
         {
-            if (!Directory.Exists(backupDirPath))
+            if (!Directory.Exists(_backupDirPath))
                 return;
 
-            var dirs = Directory.GetDirectories(backupDirPath);
+            var dirs = Directory.GetDirectories(_backupDirPath);
             foreach (var dir in dirs)
             {
                 Directory.Delete(dir, true);

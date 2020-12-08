@@ -9,11 +9,11 @@ namespace ConfigEditor_mvvm.Models
     public class ConfigListInfo : BindableBase, ICloneable
     {
         public string Property { get; set; }
-        private string value;
+        private string _value;
         public string Value
         {
-            get => value;
-            set => SetProperty(ref this.value, value);
+            get => _value;
+            set => SetProperty(ref this._value, value);
         }
         public string[] Selection { get; set; }
         public ConfigType Type { get; set; }

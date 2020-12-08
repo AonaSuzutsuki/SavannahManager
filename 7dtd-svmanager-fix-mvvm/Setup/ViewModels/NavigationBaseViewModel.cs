@@ -24,63 +24,63 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
     public class NavigationBindableValue : BindableBase
     {
 
-        private bool canGoNext;
-        private bool canGoBack;
+        private bool _canGoNext;
+        private bool _canGoBack;
 
-        private Visibility backBtVisibility;
-        private Visibility nextBtVisibility;
-        private Visibility closeBtVisibility;
-        private Visibility cancelBtVisibility;
+        private Visibility _backBtVisibility;
+        private Visibility _nextBtVisibility;
+        private Visibility _closeBtVisibility;
+        private Visibility _cancelBtVisibility;
 
-        private string nextBtContent;
-        private string windowTitle;
+        private string _nextBtContent;
+        private string _windowTitle;
 
         public string WindowTitle
         {
-            get => windowTitle;
-            set => SetProperty(ref windowTitle, value);
+            get => _windowTitle;
+            set => SetProperty(ref _windowTitle, value);
         }
 
         public string NextBtContent
         {
-            get => nextBtContent;
-            set => SetProperty(ref nextBtContent, value);
+            get => _nextBtContent;
+            set => SetProperty(ref _nextBtContent, value);
         }
 
         public bool CanGoNext
         {
-            get => canGoNext;
-            set => SetProperty(ref canGoNext, value);
+            get => _canGoNext;
+            set => SetProperty(ref _canGoNext, value);
         }
 
         public bool CanGoBack
         {
-            get => canGoBack;
-            set => SetProperty(ref canGoBack, value);
+            get => _canGoBack;
+            set => SetProperty(ref _canGoBack, value);
         }
 
         public Visibility BackBtVisibility
         {
-            get => backBtVisibility;
-            set => SetProperty(ref backBtVisibility, value);
+            get => _backBtVisibility;
+            set => SetProperty(ref _backBtVisibility, value);
         }
 
         public Visibility NextBtVisibility
         {
-            get => nextBtVisibility;
-            set => SetProperty(ref nextBtVisibility, value);
+            get => _nextBtVisibility;
+            set => SetProperty(ref _nextBtVisibility, value);
         }
 
         public Visibility CloseBtVisibility
         {
-            get => closeBtVisibility;
-            set => SetProperty(ref closeBtVisibility, value);
+            get => _closeBtVisibility;
+            set => SetProperty(ref _closeBtVisibility, value);
         }
 
         public Visibility CancelBtVisibility
         {
-            get => cancelBtVisibility;
-            set => SetProperty(ref cancelBtVisibility, value);
+            get => _cancelBtVisibility;
+            set => SetProperty(ref _cancelBtVisibility, value);
         }
 
         public Action CloseAction { get; set; }
@@ -98,7 +98,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 
     public class NavigationWindowService<T> : WindowService where T : new()
     {
-        private readonly Dictionary<Type, Tuple<object, bool>> cacheDictionary = new Dictionary<Type, Tuple<object, bool>>();
+        private readonly Dictionary<Type, Tuple<object, bool>> _cacheDictionary = new Dictionary<Type, Tuple<object, bool>>();
 
         public IList<Tuple<Type, bool>> Pages { get; set; }
         public ITransitionNavigationService Navigation { get; set; }
@@ -121,9 +121,9 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
                 if (type == null || Pages.Count - 1 < i)
                     return (new object(), false);
 
-                var page = cacheDictionary.GetCallback(type, () => new Tuple<object, bool>(Activator.CreateInstance(type, this), Pages[i].Item2));
-                if (!cacheDictionary.ContainsKey(type))
-                    cacheDictionary.Add(type, page);
+                var page = _cacheDictionary.GetCallback(type, () => new Tuple<object, bool>(Activator.CreateInstance(type, this), Pages[i].Item2));
+                if (!_cacheDictionary.ContainsKey(type))
+                    _cacheDictionary.Add(type, page);
                 return (page.Item1, page.Item2);
             };
             Navigation.HorizontalOffsetAction = () => Owner.Width + 10;
@@ -169,7 +169,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
             }
         }
 
-        private void RefreshValues(object page)
+        private static void RefreshValues(object page)
         {
             if (page is UserControl cPage)
             {

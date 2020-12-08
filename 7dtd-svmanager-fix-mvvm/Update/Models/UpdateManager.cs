@@ -23,28 +23,28 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
     {
         public Dictionary<string, IEnumerable<RichTextItem>> Updates { get; private set; }
 
-        public bool IsUpdate = false;
-        public bool IsUpdUpdate = false;
+        public bool IsUpdate;
+        public bool IsUpdUpdate;
 
-        private UpdateClient updateClient;
+        private UpdateClient _updateClient;
 
         public string LatestVersion { get; private set; } = "1.0.0.0";
         public string CurrentVersion { get; } = ConstantValues.Version;
 
         public async Task Initialize()
         {
-            updateClient = GetUpdateClient();
+            _updateClient = GetUpdateClient();
 
             try
             {
-                var latestVersion = await updateClient.GetVersion("main");
-                var latestUpdVersion = await updateClient.GetVersion("updater");
-                var updVersion = CommonCoreLib.CommonFile.Version.GetVersion(ConstantValues.UpdaterFilePath);
+                var latestVersion = await _updateClient.GetVersion("main");
+                var latestUpdVersion = await _updateClient.GetVersion("updater");
+                var updVersion = CommonCoreLib.File.Version.GetVersion(ConstantValues.UpdaterFilePath);
 
                 IsUpdate = latestVersion != CurrentVersion;
                 IsUpdUpdate = updVersion != latestUpdVersion;
 
-                var details = await updateClient.DownloadFile(updateClient.DetailVersionInfoDownloadUrlPath);
+                var details = await _updateClient.DownloadFile(_updateClient.DetailVersionInfoDownloadUrlPath);
 
                 using var stream = new MemoryStream(details);
                 var reader = new SavannahXmlReader(stream);
@@ -68,7 +68,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         public async Task ApplyUpdUpdate(string extractDirPath)
         {
-            var updData = await updateClient.DownloadUpdateFile();
+            var updData = await _updateClient.DownloadUpdateFile();
             using var ms = new MemoryStream(updData.Length);
             ms.Write(updData, 0, updData.Length);
             ms.Seek(0, SeekOrigin.Begin);
@@ -86,7 +86,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             var startInfo = new ProcessStartInfo
             {
                 FileName = ConstantValues.UpdaterFilePath,
-                Arguments = $"{pid} SavannahManager2.exe \"{updateClient.WebClient.BaseUrl}\" \"{updateClient.MainDownloadUrlPath}\""
+                Arguments = $"{pid} SavannahManager2.exe \"{_updateClient.WebClient.BaseUrl}\" \"{_updateClient.MainDownloadUrlPath}\""
             };
 
             return startInfo;
@@ -122,7 +122,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                         };
                         paragraph.AddChildren(new RichTextItem
                         {
-                            Text = text,
+                            Text = text
                         });
                         items.Add(paragraph);
                     }

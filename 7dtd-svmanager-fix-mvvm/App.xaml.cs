@@ -13,14 +13,14 @@ namespace _7dtd_svmanager_fix_mvvm
     /// </summary>
     public partial class App : Application
     {
-        private IDisposable mainWindow;
+        private IDisposable _mainWindow;
         private void MyApp_Startup(object sender, StartupEventArgs e)
         {
             TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 
             var mainWindow = new MainWindow();
-            this.mainWindow = mainWindow;
+            _mainWindow = mainWindow;
             mainWindow.Show();
         }
 
@@ -29,20 +29,20 @@ namespace _7dtd_svmanager_fix_mvvm
             if (e.ExceptionObject is Exception exception)
             {
                 ShowAndWriteException(exception);
-                mainWindow.Dispose();
+                _mainWindow.Dispose();
             }
         }
 
         private void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             ShowAndWriteException(e.Exception);
-            mainWindow.Dispose();
+            _mainWindow.Dispose();
         }
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             ShowAndWriteException(e.Exception);
-            mainWindow.Dispose();
+            _mainWindow.Dispose();
 
             e.Handled = true;
             Shutdown();
@@ -57,7 +57,7 @@ namespace _7dtd_svmanager_fix_mvvm
                 exception.Message, exception.StackTrace);
             MessageBox.Show(mes, "予期せぬエラー", MessageBoxButton.OK, MessageBoxImage.Error);
 
-            DateTime dt = DateTime.Now;
+            var dt = DateTime.Now;
             OutToFile(AppInfo.GetAppPath() + @"\error-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
         }
 

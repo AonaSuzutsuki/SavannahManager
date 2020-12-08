@@ -8,52 +8,52 @@ namespace _7dtd_XmlEditor.Models.TreeView
 {
     public class TreeViewItemInfoBase : BindableBase
     {
-        private string name = string.Empty;
-        private bool isExpanded;
-        private bool isSelected;
+        private string _name = string.Empty;
+        private bool _isExpanded;
+        private bool _isSelected;
         protected ObservableCollection<TreeViewItemInfoBase> children;
-        private Brush background = Brushes.Transparent;
-        private Visibility beforeSeparatorVisibility = Visibility.Hidden;
-        private Visibility afterSeparatorVisibility = Visibility.Hidden;
+        private Brush _background = Brushes.Transparent;
+        private Visibility _beforeSeparatorVisibility = Visibility.Hidden;
+        private Visibility _afterSeparatorVisibility = Visibility.Hidden;
 
         public string Name
         {
-            get => name;
-            set => SetProperty(ref name, value);
+            get => _name;
+            set => SetProperty(ref _name, value);
         }
 
         public IEnumerable<TreeViewItemInfoBase> Children => children;
 
         public bool IsExpanded
         {
-            get => isExpanded;
-            set => SetProperty(ref isExpanded, value);
+            get => _isExpanded;
+            set => SetProperty(ref _isExpanded, value);
         }
 
         public bool IsSelected
         {
-            get => isSelected;
-            set => SetProperty(ref isSelected, value);
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
         }
 
         public Brush Background
         {
-            get => background;
-            set => SetProperty(ref background, value);
+            get => _background;
+            set => SetProperty(ref _background, value);
         }
 
         public TreeViewItemInfoBase Parent { get; set; }
 
         public Visibility BeforeSeparatorVisibility
         {
-            get => beforeSeparatorVisibility;
-            set => SetProperty(ref beforeSeparatorVisibility, value);
+            get => _beforeSeparatorVisibility;
+            set => SetProperty(ref _beforeSeparatorVisibility, value);
         }
 
         public Visibility AfterSeparatorVisibility
         {
-            get => afterSeparatorVisibility;
-            set => SetProperty(ref afterSeparatorVisibility, value);
+            get => _afterSeparatorVisibility;
+            set => SetProperty(ref _afterSeparatorVisibility, value);
         }
 
         public void AddChildren(TreeViewItemInfoBase info)

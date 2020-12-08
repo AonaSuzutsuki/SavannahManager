@@ -11,10 +11,10 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {
     public class AdminPageViewModel : NavigationPageViewModelBase
     {
-        private readonly AdminPageModel model;
+        private readonly AdminPageModel _model;
         public AdminPageViewModel(NavigationWindowService<InitializeData> bindableValue, AdminPageModel model) : base(bindableValue?.NavigationValue)
         {
-            this.model = model;
+            _model = model;
 
             GetPathCommand = new DelegateCommand(GetPathBt_Click);
             AutoSearchCommand = new DelegateCommand(AutoSearchBt_Click);
@@ -29,11 +29,11 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 
         public void GetPathBt_Click()
         {
-            model.SelectAndGetFilePath();
+            _model.SelectAndGetFilePath();
         }
         public void AutoSearchBt_Click()
         {
-            model.AutoSearchAndGetFilePath();
+            _model.AutoSearchAndGetFilePath();
         }
 
         public override void RefreshValues()

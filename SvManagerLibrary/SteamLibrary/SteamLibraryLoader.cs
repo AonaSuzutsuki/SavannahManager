@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace SvManagerLibrary.SteamLibrary
 {
@@ -40,22 +36,20 @@ namespace SvManagerLibrary.SteamLibrary
         private static List<SteamLibraryPath> AnalyzeJson(string filePath)
         {
             var dirList = new List<SteamLibraryPath>();
-            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var sr = new StreamReader(fs);
+            while (sr.Peek() > -1)
             {
-                var sr = new StreamReader(fs);
-                while (sr.Peek() > -1)
+                const string expression = @"^\t""[0-9]+""\t\t""(?<path>.*?)""$";
+                var reg = new Regex(expression);
+                var line = sr.ReadLine();
+                var match = reg.Match(line ?? string.Empty);
+                if (match.Success)
                 {
-                    const string expression = @"^\t""[0-9]+""\t\t""(?<path>.*?)""$";
-                    var reg = new Regex(expression);
-                    var line = sr.ReadLine();
-                    var match = reg.Match(line);
-                    if (match.Success)
-                    {
-                        dirList.Add(new SteamLibraryPath(match.Groups["path"].Value.Replace("\\\\", "\\")));
-                    }
+                    dirList.Add(new SteamLibraryPath(match.Groups["path"].Value.Replace("\\\\", "\\")));
                 }
-                return dirList;
             }
+            return dirList;
         }
     }
 }

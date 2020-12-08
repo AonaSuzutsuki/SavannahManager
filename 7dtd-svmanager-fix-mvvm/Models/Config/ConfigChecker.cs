@@ -34,17 +34,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Config
     {
         public static ICheckedValue GetConfigInfo(string configFilePath)
         {
-            ConfigLoader configLoader = new ConfigLoader(configFilePath);
+            var configLoader = new ConfigLoader(configFilePath);
             var portConfig = configLoader.GetValue("TelnetPort");
-            string strPort = portConfig == null ? string.Empty : portConfig.Value;
+            var strPort = portConfig == null ? string.Empty : portConfig.Value;
             var cpPortConfig = configLoader.GetValue("ControlPanelPort");
-            string cpPort = cpPortConfig == null ? string.Empty : cpPortConfig.Value;
+            var cpPort = cpPortConfig == null ? string.Empty : cpPortConfig.Value;
             var svPortConfig = configLoader.GetValue("ServerPort");
-            string svPort = svPortConfig == null ? string.Empty : svPortConfig.Value;
+            var svPort = svPortConfig == null ? string.Empty : svPortConfig.Value;
 
             var passConfig = configLoader.GetValue("TelnetPassword");
-            string password = passConfig == null ? "CHANGEME" : passConfig.Value;
-            string telnetEnabledString = configLoader.GetValue("TelnetEnabled").Value;
+            var password = passConfig == null ? "CHANGEME" : passConfig.Value;
+            var telnetEnabledString = configLoader.GetValue("TelnetEnabled").Value;
 
             var checkValues = new CheckValue()
             {
@@ -54,7 +54,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Config
                 TelnetEnabled = telnetEnabledString,
                 Password = password
             };
-            ICheckedValue checkedValues = CheckRightfulness(checkValues);
+            var checkedValues = CheckRightfulness(checkValues);
 
             return checkedValues;
         }
@@ -63,7 +63,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Config
             var checkedValues = new CheckValue();
 
             //TelnetEnabledチェック
-            if (!bool.TryParse(checkValues.TelnetEnabled, out bool telnetEnabled))
+            if (!bool.TryParse(checkValues.TelnetEnabled, out var telnetEnabled))
             {
                 ApplyFailed(string.Format(LangResources.Resources._0_Is_Invalid, "TelnetEnabled"), checkedValues);
             }
@@ -85,7 +85,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Config
             }
 
             // Telnetポート変換チェック
-            if (!int.TryParse(checkValues.TelnetPort, out int port))
+            if (!int.TryParse(checkValues.TelnetPort, out var port))
             {
                 ApplyFailed(string.Format(LangResources.Resources._0_Is_Invalid, LangResources.Resources.Port), checkedValues);
             }

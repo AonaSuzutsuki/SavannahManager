@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using SavannahXmlLib.XmlWrapper;
@@ -9,14 +8,14 @@ namespace SvManagerLibrary.Config
 {
     public class ConfigLoader
     {
-        private readonly string fileName;
-        private SavannahXmlReader reader;
+        private readonly string _fileName;
+        private SavannahXmlReader _reader;
 
-        private readonly Dictionary<string, ConfigInfo> configs = new Dictionary<string, ConfigInfo>();
+        private readonly Dictionary<string, ConfigInfo> _configs = new Dictionary<string, ConfigInfo>();
 
         public ConfigLoader(string path, bool newFile = false)
         {
-            fileName = path;
+            _fileName = path;
             if (!newFile)
             {
                 Load();
@@ -27,10 +26,10 @@ namespace SvManagerLibrary.Config
         {
             try
             {
-                using var fs = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-                reader = new SavannahXmlReader(fs);
-                var names = reader.GetAttributes("name", "ServerSettings/property").ToList();
-                var values = reader.GetAttributes("value", "ServerSettings/property").ToList();
+                using var fs = new FileStream(_fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+                _reader = new SavannahXmlReader(fs);
+                var names = _reader.GetAttributes("name", "ServerSettings/property").ToList();
+                var values = _reader.GetAttributes("value", "ServerSettings/property").ToList();
 
                 var length = names.Count > values.Count ? values.Count : names.Count;
                 for (var i = 0; i < length; ++i)
@@ -40,18 +39,18 @@ namespace SvManagerLibrary.Config
                         PropertyName = names[i],
                         Value = values[i],
                     };
-                    configs.Add(names[i], configInfo);
+                    _configs.Add(names[i], configInfo);
                 }
             }
             catch
             {
-                return;
+                // ignored
             }
         }
 
         public void AddValue(string propertyName, string value)
         {
-            if (configs.ContainsKey(propertyName))
+            if (_configs.ContainsKey(propertyName))
             {
                 ChangeValue(propertyName, value);
             }
@@ -62,7 +61,7 @@ namespace SvManagerLibrary.Config
                     PropertyName = propertyName,
                     Value = value,
                 };
-                configs.Add(propertyName, configInfo);
+                _configs.Add(propertyName, configInfo);
             }
         }
         public void AddValues(ConfigInfo[] configs)
@@ -74,9 +73,9 @@ namespace SvManagerLibrary.Config
         }
         public bool ChangeValue(string propertyName, string value)
         {
-            if (configs.ContainsKey(propertyName))
+            if (_configs.ContainsKey(propertyName))
             {
-                configs[propertyName].Value = value;
+                _configs[propertyName].Value = value;
                 return true;
             }
 
@@ -84,26 +83,26 @@ namespace SvManagerLibrary.Config
         }
         public ConfigInfo GetValue(string propertyName)
         {
-            if (configs.ContainsKey(propertyName))
+            if (_configs.ContainsKey(propertyName))
             {
-                return configs[propertyName];
+                return _configs[propertyName];
             }
             return null;
         }
 
         public void Clear()
         {
-            configs.Clear();
+            _configs.Clear();
         }
 
         public Dictionary<string, ConfigInfo> GetAll()
         {
-            return configs;
+            return _configs;
         }
 
         public void Write()
         {
-            using var fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+            using var fs = new FileStream(_fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
             Write(fs);
         }
 
@@ -111,7 +110,7 @@ namespace SvManagerLibrary.Config
         {
             var writer = new SavannahXmlWriter();
             var root = SavannahTagNode.CreateRoot("ServerSettings");
-            var configXmlArray = (from config in configs.Values
+            var configXmlArray = (from config in _configs.Values
                                   let configAttributeInfo = CreateConfigAttributeInfos(config)
                                   select SavannahTagNode.CreateElement("property", configAttributeInfo)).ToArray();
             root.ChildNodes = configXmlArray;
@@ -119,16 +118,16 @@ namespace SvManagerLibrary.Config
             writer.Write(stream, root);
         }
 
-        private AttributeInfo[] CreateConfigAttributeInfos(ConfigInfo configInfo)
+        private static AttributeInfo[] CreateConfigAttributeInfos(ConfigInfo configInfo)
         {
-            var attributeInfo = new AttributeInfo[]
+            var attributeInfo = new[]
             {
-                new AttributeInfo()
+                new AttributeInfo
                 {
                     Name = "name",
                     Value = configInfo.PropertyName
                 },
-                new AttributeInfo()
+                new AttributeInfo
                 {
                     Name = "value",
                     Value = configInfo.Value

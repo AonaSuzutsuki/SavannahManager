@@ -15,7 +15,7 @@ namespace SvManagerLibrary.Chat
 
             while (sr.Peek() > -1)
             {
-                var match = reg.Match(sr.ReadLine());
+                var match = reg.Match(sr.ReadLine() ?? string.Empty);
                 if (match.Success)
                 {
                     chatData.Name = match.Groups["name"].Value;

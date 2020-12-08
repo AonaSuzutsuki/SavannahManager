@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SvManagerLibrary.Player
 {
-    public static class PlayerInfoListExtention
+    public static class PlayerInfoListExtension
     {
         public static void Add(this List<PlayerInfo> playerData, string log)
         {

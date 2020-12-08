@@ -16,7 +16,7 @@ namespace SvManagerLibrary.Time
             var sr = new StringReader(text);
             while (sr.Peek() > -1)
             {
-                var match = reg.Match(sr.ReadLine());
+                var match = reg.Match(sr.ReadLine() ?? string.Empty);
                 if (match.Success)
                 {
                     int.TryParse(match.Groups["day"].Value, out int day);

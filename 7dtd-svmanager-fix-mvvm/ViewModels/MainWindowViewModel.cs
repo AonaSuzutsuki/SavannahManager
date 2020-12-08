@@ -1,6 +1,5 @@
 ﻿using _7dtd_svmanager_fix_mvvm.Views;
 using CommonStyleLib.ViewModels;
-using LanguageEx;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -16,6 +15,7 @@ using System.Windows.Threading;
 using _7dtd_svmanager_fix_mvvm.Backup.Models;
 using _7dtd_svmanager_fix_mvvm.Backup.ViewModels;
 using _7dtd_svmanager_fix_mvvm.Backup.Views;
+using _7dtd_svmanager_fix_mvvm.LangResources;
 using _7dtd_svmanager_fix_mvvm.Models;
 using _7dtd_svmanager_fix_mvvm.Permissions.Models;
 using _7dtd_svmanager_fix_mvvm.Permissions.ViewModels;
@@ -37,7 +37,6 @@ using _7dtd_svmanager_fix_mvvm.Update.Views;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.Models;
-using Log;
 using SvManagerLibrary.Player;
 using SvManagerLibrary.Telnet;
 
@@ -45,7 +44,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
     public class UserDetail
     {
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string Level { get; set; }
         public string Name { get; set; }
         public string Health { get; set; }
@@ -60,7 +59,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             return new PlayerInfo
             {
-                Id = ID,
+                Id = Id,
                 Level = Level,
                 Name = Name,
                 Health = Health,
@@ -75,7 +74,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         public override string ToString()
         {
-            return $"{ID} {Level} {Name} {Health} {ZombieKills} {PlayerKills} {Death} {Score} {Coord} {SteamId}\r\n";
+            return $"{Id} {Level} {Name} {Health} {ZombieKills} {PlayerKills} {Death} {Score} {Coord} {SteamId}\r\n";
         }
     }
 
@@ -95,7 +94,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             model.TelnetFinished.Subscribe(Telnet_Finished);
             model.TelnetRead.Subscribe(TelnetReadEvent);
 
-            mainWindowService = windowService;
+            _mainWindowService = windowService;
             _model = model;
 
             #region Event Initialize
@@ -152,9 +151,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             IsBeta = model.ObserveProperty(m => m.IsBeta).ToReactiveProperty();
 
-            StartBTEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled);
-            TelnetBTIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled);
-            TelnetBTLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel);
+            StartBtEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled);
+            TelnetBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled);
+            TelnetBtLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel);
 
             UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
             
@@ -179,11 +178,20 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
 
         #region Fields
-        private readonly MainWindowService mainWindowService;
-        private readonly Models.MainWindowModel _model;
-        private StringBuilder consoleLog = new StringBuilder();
+        private readonly MainWindowService _mainWindowService;
+        private readonly MainWindowModel _model;
+        private StringBuilder _consoleLog = new StringBuilder();
 
-        private bool consoleIsFocus = false;
+        private bool _consoleIsFocus;
+
+        private int _usersListSelectedIndex = -1;
+        private bool _adminContextEnabled;
+        private bool _whitelistContextEnabled;
+        private bool _kickContextEnabled;
+        private bool _banContextEnabled;
+        private bool _watchPlayerInfoContextEnabled;
+        private string _consoleLogText;
+        private string _cmdText;
         #endregion
 
         #region EventProperties
@@ -237,63 +245,55 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         public TextBox ConsoleTextBox { get; set; }
         
-        public ReactiveProperty<bool> StartBTEnabled { get; set; }
-        public ReactiveProperty<bool> TelnetBTIsEnabled { get; set; }
-        public ReactiveProperty<string> TelnetBTLabel { get; set; }
+        public ReactiveProperty<bool> StartBtEnabled { get; set; }
+        public ReactiveProperty<bool> TelnetBtIsEnabled { get; set; }
+        public ReactiveProperty<string> TelnetBtLabel { get; set; }
         
         public ReactiveProperty<ObservableCollection<UserDetail>> UsersList { get; set; }
-        private int usersListSelectedIndex = -1;
         public int UsersListSelectedIndex
         {
-            get => usersListSelectedIndex;
-            set => SetProperty(ref usersListSelectedIndex, value);
+            get => _usersListSelectedIndex;
+            set => SetProperty(ref _usersListSelectedIndex, value);
         }
 
-        private bool adminContextEnabled;
         public bool AdminContextEnabled
         {
-            get => adminContextEnabled;
-            set => SetProperty(ref adminContextEnabled, value);
+            get => _adminContextEnabled;
+            set => SetProperty(ref _adminContextEnabled, value);
         }
-        private bool whitelistContextEnabled;
         public bool WhitelistContextEnabled
         {
-            get => whitelistContextEnabled;
-            set => SetProperty(ref whitelistContextEnabled, value);
+            get => _whitelistContextEnabled;
+            set => SetProperty(ref _whitelistContextEnabled, value);
         }
-        private bool kickContextEnabled;
         public bool KickContextEnabled
         {
-            get => kickContextEnabled;
-            set => SetProperty(ref kickContextEnabled, value);
+            get => _kickContextEnabled;
+            set => SetProperty(ref _kickContextEnabled, value);
         }
-        private bool banContextEnabled;
         public bool BanContextEnabled
         {
-            get => banContextEnabled;
-            set => SetProperty(ref banContextEnabled, value);
+            get => _banContextEnabled;
+            set => SetProperty(ref _banContextEnabled, value);
         }
-        private bool watchPlayerInfoContextEnabled;
         public bool WatchPlayerInfoContextEnabled
         {
-            get => watchPlayerInfoContextEnabled;
-            set => SetProperty(ref watchPlayerInfoContextEnabled, value);
+            get => _watchPlayerInfoContextEnabled;
+            set => SetProperty(ref _watchPlayerInfoContextEnabled, value);
         }
         
         public ReactiveProperty<string> ChatLogText { get; set; }
         public ReactiveProperty<string> ChatInputText { get; set; }
 
-        private string consoleLogText;
         public string ConsoleLogText
         {
-            get => consoleLogText;
-            set => SetProperty(ref consoleLogText, value);
+            get => _consoleLogText;
+            set => SetProperty(ref _consoleLogText, value);
         }
-        private string cmdText;
         public string CmdText
         {
-            get => cmdText;
-            set => SetProperty(ref cmdText, value);
+            get => _cmdText;
+            set => SetProperty(ref _cmdText, value);
         }
         
         public ReactiveProperty<bool> ConnectionPanelIsEnabled { get; set; }
@@ -334,7 +334,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var availableUpdate = await _model.CheckUpdate();
             if (availableUpdate)
             {
-                var dialogResult = mainWindowService.MessageBoxShow(LangResources.Resources.UI_DoUpdateAlertMessage,
+                var dialogResult = _mainWindowService.MessageBoxShow(LangResources.Resources.UI_DoUpdateAlertMessage,
                     LangResources.Resources.UI_DoUpdateAlertTitle, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
                 if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
                 {
@@ -481,7 +481,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void PlayerContextMenu_Opened()
         {
-            int index = UsersListSelectedIndex;
+            var index = UsersListSelectedIndex;
             if (index < 0)
             {
                 AdminContextEnabled = false;
@@ -502,7 +502,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void AdminAddPlayer()
         {
             var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
-            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+            var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
             var adminAdd = new AdminAdd(_model, AddType.Type.Admin, name);
@@ -524,7 +524,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void WhiteListAddPlayer()
         {
             var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
-            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+            var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
             var whitelistAdd = new AdminAdd(_model, AddType.Type.Whitelist, name);
@@ -546,7 +546,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void KickPlayer()
         {
             var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
-            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+            var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
             var kick = new Kick(_model, name);
@@ -564,7 +564,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void BanPlayer()
         {
             var playerInfo = _model.GetUserDetail(UsersListSelectedIndex);
-            var name = string.IsNullOrEmpty(playerInfo.ID) ? string.Empty : playerInfo.ID;
+            var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
             var ban = new Ban(_model, name);
@@ -599,15 +599,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void ConsoleTextBoxMouse_Enter()
         {
-            consoleIsFocus = true;
+            _consoleIsFocus = true;
         }
         private void ConsoleTextBoxMouse_Leave()
         {
-            consoleIsFocus = false;
+            _consoleIsFocus = false;
         }
         private void DeleteLog()
         {
-            consoleLog.Clear();
+            _consoleLog.Clear();
             ConsoleLogText = "";
         }
 
@@ -682,24 +682,24 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #region Methods
         private void AppendConsoleText(string text, int maxLength)
         {
-            if (consoleLog == null)
+            if (_consoleLog == null)
             {
-                consoleLog = new StringBuilder(maxLength * 2);
+                _consoleLog = new StringBuilder(maxLength * 2);
             }
-            consoleLog.Append(text);
-            if (consoleLog.Length > maxLength)
+            _consoleLog.Append(text);
+            if (_consoleLog.Length > maxLength)
             {
-                consoleLog.Remove(0, consoleLog.Length - maxLength);
+                _consoleLog.Remove(0, _consoleLog.Length - maxLength);
             }
 
-            ConsoleLogText = consoleLog.ToString();
+            ConsoleLogText = _consoleLog.ToString();
 
-            if (!consoleIsFocus)
+            if (!_consoleIsFocus)
             {
-                if (!consoleIsFocus)
+                if (!_consoleIsFocus)
                 {
-                    mainWindowService.Select(ConsoleLogText.Length, 0);
-                    mainWindowService.ScrollToEnd();
+                    _mainWindowService.Select(ConsoleLogText.Length, 0);
+                    _mainWindowService.ScrollToEnd();
                 }
             }
         }

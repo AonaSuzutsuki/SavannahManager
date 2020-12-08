@@ -42,7 +42,7 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views
 
         private void Page_Ended(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

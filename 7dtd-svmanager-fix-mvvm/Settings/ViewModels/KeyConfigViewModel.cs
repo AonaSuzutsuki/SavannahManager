@@ -31,11 +31,11 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
             InputKeyText = model.ToReactivePropertyAsSynchronized(m => m.KeyString);
         }
 
-        private ReadOnlyObservableCollection<ShortcutKeyForList> keyList;
+        private ReadOnlyObservableCollection<ShortcutKeyForList> _keyList;
         public ReadOnlyObservableCollection<ShortcutKeyForList> KeyList
         {
-            get => keyList;
-            set => SetProperty(ref keyList, value);
+            get => _keyList;
+            set => SetProperty(ref _keyList, value);
         }
         
         public ReactiveProperty<int> KeyListSelectedIndex { get; set; }

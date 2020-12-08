@@ -15,10 +15,10 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels.Pages
 {
     public class AdminAddViewModel : BindableBase
     {
-        private AdminAddModel model;
+        private readonly AdminAddModel _model;
         public AdminAddViewModel(AdminAddModel model)
         {
-            this.model = model;
+            _model = model;
 
             NameText = model.ToReactivePropertyAsSynchronized(m => m.Name);
             PermissionText = model.ToReactivePropertyAsSynchronized(m => m.Permission);
