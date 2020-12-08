@@ -13,55 +13,48 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  openCover: 'packages\OpenCover.4.7.922\tools\OpenCover.Console.exe'
-  nunitConsole: 'packages\NUnit.ConsoleRunner.3.11.1\tools\nunit3-console.exe'
   disable.coverage.autogenerate: 'true'
 
 steps:
 - task: NuGetToolInstaller@1
+  inputs:
+    checkLatest: true
 
 - task: NuGetCommand@2
   inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:PostBuildEvent='
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'config'
+    nugetConfigPath: './nuget.config'
 
 - task: CmdLine@2
-  displayName: "NUnit & OpenCover"
+  displayName: "dotnet build"
   inputs:
-    script: >
-      $(openCover)
-      -register:Path64
-      -target:"$(nunitConsole)"
-      -targetargs:"SvManagerLibraryTests2.dll"
-      -targetdir:"SvManagerLibraryTests2\bin\$(buildConfiguration)"
-      -returntargetcode
-      -output:"coverage.xml"
-      -filter:"+[SvManagerLibraryTests2]*"
+    script: dotnet build --configuration $(buildConfiguration) .\SavannahManagerLibTests\SavannahManagerLibTests.csproj
+
+
+- task: DotNetCoreCLI@2
+  displayName: "dotnet test"
+  inputs:
+    command: 'test'
+    projects: '**/*.csproj'
+    arguments: '--logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    publishTestResults: false
 
 - task: PublishTestResults@2
-  displayName: "Publish unit test result"
   condition: always()
   inputs:
-    testResultsFormat: 'NUnit'
-    testResultsFiles: '**\TestResult.xml'
-    failTaskOnFailedTests: false
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/*.trx'
 
 - task: reportgenerator@4
-  condition: always()
   inputs:
-    reports: '**\coverage.xml'
+    reports: '**/coverage.cobertura.xml'
     targetdir: 'CoverageReport'
+    reporttypes: 'HtmlInline_AzurePipelines'
 
 - task: PublishCodeCoverageResults@1
-  condition: always()
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: 'CoverageReport\Cobertura.xml'
+    summaryFileLocation: '**/coverage.cobertura.xml'
     reportDirectory: 'CoverageReport'
