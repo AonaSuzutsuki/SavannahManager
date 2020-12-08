@@ -166,17 +166,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">
-      <Project>{adb034d1-b0fb-43d0-acac-3f5214cc03d7}</Project>
-      <Name>SvManagerLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="vehicles.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SavannahManagerLib\SavannahManagerLib.csproj">
+      <Project>{d1901e96-34c0-4b20-8aa2-85dff24f2aea}</Project>
+      <Name>SavannahManagerLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="XmlTemplates\a18\Vehicles\vehicles.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

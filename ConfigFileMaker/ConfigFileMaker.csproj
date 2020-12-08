@@ -99,11 +99,5 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">
-      <Project>{adb034d1-b0fb-43d0-acac-3f5214cc03d7}</Project>
-      <Name>SvManagerLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -254,12 +254,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SvManagerLibrary\SvManagerLibrary.csproj">
-      <Project>{adb034d1-b0fb-43d0-acac-3f5214cc03d7}</Project>
-      <Name>SvManagerLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="lang\a11.6\en_ConfigData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -311,6 +305,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Styles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SavannahManagerLib\SavannahManagerLib.csproj">
+      <Project>{d1901e96-34c0-4b20-8aa2-85dff24f2aea}</Project>
+      <Name>SavannahManagerLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
