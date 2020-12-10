@@ -202,7 +202,7 @@ namespace ConfigEditor_mvvm.Models
         /// Process shortcut keys.
         /// </summary>
         /// <param name="e">input value of key</param>
-        /// <param name="modKey">input value of modifier key/param>
+        /// <param name="modKey">input value of modifier key</param>
         public void ShortcutKey(KeyEventArgs e, ModifierKeys modKey)
         {
             var mainKey = e.Key;
