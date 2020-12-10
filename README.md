@@ -1,4 +1,6 @@
 # SavannahManager
+[![Build Status](https://dev.azure.com/AonaSuzutsuki/SavannahManager/_apis/build/status/AonaSuzutsuki.SavannahManager?branchName=master)](https://dev.azure.com/AonaSuzutsuki/SavannahManager/_build/latest?definitionId=3&branchName=master)  
+
 Savannah Manager is a management tool for 7 Days to Die server.
 The goal is to make all management possible with software. 
 
