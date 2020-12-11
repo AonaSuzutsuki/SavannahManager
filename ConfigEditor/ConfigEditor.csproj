@@ -5,6 +5,11 @@
     <TargetFramework>net48</TargetFramework>
     <UseWPF>true</UseWPF>
     <RootNamespace>ConfigEditor_mvvm</RootNamespace>
+    <Authors>Aona Suzutsuki</Authors>
+    <Company>Kimama Lab.</Company>
+    <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2020</Copyright>
+    <AssemblyVersion>1.0.1.1</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
