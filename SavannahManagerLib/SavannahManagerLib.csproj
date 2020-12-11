@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net48</TargetFrameworks>
+    <TargetFrameworks>net48;netstandard2.1</TargetFrameworks>
     <AssemblyName>SvManagerLibrary</AssemblyName>
     <LangVersion>latest</LangVersion>
     <RootNamespace>SvManagerLibrary</RootNamespace>
