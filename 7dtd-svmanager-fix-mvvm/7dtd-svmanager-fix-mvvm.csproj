@@ -583,10 +583,6 @@
     <Resource Include="ToDo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Update\xml\updates.en.xml" />
-    <Resource Include="Update\xml\updates.ja.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Backup\Images\FileIcon.png" />
   </ItemGroup>
   <ItemGroup>
