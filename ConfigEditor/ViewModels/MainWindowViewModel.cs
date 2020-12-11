@@ -18,10 +18,10 @@ namespace ConfigEditor_mvvm.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private MainWindowModel model;
+        private readonly MainWindowModel _model;
         public MainWindowViewModel(WindowService windowService, MainWindowModel model) : base(windowService, model)
         {
-            this.model = model;
+            _model = model;
 
             #region Event Initialize
             Loaded = new DelegateCommand(MainWindow_Loaded);
@@ -106,41 +106,41 @@ namespace ConfigEditor_mvvm.ViewModels
         #region Event Methods
         protected override void MainWindow_KeyDown(KeyEventArgs e)
         {
-            model.ShortcutKey(e, Keyboard.Modifiers);
+            _model.ShortcutKey(e, Keyboard.Modifiers);
         }
 
         public void NewFileBt_Clicked()
         {
-            model.LoadNewData();
+            _model.LoadNewData();
         }
         public void OpenBt_Clicked()
         {
-            model.OpenFile();
+            _model.OpenFile();
         }
         public void SaveAsBt_Clicked()
         {
-            model.SaveAs();
+            _model.SaveAs();
         }
         public void SaveBt_Clicked()
         {
-            model.Save();
+            _model.Save();
         }
 
         public void VersionsList_SelectionChanged()
         {
-            model.LoadToConfigList();
+            _model.LoadToConfigList();
         }
         public void ConfigList_SelectionChanged()
         {
-            model.SetConfigProperty();
+            _model.SetConfigProperty();
         }
         public void ValueList_SelectionChanged()
         {
-            model.ChangeValue(ConfigType.Combo);
+            _model.ChangeValue(ConfigType.Combo);
         }
         public void ValueTextText_Changed()
         {
-            model.ChangeValue(ConfigType.String);
+            _model.ChangeValue(ConfigType.String);
         }
         #endregion
     }

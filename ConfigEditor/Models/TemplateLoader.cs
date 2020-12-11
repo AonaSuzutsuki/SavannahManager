@@ -3,6 +3,7 @@ using System.Linq;
 using CommonCoreLib.XMLWrapper;
 using CommonExtensionLib.Extensions;
 using SavannahXmlLib.XmlWrapper;
+using SavannahXmlLib.XmlWrapper.Nodes;
 
 namespace ConfigEditor_mvvm.Models
 {
@@ -35,7 +36,7 @@ namespace ConfigEditor_mvvm.Models
         /// </summary>
         private void VersionListLoad(string templateListPath)
         {
-            var xmlReader = new SavannahXmlReader(templateListPath);
+            var xmlReader = new CachedSavannahXmlReader(templateListPath);
             VersionList = xmlReader.GetAttributes("version", "/root/configs/config").ToList();
             _versionPathList = xmlReader.GetValues("/root/configs/config", false).ToList();
         }
@@ -55,10 +56,12 @@ namespace ConfigEditor_mvvm.Models
                 foreach (var name in names)
                 {
                     var xpath = $"/ServerSettings/property[@name=\"{name}\"]";
-                    var value = baseReader.GetAttribute("value", xpath);
-                    var selection = baseReader.GetAttribute("selection", xpath);
-                    var type = baseReader.GetAttribute("type", xpath);
-                    var description = baseReader.GetValue(xpath);
+                    if (!(baseReader.GetNode(xpath) is SavannahTagNode node))
+                        continue;
+                    var value = node.GetAttribute("value").Value;
+                    var selection = node.GetAttribute("selection").Value;
+                    var type = node.GetAttribute("type").Value;
+                    var description = node.InnerText;
                     dic.Add(name, new ConfigListInfo()
                     {
                         Property = name,

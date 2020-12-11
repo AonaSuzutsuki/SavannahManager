@@ -7,7 +7,7 @@ using System.Windows.Input;
 using CommonCoreLib.XMLWrapper;
 using SavannahXmlLib.XmlWrapper;
 using SavannahXmlLib.XmlWrapper.Nodes;
-using AttributeInfo = SavannahXmlLib.XmlWrapper.AttributeInfo;
+using AttributeInfo = SavannahXmlLib.XmlWrapper.Nodes.AttributeInfo;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings
 {

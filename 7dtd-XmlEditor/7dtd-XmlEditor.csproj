@@ -39,17 +39,14 @@
     <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonCoreLib">
-      <HintPath>..\Lib\CommonCoreLib.dll</HintPath>
+    <Reference Include="CommonCoreLib, Version=1.0.2.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonCoreLib.1.0.0\lib\net48\CommonCoreLib.dll</HintPath>
     </Reference>
-    <Reference Include="CommonExtensionLib">
-      <HintPath>..\Lib\CommonExtensionLib.dll</HintPath>
+    <Reference Include="CommonExtensionLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonExtensionLib.1.0.0\lib\net48\CommonExtensionLib.dll</HintPath>
     </Reference>
-    <Reference Include="CommonStyleLib">
-      <HintPath>..\Lib\CommonStyleLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Expression.Drawing.3.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
+    <Reference Include="CommonStyleLib, Version=1.1.5.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonStyleLib.1.0.0\lib\net48\CommonStyleLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
@@ -63,8 +60,8 @@
     <Reference Include="ReactiveProperty.Core, Version=7.5.1.0, Culture=neutral, PublicKeyToken=910d1732782c71cb, processorArchitecture=MSIL">
       <HintPath>..\packages\ReactiveProperty.Core.7.5.1\lib\netstandard2.0\ReactiveProperty.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SavannahXmlLib">
-      <HintPath>..\Lib\SavannahXmlLib.dll</HintPath>
+    <Reference Include="SavannahXmlLib, Version=1.0.2.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SavannahXmlLib.1.0.1\lib\net48\SavannahXmlLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -86,9 +83,6 @@
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
