@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
-        xmlns:transitionControlLib="clr-namespace:TransitionControlLib;assembly=TransitionControlLib"
+        xmlns:views="clr-namespace:CommonNavigationControlLib.Navigation.Views;assembly=CommonNavigationControlLib"
         Title="{Binding WindowTitle.Value}" Height="350" Width="500" WindowStyle="None" WindowStartupLocation="CenterScreen">
 
     <i:Interaction.Triggers>
@@ -72,7 +72,7 @@
                     <RowDefinition Height="25" />
                 </Grid.RowDefinitions>
 
-                <transitionControlLib:TransitionControl Name="MainFrame" />
+                <views:TransitionControl Name="MainFrame" />
 
                 <Grid Grid.Row="1">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

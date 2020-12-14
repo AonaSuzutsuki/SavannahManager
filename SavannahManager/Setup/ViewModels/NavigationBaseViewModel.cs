@@ -17,7 +17,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using TransitionControlLib;
+using CommonNavigationControlLib.Navigation.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 {

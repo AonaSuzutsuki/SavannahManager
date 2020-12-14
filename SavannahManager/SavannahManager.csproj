@@ -1,0 +1,365 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>_7dtd_svmanager_fix_mvvm</RootNamespace>
+    <AssemblyName>SavannahManager2</AssemblyName>
+    <Authors>Aona Suzutsuki</Authors>
+    <Company>Kimama Lab.</Company>
+    <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2020</Copyright>
+    <AssemblyVersion>2.4.40.1</AssemblyVersion>
+    <FileVersion>2.4.40.1</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Backup\Images\DirectoryIcon.png" />
+    <None Remove="Backup\Images\FileIcon.png" />
+    <None Remove="Backup\Images\no-image.png" />
+    <None Remove="Images\Calendar.png" />
+    <None Remove="Images\Information.png" />
+    <None Remove="Images\Refresh.png" />
+    <None Remove="Settings\Permissions\serveradmin.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Settings\Permissions\serveradmin.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Backup\Images\DirectoryIcon.png" />
+    <EmbeddedResource Include="Backup\Images\FileIcon.png" />
+    <EmbeddedResource Include="Backup\Images\no-image.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommonCoreLib" Version="1.0.0" />
+    <PackageReference Include="CommonNavigationControlLib" Version="1.0.0" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="SavannahXmlLib" Version="1.0.1" />
+    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SavannahManagerLib\SavannahManagerLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BackupLib">
+      <HintPath>..\Lib\BackupLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ClusterableFileStream">
+      <HintPath>..\Lib\ClusterableFileStream.dll</HintPath>
+    </Reference>
+    <Reference Include="FileManagerLib">
+      <HintPath>..\Lib\FileManagerLib.dll</HintPath>
+    </Reference>
+    <Reference Include="UpdateLib">
+      <HintPath>..\Lib\UpdateLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Calendar.png" />
+    <Resource Include="Images\Information.png" />
+    <Resource Include="Images\Refresh.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="App.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Backup\Views\BackupSelector.xaml.cs">
+      <DependentUpon>BackupSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="LangResources\CmdListResources.Designer.cs">
+      <DependentUpon>CmdListResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="LangResources\CommonResources.Designer.cs">
+      <DependentUpon>CommonResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="LangResources\ForceShutdownerResources.Designer.cs">
+      <DependentUpon>ForceShutdownerResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="LangResources\PlayerResources.Designer.cs">
+      <DependentUpon>PlayerResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="LangResources\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="LangResources\SettingsResources.Designer.cs">
+      <DependentUpon>SettingsResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="LangResources\SetupResource.Designer.cs">
+      <DependentUpon>SetupResource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="LangResources\ToolsResource.Designer.cs">
+      <DependentUpon>ToolsResource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="LangResources\ToolsResource.en-US.Designer.cs">
+      <DependentUpon>ToolsResource.en-US.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="LangResources\UpdResources.Designer.cs">
+      <DependentUpon>UpdResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="LangResources\VersionInfoResources.Designer.cs">
+      <DependentUpon>VersionInfoResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Permissions\Views\GetSteamId.xaml.cs">
+      <DependentUpon>GetSteamId.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Permissions\Views\PermissionEditor.xaml.cs">
+      <DependentUpon>PermissionEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Permissions\Views\UnBanDateSetting.xaml.cs">
+      <DependentUpon>UnBanDateSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PlayerController\Views\Pages\AdminAdd.xaml.cs">
+      <DependentUpon>AdminAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PlayerController\Views\Pages\Ban.xaml.cs">
+      <DependentUpon>Ban.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PlayerController\Views\Pages\Kick.xaml.cs">
+      <DependentUpon>Kick.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PlayerController\Views\PlayerBase.xaml.cs">
+      <DependentUpon>PlayerBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PlayerController\Views\PlayerInfoView.xaml.cs">
+      <DependentUpon>PlayerInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Settings\Views\KeyConfig.xaml.cs">
+      <DependentUpon>KeyConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Settings\Views\SettingWindow.xaml.cs">
+      <DependentUpon>SettingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Setup\Views\AdminPage.xaml.cs">
+      <DependentUpon>AdminPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Setup\Views\ConfigPage.xaml.cs">
+      <DependentUpon>ConfigPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Setup\Views\ExecutablePage.xaml.cs">
+      <DependentUpon>ExecutablePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Setup\Views\FinishPage.xaml.cs">
+      <DependentUpon>FinishPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Setup\Views\FirstPage.xaml.cs">
+      <DependentUpon>FirstPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Setup\Views\NavigationBase.xaml.cs">
+      <DependentUpon>NavigationBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Update\Views\Loading.xaml.cs">
+      <DependentUpon>Loading.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Update\Views\UpdForm.xaml.cs">
+      <DependentUpon>UpdForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ForceShutdowner.xaml.cs">
+      <DependentUpon>ForceShutdowner.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\IpAddressGetter.xaml.cs">
+      <DependentUpon>IpAddressGetter.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MainWindow.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PortCheck.xaml.cs">
+      <DependentUpon>PortCheck.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TelnetWaitTimeCalculator.xaml.cs">
+      <DependentUpon>TelnetWaitTimeCalculator.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\VersionInfo.xaml.cs">
+      <DependentUpon>VersionInfo.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="LangResources\CmdListResources.resx">
+      <LastGenOutput>CmdListResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LangResources\CommonResources.resx">
+      <SubType>Designer</SubType>
+      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LangResources\ForceShutdownerResources.resx">
+      <LastGenOutput>ForceShutdownerResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LangResources\PlayerResources.resx">
+      <LastGenOutput>PlayerResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LangResources\Resources.resx">
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LangResources\SettingsResources.resx">
+      <SubType>Designer</SubType>
+      <LastGenOutput>SettingsResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LangResources\SetupResource.resx">
+      <SubType>Designer</SubType>
+      <LastGenOutput>SetupResource.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LangResources\ToolsResource.en-US.resx">
+      <LastGenOutput>ToolsResource.en-US.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LangResources\ToolsResource.resx">
+      <LastGenOutput>ToolsResource.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LangResources\UpdResources.resx">
+      <LastGenOutput>UpdResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LangResources\VersionInfoResources.resx">
+      <LastGenOutput>VersionInfoResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Settings\KeyConfig\KeyConfig_en.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Settings\KeyConfig\KeyConfig_ja.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Backup\Views\BackupSelector.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Permissions\Views\GetSteamId.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Permissions\Views\PermissionEditor.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Permissions\Views\UnBanDateSetting.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PlayerController\Views\Pages\AdminAdd.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PlayerController\Views\Pages\Ban.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PlayerController\Views\Pages\Kick.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PlayerController\Views\PlayerBase.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PlayerController\Views\PlayerInfoView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Settings\Views\KeyConfig.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Settings\Views\SettingWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Setup\Views\AdminPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Setup\Views\ConfigPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Setup\Views\ExecutablePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Setup\Views\FinishPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Setup\Views\FirstPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Setup\Views\NavigationBase.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\ButtonIcon.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Calendar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\LinkLabel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Update\Views\Loading.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Update\Views\UpdForm.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ForceShutdowner.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\IpAddressGetter.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\PortCheck.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\TelnetWaitTimeCalculator.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\VersionInfo.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+</Project>

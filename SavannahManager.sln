@@ -34,6 +34,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavannahXmlEditor", "Savann
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigFileMaker", "ConfigFileMaker\ConfigFileMaker.csproj", "{FA07FC46-E341-4DBF-9B3C-1741C9ACF50A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SavannahManager", "SavannahManager\SavannahManager.csproj", "{E59C12D3-59AC-4993-AB2A-4F1BD121E596}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +130,18 @@ Global
 		{FA07FC46-E341-4DBF-9B3C-1741C9ACF50A}.Release|x64.Build.0 = Release|Any CPU
 		{FA07FC46-E341-4DBF-9B3C-1741C9ACF50A}.Release|x86.ActiveCfg = Release|Any CPU
 		{FA07FC46-E341-4DBF-9B3C-1741C9ACF50A}.Release|x86.Build.0 = Release|Any CPU
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596}.Debug|x64.Build.0 = Debug|Any CPU
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596}.Debug|x86.Build.0 = Debug|Any CPU
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596}.Release|x64.ActiveCfg = Release|Any CPU
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596}.Release|x64.Build.0 = Release|Any CPU
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596}.Release|x86.ActiveCfg = Release|Any CPU
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -140,6 +154,7 @@ Global
 		{74E1B004-5043-477D-9718-762DE9AD331D} = {0333E27F-0504-40A4-A258-7D138F45DFE3}
 		{B647216F-5E01-4A2D-83DE-342BDB787CB5} = {0333E27F-0504-40A4-A258-7D138F45DFE3}
 		{FA07FC46-E341-4DBF-9B3C-1741C9ACF50A} = {0333E27F-0504-40A4-A258-7D138F45DFE3}
+		{E59C12D3-59AC-4993-AB2A-4F1BD121E596} = {0333E27F-0504-40A4-A258-7D138F45DFE3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {31C190B0-ABF9-42A1-9D21-B9089B220FA9}

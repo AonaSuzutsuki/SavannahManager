@@ -225,7 +225,10 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
         public void Backup()
         {
-            Task.Factory.StartNew(_timeBackup.Backup).ContinueWith((t) => InitializeBackupList());
+            Task.Factory.StartNew(_timeBackup.Backup).ContinueWith((t) => InitializeBackupList()).ContinueWith(t =>
+            {
+
+            }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         public void SelectBackup(int index)
