@@ -3,6 +3,7 @@
   <update version="2.4.40.1">
     1. Config Editorの起動が遅い問題を修正しました。
     2. Config Editorで保存の際にエラーが発生する問題を修正しました。
+    3. Xml EditorにてInnerXmlに不正なタグを入れるとクラッシュする問題を修正しました。
   </update>
   <update version="2.4.39.0">
     1. 更新画面を閉じたときに他のアプリケーションにフォーカスが移ってしまう問題を修正しました。
