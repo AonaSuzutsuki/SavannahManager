@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7dtd-svmanager-fix-mvvm", "7dtd-svmanager-fix-mvvm\7dtd-svmanager-fix-mvvm.csproj", "{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{08707246-F4EE-46FF-A2DE-1D9924B4706D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{2FA6990C-0A0D-4D9C-8C0E-67EBE81C0053}"
@@ -32,9 +30,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UpdateLogs", "UpdateLogs", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavannahXmlEditor", "SavannahXmlEditor\SavannahXmlEditor.csproj", "{B647216F-5E01-4A2D-83DE-342BDB787CB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigFileMaker", "ConfigFileMaker\ConfigFileMaker.csproj", "{FA07FC46-E341-4DBF-9B3C-1741C9ACF50A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigFileMaker", "ConfigFileMaker\ConfigFileMaker.csproj", "{FA07FC46-E341-4DBF-9B3C-1741C9ACF50A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SavannahManager", "SavannahManager\SavannahManager.csproj", "{E59C12D3-59AC-4993-AB2A-4F1BD121E596}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavannahManager", "SavannahManager\SavannahManager.csproj", "{E59C12D3-59AC-4993-AB2A-4F1BD121E596}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,18 +44,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}.Debug|x64.ActiveCfg = Debug|x64
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}.Debug|x64.Build.0 = Debug|x64
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}.Debug|x86.ActiveCfg = Debug|x86
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}.Debug|x86.Build.0 = Debug|x86
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}.Release|x64.ActiveCfg = Release|x64
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}.Release|x64.Build.0 = Release|x64
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}.Release|x86.ActiveCfg = Release|x86
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B}.Release|x86.Build.0 = Release|x86
 		{08707246-F4EE-46FF-A2DE-1D9924B4706D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08707246-F4EE-46FF-A2DE-1D9924B4706D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08707246-F4EE-46FF-A2DE-1D9924B4706D}.Debug|x64.ActiveCfg = Debug|x64
@@ -147,7 +133,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{EA4492F6-A0A0-44E2-853A-14F1E5C79F4B} = {0333E27F-0504-40A4-A258-7D138F45DFE3}
 		{08707246-F4EE-46FF-A2DE-1D9924B4706D} = {0333E27F-0504-40A4-A258-7D138F45DFE3}
 		{D1901E96-34C0-4B20-8AA2-85DFF24F2AEA} = {2FA6990C-0A0D-4D9C-8C0E-67EBE81C0053}
 		{FF85B784-C168-4052-B396-36050EFC33A0} = {5A07C2C2-CEB4-4416-88D0-C861C5FC70CD}
