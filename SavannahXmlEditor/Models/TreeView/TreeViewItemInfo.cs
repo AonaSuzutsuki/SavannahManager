@@ -94,11 +94,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
         {
             if (root is SavannahTagNode tagRoot)
             {
-                bool.TryParse(tagRoot.GetAttribute(XmlExpanded).Value, out var isExpanded);
-                IsExpanded = isExpanded;
-                tagRoot.RemoveAttribute(XmlExpanded);
-
-
+                RemoveReservedAttributes(tagRoot);
                 children = new ObservableCollection<TreeViewItemInfoBase>(from node in tagRoot.ChildNodes
                     select new TreeViewItemInfo(node, editedModel, this));
             }
@@ -117,6 +113,43 @@ namespace _7dtd_XmlEditor.Models.TreeView
                     _failedLostFocus.OnNext(this);
                 _failedLostFocus.OnCompleted();
             });
+        }
+
+        public void RemoveReservedAttributes(SavannahTagNode tagNode)
+        {
+            bool.TryParse(tagNode.GetAttribute(XmlExpanded).Value, out var isExpanded);
+            bool.TryParse(tagNode.GetAttribute(XmlSelected).Value, out var isSelected);
+            IsExpanded = isExpanded;
+            IsSelected = isSelected;
+            tagNode.RemoveAttribute(XmlExpanded);
+            tagNode.RemoveAttribute(XmlSelected);
+        }
+
+        public void RemoveReservedAttributesIncludedChildren(TreeViewItemInfo info = null)
+        {
+            info ??= this;
+
+            if (!(info.Node is SavannahTagNode tagNode))
+                return;
+
+            info.RemoveReservedAttributes(tagNode);
+            foreach (var child in info.GetChildrenEnumerable())
+            {
+                RemoveReservedAttributesIncludedChildren(child);
+            }
+        }
+
+        public void AssignExpanded(TreeViewItemInfo info = null)
+        {
+            info ??= this;
+
+            var node = info.Node;
+            if (node is SavannahTagNode tagNode && info.IsExpanded)
+                tagNode.AppendAttribute(XmlExpanded, true.ToString());
+            foreach (var child in info.GetChildrenEnumerable())
+            {
+                AssignExpanded(child);
+            }
         }
 
         public void EnableTextEdit()
@@ -158,6 +191,8 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         public IEnumerable<TreeViewItemInfo> GetChildrenEnumerable()
         {
+            if (children == null)
+                yield break;
             foreach (var info in children)
             {
                 yield return info as TreeViewItemInfo;

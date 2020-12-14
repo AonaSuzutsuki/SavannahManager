@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using _7dtd_XmlEditor.Models.TreeView;
 using CommonCoreLib;
 using CommonExtensionLib.Extensions;
@@ -205,7 +206,10 @@ namespace _7dtd_XmlEditor.Models
                 info.IgnoreAttributeRedraw = false;
             }
 
-            InnerXml = info.Node is SavannahTagNode ? info.Node.InnerXml : info.Node.InnerText;
+            if (info.Node is SavannahTagNode tag)
+                InnerXml = !string.IsNullOrEmpty(tag.PrioritizeInnerXml) ? tag.PrioritizeInnerXml : tag.InnerXml;
+            else
+                InnerXml = info.Node.InnerText;
 
             IsAttributesEnabled = !(info.Node is SavannahTextNode);
         }
@@ -285,15 +289,28 @@ namespace _7dtd_XmlEditor.Models
                 return;
 
             if (SelectedItem.IsEdited)
-                Apply();
+            {
+                try
+                {
+                    Apply();
+                }
+                catch (System.Xml.XmlException)
+                {
+                    if (SelectedItem == null)
+                        return;
+                    SelectedItem.Background = Brushes.Red;
+                    _root.RemoveReservedAttributesIncludedChildren();
+                }
+            }
         }
 
         public void Apply(bool ignoreAttributeRedraw = false)
         {
-            var node = SelectedItem.Node;
-            if (node is SavannahTagNode tagNode && InnerXml != node.InnerXml)
+            var node = SelectedItem?.Node;
+            if (node is SavannahTagNode tagNode)
             {
-                tagNode.PrioritizeInnerXml = InnerXml;
+                if (InnerXml != node.InnerXml)
+                    tagNode.PrioritizeInnerXml = InnerXml;
                 tagNode.Attributes = from attribute in Attributes
                     where !string.IsNullOrEmpty(attribute.Attribute.Name)
                     select new AttributeInfo { Name = attribute.Attribute.Name, Value = attribute.Attribute.Value };
@@ -304,7 +321,7 @@ namespace _7dtd_XmlEditor.Models
                 node.InnerText = InnerXml;
             }
 
-            AssignExpanded(_root);
+            _root.AssignExpanded();
 
             using var ms = new MemoryStream();
             var writer = new SavannahXmlWriter(_declaration)
@@ -339,16 +356,7 @@ namespace _7dtd_XmlEditor.Models
             //SelectionChange();
         }
 
-        private void AssignExpanded(TreeViewItemInfo info)
-        {
-            var node = info.Node;
-            if (node is SavannahTagNode tagNode && info.IsExpanded)
-                tagNode.AppendAttribute(XmlExpanded, true.ToString());
-            foreach (var child in info.GetChildrenEnumerable())
-            {
-                AssignExpanded(child);
-            }
-        }
+        
 
         private TreeViewItemInfo GetSelectedInfo(TreeViewItemInfo info)
         {
