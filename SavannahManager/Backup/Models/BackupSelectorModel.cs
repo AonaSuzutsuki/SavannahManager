@@ -227,7 +227,10 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         {
             Task.Factory.StartNew(_timeBackup.Backup).ContinueWith((t) => InitializeBackupList()).ContinueWith(t =>
             {
-
+                if (t.Exception == null)
+                    return;
+                foreach (var exceptionInnerException in t.Exception.InnerExceptions)
+                    App.ShowAndWriteException(exceptionInnerException);
             }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
