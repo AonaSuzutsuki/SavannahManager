@@ -37,11 +37,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommonCoreLib" Version="1.0.0" />
+    <PackageReference Include="CommonCoreLib" Version="1.0.1" />
     <PackageReference Include="CommonNavigationControlLib" Version="1.0.0" />
     <PackageReference Include="CommonStyleLib" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="SavannahXmlLib" Version="1.0.1" />
+    <PackageReference Include="SavannahXmlLib" Version="1.0.2" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
   </ItemGroup>
 

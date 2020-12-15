@@ -58,8 +58,8 @@
     <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonCoreLib, Version=1.0.2.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonCoreLib.1.0.0\lib\net48\CommonCoreLib.dll</HintPath>
+    <Reference Include="CommonCoreLib, Version=1.0.3.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonCoreLib.1.0.1\lib\net48\CommonCoreLib.dll</HintPath>
     </Reference>
     <Reference Include="CommonExtensionLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonExtensionLib.1.0.0\lib\net48\CommonExtensionLib.dll</HintPath>
