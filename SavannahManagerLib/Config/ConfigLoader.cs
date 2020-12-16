@@ -6,6 +6,9 @@ using SavannahXmlLib.XmlWrapper.Nodes;
 
 namespace SvManagerLibrary.Config
 {
+    /// <summary>
+    /// Provides a loader of config.
+    /// </summary>
     public class ConfigLoader
     {
         private readonly string _fileName;
@@ -13,6 +16,11 @@ namespace SvManagerLibrary.Config
 
         private readonly Dictionary<string, ConfigInfo> _configs = new Dictionary<string, ConfigInfo>();
 
+        /// <summary>
+        /// Initialize the ConfigLoader.
+        /// </summary>
+        /// <param name="path">A filepath to be loaded or created.</param>
+        /// <param name="newFile">Whether to create a new file.</param>
         public ConfigLoader(string path, bool newFile = false)
         {
             _fileName = path;
@@ -41,6 +49,11 @@ namespace SvManagerLibrary.Config
             }
         }
 
+        /// <summary>
+        /// Add a property.
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="value"></param>
         public void AddProperty(string propertyName, string value)
         {
             if (_configs.ContainsKey(propertyName))
@@ -57,6 +70,11 @@ namespace SvManagerLibrary.Config
                 _configs.Add(propertyName, configInfo);
             }
         }
+
+        /// <summary>
+        /// Add a properties.
+        /// </summary>
+        /// <param name="configs">Array of ConfigInfo to be added.</param>
         public void AddProperties(ConfigInfo[] configs)
         {
             foreach (var config in configs)
@@ -64,6 +82,13 @@ namespace SvManagerLibrary.Config
                 AddProperty(config.PropertyName, config.Value);
             }
         }
+
+        /// <summary>
+        /// Change the value of property.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="value">A value to change.</param>
+        /// <returns>Success or failure.</returns>
         public bool ChangeProperty(string propertyName, string value)
         {
             if (_configs.ContainsKey(propertyName))
@@ -74,6 +99,12 @@ namespace SvManagerLibrary.Config
 
             return false;
         }
+
+        /// <summary>
+        /// Get the property.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <returns>The ConfigInfo object that was found.</returns>
         public ConfigInfo GetProperty(string propertyName)
         {
             if (_configs.ContainsKey(propertyName))
@@ -83,22 +114,44 @@ namespace SvManagerLibrary.Config
             return null;
         }
 
+        /// <summary>
+        /// Clear the internal config list.
+        /// </summary>
         public void Clear()
         {
             _configs.Clear();
         }
 
+        /// <summary>
+        /// Get all configs.
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, ConfigInfo> GetAll()
         {
-            return _configs;
+            var dict = _configs.ToDictionary(pair => pair.Key, (pair) =>
+                new ConfigInfo
+                {
+                    PropertyName = pair.Value.PropertyName,
+                    Value = pair.Value.Value
+                });
+            return dict;
         }
 
+        /// <summary>
+        /// Write config to saved path.
+        /// </summary>
         public void Write()
         {
             using var fs = new FileStream(_fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
             Write(fs, _configs);
         }
 
+
+        /// <summary>
+        /// Write config to a stream.
+        /// </summary>
+        /// <param name="stream">A stream to be saved.</param>
+        /// <param name="configs">A dictionary to save.</param>
         public static void Write(Stream stream, Dictionary<string, ConfigInfo> configs)
         {
             var writer = new SavannahXmlWriter();
