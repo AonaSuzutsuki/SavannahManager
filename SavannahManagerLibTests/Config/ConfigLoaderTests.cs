@@ -24,9 +24,9 @@ namespace SvManagerLibraryTests2.Config
         public void AddValueTest()
         {
             var loader = GetConfigLoader();
-            loader.AddValue("test", "test value");
+            loader.AddProperty("test", "test value");
 
-            var info = loader.GetValue("test");
+            var info = loader.GetProperty("test");
             var exp = new ConfigInfo
             {
                 PropertyName = "test",
@@ -45,7 +45,7 @@ namespace SvManagerLibraryTests2.Config
                 new ConfigInfo { PropertyName = "test", Value = "test value" },
                 new ConfigInfo { PropertyName = "test2", Value = "test value 2" }
             };
-            loader.AddValues(values);
+            loader.AddProperties(values);
 
             var dict = loader.GetAll();
             var exp = new Dictionary<string, ConfigInfo>
@@ -66,9 +66,9 @@ namespace SvManagerLibraryTests2.Config
         public void ChangeValueTest()
         {
             var loader = GetConfigLoader();
-            loader.ChangeValue("ServerName", "test value");
+            loader.ChangeProperty("ServerName", "test value");
 
-            var info = loader.GetValue("ServerName");
+            var info = loader.GetProperty("ServerName");
             var exp = new ConfigInfo
             {
                 PropertyName = "ServerName",
@@ -82,7 +82,7 @@ namespace SvManagerLibraryTests2.Config
         public void GetValueTest()
         {
             var loader = GetConfigLoader();
-            var info = loader.GetValue("ServerName");
+            var info = loader.GetProperty("ServerName");
             var exp = new ConfigInfo
             {
                 PropertyName = "ServerName",
@@ -125,9 +125,10 @@ namespace SvManagerLibraryTests2.Config
             var exp = File.ReadAllText(xmlPath).UnifiedBreakLine();
 
             var loader = GetConfigLoader();
+            var dict = loader.GetAll();
 
             using var stream = new MemoryStream();
-            loader.Write(stream);
+            ConfigLoader.Write(stream, dict);
             stream.Seek(0, SeekOrigin.Begin);
 
             var buffer = new byte[stream.Length];

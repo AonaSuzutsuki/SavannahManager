@@ -24,35 +24,28 @@ namespace SvManagerLibrary.Config
 
         private void Load()
         {
-            try
-            {
-                using var fs = new FileStream(_fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-                _reader = new SavannahXmlReader(fs);
-                var names = _reader.GetAttributes("name", "ServerSettings/property").ToList();
-                var values = _reader.GetAttributes("value", "ServerSettings/property").ToList();
+            using var fs = new FileStream(_fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+            _reader = new SavannahXmlReader(fs);
+            var names = _reader.GetAttributes("name", "ServerSettings/property").ToList();
+            var values = _reader.GetAttributes("value", "ServerSettings/property").ToList();
 
-                var length = names.Count > values.Count ? values.Count : names.Count;
-                for (var i = 0; i < length; ++i)
-                {
-                    var configInfo = new ConfigInfo()
-                    {
-                        PropertyName = names[i],
-                        Value = values[i],
-                    };
-                    _configs.Add(names[i], configInfo);
-                }
-            }
-            catch
+            var length = names.Count > values.Count ? values.Count : names.Count;
+            for (var i = 0; i < length; ++i)
             {
-                // ignored
+                var configInfo = new ConfigInfo()
+                {
+                    PropertyName = names[i],
+                    Value = values[i],
+                };
+                _configs.Add(names[i], configInfo);
             }
         }
 
-        public void AddValue(string propertyName, string value)
+        public void AddProperty(string propertyName, string value)
         {
             if (_configs.ContainsKey(propertyName))
             {
-                ChangeValue(propertyName, value);
+                ChangeProperty(propertyName, value);
             }
             else
             {
@@ -64,14 +57,14 @@ namespace SvManagerLibrary.Config
                 _configs.Add(propertyName, configInfo);
             }
         }
-        public void AddValues(ConfigInfo[] configs)
+        public void AddProperties(ConfigInfo[] configs)
         {
             foreach (var config in configs)
             {
-                AddValue(config.PropertyName, config.Value);
+                AddProperty(config.PropertyName, config.Value);
             }
         }
-        public bool ChangeValue(string propertyName, string value)
+        public bool ChangeProperty(string propertyName, string value)
         {
             if (_configs.ContainsKey(propertyName))
             {
@@ -81,7 +74,7 @@ namespace SvManagerLibrary.Config
 
             return false;
         }
-        public ConfigInfo GetValue(string propertyName)
+        public ConfigInfo GetProperty(string propertyName)
         {
             if (_configs.ContainsKey(propertyName))
             {
@@ -103,14 +96,14 @@ namespace SvManagerLibrary.Config
         public void Write()
         {
             using var fs = new FileStream(_fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
-            Write(fs);
+            Write(fs, _configs);
         }
 
-        public void Write(Stream stream)
+        public static void Write(Stream stream, Dictionary<string, ConfigInfo> configs)
         {
             var writer = new SavannahXmlWriter();
             var root = SavannahTagNode.CreateRoot("ServerSettings");
-            var configXmlArray = (from config in _configs.Values
+            var configXmlArray = (from config in configs.Values
                                   let configAttributeInfo = CreateConfigAttributeInfos(config)
                                   select SavannahTagNode.CreateElement("property", configAttributeInfo)).ToArray();
             root.ChildNodes = configXmlArray;

@@ -24,6 +24,7 @@ using SvManagerLibrary.Chat;
 using SvManagerLibrary.Player;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.Views;
+using System.Linq;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -596,7 +597,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public void AddChatText(string text)
         {
             _chatArray.AddMultiLine(text);
-            var cData = _chatArray.GetLast();
+            var cData = _chatArray.LastOrDefault();
             if (cData != null)
                 ChatLogText += string.Format("{0}: {1}\r\n", cData.Name, cData.Message);
         }

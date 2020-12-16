@@ -34,12 +34,5 @@ namespace SvManagerLibrary.Chat
                 list.Add(sr.ReadLine());
             }
         }
-        public static ChatInfo GetLast(this List<ChatInfo> list)
-        {
-            var count = list.Count;
-            if (count > 0)
-                return list[count - 1];
-            return null;
-        }
     }
 }

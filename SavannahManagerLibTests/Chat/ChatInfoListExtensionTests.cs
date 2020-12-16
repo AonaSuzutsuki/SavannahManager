@@ -51,26 +51,5 @@ namespace SvManagerLibraryTests2.Chat
 
             CollectionAssert.AreEqual(exp, act);
         }
-
-        [Test]
-        public void GetLastTest()
-        {
-            var exp = new ChatInfo { Name = "Server", Message = "Hello, World." };
-            var text = "2019-01-19T16:14:21 140.048 INF Chat (from '-non-player-', entity id '-1', to 'Global'): 'Server': Hello, World.";
-            var list = new List<ChatInfo> { text };
-            var act = list.GetLast();
-
-            Assert.AreEqual(exp, act);
-        }
-
-        [Test]
-        public void GetLastTestWithNull ()
-        {
-            ChatInfo exp = null;
-            var list = new List<ChatInfo>();
-            var act = list.GetLast();
-
-            Assert.AreEqual(exp, act);
-        }
     }
 }

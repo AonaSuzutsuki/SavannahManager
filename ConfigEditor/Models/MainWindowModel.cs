@@ -395,7 +395,7 @@ namespace ConfigEditor_mvvm.Models
             {
                 if (configListInfo.Property.Equals("SaveGameFolder") && string.IsNullOrEmpty(configListInfo.Value))
                     continue;
-                _configLoader.AddValue(configListInfo.Property, configListInfo.Value);
+                _configLoader.AddProperty(configListInfo.Property, configListInfo.Value);
             }
 
             _configLoader.Write();

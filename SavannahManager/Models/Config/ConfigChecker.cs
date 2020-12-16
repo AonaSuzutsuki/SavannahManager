@@ -35,16 +35,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Config
         public static ICheckedValue GetConfigInfo(string configFilePath)
         {
             var configLoader = new ConfigLoader(configFilePath);
-            var portConfig = configLoader.GetValue("TelnetPort");
+            var portConfig = configLoader.GetProperty("TelnetPort");
             var strPort = portConfig == null ? string.Empty : portConfig.Value;
-            var cpPortConfig = configLoader.GetValue("ControlPanelPort");
+            var cpPortConfig = configLoader.GetProperty("ControlPanelPort");
             var cpPort = cpPortConfig == null ? string.Empty : cpPortConfig.Value;
-            var svPortConfig = configLoader.GetValue("ServerPort");
+            var svPortConfig = configLoader.GetProperty("ServerPort");
             var svPort = svPortConfig == null ? string.Empty : svPortConfig.Value;
 
-            var passConfig = configLoader.GetValue("TelnetPassword");
+            var passConfig = configLoader.GetProperty("TelnetPassword");
             var password = passConfig == null ? "CHANGEME" : passConfig.Value;
-            var telnetEnabledString = configLoader.GetValue("TelnetEnabled").Value;
+            var telnetEnabledString = configLoader.GetProperty("TelnetEnabled").Value;
 
             var checkValues = new CheckValue()
             {
