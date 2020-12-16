@@ -3,9 +3,17 @@ using System.Collections.Generic;
 
 namespace SvManagerLibrary.Player
 {
-    public class Player
+    /// <summary>
+    /// Provides a player service.
+    /// </summary>
+    public static class Player
     {
-        public static List<PlayerInfo> SetPlayerInfo(ITelnetClient telnet)
+        /// <summary>
+        /// Get player info list via telnet client.
+        /// </summary>
+        /// <param name="telnet">The telnet client.</param>
+        /// <returns>A player info list.</returns>
+        public static List<PlayerInfo> GetPlayerInfoList(ITelnetClient telnet)
         {
             TelnetException.CheckTelnetClient(telnet);
 

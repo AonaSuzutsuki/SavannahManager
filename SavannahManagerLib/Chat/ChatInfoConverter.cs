@@ -3,6 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace SvManagerLibrary.Chat
 {
+    /// <summary>
+    /// Provides a converter of ChatInfo.
+    /// </summary>
     public class ChatInfoConverter
     {
         /// <summary>

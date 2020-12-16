@@ -2,8 +2,16 @@
 
 namespace SvManagerLibrary.Player
 {
+    /// <summary>
+    /// Provides a converter of PlayerInfo.
+    /// </summary>
     public class PlayerInfoConverter
     {
+        /// <summary>
+        /// Convert a text of 7dtd telnet log to a PlayerInfo object.
+        /// </summary>
+        /// <param name="text">7dtd telnet log.</param>
+        /// <returns>PlayerInfo object.</returns>
         public static PlayerInfo ConvertPlayerDetail(string text)
         {
             PlayerInfo uDetail = null;

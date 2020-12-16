@@ -618,7 +618,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             _connectedIds.Clear();
             _playersDictionary.Clear();
-            var playerInfoArray = Player.SetPlayerInfo(Telnet);
+            var playerInfoArray = Player.GetPlayerInfoList(Telnet);
             foreach (var uDetail in playerInfoArray)
                 AddUser(uDetail);
         }
