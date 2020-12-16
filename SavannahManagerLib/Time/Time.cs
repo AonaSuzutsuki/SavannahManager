@@ -5,8 +5,16 @@ using SvManagerLibrary.Telnet;
 
 namespace SvManagerLibrary.Time
 {
-    public class Time
+    /// <summary>
+    /// Prorivdes some methods for time.
+    /// </summary>
+    public static class Time
     {
+        /// <summary>
+        /// Convert a text of 7dtd telnet log to a TimeInfo object.
+        /// </summary>
+        /// <param name="text">7dtd telnet log.</param>
+        /// <returns>TimeInfo object.</returns>
         public static TimeInfo ConvertTime(string text)
         {
             var timeInfo = new TimeInfo();
@@ -32,6 +40,12 @@ namespace SvManagerLibrary.Time
 
             return timeInfo;
         }
+
+        /// <summary>
+        /// Get time from TelnetClient.
+        /// </summary>
+        /// <param name="telnet">The TelnetClient.</param>
+        /// <returns>TimeInfo.</returns>
         public static TimeInfo GetTimeFromTelnet(ITelnetClient telnet)
         {
             TelnetException.CheckTelnetClient(telnet);
@@ -39,6 +53,12 @@ namespace SvManagerLibrary.Time
             var log = telnet.DestructionEventRead("gt", "^Day (?<day>.*?), (?<hour>.*?):(?<minute>.*?)$");
             return ConvertTime(log);
         }
+
+        /// <summary>
+        /// Send time to destination using TelnetClient.
+        /// </summary>
+        /// <param name="telnet">The TelnetClient</param>
+        /// <param name="timeInfo">The time to be sent.</param>
         public static void SendTime(ITelnetClient telnet, TimeInfo timeInfo)
         {
             TelnetException.CheckTelnetClient(telnet);
