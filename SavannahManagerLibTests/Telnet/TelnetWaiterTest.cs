@@ -21,7 +21,7 @@ namespace SvManagerLibraryTests2.Telnet
                 waiter.Next();
             }
 
-            Assert.AreEqual(300, waiter.Count);
+            Assert.AreEqual(300, waiter.ElapsedSeconds);
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace SvManagerLibraryTests2.Telnet
                 waiter.Next();
             }
 
-            Assert.AreEqual(0, waiter.Count);
+            Assert.AreEqual(0, waiter.ElapsedSeconds);
         }
     }
 }

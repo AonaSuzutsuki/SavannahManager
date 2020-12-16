@@ -6,18 +6,39 @@ using CommonExtensionLib.Extensions;
 
 namespace SvManagerLibrary.Telnet
 {
+    /// <summary>
+    /// Log string info.
+    /// </summary>
     public class StringInfo
     {
+        /// <summary>
+        /// Log text.
+        /// </summary>
         public StringBuilder Text { get; set; } = new StringBuilder();
+
+        /// <summary>
+        /// Whether the log was retrieved to the end or not.
+        /// </summary>
         public bool EndLine { get; set; }
 
+        /// <summary>
+        /// Text to string.
+        /// </summary>
+        /// <returns>Text.</returns>
         public override string ToString() => Text.ToString();
     }
 
+    /// <summary>
+    /// Keeps the log in line with the newline.
+    /// </summary>
     public class LogCollection : IEnumerable<StringInfo>
     {
         private readonly LinkedList<StringInfo> _list = new LinkedList<StringInfo>();
 
+        /// <summary>
+        /// Append log text.
+        /// </summary>
+        /// <param name="text">The text to be appended.</param>
         public void Append(string text)
         {
             if (string.IsNullOrEmpty(text))
@@ -61,6 +82,10 @@ namespace SvManagerLibrary.Telnet
 
         }
 
+        /// <summary>
+        /// Get first log. Once retrieved, the element will be deleted.
+        /// </summary>
+        /// <returns>A first log.</returns>
         public string GetFirst()
         {
             var info = _list.First?.Value;
@@ -73,6 +98,10 @@ namespace SvManagerLibrary.Telnet
             return string.Empty;
         }
 
+        /// <summary>
+        /// Get first log.
+        /// </summary>
+        /// <returns>A first log.</returns>
         public string GetFirstNoneRemove()
         {
             var info = _list.First?.Value;
@@ -84,6 +113,10 @@ namespace SvManagerLibrary.Telnet
             return string.Empty;
         }
 
+        /// <summary>
+        /// Get last log.
+        /// </summary>
+        /// <returns>A last log.</returns>
         public string GetLastNoneRemove()
         {
             var info = _list.Last?.Value;
@@ -95,6 +128,10 @@ namespace SvManagerLibrary.Telnet
             return string.Empty;
         }
 
+        /// <summary>
+        /// Get last log. Once retrieved, the element will be deleted.
+        /// </summary>
+        /// <returns>A last log.</returns>
         public IEnumerable<StringInfo> ReversEnumerable()
         {
             var reverse = new List<StringInfo>(this._list);
@@ -102,16 +139,28 @@ namespace SvManagerLibrary.Telnet
             return reverse;
         }
 
+        /// <summary>
+        /// GetEnumerator
+        /// </summary>
+        /// <returns>IEnumerator</returns>
         public IEnumerator<StringInfo> GetEnumerator()
         {
             return _list.GetEnumerator();
         }
 
+        /// <summary>
+        /// GetEnumerator
+        /// </summary>
+        /// <returns>IEnumerator</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Get the all logs included breakline.
+        /// </summary>
+        /// <returns>all logs.</returns>
         public override string ToString()
         {
             var sb = new StringBuilder();

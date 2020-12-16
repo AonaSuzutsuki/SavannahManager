@@ -1,10 +1,21 @@
 ﻿namespace SvManagerLibrary.Time
 {
+    /// <summary>
+    /// Provides an information of time.
+    /// </summary>
     public class TimeInfo
     {
+        private int _hour;
+        private int _minute;
+
+        /// <summary>
+        /// The day.
+        /// </summary>
         public int Day { set; get; } = 1;
 
-        private int _hour;
+        /// <summary>
+        /// The hour.
+        /// </summary>
         public int Hour
         {
             set
@@ -18,7 +29,10 @@
             }
             get => _hour;
         }
-        private int _minute;
+
+        /// <summary>
+        /// The minute.
+        /// </summary>
         public int Minute
         {
             set
@@ -33,6 +47,11 @@
             get => _minute;
         }
 
+        /// <summary>
+        /// Check the null or empty of player name and message.
+        /// </summary>
+        /// <param name="chatInfo">ChatInfo object.</param>
+        /// <returns>It returns True if null or empty, False otherwise.</returns>
         public override bool Equals(object obj)
         {
             return obj is TimeInfo info &&
@@ -43,6 +62,10 @@
                    Minute == info.Minute;
         }
 
+        /// <summary>
+        /// Object.GetHashCode()
+        /// </summary>
+        /// <returns>The hash value.</returns>
         public override int GetHashCode()
         {
             var hashCode = 980657963;
