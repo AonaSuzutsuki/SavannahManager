@@ -12,6 +12,7 @@
     <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2020</Copyright>
     <AssemblyVersion>2.4.40.1</AssemblyVersion>
     <FileVersion>2.4.40.1</FileVersion>
+    <Version>2.4.40.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

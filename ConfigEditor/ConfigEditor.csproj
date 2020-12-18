@@ -10,6 +10,7 @@
     <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2020</Copyright>
     <AssemblyVersion>1.0.2.2</AssemblyVersion>
     <FileVersion>1.0.2.2</FileVersion>
+    <Version>1.0.2.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
