@@ -6,6 +6,9 @@ using SavannahXmlLib.XmlWrapper.Nodes;
 
 namespace SvManagerLibrary.Config
 {
+    /// <summary>
+    /// Provides a loader of config.
+    /// </summary>
     public class ConfigLoader
     {
         private readonly string _fileName;
@@ -13,6 +16,11 @@ namespace SvManagerLibrary.Config
 
         private readonly Dictionary<string, ConfigInfo> _configs = new Dictionary<string, ConfigInfo>();
 
+        /// <summary>
+        /// Initialize the ConfigLoader.
+        /// </summary>
+        /// <param name="path">A filepath to be loaded or created.</param>
+        /// <param name="newFile">Whether to create a new file.</param>
         public ConfigLoader(string path, bool newFile = false)
         {
             _fileName = path;
@@ -24,35 +32,33 @@ namespace SvManagerLibrary.Config
 
         private void Load()
         {
-            try
-            {
-                using var fs = new FileStream(_fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-                _reader = new SavannahXmlReader(fs);
-                var names = _reader.GetAttributes("name", "ServerSettings/property").ToList();
-                var values = _reader.GetAttributes("value", "ServerSettings/property").ToList();
+            using var fs = new FileStream(_fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+            _reader = new SavannahXmlReader(fs);
+            var names = _reader.GetAttributes("name", "ServerSettings/property").ToList();
+            var values = _reader.GetAttributes("value", "ServerSettings/property").ToList();
 
-                var length = names.Count > values.Count ? values.Count : names.Count;
-                for (var i = 0; i < length; ++i)
-                {
-                    var configInfo = new ConfigInfo()
-                    {
-                        PropertyName = names[i],
-                        Value = values[i],
-                    };
-                    _configs.Add(names[i], configInfo);
-                }
-            }
-            catch
+            var length = names.Count > values.Count ? values.Count : names.Count;
+            for (var i = 0; i < length; ++i)
             {
-                // ignored
+                var configInfo = new ConfigInfo()
+                {
+                    PropertyName = names[i],
+                    Value = values[i],
+                };
+                _configs.Add(names[i], configInfo);
             }
         }
 
-        public void AddValue(string propertyName, string value)
+        /// <summary>
+        /// Add a property.
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="value"></param>
+        public void AddProperty(string propertyName, string value)
         {
             if (_configs.ContainsKey(propertyName))
             {
-                ChangeValue(propertyName, value);
+                ChangeProperty(propertyName, value);
             }
             else
             {
@@ -64,14 +70,26 @@ namespace SvManagerLibrary.Config
                 _configs.Add(propertyName, configInfo);
             }
         }
-        public void AddValues(ConfigInfo[] configs)
+
+        /// <summary>
+        /// Add a properties.
+        /// </summary>
+        /// <param name="configs">Array of ConfigInfo to be added.</param>
+        public void AddProperties(ConfigInfo[] configs)
         {
             foreach (var config in configs)
             {
-                AddValue(config.PropertyName, config.Value);
+                AddProperty(config.PropertyName, config.Value);
             }
         }
-        public bool ChangeValue(string propertyName, string value)
+
+        /// <summary>
+        /// Change the value of property.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="value">A value to change.</param>
+        /// <returns>Success or failure.</returns>
+        public bool ChangeProperty(string propertyName, string value)
         {
             if (_configs.ContainsKey(propertyName))
             {
@@ -81,7 +99,13 @@ namespace SvManagerLibrary.Config
 
             return false;
         }
-        public ConfigInfo GetValue(string propertyName)
+
+        /// <summary>
+        /// Get the property.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <returns>The ConfigInfo object that was found.</returns>
+        public ConfigInfo GetProperty(string propertyName)
         {
             if (_configs.ContainsKey(propertyName))
             {
@@ -90,27 +114,49 @@ namespace SvManagerLibrary.Config
             return null;
         }
 
+        /// <summary>
+        /// Clear the internal config list.
+        /// </summary>
         public void Clear()
         {
             _configs.Clear();
         }
 
+        /// <summary>
+        /// Get all configs.
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, ConfigInfo> GetAll()
         {
-            return _configs;
+            var dict = _configs.ToDictionary(pair => pair.Key, (pair) =>
+                new ConfigInfo
+                {
+                    PropertyName = pair.Value.PropertyName,
+                    Value = pair.Value.Value
+                });
+            return dict;
         }
 
+        /// <summary>
+        /// Write config to saved path.
+        /// </summary>
         public void Write()
         {
             using var fs = new FileStream(_fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
-            Write(fs);
+            Write(fs, _configs);
         }
 
-        public void Write(Stream stream)
+
+        /// <summary>
+        /// Write config to a stream.
+        /// </summary>
+        /// <param name="stream">A stream to be saved.</param>
+        /// <param name="configs">A dictionary to save.</param>
+        public static void Write(Stream stream, Dictionary<string, ConfigInfo> configs)
         {
             var writer = new SavannahXmlWriter();
             var root = SavannahTagNode.CreateRoot("ServerSettings");
-            var configXmlArray = (from config in _configs.Values
+            var configXmlArray = (from config in configs.Values
                                   let configAttributeInfo = CreateConfigAttributeInfos(config)
                                   select SavannahTagNode.CreateElement("property", configAttributeInfo)).ToArray();
             root.ChildNodes = configXmlArray;

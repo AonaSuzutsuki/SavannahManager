@@ -3,8 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace SvManagerLibrary.Chat
 {
+    /// <summary>
+    /// Provides a converter of ChatInfo.
+    /// </summary>
     public class ChatInfoConverter
     {
+        /// <summary>
+        /// Convert a text of 7dtd telnet log to a ChatInfo object.
+        /// </summary>
+        /// <param name="text">7dtd telnet log.</param>
+        /// <returns>ChatInfo object.</returns>
         public static ChatInfo ConvertChat(string text)
         {
             //2019-01-19T16:14:21 140.048 INF Chat (from '-non-player-', entity id '-1', to 'Global'): 'Server': test

@@ -34,15 +34,45 @@ namespace SvManagerLibrary.Telnet
         #endregion
 
         #region ReadedEvent
+
+        /// <summary>
+        /// Event arguments for Telnet.
+        /// </summary>
         public class TelnetReadEventArgs : EventArgs
         {
+            /// <summary>
+            /// IP address of the connection
+            /// </summary>
             public string IpAddress;
+
+            /// <summary>
+            /// The log.
+            /// </summary>
             public string Log;
         }
+
+        /// <summary>
+        /// The delegate of some events.
+        /// </summary>
+        /// <param name="sender">The sender who called the delegate.</param>
+        /// <param name="e">Event argument.</param>
         public delegate void TelnetReadEventHandler(object sender, TelnetReadEventArgs e);
+
+        /// <summary>
+        /// This event occurs when the log is read by the telnet.
+        /// </summary>
         public event TelnetReadEventHandler ReadEvent;
+
+        /// <summary>
+        /// This event occurs when the Telnet connection is started.
+        /// </summary>
         public event TelnetReadEventHandler Started;
+
+        /// <summary>
+        /// This event occurs when the Telnet connection is terminated.
+        /// </summary>
         public event TelnetReadEventHandler Finished;
+
         protected virtual void OnRead(TelnetReadEventArgs e)
         {
             ReadEvent?.Invoke(this, e);
@@ -67,8 +97,14 @@ namespace SvManagerLibrary.Telnet
         /// </summary>
         public int ReceiveBufferSize { get; set; } = 10240;
 
+        /// <summary>
+        /// The maximum value of the wait time used by the DestructionEventRead method.
+        /// </summary>
         public int TelnetEventWaitTime { get; set; } = 2000;
 
+        /// <summary>
+        /// Breakline code to be sent with WriteLine methods.
+        /// </summary>
         public BreakLineType BreakLine { get; set; } = BreakLineType.CrLf;
 
         public byte[] BreakLineData
@@ -106,6 +142,9 @@ namespace SvManagerLibrary.Telnet
         private bool _destructionEvent;
         private ITelnetSocket _clientSocket;
 
+        /// <summary>
+        /// Initialize.
+        /// </summary>
         public TelnetClient()
         {
             _clientSocket = new TelnetSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
@@ -114,6 +153,11 @@ namespace SvManagerLibrary.Telnet
                 ReceiveBufferSize = ReceiveBufferSize
             };
         }
+
+        /// <summary>
+        /// Initialize it with the TelnetSocket argument.
+        /// </summary>
+        /// <param name="socket">TelnetSocket.</param>
         public TelnetClient(ITelnetSocket socket)
         {
             _clientSocket = socket;
@@ -137,6 +181,12 @@ namespace SvManagerLibrary.Telnet
             }
         }
 
+        /// <summary>
+        /// Connect to address and port.
+        /// </summary>
+        /// <param name="address">The address to connect.</param>
+        /// <param name="port">The port to connect.</param>
+        /// <returns>Whether the connection was established or not.</returns>
         public bool Connect(string address, int port)
         {
             try
@@ -155,7 +205,7 @@ namespace SvManagerLibrary.Telnet
             }
         }
 
-        public async Task HandleTcp(IPEndPoint end)
+        private async Task HandleTcp(IPEndPoint end)
         {
             await Task.Factory.StartNew(() =>
             {
@@ -179,6 +229,10 @@ namespace SvManagerLibrary.Telnet
             });
         }
 
+        /// <summary>
+        /// Read log from the connection.
+        /// </summary>
+        /// <returns>The read log.</returns>
         public string Read()
         {
             return LockFunction((socket) =>
@@ -196,6 +250,11 @@ namespace SvManagerLibrary.Telnet
             });
         }
 
+        /// <summary>
+        /// Send command and suppresses the occurrence of events and reads the log.
+        /// </summary>
+        /// <param name="cmd">The command to send</param>
+        /// <returns>The read log.</returns>
         public string DestructionEventRead(string cmd)
         {
             _destructionEvent = true;
@@ -225,6 +284,13 @@ namespace SvManagerLibrary.Telnet
             return logCollection.ToString();
         }
 
+        /// <summary>
+        /// Send command and suppresses the occurrence of events and reads the log.
+        /// Detect the end by regular expression in the last read line.
+        /// </summary>
+        /// <param name="cmd">The command to send</param>
+        /// <param name="expressionForLast">A regular expression indicating the end of reading.</param>
+        /// <returns>The read log.</returns>
         public string DestructionEventRead(string cmd, string expressionForLast)
         {
             static bool IsMatch(LogCollection logCollection, string expression)
@@ -258,6 +324,11 @@ namespace SvManagerLibrary.Telnet
             return logCollection.ToString();
         }
 
+        /// <summary>
+        /// Get the time required to communicate with the destination.
+        /// </summary>
+        /// <param name="maxMilliseconds">Timeout in milliseconds</param>
+        /// <returns>The time required to communicate with the destination</returns>
         public int CalculateWaitTime(int maxMilliseconds = 10000)
         {
             _destructionEvent = true;
@@ -283,7 +354,7 @@ namespace SvManagerLibrary.Telnet
 
             _destructionEvent = false;
 
-            return counter.Count;
+            return counter.ElapsedSeconds;
         }
 
         /// <summary>
@@ -337,7 +408,7 @@ namespace SvManagerLibrary.Telnet
             return sendByte;
         }
 
-#region IDisposable Support
+        #region IDisposable Support
         private bool _disposedValue;
         protected virtual void Dispose(bool disposing)
         {
@@ -367,13 +438,13 @@ namespace SvManagerLibrary.Telnet
         }
 
         /// <summary>
-        /// Release the telnet session.
+        /// Release the telnet connection and resources.
         /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-#endregion
+        #endregion
     }
 }

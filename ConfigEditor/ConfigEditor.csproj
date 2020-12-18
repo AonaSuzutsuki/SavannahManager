@@ -1,0 +1,200 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>ConfigEditor_mvvm</RootNamespace>
+    <Authors>Aona Suzutsuki</Authors>
+    <Company>Kimama Lab.</Company>
+    <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2020</Copyright>
+    <AssemblyVersion>1.0.2.2</AssemblyVersion>
+    <FileVersion>1.0.2.2</FileVersion>
+    <Version>1.0.2.2</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="lang\a11.6\en_ConfigData.xml" />
+    <None Remove="lang\a11.6\ja_ConfigData.xml" />
+    <None Remove="lang\a12.5\en_ConfigData.xml" />
+    <None Remove="lang\a12.5\ja_ConfigData.xml" />
+    <None Remove="lang\a12\en_ConfigData.xml" />
+    <None Remove="lang\a12\ja_ConfigData.xml" />
+    <None Remove="lang\a13\en_ConfigData.xml" />
+    <None Remove="lang\a13\ja_ConfigData.xml" />
+    <None Remove="lang\a14.6\en_ConfigData.xml" />
+    <None Remove="lang\a14.6\ja_ConfigData.xml" />
+    <None Remove="lang\a14.7\en_ConfigData.xml" />
+    <None Remove="lang\a14.7\ja_ConfigData.xml" />
+    <None Remove="lang\a15\en_ConfigData.xml" />
+    <None Remove="lang\a15\ja_ConfigData.xml" />
+    <None Remove="lang\a16\en_ConfigData.xml" />
+    <None Remove="lang\a16\ja_ConfigData.xml" />
+    <None Remove="lang\a17.2\en_ConfigData.xml" />
+    <None Remove="lang\a17.2\ja_ConfigData.xml" />
+    <None Remove="lang\a17b\en_ConfigData.xml" />
+    <None Remove="lang\a17b\ja_ConfigData.xml" />
+    <None Remove="lang\a17\en_ConfigData.xml" />
+    <None Remove="lang\a17\ja_ConfigData.xml" />
+    <None Remove="lang\a18b\en_ConfigData.xml" />
+    <None Remove="lang\a18b\ja_ConfigData.xml" />
+    <None Remove="lang\a19b\en_ConfigData.xml" />
+    <None Remove="lang\a19b\ja_ConfigData.xml" />
+    <None Remove="lang\VersionList.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="lang\a11.6\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a11.6\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a12.5\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a12.5\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a12\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a12\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a13\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a13\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a14.6\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a14.6\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a14.7\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a14.7\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a15\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a15\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a16\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a16\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a17.2\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a17.2\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a17b\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a17b\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a17\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a17\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a18b\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a18b\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a19b\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a19b\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\VersionList.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommonStyleLib" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+    <PackageReference Include="Prism.Core" Version="8.0.0.1909" />
+    <PackageReference Include="ReactiveProperty" Version="7.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SavannahManagerLib\SavannahManagerLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="App.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="LangResources\CommonResources.Designer.cs">
+      <DependentUpon>CommonResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="LangResources\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="LangResources\CommonResources.resx">
+      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LangResources\Resources.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="# For Debug&#xD;&#xA;SET MainProjectName=SavannahManager&#xD;&#xA;SET Framework=net48&#xD;&#xA;SET DestinationDir=$(SolutionDir)%25MainProjectName%25\bin\$(ConfigurationName)\%25Framework%25&#xD;&#xA;&#xD;&#xA;copy /y &quot;$(TargetPath)&quot; &quot;%25DestinationDir%25\$(TargetFileName)&quot;&#xD;&#xA;copy /y &quot;$(TargetDir)\$(TargetFileName).config&quot; &quot;%25DestinationDir%25\$(TargetFileName).config&quot;&#xD;&#xA;&#xD;&#xA;if exist &quot;%25DestinationDir%25\lang&quot; (&#xD;&#xA;    echo &quot;&quot;&#xD;&#xA;) else (&#xD;&#xA;    mkdir &quot;%25DestinationDir%25\lang&quot;&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;if exist &quot;%25DestinationDir%25\en-US&quot; (&#xD;&#xA;    echo &quot;&quot;&#xD;&#xA;) else (&#xD;&#xA;    mkdir &quot;%25DestinationDir%25\en-US&quot;&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;xcopy &quot;$(TargetDir)lang&quot; &quot;%25DestinationDir%25\lang&quot; /E /Y&#xD;&#xA;xcopy &quot;$(TargetDir)en-US&quot; &quot;%25DestinationDir%25\en-US&quot; /E /Y&#xD;&#xA;" />
+  </Target>
+
+</Project>

@@ -41,7 +41,7 @@ namespace SvManagerLibraryTests2.Player
             mock.Setup(x => x.DestructionEventRead(It.IsAny<string>(), It.IsAny<string>())).Returns(text);
             mock.Setup(x => x.Connected).Returns(true);
 
-            var act = SvManagerLibrary.Player.Player.SetPlayerInfo(mock.Object);
+            var act = SvManagerLibrary.Player.Player.GetPlayerInfoList(mock.Object);
 
             CollectionAssert.AreEqual(exp, act);
         }
@@ -82,7 +82,7 @@ namespace SvManagerLibraryTests2.Player
                 });
 
             var telnetClient = new TelnetClient(mock.Object);
-            var act = SvManagerLibrary.Player.Player.SetPlayerInfo(telnetClient);
+            var act = SvManagerLibrary.Player.Player.GetPlayerInfoList(telnetClient);
 
             CollectionAssert.AreEqual(exp, act);
         }
