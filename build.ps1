@@ -6,10 +6,11 @@ if ( [string]::IsNullOrEmpty($outName) ) {
 
 $CurrentDirectory = Split-Path $MyInvocation.MyCommand.Path -Parent
 $OutBinDirectory = "$CurrentDirectory\$outName"
+$Framework = "net48"
 
-$SavannahManagerReleaseDirectory = "$CurrentDirectory\7dtd-svmanager-fix-mvvm\bin\Release"
-$XmlEditorReleaseDirectory = "$CurrentDirectory\7dtd-XmlEditor\bin\Release"
-$ConfigEditorReleaseDirectory = "$CurrentDirectory\ConfigEditor-mvvm\bin\Release"
+$SavannahManagerReleaseDirectory = "$CurrentDirectory\SavannahManager\bin\Release\$Framework"
+$XmlEditorReleaseDirectory = "$CurrentDirectory\SavannahXmlEditor\bin\Release\$Framework"
+$ConfigEditorReleaseDirectory = "$CurrentDirectory\ConfigEditor\bin\Release\$Framework"
 $UpdaterReleaseDirectory = "$CurrentDirectory\Updater\bin\Release"
 
 #SavannahManager
