@@ -39,20 +39,16 @@ Thank you very much.
 cd /D D:\Develop\Git\SavannahManager
 ```
 
-4. Restore nuget packages.
-```sh
-nuget restore SavannahManager.sln
-```
-
-5. Build with MSBuild.
+4. Build with dotnet.
 ```ps
-msbuild SavannahManager.sln /t:Clean;Build /p:PostBuildEvent= /p:Configuration=Release;Platform="Any CPU"
+dotnet build
 ```
 
-6. Move builded files.
+5. Move builded files.
 Move all assemblies to "bin" directory on same directory of SavannahManager.sln.
+Execute build.ps with Command Prompt.
 ```ps
-powershell -NoProfile -ExecutionPolicy Unrestricted .\build.ps1
+> powershell -NoProfile -ExecutionPolicy Unrestricted .\build.ps1
 ```
 
 # Special Thanks
