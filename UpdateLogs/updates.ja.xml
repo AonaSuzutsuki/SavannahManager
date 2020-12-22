@@ -2,6 +2,8 @@
 <updates>
   <update version="2.4.41.2">
     1. コンソールログで改行が正しく取得できない問題を修正しました。
+    2. Telnet Wait Timeの標準値を2msから2000msへ修正しました。
+      2.1. Get Timeやプレイヤー取得ボタンで結果がログに流れる場合は、設定でTelnet Wait Timeの値を増やしてください。
   </update>
   <update version="2.4.40.1">
     1. Config Editorの起動が遅い問題を修正しました。

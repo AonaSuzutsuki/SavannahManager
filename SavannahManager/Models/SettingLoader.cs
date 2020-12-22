@@ -90,7 +90,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             ConsoleTextLength = _iniLoader.GetValue("SERVER", "CONSOLELOGLENGTH", ConsoleTextLength);
 
-            TelnetWaitTime = _iniLoader.GetValue("SERVER", "TELNETWAITTIME", 2);
+            TelnetWaitTime = _iniLoader.GetValue("SERVER", "TELNETWAITTIME", 2000);
 
             IsBetaMode = _iniLoader.GetValue("SERVER", "BETAMODE", false);
 
