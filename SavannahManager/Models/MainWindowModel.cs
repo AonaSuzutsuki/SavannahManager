@@ -205,7 +205,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public int ConsoleTextLength { get; private set; }
 
         public TelnetClient Telnet { get; private set; }
-        public LogStream LoggingStream { get; } = new LogStream();
         #endregion
 
         #region Fiels
@@ -219,6 +218,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private readonly List<int> _connectedIds = new List<int>();
 
         private bool _isServerForceStop;
+
+        private bool _isLogGetter;
+        private LogStream _loggingStream;
 
         #endregion
 
@@ -271,7 +273,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             ConsoleTextLength = Setting.ConsoleTextLength;
 
-            LoggingStream.IsLogGetter = Setting.IsLogGetter;
+            _isLogGetter = Setting.IsLogGetter;
             LocalMode = Setting.LocalMode;
             StartBtEnabled = LocalMode;
 
@@ -403,7 +405,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         Telnet.Write(TelnetClient.Cr);
                         AppendConsoleLog(SocTelnetSend(localPassword));
 
-                        LoggingStream.MakeStream(ConstantValues.LogDirectoryPath);
+                        MakeLogStream();
 
                         break;
                     }
@@ -433,6 +435,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
 
             return false;
+        }
+
+        private void MakeLogStream()
+        {
+            if (_isLogGetter)
+                _loggingStream = new LogStream(ConstantValues.LogDirectoryPath);
+        }
+
+        public void WriteLogStream(string log)
+        {
+            _loggingStream?.WriteSteam(log);
         }
 
         private bool FileExistCheck()
@@ -528,7 +541,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             IsFailed = false;
             if (connected)
             {
-                LoggingStream.MakeStream(ConstantValues.LogDirectoryPath);
+                MakeLogStream();
                 TelnetBtLabel = LangResources.Resources.UI_DisconnectFromTelnet;
                 LocalModeEnabled = false;
                 ConnectionPanelIsEnabled = false;
@@ -589,7 +602,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             LocalModeEnabled = true;
             StartBtEnabled = LocalMode;
 
-            LoggingStream.StreamDisposer();
+            _loggingStream?.Dispose();
+            _loggingStream = null;
             Telnet?.Dispose();
             Telnet = null;
         }
