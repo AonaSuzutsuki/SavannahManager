@@ -6,6 +6,8 @@ using Reactive.Bindings.Extensions;
 using System.Windows;
 using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.Settings.Views;
+using CommonStyleLib.ExMessageBox;
+using CommonStyleLib.ExMessageBox.Views;
 using CommonStyleLib.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
@@ -21,6 +23,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
             GetSvFilePathCommand = new DelegateCommand(GetSvFilePathBt_Click);
             GetConfFilePathCommand = new DelegateCommand(GetConfFilePathBt_Click);
             GetAdminFilePathCommand = new DelegateCommand(GetAdminFilePathBt_Click);
+            HelpHyperlinkCommand = new DelegateCommand<string>(OpenHelpHyperlink);
 
             KeyEditCommand = new DelegateCommand(KeyEditBt_Click);
 
@@ -65,6 +68,8 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         public ICommand GetConfFilePathCommand { get; set; }
         public ICommand GetAdminFilePathCommand { get; set; }
 
+        public ICommand HelpHyperlinkCommand { get; set; }
+
         public ICommand KeyEditCommand { get; set; }
 
         public ICommand GetBackupDirCommand { get; set; }
@@ -84,6 +89,11 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         private void GetAdminFilePathBt_Click()
         {
             _model.GetAdminFilePath();
+        }
+
+        private void OpenHelpHyperlink(string text)
+        {
+            ExMessageBoxBase.Show(text, "Help", ExMessageBoxBase.MessageType.Question);
         }
 
         private void KeyEditBt_Click()
