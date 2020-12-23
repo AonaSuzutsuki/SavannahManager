@@ -26,30 +26,21 @@ Thank you very much.
 ## MSBuild (without Visual Studio 2019)
 ### Required Tools
 1. [Build Tools for Visual Studio 2019](https://www.visualstudio.com/ja/downloads/)
-2. [NuGet](https://www.nuget.org/downloads)
+  1. .Net Framework 4.8 Developer Pack
+  2. .Net Core 3.1, 2.1 or .NET 5 SDK (for useing dotnet command)
 
 ### Steps
-1. Download [NuGet](https://www.nuget.org/downloads) to project folder.
-\*Pass the path if you have already installed.
-
-2. Open Developer Command Prompt for VS 2019.
-
-3. Open the project folder at cmd.
+1. Open the project folder at Command Prompt.
 ```sh
 cd /D D:\Develop\Git\SavannahManager
 ```
 
-4. Restore nuget packages.
-```sh
-nuget restore SavannahManager.sln
-```
-
-5. Build with MSBuild.
+2. Build with dotnet.
 ```ps
-msbuild SavannahManager.sln /t:Clean;Build /p:PostBuildEvent= /p:Configuration=Release;Platform="Any CPU"
+dotnet build -c Release
 ```
 
-6. Move builded files.
+3. Move builded files.
 Move all assemblies to "bin" directory on same directory of SavannahManager.sln.
 ```ps
 powershell -NoProfile -ExecutionPolicy Unrestricted .\build.ps1
