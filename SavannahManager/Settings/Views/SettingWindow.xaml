@@ -182,9 +182,9 @@
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
 
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                     <Label Content="Telnet wait time" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                                    <TextBlock FontSize="11" Margin="5,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                    <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Left">
                                         <Hyperlink Foreground="White" Command="{Binding HelpHyperlinkCommand}" CommandParameter="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.Help_TelnetWaitTime, Mode=OneWay}">
                                             ?
                                         </Hyperlink>
@@ -214,7 +214,16 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_BetaModeLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_BetaModeLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                        <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                            <Hyperlink Foreground="White" Command="{Binding HelpHyperlinkCommand}" CommandParameter="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.Help_BetaMode, Mode=OneWay}">
+                                                ?
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </StackPanel>
+
                                     <CheckBox Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_BetaModeEnabledLabel, Mode=OneWay}" IsChecked="{Binding IsBetaModeChecked.Value}" Grid.Row="1" IsEnabled="True" />
                                 </Grid>
 

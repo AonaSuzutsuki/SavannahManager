@@ -129,6 +129,10 @@
     <value>XMLファイル (*.xml)|*.xml|すべてのファイル(*.*)|*.*</value>
     <comment>フィルター</comment>
   </data>
+  <data name="Help_BetaMode" xml:space="preserve">
+    <value>ベータモードでは開発中の機能を使用することができます。
+正式に実装する保証はなければ、動作保証もできないので使用には注意してください。</value>
+  </data>
   <data name="Help_TelnetWaitTime" xml:space="preserve">
     <value>このオプションで指定した時間だけログ出力を停止させます。
 Get Timeなどのコンソールログに出力しないで解析する機能でログ出力されてしまう問題を解決します。

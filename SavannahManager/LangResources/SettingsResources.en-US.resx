@@ -129,6 +129,10 @@
     <value>XML Files (*.xml)|*.xml|All Files(*.*)|*.*</value>
     <comment>Filter</comment>
   </data>
+  <data name="Help_BetaMode" xml:space="preserve">
+    <value>In beta mode, you can use features that are still under development.
+There is no guarantee that they will be formally implemented, nor can they be guaranteed to work, so please be careful when using them.</value>
+  </data>
   <data name="Help_TelnetWaitTime" xml:space="preserve">
     <value>This option will stop the log output for the specified time.
 You can solve the problem of log output by using Get Time or other functions that analyze without outputting to the console log.
