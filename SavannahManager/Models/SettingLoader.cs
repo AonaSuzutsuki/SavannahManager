@@ -52,6 +52,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public string BackupDirPath { get; set; }
 
+        public bool IsConsoleLogTextWrapping { get; set; }
+
         #endregion
 
 
@@ -101,6 +103,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             IsAutoUpdate = _iniLoader.GetValue("MAIN", "AUTOCHECK", true);
 
             BackupDirPath = _iniLoader.GetValue("BACKUP", "DIRPATH", "backup").UnifiedSystemPathSeparator();
+
+            IsConsoleLogTextWrapping = _iniLoader.GetValue("MAIN", "CONSOLETEXTWRAPPING", false);
         }
 
         public void ApplyCulture()
@@ -127,6 +131,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue("MAIN", "FIRSTBOOT", IsFirstBoot);
             _iniLoader.SetValue("MAIN", "AUTOCHECK", IsAutoUpdate);
             _iniLoader.SetValue("BACKUP", "DIRPATH", BackupDirPath);
+            _iniLoader.SetValue("MAIN", "CONSOLETEXTWRAPPING", IsConsoleLogTextWrapping);
         }
     }
 }

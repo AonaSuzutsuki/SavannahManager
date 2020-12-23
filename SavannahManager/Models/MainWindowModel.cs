@@ -181,6 +181,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             get => _bottomNewsLabel;
             set => SetProperty(ref _bottomNewsLabel, value);
         }
+
+        private bool _isConsoleLogTextWrapping;
+        public bool IsConsoleLogTextWrapping
+        {
+            get => _isConsoleLogTextWrapping;
+            set => SetProperty(ref _isConsoleLogTextWrapping, value);
+        }
         #endregion
 
         #region Properties
@@ -271,6 +278,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             PortText = Setting.Port.ToString();
             Password = Setting.Password;
 
+            IsConsoleLogTextWrapping = Setting.IsConsoleLogTextWrapping;
             ConsoleTextLength = Setting.ConsoleTextLength;
 
             _isLogGetter = Setting.IsLogGetter;
@@ -297,6 +305,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             Setting.LocalMode = _localMode;
             Setting.Port = _port;
             Setting.Password = _password;
+            Setting.IsConsoleLogTextWrapping = IsConsoleLogTextWrapping;
         }
         public void ChangeCulture(string cultureName)
         {
