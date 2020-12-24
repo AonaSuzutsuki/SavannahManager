@@ -8,6 +8,8 @@
     4. changed file foramt of ini.
     5. support text wrapping on console log.
       5.1 Right-clicking on the console log will bring up a menu.
+    6. Fixed a bug that display of multiple "Force Shutdown".
+    7. Fixed an issue where the PID was not displayed in "Force Shutdown".
   </update>
   <update version="2.4.40.1">
     1. Fixed an issue to start up slow on Config Editor.
