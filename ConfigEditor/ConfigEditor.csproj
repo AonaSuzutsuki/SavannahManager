@@ -140,7 +140,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommonStyleLib" Version="1.0.2" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.4" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
     <PackageReference Include="Prism.Core" Version="8.0.0.1909" />
     <PackageReference Include="ReactiveProperty" Version="7.5.1" />
