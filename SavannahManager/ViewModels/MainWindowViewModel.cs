@@ -466,7 +466,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             var forceShutdownerModel = new ForceShutdownerModel();
             var vm = new ForceShutdownerViewModel(new WindowService(), forceShutdownerModel);
-            WindowManageService.Show<ForceShutdowner>(vm);
+            WindowManageService.ShowNonOwnerOnly<ForceShutdowner>(vm);
         }
         private void ConnectTelnet()
         {
