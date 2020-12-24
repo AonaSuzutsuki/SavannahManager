@@ -188,7 +188,7 @@ namespace ConfigEditor_mvvm.Models
             var cmdArray = Environment.GetCommandLineArgs();
             if (cmdArray.Length > 1)
             {
-                string filePath = cmdArray[1];
+                var filePath = cmdArray[1];
                 if (File.Exists(filePath))
                     _configLoader = new ConfigLoader(cmdArray[1]);
             }
