@@ -574,6 +574,15 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   テキストを折り返す に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_TextWrapping {
+            get {
+                return ResourceManager.GetString("UI_TextWrapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ツール(_T) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_ToolBT {

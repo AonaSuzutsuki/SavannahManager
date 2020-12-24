@@ -365,4 +365,7 @@
     <value>There is an update.</value>
     <comment>メッセージ</comment>
   </data>
+  <data name="UI_TextWrapping" xml:space="preserve">
+    <value>Text Wrapping</value>
+  </data>
 </root>

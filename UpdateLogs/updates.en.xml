@@ -6,6 +6,8 @@
       2.1. If the Get Time or Get Player button causes the results to be logged, increase the Telnet Wait Time value in the settings.
     3. Added some help button in settings.
     4. changed file foramt of ini.
+    5. support text wrapping on console log.
+      5.1 Right-clicking on the console log will bring up a menu.
   </update>
   <update version="2.4.40.1">
     1. Fixed an issue to start up slow on Config Editor.
