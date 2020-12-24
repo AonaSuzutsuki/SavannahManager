@@ -83,8 +83,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private bool CheckOldFormat()
         {
-            var value = _iniLoader.GetValue(MainClassName, "Version", "0");
-            return value == "0";
+            var value = _iniLoader.GetValue(MainClassName, "Version", "1.0");
+            return value == "1.0";
         }
 
         private void LoadOldFormat()
