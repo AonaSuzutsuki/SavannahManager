@@ -1,4 +1,7 @@
-﻿using _7dtd_svmanager_fix_mvvm.LangResources;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using _7dtd_svmanager_fix_mvvm.LangResources;
 using CommonCoreLib.CommonPath;
 using CommonCoreLib.Ini;
 
@@ -15,6 +18,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             SettingInstance = new SettingLoader(ConstantValues.SettingFilePath);
         }
+
+        private const string MainClassName = "Main";
+        private const string ServerClassName = "Server";
+        private const string BackupClassName = "Backup";
 
         #region Properties
 
@@ -61,15 +68,29 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public SettingLoader(string filename)
         {
             _iniLoader = new IniLoader(filename);
-            Load();
+            if (CheckOldFormat())
+            {
+                LoadOldFormat();
+                File.WriteAllText(filename, "");
+            }
+            else
+            {
+                Load();
+            }
+
+            ApplyCulture();
         }
 
-        private void Load()
+        private bool CheckOldFormat()
         {
-            if (!int.TryParse(_iniLoader.GetValue("MAIN", "WIDTH", "900"), out var width)) { width = ConstantValues.Width; }
-            if (!int.TryParse(_iniLoader.GetValue("MAIN", "HEIGHT", "550"), out var height)) { height = ConstantValues.Height; }
-            Width = width;
-            Height = height;
+            var value = _iniLoader.GetValue(MainClassName, "Version", "0");
+            return value == "0";
+        }
+
+        private void LoadOldFormat()
+        {
+            Width = _iniLoader.GetValue("MAIN", "WIDTH", 900);
+            Height = _iniLoader.GetValue("MAIN", "HEIGHT", 550);
 
             ExeFilePath = _iniLoader.GetValue("SERVER", "EXEPATH", string.Empty);
             ConfigFilePath = _iniLoader.GetValue("SERVER", "CONFIGPATH", string.Empty);
@@ -77,18 +98,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             Address = _iniLoader.GetValue("MAIN", "ADDRESS", "");
 
-            if (!int.TryParse(_iniLoader.GetValue("MAIN", "PORT", ""), out var port))
-            {
-                port = ConstantValues.DefaultPort;
-            }
-            Port = port;
+            Port = _iniLoader.GetValue("MAIN", "PORT", 8081);
 
             Password = _iniLoader.GetValue("MAIN", "PASSWORD", "");
 
             LocalMode = _iniLoader.GetValue("MAIN", "LOCALMODE", true);
 
             CultureName = _iniLoader.GetValue("MAIN", "CULTURE", ResourceService.Current.Culture);
-            ResourceService.Current.ChangeCulture(CultureName);
 
             ConsoleTextLength = _iniLoader.GetValue("SERVER", "CONSOLELOGLENGTH", ConsoleTextLength);
 
@@ -107,6 +123,42 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             IsConsoleLogTextWrapping = _iniLoader.GetValue("MAIN", "CONSOLETEXTWRAPPING", false);
         }
 
+        private void Load()
+        {
+            Width = _iniLoader.GetValue(MainClassName, "Width", 900);
+            Height = _iniLoader.GetValue(MainClassName, "Height", 550);
+
+            ExeFilePath = _iniLoader.GetValue(ServerClassName, "ExePath", string.Empty);
+            ConfigFilePath = _iniLoader.GetValue(ServerClassName, "ConfigPath", string.Empty);
+            AdminFilePath = _iniLoader.GetValue(ServerClassName, "AdminPath", string.Empty);
+
+            Address = _iniLoader.GetValue(ServerClassName, "Address", "");
+
+            Port = _iniLoader.GetValue(ServerClassName, "Port", 8081);
+
+            Password = _iniLoader.GetValue(ServerClassName, "Password", "");
+
+            LocalMode = _iniLoader.GetValue(MainClassName, "LocalServerMode", true);
+
+            CultureName = _iniLoader.GetValue(MainClassName, "Culture", ResourceService.Current.Culture);
+
+            ConsoleTextLength = _iniLoader.GetValue(MainClassName, "ConsoleLogLength", ConsoleTextLength);
+
+            TelnetWaitTime = _iniLoader.GetValue(MainClassName, "TelnetWaitTime", 2000);
+
+            IsBetaMode = _iniLoader.GetValue(MainClassName, "BetaMode", false);
+
+            IsLogGetter = _iniLoader.GetValue(MainClassName, "IsLogOutput", true);
+
+            IsFirstBoot = _iniLoader.GetValue(MainClassName, "IsFirstBoot", true);
+
+            IsAutoUpdate = _iniLoader.GetValue(MainClassName, "IsUpdateCheck", true);
+
+            BackupDirPath = _iniLoader.GetValue(BackupClassName, "DirPath", "backup").UnifiedSystemPathSeparator();
+
+            IsConsoleLogTextWrapping = _iniLoader.GetValue(MainClassName, "IsConsoleTextWrapping", false);
+        }
+
         public void ApplyCulture()
         {
             ResourceService.Current.ChangeCulture(CultureName);
@@ -114,24 +166,25 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void Save()
         {
-            _iniLoader.SetValue("MAIN", "WIDTH", Width);
-            _iniLoader.SetValue("MAIN", "HEIGHT", Height);
-            _iniLoader.SetValue("SERVER", "EXEPATH", ExeFilePath);
-            _iniLoader.SetValue("SERVER", "CONFIGPATH", ConfigFilePath);
-            _iniLoader.SetValue("SERVER", "ADMINPATH", AdminFilePath);
-            _iniLoader.SetValue("MAIN", "ADDRESS", Address);
-            _iniLoader.SetValue("MAIN", "PORT", Port);
-            _iniLoader.SetValue("MAIN", "PASSWORD", Password);
-            _iniLoader.SetValue("MAIN", "LOCALMODE", LocalMode);
-            _iniLoader.SetValue("MAIN", "CULTURE", CultureName);
-            _iniLoader.SetValue("SERVER", "CONSOLELOGLENGTH", ConsoleTextLength);
-            _iniLoader.SetValue("SERVER", "TELNETWAITTIME", TelnetWaitTime);
-            _iniLoader.SetValue("SERVER", "BETAMODE", IsBetaMode);
-            _iniLoader.SetValue("SERVER", "LOGOUTPUT", IsLogGetter);
-            _iniLoader.SetValue("MAIN", "FIRSTBOOT", IsFirstBoot);
-            _iniLoader.SetValue("MAIN", "AUTOCHECK", IsAutoUpdate);
-            _iniLoader.SetValue("BACKUP", "DIRPATH", BackupDirPath);
-            _iniLoader.SetValue("MAIN", "CONSOLETEXTWRAPPING", IsConsoleLogTextWrapping);
+            _iniLoader.SetValue(MainClassName, "Version", "1.1");
+            _iniLoader.SetValue(MainClassName, "Width", Width);
+            _iniLoader.SetValue(MainClassName, "Height", Height);
+            _iniLoader.SetValue(ServerClassName, "ExePath", ExeFilePath);
+            _iniLoader.SetValue(ServerClassName, "ConfigPath", ConfigFilePath);
+            _iniLoader.SetValue(ServerClassName, "AdminPath", AdminFilePath);
+            _iniLoader.SetValue(ServerClassName, "Address", Address);
+            _iniLoader.SetValue(ServerClassName, "Port", Port);
+            _iniLoader.SetValue(ServerClassName, "Password", Password);
+            _iniLoader.SetValue(MainClassName, "LocalServerMode", LocalMode);
+            _iniLoader.SetValue(MainClassName, "Culture", CultureName);
+            _iniLoader.SetValue(MainClassName, "ConsoleLogLength", ConsoleTextLength);
+            _iniLoader.SetValue(MainClassName, "TelnetWaitTime", TelnetWaitTime);
+            _iniLoader.SetValue(MainClassName, "BetaMode", IsBetaMode);
+            _iniLoader.SetValue(MainClassName, "IsLogOutput", IsLogGetter);
+            _iniLoader.SetValue(MainClassName, "IsFirstBoot", IsFirstBoot);
+            _iniLoader.SetValue(MainClassName, "IsUpdateCheck", IsAutoUpdate);
+            _iniLoader.SetValue(BackupClassName, "DirPath", BackupDirPath);
+            _iniLoader.SetValue(MainClassName, "IsConsoleTextWrapping", IsConsoleLogTextWrapping);
         }
     }
 }
