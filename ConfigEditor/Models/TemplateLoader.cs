@@ -51,7 +51,7 @@ namespace ConfigEditor_mvvm.Models
             {
                 var version = VersionList[item.Index];
                 var dic = new Dictionary<string, ConfigListInfo>();
-                var baseReader = new SavannahXmlReader(string.Format(ConstantValues.BaseTemplateFileName, item.Value, lang));
+                var baseReader = new CachedSavannahXmlReader(string.Format(ConstantValues.BaseTemplateFileName, item.Value, lang));
                 var names = baseReader.GetAttributes("name", "/ServerSettings/property");
                 foreach (var name in names)
                 {

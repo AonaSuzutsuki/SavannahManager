@@ -365,4 +365,7 @@
     <value>アップデートがあります。</value>
     <comment>メッセージ</comment>
   </data>
+  <data name="UI_TextWrapping" xml:space="preserve">
+    <value>テキストを折り返す</value>
+  </data>
 </root>

@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.4.41.2">
+    1. Fixed an issue where newlines could not be retrieved correctly in the console log.
+    2. Fixed telnet wait time default value from 2ms to 2000ms.
+      2.1. If the Get Time or Get Player button causes the results to be logged, increase the Telnet Wait Time value in the settings.
+    3. Added some help button in settings.
+    4. changed file format of ini.
+    5. support text wrapping on console log.
+      5.1 Right-clicking on the console log will bring up a menu.
+    6. Fixed a bug that display of multiple "Force Shutdown".
+    7. Fixed an issue where the PID was not displayed in "Force Shutdown".
+  </update>
   <update version="2.4.40.1">
     1. Fixed an issue to start up slow on Config Editor.
     2. Fixed an issue that crashed when saving in the Config Editor.

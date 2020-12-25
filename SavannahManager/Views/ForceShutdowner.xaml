@@ -1,9 +1,14 @@
 ﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Views.ForceShutdowner"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
+        xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModels:ForceShutdownerViewModel}"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Settings" Height="300" Width="400" ResizeMode="CanMinimize">
@@ -68,7 +73,7 @@
                     <ListView ItemsSource="{Binding ProcessData}" SelectedIndex="{Binding ProcessListSelectedIndex}" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Width="60" Header="PID" DisplayMemberBinding="{Binding Path=PID}" />
+                                <GridViewColumn Width="60" Header="PID" DisplayMemberBinding="{Binding Path=Pid}" />
                                 <GridViewColumn Width="150" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=ForceShutdownerResources.UI_NameLabel, Mode=OneWay}" DisplayMemberBinding="{Binding Path=Name}" />
                             </GridView>
                         </ListView.View>

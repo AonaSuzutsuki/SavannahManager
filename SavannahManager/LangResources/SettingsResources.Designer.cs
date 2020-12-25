@@ -97,6 +97,28 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   ベータモードでは開発中の機能を使用することができます。
+        ///正式に実装する保証はなければ、動作保証もできないので使用には注意してください。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Help_BetaMode {
+            get {
+                return ResourceManager.GetString("Help_BetaMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   このオプションで指定した時間だけログ出力を停止させます。
+        ///Get Timeなどのコンソールログに出力しないで解析する機能でログ出力されてしまう問題を解決します。
+        ///取得できた段階でログ出力を再開させますが、短すぎると処理する前にログ出力されてしまいます。ネットワーク環境に合わせて設定しましょう。
+        ///ローカル環境であれば通常は2000ミリ秒 (2秒) あれば十分なはずです。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Help_TelnetWaitTime {
+            get {
+                return ResourceManager.GetString("Help_TelnetWaitTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   値を入力してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Input_Some_Value {

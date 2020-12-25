@@ -156,7 +156,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             TelnetBtLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel);
 
             UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
-            
+
+            IsConsoleLogTextWrapping = model.ToReactivePropertyAsSynchronized(m => m.IsConsoleLogTextWrapping);
             ChatLogText = model.ObserveProperty(m => m.ChatLogText).ToReactiveProperty();
             ChatInputText = model.ToReactivePropertyAsSynchronized(m => m.ChatInputText);
             
@@ -284,6 +285,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         
         public ReactiveProperty<string> ChatLogText { get; set; }
         public ReactiveProperty<string> ChatInputText { get; set; }
+
+        public ReactiveProperty<bool> IsConsoleLogTextWrapping { get; set; }
 
         public string ConsoleLogText
         {
@@ -463,7 +466,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             var forceShutdownerModel = new ForceShutdownerModel();
             var vm = new ForceShutdownerViewModel(new WindowService(), forceShutdownerModel);
-            WindowManageService.Show<ForceShutdowner>(vm);
+            WindowManageService.ShowNonOwnerOnly<ForceShutdowner>(vm);
         }
         private void ConnectTelnet()
         {
@@ -721,7 +724,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             var log = "{0}".FormatString(e.Log);
 
-            _model.LoggingStream.WriteSteam(log);
+            _model.WriteLogStream(log);
 
             _model.AppendConsoleLog(log);
 

@@ -41,7 +41,8 @@ dotnet build -c Release
 ```
 
 3. Move builded files.
-Move all assemblies to "bin" directory on same directory of SavannahManager.sln.
+Move all assemblies to "bin" directory on same directory of SavannahManager.sln.  
+Execute build.ps with Command Prompt.  
 ```ps
 powershell -NoProfile -ExecutionPolicy Unrestricted .\build.ps1
 ```

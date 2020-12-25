@@ -54,7 +54,7 @@ namespace SvManagerLibrary.Telnet
             foreach (var item in array.Select((v, i) => new { Index = i, Value = v }))
             {
                 var builder = GetStringBuilder();
-                builder.Text.Append(item.Value.TrimEnd('\n'));
+                builder.Text.Append(item.Value == "\n" ? item.Value : item.Value.TrimEnd('\n'));
 
                 if (item.Value[item.Value.Length - 1] == '\n')
                     builder.EndLine = true;

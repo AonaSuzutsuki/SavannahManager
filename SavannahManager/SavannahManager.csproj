@@ -10,9 +10,9 @@
     <Authors>Aona Suzutsuki</Authors>
     <Company>Kimama Lab.</Company>
     <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2020</Copyright>
-    <AssemblyVersion>2.4.40.1</AssemblyVersion>
-    <FileVersion>2.4.40.1</FileVersion>
-    <Version>2.4.40.1</Version>
+    <AssemblyVersion>2.4.41.2</AssemblyVersion>
+    <FileVersion>2.4.41.2</FileVersion>
+    <Version>2.4.41.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,31 +38,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BackupLib" Version="1.0.0" />
     <PackageReference Include="CommonCoreLib" Version="1.0.1" />
     <PackageReference Include="CommonNavigationControlLib" Version="1.0.0" />
-    <PackageReference Include="CommonStyleLib" Version="1.0.0" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.4" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SavannahXmlLib" Version="1.0.2" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
+    <PackageReference Include="UpdateLib" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SavannahManagerLib\SavannahManagerLib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="BackupLib">
-      <HintPath>..\Lib\BackupLib.dll</HintPath>
-    </Reference>
-    <Reference Include="ClusterableFileStream">
-      <HintPath>..\Lib\ClusterableFileStream.dll</HintPath>
-    </Reference>
-    <Reference Include="FileManagerLib">
-      <HintPath>..\Lib\FileManagerLib.dll</HintPath>
-    </Reference>
-    <Reference Include="UpdateLib">
-      <HintPath>..\Lib\UpdateLib.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>

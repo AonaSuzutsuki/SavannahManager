@@ -181,6 +181,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             get => _bottomNewsLabel;
             set => SetProperty(ref _bottomNewsLabel, value);
         }
+
+        private bool _isConsoleLogTextWrapping;
+        public bool IsConsoleLogTextWrapping
+        {
+            get => _isConsoleLogTextWrapping;
+            set => SetProperty(ref _isConsoleLogTextWrapping, value);
+        }
         #endregion
 
         #region Properties
@@ -205,7 +212,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public int ConsoleTextLength { get; private set; }
 
         public TelnetClient Telnet { get; private set; }
-        public LogStream LoggingStream { get; } = new LogStream();
         #endregion
 
         #region Fiels
@@ -219,6 +225,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private readonly List<int> _connectedIds = new List<int>();
 
         private bool _isServerForceStop;
+
+        private bool _isLogGetter;
+        private LogStream _loggingStream;
 
         #endregion
 
@@ -269,9 +278,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             PortText = Setting.Port.ToString();
             Password = Setting.Password;
 
+            IsConsoleLogTextWrapping = Setting.IsConsoleLogTextWrapping;
             ConsoleTextLength = Setting.ConsoleTextLength;
 
-            LoggingStream.IsLogGetter = Setting.IsLogGetter;
+            _isLogGetter = Setting.IsLogGetter;
             LocalMode = Setting.LocalMode;
             StartBtEnabled = LocalMode;
 
@@ -295,6 +305,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             Setting.LocalMode = _localMode;
             Setting.Port = _port;
             Setting.Password = _password;
+            Setting.IsConsoleLogTextWrapping = IsConsoleLogTextWrapping;
         }
         public void ChangeCulture(string cultureName)
         {
@@ -403,7 +414,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         Telnet.Write(TelnetClient.Cr);
                         AppendConsoleLog(SocTelnetSend(localPassword));
 
-                        LoggingStream.MakeStream(ConstantValues.LogDirectoryPath);
+                        MakeLogStream();
 
                         break;
                     }
@@ -433,6 +444,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
 
             return false;
+        }
+
+        private void MakeLogStream()
+        {
+            if (_isLogGetter)
+                _loggingStream = new LogStream(ConstantValues.LogDirectoryPath);
+        }
+
+        public void WriteLogStream(string log)
+        {
+            _loggingStream?.WriteSteam(log);
         }
 
         private bool FileExistCheck()
@@ -528,7 +550,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             IsFailed = false;
             if (connected)
             {
-                LoggingStream.MakeStream(ConstantValues.LogDirectoryPath);
+                MakeLogStream();
                 TelnetBtLabel = LangResources.Resources.UI_DisconnectFromTelnet;
                 LocalModeEnabled = false;
                 ConnectionPanelIsEnabled = false;
@@ -589,7 +611,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             LocalModeEnabled = true;
             StartBtEnabled = LocalMode;
 
-            LoggingStream.StreamDisposer();
+            _loggingStream?.Dispose();
+            _loggingStream = null;
             Telnet?.Dispose();
             Telnet = null;
         }
