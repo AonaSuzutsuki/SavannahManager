@@ -11,7 +11,7 @@ $Framework = "net48"
 $SavannahManagerReleaseDirectory = "$CurrentDirectory\SavannahManager\bin\Release\$Framework"
 $XmlEditorReleaseDirectory = "$CurrentDirectory\SavannahXmlEditor\bin\Release\$Framework"
 $ConfigEditorReleaseDirectory = "$CurrentDirectory\ConfigEditor\bin\Release\$Framework"
-$UpdaterReleaseDirectory = "$CurrentDirectory\Updater\bin\Release"
+$UpdaterReleaseDirectory = "$CurrentDirectory\Updater\bin\Release\$Framework"
 
 #SavannahManager
 xcopy /Y $SavannahManagerReleaseDirectory\*.dll $OutBinDirectory\
