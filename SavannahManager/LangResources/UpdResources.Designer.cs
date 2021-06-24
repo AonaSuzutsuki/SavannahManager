@@ -107,6 +107,15 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   クリーンアップデート に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_CleanUpdBT {
+            get {
+                return ResourceManager.GetString("UI_CleanUpdBT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   現在のバージョン に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_CurrentVersionLabel {

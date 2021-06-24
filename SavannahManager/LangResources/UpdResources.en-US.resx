@@ -166,4 +166,8 @@ It updates updator before updating Savannah Manager.</value>
     <value>{0} is not found.</value>
     <comment>Message</comment>
   </data>
+  <data name="UI_CleanUpdBT" xml:space="preserve">
+    <value>Clean Update</value>
+    <comment>UI</comment>
+  </data>
 </root>

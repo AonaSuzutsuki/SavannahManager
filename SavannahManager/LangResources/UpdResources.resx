@@ -166,4 +166,8 @@
     <value>{0}が見つかりませんでした。</value>
     <comment>メッセージ</comment>
   </data>
+  <data name="UI_CleanUpdBT" xml:space="preserve">
+    <value>クリーンアップデート</value>
+    <comment>UI</comment>
+  </data>
 </root>
