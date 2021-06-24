@@ -13,6 +13,7 @@
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
+        d:DesignWidth="800" d:DesignHeight="600"
         Title="Savannah Manager" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True">
 
     <i:Interaction.Triggers>
@@ -50,10 +51,14 @@
     </Window.Resources>
 
     <Grid Style="{StaticResource ResourceKey=BackgroundGrid}">
-        <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" Opacity="{Binding AroundBorderOpacity.Value}" BorderThickness="1" />
-        
-        <Grid Margin="{Binding MainWindowMargin}">
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="380*"/>
+            <ColumnDefinition Width="709*"/>
+        </Grid.ColumnDefinitions>
+        <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" Opacity="{Binding AroundBorderOpacity.Value}" BorderThickness="1" Grid.ColumnSpan="2" />
+
+        <Grid Grid.ColumnSpan="2">
+
             <StackPanel Orientation="Horizontal" Margin="5,0,0,0"
                         HorizontalAlignment="left"
                         VerticalAlignment="Top">
@@ -107,7 +112,7 @@
                 <Button Name="CommandListBt" Style="{StaticResource CommandListBt}" Margin="4,0,0,0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ShowCommandListBT, Mode=OneWay}" Command="{Binding OpenCommandListCommand}" IsEnabled="False" />
                 <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" BorderThickness="1" Visibility="Hidden" />
             </StackPanel>
-            
+
             <Grid Margin="0,85,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -115,8 +120,8 @@
                 </Grid.RowDefinitions>
                 <Grid Margin="9,0,9,5" Grid.Row="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="103*"/>
-                        <ColumnDefinition Width="223*"/>
+                        <ColumnDefinition Width="223"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="230"/>
                     </Grid.ColumnDefinitions>
                     <Grid HorizontalAlignment="Stretch" Margin="0,0,5,0" Width="Auto" Grid.Column="0">
@@ -182,7 +187,7 @@
 
                     <GridSplitter Grid.Column="0" Background="Transparent" VerticalAlignment="Stretch" Width="5" Margin="0,0,0,0"/>
 
-                    <Grid Grid.Column="1" Name="CenterPanel" HorizontalAlignment="Stretch" Margin="0,0,2,0" Width="Auto">
+                    <Grid Grid.Column="1" Name="CenterPanel" HorizontalAlignment="Stretch" Margin="0,0,2,0">
                         <Grid Margin="0,0,0,26">
                             <TextBox Text="{Binding ConsoleLogText, Mode=OneWay}" Name="ConsoleTextBox" AcceptsReturn="True" TextWrapping="{Binding IsConsoleLogTextWrapping.Value, Converter={converter1:TextWrappingConverter}}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch">
                                 <i:Interaction.Triggers>
@@ -241,7 +246,8 @@
                                                         <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_AddressLabel, Mode=OneWay}" Padding="0" Margin="0,0,0,0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
                                                         <TextBox Text="{Binding TelnetAddressText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
                                                         <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_PortLabel, Mode=OneWay}" Padding="0" Margin="0,0,0,0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                                                        <TextBox Text="{Binding TelnetPortText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}"><!--NumText:TextBoxBehaviors.IsNumeric="True"-->
+                                                        <TextBox Text="{Binding TelnetPortText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}">
+                                                            <!--NumText:TextBoxBehaviors.IsNumeric="True"-->
                                                             <i:Interaction.Behaviors>
                                                                 <behaviors:NumTextBehavior />
                                                             </i:Interaction.Behaviors>
@@ -338,6 +344,6 @@
             </Grid>
 
         </Grid>
-        
+
     </Grid>
 </Window>
