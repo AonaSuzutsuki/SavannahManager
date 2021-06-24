@@ -18,12 +18,10 @@ using _7dtd_svmanager_fix_mvvm.Models.Config;
 using CommonStyleLib.Models;
 using CommonStyleLib.ExMessageBox;
 using SvManagerLibrary.Time;
-using SvManagerLibrary.Config;
 using SvManagerLibrary.Telnet;
 using SvManagerLibrary.Chat;
 using SvManagerLibrary.Player;
 using CommonExtensionLib.Extensions;
-using CommonStyleLib.Views;
 using System.Linq;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
@@ -249,17 +247,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             Setting = SettingLoader.SettingInstance;
             ShortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
-                ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + LangResources.Resources.KeyConfigPath);
+                ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + Resources.KeyConfigPath);
         }
 
         public override void Activated()
         {
             base.Activated();
 
-            if (!IsTelnetLoading)
-                AroundBorderColor = CommonStyleLib.ConstantValues.ActivatedBorderColor;
-            else
-                AroundBorderColor = CommonStyleLib.ConstantValues.ActivatedBorderColor2;
+            AroundBorderColor = !IsTelnetLoading ? CommonStyleLib.ConstantValues.ActivatedBorderColor
+                : CommonStyleLib.ConstantValues.ActivatedBorderColor2;
         }
 
         public void InitializeWindow()
@@ -315,19 +311,19 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void RefreshLabels()
         {
-            TelnetBtLabel = IsConnected ? LangResources.Resources.UI_DisconnectFromTelnet : LangResources.Resources.UI_ConnectWithTelnet;
+            TelnetBtLabel = IsConnected ? Resources.UI_DisconnectFromTelnet : Resources.UI_ConnectWithTelnet;
 
             if (IsTelnetLoading)
             {
-                BottomNewsLabel = LangResources.Resources.UI_WaitingServer;
+                BottomNewsLabel = Resources.UI_WaitingServer;
             }
             else if (IsFailed)
             {
-                BottomNewsLabel = LangResources.Resources.Failed_Connecting;
+                BottomNewsLabel = Resources.Failed_Connecting;
             }
             else
             {
-                BottomNewsLabel = LangResources.Resources.UI_ReadyComplete;
+                BottomNewsLabel = Resources.UI_ReadyComplete;
             }
         }
         private void FeedColorChange(SolidColorBrush color)
@@ -364,7 +360,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             if (IsConnected)
             {
-                _errorOccurred.OnNext(LangResources.Resources.AlreadyConnected);
+                _errorOccurred.OnNext(Resources.AlreadyConnected);
                 return;
             }
 
@@ -377,8 +373,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             TelnetBtIsEnabled = false;
             LocalModeEnabled = false;
 
-            BottomNewsLabel = LangResources.Resources.UI_WaitingServer;
-            base.SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
+            BottomNewsLabel = Resources.UI_WaitingServer;
+            SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
 
             Telnet = GenerateTelnetClient(this);
             _ = Task.Factory.StartNew(() =>
@@ -389,7 +385,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     if (_isServerForceStop)
                     {
                         TelnetBtIsEnabled = true;
-                        BottomNewsLabel = LangResources.Resources.UI_ReadyComplete;
+                        BottomNewsLabel = Resources.UI_ReadyComplete;
                         AroundBorderColor = CommonStyleLib.ConstantValues.ActivatedBorderColor;
 
                         IsTelnetLoading = false;
@@ -405,10 +401,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         IsTelnetLoading = false;
 
                         TelnetBtIsEnabled = true;
-                        TelnetBtLabel = LangResources.Resources.UI_DisconnectFromTelnet;
+                        TelnetBtLabel = Resources.UI_DisconnectFromTelnet;
                         LocalModeEnabled = false;
                         ConnectionPanelIsEnabled = false;
-                        BottomNewsLabel = LangResources.Resources.UI_FinishedLaunching;
+                        BottomNewsLabel = Resources.UI_FinishedLaunching;
                         SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor);
 
                         Telnet.Write(TelnetClient.Cr);
@@ -435,7 +431,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             {
                 SocTelnetSend("shutdown");
 
-                TelnetBtLabel = LangResources.Resources.UI_ConnectWithTelnet;
+                TelnetBtLabel = Resources.UI_ConnectWithTelnet;
                 StartBtEnabled = true;
             }
             else
@@ -464,13 +460,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 var fi = new FileInfo(ExeFilePath);
                 if (!fi.Exists)
                 {
-                    _errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, "7DaysToDieServer.exe"));
+                    _errorOccurred.OnNext(string.Format(Resources.Not_Found_0, "7DaysToDieServer.exe"));
                     return false;
                 }
             }
             catch (ArgumentException)
             {
-                _errorOccurred.OnNext(string.Format(LangResources.Resources._0_Is_Invalid, LangResources.Resources.ServerFilePath));
+                _errorOccurred.OnNext(string.Format(Resources._0_Is_Invalid, Resources.ServerFilePath));
                 return false;
             }
 
@@ -479,13 +475,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 var fi = new FileInfo(ConfigFilePath);
                 if (!fi.Exists)
                 {
-                    _errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFilePath));
+                    _errorOccurred.OnNext(string.Format(Resources.Not_Found_0, Resources.ConfigFilePath));
                     return false;
                 }
             }
             catch (ArgumentException)
             {
-                _errorOccurred.OnNext(string.Format(LangResources.Resources._0_Is_Invalid, "7DaysToDieServer.exe"));
+                _errorOccurred.OnNext(string.Format(Resources._0_Is_Invalid, "7DaysToDieServer.exe"));
                 return false;
             }
             return true;
@@ -524,7 +520,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 if (!File.Exists(ConfigFilePath))
                 {
-                    _errorOccurred.OnNext(string.Format(LangResources.Resources.Not_Found_0, LangResources.Resources.ConfigFile));
+                    _errorOccurred.OnNext(string.Format(Resources.Not_Found_0, Resources.ConfigFile));
                     return;
                 }
 
@@ -551,7 +547,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (connected)
             {
                 MakeLogStream();
-                TelnetBtLabel = LangResources.Resources.UI_DisconnectFromTelnet;
+                TelnetBtLabel = Resources.UI_DisconnectFromTelnet;
                 LocalModeEnabled = false;
                 ConnectionPanelIsEnabled = false;
                 StartBtEnabled = false;
@@ -562,7 +558,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
             else
             {
-                BottomNewsLabel = LangResources.Resources.Failed_Connecting;
+                BottomNewsLabel = Resources.Failed_Connecting;
 
                 IsFailed = true;
 
@@ -604,7 +600,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void TelnetFinish()
         {
-            TelnetBtLabel = LangResources.Resources.UI_ConnectWithTelnet;
+            TelnetBtLabel = Resources.UI_ConnectWithTelnet;
             IsConnected = false;
 
             ConnectionPanelIsEnabled = !LocalMode;
@@ -622,7 +618,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _chatArray.AddMultiLine(text);
             var cData = _chatArray.LastOrDefault();
             if (cData != null)
-                ChatLogText += string.Format("{0}: {1}\r\n", cData.Name, cData.Message);
+                ChatLogText += $"{cData.Name}: {cData.Message}\r\n";
         }
         public void SendChat(string text, Action act)
         {
@@ -652,7 +648,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var keys = _connectedIds;
             if (!pDict.ContainsKey(id))
             {
-                var uDetail = new ViewModels.UserDetail()
+                var uDetail = new UserDetail()
                 {
                     Id = playerInfo.Id,
                     Level = playerInfo.Level,
@@ -670,8 +666,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 keys.Add(id);
             }
 
-            var listdatas = new ObservableCollection<ViewModels.UserDetail>(pDict.Values);
-            UsersList = listdatas;
+            var details = new ObservableCollection<UserDetail>(pDict.Values);
+            UsersList = details;
         }
         public void RemoveUser(string log)
         {
@@ -726,8 +722,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             
             _messageBoxOccurred.OnNext(new MessageBoxOccurredEventArgs
             {
-                Message = LangResources.Resources.DoYouChangeTime,
-                Title = LangResources.Resources.Warning,
+                Message = Resources.DoYouChangeTime,
+                Title = Resources.Warning,
                 MessageType = ExMessageBoxBase.MessageType.Asterisk,
                 ButtonType = ExMessageBoxBase.ButtonType.YesNo,
                 CallBack = (dialogResult) =>
@@ -772,7 +768,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (IsConnected)
                 return true;
 
-            _errorOccurred.OnNext(LangResources.Resources.HasnotBeConnected);
+            _errorOccurred.OnNext(Resources.HasnotBeConnected);
             return false;
         }
         private void SocTelnetSendDirect(string cmd)
@@ -821,8 +817,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             {
                 _messageBoxOccurred.OnNext(new MessageBoxOccurredEventArgs
                 {
-                    Message = string.Format(LangResources.Resources._0_is_Empty, "ID or Name"),
-                    Title = LangResources.CommonResources.Error
+                    Message = string.Format(Resources._0_is_Empty, "ID or Name"),
+                    Title = CommonResources.Error
                 });
                 return;
             }
@@ -834,7 +830,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var playerId = UsersList[index].Id;
             if (string.IsNullOrEmpty(playerId))
             {
-                _errorOccurred.OnNext(string.Format(LangResources.Resources._0_is_Empty, "ID or Name"));
+                _errorOccurred.OnNext(string.Format(Resources._0_is_Empty, "ID or Name"));
                 return;
             }
 
@@ -858,7 +854,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (fi.Exists)
                 Process.Start(fi.FullName, cfgArg);
             else
-                _errorOccurred.OnNext(string.Format(LangResources.Resources._0_is_not_found, LangResources.Resources.ConfigEditor));
+                _errorOccurred.OnNext(string.Format(Resources._0_is_not_found, Resources.ConfigEditor));
         }
 
         public void RunXmlEditor()
@@ -867,7 +863,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (fi.Exists)
                 Process.Start(fi.FullName);
             else
-                _errorOccurred.OnNext(string.Format(LangResources.Resources._0_is_not_found, ConstantValues.XmlEditorFilePath));
+                _errorOccurred.OnNext(string.Format(Resources._0_is_not_found, ConstantValues.XmlEditorFilePath));
         }
 
 
