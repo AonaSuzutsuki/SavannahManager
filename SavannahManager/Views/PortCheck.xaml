@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModels:PortCheckViewModel}"
         Title="Port Checker" Height="250" Width="400">
 
     <WindowChrome.WindowChrome>

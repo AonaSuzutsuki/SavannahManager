@@ -4,9 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
+        xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModels:VersionInfoViewModel}"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Settings" Height="380" Width="550" ResizeMode="CanMinimize">

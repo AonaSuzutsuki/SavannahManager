@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModels:IpAddressGetterViewModel}"
         Title="IpAddress" Height="250" Width="400">
 
     <WindowChrome.WindowChrome>
