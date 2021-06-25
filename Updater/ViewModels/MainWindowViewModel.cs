@@ -52,7 +52,7 @@ namespace Updater.ViewModels
         #region EventMethods
         protected override void MainWindow_Loaded()
         {
-            model.Update();
+            _ = model.Update();
         }
 
         public void MainWindow_Closed()

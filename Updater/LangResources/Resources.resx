@@ -121,6 +121,10 @@
     <value>直接起動はできません。</value>
     <comment>メッセージ</comment>
   </data>
+  <data name="Cleaning_files" xml:space="preserve">
+    <value>対象ファイルをクリーンしています。</value>
+    <comment>ステータス</comment>
+  </data>
   <data name="Downloading_the_update_file" xml:space="preserve">
     <value>アップデートファイルをダウンロードしています。</value>
     <comment>ステータス</comment>
@@ -131,6 +135,10 @@
   </data>
   <data name="Extracting_the_update_file" xml:space="preserve">
     <value>アップデートファイルを解凍しています。</value>
+    <comment>ステータス</comment>
+  </data>
+  <data name="Finished_cleaning" xml:space="preserve">
+    <value>クリーンが完了しました。</value>
     <comment>ステータス</comment>
   </data>
   <data name="Finished_updating" xml:space="preserve">

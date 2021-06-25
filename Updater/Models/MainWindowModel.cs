@@ -5,63 +5,86 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using CommonExtensionLib.Extensions;
 using UpdateLib.Http;
 using UpdateLib.Update;
 
 namespace Updater.Models
 {
+    public enum UpdateMode
+    {
+        Undefined,
+        Update,
+        Clean
+    }
+
+    public static class UpdateModeConverter
+    {
+        public static UpdateMode Convert(string text)
+        {
+            return text switch
+            {
+                "update" => UpdateMode.Update,
+                "clean" => UpdateMode.Clean,
+                _ => UpdateMode.Undefined
+            };
+        }
+    }
+
     public class MainWindowModel : ModelBase
     {
         #region Fields
-        UpdateInfo updateInfo;
+        UpdateInfo _updateInfo;
 
-        private int exitCode = 1;
+        private int _exitCode = 1;
         
-        private string statusLabel;
-        private double progressValue;
-        private double progressMaximum;
-        private bool progressIndeterminate = false;
-        private string progressLabel;
-        private bool canClose = true;
+        private string _statusLabel;
+        private double _progressValue;
+        private double _progressMaximum;
+        private bool _progressIndeterminate;
+        private string _progressLabel;
+        private bool _canClose = true;
         #endregion
 
         #region Properties
         public string StatusLabel
         {
-            get => statusLabel;
-            set => SetProperty(ref statusLabel, value);
+            get => _statusLabel;
+            set => SetProperty(ref _statusLabel, value);
         }
         public double ProgressValue
         {
-            get => progressValue;
-            set => SetProperty(ref progressValue, value);
+            get => _progressValue;
+            set => SetProperty(ref _progressValue, value);
         }
         public double ProgressMaximum
         {
-            get => progressMaximum;
-            set => SetProperty(ref progressMaximum, value);
+            get => _progressMaximum;
+            set => SetProperty(ref _progressMaximum, value);
         }
         public bool ProgressIndeterminate
         {
-            get => progressIndeterminate;
+            get => _progressIndeterminate;
             set
             {
-                SetProperty(ref progressIndeterminate, value);
+                SetProperty(ref _progressIndeterminate, value);
             }
         }
         public string ProgressLabel
         {
-            get => progressLabel;
-            set => SetProperty(ref progressLabel, value);
+            get => _progressLabel;
+            set => SetProperty(ref _progressLabel, value);
         }
         public bool CanClose
         {
-            get => canClose;
-            set => SetProperty(ref canClose, value);
+            get => _canClose;
+            set => SetProperty(ref _canClose, value);
         }
         #endregion
 
@@ -69,55 +92,76 @@ namespace Updater.Models
         {
             try
             {
-                if (exitCode == 0)
+                if (_exitCode == 0)
                 {
-                    Process.Start(System.IO.Path.GetDirectoryName(ConstantValues.AppDirectoryPath) + @"\" + updateInfo.FileName);
+                    Process.Start(_updateInfo.ExtractDirectoryPath + @"\" + _updateInfo.FileName);
                 }
             }
             catch
             {
-                Environment.Exit(exitCode);
+                Environment.Exit(_exitCode);
             }
         }
 
-        public void Update()
+        public async Task Update()
         {
-            Initialize();
+            var (mode, values) = Initialize();
             
-            var task = UpdateFunc();
-        }
-
-        public void Initialize()
-        {
-            int pid = 0;
-            string[] cmds = System.Environment.GetCommandLineArgs();
-            if (cmds.Length > 1)
+            if (mode == UpdateMode.Update)
             {
-
-                if (!int.TryParse(cmds[1], out pid))
-                {
-                    ExMessageBoxBase.Show(LangResources.Resources.Invaild_Argument, LangResources.Resources.Error, ExMessageBoxBase.MessageType.Beep, ExMessageBoxBase.ButtonType.OK);
-                    Environment.Exit(0);
-                }
-
-
-                var updWebClient = new UpdateWebClient { BaseUrl = cmds[3] };
-                updWebClient.DownloadProgressChanged += (sender, e) =>
-                {
-                    ProgressValue = (int)e.ProgressPercentage;
-                    ProgressLabel = e.ProgressPercentage + "%";
-                };
-                var updateClient = new UpdateClient(updWebClient) { MainDownloadUrlPath = cmds[4] };
-                updateClient.DownloadProgressChanged += UpdateClientOnDownloadProgressChanged;
-                updateClient.DownloadCompleted += UpdateClientOnDownloadCompleted;
-
-                updateInfo = new UpdateInfo(pid, cmds[2], updateClient);
+                await UpdateFunc();
             }
             else
+            {
+                await CleanFunc(values);
+                await UpdateFunc();
+            }
+        }
+
+        public (UpdateMode mode, IEnumerable<string> values) Initialize()
+        {
+            var pid = 0;
+            var cmds = Environment.GetCommandLineArgs();
+
+            var parser = new CommonCoreLib.Parser.CommandLineParameterParser(cmds.Skip(1).ToArray());
+            parser.AddParameter("pid", 1);
+            parser.AddParameter("name", 1);
+            parser.AddParameter("base", 1);
+            parser.AddParameter("main", 1);
+            parser.AddParameter("mode", 1);
+            parser.AddParameter("out", 1);
+
+            parser.Parse();
+
+            if (!parser.HasArguments)
             {
                 ExMessageBoxBase.Show(LangResources.Resources.Cannot_start_directly, LangResources.Resources.Warning, ExMessageBoxBase.MessageType.Exclamation, ExMessageBoxBase.ButtonType.OK);
                 Environment.Exit(0);
             }
+
+            if (!int.TryParse(parser.GetArgumentValue("pid"), out pid))
+            {
+                ExMessageBoxBase.Show(LangResources.Resources.Invaild_Argument, LangResources.Resources.Error, ExMessageBoxBase.MessageType.Beep, ExMessageBoxBase.ButtonType.OK);
+                Environment.Exit(0);
+            }
+
+            var modeText = parser.GetArgumentValue("mode") ?? "update";
+            var mode = UpdateModeConverter.Convert(modeText);
+
+            var updWebClient = new UpdateWebClient { BaseUrl = parser.GetArgumentValue("base") };
+            updWebClient.DownloadProgressChanged += (sender, e) =>
+            {
+                ProgressValue = (int)e.ProgressPercentage;
+                ProgressLabel = e.ProgressPercentage + "%";
+            };
+            var updateClient = new UpdateClient(updWebClient) { MainDownloadUrlPath = parser.GetArgumentValue("main") };
+            updateClient.DownloadProgressChanged += UpdateClientOnDownloadProgressChanged;
+            updateClient.DownloadCompleted += UpdateClientOnDownloadCompleted;
+
+            _updateInfo = new UpdateInfo(pid, parser.GetArgumentValue("name"), updateClient,
+                parser.GetArgumentValue("out") ?? Path.GetDirectoryName(ConstantValues.AppDirectoryPath));
+
+            return (mode, parser.GetValues());
         }
 
         private void UpdateClientOnDownloadCompleted(object sender, UpdateClient.DownloadCompletedEventArgs e)
@@ -130,15 +174,37 @@ namespace Updater.Models
             ProgressLabel = e.Percentage + "%";
         }
 
+        private async Task CleanFunc(IEnumerable<string> searchExecutableFiles)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                var targetFiles = File.ReadAllLines(searchExecutableFiles.First());
+
+                ProgressMaximum = targetFiles.Length;
+                ProgressValue = 0;
+                ProgressIndeterminate = false;
+                StatusLabel = LangResources.Resources.Cleaning_files;
+
+                foreach (var dllFile in targetFiles.Where(File.Exists))
+                {
+                    File.Delete(dllFile);
+                    ProgressValue++;
+                }
+
+                StatusLabel = LangResources.Resources.Finished_cleaning;
+                ProgressValue = ProgressMaximum;
+            });
+        }
+
         private async Task UpdateFunc()
         {
-            if (updateInfo == null)
+            if (_updateInfo == null)
                 return;
 
             CanClose = false;
-            var pid = updateInfo.Pid;
-            var filename = updateInfo.FileName;
-            var updateClient = updateInfo.Client;
+            var pid = _updateInfo.Pid;
+            var filename = _updateInfo.FileName;
+            var updateClient = _updateInfo.Client;
 
             if (pid > 0)
             {
@@ -177,7 +243,7 @@ namespace Updater.Models
                 StatusLabel = LangResources.Resources.Extracting_the_update_file;
                 ProgressValue = 0;
 
-                using var zip = new UpdateLib.Archive.Zip(ms, Path.GetDirectoryName(ConstantValues.AppDirectoryPath));
+                using var zip = new UpdateLib.Archive.Zip(ms, _updateInfo.ExtractDirectoryPath);
                 zip.Extracted += (sender, args) => ProgressValue++;
                 ProgressMaximum = zip.Count;
                 await Task.Factory.StartNew(zip.Extract);
@@ -197,7 +263,7 @@ namespace Updater.Models
         private void CanExit(int exitCode)
         {
             CanClose = true;
-            this.exitCode = exitCode;
+            this._exitCode = exitCode;
         }
     }
 }

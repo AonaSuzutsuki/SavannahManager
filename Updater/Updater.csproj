@@ -19,10 +19,25 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="CommonCoreLib" Version="1.0.2" />
+    <PackageReference Include="CommonCoreLib" Version="1.0.4" />
     <PackageReference Include="CommonStyleLib" Version="1.0.5" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
     <PackageReference Include="UpdateLib" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="LangResources\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="LangResources\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

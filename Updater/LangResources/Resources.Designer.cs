@@ -22,7 +22,7 @@ namespace Updater.LangResources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Updater.LangResources {
         ///   このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Updater.LangResources.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Updater.LangResources {
         ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,16 +63,25 @@ namespace Updater.LangResources {
         /// <summary>
         ///   直接起動はできません。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string Cannot_start_directly {
+        public static string Cannot_start_directly {
             get {
                 return ResourceManager.GetString("Cannot_start_directly", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   対象ファイルをクリーンしています。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Cleaning_files {
+            get {
+                return ResourceManager.GetString("Cleaning_files", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   アップデートファイルをダウンロードしています。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string Downloading_the_update_file {
+        public static string Downloading_the_update_file {
             get {
                 return ResourceManager.GetString("Downloading_the_update_file", resourceCulture);
             }
@@ -81,7 +90,7 @@ namespace Updater.LangResources {
         /// <summary>
         ///   エラー に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string Error {
+        public static string Error {
             get {
                 return ResourceManager.GetString("Error", resourceCulture);
             }
@@ -90,16 +99,25 @@ namespace Updater.LangResources {
         /// <summary>
         ///   アップデートファイルを解凍しています。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string Extracting_the_update_file {
+        public static string Extracting_the_update_file {
             get {
                 return ResourceManager.GetString("Extracting_the_update_file", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   クリーンが完了しました。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Finished_cleaning {
+            get {
+                return ResourceManager.GetString("Finished_cleaning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   アップデートが完了しました。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string Finished_updating {
+        public static string Finished_updating {
             get {
                 return ResourceManager.GetString("Finished_updating", resourceCulture);
             }
@@ -108,7 +126,7 @@ namespace Updater.LangResources {
         /// <summary>
         ///   引数が不正です。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string Invaild_Argument {
+        public static string Invaild_Argument {
             get {
                 return ResourceManager.GetString("Invaild_Argument", resourceCulture);
             }
@@ -117,7 +135,7 @@ namespace Updater.LangResources {
         /// <summary>
         ///   アップデートを開始します。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string Start_Update {
+        public static string Start_Update {
             get {
                 return ResourceManager.GetString("Start_Update", resourceCulture);
             }
@@ -126,7 +144,7 @@ namespace Updater.LangResources {
         /// <summary>
         ///   アプリケーションの終了を待機しています。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string Waiting_for_the_Application_end {
+        public static string Waiting_for_the_Application_end {
             get {
                 return ResourceManager.GetString("Waiting_for_the_Application_end", resourceCulture);
             }
@@ -135,7 +153,7 @@ namespace Updater.LangResources {
         /// <summary>
         ///   警告 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string Warning {
+        public static string Warning {
             get {
                 return ResourceManager.GetString("Warning", resourceCulture);
             }
