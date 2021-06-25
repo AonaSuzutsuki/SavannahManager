@@ -116,7 +116,10 @@ namespace _7dtd_svmanager_fix_mvvm.Settings
             var xmlWriter = new SavannahXmlWriter();
             var root = SavannahTagNode.CreateRoot("shortcuts");
 
-            ShortcutKeies.ForEach((key, value) => root.AddChildElement(SavannahTagNode.CreateElement("shortcut", CreateAttributeInfo(value))));
+            foreach (var shortcutKey in ShortcutKeies)
+            {
+                root.AddChildElement(SavannahTagNode.CreateElement("shortcut", CreateAttributeInfo(shortcutKey.Value)));
+            }
 
             xmlWriter.Write(_xmlPath, root);
         }

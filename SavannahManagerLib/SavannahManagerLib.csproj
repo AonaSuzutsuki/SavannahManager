@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SavannahXmlLib" Version="1.0.2" />
+    <PackageReference Include="SavannahXmlLib" Version="1.0.3" />
   </ItemGroup>
 
 </Project>

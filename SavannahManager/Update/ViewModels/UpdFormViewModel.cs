@@ -93,7 +93,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
         private void CleanUpdate()
         {
-
+            _model.Clean();
         }
         #endregion
     }

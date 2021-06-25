@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommonCoreLib" Version="1.0.2" />
-    <PackageReference Include="SavannahXmlLib" Version="1.0.2" />
+    <PackageReference Include="CommonCoreLib" Version="1.0.4" />
+    <PackageReference Include="SavannahXmlLib" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>

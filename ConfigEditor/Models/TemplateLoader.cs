@@ -107,13 +107,10 @@ namespace ConfigEditor_mvvm.Models
         {
             if (_templateData.ContainsKey(version))
             {
-                var dic = new Dictionary<string, ConfigListInfo>();
-                _templateData[version].ForEach((key, val) => dic.Add(key, val.Clone() as ConfigListInfo));
-
-                return dic;
+                return _templateData[version].ToDictionary(item => item.Key, item => item.Value.Clone() as ConfigListInfo);
             }
-            else
-                return null;
+
+            return null;
         }
         /// <summary>
         /// Duplicate and return the template array by version.
@@ -123,9 +120,7 @@ namespace ConfigEditor_mvvm.Models
         public ConfigListInfo[] GetConfigList(string version)
         {
             var dic = GetConfigDictionary(version);
-            var list = new List<ConfigListInfo>();
-            dic.ForEach((key, configInfo) => list.Add(configInfo));
-            return list.ToArray();
+            return dic.Select(item => item.Value).ToArray();
         }
     }
 }

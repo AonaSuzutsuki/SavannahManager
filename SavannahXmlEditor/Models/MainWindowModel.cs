@@ -194,7 +194,7 @@ namespace _7dtd_XmlEditor.Models
             if (!info.IgnoreAttributeRedraw && info.Node is SavannahTagNode tagNode)
             {
                 Attributes.Clear();
-                Attributes.AddAll(from attribute in tagNode.Attributes
+                Attributes.AddRange(from attribute in tagNode.Attributes
                     select new ViewAttributeInfo
                     {
                         Attribute = new AttributeInfo { Name = attribute.Name, Value = attribute.Value },
