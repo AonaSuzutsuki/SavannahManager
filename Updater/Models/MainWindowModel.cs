@@ -114,6 +114,7 @@ namespace Updater.Models
             else
             {
                 await CleanFunc(values);
+                await Task.Delay(1000);
                 await UpdateFunc();
             }
         }
@@ -158,7 +159,7 @@ namespace Updater.Models
             updateClient.DownloadProgressChanged += UpdateClientOnDownloadProgressChanged;
             updateClient.DownloadCompleted += UpdateClientOnDownloadCompleted;
 
-            _updateInfo = new UpdateInfo(pid, parser.GetArgumentValue("name"), updateClient,
+            _updateInfo = new UpdateInfo(pid, parser.GetArgumentValue("name").Replace(".exe", ""), updateClient,
                 parser.GetArgumentValue("out") ?? Path.GetDirectoryName(ConstantValues.AppDirectoryPath));
 
             return (mode, parser.GetValues());
@@ -176,9 +177,44 @@ namespace Updater.Models
 
         private async Task CleanFunc(IEnumerable<string> searchExecutableFiles)
         {
+            var listFilePath = searchExecutableFiles.First();
+            if (string.IsNullOrEmpty(listFilePath))
+                return;
+
+            if (_updateInfo == null)
+                return;
+
+            CanClose = false;
+            var pid = _updateInfo.Pid;
+            var filename = _updateInfo.FileName;
+            var updateClient = _updateInfo.Client;
+
+            if (pid > 0)
+            {
+                try
+                {
+                    ProgressMaximum = 100;
+                    ProgressValue = 0;
+                    ProgressIndeterminate = false;
+                    StatusLabel = LangResources.Resources.Waiting_for_the_Application_end;
+
+                    var p = Process.GetProcessesByName(filename);
+                    while (p.Length > 0)
+                    {
+                        System.Threading.Thread.Sleep(500);
+                        p = Process.GetProcessesByName(filename);
+                    }
+                }
+                catch
+                {
+                    return;
+                }
+            }
+
             await Task.Factory.StartNew(() =>
             {
-                var targetFiles = File.ReadAllLines(searchExecutableFiles.First());
+                var targetFiles = File.ReadAllLines(listFilePath);
+                File.Delete(listFilePath);
 
                 ProgressMaximum = targetFiles.Length;
                 ProgressValue = 0;
@@ -190,6 +226,7 @@ namespace Updater.Models
                     File.Delete(dllFile);
                     ProgressValue++;
                 }
+
 
                 StatusLabel = LangResources.Resources.Finished_cleaning;
                 ProgressValue = ProgressMaximum;
