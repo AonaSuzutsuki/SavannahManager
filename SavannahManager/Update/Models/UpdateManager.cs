@@ -81,12 +81,20 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             return GetClient().Item1;
         }
 
-        public ProcessStartInfo GetUpdaterInfo(int pid)
+        public ProcessStartInfo GetUpdaterInfo(int pid, string mode)
         {
+            var arg =
+                $"{pid} SavannahManager2 \"{_updateClient.WebClient.BaseUrl}\" \"{_updateClient.MainDownloadUrlPath}\" {mode}";
+
+            if (mode == "clean")
+                arg =
+                    $"{pid} SavannahManager2 \"{_updateClient.WebClient.BaseUrl}\" \"{_updateClient.MainDownloadUrlPath}\" {mode}" +
+                    $" \"{CommonCoreLib.AppInfo.GetAppPath()}\" Updater\\list.txt";
+
             var startInfo = new ProcessStartInfo
             {
                 FileName = ConstantValues.UpdaterFilePath,
-                Arguments = $"{pid} SavannahManager2.exe \"{_updateClient.WebClient.BaseUrl}\" \"{_updateClient.MainDownloadUrlPath}\""
+                Arguments = arg
             };
 
             return startInfo;
@@ -222,6 +230,16 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             {
                 BaseUrl = "https://aonsztk.xyz/KimamaLab/Updates/SavannahManager2/"
             };
+
+#if DEBUG
+            if (File.Exists(ConstantValues.UpdateUrlFile))
+            {
+                var reader = new SavannahXmlReader(ConstantValues.UpdateUrlFile);
+                var baseUrl = reader.GetValue("updates/update[@name='base']") ?? webClient.BaseUrl;
+                webClient.BaseUrl = baseUrl;
+            }
+#endif
+
             var updateClient = new UpdateClient(webClient)
             {
                 DetailVersionInfoDownloadUrlPath = $"details/{LangResources.UpdResources.Updater_XMLNAME}"

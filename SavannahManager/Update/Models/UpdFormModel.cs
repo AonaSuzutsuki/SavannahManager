@@ -108,7 +108,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             RichDetailText = new ObservableCollection<RichTextItem>(detail);
         }
 
-        public async Task Update()
+        public async Task Update(string mode = "update")
         {
             if (_updateManager.IsUpdUpdate)
             {
@@ -126,7 +126,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             var id = System.Diagnostics.Process.GetCurrentProcess().Id;
             var p = new System.Diagnostics.Process
             {
-                StartInfo = _updateManager.GetUpdaterInfo(id)
+                StartInfo = _updateManager.GetUpdaterInfo(id, mode)
             };
 
             try
@@ -162,6 +162,9 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             xmlReferences.AddRange(dllFiles);
             xmlReferences.AddRange(langFiles);
             
+            File.WriteAllLines("Updater\\list.txt", xmlReferences.Where(s => !s.Contains("Updater\\")), Encoding.UTF8);
+
+            _ = Update("clean");
         }
 
         public HashSet<string> SearchReferences(Assembly asm, string extension, string searchDirectory = "")
