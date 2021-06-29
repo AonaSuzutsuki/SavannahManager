@@ -35,20 +35,27 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
     public class DirectoryNode
     {
+        public bool IsDirectory { get; set; }
         public bool IsRoot { get; set; }
         public string Name { get; set; }
         public string FullPath { get; set; }
         public DirectoryNode Parent { get; set; }
         public SortedSet<DirectoryNode> ChildNodes { get; set; }
-        public SortedSet<DirectoryNode> Directories { get; set; }
-        public SortedSet<FileNode> Files { get; set; }
 
         public DirectoryNode()
         {
-            Directories = new SortedSet<DirectoryNode>(Comparer<DirectoryNode>.Create((a, b) => 
+            ChildNodes = new SortedSet<DirectoryNode>(Comparer<DirectoryNode>.Create((a, b) =>
                 Compare(a.Name, b.Name, StringComparison.Ordinal)));
-            Files = new SortedSet<FileNode>(Comparer<FileNode>.Create((a, b) =>
-                Compare(a.Name, b.Name, StringComparison.Ordinal)));
+        }
+
+        public IEnumerable<DirectoryNode> GetDirectories()
+        {
+            return ChildNodes.Where(x => x.IsDirectory);
+        }
+
+        public IEnumerable<DirectoryNode> GetFiles()
+        {
+            return ChildNodes.Where(x => !x.IsDirectory);
         }
 
         public override string ToString()
@@ -59,11 +66,11 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             return Parent.IsRoot ? Name : $"{Parent}\\{Name}";
         }
 
-        public IEnumerable<FileNode> GetAllFilePaths()
+        public IEnumerable<DirectoryNode> GetAllFilePaths()
         {
-            var files = new List<FileNode>(Files);
+            var files = new List<DirectoryNode>(GetFiles());
 
-            foreach (var directory in Directories)
+            foreach (var directory in GetDirectories())
             {
                 files.AddRange(directory.GetAllFilePaths());
             }
@@ -74,8 +81,10 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
     public class DirectoryTree
     {
-        public static DirectoryNode Make(IEnumerable<string> files)
+        public static DirectoryNode Make(string basePath, IEnumerable<string> files)
         {
+            //.Select(x => new Uri(CommonCoreLib.AppInfo.GetAppPath() + "\\").MakeRelativeUri(new Uri(x)).ToString())
+
             var root = new DirectoryNode
             {
                 IsRoot = true
@@ -85,11 +94,18 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                 { "root", root }
             };
 
+            var enumerable = files as string[] ?? files.ToArray();
+            var rootRelativeFiles = from x in enumerable
+                let path = new Uri(CommonCoreLib.AppInfo.GetAppPath() + "\\").MakeRelativeUri(new Uri(x)).ToString()
+                select $"root\\{path}";
+            var zip = enumerable.Zip(rootRelativeFiles, (real, relative) => (real, relative));
 
-            foreach (var item in files.Select((v, i) => new { Index = i, Value = $"root\\{v}" }))
+            foreach (var item in zip.Select((v, i) => new { Index = i, Value = v }))
             {
-                var file = item.Value.Replace("/", "\\");
-                var split = file.Split('\\');
+                var file = item.Value.real.Replace("/", "\\");
+                var relative = item.Value.relative.Replace("/", "\\");
+
+                var split = relative.Split('\\');
                 var currentPath = "";
                 var currentNode = map.First().Value;
                 foreach (var subItem in split.Select((v, i) => new { Index = i, Value = v }))
@@ -98,7 +114,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
                     if (subItem.Index == split.Length - 1)
                     {
-                        currentNode.Files.Add(new FileNode
+                        currentNode.ChildNodes.Add(new DirectoryNode()
                         {
                             Parent = currentNode,
                             Name = subItem.Value,
@@ -115,10 +131,11 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                     {
                         var subNode = new DirectoryNode
                         {
+                            IsDirectory = true,
                             Parent = currentNode,
                             Name = subItem.Value
                         };
-                        currentNode.Directories.Add(subNode);
+                        currentNode.ChildNodes.Add(subNode);
                         currentNode = subNode;
                         map.Add(currentPath, currentNode);
                     }
@@ -138,8 +155,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         public CheckCleanFileModel(IEnumerable<string> files)
         {
             var fileList = files.OrderBy(Path.GetFileName).ToList();
-            var node = DirectoryTree.Make(fileList.Select(x => 
-                new Uri(CommonCoreLib.AppInfo.GetAppPath() + "\\").MakeRelativeUri(new Uri(x)).ToString()));
+            var node = DirectoryTree.Make(CommonCoreLib.AppInfo.GetAppPath() + "\\", fileList);
             var f = node.GetAllFilePaths();
 
             DeleteFiles = new ObservableCollection<DeleteFileInfo>(from x in f
