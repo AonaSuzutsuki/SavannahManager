@@ -36,6 +36,7 @@
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/ListBoxStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
+                <ResourceDictionary Source="/Styles/TreeViewStyle.xaml" />
                 <ResourceDictionary>
                     <local:RichTextItemsToDocumentConverter x:Key="RichTextItemsConverter"/>
                 </ResourceDictionary>
@@ -72,22 +73,43 @@
             </Grid.RowDefinitions>
 
             <Grid>
-                <ListBox ItemsSource="{Binding DeleteFiles}" Style="{StaticResource NonGridListBox}" ItemContainerStyle="{DynamicResource CustomListBoxItem}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="models:DeleteFileInfo">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="30" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-
-                                <CheckBox IsChecked="{Binding IsDelete}" VerticalAlignment="Center" />
-
-                                <TextBlock Grid.Column="1" Text="{Binding DisplayPath}" VerticalAlignment="Center" />
+                <TreeView ItemsSource="{Binding TreeViewItems}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="models:DirectoryNode" ItemsSource="{Binding ChildNodes}">
+                            <Grid Height="30">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <CheckBox IsChecked="{Binding IsDelete, Mode=TwoWay}" />
+                                    <TextBlock Text="{Binding Name}" MinWidth="60" />
+                                </StackPanel>
                             </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Style.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                                 Color="#4090ff" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                                                 Color="#4090ff" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                                 Color="#444" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                                 Color="#444" />
+                            </Style.Resources>
+                            <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+                            <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded,Mode=TwoWay}"/>
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="FontWeight" Value="Normal" />
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                </TreeView>
             </Grid>
 
             <Grid Margin="0,0,3,0" Grid.Row="1">

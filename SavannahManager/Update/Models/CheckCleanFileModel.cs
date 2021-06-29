@@ -6,35 +6,31 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommonExtensionLib.Extensions;
 using CommonStyleLib.Models;
+using Prism.Mvvm;
 using static System.String;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.Models
 {
-    public class DeleteFileInfo
+    public class DirectoryNode : BindableBase
     {
-        public string DisplayPath { get; set; }
-        public string FilePath { get; set; }
-        public bool IsDelete { get; set; } = true;
-    }
+        private bool _isDelete = true;
 
-    public class FileNode
-    {
-        public DirectoryNode Parent { get; set; }
-        public string Name { get; set; }
-        public string FullPath { get; set; }
-
-        public override string ToString()
+        public bool IsDelete
         {
-            if (Parent == null)
-                return Name;
+            get => _isDelete;
+            set
+            {
+                foreach (var directoryNode in ChildNodes)
+                {
+                    directoryNode.IsDelete = value;
+                }
 
-            return Parent.IsRoot ? Name : $"{Parent}\\{Name}";
+                SetProperty(ref _isDelete, value);
+            }
         }
-    }
 
-    public class DirectoryNode
-    {
         public bool IsDirectory { get; set; }
         public bool IsRoot { get; set; }
         public string Name { get; set; }
@@ -45,7 +41,15 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         public DirectoryNode()
         {
             ChildNodes = new SortedSet<DirectoryNode>(Comparer<DirectoryNode>.Create((a, b) =>
-                Compare(a.Name, b.Name, StringComparison.Ordinal)));
+            {
+                return a.IsDirectory switch
+                {
+                    true when b.IsDirectory => Compare(a.Name, b.Name, StringComparison.Ordinal),
+                    true when !b.IsDirectory => -1,
+                    false when b.IsDirectory => 1,
+                    _ => Compare(a.Name, b.Name, StringComparison.Ordinal)
+                };
+            }));
         }
 
         public IEnumerable<DirectoryNode> GetDirectories()
@@ -83,8 +87,6 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
     {
         public static DirectoryNode Make(string basePath, IEnumerable<string> files)
         {
-            //.Select(x => new Uri(CommonCoreLib.AppInfo.GetAppPath() + "\\").MakeRelativeUri(new Uri(x)).ToString())
-
             var root = new DirectoryNode
             {
                 IsRoot = true
@@ -96,7 +98,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
             var enumerable = files as string[] ?? files.ToArray();
             var rootRelativeFiles = from x in enumerable
-                let path = new Uri(CommonCoreLib.AppInfo.GetAppPath() + "\\").MakeRelativeUri(new Uri(x)).ToString()
+                let path = new Uri(basePath).MakeRelativeUri(new Uri(x)).ToString()
                 select $"root\\{path}";
             var zip = enumerable.Zip(rootRelativeFiles, (real, relative) => (real, relative));
 
@@ -150,20 +152,15 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
     public class CheckCleanFileModel : ModelBase
     {
-        public ObservableCollection<DeleteFileInfo> DeleteFiles { get; }
+        public ObservableCollection<DirectoryNode> TreeViewItems { get; }
 
         public CheckCleanFileModel(IEnumerable<string> files)
         {
             var fileList = files.OrderBy(Path.GetFileName).ToList();
-            var node = DirectoryTree.Make(CommonCoreLib.AppInfo.GetAppPath() + "\\", fileList);
-            var f = node.GetAllFilePaths();
+            var node = DirectoryTree.Make($"{CommonCoreLib.AppInfo.GetAppPath()}\\", fileList);
 
-            DeleteFiles = new ObservableCollection<DeleteFileInfo>(from x in f
-                                                                   select new DeleteFileInfo
-            {
-                FilePath = x.FullPath,
-                DisplayPath = x.ToString()
-            });
+            TreeViewItems = new ObservableCollection<DirectoryNode>();
+            TreeViewItems.AddRange(node.ChildNodes);
         }
     }
 }

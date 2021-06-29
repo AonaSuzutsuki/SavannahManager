@@ -13,11 +13,11 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 {
     public class CheckCleanFileViewModel : ViewModelBase
     {
-        public ICollection<DeleteFileInfo> DeleteFiles { get; set; }
+        public ReadOnlyReactiveCollection<DirectoryNode> TreeViewItems { get; set; }
 
         public CheckCleanFileViewModel(IWindowService windowService, CheckCleanFileModel model) : base(windowService, model)
         {
-            DeleteFiles = model.DeleteFiles.ToReadOnlyReactiveCollection(m => m);
+            TreeViewItems = model.TreeViewItems.ToReadOnlyReactiveCollection();
         }
     }
 }

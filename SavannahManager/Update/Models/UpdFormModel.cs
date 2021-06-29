@@ -142,7 +142,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             Application.Current.Shutdown();
         }
 
-        public void Clean()
+        public IEnumerable<string> GetCleanFiles()
         {
             var savannahManagerAssembly = Assembly.GetExecutingAssembly();
             var configEditorAssembly = Assembly.LoadFile(CommonCoreLib.AppInfo.GetAppPath() + "\\ConfigEditor.exe");
@@ -161,10 +161,15 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             xmlReferences.AddRange(exeFiles);
             xmlReferences.AddRange(dllFiles);
             xmlReferences.AddRange(langFiles);
-            
-            File.WriteAllLines("Updater\\list.txt", xmlReferences.Where(s => !s.Contains("Updater\\")), Encoding.UTF8);
 
-            _ = Update("clean");
+            return xmlReferences.Where(s => !s.Contains("Updater\\"));
+        }
+
+        public async Task CleanUpdate(IEnumerable<string> files)
+        {
+            File.WriteAllLines("Updater\\list.txt", files, Encoding.UTF8);
+
+            await Update("clean");
         }
 
         public HashSet<string> SearchReferences(Assembly asm, string extension, string searchDirectory = "")

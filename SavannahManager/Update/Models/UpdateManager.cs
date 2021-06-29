@@ -100,7 +100,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             return startInfo;
         }
 
-        private Dictionary<string, IEnumerable<RichTextItem>> Analyze(IEnumerable<SavannahTagNode> nodes)
+        private static Dictionary<string, IEnumerable<RichTextItem>> Analyze(IEnumerable<SavannahTagNode> nodes)
         {
             var dict = new Dictionary<string, IEnumerable<RichTextItem>>();
 
