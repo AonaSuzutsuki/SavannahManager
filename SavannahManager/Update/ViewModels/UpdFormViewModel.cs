@@ -93,7 +93,11 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
         private void CleanUpdate()
         {
-            _model.Clean();
+            var files = _model.GetCleanFiles();
+
+            var checkFileModel = new CheckCleanFileModel(files);
+            var checkViewModel = new CheckCleanFileViewModel(new WindowService(), checkFileModel);
+            WindowManageService.ShowDialog<CheckCleanFile>(checkViewModel);
         }
         #endregion
     }

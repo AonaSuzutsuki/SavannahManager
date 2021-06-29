@@ -1,4 +1,4 @@
-﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Update.Views.UpdForm"
+﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Update.Views.CheckCleanFile"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Views"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:models="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Models"
+        xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.ViewModels"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
-        ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
-        TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
-        Title="Update Form" Height="400" Width="600" ResizeMode="CanResize">
-
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModels:CheckCleanFileViewModel}"
+        Title="Check Clean File" Height="450" Width="800">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding Loaded}" />
@@ -71,28 +72,22 @@
             </Grid.RowDefinitions>
 
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+                <ListBox ItemsSource="{Binding DeleteFiles}" Style="{StaticResource NonGridListBox}" ItemContainerStyle="{DynamicResource CustomListBoxItem}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="models:DeleteFileInfo">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
 
-                <ListBox Name="VersionList" ItemsSource="{Binding VersionListView.Value}" SelectedIndex="{Binding VersionListSelectedIndex.Value}" Style="{DynamicResource NonGridListBox}" ItemContainerStyle="{DynamicResource CustomListBoxItem}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding VersionListSelectionChanged}" CommandParameter="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                                <CheckBox IsChecked="{Binding IsDelete}" VerticalAlignment="Center" />
+
+                                <TextBlock Grid.Column="1" Text="{Binding DisplayPath}" VerticalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
-
-                <!--<RichTextBox Text="{Binding DetailText.Value}" IsReadOnly="False" Margin="5,0,0,0" Grid.Column="1" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" TextWrapping="Wrap" ContextMenu="{StaticResource CopyOnly}" />-->
-                <local:BindableRichTextBox Grid.Column="1" Background="Transparent" Foreground="White" Document="{Binding RichDetailText.Value, Mode=OneWay, Converter={StaticResource RichTextItemsConverter}}" IsReadOnly="True" VerticalScrollBarVisibility="Visible" ContextMenu="{StaticResource CopyOnly}">
-                    <local:BindableRichTextBox.Resources>
-                        <Style TargetType="Hyperlink">
-                            <Setter Property="Cursor" Value="Hand" />
-                            <EventSetter Event="MouseLeftButtonDown" Handler="EventSetter_OnHandler" />
-                        </Style>
-                    </local:BindableRichTextBox.Resources>
-                </local:BindableRichTextBox>
             </Grid>
 
             <Grid Margin="0,0,3,0" Grid.Row="1">
