@@ -142,12 +142,11 @@ namespace Updater.Models
 
         public (UpdateMode mode, IEnumerable<string> values) Initialize()
         {
-            var pid = 0;
-            var cmds = Environment.GetCommandLineArgs().Skip(1).ToArray();
+            var commands = Environment.GetCommandLineArgs().Skip(1).ToArray();
 
-            WriteLog($"Start Init: {string.Join(" ", cmds)}");
+            WriteLog($"Start Init: {string.Join(" ", commands)}");
 
-            var parser = new CommonCoreLib.Parser.CommandLineParameterParser(cmds);
+            var parser = new CommonCoreLib.Parser.CommandLineParameterParser(commands);
             parser.AddParameter("pid", 1);
             parser.AddParameter("name", 1);
             parser.AddParameter("base", 1);
@@ -163,7 +162,7 @@ namespace Updater.Models
                 Environment.Exit(0);
             }
 
-            if (!int.TryParse(parser.GetArgumentValue("pid"), out pid))
+            if (!int.TryParse(parser.GetArgumentValue("pid"), out var pid))
             {
                 ExMessageBoxBase.Show(LangResources.Resources.Invaild_Argument, LangResources.Resources.Error, ExMessageBoxBase.MessageType.Beep, ExMessageBoxBase.ButtonType.OK);
                 Environment.Exit(0);

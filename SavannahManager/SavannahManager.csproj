@@ -10,9 +10,9 @@
     <Authors>Aona Suzutsuki</Authors>
     <Company>Kimama Lab.</Company>
     <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2021</Copyright>
-    <AssemblyVersion>2.4.41.2</AssemblyVersion>
-    <FileVersion>2.4.41.2</FileVersion>
-    <Version>2.4.41.2</Version>
+    <AssemblyVersion>2.4.42.3</AssemblyVersion>
+    <FileVersion>2.4.42.3</FileVersion>
+    <Version>2.4.42.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
