@@ -112,7 +112,10 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
         {
             var (notice, isConfirm) = await _model.CheckAlert();
             if (string.IsNullOrEmpty(notice))
+            {
                 await _model.Update();
+                return;
+            }
 
             if (isConfirm)
             {
@@ -132,7 +135,10 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
         {
             var (notice, isConfirm) = await _model.CheckAlert();
             if (string.IsNullOrEmpty(notice))
+            {
                 await (targets.Any() ? _model.CleanUpdate(targets) : _model.Update());
+                return;
+            }
 
             if (isConfirm)
             {

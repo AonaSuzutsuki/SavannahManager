@@ -320,8 +320,7 @@ namespace Updater.Models
                 using var zip = new UpdateLib.Archive.Zip(ms, _updateInfo.ExtractDirectoryPath);
                 zip.Extracted += (sender, args) =>
                 {
-                    WriteLog($"Update {ProgressValue}/{args.Total} {args.FilePath}");
-                    ProgressValue++;
+                    WriteLog($"Update {++ProgressValue}/{args.Total} {args.FilePath}");
                 };
                 ProgressMaximum = zip.Count;
                 await Task.Factory.StartNew(zip.Extract);
