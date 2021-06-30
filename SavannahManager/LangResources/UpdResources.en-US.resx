@@ -170,4 +170,16 @@ It updates updator before updating Savannah Manager.</value>
     <value>Clean Update</value>
     <comment>UI</comment>
   </data>
+  <data name="UI_AllDeSelect" xml:space="preserve">
+    <value>Deselect All</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_AllSelect" xml:space="preserve">
+    <value>Select All</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_CleanNotice" xml:space="preserve">
+    <value>* Even if it is not a clean target, it will be rewritten if it is included in the update time difference.</value>
+    <comment>UI</comment>
+  </data>
 </root>

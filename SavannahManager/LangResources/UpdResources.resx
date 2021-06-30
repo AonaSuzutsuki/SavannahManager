@@ -170,4 +170,16 @@
     <value>クリーンアップデート</value>
     <comment>UI</comment>
   </data>
+  <data name="UI_AllDeSelect" xml:space="preserve">
+    <value>全て解除する</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_AllSelect" xml:space="preserve">
+    <value>全て選択する</value>
+    <comment>UI</comment>
+  </data>
+  <data name="UI_CleanNotice" xml:space="preserve">
+    <value>*クリーン対象でなくても更新時差分に含まれている場合は書き換えられます。</value>
+    <comment>UI</comment>
+  </data>
 </root>
