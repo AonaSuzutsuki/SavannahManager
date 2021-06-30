@@ -37,12 +37,12 @@ namespace Updater.Models
         }
     }
 
-    public class MainWindowModel : ModelBase
+    public class MainWindowModel : ModelBase, IDisposable
     {
         #region Fields
         UpdateInfo _updateInfo;
 
-        private int _exitCode = 1;
+        public int ExitCode { get; set; } = 1;
         
         private string _statusLabel;
         private double _progressValue;
@@ -50,6 +50,8 @@ namespace Updater.Models
         private bool _progressIndeterminate;
         private string _progressLabel;
         private bool _canClose = true;
+        
+        private readonly StreamWriter _writer;
         #endregion
 
         #region Properties
@@ -88,19 +90,40 @@ namespace Updater.Models
         }
         #endregion
 
+        public MainWindowModel()
+        {
+            if (File.Exists("debug.xml"))
+            {
+                var reader = new SavannahXmlLib.XmlWrapper.SavannahXmlReader("debug.xml");
+                var enabledText = reader.GetValue("/debug/property[@name='enabled']");
+                bool.TryParse(enabledText, out var enabled);
+                if (!enabled)
+                    return;
+
+                var logPath = reader.GetValue("/debug/property[@name='logPath']");
+                _writer = new StreamWriter(logPath, true, Encoding.UTF8);
+            }
+        }
+
         public void Close()
         {
             try
             {
-                if (_exitCode == 0)
+                if (ExitCode == 0)
                 {
                     Process.Start(_updateInfo.ExtractDirectoryPath + @"\" + _updateInfo.FileName);
                 }
             }
             catch
             {
-                Environment.Exit(_exitCode);
+                Environment.Exit(ExitCode);
             }
+        }
+
+        public void WriteLog(string log)
+        {
+            _writer?.WriteLine($"{DateTime.Now} {log}");
+            _writer?.Flush();
         }
 
         public async Task Update()
@@ -113,18 +136,18 @@ namespace Updater.Models
             }
             else
             {
-                await CleanFunc(values);
-                await Task.Delay(1000);
-                await UpdateFunc();
+                await UpdateFunc(values.FirstOrDefault(), CleanFunc);
             }
         }
 
         public (UpdateMode mode, IEnumerable<string> values) Initialize()
         {
             var pid = 0;
-            var cmds = Environment.GetCommandLineArgs();
+            var cmds = Environment.GetCommandLineArgs().Skip(1).ToArray();
 
-            var parser = new CommonCoreLib.Parser.CommandLineParameterParser(cmds.Skip(1).ToArray());
+            WriteLog($"Start Init: {string.Join(" ", cmds)}");
+
+            var parser = new CommonCoreLib.Parser.CommandLineParameterParser(cmds);
             parser.AddParameter("pid", 1);
             parser.AddParameter("name", 1);
             parser.AddParameter("base", 1);
@@ -162,6 +185,9 @@ namespace Updater.Models
             _updateInfo = new UpdateInfo(pid, parser.GetArgumentValue("name").Replace(".exe", ""), updateClient,
                 parser.GetArgumentValue("out") ?? Path.GetDirectoryName(ConstantValues.AppDirectoryPath));
 
+
+            WriteLog($"Finished Init: {mode} {updWebClient.BaseUrl} {parser.GetArgumentValue("main")}");
+
             return (mode, parser.GetValues());
         }
 
@@ -175,19 +201,19 @@ namespace Updater.Models
             ProgressLabel = e.Percentage + "%";
         }
 
-        private async Task CleanFunc(IEnumerable<string> searchExecutableFiles)
+        private async Task CleanFunc(string listFilePath)
         {
-            var listFilePath = searchExecutableFiles.First();
             if (string.IsNullOrEmpty(listFilePath))
                 return;
 
             if (_updateInfo == null)
                 return;
 
+            WriteLog("Start Clean");
+
             CanClose = false;
             var pid = _updateInfo.Pid;
             var filename = _updateInfo.FileName;
-            var updateClient = _updateInfo.Client;
 
             if (pid > 0)
             {
@@ -207,14 +233,14 @@ namespace Updater.Models
                 }
                 catch
                 {
-                    return;
+                    CanExit(1);
+                    throw;
                 }
             }
 
             await Task.Factory.StartNew(() =>
             {
                 var targetFiles = File.ReadAllLines(listFilePath);
-                File.Delete(listFilePath);
 
                 ProgressMaximum = targetFiles.Length;
                 ProgressValue = 0;
@@ -225,15 +251,18 @@ namespace Updater.Models
                 {
                     File.Delete(dllFile);
                     ProgressValue++;
-                }
 
+                    WriteLog($"Delete {dllFile}");
+                }
 
                 StatusLabel = LangResources.Resources.Finished_cleaning;
                 ProgressValue = ProgressMaximum;
             });
+
+            WriteLog("Finished Clean");
         }
 
-        private async Task UpdateFunc()
+        private async Task UpdateFunc(string filesListPath = null, Func<string, Task> successDownloadFunc = null)
         {
             if (_updateInfo == null)
                 return;
@@ -255,13 +284,14 @@ namespace Updater.Models
                     var p = Process.GetProcessesByName(filename);
                     while (p.Length > 0)
                     {
-                        System.Threading.Thread.Sleep(500);
+                        Thread.Sleep(500);
                         p = Process.GetProcessesByName(filename);
                     }
                 }
                 catch
                 {
-                    return;
+                    CanExit(1);
+                    throw;
                 }
             }
 
@@ -277,22 +307,42 @@ namespace Updater.Models
                 ms.Write(data, 0, data.Length);
                 ms.Seek(0, SeekOrigin.Begin);
 
+                if (successDownloadFunc != null)
+                {
+                    await successDownloadFunc(filesListPath);
+                    await Task.Delay(1000);
+                }
+
+                WriteLog("Start Update");
+
                 StatusLabel = LangResources.Resources.Extracting_the_update_file;
                 ProgressValue = 0;
 
                 using var zip = new UpdateLib.Archive.Zip(ms, _updateInfo.ExtractDirectoryPath);
-                zip.Extracted += (sender, args) => ProgressValue++;
+                zip.Extracted += (sender, args) =>
+                {
+                    WriteLog($"Update {ProgressValue}/{args.Total} {args.FilePath}");
+                    ProgressValue++;
+                };
                 ProgressMaximum = zip.Count;
                 await Task.Factory.StartNew(zip.Extract);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e.StackTrace);
+                CanExit(1);
+                throw;
             }
-            
+
+            if (filesListPath != null && File.Exists(filesListPath))
+            {
+                File.Delete(filesListPath);
+                WriteLog($"Delete {filesListPath}");
+            }
 
             StatusLabel = LangResources.Resources.Finished_updating;
             ProgressValue = ProgressMaximum;
+
+            WriteLog("Finished Update");
 
             CanExit(0);
         }
@@ -300,7 +350,12 @@ namespace Updater.Models
         private void CanExit(int exitCode)
         {
             CanClose = true;
-            this._exitCode = exitCode;
+            this.ExitCode = exitCode;
+        }
+
+        public void Dispose()
+        {
+            _writer?.Dispose();
         }
     }
 }

@@ -17,10 +17,10 @@ namespace Updater.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        MainWindowModel model;
+        readonly MainWindowModel _model;
         public MainWindowViewModel(WindowService windowService, MainWindowModel model) : base(windowService, model)
         {
-            this.model = model;
+            this._model = model;
             
             StatusLabel = model.ToReactivePropertyAsSynchronized(m => m.StatusLabel);
             ProgressValue = model.ToReactivePropertyAsSynchronized(m => m.ProgressValue);
@@ -52,12 +52,23 @@ namespace Updater.ViewModels
         #region EventMethods
         protected override void MainWindow_Loaded()
         {
-            _ = model.Update();
+            _ = _model.Update().ContinueWith(t =>
+            {
+                if (t.Exception == null)
+                    return;
+                foreach (var exceptionInnerException in t.Exception.InnerExceptions)
+                {
+                    App.ShowAndWriteException(exceptionInnerException);
+                    _model.WriteLog($"Throw {exceptionInnerException.Message}");
+                    _model.WriteLog($"Exit {_model.ExitCode}");
+                }
+                _model.Dispose();
+            }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         public void MainWindow_Closed()
         {
-            model.Close();
+            _model.Close();
         }
         #endregion
     }
