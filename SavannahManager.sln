@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigEditor", "ConfigEdito
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UpdateLogs", "UpdateLogs", "{74269012-6DA3-4537-996B-B97E153F2545}"
 	ProjectSection(SolutionItems) = preProject
+		UpdateLogs\notice.en.xml = UpdateLogs\notice.en.xml
+		UpdateLogs\notice.ja.xml = UpdateLogs\notice.ja.xml
 		UpdateLogs\updates.en.xml = UpdateLogs\updates.en.xml
 		UpdateLogs\updates.ja.xml = UpdateLogs\updates.ja.xml
 	EndProjectSection

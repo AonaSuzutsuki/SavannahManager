@@ -66,6 +66,23 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             return Updates.Keys.ToList();
         }
 
+        public async Task<(string notice, bool isConfirm)> GetNotice()
+        {
+            var noticeXml = await _updateClient.DownloadFile("details/" + LangResources.UpdResources.Notice_XmlName);
+            using var ms = new MemoryStream(noticeXml);
+            var reader = new SavannahXmlReader(ms);
+            var notice = reader.GetNode($"/notices/notice[@version='{CurrentVersion}']");
+            if (notice == null)
+                return (null, false);
+
+            if (notice is not SavannahTagNode node)
+                return (null, false);
+
+            var isConfirm = node.GetAttribute("mode")?.Value == "confirm";
+
+            return (notice.InnerText, isConfirm);
+        }
+
         public async Task ApplyUpdUpdate(string extractDirPath)
         {
             var updData = await _updateClient.DownloadUpdateFile();

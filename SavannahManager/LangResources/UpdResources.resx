@@ -182,4 +182,8 @@
     <value>*クリーン対象でなくても更新時差分に含まれている場合は書き換えられます。</value>
     <comment>UI</comment>
   </data>
+  <data name="Notice_XmlName" xml:space="preserve">
+    <value>notice.ja.xml</value>
+    <comment>アップデータ</comment>
+  </data>
 </root>

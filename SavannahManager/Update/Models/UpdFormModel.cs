@@ -108,6 +108,12 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             RichDetailText = new ObservableCollection<RichTextItem>(detail);
         }
 
+        public async Task<(string notice, bool isConfirm)> CheckAlert()
+        {
+            var tuple = await _updateManager.GetNotice();
+            return tuple;
+        }
+
         public async Task Update(string mode = "update")
         {
             if (_updateManager.IsUpdUpdate)

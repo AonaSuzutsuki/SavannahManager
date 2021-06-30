@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using _7dtd_svmanager_fix_mvvm.Update.Views;
+using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.Views;
 using Reactive.Bindings.Extensions;
 
@@ -88,7 +89,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
         private void Update()
         {
-            _ = _model.Update();
+            _ = CheckUpdate();
         }
 
         private void CleanUpdate()
@@ -103,7 +104,47 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             {
                 var targets = checkFileModel.GetTargetFiles();
                 var enumerable = targets.ToList();
-                _ = enumerable.Any() ? _model.CleanUpdate(enumerable) : _model.Update();
+                _ = CheckCleanUpdate(enumerable);
+            }
+        }
+
+        private async Task CheckUpdate()
+        {
+            var (notice, isConfirm) = await _model.CheckAlert();
+            if (string.IsNullOrEmpty(notice))
+                await _model.Update();
+
+            if (isConfirm)
+            {
+                var dr = WindowManageService.MessageBoxShow(notice, "Notice", ExMessageBoxBase.MessageType.Exclamation,
+                    ExMessageBoxBase.ButtonType.YesNo);
+                if (dr == ExMessageBoxBase.DialogResult.Yes)
+                    await _model.Update();
+            }
+            else
+            {
+                WindowManageService.MessageBoxShow(notice, "Notice", ExMessageBoxBase.MessageType.Exclamation);
+                await _model.Update();
+            }
+        }
+
+        private async Task CheckCleanUpdate(IReadOnlyCollection<string> targets)
+        {
+            var (notice, isConfirm) = await _model.CheckAlert();
+            if (string.IsNullOrEmpty(notice))
+                await (targets.Any() ? _model.CleanUpdate(targets) : _model.Update());
+
+            if (isConfirm)
+            {
+                var dr = WindowManageService.MessageBoxShow(notice, "Notice", ExMessageBoxBase.MessageType.Exclamation,
+                    ExMessageBoxBase.ButtonType.YesNo);
+                if (dr == ExMessageBoxBase.DialogResult.Yes)
+                    await (targets.Any() ? _model.CleanUpdate(targets) : _model.Update());
+            }
+            else
+            {
+                WindowManageService.MessageBoxShow(notice, "Notice", ExMessageBoxBase.MessageType.Exclamation);
+                await (targets.Any() ? _model.CleanUpdate(targets) : _model.Update());
             }
         }
         #endregion

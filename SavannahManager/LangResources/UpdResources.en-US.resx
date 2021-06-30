@@ -182,4 +182,8 @@ It updates updator before updating Savannah Manager.</value>
     <value>* Even if it is not a clean target, it will be rewritten if it is included in the update time difference.</value>
     <comment>UI</comment>
   </data>
+  <data name="Notice_XmlName" xml:space="preserve">
+    <value>notice.en.xml</value>
+    <comment>アップデータ</comment>
+  </data>
 </root>
