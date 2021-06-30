@@ -72,7 +72,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             using var ms = new MemoryStream(updData.Length);
             ms.Write(updData, 0, updData.Length);
             ms.Seek(0, SeekOrigin.Begin);
-            using var zip = new UpdateLib.Archive.Zip(ms, ConstantValues.AppDirectoryPath + "/");
+            using var zip = new UpdateLib.Archive.Zip(ms, extractDirPath);
             zip.Extract();
         }
 
