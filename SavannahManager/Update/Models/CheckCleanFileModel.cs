@@ -6,83 +6,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _7dtd_svmanager_fix_mvvm.Update.Models.Node;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.Models;
-using Prism.Mvvm;
-using static System.String;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.Models
 {
-    public class DirectoryNode : BindableBase
-    {
-        private bool _isDelete = true;
-
-        public bool IsDelete
-        {
-            get => _isDelete;
-            set
-            {
-                foreach (var directoryNode in ChildNodes)
-                {
-                    directoryNode.IsDelete = value;
-                }
-
-                SetProperty(ref _isDelete, value);
-            }
-        }
-
-        public bool IsDirectory { get; set; }
-        public bool IsRoot { get; set; }
-        public string Name { get; set; }
-        public string FullPath { get; set; }
-        public DirectoryNode Parent { get; set; }
-        public SortedSet<DirectoryNode> ChildNodes { get; set; }
-
-        public DirectoryNode()
-        {
-            ChildNodes = new SortedSet<DirectoryNode>(Comparer<DirectoryNode>.Create((a, b) =>
-            {
-                return a.IsDirectory switch
-                {
-                    true when b.IsDirectory => Compare(a.Name, b.Name, StringComparison.Ordinal),
-                    true when !b.IsDirectory => -1,
-                    false when b.IsDirectory => 1,
-                    _ => Compare(a.Name, b.Name, StringComparison.Ordinal)
-                };
-            }));
-        }
-
-        public IEnumerable<DirectoryNode> GetDirectories()
-        {
-            return ChildNodes.Where(x => x.IsDirectory);
-        }
-
-        public IEnumerable<DirectoryNode> GetFiles()
-        {
-            return ChildNodes.Where(x => !x.IsDirectory);
-        }
-
-        public override string ToString()
-        {
-            if (Parent == null)
-                return Name;
-
-            return Parent.IsRoot ? Name : $"{Parent}\\{Name}";
-        }
-
-        public IEnumerable<DirectoryNode> GetAllFilePaths()
-        {
-            var files = new List<DirectoryNode>(GetFiles());
-
-            foreach (var directory in GetDirectories())
-            {
-                files.AddRange(directory.GetAllFilePaths());
-            }
-
-            return files;
-        }
-    }
-
     public class DirectoryTree
     {
         public static DirectoryNode Make(string basePath, IEnumerable<string> files)
@@ -152,15 +81,34 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
     public class CheckCleanFileModel : ModelBase
     {
+        private readonly DirectoryNode _root;
+
         public ObservableCollection<DirectoryNode> TreeViewItems { get; }
+
+        public bool CanCleanUpdate { get; set; }
 
         public CheckCleanFileModel(IEnumerable<string> files)
         {
-            var fileList = files.OrderBy(Path.GetFileName).ToList();
-            var node = DirectoryTree.Make($"{CommonCoreLib.AppInfo.GetAppPath()}\\", fileList);
+            var node = DirectoryTree.Make($"{CommonCoreLib.AppInfo.GetAppPath()}\\", files);
 
             TreeViewItems = new ObservableCollection<DirectoryNode>();
             TreeViewItems.AddRange(node.ChildNodes);
+            _root = node;
+        }
+
+        public void SetAllDeleteTarget()
+        {
+            _root.IsDelete = true;
+        }
+
+        public void SetAllNotDeleteTarget()
+        {
+            _root.IsDelete = false;
+        }
+
+        public IEnumerable<string> GetTargetFiles()
+        {
+            return _root.GetAllDeleteFiles();
         }
     }
 }

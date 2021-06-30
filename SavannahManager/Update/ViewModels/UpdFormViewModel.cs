@@ -98,6 +98,13 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             var checkFileModel = new CheckCleanFileModel(files);
             var checkViewModel = new CheckCleanFileViewModel(new WindowService(), checkFileModel);
             WindowManageService.ShowDialog<CheckCleanFile>(checkViewModel);
+
+            if (checkFileModel.CanCleanUpdate)
+            {
+                var targets = checkFileModel.GetTargetFiles();
+                var enumerable = targets.ToList();
+                _ = enumerable.Any() ? _model.CleanUpdate(enumerable) : _model.Update();
+            }
         }
         #endregion
     }

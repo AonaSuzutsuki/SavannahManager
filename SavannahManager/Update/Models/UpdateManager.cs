@@ -23,8 +23,8 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
     {
         public Dictionary<string, IEnumerable<RichTextItem>> Updates { get; private set; }
 
-        public bool IsUpdate;
-        public bool IsUpdUpdate;
+        public bool IsUpdate { get; set; }
+        public bool IsUpdUpdate { get; set; }
 
         private UpdateClient _updateClient;
 
@@ -89,11 +89,12 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             if (mode == "clean")
                 arg =
                     $"{pid} SavannahManager2 \"{_updateClient.WebClient.BaseUrl}\" \"{_updateClient.MainDownloadUrlPath}\" {mode}" +
-                    $" \"{CommonCoreLib.AppInfo.GetAppPath()}\" Updater\\list.txt";
+                    $" \"{CommonCoreLib.AppInfo.GetAppPath()}\" list.txt";
 
             var startInfo = new ProcessStartInfo
             {
                 FileName = ConstantValues.UpdaterFilePath,
+                WorkingDirectory = Path.GetDirectoryName(ConstantValues.UpdaterFilePath) ?? ConstantValues.AppDirectoryPath,
                 Arguments = arg
             };
 

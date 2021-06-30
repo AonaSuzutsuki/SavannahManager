@@ -9,6 +9,7 @@
         xmlns:models="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Models"
         xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.ViewModels"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
+        xmlns:node="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Models.Node"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:CheckCleanFileViewModel}"
         Title="Check Clean File" Height="450" Width="800">
@@ -57,7 +58,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Image>
-            <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_UpdFormName, Mode=OneWay}" Style="{DynamicResource ResourceKey=StatTitle}" />
+            <Label Content="Check Clean Files" Style="{DynamicResource ResourceKey=StatTitle}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
@@ -68,14 +69,28 @@
 
         <Grid Margin="5,30,5,5">
             <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="5" />
                 <RowDefinition />
                 <RowDefinition Height="55" />
             </Grid.RowDefinitions>
 
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+
+                <Button Content="全て選択する" Height="30" Style="{StaticResource FlatButton}" Command="{Binding AllSelectCommand}"  />
+
+                <Button Grid.Column="2" Content="全て解除する" Height="30" Style="{StaticResource FlatButton}" Command="{Binding AllDeSelectCommand}" />
+            </Grid>
+
+            <Grid Row="2">
                 <TreeView ItemsSource="{Binding TreeViewItems}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
                     <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate DataType="models:DirectoryNode" ItemsSource="{Binding ChildNodes}">
+                        <HierarchicalDataTemplate DataType="node:DirectoryNode" ItemsSource="{Binding ChildNodes}">
                             <Grid Height="30">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <CheckBox IsChecked="{Binding IsDelete, Mode=TwoWay}" />
@@ -112,27 +127,24 @@
                 </TreeView>
             </Grid>
 
-            <Grid Margin="0,0,3,0" Grid.Row="1">
+            <Grid Margin="0,0,3,0" Grid.Row="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120" />
-                    <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="200" />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel>
-                    <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_CurrentVersionLabel, Mode=OneWay}" Height="25" Foreground="White" />
-                    <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_LatestVersionLabel, Mode=OneWay}" Height="25" Foreground="White" />
-                </StackPanel>
+                
 
-                <StackPanel Grid.Column="1">
-                    <Label Content="{Binding CurrentVersion.Value}" Height="25" Foreground="White" />
-                    <Label Content="{Binding LatestVersion.Value}" Height="25" Foreground="White" />
-                </StackPanel>
+                <Grid Grid.Column="1">
+                    <TextBlock VerticalAlignment="Center" Style="{StaticResource ExTextBlock}">
+                        *クリーン対象でなくても更新時差分に含まれている場合は書き換えられます。
+                    </TextBlock>
+                </Grid>
 
                 <StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_CleanUpdBT, Mode=OneWay}" IsEnabled="True" Style="{DynamicResource FlatButton}" Width="100" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding DoCleanUpdateCommand}" />
-                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_UpdBT, Mode=OneWay}" IsEnabled="{Binding UpdateBtIsEnabled.Value}" Name="UpdateBt" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="90" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding DoUpdateCommand}" />
-                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_CancelBT, Mode=OneWay}" IsEnabled="{Binding CancelBtIsEnabled.Value}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding MainWindowCloseBtClick}" />
+                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_UpdBT, Mode=OneWay}" IsEnabled="{Binding UpdateBtIsEnabled.Value}" Name="UpdateBt" Style="{DynamicResource FlatButton}" Width="90" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding DoUpdateCommand}" />
+                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_CancelBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding MainWindowCloseBtClick}" />
                 </StackPanel>
             </Grid>
 
