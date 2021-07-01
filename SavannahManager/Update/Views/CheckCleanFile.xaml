@@ -12,7 +12,7 @@
         xmlns:node="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Models.Node"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:CheckCleanFileViewModel}"
-        Title="Check Clean File" Height="450" Width="800">
+        Title="Check Clean File" Height="450" Width="800" WindowStartupLocation="CenterOwner">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding Loaded}" />
