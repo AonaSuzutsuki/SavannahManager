@@ -183,7 +183,7 @@ namespace ConfigEditor_mvvm.Models
 
             var language = LangResources.CommonResources.Language;
             _templateLoader = new TemplateLoader(language, ConstantValues.VersionListPath);
-            VersionList.AddAll(_templateLoader.VersionList);
+            VersionList.AddRange(_templateLoader.VersionList);
 
             var cmdArray = Environment.GetCommandLineArgs();
             if (cmdArray.Length > 1)
@@ -249,7 +249,7 @@ namespace ConfigEditor_mvvm.Models
             if (_configLoader == null)
             {
                 var list = new List<ConfigListInfo>(_templateLoader.GetConfigList(version));
-                ConfigList.AddAll(list);
+                ConfigList.AddRange(list);
                 SaveBtEnabled = false;
             }
             else
@@ -278,7 +278,7 @@ namespace ConfigEditor_mvvm.Models
                 }
 
                 // templateにあるがコンフィグファイルにないものを追加
-                string[] nRepetitions = templateKeys.ToArray().ArrayExcept(keys.ToArray());
+                var nRepetitions = templateKeys.ToArray().Except(keys.ToArray());
                 foreach (string key in nRepetitions)
                 {
                     if (templateDic.ContainsKey(key))

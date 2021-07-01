@@ -4,8 +4,10 @@ using CommonStyleLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -91,7 +93,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
             CanUpdate = _updateManager.IsUpdate;
 
-            VersionList.AddAll(_updateManager.GetVersions());
+            VersionList.AddRange(_updateManager.GetVersions());
             if (VersionList.Count > 0)
                 VersionListSelectedIndex = 0;
             ShowDetails(0);
@@ -106,7 +108,13 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             RichDetailText = new ObservableCollection<RichTextItem>(detail);
         }
 
-        public async Task Update()
+        public async Task<(string notice, bool isConfirm)> CheckAlert()
+        {
+            var tuple = await _updateManager.GetNotice();
+            return tuple;
+        }
+
+        public async Task Update(string mode = "update")
         {
             if (_updateManager.IsUpdUpdate)
             {
@@ -121,10 +129,10 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                 }
             }
 
-            var id = System.Diagnostics.Process.GetCurrentProcess().Id;
-            var p = new System.Diagnostics.Process
+            var id = Process.GetCurrentProcess().Id;
+            var p = new Process
             {
-                StartInfo = _updateManager.GetUpdaterInfo(id)
+                StartInfo = _updateManager.GetUpdaterInfo(id, mode)
             };
 
             try
@@ -138,6 +146,59 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
                 return;
             }
             Application.Current.Shutdown();
+        }
+
+        public IEnumerable<string> GetCleanFiles()
+        {
+            var savannahManagerAssembly = Assembly.GetExecutingAssembly();
+            var configEditorAssembly = Assembly.LoadFile(CommonCoreLib.AppInfo.GetAppPath() + "\\ConfigEditor.exe");
+            var xmlEditorAssembly = Assembly.LoadFile(CommonCoreLib.AppInfo.GetAppPath() + "\\XmlEditor\\7dtd-XmlEditor.exe");
+
+            var xmlReferences = SearchReferences(savannahManagerAssembly, "xml");
+            xmlReferences.AddRange(SearchReferences(configEditorAssembly, "xml"));
+            xmlReferences.AddRange(SearchReferences(xmlEditorAssembly, "xml"));
+
+            var configFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath(), "*.config", SearchOption.AllDirectories);
+            var exeFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath(), "*.exe", SearchOption.AllDirectories);
+            var dllFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath(), "*.dll", SearchOption.AllDirectories);
+            var langFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath() + "\\lang", "*.xml", SearchOption.AllDirectories);
+
+            xmlReferences.AddRange(configFiles);
+            xmlReferences.AddRange(exeFiles);
+            xmlReferences.AddRange(dllFiles);
+            xmlReferences.AddRange(langFiles);
+
+            return xmlReferences.Where(s => !s.Contains("Updater\\"));
+        }
+
+        public async Task CleanUpdate(IEnumerable<string> files)
+        {
+            File.WriteAllLines("Updater\\list.txt", files, Encoding.UTF8);
+
+            await Update("clean");
+        }
+
+        public HashSet<string> SearchReferences(Assembly asm, string extension, string searchDirectory = "")
+        {
+            var allReferences = new HashSet<string>();
+
+            if (string.IsNullOrEmpty(searchDirectory))
+                searchDirectory += $"{Path.GetDirectoryName(asm.Location)}\\";
+
+            var references = asm.GetReferencedAssemblies();
+            var existedReferences = (from x in references
+                let dName = $"{searchDirectory}{x.Name}.{extension}"
+                where File.Exists(dName)
+                select dName).ToList();
+            foreach (var existedReference in existedReferences)
+            {
+                allReferences.Add(existedReference);
+
+                var assembly = Assembly.LoadFile(existedReference);
+                allReferences.AddRange(SearchReferences(assembly, searchDirectory));
+            }
+
+            return allReferences;
         }
     }
 }

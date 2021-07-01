@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Views"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
-        xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Views"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
@@ -113,7 +113,8 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_UpdBT, Mode=OneWay}" IsEnabled="{Binding UpdateBtIsEnabled.Value}" Name="UpdateBt" Style="{DynamicResource FlatButton}" Width="90" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding DoUpdateCommand}" />
+                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_CleanUpdBT, Mode=OneWay}" IsEnabled="True" Style="{DynamicResource FlatButton}" Width="100" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding DoCleanUpdateCommand}" />
+                    <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_UpdBT, Mode=OneWay}" IsEnabled="{Binding UpdateBtIsEnabled.Value}" Name="UpdateBt" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="90" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding DoUpdateCommand}" />
                     <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=UpdResources.UI_CancelBT, Mode=OneWay}" IsEnabled="{Binding CancelBtIsEnabled.Value}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding MainWindowCloseBtClick}" />
                 </StackPanel>
             </Grid>

@@ -98,11 +98,56 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   notice.ja.xml に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Notice_XmlName {
+            get {
+                return ResourceManager.GetString("Notice_XmlName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   全て解除する に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_AllDeSelect {
+            get {
+                return ResourceManager.GetString("UI_AllDeSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   全て選択する に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_AllSelect {
+            get {
+                return ResourceManager.GetString("UI_AllSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   キャンセル に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_CancelBT {
             get {
                 return ResourceManager.GetString("UI_CancelBT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   *クリーン対象でなくても更新時差分に含まれている場合は書き換えられます。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_CleanNotice {
+            get {
+                return ResourceManager.GetString("UI_CleanNotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   クリーンアップデート に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_CleanUpdBT {
+            get {
+                return ResourceManager.GetString("UI_CleanUpdBT", resourceCulture);
             }
         }
         
