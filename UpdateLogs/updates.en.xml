@@ -1,5 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.4.42.3">
+    1. Added clean update.
+      Remove the .dll that depended on in the past but no longer use, and install the latest version.
+
+    <br />
+
+    <font color="#ff0000">
+      ○ Notice
+      The target framework will be changed to .Net Core 3.1.
+      Please install Desktop Runtime if you don't install.
+      You cannot launch this app if you don't install runtime.
+    </font>
+    <a href="https://dotnet.microsoft.com/download/dotnet/3.1">
+      <font color="#00ffff">https://dotnet.microsoft.com/download/dotnet/3.1</font>
+    </a>
+  </update>
   <update version="2.4.41.2">
     1. Fixed an issue where newlines could not be retrieved correctly in the console log.
     2. Fixed telnet wait time default value from 2ms to 2000ms.

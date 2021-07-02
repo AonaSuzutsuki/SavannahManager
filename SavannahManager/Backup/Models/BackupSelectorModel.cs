@@ -116,7 +116,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
         #region Fields
 
-        private TimeBackup _timeBackup;
+        private TimeBackup2 _timeBackup;
 
         private readonly string _backupDirPath;
 
@@ -146,7 +146,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         {
             var userDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             _sevenDaysSavePath = $"{userDir}/7DaysToDie";
-            _timeBackup = new TimeBackup(_backupDirPath, _sevenDaysSavePath);
+            _timeBackup = new TimeBackup2(_backupDirPath, _sevenDaysSavePath);
             _timeBackup.BackupCompleted += TimeBackupOnBackupCompleted;
             _timeBackup.BackupProgress += TimeBackupOnBackupProgress;
             _timeBackup.BackupStarted += TimeBackupOnBackupStarted;
@@ -282,7 +282,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
             {
                 BackupFileList.Clear();
                 if (pathMapItem.Files.Count > 0)
-                    BackupFileList.AddAll(BackupItem.ToBackupItem(pathMapItem.Files));
+                    BackupFileList.AddRange(BackupItem.ToBackupItem(pathMapItem.Files));
 
                 _current = pathMapItem;
                 BackBtIsEnabled = pathMapItem.Parent != null;

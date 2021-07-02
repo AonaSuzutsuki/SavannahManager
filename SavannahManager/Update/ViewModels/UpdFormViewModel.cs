@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using _7dtd_svmanager_fix_mvvm.Update.Views;
+using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.Views;
 using Reactive.Bindings.Extensions;
 
@@ -40,7 +41,8 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             LatestVersion = model.ToReactivePropertyAsSynchronized(m => m.LatestVersion);
 
             VersionListSelectionChanged = new DelegateCommand<int?>(VersionList_SelectionChanged);
-            DoUpdateCommand = new DelegateCommand(UpdateBt_Clicked);
+            DoUpdateCommand = new DelegateCommand(Update);
+            DoCleanUpdateCommand = new DelegateCommand(CleanUpdate);
         }
 
         #region Properties
@@ -58,6 +60,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
         #region EventProperties
         public ICommand VersionListSelectionChanged { get; }
+        public ICommand DoCleanUpdateCommand { get; }
         public ICommand DoUpdateCommand { get; }
         #endregion
 
@@ -84,9 +87,71 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             }
         }
 
-        private void UpdateBt_Clicked()
+        private void Update()
         {
-            _ = _model.Update();
+            _ = CheckUpdate();
+        }
+
+        private void CleanUpdate()
+        {
+            var files = _model.GetCleanFiles();
+
+            var checkFileModel = new CheckCleanFileModel(files);
+            var checkViewModel = new CheckCleanFileViewModel(new WindowService(), checkFileModel);
+            WindowManageService.ShowDialog<CheckCleanFile>(checkViewModel);
+
+            if (checkFileModel.CanCleanUpdate)
+            {
+                var targets = checkFileModel.GetTargetFiles();
+                var enumerable = targets.ToList();
+                _ = CheckCleanUpdate(enumerable);
+            }
+        }
+
+        private async Task CheckUpdate()
+        {
+            var (notice, isConfirm) = await _model.CheckAlert();
+            if (string.IsNullOrEmpty(notice))
+            {
+                await _model.Update();
+                return;
+            }
+
+            if (isConfirm)
+            {
+                var dr = WindowManageService.MessageBoxShow(notice, "Notice", ExMessageBoxBase.MessageType.Exclamation,
+                    ExMessageBoxBase.ButtonType.YesNo);
+                if (dr == ExMessageBoxBase.DialogResult.Yes)
+                    await _model.Update();
+            }
+            else
+            {
+                WindowManageService.MessageBoxShow(notice, "Notice", ExMessageBoxBase.MessageType.Exclamation);
+                await _model.Update();
+            }
+        }
+
+        private async Task CheckCleanUpdate(IReadOnlyCollection<string> targets)
+        {
+            var (notice, isConfirm) = await _model.CheckAlert();
+            if (string.IsNullOrEmpty(notice))
+            {
+                await (targets.Any() ? _model.CleanUpdate(targets) : _model.Update());
+                return;
+            }
+
+            if (isConfirm)
+            {
+                var dr = WindowManageService.MessageBoxShow(notice, "Notice", ExMessageBoxBase.MessageType.Exclamation,
+                    ExMessageBoxBase.ButtonType.YesNo);
+                if (dr == ExMessageBoxBase.DialogResult.Yes)
+                    await (targets.Any() ? _model.CleanUpdate(targets) : _model.Update());
+            }
+            else
+            {
+                WindowManageService.MessageBoxShow(notice, "Notice", ExMessageBoxBase.MessageType.Exclamation);
+                await (targets.Any() ? _model.CleanUpdate(targets) : _model.Update());
+            }
         }
         #endregion
     }

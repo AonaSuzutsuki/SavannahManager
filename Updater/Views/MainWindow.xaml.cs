@@ -13,14 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CommonStyleLib.Views;
+using Updater.Models;
 
 namespace Updater.Views
 {
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDisposable
     {
+        private MainWindowModel _model;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -28,6 +31,12 @@ namespace Updater.Views
             var model = new Models.MainWindowModel();
             var vm = new ViewModels.MainWindowViewModel(new WindowService(this), model);
             DataContext = vm;
+            _model = model;
+        }
+
+        public void Dispose()
+        {
+            _model?.Dispose();
         }
     }
 }

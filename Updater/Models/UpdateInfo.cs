@@ -15,11 +15,14 @@ namespace Updater.Models
 
         public UpdateClient Client { get; }
 
-        public UpdateInfo(int pid, string fileName, UpdateClient updateClient)
+        public string ExtractDirectoryPath { get; }
+
+        public UpdateInfo(int pid, string fileName, UpdateClient updateClient, string extractDirectoryPath)
         {
             Pid = pid;
             FileName = fileName;
             Client = updateClient;
+            ExtractDirectoryPath = extractDirectoryPath;
         }
     }
 }

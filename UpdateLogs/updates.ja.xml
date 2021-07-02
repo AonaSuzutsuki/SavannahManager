@@ -1,5 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.4.42.3">
+    1. クリーンアップデートを追加しました。
+      過去に依存していたものの使わなくなった.dllを削除して最新バージョンをインストールします。
+
+    <br />
+
+    <font color="#ff0000">
+      ○お知らせ
+      次回かもうちょっと先か未定ですが、.Net Core 3.1にフレームワークを変更します。
+      インストールされていない方は公式よりDesktop Runtimeのインストールをお願いします。（インストール前に更新すると起動しなくなります）
+    </font>
+    <a href="https://dotnet.microsoft.com/download/dotnet/3.1">
+      <font color="#00ffff">https://dotnet.microsoft.com/download/dotnet/3.1</font>
+    </a>
+  </update>
   <update version="2.4.41.2">
     1. コンソールログで改行が正しく取得できない問題を修正しました。
     2. Telnet Wait Timeの標準値を2msから2000msへ修正しました。

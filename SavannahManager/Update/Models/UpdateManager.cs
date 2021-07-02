@@ -23,8 +23,8 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
     {
         public Dictionary<string, IEnumerable<RichTextItem>> Updates { get; private set; }
 
-        public bool IsUpdate;
-        public bool IsUpdUpdate;
+        public bool IsUpdate { get; set; }
+        public bool IsUpdUpdate { get; set; }
 
         private UpdateClient _updateClient;
 
@@ -66,13 +66,30 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             return Updates.Keys.ToList();
         }
 
+        public async Task<(string notice, bool isConfirm)> GetNotice()
+        {
+            var noticeXml = await _updateClient.DownloadFile("details/" + LangResources.UpdResources.Notice_XmlName);
+            using var ms = new MemoryStream(noticeXml);
+            var reader = new SavannahXmlReader(ms);
+            var notice = reader.GetNode($"/notices/notice[@version='{CurrentVersion}']");
+            if (notice == null)
+                return (null, false);
+
+            if (notice is not SavannahTagNode node)
+                return (null, false);
+
+            var isConfirm = node.GetAttribute("mode")?.Value == "confirm";
+
+            return (notice.InnerText, isConfirm);
+        }
+
         public async Task ApplyUpdUpdate(string extractDirPath)
         {
             var updData = await _updateClient.DownloadUpdateFile();
             using var ms = new MemoryStream(updData.Length);
             ms.Write(updData, 0, updData.Length);
             ms.Seek(0, SeekOrigin.Begin);
-            using var zip = new UpdateLib.Archive.Zip(ms, ConstantValues.AppDirectoryPath + "/");
+            using var zip = new UpdateLib.Archive.Zip(ms, extractDirPath);
             zip.Extract();
         }
 
@@ -81,18 +98,27 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             return GetClient().Item1;
         }
 
-        public ProcessStartInfo GetUpdaterInfo(int pid)
+        public ProcessStartInfo GetUpdaterInfo(int pid, string mode)
         {
+            var arg =
+                $"{pid} SavannahManager2 \"{_updateClient.WebClient.BaseUrl}\" \"{_updateClient.MainDownloadUrlPath}\" {mode}";
+
+            if (mode == "clean")
+                arg =
+                    $"{pid} SavannahManager2 \"{_updateClient.WebClient.BaseUrl}\" \"{_updateClient.MainDownloadUrlPath}\" {mode}" +
+                    $" \"{CommonCoreLib.AppInfo.GetAppPath()}\" list.txt";
+
             var startInfo = new ProcessStartInfo
             {
                 FileName = ConstantValues.UpdaterFilePath,
-                Arguments = $"{pid} SavannahManager2.exe \"{_updateClient.WebClient.BaseUrl}\" \"{_updateClient.MainDownloadUrlPath}\""
+                WorkingDirectory = Path.GetDirectoryName(ConstantValues.UpdaterFilePath) ?? ConstantValues.AppDirectoryPath,
+                Arguments = arg
             };
 
             return startInfo;
         }
 
-        private Dictionary<string, IEnumerable<RichTextItem>> Analyze(IEnumerable<SavannahTagNode> nodes)
+        private static Dictionary<string, IEnumerable<RichTextItem>> Analyze(IEnumerable<SavannahTagNode> nodes)
         {
             var dict = new Dictionary<string, IEnumerable<RichTextItem>>();
 
@@ -222,6 +248,16 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             {
                 BaseUrl = "https://aonsztk.xyz/KimamaLab/Updates/SavannahManager2/"
             };
+
+#if DEBUG
+            if (File.Exists(ConstantValues.UpdateUrlFile))
+            {
+                var reader = new SavannahXmlReader(ConstantValues.UpdateUrlFile);
+                var baseUrl = reader.GetValue("updates/update[@name='base']") ?? webClient.BaseUrl;
+                webClient.BaseUrl = baseUrl;
+            }
+#endif
+
             var updateClient = new UpdateClient(webClient)
             {
                 DetailVersionInfoDownloadUrlPath = $"details/{LangResources.UpdResources.Updater_XMLNAME}"
