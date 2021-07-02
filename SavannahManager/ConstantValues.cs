@@ -27,7 +27,7 @@ namespace _7dtd_svmanager_fix_mvvm
         public static readonly string AppDirectoryPath = AppInfo.GetAppPath();
         public static readonly string LogDirectoryPath = AppDirectoryPath + @"\logs\";
         public static readonly string SettingFilePath = AppDirectoryPath + @"\settings.ini";
-        public static readonly string ConfigEditorFilePath = AppDirectoryPath + @"\ConfigEditor.exe";
+        public static readonly string ConfigEditorFilePath = AppDirectoryPath + @"\ConfigEditor\ConfigEditor.exe";
         public static readonly string XmlEditorFilePath = AppDirectoryPath + @"\XmlEditor\7dtd-XmlEditor.exe";
         public static readonly string UpdaterFilePath = AppDirectoryPath + @"\Updater\update.exe";
 
