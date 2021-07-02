@@ -8,6 +8,8 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models.Node
     public class DirectoryNode : BindableBase
     {
         private bool _isDelete = true;
+        private bool _isSelected;
+        private bool _isExpanded;
 
         public bool IsDelete
         {
@@ -21,6 +23,18 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models.Node
 
                 SetProperty(ref _isDelete, value);
             }
+        }
+        
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
+
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set => SetProperty(ref _isExpanded, value);
         }
 
         public bool IsDirectory { get; set; }
@@ -36,10 +50,10 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models.Node
             {
                 return a.IsDirectory switch
                 {
-                    true when b.IsDirectory => String.Compare(a.Name, b.Name, StringComparison.Ordinal),
+                    true when b.IsDirectory => string.Compare(a.Name, b.Name, StringComparison.Ordinal),
                     true when !b.IsDirectory => -1,
                     false when b.IsDirectory => 1,
-                    _ => String.Compare(a.Name, b.Name, StringComparison.Ordinal)
+                    _ => string.Compare(a.Name, b.Name, StringComparison.Ordinal)
                 };
             }));
         }
