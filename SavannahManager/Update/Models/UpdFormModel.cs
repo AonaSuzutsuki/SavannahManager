@@ -151,25 +151,19 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         public IEnumerable<string> GetCleanFiles()
         {
-            //var savannahManagerAssembly = Assembly.GetExecutingAssembly();
-            //var configEditorAssembly = Assembly.LoadFile(CommonCoreLib.AppInfo.GetAppPath() + "\\ConfigEditor.exe");
-            //var xmlEditorAssembly = Assembly.LoadFile(CommonCoreLib.AppInfo.GetAppPath() + "\\XmlEditor\\7dtd-XmlEditor.exe");
-
-            //var xmlReferences = SearchReferences(savannahManagerAssembly, "xml");
-            //xmlReferences.AddRange(SearchReferences(configEditorAssembly, "xml"));
-            //xmlReferences.AddRange(SearchReferences(xmlEditorAssembly, "xml"));
-
             var references = new HashSet<string>();
 
-            if (Directory.Exists(CommonCoreLib.AppInfo.GetAppPath() + "\\lang"))
+            var langDirPath = CommonCoreLib.AppInfo.GetAppPath() + "\\lang";
+            if (Directory.Exists(langDirPath))
             {
-                var langFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath() + "\\lang", "*.xml", SearchOption.AllDirectories);
+                var langFiles = Directory.GetFiles(langDirPath, "*.xml", SearchOption.AllDirectories);
                 references.AddRange(langFiles);
             }
 
-            if (Directory.Exists(CommonCoreLib.AppInfo.GetAppPath() + "\\ConfigEditor\\lang)"))
+            var newLangDirPath = CommonCoreLib.AppInfo.GetAppPath() + "\\ConfigEditor\\lang";
+            if (Directory.Exists(newLangDirPath))
             {
-                var langNewFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath() + "\\ConfigEditor\\lang", "*.xml", SearchOption.AllDirectories);
+                var langNewFiles = Directory.GetFiles(newLangDirPath, "*.xml", SearchOption.AllDirectories);
                 references.AddRange(langNewFiles);
             }
 
