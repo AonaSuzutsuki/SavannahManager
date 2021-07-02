@@ -86,7 +86,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
         public async Task ApplyUpdUpdate(string extractDirPath)
         {
             var updData = await _updateClient.DownloadUpdateFile();
-            using var ms = new MemoryStream(updData.Length);
+            await using var ms = new MemoryStream(updData.Length);
             ms.Write(updData, 0, updData.Length);
             ms.Seek(0, SeekOrigin.Begin);
             using var zip = new UpdateLib.Archive.Zip(ms, extractDirPath);
