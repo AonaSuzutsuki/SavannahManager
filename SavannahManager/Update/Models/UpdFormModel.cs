@@ -14,6 +14,7 @@ using System.Windows;
 using _7dtd_svmanager_fix_mvvm.Update.Views;
 using UpdateLib.Http;
 using UpdateLib.Update;
+using Path = System.IO.Path;
 
 namespace _7dtd_svmanager_fix_mvvm.Update.Models
 {
@@ -150,25 +151,37 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         public IEnumerable<string> GetCleanFiles()
         {
-            var savannahManagerAssembly = Assembly.GetExecutingAssembly();
-            var configEditorAssembly = Assembly.LoadFile(CommonCoreLib.AppInfo.GetAppPath() + "\\ConfigEditor.exe");
-            var xmlEditorAssembly = Assembly.LoadFile(CommonCoreLib.AppInfo.GetAppPath() + "\\XmlEditor\\7dtd-XmlEditor.exe");
+            var references = new HashSet<string>();
 
-            var xmlReferences = SearchReferences(savannahManagerAssembly, "xml");
-            xmlReferences.AddRange(SearchReferences(configEditorAssembly, "xml"));
-            xmlReferences.AddRange(SearchReferences(xmlEditorAssembly, "xml"));
+            var langDirPath = CommonCoreLib.AppInfo.GetAppPath() + "\\lang";
+            if (Directory.Exists(langDirPath))
+            {
+                var langFiles = Directory.GetFiles(langDirPath, "*.xml", SearchOption.AllDirectories);
+                references.AddRange(langFiles);
+            }
+
+            var newLangDirPath = CommonCoreLib.AppInfo.GetAppPath() + "\\ConfigEditor\\lang";
+            if (Directory.Exists(newLangDirPath))
+            {
+                var langNewFiles = Directory.GetFiles(newLangDirPath, "*.xml", SearchOption.AllDirectories);
+                references.AddRange(langNewFiles);
+            }
 
             var configFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath(), "*.config", SearchOption.AllDirectories);
             var exeFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath(), "*.exe", SearchOption.AllDirectories);
             var dllFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath(), "*.dll", SearchOption.AllDirectories);
-            var langFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath() + "\\lang", "*.xml", SearchOption.AllDirectories);
+            var jsonFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath(), "*.json", SearchOption.AllDirectories);
+            var exeXmlFiles = SearchLinkedXml(dllFiles, "xml");
+            var dllXmlFiles = SearchLinkedXml(dllFiles, "xml");
 
-            xmlReferences.AddRange(configFiles);
-            xmlReferences.AddRange(exeFiles);
-            xmlReferences.AddRange(dllFiles);
-            xmlReferences.AddRange(langFiles);
+            references.AddRange(configFiles);
+            references.AddRange(exeFiles);
+            references.AddRange(dllFiles);
+            references.AddRange(jsonFiles);
+            references.AddRange(exeXmlFiles);
+            references.AddRange(dllXmlFiles);
 
-            return xmlReferences.Where(s => !s.Contains("Updater\\"));
+            return references.Where(s => !s.Contains("Updater\\"));
         }
 
         public async Task CleanUpdate(IEnumerable<string> files)
@@ -176,6 +189,15 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             File.WriteAllLines("Updater\\list.txt", files, Encoding.UTF8);
 
             await Update("clean");
+        }
+
+        public IEnumerable<string> SearchLinkedXml(IEnumerable<string> files, string extension)
+        {
+            return from x in files
+                let name = $"{Path.GetFileNameWithoutExtension(x)}.{extension}"
+                let parent = Path.GetDirectoryName(x)
+                where File.Exists($"{parent}\\{name}")
+                select $"{parent}\\{name}";
         }
 
         public HashSet<string> SearchReferences(Assembly asm, string extension, string searchDirectory = "")

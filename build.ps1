@@ -26,11 +26,11 @@ xcopy /Y $XmlEditorReleaseDirectory\*.config "$OutBinDirectory\XmlEditor\"
 xcopy /Y $XmlEditorReleaseDirectory\*.exe "$OutBinDirectory\XmlEditor\"
 
 # ConfigEditor
-xcopy /Y $ConfigEditorReleaseDirectory\*.dll $OutBinDirectory\
-xcopy /Y $ConfigEditorReleaseDirectory\*.config $OutBinDirectory\
-xcopy /Y $ConfigEditorReleaseDirectory\*.exe $OutBinDirectory\
-Copy-Item -Path $ConfigEditorReleaseDirectory\lang\ -Destination $OutBinDirectory\ -Recurse -Force
-Copy-Item -Path $ConfigEditorReleaseDirectory\en-US\ -Destination $OutBinDirectory\ -Recurse -Force
+xcopy /Y $ConfigEditorReleaseDirectory\*.dll "$OutBinDirectory\ConfigEditor\"
+xcopy /Y $ConfigEditorReleaseDirectory\*.config "$OutBinDirectory\ConfigEditor\"
+xcopy /Y $ConfigEditorReleaseDirectory\*.exe "$OutBinDirectory\ConfigEditor\"
+Copy-Item -Path $ConfigEditorReleaseDirectory\lang\ -Destination "$OutBinDirectory\ConfigEditor\" -Recurse -Force
+Copy-Item -Path $ConfigEditorReleaseDirectory\en-US\ -Destination "$OutBinDirectory\ConfigEditor\" -Recurse -Force
 
 # Updater
 xcopy /Y $UpdaterReleaseDirectory\*.dll "$OutBinDirectory\Updater\"

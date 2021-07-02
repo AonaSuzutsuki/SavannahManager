@@ -852,9 +852,22 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             var fi = new FileInfo(ConstantValues.ConfigEditorFilePath);
             if (fi.Exists)
-                Process.Start(fi.FullName, cfgArg);
+            {
+                var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = fi.FullName,
+                        Arguments = cfgArg,
+                        WorkingDirectory = Path.GetDirectoryName(fi.FullName) ?? ConstantValues.AppDirectoryPath
+                    }
+                };
+                process.Start();
+            }
             else
+            {
                 _errorOccurred.OnNext(string.Format(Resources._0_is_not_found, Resources.ConfigEditor));
+            }
         }
 
         public void RunXmlEditor()
