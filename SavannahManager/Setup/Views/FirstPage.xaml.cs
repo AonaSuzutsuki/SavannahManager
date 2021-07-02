@@ -26,7 +26,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Views
         {
             InitializeComponent();
 
-            DataContext = new FirstPageViewModel(service);
+            DataContext = new FirstPageViewModel(service, new FirstPageModel(service.Share));
         }
     }
 }

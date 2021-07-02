@@ -87,7 +87,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
 
         public virtual void InitDefaultValue()
         {
-            NextBtContent = "次へ";
+            NextBtContent = LangResources.CommonResources.UI_Next;
             CanGoNext = true;
             BackBtVisibility = Visibility.Visible;
             NextBtVisibility = Visibility.Visible;

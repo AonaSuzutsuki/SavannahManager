@@ -121,8 +121,20 @@
     <value>エラー</value>
     <comment>メッセージ</comment>
   </data>
+  <data name="UI_Back" xml:space="preserve">
+    <value>戻る</value>
+  </data>
+  <data name="UI_Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="UI_Exit" xml:space="preserve">
+    <value>終了</value>
+  </data>
   <data name="UI_NewFile" xml:space="preserve">
     <value>新規作成(_N)</value>
+  </data>
+  <data name="UI_Next" xml:space="preserve">
+    <value>次へ</value>
   </data>
   <data name="UI_OpenFIle" xml:space="preserve">
     <value>開く(_O)</value>

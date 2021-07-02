@@ -142,6 +142,15 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   言語 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Language {
+            get {
+                return ResourceManager.GetString("UI_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   初期設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_NameLabel {

@@ -146,6 +146,9 @@
   <data name="UI_ExitBT" xml:space="preserve">
     <value>終了</value>
   </data>
+  <data name="UI_Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
   <data name="UI_NameLabel" xml:space="preserve">
     <value>初期設定</value>
   </data>
