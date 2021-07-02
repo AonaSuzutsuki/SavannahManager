@@ -49,7 +49,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="XmlTemplates\a18\Vehicles\vehicles.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
@@ -69,7 +69,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="&#xD;&#xA;SET MainProjectName=SavannahManager&#xD;&#xA;SET Framework=net48&#xD;&#xA;SET DestinationDir=$(SolutionDir)%25MainProjectName%25\bin\$(ConfigurationName)\%25Framework%25\XmlEditor&#xD;&#xA;&#xD;&#xA;if exist &quot;%2525OutDir%2525\XmlTemplates&quot; (&#xD;&#xA;    echo &quot;&quot;&#xD;&#xA;) else (&#xD;&#xA;    mkdir &quot;%2525OutDir%2525\XmlTemplates&quot;&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;copy /y &quot;$(TargetPath)&quot; &quot;%25DestinationDir%25\$(TargetFileName)&quot;&#xD;&#xA;copy /y &quot;$(TargetDir)\$(TargetFileName).config&quot; &quot;%25DestinationDir%25\$(TargetFileName).config&quot;&#xD;&#xA;xcopy /E /Y &quot;$(TargetDir)*.dll&quot; &quot;%25DestinationDir%25\&quot;&#xD;&#xA;xcopy &quot;$(TargetDir)XmlTemplates&quot; &quot;%25DestinationDir%25\XmlTemplates&quot; /E /Y" />
+    <Exec Command="&#xD;&#xA;SET MainProjectName=SavannahManager&#xD;&#xA;SET DestinationDir=$(SolutionDir)%25MainProjectName%25\$(OutDir)XmlEditor&#xD;&#xA;&#xD;&#xA;xcopy /E /Y &quot;$(TargetDir)$(TargetName).exe&quot; &quot;%25DestinationDir%25\&quot;&#xD;&#xA;xcopy /E /Y &quot;$(TargetDir)*.json&quot; &quot;%25DestinationDir%25\&quot;&#xD;&#xA;xcopy /E /Y &quot;$(TargetDir)*.dll&quot; &quot;%25DestinationDir%25\&quot;" />
   </Target>
 
 </Project>
