@@ -282,6 +282,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             StartBtEnabled = LocalMode;
 
             IsBeta = Setting.IsBetaMode;
+
+            Setting.ApplyCulture();
         }
 
         public async Task<bool> CheckUpdate()

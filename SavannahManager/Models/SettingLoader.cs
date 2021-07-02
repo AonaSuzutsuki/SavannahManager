@@ -77,13 +77,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             {
                 Load();
             }
-
-            ApplyCulture();
         }
 
         private bool CheckOldFormat()
         {
-            var value = _iniLoader.GetValue(MainClassName, "Version", "1.0");
+            var value = _iniLoader.GetValue(MainClassName, "Version", "1.1");
             return value == "1.0";
         }
 
@@ -104,7 +102,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             LocalMode = _iniLoader.GetValue("MAIN", "LOCALMODE", true);
 
-            CultureName = _iniLoader.GetValue("MAIN", "CULTURE", ResourceService.Current.Culture);
+            CultureName = _iniLoader.GetValue("MAIN", "CULTURE", ResourceService.English);
 
             ConsoleTextLength = _iniLoader.GetValue("SERVER", "CONSOLELOGLENGTH", ConsoleTextLength);
 
@@ -140,7 +138,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             LocalMode = _iniLoader.GetValue(MainClassName, "LocalServerMode", true);
 
-            CultureName = _iniLoader.GetValue(MainClassName, "Culture", ResourceService.Current.Culture);
+            CultureName = _iniLoader.GetValue(MainClassName, "Culture", ResourceService.English);
 
             ConsoleTextLength = _iniLoader.GetValue(MainClassName, "ConsoleLogLength", ConsoleTextLength);
 
