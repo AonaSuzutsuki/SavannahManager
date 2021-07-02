@@ -20,7 +20,7 @@
   </property>
   <property name="ServerDisabledNetworkProtocols" value="SteamNetworking" selection="" type="string">
     ネットワークプロトコルで使用させないものを設定します。複数指定する場合はカンマ区切りでできます。現段階ではLiteNetLib, SteamNetworkingの2つ。
-    Dedicatedサーバの場合で、NATルータを使用していないく、正しくポートフォワーディングが設定されている場合はSteamNetworkingを無効化すべきです。
+    Dedicatedサーバの場合で、NATルータを使用していないく、正しくポートフォワーディングが設定されている場合はSteamNetworkingを無効化します。
   </property>
   <property name="ServerMaxWorldTransferSpeedKiBs" value="512" selection="" type="">
     Maximum (!) speed in kiB/s the world is transferred at to a client on first connect if it does not have the world yet.
