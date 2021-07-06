@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -114,7 +115,23 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         public async Task<(string notice, bool isConfirm)> CheckAlert()
         {
-            var tuple = await _updateManager.GetNotice();
+            var tuple = await _updateManager.GetNotice().ContinueWith(t =>
+                {
+                    if (t.Exception?.InnerException is WebException)
+                        return ((string)null, false);
+
+
+                    if (t.Exception?.InnerExceptions != null)
+                    {
+                        foreach (var exceptionInnerException in t.Exception.InnerExceptions)
+                        {
+                            App.ShowAndWriteException(exceptionInnerException);
+                        }
+                    }
+
+                    return ((string)null, false);
+                },
+                TaskContinuationOptions.OnlyOnFaulted);
             return tuple;
         }
 
