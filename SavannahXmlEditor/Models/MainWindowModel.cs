@@ -364,7 +364,7 @@ namespace _7dtd_XmlEditor.Models
             if (!(node is SavannahTagNode tagNode))
                 return info;
 
-            bool.TryParse(tagNode.GetAttribute(XmlSelected).Value, out var isSelected);
+            bool.TryParse(tagNode.GetAttribute(XmlSelected)?.Value, out var isSelected);
             tagNode.RemoveAttribute(XmlSelected);
             info.Name = TreeViewItemInfo.GetName(info);
             if (isSelected)

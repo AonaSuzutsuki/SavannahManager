@@ -117,8 +117,8 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         public void RemoveReservedAttributes(SavannahTagNode tagNode)
         {
-            bool.TryParse(tagNode.GetAttribute(XmlExpanded).Value, out var isExpanded);
-            bool.TryParse(tagNode.GetAttribute(XmlSelected).Value, out var isSelected);
+            bool.TryParse(tagNode.GetAttribute(XmlExpanded)?.Value, out var isExpanded);
+            bool.TryParse(tagNode.GetAttribute(XmlSelected)?.Value, out var isSelected);
             IsExpanded = isExpanded;
             IsSelected = isSelected;
             tagNode.RemoveAttribute(XmlExpanded);
