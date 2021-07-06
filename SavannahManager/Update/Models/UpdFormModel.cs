@@ -21,6 +21,9 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
     public class UpdFormModel : ModelBase
     {
         #region Fiels
+
+        private string _currentDirPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
         private UpdateManager _updateManager;
 
         private ObservableCollection<string> _versionList = new ObservableCollection<string>();
@@ -117,6 +120,9 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         public async Task Update(string mode = "update")
         {
+            if (string.IsNullOrEmpty(_currentDirPath))
+                return;
+
             if (_updateManager.IsUpdUpdate)
             {
                 var updaterFiles = GetCleanFiles().Where(x => x.Contains("Updater\\"));
@@ -128,7 +134,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
                 try
                 {
-                    await _updateManager.ApplyUpdUpdate(ConstantValues.AppDirectoryPath + "/");
+                    await _updateManager.ApplyUpdUpdate(_currentDirPath + "/");
                 }
                 catch (Exception e)
                 {
@@ -158,30 +164,29 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         public IEnumerable<string> GetCleanFiles()
         {
-            var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            if (string.IsNullOrEmpty(ConstantValues.AppDirectoryPath) || ConstantValues.AppDirectoryPath != currentDir)
+            if (string.IsNullOrEmpty(_currentDirPath))
                 return new HashSet<string>();
 
             var references = new HashSet<string>();
 
-            var langDirPath = ConstantValues.AppDirectoryPath + "\\lang";
+            var langDirPath = _currentDirPath + "\\lang";
             if (Directory.Exists(langDirPath))
             {
                 var langFiles = Directory.GetFiles(langDirPath, "*.xml", SearchOption.AllDirectories);
                 references.AddRange(langFiles);
             }
 
-            var newLangDirPath = ConstantValues.AppDirectoryPath + "\\ConfigEditor\\lang";
+            var newLangDirPath = _currentDirPath + "\\ConfigEditor\\lang";
             if (Directory.Exists(newLangDirPath))
             {
                 var langNewFiles = Directory.GetFiles(newLangDirPath, "*.xml", SearchOption.AllDirectories);
                 references.AddRange(langNewFiles);
             }
 
-            var configFiles = Directory.GetFiles(ConstantValues.AppDirectoryPath, "*.config", SearchOption.AllDirectories);
-            var exeFiles = Directory.GetFiles(ConstantValues.AppDirectoryPath, "*.exe", SearchOption.AllDirectories);
-            var dllFiles = Directory.GetFiles(ConstantValues.AppDirectoryPath, "*.dll", SearchOption.AllDirectories);
-            var jsonFiles = Directory.GetFiles(ConstantValues.AppDirectoryPath, "*.json", SearchOption.AllDirectories);
+            var configFiles = Directory.GetFiles(_currentDirPath, "*.config", SearchOption.AllDirectories);
+            var exeFiles = Directory.GetFiles(_currentDirPath, "*.exe", SearchOption.AllDirectories);
+            var dllFiles = Directory.GetFiles(_currentDirPath, "*.dll", SearchOption.AllDirectories);
+            var jsonFiles = Directory.GetFiles(_currentDirPath, "*.json", SearchOption.AllDirectories);
             var exeXmlFiles = SearchLinkedXml(dllFiles, "xml");
             var dllXmlFiles = SearchLinkedXml(dllFiles, "xml");
 
