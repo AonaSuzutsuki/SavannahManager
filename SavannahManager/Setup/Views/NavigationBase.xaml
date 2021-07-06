@@ -7,6 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:views="clr-namespace:CommonNavigationControlLib.Navigation.Views;assembly=CommonNavigationControlLib"
+        xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         Title="{Binding WindowTitle.Value}" Height="350" Width="500" WindowStyle="None" WindowStartupLocation="CenterScreen">
 
     <i:Interaction.Triggers>
@@ -76,10 +77,10 @@
 
                 <Grid Grid.Row="1">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Content="戻る" Width="100" IsEnabled="{Binding BackBtIsEnabled.Value}" Visibility="{Binding BackBtVisibility.Value}" Style="{StaticResource FlatButton}" Command="{Binding BackBtCommand}" />
+                        <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=CommonResources.UI_Back, Mode=OneWay}" Width="100" IsEnabled="{Binding BackBtIsEnabled.Value}" Visibility="{Binding BackBtVisibility.Value}" Style="{StaticResource FlatButton}" Command="{Binding BackBtCommand}" />
                         <Button Content="{Binding NextBtContent.Value}" IsEnabled="{Binding NextBtIsEnabled.Value}" Visibility="{Binding NextBtVisibility.Value}" Margin="5,0,0,0" Width="100" Style="{StaticResource FlatButton}" Command="{Binding NextBtCommand}" />
-                        <Button Content="終了" Margin="5,0,0,0" Width="100" Style="{StaticResource FlatButton}" Visibility="{Binding CloseBtVisibility.Value}" Command="{Binding CloseBtCommand}" />
-                        <Button Content="キャンセル" Margin="5,0,0,0" Width="100" Style="{StaticResource FlatButton}" Visibility="{Binding CancelBtVisibility.Value}" Command="{Binding CancelCommand}" />
+                        <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=CommonResources.UI_Exit, Mode=OneWay}" Margin="5,0,0,0" Width="100" Style="{StaticResource FlatButton}" Visibility="{Binding CloseBtVisibility.Value}" Command="{Binding CloseBtCommand}" />
+                        <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=CommonResources.UI_Cancel, Mode=OneWay}" Margin="5,0,0,0" Width="100" Style="{StaticResource FlatButton}" Visibility="{Binding CancelBtVisibility.Value}" Command="{Binding CancelCommand}" />
                     </StackPanel>
                 </Grid>
             </Grid>

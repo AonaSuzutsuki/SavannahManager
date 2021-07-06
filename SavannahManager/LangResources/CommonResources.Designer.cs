@@ -70,11 +70,47 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   戻る に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Back {
+            get {
+                return ResourceManager.GetString("UI_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   キャンセル に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Cancel {
+            get {
+                return ResourceManager.GetString("UI_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   終了 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Exit {
+            get {
+                return ResourceManager.GetString("UI_Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   新規作成(_N) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_NewFile {
             get {
                 return ResourceManager.GetString("UI_NewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   次へ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Next {
+            get {
+                return ResourceManager.GetString("UI_Next", resourceCulture);
             }
         }
         

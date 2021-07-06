@@ -58,7 +58,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views
             DataContext = vm;
             _model = mainWindowModel;
 
-            Loaded += (sender, args) => { vm.Loaded.Execute(null); };
+            ContentRendered += (sender, args) => { vm.Loaded.Execute(null); };
         }
 
         #region IDisposable

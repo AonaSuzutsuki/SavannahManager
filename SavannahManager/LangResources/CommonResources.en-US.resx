@@ -121,8 +121,20 @@
     <value>Error</value>
     <comment>メッセージ</comment>
   </data>
+  <data name="UI_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="UI_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="UI_Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
   <data name="UI_NewFile" xml:space="preserve">
     <value>New File(_N)</value>
+  </data>
+  <data name="UI_Next" xml:space="preserve">
+    <value>Next</value>
   </data>
   <data name="UI_OpenFIle" xml:space="preserve">
     <value>Open(_O)</value>
