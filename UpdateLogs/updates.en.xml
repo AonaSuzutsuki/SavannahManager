@@ -13,7 +13,7 @@
 
     <font color="#ff0000">
       ○ Notice
-      The target framework will be changed to .Net Core 3.1.
+      The target framework may be goint to be changed to .Net Core 3.1.
       Please install Desktop Runtime if you don't install.
       You cannot launch this app if you don't install runtime.
     </font>
