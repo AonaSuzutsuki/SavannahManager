@@ -68,10 +68,19 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         public async Task<(string notice, bool isConfirm)> GetNotice()
         {
-            var noticeXml = await _updateClient.DownloadFile("details/" + LangResources.UpdResources.Notice_XmlName);
-            using var ms = new MemoryStream(noticeXml);
-            var reader = new SavannahXmlReader(ms);
-            var notice = reader.GetNode($"/notices/notice[@version='{CurrentVersion}']");
+            AbstractSavannahXmlNode notice;
+            try
+            {
+                var noticeXml = await _updateClient.DownloadFile("details/" + LangResources.UpdResources.Notice_XmlName);
+                using var ms = new MemoryStream(noticeXml);
+                var reader = new SavannahXmlReader(ms);
+                notice = reader.GetNode($"/notices/notice[@version='{CurrentVersion}']");
+            }
+            catch (WebException)
+            {
+                return (null, false);
+            }
+
             if (notice == null)
                 return (null, false);
 
