@@ -94,7 +94,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
 
         private void CleanUpdate()
         {
-            var files = _model.GetCleanFiles();
+            var files = _model.GetCleanFiles().Where(x => !x.Contains("Updater\\"));
 
             var checkFileModel = new CheckCleanFileModel(files);
             var checkViewModel = new CheckCleanFileViewModel(new WindowService(), checkFileModel);

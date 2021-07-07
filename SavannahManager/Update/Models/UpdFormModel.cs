@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,9 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
     public class UpdFormModel : ModelBase
     {
         #region Fiels
+
+        private string _currentDirPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
         private UpdateManager _updateManager;
 
         private ObservableCollection<string> _versionList = new ObservableCollection<string>();
@@ -117,11 +121,21 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         public async Task Update(string mode = "update")
         {
+            if (string.IsNullOrEmpty(_currentDirPath))
+                return;
+
             if (_updateManager.IsUpdUpdate)
             {
+                var updaterFiles = GetCleanFiles().Where(x => x.Contains("Updater\\"));
+                foreach (var updaterFile in updaterFiles)
+                {
+                    if (File.Exists(updaterFile))
+                        File.Delete(updaterFile);
+                }
+
                 try
                 {
-                    await _updateManager.ApplyUpdUpdate(Path.GetDirectoryName(ConstantValues.UpdaterFilePath) + "/");
+                    await _updateManager.ApplyUpdUpdate(_currentDirPath + "/");
                 }
                 catch (Exception e)
                 {
@@ -151,26 +165,29 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
 
         public IEnumerable<string> GetCleanFiles()
         {
+            if (string.IsNullOrEmpty(_currentDirPath))
+                return new HashSet<string>();
+
             var references = new HashSet<string>();
 
-            var langDirPath = CommonCoreLib.AppInfo.GetAppPath() + "\\lang";
+            var langDirPath = _currentDirPath + "\\lang";
             if (Directory.Exists(langDirPath))
             {
                 var langFiles = Directory.GetFiles(langDirPath, "*.xml", SearchOption.AllDirectories);
                 references.AddRange(langFiles);
             }
 
-            var newLangDirPath = CommonCoreLib.AppInfo.GetAppPath() + "\\ConfigEditor\\lang";
+            var newLangDirPath = _currentDirPath + "\\ConfigEditor\\lang";
             if (Directory.Exists(newLangDirPath))
             {
                 var langNewFiles = Directory.GetFiles(newLangDirPath, "*.xml", SearchOption.AllDirectories);
                 references.AddRange(langNewFiles);
             }
 
-            var configFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath(), "*.config", SearchOption.AllDirectories);
-            var exeFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath(), "*.exe", SearchOption.AllDirectories);
-            var dllFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath(), "*.dll", SearchOption.AllDirectories);
-            var jsonFiles = Directory.GetFiles(CommonCoreLib.AppInfo.GetAppPath(), "*.json", SearchOption.AllDirectories);
+            var configFiles = Directory.GetFiles(_currentDirPath, "*.config", SearchOption.AllDirectories);
+            var exeFiles = Directory.GetFiles(_currentDirPath, "*.exe", SearchOption.AllDirectories);
+            var dllFiles = Directory.GetFiles(_currentDirPath, "*.dll", SearchOption.AllDirectories);
+            var jsonFiles = Directory.GetFiles(_currentDirPath, "*.json", SearchOption.AllDirectories);
             var exeXmlFiles = SearchLinkedXml(dllFiles, "xml");
             var dllXmlFiles = SearchLinkedXml(dllFiles, "xml");
 
@@ -181,7 +198,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Models
             references.AddRange(exeXmlFiles);
             references.AddRange(dllXmlFiles);
 
-            return references.Where(s => !s.Contains("Updater\\"));
+            return references;
         }
 
         public async Task CleanUpdate(IEnumerable<string> files)
