@@ -3,12 +3,17 @@
   <update version="2.4.42.3">
     1. Added clean update.
       Remove the .dll that depended on in the past but no longer use, and install the latest version.
+    2. Changed default language to English.
+    3. Added language selector into initialize window.
+    4. Changed directory structure of ConfigEditor.
+      ConfigEditor is into ConfigEditor directory.
+      The old ConfigEditor will not be removed in the current version until do clean update.
 
     <br />
 
     <font color="#ff0000">
       ○ Notice
-      The target framework will be changed to .Net Core 3.1.
+      The target framework may be goint to be changed to .Net Core 3.1.
       Please install Desktop Runtime if you don't install.
       You cannot launch this app if you don't install runtime.
     </font>
