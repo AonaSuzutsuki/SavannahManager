@@ -9,7 +9,7 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources
     public class ResourceService : INotifyPropertyChanged
     {
         #region Static Members
-        public const string Japanese = "ja";
+        public const string Japanese = "ja-JP";
         public const string English = "en-US";
         #endregion
 
