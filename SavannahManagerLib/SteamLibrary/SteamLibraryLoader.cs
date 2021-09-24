@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace SvManagerLibrary.SteamLibrary
 {
@@ -70,7 +71,7 @@ namespace SvManagerLibrary.SteamLibrary
             var sr = new StreamReader(fs);
             while (sr.Peek() > -1)
             {
-                const string expression = @"^\t""[0-9]+""\t\t""(?<path>.*?)""$";
+                const string expression = @"^[\s]*""path""[\s]*""(?<path>.*)""$";
                 var reg = new Regex(expression);
                 var line = sr.ReadLine();
                 var match = reg.Match(line ?? string.Empty);
