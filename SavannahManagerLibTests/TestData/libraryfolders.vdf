@@ -1,6 +1,26 @@
-"LibraryFolders"
+"libraryfolders"
 {
-	"TimeNextStatsReport"		"24683121574321"
-	"ContentStatsID"		"-54684314541351314"
-	"1"		"D:\\Valve\\Steam"
+	"contentstatsid"		"xxxxxxxxxxxxx"
+	"1"
+	{
+		"path"		"E:\\Steam"
+		"label"		""
+		"contentid"		"xxxxxxxxxxxxx"
+		"totalsize"		"0"
+		"apps"
+		{
+			"550"		"xxxxxxxxxxxxx"
+		}
+	}
+	"2"
+	{
+		"path"		"D:\\Steam"
+		"label"		""
+		"contentid"		"xxxxxxxxxxxxx"
+		"totalsize"		"0"
+		"apps"
+		{
+			"550"		"xxxxxxxxxxxxx"
+		}
+	}
 }
