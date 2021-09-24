@@ -12,4 +12,15 @@
 			"550"		"xxxxxxxxxxxxx"
 		}
 	}
+	"2"
+	{
+		"path"		"D:\\Steam"
+		"label"		""
+		"contentid"		"xxxxxxxxxxxxx"
+		"totalsize"		"0"
+		"apps"
+		{
+			"550"		"xxxxxxxxxxxxx"
+		}
+	}
 }
