@@ -21,7 +21,7 @@ namespace SvManagerLibraryTests2.SteamLibrary
             var act = loader.SteamLibraryPathList;
             var exp = new List<SteamLibraryPath>
             {
-                new SteamLibraryPath("D:\\Valve\\Steam")
+                new SteamLibraryPath("E:\\Steam")
             };
 
             CollectionAssert.AreEqual(exp, act);
