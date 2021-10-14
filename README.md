@@ -15,7 +15,7 @@ Thank you very much.
 
 # Development environment
 1. Visual Studio 2019
-2. [Microsoft .NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48)
+2. [.Net Core 3.1 Desktop Runtime or Runtime](https://dotnet.microsoft.com/download/dotnet/3.1)
 
 # Build
 ## Visual Studio 2019
@@ -26,8 +26,7 @@ Thank you very much.
 ## MSBuild (without Visual Studio 2019)
 ### Required Tools
 1. [Build Tools for Visual Studio 2019](https://www.visualstudio.com/ja/downloads/)
-    1. .Net Framework 4.8 Developer Pack
-    2. .Net Core 3.1, 2.1 or .NET 5 SDK (for using dotnet command)
+    1. .Net Core 3.1 SDK
 
 ### Steps
 1. Open the project folder at Command Prompt.
