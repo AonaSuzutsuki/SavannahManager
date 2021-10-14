@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <notices>
-  <notice version="2.4.42.3" mode="confirm">
+  <notice version="2.4.43.4" mode="confirm">
     The framework has been changed to .Net Core 3.1 from the next update.
     Please make sure that the runtime is installed before updating.
     If it is not installed, you will not be able to start.
