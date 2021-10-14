@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +37,11 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Views
             var dialogResult = ExMessageBoxBase.Show("Are you sure open it with default browser?", "Open Browser", ExMessageBoxBase.MessageType.Question,
                 ExMessageBoxBase.ButtonType.YesNo);
             if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
-                System.Diagnostics.Process.Start(hyperLink.NavigateUri.ToString());
+                Process.Start(new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = hyperLink.NavigateUri.ToString()
+                });
         }
     }
 }
