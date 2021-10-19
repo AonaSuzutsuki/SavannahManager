@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using _7dtd_svmanager_fix_mvvm.Update.ViewModels;
 using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.ExMessageBox.Views;
 using CommonStyleLib.Views;
@@ -30,18 +31,14 @@ namespace _7dtd_svmanager_fix_mvvm.Update.Views
 
         private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
         {
+            var vm = DataContext as UpdFormViewModel;
             var hyperLink = sender as Hyperlink;
-            if (hyperLink == null)
+            if (vm == null || hyperLink == null)
                 return;
 
-            var dialogResult = ExMessageBoxBase.Show("Are you sure open it with default browser?", "Open Browser", ExMessageBoxBase.MessageType.Question,
-                ExMessageBoxBase.ButtonType.YesNo);
-            if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
-                Process.Start(new ProcessStartInfo
-                {
-                    UseShellExecute = true,
-                    FileName = hyperLink.NavigateUri.ToString()
-                });
+            var url = hyperLink.NavigateUri.ToString();
+
+            vm.OpenLinkCommand.Execute(url);
         }
     }
 }

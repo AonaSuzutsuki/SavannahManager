@@ -6,6 +6,7 @@ using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,7 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
             VersionListSelectionChanged = new DelegateCommand<int?>(VersionList_SelectionChanged);
             DoUpdateCommand = new DelegateCommand(Update);
             DoCleanUpdateCommand = new DelegateCommand(CleanUpdate);
+            OpenLinkCommand = new DelegateCommand<string>(OpenLink);
         }
 
         #region Properties
@@ -62,6 +64,8 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
         public ICommand VersionListSelectionChanged { get; }
         public ICommand DoCleanUpdateCommand { get; }
         public ICommand DoUpdateCommand { get; }
+
+        public ICommand OpenLinkCommand { get; }
         #endregion
 
         #region EventMethods
@@ -152,6 +156,18 @@ namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
                 WindowManageService.MessageBoxShow(notice, "Notice", ExMessageBoxBase.MessageType.Exclamation);
                 await (targets.Any() ? _model.CleanUpdate(targets) : _model.Update());
             }
+        }
+
+        public void OpenLink(string url)
+        {
+            var dialogResult = ExMessageBoxBase.Show("Are you sure open it with default browser?", "Open Browser", ExMessageBoxBase.MessageType.Question,
+                ExMessageBoxBase.ButtonType.YesNo);
+            if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
+                Process.Start(new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = url
+                });
         }
         #endregion
     }
