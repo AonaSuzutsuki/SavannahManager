@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
   <update version="2.5.44.0">
-    1. フレームワークを.Net Framework 4.8から.Net Core 3.1に変更しました。
+    1. フレームワークを.Net Framework 4.8から.Net 6に変更しました。
 
     <br />
 
     <font color="#ff0000">
       ○お知らせ
-      .Net Core 3.1にフレームワークを変更しました。
+      .Net 6にフレームワークを変更しました。
       インストールされていない方は公式よりDesktop Runtimeのインストールをお願いします。（インストール前に更新すると起動しなくなります）
     </font>
-    <a href="https://dotnet.microsoft.com/download/dotnet/3.1">
-      <font color="#00ffff">https://dotnet.microsoft.com/download/dotnet/3.1</font>
+    <a href="https://dotnet.microsoft.com/download/dotnet/6.0">
+      <font color="#00ffff">https://dotnet.microsoft.com/download/dotnet/6.0</font>
     </a>
   </update>
   <update version="2.4.43.4">
