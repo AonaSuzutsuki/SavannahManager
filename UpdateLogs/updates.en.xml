@@ -1,5 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.5.44.0">
+    1. Changed framework from .Net Framework 4.8 to .Net 6.
+
+    <br />
+
+    <font color="#ff0000">
+      ○ Notice
+      The target framework changed to .Net 6.
+      Please install Desktop Runtime if you don't install.
+      You cannot launch this app if you don't install runtime.
+    </font>
+    <a href="https://dotnet.microsoft.com/download/dotnet/6.0">
+      <font color="#00ffff">https://dotnet.microsoft.com/download/dotnet/6.0</font>
+    </a>
+  </update>
   <update version="2.4.43.4">
     1. Fixed an issue that automatic search did not work properly in initialization.
   </update>

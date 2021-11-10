@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <LangVersion>latest</LangVersion>
     <UseWPF>true</UseWPF>
     <RootNamespace>_7dtd_svmanager_fix_mvvm</RootNamespace>
@@ -10,9 +10,9 @@
     <Authors>Aona Suzutsuki</Authors>
     <Company>Kimama Lab.</Company>
     <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2021</Copyright>
-    <AssemblyVersion>2.4.43.4</AssemblyVersion>
-    <FileVersion>2.4.43.3</FileVersion>
-    <Version>2.4.43.3</Version>
+    <AssemblyVersion>2.5.44.0</AssemblyVersion>
+    <FileVersion>2.5.44.0</FileVersion>
+    <Version>2.5.44.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
