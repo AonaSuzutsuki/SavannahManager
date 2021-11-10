@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Views"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.ViewModels"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModels:UpdFormViewModel}"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Update Form" Height="400" Width="600" ResizeMode="CanResize">
