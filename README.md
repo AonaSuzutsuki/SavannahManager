@@ -14,19 +14,19 @@ I thought it was exactly so I used it.
 Thank you very much.  
 
 # Development environment
-1. Visual Studio 2019
-2. [.Net Core 3.1 Desktop Runtime or Runtime](https://dotnet.microsoft.com/download/dotnet/3.1)
+1. Visual Studio 2022
+2. [.Net 6 Desktop Runtime or Runtime](https://dotnet.microsoft.com/download/dotnet/6.0)
 
 # Build
-## Visual Studio 2019
+## Visual Studio 2022
 ### Steps
 1. Open SavannahManager.sln.
 3. Click Build on Menu.
 
-## MSBuild (without Visual Studio 2019)
+## MSBuild (without Visual Studio 2022)
 ### Required Tools
-1. [Build Tools for Visual Studio 2019](https://www.visualstudio.com/ja/downloads/)
-    1. .Net Core 3.1 SDK
+1. [Build Tools for Visual Studio 2022](https://www.visualstudio.com/ja/downloads/)
+    1. .Net SDK
 
 ### Steps
 1. Open the project folder at Command Prompt.
