@@ -79,33 +79,6 @@ namespace SvManagerLibrary.Player
             };
 
             return player;
-
-
-
-            // 0. id=171, Aona Suzutsuki, pos=(741.9, 45.1, 951.5), rot=(-11.2, -406.4, 0.0), remote=True, health=92, deaths=0, zombies=4, players=0, score=0, level=1, pltfmid=Steam_76561198010715714, crossid=EOS_0002bfc568d6401ca9de387e0ae914c9, ip=192.168.0.81, ping=0
-            // Total of 1 in the game
-            //const string expression = "(?<number>.*?) id=(?<identity>.*?), (?<name>.*?), pos=(?<position>.*?), rot=(?<rotate>.*?), remote=(?<remote>.*?), health=(?<health>.*?), deaths=(?<deaths>.*?), zombies=(?<zombies>.*?), players=(?<players>.*?), score=(?<scores>.*?), level=(?<level>.*?), steamid=(?<steamid>.*?), ip=(?<ip>.*?), ping=(?<ping>.*?)$";
-            //var reg = new Regex(expression);
-
-            //var match = reg.Match(text);
-            //if (match.Success)
-            //{
-            //    uDetail = new PlayerInfo()
-            //    {
-            //        Id = match.Groups["identity"].Value,
-            //        Level = match.Groups["level"].Value,
-            //        Name = match.Groups["name"].Value,
-            //        Health = match.Groups["health"].Value,
-            //        ZombieKills = match.Groups["zombies"].Value,
-            //        PlayerKills = match.Groups["players"].Value,
-            //        Deaths = match.Groups["deaths"].Value,
-            //        Score = match.Groups["scores"].Value,
-            //        Coord = match.Groups["position"].Value,
-            //        SteamId = match.Groups["steamid"].Value,
-            //    };
-            //}
-
-            //return uDetail;
         }
     }
 }
