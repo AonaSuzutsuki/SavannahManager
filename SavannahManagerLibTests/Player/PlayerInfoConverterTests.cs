@@ -14,21 +14,23 @@ namespace SvManagerLibraryTests2.Player
         [Test]
         public void ConvertPlayerDetailTest()
         {
-            var text = "0. id=171, Aona Suzutsuki, pos=(-157.3, 61.1, -115.8), rot=(0.0, 350.2, 0.0), remote=True, health=32, deaths=18, zombies=0, players=0" +
-                ", score=0, level=1, steamid=76561198010715714, ip=192.168.1.45, ping=2";
+            var text = "0. id=171, Aona Suzutsuki, pos=(741.9, 45.1, 951.5), rot=(-11.2, -406.4, 0.0)" +
+                ", remote=True, health=92, deaths=4, zombies=4, players=1, score=2, level=1, pltfmid=Steam_76561198010715714" +
+                ", crossid=EOS_0002bfc568d6401ca9de387e0ae914c9, ip=192.168.0.81, ping=0";
+
             var act = PlayerInfoConverter.ConvertPlayerDetail(text);
             var exp = new PlayerInfo
             {
                 Id = "171",
                 Name = "Aona Suzutsuki",
-                Health = "32",
-                Deaths = "18",
-                ZombieKills = "0",
-                PlayerKills = "0",
-                Score = "0",
+                Health = "92",
+                Deaths = "4",
+                ZombieKills = "4",
+                PlayerKills = "1",
+                Score = "2",
                 Level = "1",
-                SteamId = "76561198010715714",
-                Coord = "(-157.3, 61.1, -115.8)",
+                SteamId = "Steam_76561198010715714",
+                Coord = "(741.9, 45.1, 951.5)",
             };
 
             Assert.AreEqual(exp, act);
