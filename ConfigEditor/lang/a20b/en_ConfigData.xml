@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<ServerSettings>
+  <property name="ServerName" value="My Game Host" selection="" type="string">
+    Whatever you want the name of the server to be.
+  </property>
+  <property name="ServerDescription" value="A 7 Days to Die server" selection="" type="string">
+    Whatever you want the server description to be, will be shown in the server browser.
+  </property>
+  <property name="ServerWebsiteURL" value="" selection="" type="string">
+    Website URL for the server, will be shown in the serverbrowser as a clickable link
+  </property>
+  <property name="ServerPassword" value="" selection="" type="string">
+    Password to gain entry to the server
+  </property>
+  <property name="ServerLoginConfirmationText" value="" selection="" type="string">
+    If set the user will see the message during joining the server and has to confirm it before continuing
+  </property>
+  <property name="ServerPort" value="26900" selection="" type="string">
+    Port you want the server to listen on.
+  </property>
+  <property name="ServerVisibility" value="2" selection="2/1/0" type="combo">
+    Visibility of this server: 2 = public, 1 = only shown to friends, 0 = not listed. As you are never friend of a dedicated server setting this to "1" will only work when the first player connects manually by IP.
+  </property>
+  <property name="ServerDisabledNetworkProtocols" value="SteamNetworking" selection="" type="string">
+    Networking protocols that should not be used. Separated by comma. Possible values: LiteNetLib, SteamNetworking. Dedicated servers should disable SteamNetworking if there is no NAT router in between your users and the server or when port-forwarding is set up correctly
+  </property>
+  <property name="ServerMaxWorldTransferSpeedKiBs" value="512" selection="" type="">
+    Maximum (!) speed in kiB/s the world is transferred at to a client on first connect if it does not have the world yet. Maximum is about 1300 kiB/s, even if you set a higher value.
+  </property>
+  <property name="ServerMaxPlayerCount" value="8" selection="" type="integer">
+    Maximum Concurrent Players
+  </property>
+  <property name="ServerReservedSlots" value="0" selection="" type="integer">
+    Out of the MaxPlayerCount this many slots can only be used by players with a specific permission level
+  </property>
+  <property name="ServerReservedSlotsPermission" value="100" selection="" type="integer">
+    Required permission level to use reserved slots above
+  </property>
+  <property name="ServerAdminSlots" value="0" selection="" type="integer">
+    This many admins can still join even if the server has reached MaxPlayerCount
+  </property>
+  <property name="ServerAdminSlotsPermission" value="0" selection="" type="integer">
+    Required permission level to use the admin slots above
+  </property>
+  <property name="ControlPanelEnabled" value="false" selection="true/false" type="combo">
+    Enable/Disable the web control panel
+  </property>
+  <property name="ControlPanelPort" value="8080" selection="" type="integer">
+    Port of the control panel webpage
+  </property>
+  <property name="ControlPanelPassword" value="CHANGEME" selection="" type="string">
+    Password to gain entry to the control panel
+  </property>
+  <property name="TelnetEnabled" value="true" selection="true/false" type="combo">
+    Enable/Disable the telnet
+  </property>
+  <property name="TelnetPort" value="8081" selection="" type="integer">
+    Port of the telnet server
+  </property>
+  <property name="TelnetPassword" value="" selection="" type="string">
+    Password to gain entry to telnet interface. If no password is set the server will only listen on the local loopback interface
+  </property>
+  <property name="TelnetFailedLoginLimit" value="10" selection="" type="integer">
+    After this many wrong passwords from a single remote client the client will be blocked from connecting to the Telnet interface
+  </property>
+  <property name="TelnetFailedLoginsBlocktime" value="10" selection="" type="integer">
+    How long will the block persist (in seconds)
+  </property>
+  <property name="TerminalWindowEnabled" value="true" selection="true/false" type="combo">
+    Show a terminal window for log output / command input (Windows only)
+  </property>
+  <property name="AdminFileName" value="serveradmin.xml" selection="" type="string">
+    Server admin file name. Path relative to the SaveGameFolder
+  </property>
+  <property name="EACEnabled" value="true" selection="true/false" type="combo">
+    Enables/Disables EasyAntiCheat
+  </property>
+  <property name="HideCommandExecutionLog" value="0" selection="" type="integer">
+    Hide logging of command execution. 0 = show everything, 1 = hide only from Telnet/ControlPanel, 2 = also hide from remote game clients, 3 = hide everything
+  </property>
+  <property name="MaxUncoveredMapChunksPerPlayer" value="131072" selection="" type="integer">
+    Override how many chunks can be uncovered on the ingame map by each player. Resulting max map file size limit per player is (x * 512 Bytes), uncovered area is (x * 256 m2). Default 131072 means max 32 km2 can be uncovered at any time
+  </property>
+  <property name="PersistentPlayerProfiles" value="false" selection="true/false" type="combo">
+    If disabled a player can join with any selected profile. If true they will join with the last profile they joined with
+  </property>
+  <property name="GameWorld" value="Navezgane" selection="" type="string">
+    RWG (see WorldGenSeed and WorldGenSize options below) or any already existing world name in the Worlds folder (currently shipping with Navezgane)
+  </property>
+  <property name="WorldGenSeed" value="asdf" selection="" type="string">
+    If RWG this is the seed for the generation of the new world. If a world with the resulting name already exists it will simply load it
+  </property>
+  <property name="WorldGenSize" value="6144" selection="" type="integer">
+    If RWG this controls the width and height of the created world. It is also used in combination with WorldGenSeed to create the internal RWG seed thus also creating a unique map name even if using the same WorldGenSeed. Has to be between 2048 and 16384, though large map sizes will take long to generate / download / load
+  </property>
+  <property name="GameName" value="My Game" selection="" type="string">
+    Whatever you want the game name to be. This affects the save game name as well as the seed used when placing decoration (trees etc) in the world. It does not control the generic layout of the world if creating an RWG world
+  </property>
+  <property name="GameMode" value="GameModeSurvival" selection="GameModeSurvival" type="combo">
+    GameModeSurvival
+  </property>
+  <property name="GameDifficulty" value="2" selection="0/1/2/3/4/5" type="combo">
+    0 - 5, 0=easiest, 5=hardest
+  </property>
+  <property name="BlockDamagePlayer" value="100" selection="" type="">
+    How much damage do players to blocks (percentage in whole numbers)
+  </property>
+  <property name="BlockDamageAI" value="100" selection="" type="">
+    How much damage do AIs to blocks (percentage in whole numbers)
+  </property>
+  <property name="BlockDamageAIBM" value="100" selection="" type="">
+    How much damage do AIs during blood moons to blocks (percentage in whole numbers)
+  </property>
+  <property name="XPMultiplier" value="100" selection="" type="">
+    XP gain multiplier (percentage in whole numbers)
+  </property>
+  <property name="PlayerSafeZoneLevel" value="5" selection="" type="integer">
+    If a player is less or equal this level he will create a safe zone (no enemies) when spawned
+  </property>
+  <property name="PlayerSafeZoneHours" value="5" selection="" type="integer">
+    Hours in world time this safe zone exists
+  </property>
+  <property name="BuildCreate" value="false" selection="true/false" type="combo">
+    cheat mode on/off
+  </property>
+  <property name="DayNightLength" value="60" selection="" type="integer">
+    real time minutes per in game day: 60 minutes
+  </property>
+  <property name="DayLightLength" value="18" selection="" type="integer">
+    in game hours the sun shines per day: 18 hours day light per in game day
+  </property>
+  <property name="DropOnDeath" value="1" selection="0/1/2/3/4" type="combo">
+    0 = nothing, 1 = everything, 2 = toolbelt only, 3 = backpack only, 4 = delete all
+  </property>
+  <property name="DropOnQuit" value="0" selection="0/1/2/3" type="combo">
+    0 = nothing, 1 = everything, 2 = toolbelt only, 3 = backpack only
+  </property>
+  <property name="BedrollDeadZoneSize" value="15" selection="" type="integer">
+    Size of bedroll deadzone, no zombies will spawn inside this area, and any cleared sleeper volumes that touch a bedroll deadzone will not spawn after they've been cleared.
+  </property>
+  <property name="BedrollExpiryTime" value="45" selection="" type="">
+    Number of days a bedroll stays active after owner was last online
+  </property>
+  <property name="MaxSpawnedZombies" value="64" selection="" type="integer">
+    Making this number too large (more than about 80) may cause servers to run at poor framerates which will effect lag and play quality for clients.
+  </property>
+  <property name="MaxSpawnedAnimals" value="50" selection="" type="">
+    If your server has a large number of players you can increase this limit to add more wildlife. Animals don't consume as much CPU as zombies. NOTE: That this doesn't cause more animals to spawn arbitrarily: The biome spawning system only spawns a certain number of animals in a given area, but if you have lots of players that are all spread out then you may be hitting the limit and can increase it.
+  </property>
+  <property name="ServerMaxAllowedViewDistance" value="12" selection="" type="">
+    Max viewdistance a client may request (6 - 12). High impact on memory usage and performance.
+  </property>
+  <property name="EnemySpawnMode" value="true" selection="true/false" type="combo">
+    Enable/Disable enemy spawning
+  </property>
+  <property name="EnemyDifficulty" value="0" selection="0/1" type="combo">
+    0 = Normal, 1 = Feral
+  </property>
+  <property name="ZombieFeralSense" value="0" selection="" type="">
+    0-3 (Off, Day, Night, All)
+  </property>
+  <property name="ZombieMove" value="0" selection="" type="">
+    0-4 (walk, jog, run, sprint, nightmare)
+  </property>
+  <property name="ZombieMoveNight" value="3" selection="" type="">
+    0-4 (walk, jog, run, sprint, nightmare)
+  </property>
+  <property name="ZombieFeralMove" value="3" selection="" type="">
+    0-4 (walk, jog, run, sprint, nightmare)
+  </property>
+  <property name="ZombieBMMove" value="3" selection="" type="">
+    0-4 (walk, jog, run, sprint, nightmare)
+  </property>
+  <property name="BloodMoonFrequency" value="7" selection="" type="">
+    What frequency (in days) should a blood moon take place. Set to "0" for no blood moons
+  </property>
+  <property name="BloodMoonRange" value="0" selection="" type="">
+    How many days can the actual blood moon day randomly deviate from the above setting. Setting this to 0 makes blood moons happen exactly each Nth day as specified in BloodMoonFrequency
+  </property>
+  <property name="BloodMoonWarning" value="8" selection="" type="">
+    The Hour number that the red day number begins on a blood moon day. Setting this to -1 makes the red never show.
+  </property>
+  <property name="BloodMoonEnemyCount" value="8" selection="" type="integer">
+    The number of zombies spawned during blood moons per player.
+  </property>
+  <property name="LootAbundance" value="100" selection="" type="integer">
+    percentage in whole numbers
+  </property>
+  <property name="LootRespawnDays" value="7" selection="" type="integer">
+    days in whole numbers
+  </property>
+  <property name="AirDropFrequency" value="72" selection="" type="integer">
+    How often airdrop occur in game-hours, 0 == never
+  </property>
+  <property name="AirDropMarker" value="false" selection="true/false" type="combo">
+    Sets if a marker is added to map/compass for air drops.
+  </property>
+  <property name="PartySharedKillRange" value="100" selection="" type="integer">
+    The distance you must be within to receive party shared kill xp and quest party kill objective credit.
+  </property>
+  <property name="PlayerKillingMode" value="3" selection="0/1/2/3" type="combo">
+    Player Killing Settings (0 = No Killing, 1 = Kill Allies Only, 2 = Kill Strangers Only, 3 = Kill Everyone)
+  </property>
+  <property name="LandClaimCount" value="1" selection="" type="">
+    Maximum allowed land claims per player.
+  </property>
+  <property name="LandClaimSize" value="41" selection="" type="integer">
+    Size in blocks that is protected by a keystone
+  </property>
+  <property name="LandClaimDeadZone" value="30" selection="" type="integer">
+    Keystones must be this many blocks apart (unless you are friends with the other player)
+  </property>
+  <property name="LandClaimExpiryTime" value="7" selection="" type="integer">
+    The number of days a player can be offline before their claims expire and are no longer protected
+  </property>
+  <property name="LandClaimDecayMode" value="0" selection="" type="integer">
+    Controls how offline players land claims decay. All claims have full protection for the first 24hrs. 0=Linear, 1=Exponential, 2=Full protection until claim is expired.
+  </property>
+  <property name="LandClaimOnlineDurabilityModifier" value="4" selection="" type="integer">
+    How much protected claim area block hardness is increased when a player is online. 0 means infinite (no damage will ever be taken). Default is 4x
+  </property>
+  <property name="LandClaimOfflineDurabilityModifier" value="4" selection="" type="integer">
+    How much protected claim area block hardness is increased when a player is offline. 0 means infinite (no damage will ever be taken). Default is 4x
+  </property>
+  <property name="LandClaimOfflineDelay" value="0" selection="" type="">
+    The number of minutes after a player logs out that the land claim area hardness transitions from online to offline. Default is 0
+  </property>
+  <property name="DynamicMeshEnabled" value="true" selection="" type="">
+    Is Dynamic Mesh system enabled
+  </property>
+  <property name="DynamicMeshLandClaimOnly" value="false" selection="" type="">
+    Is Dynamic Mesh system only active in player LCB areas
+  </property>
+  <property name="DynamicMeshLandClaimBuffer" value="3" selection="" type="">
+    Dynamic Mesh LCB chunk radius
+  </property>
+  <property name="DynamicMeshMaxItemCache" value="3" selection="" type="">
+    How many items can be processed concurrently, higher values use more RAM
+  </property>
+  <property name="TwitchServerPermission" value="90" selection="" type="">
+    Required permission level to use twitch integration on the server
+  </property>
+  <property name="TwitchBloodMoonAllowed" value="false" selection="" type="">
+    If the server allows twitch actions during a blood moon. This could cause server lag with extra zombies being spawned during blood moon.
+  </property>
+</ServerSettings>
