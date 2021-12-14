@@ -25,18 +25,14 @@ namespace SvManagerLibrary.Player
 
         public void Analyze()
         {
-            var number = "0";
-            var id = "0";
-            var name = "0";
-
             const string firstExpression = "(?<number>[0-9]+\\.) id=(?<identity>.*?), (?<name>.*?), ";
             var firstRegex = new Regex(firstExpression);
             var firstMatch = firstRegex.Match(text);
             if (firstMatch.Success)
             {
-                number = firstMatch.Groups["number"].Value;
-                id = firstMatch.Groups["identity"].Value;
-                name = firstMatch.Groups["name"].Value;
+                var number = firstMatch.Groups["number"].Value;
+                var id = firstMatch.Groups["identity"].Value;
+                var name = firstMatch.Groups["name"].Value;
 
                 _properties.Add("id", id);
                 _properties.Add("name", name);
@@ -75,6 +71,7 @@ namespace SvManagerLibrary.Player
                 Deaths = converter.Properties.Get("deaths"),
                 Score = converter.Properties.Get("score"),
                 Coord = converter.Properties.Get("pos"),
+                            // a20-                                 // -a19
                 SteamId = converter.Properties.Get("pltfmid") ?? converter.Properties.Get("steamid"),
             };
 
