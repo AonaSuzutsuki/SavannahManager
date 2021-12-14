@@ -16,6 +16,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
         private bool _isBetaMode;
         private bool _isAutoUpdate = true;
         private string _backupDirPath;
+        private string _restoreDirPath;
         private readonly SettingLoader _setting;
 
         public string ExeFilePath
@@ -81,6 +82,12 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
             set => SetProperty(ref _backupDirPath, value);
         }
 
+        public string RestoreDirPath
+        {
+            get => _restoreDirPath;
+            set => SetProperty(ref _restoreDirPath, value);
+        }
+
 
         public ShortcutKeyManager ShortcutKeyManager { get; }
 
@@ -101,6 +108,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
                 IsBetaMode = setting.IsBetaMode;
                 IsAutoUpdate = setting.IsAutoUpdate;
                 BackupDirPath = setting.BackupDirPath;
+                RestoreDirPath = setting.RestoreDirPath;
             }
         }
 
@@ -117,6 +125,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
                 _setting.IsBetaMode = IsBetaMode;
                 _setting.IsAutoUpdate = IsAutoUpdate;
                 _setting.BackupDirPath = BackupDirPath;
+                _setting.RestoreDirPath = RestoreDirPath;
                 _setting.Save();
             }
         }
@@ -145,6 +154,13 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.Models
             var dirPath = DirectorySelector.GetDirPath(_backupDirPath);
             if (!string.IsNullOrEmpty(dirPath))
                 BackupDirPath = dirPath;
+        }
+
+        public void GetRestoreDirPath()
+        {
+            var dirPath = DirectorySelector.GetDirPath(_restoreDirPath);
+            if (!string.IsNullOrEmpty(dirPath))
+                RestoreDirPath = dirPath;
         }
 
         private string GetFilePath(string filePathForDir, string filter, string fileName)
