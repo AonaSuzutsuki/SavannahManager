@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SvManagerLibrary.Web;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -29,8 +30,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public async Task<bool> Search()
         {
-            using var webClient = new WebClient();
-            var json = await webClient.DownloadStringTaskAsync(string.Format(url, Host, Port.ToString()));
+            var json = await Downloader.DownloadStringAsync(string.Format(url, Host, Port.ToString()));
             var obj = JsonConvert.DeserializeObject<PortCheckerInfo>(json);
             bool.TryParse(obj.OpenedString, out var isOpened);
             return isOpened;

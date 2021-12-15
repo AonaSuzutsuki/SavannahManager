@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SvManagerLibrary.Web;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
@@ -19,8 +21,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public static async Task<string> GetExternalIpAddress(string url)
         {
-            using var webClient = new WebClient();
-            var json = await webClient.DownloadStringTaskAsync(url);
+            var json = await Downloader.DownloadStringAsync(url);
             var obj = JsonConvert.DeserializeObject<IpAddressJsonInfo>(json);
             return obj.ExternalIp;
         }
