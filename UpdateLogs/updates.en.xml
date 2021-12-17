@@ -2,15 +2,15 @@
 <updates>
   <update version="2.5.45.1">
     1. The player list display now supports a20.
-	2. Support a20 server config on ConfigEditor.
-	3. Fixed backup editor.
-	  Support restore dest path for backup editor.
-	  You can change the setting to go to the settings and open "Backup" tab.
-	4. Fixed an issue that remove the player list from being reset.
-	5. Fixed a crash that occurred when closing the application with a Telnet connection.
-	6. Fixed an issue where the browser would not open and crash when clicking on the steam id.
-	7. Fixed an issue where empty elements were being added to the player list.
-	8. Fixed an issue where newlines in the Telnet log were ignored.
+    2. Support a20 server config on ConfigEditor.
+    3. Fixed backup editor.
+      Support restore dest path for backup editor.
+      You can change the setting to go to the settings and open "Backup" tab.
+    4. Fixed an issue that remove the player list from being reset.
+    5. Fixed a crash that occurred when closing the application with a Telnet connection.
+    6. Fixed an issue where the browser would not open and crash when clicking on the steam id.
+    7. Fixed an issue where empty elements were being added to the player list.
+    8. Fixed an issue where newlines in the Telnet log were ignored.
   </update>
   <update version="2.5.44.0">
     1. Changed framework from .Net Framework 4.8 to .Net 6.
