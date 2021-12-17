@@ -22,9 +22,11 @@ namespace SvManagerLibraryTests2.Telnet
             collection.Append("ccccccc");
             collection.Append("\n");
             collection.Append("\n");
+            collection.Append("\n");
             collection.Append("dddddd");
             collection.Append("\neeeeee\n");
             collection.Append("\nfffff\nggg\nhhhh\n");
+            collection.Append("\n");
             collection.Append("iiiii");
 
             var expList = new []
@@ -33,13 +35,15 @@ namespace SvManagerLibraryTests2.Telnet
                 "bbbbbbbb",
                 "ccccccccccccccccccccc",
                 "",
+                "",
                 "dddddd",
                 "eeeeee",
                 "",
                 "fffff",
                 "ggg",
                 "hhhh",
-                string.Empty
+                "",
+                null,
             };
 
             foreach (var exp in expList)
