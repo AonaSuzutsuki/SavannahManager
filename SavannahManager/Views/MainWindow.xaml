@@ -57,7 +57,7 @@
         </Grid.ColumnDefinitions>
         <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" Opacity="{Binding AroundBorderOpacity.Value}" BorderThickness="1" Grid.ColumnSpan="2" />
 
-        <Grid Grid.ColumnSpan="2">
+        <Grid Grid.ColumnSpan="2" Margin="{Binding MainWindowMargin}">
 
             <StackPanel Orientation="Horizontal" Margin="5,0,0,0"
                         HorizontalAlignment="left"
@@ -340,6 +340,7 @@
                 </Grid>
                 <Grid Name="BottomNewsGrid" Background="{Binding AroundBorderColor.Value}" Grid.Row="1">
                     <Label Content="{Binding BottomNewsLabel.Value}" Padding="0" Margin="10,0,0,0" FontSize="11" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <Label Content="{Binding BottomDebugLabel.Value}" Padding="0" Margin="10,0,0,0" FontSize="11" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" />
                 </Grid>
             </Grid>
 

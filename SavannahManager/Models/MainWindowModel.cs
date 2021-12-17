@@ -763,6 +763,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
          */
         public void SendCommand(string cmd)
         {
+#if DEBUG
+            if (cmd == "gc")
+            {
+                GC.Collect(2, GCCollectionMode.Forced, true);
+                GC.WaitForPendingFinalizers();
+                return;
+            }
+#endif
+
             SocTelnetSendNrt(cmd);
         }
         public bool CheckConnected()
