@@ -49,7 +49,11 @@ namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels
             var dialogResult = ExMessageBoxBase.Show("Are you sure open steam profile with default browser?", "Open Browser", ExMessageBoxBase.MessageType.Question,
                 ExMessageBoxBase.ButtonType.YesNo);
             if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
-                Process.Start(_model.UserPageLink);
+                Process.Start(new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = _model.UserPageLink
+                });
         }
 
         #endregion
