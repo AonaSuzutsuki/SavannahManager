@@ -219,7 +219,7 @@ namespace SvManagerLibrary.Telnet
 
                         var log = logCollection.GetFirst();
 
-                        if (!string.IsNullOrEmpty(log))
+                        if (log != null)
                             OnRead(new TelnetReadEventArgs() { IpAddress = end.Address.ToString(), Log = $"{log}\n" });
                     }
 
