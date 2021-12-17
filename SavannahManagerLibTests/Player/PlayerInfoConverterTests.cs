@@ -29,7 +29,7 @@ namespace SvManagerLibraryTests2.Player
                 PlayerKills = "1",
                 Score = "2",
                 Level = "1",
-                SteamId = "Steam_76561198010715714",
+                SteamId = "76561198010715714",
                 Coord = "(741.9, 45.1, 951.5)",
             };
 
