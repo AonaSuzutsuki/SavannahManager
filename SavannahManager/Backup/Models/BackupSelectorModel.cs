@@ -116,7 +116,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
         #region Fields
 
-        private TimeBackup2 _timeBackup;
+        private TimeZipBackup _timeBackup;
 
         private readonly string _backupDirPath;
         private readonly string _restoreDirPath;
@@ -148,7 +148,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         {
             var userDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             _sevenDaysSavePath = $"{userDir}/7DaysToDie";
-            _timeBackup = new TimeBackup2(_backupDirPath, _sevenDaysSavePath);
+            _timeBackup = new TimeZipBackup(_backupDirPath, _sevenDaysSavePath);
             _timeBackup.BackupCompleted += TimeBackupOnBackupCompleted;
             _timeBackup.BackupProgress += TimeBackupOnBackupProgress;
             _timeBackup.BackupStarted += TimeBackupOnBackupStarted;
