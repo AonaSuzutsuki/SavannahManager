@@ -46,7 +46,7 @@ namespace SvManagerLibrary.Telnet
             text = text.UnifiedBreakLine();
 
             var array = (from x in text.Split('\n') select x + "\n").ToList();
-            if (text.EndsWith("\n"))
+            if (!text.EndsWith("\n"))
                 array[array.Count - 1] = array[array.Count - 1].TrimEnd('\n');
             else
                 array.RemoveAt(array.Count - 1);
@@ -57,8 +57,6 @@ namespace SvManagerLibrary.Telnet
                 var value = item.Value;
                 if (value != "\n")
                     builder.Text.Append(item.Value.TrimEnd('\n'));
-                else
-                    builder.Text.Append("\n");
 
                 if (item.Value.EndsWith("\n"))
                     builder.EndLine = true;
@@ -99,7 +97,7 @@ namespace SvManagerLibrary.Telnet
                 return info.ToString();
             }
 
-            return string.Empty;
+            return null;
         }
 
         /// <summary>
@@ -114,7 +112,7 @@ namespace SvManagerLibrary.Telnet
                 return info.ToString();
             }
 
-            return string.Empty;
+            return null;
         }
 
         /// <summary>
@@ -129,7 +127,7 @@ namespace SvManagerLibrary.Telnet
                 return info.ToString();
             }
 
-            return string.Empty;
+            return null;
         }
 
         /// <summary>
