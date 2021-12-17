@@ -231,13 +231,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         #region Event
 
-        private readonly Subject<TelnetClient.TelnetReadEventArgs> _telnetStartedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        private Subject<TelnetClient.TelnetReadEventArgs> _telnetStartedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
         public IObservable<TelnetClient.TelnetReadEventArgs> TelnetStarted => _telnetStartedSubject;
 
-        private readonly Subject<TelnetClient.TelnetReadEventArgs> _telnetFinishedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        private Subject<TelnetClient.TelnetReadEventArgs> _telnetFinishedSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
         public IObservable<TelnetClient.TelnetReadEventArgs> TelnetFinished => _telnetFinishedSubject;
 
-        private readonly Subject<TelnetClient.TelnetReadEventArgs> _telnetReadSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
+        private Subject<TelnetClient.TelnetReadEventArgs> _telnetReadSubject = new Subject<TelnetClient.TelnetReadEventArgs>();
         public IObservable<TelnetClient.TelnetReadEventArgs> TelnetRead => _telnetReadSubject;
 
         #endregion
@@ -594,9 +594,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             {
                 TelnetEventWaitTime = model.Setting.TelnetWaitTime
             };
-            telnet.Started += (sender, args) => model._telnetStartedSubject.OnNext(args);
-            telnet.Finished += (sender, args) => model._telnetFinishedSubject.OnNext(args);
-            telnet.ReadEvent += (sender, args) => model._telnetReadSubject.OnNext(args);
+            telnet.Started += (sender, args) => model._telnetStartedSubject?.OnNext(args);
+            telnet.Finished += (sender, args) => model._telnetFinishedSubject?.OnNext(args);
+            telnet.ReadEvent += (sender, args) => model._telnetReadSubject?.OnNext(args);
             return telnet;
         }
 
@@ -638,7 +638,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 return;
 
             _connectedIds.Clear();
-            _playersDictionary.Clear();
+            PlayerClean();
             var playerInfoArray = Player.GetPlayerInfoList(Telnet);
             foreach (var uDetail in playerInfoArray)
                 AddUser(uDetail);
@@ -763,6 +763,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
          */
         public void SendCommand(string cmd)
         {
+#if DEBUG
+            if (cmd == "gc")
+            {
+                GC.Collect(2, GCCollectionMode.Forced, true);
+                GC.WaitForPendingFinalizers();
+                return;
+            }
+#endif
+
             SocTelnetSendNrt(cmd);
         }
         public bool CheckConnected()
@@ -930,10 +939,45 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             if (disposing)
             {
-                Telnet?.Dispose();
-                _telnetFinishedSubject?.Dispose();
-                _telnetStartedSubject?.Dispose();
-                _telnetFinishedSubject?.Dispose();
+                if (Telnet != null)
+                {
+                    lock (Telnet)
+                    {
+                        Telnet?.Dispose();
+                        Telnet = null;
+                    }
+                }
+
+
+                if (_telnetFinishedSubject != null)
+                {
+                    lock (_telnetFinishedSubject)
+                    {
+                        _telnetFinishedSubject?.Dispose();
+                        _telnetFinishedSubject = null;
+                    }
+                }
+
+
+                if (_telnetStartedSubject != null)
+                {
+                    lock (_telnetStartedSubject)
+                    {
+                        _telnetStartedSubject?.Dispose();
+                        _telnetStartedSubject = null;
+                    }
+                }
+
+
+                if (_telnetReadSubject != null)
+                {
+                    lock (_telnetReadSubject)
+                    {
+                        _telnetReadSubject?.Dispose();
+                        _telnetReadSubject = null;
+                    }
+                }
+
                 Setting.Save();
             }
 

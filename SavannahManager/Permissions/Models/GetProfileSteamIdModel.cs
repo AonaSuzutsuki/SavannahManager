@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using _7dtd_svmanager_fix_mvvm.Models;
 using Newtonsoft.Json;
 using SavannahXmlLib.XmlWrapper;
+using SvManagerLibrary.Web;
 
 namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 {
@@ -20,8 +21,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
 
             try
             {
-                using var webClient = new WebClient();
-                var xml = await webClient.DownloadDataTaskAsync(url);
+                var xml = await Downloader.DownloadDataAsync(url);
                 using var ms = new MemoryStream(xml);
 
                 var reader = new SavannahXmlReader(ms);

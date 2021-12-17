@@ -28,6 +28,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
             KeyEditCommand = new DelegateCommand(KeyEditBt_Click);
 
             GetBackupDirCommand = new DelegateCommand(GetBackupDirBt_Click);
+            GetRestoreDirCommand = new DelegateCommand(GetRestoreDirBt_Click);
 
             SaveBtCommand = new DelegateCommand(SaveBt_Click);
             #endregion
@@ -45,6 +46,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
             IsBetaModeChecked = model.ToReactivePropertyAsSynchronized(m => m.IsBetaMode);
             IsAutoUpdateChecked = model.ToReactivePropertyAsSynchronized(m => m.IsAutoUpdate);
             BackupDirPath = model.ToReactivePropertyAsSynchronized(m => m.BackupDirPath);
+            RestoreDirPath = model.ToReactivePropertyAsSynchronized(m => m.RestoreDirPath);
             #endregion
         }
 
@@ -61,6 +63,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         public ReactiveProperty<bool> IsBetaModeChecked { get; set; }
         public ReactiveProperty<bool> IsAutoUpdateChecked { get; set; }
         public ReactiveProperty<string> BackupDirPath { get; set; }
+        public ReactiveProperty<string> RestoreDirPath { get; set; }
         #endregion
 
         #region Event Properties
@@ -73,6 +76,7 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         public ICommand KeyEditCommand { get; set; }
 
         public ICommand GetBackupDirCommand { get; set; }
+        public ICommand GetRestoreDirCommand { get; set; }
 
         public ICommand SaveBtCommand { get; set; }
         #endregion
@@ -107,6 +111,10 @@ namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
         private void GetBackupDirBt_Click()
         {
             _model.GetBackupDirPath();
+        }
+        private void GetRestoreDirBt_Click()
+        {
+            _model.GetRestoreDirPath();
         }
 
         private void SaveBt_Click()

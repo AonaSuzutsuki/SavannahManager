@@ -116,9 +116,10 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
 
         #region Fields
 
-        private TimeBackup2 _timeBackup;
+        private TimeZipBackup _timeBackup;
 
         private readonly string _backupDirPath;
+        private readonly string _restoreDirPath;
 
         private string _sevenDaysSavePath;
 
@@ -138,6 +139,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         public BackupSelectorModel(SettingLoader settingLoader)
         {
             _backupDirPath = settingLoader.BackupDirPath;
+            _restoreDirPath = settingLoader.RestoreDirPath;
 
             Initialize();
         }
@@ -146,7 +148,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
         {
             var userDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             _sevenDaysSavePath = $"{userDir}/7DaysToDie";
-            _timeBackup = new TimeBackup2(_backupDirPath, _sevenDaysSavePath);
+            _timeBackup = new TimeZipBackup(_backupDirPath, _sevenDaysSavePath);
             _timeBackup.BackupCompleted += TimeBackupOnBackupCompleted;
             _timeBackup.BackupProgress += TimeBackupOnBackupProgress;
             _timeBackup.BackupStarted += TimeBackupOnBackupStarted;
@@ -220,7 +222,7 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
             var result = ExMessageBoxBase.Show("Are you sure to start restoring?", "Start to restore",
                 ExMessageBoxBase.MessageType.Exclamation, ExMessageBoxBase.ButtonType.YesNo);
             if (result == ExMessageBoxBase.DialogResult.Yes)
-                Task.Factory.StartNew(() => _timeBackup.Restore());
+                Task.Factory.StartNew(() => _timeBackup.Restore(_restoreDirPath));
         }
 
         public void Backup()

@@ -173,6 +173,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             TimeMinuteText = model.ToReactivePropertyAsSynchronized(m => m.TimeMinuteText);
 
             BottomNewsLabel = model.ToReactivePropertyAsSynchronized(m => m.BottomNewsLabel);
+            BottomDebugLabel = new ReactiveProperty<string>();
+
             #endregion
 
             model.InitializeWindow();
@@ -311,6 +313,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ReactiveProperty<string> TimeMinuteText { get; set; }
         
         public ReactiveProperty<string> BottomNewsLabel { get; set; }
+        public ReactiveProperty<string> BottomDebugLabel { get; set; }
         #endregion
 
         #region EventMethods
@@ -330,6 +333,17 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 foreach (var exceptionInnerException in t.Exception.InnerExceptions)
                     App.ShowAndWriteException(exceptionInnerException);
             }, TaskContinuationOptions.OnlyOnFaulted);
+
+#if DEBUG
+            Task.Factory.StartNew(async () =>
+            {
+                while (true)
+                {
+                    BottomDebugLabel.Value = (GC.GetTotalMemory(false) / 1024 / 1024).ToString() + "MB";
+                    await Task.Delay(1000);
+                }
+            });
+#endif
         }
 
         private async Task CheckUpdate()
