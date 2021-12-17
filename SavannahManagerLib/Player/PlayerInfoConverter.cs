@@ -48,6 +48,13 @@ namespace SvManagerLibrary.Player
                 var propValue = secondMatch.Groups["value"].Value;
                 _properties.Put(propName, propValue);
             }
+
+            if (_properties.ContainsKey("pltfmid"))
+            {
+                var value = _properties.Get("pltfmid");
+                var steamId = value.Replace("Steam_", "");
+                _properties.Put("pltfmid", steamId);
+            }
         }
 
         /// <summary>
@@ -59,6 +66,9 @@ namespace SvManagerLibrary.Player
         {
             var converter = new PlayerInfoConverter(text);
             converter.Analyze();
+
+            if (converter.Properties.Count <= 0)
+                return null;
 
             var player = new PlayerInfo()
             {
