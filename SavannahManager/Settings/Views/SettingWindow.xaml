@@ -249,7 +249,7 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Content="Backup Destination Path" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                    <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_BackupDestinationPath, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
                                     <Grid Grid.Row="1">
                                         <Grid.ColumnDefinitions>
@@ -270,7 +270,16 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Content="Restore Destination Path" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_RestoreDestinationPath, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                        
+                                        <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                            <Hyperlink Foreground="White" Command="{Binding HelpHyperlinkCommand}" CommandParameter="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.Help_BackupRestorePath, Mode=OneWay}">
+                                                ?
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </StackPanel>
 
                                     <Grid Grid.Row="1">
                                         <Grid.ColumnDefinitions>
