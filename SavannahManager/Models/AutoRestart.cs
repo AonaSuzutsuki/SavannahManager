@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private DateTime _thresholdTime;
 
         private bool isRequestStop;
-        private readonly MainWindowModel _model;
+        private readonly IMainWindowServerStart _model;
 
         #endregion
 
@@ -33,7 +34,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         #endregion
 
-        public AutoRestart(MainWindowModel model, TimeSpan thresholdTime)
+        public AutoRestart(IMainWindowServerStart model, TimeSpan thresholdTime)
         {
             _model = model;
             _baseTime = thresholdTime;

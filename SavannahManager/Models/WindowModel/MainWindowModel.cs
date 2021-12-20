@@ -27,7 +27,7 @@ using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
-    public class MainWindowModel : ModelBase, IMainWindowTelnet, IDisposable
+    public class MainWindowModel : ModelBase, IMainWindowTelnet, IMainWindowServerStart, IDisposable
     {
         #region AppendedLogTextEvent
         public class AppendedLogTextEventArgs
