@@ -485,7 +485,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void StopAutoRestart()
         {
-            if (_autoRestart.IsRestarting)
+            if (_autoRestart == null || _autoRestart.IsRestarting)
                 return;
 
             _autoRestart?.Dispose();
