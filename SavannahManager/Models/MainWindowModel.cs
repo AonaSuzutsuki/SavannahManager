@@ -472,7 +472,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             var newsLabel = BottomNewsLabel;
             _autoRestart.TimeProgress.Subscribe((ts) =>
             {
-                BottomNewsLabel = $"{newsLabel}, AutoRestart: {ts} remaining.";
+                BottomNewsLabel = $"{newsLabel}, AutoRestart: {ts:hh\\:mm\\:ss} remaining.";
                 Debug.WriteLine($"AutoRestart: {ts} remaining.");
             }, () => BottomNewsLabel = newsLabel);
             _autoRestart.Start();
