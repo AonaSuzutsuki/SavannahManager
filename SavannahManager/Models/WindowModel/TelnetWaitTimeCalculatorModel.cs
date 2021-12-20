@@ -9,7 +9,7 @@ using CommonStyleLib.ExMessageBox.Views;
 using CommonStyleLib.Models;
 using SvManagerLibrary.Telnet;
 
-namespace _7dtd_svmanager_fix_mvvm.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
     public class TelnetWaitTimeCalculatorModel : ModelBase
     {

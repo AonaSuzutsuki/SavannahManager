@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using _7dtd_svmanager_fix_mvvm.Models;
 using System.Collections.ObjectModel;
 using Reactive.Bindings.Extensions;
 using Reactive.Bindings;
@@ -8,6 +7,7 @@ using CommonStyleLib.ExMessageBox;
 using Prism.Commands;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
+using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {

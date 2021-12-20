@@ -39,6 +39,7 @@ using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.Models;
 using SvManagerLibrary.Player;
 using SvManagerLibrary.Telnet;
+using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {

@@ -23,8 +23,9 @@ using SvManagerLibrary.Chat;
 using SvManagerLibrary.Player;
 using CommonExtensionLib.Extensions;
 using System.Linq;
+using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 
-namespace _7dtd_svmanager_fix_mvvm.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
     public class MainWindowModel : ModelBase, IMainWindowTelnet, IDisposable
     {
@@ -459,7 +460,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (!IsBeta || !LocalMode || !IsConnected)
             {
-                _errorOccurred.OnNext("Cannnot enable auto restart mode.");
+                var reason = "";
+                if (!IsBeta)
+                    reason = "because beta mod not enabled";
+                else if (!LocalMode)
+                    reason = "because local server mode not enabled";
+                else if (!IsConnected)
+                    reason = "because telnet are not connected";
+
+                _errorOccurred.OnNext($"Cannot enable auto restart mode {reason}.");
                 return false;
             }
 

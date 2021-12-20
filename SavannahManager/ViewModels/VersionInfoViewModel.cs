@@ -12,6 +12,7 @@ using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
