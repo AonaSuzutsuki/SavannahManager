@@ -86,6 +86,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public void Dispose()
         {
             _isRequestStop = true;
+            GC.SuppressFinalize(this);
         }
     }
 }
