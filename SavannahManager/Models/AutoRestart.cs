@@ -13,10 +13,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
     {
         #region Fields
 
-        private TimeSpan _baseTime;
+        private readonly TimeSpan _baseTime;
         private DateTime _thresholdTime;
 
-        private bool isRequestStop;
+        private bool _isRequestStop;
         private readonly IMainWindowServerStart _model;
 
         #endregion
@@ -29,7 +29,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         #region Events
 
-        private Subject<TimeSpan> _timeProgress = new Subject<TimeSpan>();
+        private readonly Subject<TimeSpan> _timeProgress = new();
         public IObservable<TimeSpan> TimeProgress => _timeProgress;
 
         #endregion
@@ -51,7 +51,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             Task.Factory.StartNew(async () =>
             {
                 var isStop = false;
-                while (!isRequestStop)
+                while (!_isRequestStop)
                 {
                     if (!isStop && DateTime.Now >= _thresholdTime)
                     {
@@ -85,7 +85,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public void Dispose()
         {
-            isRequestStop = true;
+            _isRequestStop = true;
         }
     }
 }
