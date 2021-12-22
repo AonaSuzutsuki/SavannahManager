@@ -24,6 +24,7 @@ using SvManagerLibrary.Player;
 using CommonExtensionLib.Extensions;
 using System.Linq;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
+using _7dtd_svmanager_fix_mvvm.Models.Ssh;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
@@ -194,6 +195,45 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             get => _isConsoleLogTextWrapping;
             set => SetProperty(ref _isConsoleLogTextWrapping, value);
         }
+
+
+        private string _sshAddressText = string.Empty;
+        private string _sshPortText = string.Empty;
+        private string _sshUserNameText = string.Empty;
+        private string _sshPasswordText = string.Empty;
+        private string _sshExeFileDirectoryText;
+        private string _sshConfigFileNameText;
+
+        public string SshAddressText
+        {
+            get => _sshAddressText;
+            set => SetProperty(ref _sshAddressText, value);
+        }
+        public string SshPortText
+        {
+            get => _sshPortText;
+            set => SetProperty(ref _sshPortText, value);
+        }
+        public string SshUserNameText
+        {
+            get => _sshUserNameText;
+            set => SetProperty(ref _sshUserNameText, value);
+        }
+        public string SshPasswordText
+        {
+            get => _sshPasswordText;
+            set => SetProperty(ref _sshPasswordText, value);
+        }
+        public string SshExeFileDirectoryText
+        {
+            get => _sshExeFileDirectoryText;
+            set => SetProperty(ref _sshExeFileDirectoryText, value);
+        }
+        public string SshConfigFileNameText
+        {
+            get => _sshConfigFileNameText;
+            set => SetProperty(ref _sshConfigFileNameText, value);
+        }
         #endregion
 
         #region Properties
@@ -295,6 +335,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             IsBeta = Setting.IsBetaMode;
 
+            SshAddressText = Setting.SshAddress;
+            SshPortText = Setting.SshPort.ToString();
+            SshUserNameText = Setting.SshUserName;
+            SshExeFileDirectoryText = Setting.SshExeFileDirectory;
+            SshConfigFileNameText = Setting.SshConfigFileName;
+
             Setting.ApplyCulture();
         }
 
@@ -316,6 +362,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Setting.Port = _port;
             Setting.Password = _password;
             Setting.IsConsoleLogTextWrapping = IsConsoleLogTextWrapping;
+
+            Setting.SshAddress = _sshAddressText;
+            int.TryParse(_sshPortText, out var sshPort);
+            Setting.SshPort = sshPort;
+            Setting.SshUserName = _sshUserNameText;
+            Setting.SshExeFileDirectory = _sshExeFileDirectoryText;
+            Setting.SshConfigFileName = _sshConfigFileNameText;
         }
         public void ChangeCulture(string cultureName)
         {
@@ -432,6 +485,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                     Thread.Sleep(2000);
                 }
             });
+        }
+        public async Task ServerStartWithSsh()
+        {
+            using var sshManager = new SshServerManager(SshAddressText);
+            sshManager.SetLoginInformation(SshUserNameText, SshPasswordText);
+            sshManager.Connect();
+            sshManager.StartServer($"cd {SshExeFileDirectoryText} " +
+                                       $"&& ./startserver.sh -configfile={SshConfigFileNameText}");
+            await Task.Delay(500);
         }
         public bool ServerStop()
         {

@@ -114,6 +114,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             OpenVersionInfoCommand = new DelegateCommand(OpenMenuVersionInfo);
 
             StartServerCommand = new DelegateCommand(StartServer);
+            StartServerWithSShCommand = new DelegateCommand(StartServerWithSSh);
             StopServerCommand = new DelegateCommand(StopServer);
             ConnectTelnetCommand = new DelegateCommand(ConnectTelnet);
             AutoRestartCommand = new DelegateCommand(AutoRestart);
@@ -178,6 +179,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             BottomNewsLabel = model.ToReactivePropertyAsSynchronized(m => m.BottomNewsLabel);
             BottomDebugLabel = new ReactiveProperty<string>();
 
+            SshAddressText = model.ToReactivePropertyAsSynchronized(m => m.SshAddressText);
+            SshPortText = model.ToReactivePropertyAsSynchronized(m => m.SshPortText);
+            SshUserNameText = model.ToReactivePropertyAsSynchronized(m => m.SshUserNameText);
+            SshPasswordText = model.ToReactivePropertyAsSynchronized(m => m.SshPasswordText);
+            SshExeFileDirectoryText = model.ToReactivePropertyAsSynchronized(m => m.SshExeFileDirectoryText);
+            SshConfigFileNameText = model.ToReactivePropertyAsSynchronized(m => m.SshConfigFileNameText);
+
             #endregion
 
             model.InitializeWindow();
@@ -212,6 +220,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand OpenVersionInfoCommand { get; set; }
 
         public ICommand StartServerCommand { get; set; }
+        public ICommand StartServerWithSShCommand { get; set; }
         public ICommand StopServerCommand { get; set; }
         public ICommand ConnectTelnetCommand { get; set; }
         public ICommand AutoRestartCommand { get; set; }
@@ -319,6 +328,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         
         public ReactiveProperty<string> BottomNewsLabel { get; set; }
         public ReactiveProperty<string> BottomDebugLabel { get; set; }
+
+        public ReactiveProperty<string> SshAddressText { get; set; }
+        public ReactiveProperty<string> SshPortText { get; set; }
+        public ReactiveProperty<string> SshUserNameText { get; set; }
+        public ReactiveProperty<string> SshPasswordText { get; set; }
+        public ReactiveProperty<string> SshExeFileDirectoryText { get; set; }
+        public ReactiveProperty<string> SshConfigFileNameText { get; set; }
         #endregion
 
         #region EventMethods
@@ -476,6 +492,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void StartServer()
         {
             _ = _model.ServerStart();
+        }
+
+        private void StartServerWithSSh()
+        {
+            _ = _model.ServerStartWithSsh();
         }
 
         private void StopServer()

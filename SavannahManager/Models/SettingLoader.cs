@@ -63,6 +63,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public bool IsConsoleLogTextWrapping { get; set; }
 
+
+        public string SshAddress { get; set; }
+
+        public int SshPort { get; set; }
+
+        public string SshUserName { get; set; }
+
+        public string SshExeFileDirectory { get; set; }
+
+        public string SshConfigFileName { get; set; }
+
         #endregion
 
 
@@ -159,6 +170,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             RestoreDirPath = _iniLoader.GetValue(BackupClassName, "RestoreDirPath", "").UnifiedSystemPathSeparator();
 
             IsConsoleLogTextWrapping = _iniLoader.GetValue(MainClassName, "IsConsoleTextWrapping", false);
+
+            SshAddress = _iniLoader.GetValue(ServerClassName, "SshAddress", "");
+            SshPort = _iniLoader.GetValue(ServerClassName, "SshPort", 22);
+            SshUserName = _iniLoader.GetValue(ServerClassName, "SshUserName", "");
+            SshExeFileDirectory = _iniLoader.GetValue(ServerClassName, "SshExeFileDirectory", "");
+            SshConfigFileName = _iniLoader.GetValue(ServerClassName, "SshConfigFileName", "");
         }
 
         public void ApplyCulture()
@@ -188,6 +205,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(BackupClassName, "DirPath", BackupDirPath);
             _iniLoader.SetValue(BackupClassName, "RestoreDirPath", RestoreDirPath);
             _iniLoader.SetValue(MainClassName, "IsConsoleTextWrapping", IsConsoleLogTextWrapping);
+            _iniLoader.SetValue(ServerClassName, "SshAddress", SshAddress);
+            _iniLoader.SetValue(ServerClassName, "SshPort", SshPort);
+            _iniLoader.SetValue(ServerClassName, "SshUserName", SshUserName);
+            _iniLoader.SetValue(ServerClassName, "SshExeFileDirectory", SshExeFileDirectory);
+            _iniLoader.SetValue(ServerClassName, "SshConfigFileName", SshConfigFileName);
         }
     }
 }
