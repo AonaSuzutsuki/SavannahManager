@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CommonStyleLib.Views;
+using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 
 namespace _7dtd_svmanager_fix_mvvm.Views
 {
@@ -53,7 +54,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views
             {
                 ConsoleTextBox =  ConsoleTextBox
             };
-            var mainWindowModel = new Models.MainWindowModel();
+            var mainWindowModel = new MainWindowModel();
             var vm = new ViewModels.MainWindowViewModel(windowService, mainWindowModel);
             DataContext = vm;
             _model = mainWindowModel;

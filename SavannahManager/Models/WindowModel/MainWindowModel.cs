@@ -23,10 +23,11 @@ using SvManagerLibrary.Chat;
 using SvManagerLibrary.Player;
 using CommonExtensionLib.Extensions;
 using System.Linq;
+using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 
-namespace _7dtd_svmanager_fix_mvvm.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
-    public class MainWindowModel : ModelBase, IMainWindowTelnet, IDisposable
+    public class MainWindowModel : ModelBase, IMainWindowTelnet, IMainWindowServerStart, IDisposable
     {
         #region AppendedLogTextEvent
         public class AppendedLogTextEventArgs
@@ -103,6 +104,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             get => _connectionPanelIsEnabled;
             set => SetProperty(ref _connectionPanelIsEnabled, value);
+        }
+
+        private string _autoRestartText = "AutoRestart Disabled";
+        public string AutoRestartText
+        {
+            get => _autoRestartText;
+            set => SetProperty(ref _autoRestartText, value);
         }
 
         private bool _isBeta;
@@ -193,12 +201,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         //public IMessageBoxWindowService MessageBoxWindowService { get; set; }
 
         private bool _isConnected;
-        private bool IsConnected
+        public bool IsConnected
         {
             get => _isConnected && RowConnected;
             set => _isConnected = value;
         }
         private bool RowConnected => Telnet != null && Telnet.Connected;
+
+        public bool AutoRestartEnabled { get; set; }
+
         public bool IsFailed { get; private set; }
         public bool IsTelnetLoading { get; protected set; }
         public SettingLoader Setting { get; }
@@ -227,6 +238,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private bool _isLogGetter;
         private LogStream _loggingStream;
 
+        private AutoRestart _autoRestart;
         #endregion
 
         #region Event
@@ -345,7 +357,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
 
 
-        public void ServerStart()
+        public async Task ServerStart()
         {
             if (!FileExistCheck()) return;
 
@@ -379,7 +391,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
 
             Telnet = GenerateTelnetClient(this);
-            _ = Task.Factory.StartNew(() =>
+            await Task.Factory.StartNew(() =>
             {
                 IsTelnetLoading = true;
                 while (true)
@@ -442,6 +454,53 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
 
             return false;
+        }
+
+        public bool StartAutoRestart()
+        {
+            if (!IsBeta || !LocalMode || !IsConnected)
+            {
+                var reason = "";
+                if (!IsBeta)
+                    reason = "because beta mod not enabled";
+                else if (!LocalMode)
+                    reason = "because local server mode not enabled";
+                else if (!IsConnected)
+                    reason = "because telnet are not connected";
+
+                _errorOccurred.OnNext($"Cannot enable auto restart mode {reason}.");
+                return false;
+            }
+
+            if (_autoRestart != null)
+            {
+                StopAutoRestart();
+            }
+
+            _autoRestart = new AutoRestart(this, new TimeSpan(0, 0, 2, 0));
+            var newsLabel = BottomNewsLabel;
+            _autoRestart.TimeProgress.Subscribe((ts) =>
+            {
+                BottomNewsLabel = $"{newsLabel}, AutoRestart: {ts:hh\\:mm\\:ss} remaining.";
+                Debug.WriteLine($"AutoRestart: {ts} remaining.");
+            }, () => BottomNewsLabel = newsLabel);
+            _autoRestart.Start();
+
+            AutoRestartText = "AutoRestart Enabled";
+            AutoRestartEnabled = true;
+
+            return true;
+        }
+
+        public void StopAutoRestart()
+        {
+            if (_autoRestart == null || _autoRestart.IsRestarting)
+                return;
+
+            _autoRestart?.Dispose();
+            _autoRestart = null;
+            AutoRestartText = "AutoRestart Disabled";
+            AutoRestartEnabled = false;
         }
 
         private void MakeLogStream()
@@ -899,7 +958,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             if (ShortcutKeyManager.IsPushed("StartServerKey", Keyboard.Modifiers, key))
             {
                 if (!IsConnected)
-                    ServerStart();
+                    _ = ServerStart();
             }
             else if (ShortcutKeyManager.IsPushed("StopServerKey", Keyboard.Modifiers, key))
             {
@@ -948,6 +1007,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     }
                 }
 
+                if (_autoRestart != null)
+                {
+                    lock (_autoRestart)
+                    {
+                        _autoRestart.Dispose();
+                        _autoRestart = null;
+                    }
+                }
 
                 if (_telnetFinishedSubject != null)
                 {
