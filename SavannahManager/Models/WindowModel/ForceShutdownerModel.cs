@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _7dtd_svmanager_fix_mvvm.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
     public class ProcessTab
     {
@@ -28,7 +28,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private readonly List<int> _processIds = new List<int>();
         private bool _processSelected;
-        
+
         public void Refresh()
         {
             var ps = Process.GetProcessesByName("7DaysToDieServer");
@@ -55,7 +55,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
                 System.Threading.Thread.Sleep(500);
             }
-            catch (System.ArgumentException sae)
+            catch (ArgumentException sae)
             {
                 ExMessageBoxBase.Show(sae.Message, LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
                 return;

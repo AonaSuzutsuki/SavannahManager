@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace _7dtd_svmanager_fix_mvvm.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
     public class IpAddressGetterModel : ModelBase
     {

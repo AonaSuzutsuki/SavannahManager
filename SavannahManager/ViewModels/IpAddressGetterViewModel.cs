@@ -1,5 +1,4 @@
-﻿using _7dtd_svmanager_fix_mvvm.Models;
-using CommonStyleLib.Models;
+﻿using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using Prism.Commands;
 using Reactive.Bindings;
@@ -12,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using CommonStyleLib.Views;
+using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {

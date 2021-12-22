@@ -39,6 +39,7 @@ using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.Models;
 using SvManagerLibrary.Player;
 using SvManagerLibrary.Telnet;
+using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -115,6 +116,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             StartServerCommand = new DelegateCommand(StartServer);
             StopServerCommand = new DelegateCommand(StopServer);
             ConnectTelnetCommand = new DelegateCommand(ConnectTelnet);
+            AutoRestartCommand = new DelegateCommand(AutoRestart);
             OpenCommandListCommand = new DelegateCommand(OpenCommandList);
 
             PlayerListRefreshCommand = new DelegateCommand(PlayerListRefresh);
@@ -154,6 +156,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             StartBtEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled);
             TelnetBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled);
             TelnetBtLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel);
+            AutoRestartText = model.ObserveProperty(m => m.AutoRestartText).ToReactiveProperty();
 
             UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
 
@@ -211,6 +214,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand StartServerCommand { get; set; }
         public ICommand StopServerCommand { get; set; }
         public ICommand ConnectTelnetCommand { get; set; }
+        public ICommand AutoRestartCommand { get; set; }
         public ICommand OpenCommandListCommand { get; set; }
 
         public ICommand PlayerListRefreshCommand { get; set; }
@@ -251,6 +255,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ReactiveProperty<bool> StartBtEnabled { get; set; }
         public ReactiveProperty<bool> TelnetBtIsEnabled { get; set; }
         public ReactiveProperty<string> TelnetBtLabel { get; set; }
+        public ReactiveProperty<string> AutoRestartText { get; set; }
         
         public ReactiveProperty<ObservableCollection<UserDetail>> UsersList { get; set; }
         public int UsersListSelectedIndex
@@ -470,8 +475,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void StartServer()
         {
-            _model.ServerStart();
+            _ = _model.ServerStart();
         }
+
         private void StopServer()
         {
             var isForceShutdown = _model.ServerStop();
@@ -482,10 +488,24 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var vm = new ForceShutdownerViewModel(new WindowService(), forceShutdownerModel);
             WindowManageService.ShowNonOwnerOnly<ForceShutdowner>(vm);
         }
+
         private void ConnectTelnet()
         {
             _model.TelnetConnectOrDisconnect();
         }
+
+        public void AutoRestart()
+        {
+            if (!_model.AutoRestartEnabled)
+            {
+                _model.StartAutoRestart();
+            }
+            else
+            {
+                _model.StopAutoRestart();
+            }
+        }
+
         private void OpenCommandList()
         {
 
@@ -732,6 +752,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             _model.PlayerClean();
             _model.TelnetFinish();
+            _model.StopAutoRestart();
         }
 
         private void TelnetReadEvent(TelnetClient.TelnetReadEventArgs e)
