@@ -489,8 +489,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         public async Task ServerStartWithSsh()
         {
             using var sshManager = new SshServerManager(SshAddressText);
-            sshManager.SetLoginInformation(SshUserNameText, SshPasswordText);
-            sshManager.Connect();
+            sshManager.Connect(SshUserNameText, SshPasswordText);
             sshManager.StartServer($"cd {SshExeFileDirectoryText} " +
                                        $"&& ./startserver.sh -configfile={SshConfigFileNameText}");
             await Task.Delay(500);
