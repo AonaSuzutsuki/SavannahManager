@@ -443,6 +443,45 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             BottomNewsLabel = Resources.UI_WaitingServer;
             SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
 
+            await ConnectTelnetForServerStart(localAddress, localPort, localPassword);
+        }
+        public async Task ServerStartWithSsh()
+        {
+            if (IsConnected)
+            {
+                _errorOccurred.OnNext(Resources.AlreadyConnected);
+                return;
+            }
+
+            StartBtEnabled = false;
+            TelnetBtIsEnabled = false;
+            LocalModeEnabled = false;
+
+            BottomNewsLabel = Resources.UI_WaitingServer;
+            SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
+
+            try
+            {
+                using var sshManager = new SshServerManager(SshAddressText);
+                sshManager.Connect(SshUserNameText, SshPasswordText);
+                sshManager.StartServer($"cd {SshExeFileDirectoryText} " +
+                                       $"&& ./startserver.sh -configfile={SshConfigFileNameText}");
+                await Task.Delay(500);
+            }
+            catch (Renci.SshNet.Common.SshAuthenticationException)
+            {
+                _errorOccurred.OnNext("failed to authenticate on ssh.");
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                _errorOccurred.OnNext("failed to connect ssh.");
+            }
+
+            await ConnectTelnetForServerStart(Address, _port, Password);
+        }
+
+        private async Task ConnectTelnetForServerStart(string address, int port, string password)
+        {
             Telnet = GenerateTelnetClient(this);
             await Task.Factory.StartNew(() =>
             {
@@ -462,7 +501,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                         break;
                     }
 
-                    if (Telnet.Connect(localAddress, localPort))
+                    if (Telnet.Connect(address, port))
                     {
                         IsConnected = true;
                         IsTelnetLoading = false;
@@ -475,7 +514,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                         SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor);
 
                         Telnet.Write(TelnetClient.Cr);
-                        AppendConsoleLog(SocTelnetSend(localPassword));
+                        AppendConsoleLog(SocTelnetSend(password));
 
                         MakeLogStream();
 
@@ -486,14 +525,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 }
             });
         }
-        public async Task ServerStartWithSsh()
-        {
-            using var sshManager = new SshServerManager(SshAddressText);
-            sshManager.Connect(SshUserNameText, SshPasswordText);
-            sshManager.StartServer($"cd {SshExeFileDirectoryText} " +
-                                       $"&& ./startserver.sh -configfile={SshConfigFileNameText}");
-            await Task.Delay(500);
-        }
+
         public bool ServerStop()
         {
             if (IsTelnetLoading)
