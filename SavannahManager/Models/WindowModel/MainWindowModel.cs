@@ -28,7 +28,7 @@ using _7dtd_svmanager_fix_mvvm.Models.Ssh;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
-    public class MainWindowModel : ModelBase, IMainWindowTelnet, IMainWindowServerStart, IDisposable
+    public class MainWindowModel : ModelBase, IMainWindowTelnet, IMainWindowServerStart, IRelease
     {
         #region AppendedLogTextEvent
         public class AppendedLogTextEventArgs
@@ -1051,6 +1051,27 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             GC.SuppressFinalize(this);
         }
 
+        public void Release()
+        {
+            if (Telnet != null)
+            {
+                lock (Telnet)
+                {
+                    Telnet?.Dispose();
+                    Telnet = null;
+                }
+            }
+
+            if (_autoRestart != null)
+            {
+                lock (_autoRestart)
+                {
+                    _autoRestart.Dispose();
+                    _autoRestart = null;
+                }
+            }
+        }
+
         // Protected implementation of Dispose pattern.
         protected virtual void Dispose(bool disposing)
         {
@@ -1059,23 +1080,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             if (disposing)
             {
-                if (Telnet != null)
-                {
-                    lock (Telnet)
-                    {
-                        Telnet?.Dispose();
-                        Telnet = null;
-                    }
-                }
-
-                if (_autoRestart != null)
-                {
-                    lock (_autoRestart)
-                    {
-                        _autoRestart.Dispose();
-                        _autoRestart = null;
-                    }
-                }
+                Release();
 
                 if (_telnetFinishedSubject != null)
                 {
