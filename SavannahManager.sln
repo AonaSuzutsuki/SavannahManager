@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29009.5
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{2FA6990C-0A0D-4D9C-8C0E-67EBE81C0053}"
 EndProject
@@ -35,6 +35,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavannahManager", "SavannahManager\SavannahManager.csproj", "{E59C12D3-59AC-4993-AB2A-4F1BD121E596}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Updater", "Updater\Updater.csproj", "{53D5F6A6-6218-4B2F-B409-2F8585516C73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SshConsole", "SshConsole\SshConsole.csproj", "{3237FA14-ABBF-424A-923F-E511C8E84D83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -130,6 +132,18 @@ Global
 		{53D5F6A6-6218-4B2F-B409-2F8585516C73}.Release|x64.Build.0 = Release|Any CPU
 		{53D5F6A6-6218-4B2F-B409-2F8585516C73}.Release|x86.ActiveCfg = Release|Any CPU
 		{53D5F6A6-6218-4B2F-B409-2F8585516C73}.Release|x86.Build.0 = Release|Any CPU
+		{3237FA14-ABBF-424A-923F-E511C8E84D83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3237FA14-ABBF-424A-923F-E511C8E84D83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3237FA14-ABBF-424A-923F-E511C8E84D83}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3237FA14-ABBF-424A-923F-E511C8E84D83}.Debug|x64.Build.0 = Debug|Any CPU
+		{3237FA14-ABBF-424A-923F-E511C8E84D83}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3237FA14-ABBF-424A-923F-E511C8E84D83}.Debug|x86.Build.0 = Debug|Any CPU
+		{3237FA14-ABBF-424A-923F-E511C8E84D83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3237FA14-ABBF-424A-923F-E511C8E84D83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3237FA14-ABBF-424A-923F-E511C8E84D83}.Release|x64.ActiveCfg = Release|Any CPU
+		{3237FA14-ABBF-424A-923F-E511C8E84D83}.Release|x64.Build.0 = Release|Any CPU
+		{3237FA14-ABBF-424A-923F-E511C8E84D83}.Release|x86.ActiveCfg = Release|Any CPU
+		{3237FA14-ABBF-424A-923F-E511C8E84D83}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,6 +156,7 @@ Global
 		{FA07FC46-E341-4DBF-9B3C-1741C9ACF50A} = {0333E27F-0504-40A4-A258-7D138F45DFE3}
 		{E59C12D3-59AC-4993-AB2A-4F1BD121E596} = {0333E27F-0504-40A4-A258-7D138F45DFE3}
 		{53D5F6A6-6218-4B2F-B409-2F8585516C73} = {0333E27F-0504-40A4-A258-7D138F45DFE3}
+		{3237FA14-ABBF-424A-923F-E511C8E84D83} = {5A07C2C2-CEB4-4416-88D0-C861C5FC70CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {31C190B0-ABF9-42A1-9D21-B9089B220FA9}

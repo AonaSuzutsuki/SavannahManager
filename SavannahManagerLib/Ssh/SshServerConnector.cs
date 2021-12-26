@@ -1,28 +1,121 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reactive.Subjects;
 using Renci.SshNet;
+using SavannahXmlLib.Extensions;
 
 namespace SvManagerLibrary.Ssh
 {
-    public class SshServerConnector : IDisposable
+    public abstract class AbstractSshServerConnector
+    {
+
+        #region Fields
+        
+        protected ConnectionInfo ConnectionInfo;
+
+        protected readonly string HostAddress;
+        protected readonly int HostPort;
+
+        #endregion
+
+        protected AbstractSshServerConnector(string hostAddress, int hostPort = 22)
+        {
+            HostAddress = hostAddress;
+            HostPort = hostPort;
+        }
+
+        public void SetLoginInformation(string user, string password)
+        {
+            ConnectionInfo = new ConnectionInfo(HostAddress, HostPort, user,
+                new PasswordAuthenticationMethod(user, password))
+            {
+                Timeout = TimeSpan.FromSeconds(3)
+            };
+        }
+
+        public void SetLoginInformation(string user, string passPhrase, string keyPath)
+        {
+            ConnectionInfo = new ConnectionInfo(HostAddress, HostPort, user,
+                new PrivateKeyAuthenticationMethod(user, new PrivateKeyFile(keyPath, passPhrase)))
+            {
+                Timeout = TimeSpan.FromSeconds(3)
+            };
+        }
+
+        public abstract bool Connect();
+    }
+
+    public class SftpServerConnector : AbstractSshServerConnector, IDisposable
+    {
+        public class SftpFileInfo
+        {
+            public string Path { get; set; }
+            public bool IsDirectory { get; set; }
+        }
+
+        #region Fields
+
+        private SftpClient _sftpClient;
+
+        #endregion
+
+        #region Properties
+
+        public string WorkingDirectory => _sftpClient.WorkingDirectory;
+
+        #endregion
+
+        public SftpServerConnector(string hostAddress, int hostPort = 22) : base(hostAddress, hostPort)
+        {
+        }
+
+        public override bool Connect()
+        {
+            if (ConnectionInfo == null)
+                return false;
+
+            _sftpClient = new SftpClient(ConnectionInfo);
+            _sftpClient.Connect();
+
+            return _sftpClient.IsConnected;
+        }
+
+        public IEnumerable<SftpFileInfo> GetItems()
+        {
+            var items = _sftpClient.ListDirectory(WorkingDirectory);
+            return items.Select(x => new SftpFileInfo
+            {
+                Path = x.FullName,
+                IsDirectory = x.IsDirectory
+            });
+        }
+
+        public void ChangeDirectory(string path)
+        {
+            _sftpClient.ChangeDirectory(path);
+        }
+
+        public void Dispose()
+        {
+            _sftpClient?.Dispose();
+        }
+    }
+
+    public class SshServerConnector : AbstractSshServerConnector, IDisposable
     {
         #region Fields
 
         private SshClient _sshClient;
         private ShellStream _shellStream;
         private StreamReader _streamReader;
-        private ConnectionInfo _connectionInfo;
-
-        private readonly string _hostAddress;
-        private readonly int _hostPort;
 
         #endregion
 
         #region Properties
-
-
+        
 
         #endregion
 
@@ -33,36 +126,16 @@ namespace SvManagerLibrary.Ssh
 
         #endregion
 
-        public SshServerConnector(string hostAddress, int hostPort = 22)
+        public SshServerConnector(string hostAddress, int hostPort = 22) : base(hostAddress, hostPort)
         {
-            _hostAddress = hostAddress;
-            _hostPort = hostPort;
         }
-
-        public void SetLoginInformation(string user, string password)
+        
+        public override bool Connect()
         {
-            _connectionInfo = new ConnectionInfo(_hostAddress, _hostPort, user,
-                new PasswordAuthenticationMethod(user, password))
-            {
-                Timeout = TimeSpan.FromSeconds(3)
-            };
-        }
-
-        public void SetLoginInformation(string user, string passPhrase, string keyPath)
-        {
-            _connectionInfo = new ConnectionInfo(_hostAddress, _hostPort, user,
-                new PrivateKeyAuthenticationMethod(user, new PrivateKeyFile(keyPath, passPhrase)))
-            {
-                Timeout = TimeSpan.FromSeconds(3)
-            };
-        }
-
-        public bool Connect()
-        {
-            if (_connectionInfo == null)
+            if (ConnectionInfo == null)
                 return false;
 
-            _sshClient = new SshClient(_connectionInfo);
+            _sshClient = new SshClient(ConnectionInfo);
             _sshClient.Connect();
 
             if (!_sshClient.IsConnected)
@@ -90,6 +163,7 @@ namespace SvManagerLibrary.Ssh
             _streamReader?.Dispose();
             _shellStream?.Dispose();
             _sshClient?.Dispose();
+            _sshDataReceivedSubject.Dispose();
         }
         #endregion
     }
