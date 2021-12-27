@@ -512,7 +512,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void ConnectTelnet()
         {
-            _model.TelnetConnectOrDisconnect();
+            _model.SwitchTelnetConnection();
         }
 
         public void AutoRestart()

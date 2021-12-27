@@ -641,11 +641,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             return true;
         }
         
-        public void TelnetConnectOrDisconnect()
+        public void SwitchTelnetConnection()
         {
             if (!IsConnected)
             {
-                _ = TelnetConnect().ContinueWith((task) =>
+                _ = ConnectTelnet().ContinueWith((task) =>
                 {
                     var innerExceptions = task.Exception?.InnerExceptions;
                     if (innerExceptions != null)
@@ -659,10 +659,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
             else
             {
-                TelnetDisconnect();
+                DisconnectTelnet();
             }
         }
-        private async Task TelnetConnect()
+        private async Task ConnectTelnet()
         {
             var localAddress = Address;
             var localPort = _port;
@@ -724,7 +724,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 TelnetFinish();
             }
         }
-        private void TelnetDisconnect()
+        private void DisconnectTelnet()
         {
             try
             {
@@ -1060,13 +1060,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             else if (ShortcutKeyManager.IsPushed("ConTelnetKey", Keyboard.Modifiers, key))
             {
                 if (!IsConnected)
-                    _ = TelnetConnect();
+                    _ = ConnectTelnet();
             }
             else if (ShortcutKeyManager.IsPushed("DisConTelnetKey", Keyboard.Modifiers, key))
             {
                 if (IsConnected)
                 {
-                    TelnetDisconnect();
+                    DisconnectTelnet();
                 }
             }
         }
