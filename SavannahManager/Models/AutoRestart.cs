@@ -17,7 +17,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private DateTime _thresholdTime;
 
         private bool _isRequestStop;
-        private readonly IMainWindowServerStart _model;
+        private readonly MainWindowServerStart _model;
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         #endregion
 
-        public AutoRestart(IMainWindowServerStart model, TimeSpan thresholdTime)
+        public AutoRestart(MainWindowServerStart model, TimeSpan thresholdTime)
         {
             _model = model;
             _baseTime = thresholdTime;
@@ -56,15 +56,24 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     if (!isStop && DateTime.Now >= _thresholdTime)
                     {
                         IsRestarting = true;
-                        _model.ServerStop();
+                        _model.Model.ServerStop();
                         isStop = true;
                     }
 
                     if (isStop)
                     {
-                        if (!_model.IsConnected)
+                        if (!_model.Model.IsConnected)
                         {
-                            await _model.ServerStart();
+                            if (!_model.IsSsh)
+                            {
+                                if (!await _model.Model.ServerStart())
+                                    return;
+                            }
+                            else
+                            {
+                                if (!await _model.Model.ServerStartWithSsh())
+                                    return;
+                            }
                             IsRestarting = false;
                             isStop = false;
                             _thresholdTime = CalculateThresholdTime(_baseTime);

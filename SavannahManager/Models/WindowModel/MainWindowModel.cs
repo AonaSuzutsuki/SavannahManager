@@ -410,15 +410,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
 
 
-        public async Task ServerStart()
+        public async Task<bool> ServerStart()
         {
-            if (!FileExistCheck()) return;
+            if (!FileExistCheck()) return false;
 
             var checkedValues = ConfigChecker.GetConfigInfo(ConfigFilePath);
             if (checkedValues.IsFailed)
             {
                 _errorOccurred.OnNext(checkedValues.Message);
-                return;
+                return false;
             }
 
             const string localAddress = "127.0.0.1";
@@ -428,13 +428,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             if (IsConnected)
             {
                 _errorOccurred.OnNext(Resources.AlreadyConnected);
-                return;
+                return false;
             }
 
             var serverProcessManager = new ServerProcessManager(ExeFilePath, ConfigFilePath);
             void ProcessFailedAction(string message) => _errorOccurred.OnNext(message);
             if (!serverProcessManager.ProcessStart(ProcessFailedAction))
-                return;
+                return false;
 
             StartBtEnabled = false;
             TelnetBtIsEnabled = false;
@@ -444,13 +444,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
 
             await ConnectTelnetForServerStart(localAddress, localPort, localPassword);
+            return true;
         }
-        public async Task ServerStartWithSsh()
+        public async Task<bool> ServerStartWithSsh()
         {
             if (IsConnected)
             {
                 _errorOccurred.OnNext(Resources.AlreadyConnected);
-                return;
+                return false;
             }
 
             StartBtEnabled = false;
@@ -478,6 +479,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
 
             await ConnectTelnetForServerStart(Address, _port, Password);
+            return true;
         }
 
         private async Task ConnectTelnetForServerStart(string address, int port, string password)
@@ -551,7 +553,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         public bool StartAutoRestart()
         {
-            if (!IsBeta || !LocalMode || !IsConnected)
+            if (!IsBeta || !IsConnected)
             {
                 var reason = "";
                 if (!IsBeta)
@@ -570,7 +572,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 StopAutoRestart();
             }
 
-            _autoRestart = new AutoRestart(this, new TimeSpan(0, 0, 2, 0));
+            var isSsh = !LocalMode;
+
+            _autoRestart = new AutoRestart(new MainWindowServerStart(this, isSsh), new TimeSpan(0, 0, 0, 10));
             var newsLabel = BottomNewsLabel;
             _autoRestart.TimeProgress.Subscribe((ts) =>
             {
