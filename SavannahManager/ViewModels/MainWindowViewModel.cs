@@ -6,6 +6,7 @@ using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -138,6 +139,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             DeleteLogCommand = new DelegateCommand(DeleteLog);
 
             CmdTextBoxEnterDown = new DelegateCommand<string>(SendCmd);
+            SetCmdHistoryCommand = new DelegateCommand<KeyBinding>(SetCmdHistory);
 
             OpenTelnetWaitTimeCalculatorCommand = new DelegateCommand(OpenTelnetWaitTimeCalculator);
             GetTimeCommand = new DelegateCommand(GetTime);
@@ -230,6 +232,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand ShowPlayerInfoCommand { get; set; }
 
         public ICommand ChatTextBoxEnterDown { get; set; }
+        public ICommand SetCmdHistoryCommand { get; set; }
 
         public ICommand ConsoleTextBoxMouseEnter { get; set; }
         public ICommand ConsoleTextBoxMouseLeave { get; set; }
@@ -654,6 +657,23 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             CmdText = string.Empty;
         }
 
+        private void SetCmdHistory(KeyBinding e)
+        {
+            var key = e.Key;
+            var cmd = "";
+            switch (key)
+            {
+                case Key.Up:
+                    cmd = _model.GetPreviousCommand();
+                    break;
+                case Key.Down:
+                    cmd = _model.GetNextCommand();
+                    break;
+            }
+
+            CmdText = cmd;
+            _mainWindowService.Select(_mainWindowService.CmdTextBox, CmdText.Length, 0);
+        }
 
         private void OpenTelnetWaitTimeCalculator()
         {
@@ -735,8 +755,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             {
                 if (!_consoleIsFocus)
                 {
-                    _mainWindowService.Select(ConsoleLogText.Length, 0);
-                    _mainWindowService.ScrollToEnd();
+                    _mainWindowService.Select(_mainWindowService.ConsoleTextBox, ConsoleLogText.Length, 0);
+                    _mainWindowService.ScrollToEnd(_mainWindowService.ConsoleTextBox);
                 }
             }
         }
