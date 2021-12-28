@@ -228,10 +228,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         private int _port;
         private string _password = string.Empty;
 
-        private readonly List<ChatInfo> _chatArray = new List<ChatInfo>();
-
-        private readonly Dictionary<int, UserDetail> _playersDictionary = new Dictionary<int, UserDetail>();
-        private readonly List<int> _connectedIds = new List<int>();
+        private readonly List<ChatInfo> _chatArray = new();
+        private readonly CommandCollector _commandCollector = new();
+        private readonly Dictionary<int, UserDetail> _playersDictionary = new();
+        private readonly List<int> _connectedIds = new();
 
         private bool _isServerForceStop;
 
@@ -831,8 +831,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
 #endif
 
+            _commandCollector.AddCommand(cmd);
             SocTelnetSendNrt(cmd);
         }
+
+        public string GetPreviousCommand()
+        {
+            return _commandCollector.GetPreviousCommand();
+        }
+
+        public string GetNextCommand()
+        {
+            return _commandCollector.GetNextCommand();
+        }
+
         public bool CheckConnected()
         {
             if (IsConnected)

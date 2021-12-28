@@ -28,15 +28,16 @@ namespace _7dtd_svmanager_fix_mvvm.Views
         }
 
         public TextBox ConsoleTextBox { get; set; }
+        public TextBox CmdTextBox { get; set; }
 
-        public void Select(int start, int length)
+        public void Select(TextBox textBox, int start, int length)
         {
-            ConsoleTextBox.Select(start, length);
+            textBox.Select(start, length);
         }
 
-        public void ScrollToEnd()
+        public void ScrollToEnd(TextBox textBox)
         {
-            ConsoleTextBox.ScrollToEnd();
+            textBox.ScrollToEnd();
         }
     }
 
@@ -52,7 +53,8 @@ namespace _7dtd_svmanager_fix_mvvm.Views
 
             var windowService = new MainWindowService(this)
             {
-                ConsoleTextBox =  ConsoleTextBox
+                ConsoleTextBox =  ConsoleTextBox,
+                CmdTextBox = CmdTextBox
             };
             var mainWindowModel = new MainWindowModel();
             var vm = new ViewModels.MainWindowViewModel(windowService, mainWindowModel);

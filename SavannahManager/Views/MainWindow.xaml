@@ -221,9 +221,11 @@
                                     </i:Interaction.Triggers>
                                 </ListBox>
                             </Popup>-->
-                            <TextBox Text="{Binding CmdText, UpdateSourceTrigger=PropertyChanged}" Height="25" ContextMenu="{StaticResource CopyCutPaste}">
+                            <TextBox Name="CmdTextBox" Text="{Binding CmdText, UpdateSourceTrigger=PropertyChanged}" Height="25" ContextMenu="{StaticResource CopyCutPaste}">
                                 <TextBox.InputBindings>
                                     <KeyBinding Key="Enter" Command="{Binding CmdTextBoxEnterDown}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
+                                    <KeyBinding Key="Up" Command="{Binding SetCmdHistoryCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+                                    <KeyBinding Key="Down" Command="{Binding SetCmdHistoryCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
                                 </TextBox.InputBindings>
                             </TextBox>
                         </DockPanel>
