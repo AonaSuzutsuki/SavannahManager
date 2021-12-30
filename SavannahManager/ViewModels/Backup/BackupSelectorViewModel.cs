@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Concurrency;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using _7dtd_svmanager_fix_mvvm.Backup.Models;
+﻿using System.Windows.Input;
+using _7dtd_svmanager_fix_mvvm.Models.Backup;
 using BackupLib.CommonPath;
-using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
-namespace _7dtd_svmanager_fix_mvvm.Backup.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.Backup
 {
     public class BackupSelectorViewModel : ViewModelBase
     {

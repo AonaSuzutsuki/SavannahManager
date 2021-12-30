@@ -16,9 +16,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Backup\Images\DirectoryIcon.png" />
-    <None Remove="Backup\Images\FileIcon.png" />
-    <None Remove="Backup\Images\no-image.png" />
     <None Remove="Images\Calendar.png" />
     <None Remove="Images\Information.png" />
     <None Remove="Images\Refresh.png" />
@@ -32,9 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Backup\Images\DirectoryIcon.png" />
-    <EmbeddedResource Include="Backup\Images\FileIcon.png" />
-    <EmbeddedResource Include="Backup\Images\no-image.png" />
+    <EmbeddedResource Include="Images\Backup\DirectoryIcon.png" />
+    <EmbeddedResource Include="Images\Backup\FileIcon.png" />
+    <EmbeddedResource Include="Images\Backup\no-image.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,7 +67,7 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Backup\Views\BackupSelector.xaml.cs">
+    <Compile Update="Views\Backup\BackupSelector.xaml.cs">
       <DependentUpon>BackupSelector.xaml</DependentUpon>
     </Compile>
     <Compile Update="LangResources\CmdListResources.Designer.cs">
@@ -264,7 +261,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Backup\Views\BackupSelector.xaml">
+    <Page Update="Views\Backup\BackupSelector.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Permissions\GetSteamId.xaml">
