@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.Models.Setup;
+using CommonNavigationControlLib.Navigation.ViewModels;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;

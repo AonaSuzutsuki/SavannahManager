@@ -41,6 +41,8 @@ using _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages;
 using _7dtd_svmanager_fix_mvvm.Views.Settings;
 using _7dtd_svmanager_fix_mvvm.Views.Setup;
 using _7dtd_svmanager_fix_mvvm.Views.Update;
+using CommonNavigationControlLib.Navigation.ViewModels;
+using CommonNavigationControlLib.Navigation.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -403,7 +405,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 var service = new NavigationWindowService<InitializeData>
                 {
                     Owner = window,
-                    Navigation = window.MainFrame,
+                    Navigation = window.NavigationControl,
                     Share = new InitializeData
                     {
                         Setting = _model.Setting,
@@ -411,13 +413,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                         ServerFilePath = _model.Setting.ExeFilePath,
                         ServerAdminConfigFilePath = _model.Setting.AdminFilePath
                     },
-                    Pages = new List<Tuple<Type, bool>>
+                    Pages = new List<NavigationPageInfo>
                     {
-                        new Tuple<Type, bool>(typeof(FirstPage), true),
-                        new Tuple<Type, bool>(typeof(ExecutablePage), true),
-                        new Tuple<Type, bool>(typeof(ConfigPage), true),
-                        new Tuple<Type, bool>(typeof(AdminPage), true),
-                        new Tuple<Type, bool>(typeof(FinishPage), true)
+                        new(typeof(FirstPage)),
+                        new(typeof(ExecutablePage)),
+                        new(typeof(ConfigPage)),
+                        new(typeof(AdminPage)),
+                        new(typeof(FinishPage))
                     }
                 };
                 service.NavigationValue.WindowTitle = LangResources.SetupResource.UI_NameLabel;
