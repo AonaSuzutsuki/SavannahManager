@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace _7dtd_svmanager_fix_mvvm.Backup.Models.Image
+namespace _7dtd_svmanager_fix_mvvm.Models.Backup.Image
 {
     public static class ImageLoader
     {

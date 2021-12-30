@@ -2,24 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Security.Authentication.ExtendedProtection;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using _7dtd_svmanager_fix_mvvm.Backup.Models.Image;
-using _7dtd_svmanager_fix_mvvm.Models;
+using _7dtd_svmanager_fix_mvvm.Models.Backup.Image;
 using BackupLib.Backup;
 using BackupLib.CommonPath;
-using CommonCoreLib.CommonPath;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.Models;
 
-namespace _7dtd_svmanager_fix_mvvm.Backup.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.Backup
 {
     public class BackupItem : PathMapItem
     {
@@ -40,11 +32,11 @@ namespace _7dtd_svmanager_fix_mvvm.Backup.Models
             var list = new List<BackupItem>();
             foreach (var pathMapItem in pathMapItems)
             {
-                ImageSource imageSource = ImageLoader.LoadFromResource("_7dtd_svmanager_fix_mvvm.Backup.Images.no-image.png");
+                ImageSource imageSource = ImageLoader.LoadFromResource("_7dtd_svmanager_fix_mvvm.Images.Backup.no-image.png");
                 if (pathMapItem.ItemType == PathMapItemType.File)
-                    imageSource = ImageLoader.LoadFromResource("_7dtd_svmanager_fix_mvvm.Backup.Images.FileIcon.png");
+                    imageSource = ImageLoader.LoadFromResource("_7dtd_svmanager_fix_mvvm.Images.Backup.FileIcon.png");
                 if (pathMapItem.ItemType == PathMapItemType.Directory)
-                    imageSource = ImageLoader.LoadFromResource("_7dtd_svmanager_fix_mvvm.Backup.Images.DirectoryIcon.png");
+                    imageSource = ImageLoader.LoadFromResource("_7dtd_svmanager_fix_mvvm.Images.Backup.DirectoryIcon.png");
 
                 list.Add(new BackupItem
                 {
