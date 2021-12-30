@@ -37,8 +37,9 @@
   <ItemGroup>
     <PackageReference Include="BackupLib" Version="1.0.6" />
     <PackageReference Include="CommonCoreLib" Version="1.0.4" />
-    <PackageReference Include="CommonNavigationControlLib" Version="1.0.1" />
-    <PackageReference Include="CommonStyleLib" Version="1.0.5" />
+    <PackageReference Include="CommonExtensionLib" Version="1.0.4" />
+    <PackageReference Include="CommonNavigationControlLib" Version="1.0.2" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="SavannahXmlLib" Version="1.0.5" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
@@ -169,9 +170,6 @@
     </Compile>
     <Compile Update="Views\Setup\FirstPage.xaml.cs">
       <DependentUpon>FirstPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Setup\NavigationBase.xaml.cs">
-      <DependentUpon>NavigationBase.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Update\Loading.xaml.cs">
       <DependentUpon>Loading.xaml</DependentUpon>
@@ -307,9 +305,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Setup\FirstPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Setup\NavigationBase.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\ButtonIcon.xaml">

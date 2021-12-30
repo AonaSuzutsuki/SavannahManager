@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using _7dtd_svmanager_fix_mvvm.Models.Setup;
 using _7dtd_svmanager_fix_mvvm.ViewModels.Setup;
+using CommonNavigationControlLib.Navigation.ViewModels;
 
 namespace _7dtd_svmanager_fix_mvvm.Views.Setup
 {
