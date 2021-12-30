@@ -1,4 +1,4 @@
-﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Settings.Views.SettingWindow"
+﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Views.Settings.SettingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"

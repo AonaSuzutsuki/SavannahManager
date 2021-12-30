@@ -1,14 +1,13 @@
-﻿using System.Windows;
-using System.Collections.ObjectModel;
-using _7dtd_svmanager_fix_mvvm.Settings.Models;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using _7dtd_svmanager_fix_mvvm.Models.Settings;
+using CommonStyleLib.ViewModels;
+using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using CommonStyleLib.ViewModels;
-using CommonStyleLib.Views;
 
-namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
 {
     public class KeyConfigViewModel : ViewModelBase
     {

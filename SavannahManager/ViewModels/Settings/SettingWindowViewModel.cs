@@ -1,16 +1,14 @@
-﻿using _7dtd_svmanager_fix_mvvm.Settings.Models;
+﻿using System.Windows.Input;
+using _7dtd_svmanager_fix_mvvm.Models.Settings;
+using _7dtd_svmanager_fix_mvvm.Views.Settings;
+using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.ViewModels;
+using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System.Windows;
-using System.Windows.Input;
-using _7dtd_svmanager_fix_mvvm.Settings.Views;
-using CommonStyleLib.ExMessageBox;
-using CommonStyleLib.ExMessageBox.Views;
-using CommonStyleLib.Views;
 
-namespace _7dtd_svmanager_fix_mvvm.Settings.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
 {
     public class SettingWindowViewModel : ViewModelBase
     {

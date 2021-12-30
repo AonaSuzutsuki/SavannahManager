@@ -152,10 +152,10 @@
     <Compile Update="PlayerController\Views\PlayerInfoView.xaml.cs">
       <DependentUpon>PlayerInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Settings\Views\KeyConfig.xaml.cs">
+    <Compile Update="Views\Settings\KeyConfig.xaml.cs">
       <DependentUpon>KeyConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Settings\Views\SettingWindow.xaml.cs">
+    <Compile Update="Views\Settings\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Update="Setup\Views\AdminPage.xaml.cs">
@@ -291,10 +291,10 @@
     <Page Update="PlayerController\Views\PlayerInfoView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Settings\Views\KeyConfig.xaml">
+    <Page Update="Views\Settings\KeyConfig.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Settings\Views\SettingWindow.xaml">
+    <Page Update="Views\Settings\SettingWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Setup\Views\AdminPage.xaml">

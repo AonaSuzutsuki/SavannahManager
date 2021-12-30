@@ -1,15 +1,12 @@
-﻿using _7dtd_svmanager_fix_mvvm.Models;
-using CommonExtensionLib.Extensions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using CommonCoreLib.XMLWrapper;
 using SavannahXmlLib.XmlWrapper;
 using SavannahXmlLib.XmlWrapper.Nodes;
 using AttributeInfo = SavannahXmlLib.XmlWrapper.Nodes.AttributeInfo;
 
-namespace _7dtd_svmanager_fix_mvvm.Settings
+namespace _7dtd_svmanager_fix_mvvm.Models
 {
     public class ShortcutKey
     {

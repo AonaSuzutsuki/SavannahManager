@@ -1,9 +1,8 @@
-﻿using _7dtd_svmanager_fix_mvvm.Models;
-using CommonStyleLib.Models;
+﻿using System.IO;
 using CommonStyleLib.File;
-using System.IO;
+using CommonStyleLib.Models;
 
-namespace _7dtd_svmanager_fix_mvvm.Settings.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.Settings
 {
     public class SettingModel : ModelBase
     {

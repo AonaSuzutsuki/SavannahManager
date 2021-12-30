@@ -1,10 +1,10 @@
-﻿using CommonStyleLib.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using CommonStyleLib.Models;
 
-namespace _7dtd_svmanager_fix_mvvm.Settings.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.Settings
 {
     public class ShortcutKeyForList
     {

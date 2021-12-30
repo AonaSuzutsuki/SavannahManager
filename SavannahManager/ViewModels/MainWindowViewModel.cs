@@ -18,6 +18,7 @@ using _7dtd_svmanager_fix_mvvm.Backup.ViewModels;
 using _7dtd_svmanager_fix_mvvm.Backup.Views;
 using _7dtd_svmanager_fix_mvvm.LangResources;
 using _7dtd_svmanager_fix_mvvm.Models;
+using _7dtd_svmanager_fix_mvvm.Models.Settings;
 using _7dtd_svmanager_fix_mvvm.Permissions.Models;
 using _7dtd_svmanager_fix_mvvm.Permissions.ViewModels;
 using _7dtd_svmanager_fix_mvvm.Permissions.Views;
@@ -25,9 +26,6 @@ using _7dtd_svmanager_fix_mvvm.PlayerController.Models;
 using _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Views;
 using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
-using _7dtd_svmanager_fix_mvvm.Settings.Models;
-using _7dtd_svmanager_fix_mvvm.Settings.ViewModels;
-using _7dtd_svmanager_fix_mvvm.Settings.Views;
 using _7dtd_svmanager_fix_mvvm.Setup.Models;
 using _7dtd_svmanager_fix_mvvm.Setup.ViewModels;
 using CommonStyleLib.Views;
@@ -41,6 +39,8 @@ using CommonStyleLib.Models;
 using SvManagerLibrary.Player;
 using SvManagerLibrary.Telnet;
 using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Settings;
+using _7dtd_svmanager_fix_mvvm.Views.Settings;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
