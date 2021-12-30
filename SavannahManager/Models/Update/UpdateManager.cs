@@ -5,19 +5,15 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
-using _7dtd_svmanager_fix_mvvm.Update.Views;
+using _7dtd_svmanager_fix_mvvm.Views.Update;
 using CommonExtensionLib.Extensions;
 using SavannahXmlLib.XmlWrapper;
-using CommonStyleLib.File;
 using SavannahXmlLib.XmlWrapper.Nodes;
 using UpdateLib.Http;
 using UpdateLib.Update;
-using Color = System.Drawing.Color;
 
-namespace _7dtd_svmanager_fix_mvvm.Update.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.Update
 {
     public class UpdateManager
     {

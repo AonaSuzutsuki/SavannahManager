@@ -176,10 +176,10 @@
     <Compile Update="Views\Setup\NavigationBase.xaml.cs">
       <DependentUpon>NavigationBase.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Update\Views\Loading.xaml.cs">
+    <Compile Update="Views\Update\Loading.xaml.cs">
       <DependentUpon>Loading.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Update\Views\UpdForm.xaml.cs">
+    <Compile Update="Views\Update\UpdForm.xaml.cs">
       <DependentUpon>UpdForm.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ForceShutdowner.xaml.cs">
@@ -328,10 +328,10 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Update\Views\Loading.xaml">
+    <Page Update="Views\Update\Loading.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Update\Views\UpdForm.xaml">
+    <Page Update="Views\Update\UpdForm.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\ForceShutdowner.xaml">

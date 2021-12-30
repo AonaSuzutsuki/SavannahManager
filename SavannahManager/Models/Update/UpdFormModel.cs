@@ -1,23 +1,20 @@
-﻿using CommonStyleLib.ExMessageBox;
-using CommonExtensionLib.Extensions;
-using CommonStyleLib.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using _7dtd_svmanager_fix_mvvm.Update.Views;
-using UpdateLib.Http;
-using UpdateLib.Update;
+using _7dtd_svmanager_fix_mvvm.Views.Update;
+using CommonExtensionLib.Extensions;
+using CommonStyleLib.ExMessageBox;
+using CommonStyleLib.Models;
 using Path = System.IO.Path;
 
-namespace _7dtd_svmanager_fix_mvvm.Update.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.Update
 {
     public class UpdFormModel : ModelBase
     {

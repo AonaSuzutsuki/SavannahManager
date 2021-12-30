@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace _7dtd_svmanager_fix_mvvm.Update.Views
+namespace _7dtd_svmanager_fix_mvvm.Views.Update
 {
     public class RichTextItemsToDocumentConverter : IValueConverter
     {

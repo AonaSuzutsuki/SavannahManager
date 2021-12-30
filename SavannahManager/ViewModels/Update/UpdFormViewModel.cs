@@ -1,24 +1,19 @@
-﻿using _7dtd_svmanager_fix_mvvm.Update.Models;
-using CommonStyleLib.Models;
-using CommonStyleLib.ViewModels;
-using Prism.Commands;
-using Reactive.Bindings;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using _7dtd_svmanager_fix_mvvm.Update.Views;
+using _7dtd_svmanager_fix_mvvm.Models.Update;
+using _7dtd_svmanager_fix_mvvm.Views.Update;
 using CommonStyleLib.ExMessageBox;
+using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
+using Prism.Commands;
+using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
-namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.Update
 {
     public class UpdFormViewModel : ViewModelBase
     {

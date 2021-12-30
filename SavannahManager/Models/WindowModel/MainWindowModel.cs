@@ -11,7 +11,6 @@ using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.LangResources;
-using _7dtd_svmanager_fix_mvvm.Update.Models;
 using _7dtd_svmanager_fix_mvvm.ViewModels;
 using _7dtd_svmanager_fix_mvvm.Models.Config;
 using CommonStyleLib.Models;
@@ -23,6 +22,7 @@ using SvManagerLibrary.Player;
 using CommonExtensionLib.Extensions;
 using System.Linq;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
+using _7dtd_svmanager_fix_mvvm.Models.Update;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {

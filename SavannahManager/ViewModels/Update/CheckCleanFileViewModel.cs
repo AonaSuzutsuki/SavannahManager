@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using _7dtd_svmanager_fix_mvvm.Update.Models;
-using _7dtd_svmanager_fix_mvvm.Update.Models.Node;
-using CommonStyleLib.Models;
+﻿using System.Windows.Input;
+using _7dtd_svmanager_fix_mvvm.Models.Update;
+using _7dtd_svmanager_fix_mvvm.Models.Update.Node;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 
-namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.Update
 {
     public class CheckCleanFileViewModel : ViewModelBase
     {

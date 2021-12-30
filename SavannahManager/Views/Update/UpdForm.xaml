@@ -1,15 +1,15 @@
-﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Update.Views.UpdForm"
+﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Views.Update.UpdForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Views"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
-        xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.ViewModels"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
+        xmlns:update="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Update"
+        xmlns:update1="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels.Update"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance viewModels:UpdFormViewModel}"
+        d:DataContext="{d:DesignInstance update1:UpdFormViewModel}"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
         Title="Update Form" Height="400" Width="600" ResizeMode="CanResize">
@@ -39,7 +39,7 @@
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/ListBoxStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
                 <ResourceDictionary>
-                    <local:RichTextItemsToDocumentConverter x:Key="RichTextItemsConverter"/>
+                    <update:RichTextItemsToDocumentConverter x:Key="RichTextItemsConverter"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -88,14 +88,14 @@
                 </ListBox>
 
                 <!--<RichTextBox Text="{Binding DetailText.Value}" IsReadOnly="False" Margin="5,0,0,0" Grid.Column="1" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" TextWrapping="Wrap" ContextMenu="{StaticResource CopyOnly}" />-->
-                <local:BindableRichTextBox Grid.Column="1" Background="Transparent" Foreground="White" Document="{Binding RichDetailText.Value, Mode=OneWay, Converter={StaticResource RichTextItemsConverter}}" IsReadOnly="True" VerticalScrollBarVisibility="Visible" ContextMenu="{StaticResource CopyOnly}">
-                    <local:BindableRichTextBox.Resources>
+                <update:BindableRichTextBox Grid.Column="1" Background="Transparent" Foreground="White" Document="{Binding RichDetailText.Value, Mode=OneWay, Converter={StaticResource RichTextItemsConverter}}" IsReadOnly="True" VerticalScrollBarVisibility="Visible" ContextMenu="{StaticResource CopyOnly}">
+                    <update:BindableRichTextBox.Resources>
                         <Style TargetType="Hyperlink">
                             <Setter Property="Cursor" Value="Hand" />
                             <EventSetter Event="MouseLeftButtonDown" Handler="EventSetter_OnHandler" />
                         </Style>
-                    </local:BindableRichTextBox.Resources>
-                </local:BindableRichTextBox>
+                    </update:BindableRichTextBox.Resources>
+                </update:BindableRichTextBox>
             </Grid>
 
             <Grid Margin="0,0,3,0" Grid.Row="1">

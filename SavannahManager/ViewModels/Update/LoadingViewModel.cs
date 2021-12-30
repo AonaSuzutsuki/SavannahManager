@@ -1,15 +1,8 @@
-﻿using _7dtd_svmanager_fix_mvvm.Update.Models;
-using CommonStyleLib.Models;
+﻿using _7dtd_svmanager_fix_mvvm.Models.Update;
 using CommonStyleLib.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using CommonStyleLib.Views;
 
-namespace _7dtd_svmanager_fix_mvvm.Update.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.Update
 {
     public class LoadingViewModel : ViewModelBase
     {

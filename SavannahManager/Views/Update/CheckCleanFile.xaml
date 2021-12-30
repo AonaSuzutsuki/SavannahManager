@@ -1,17 +1,16 @@
-﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Update.Views.CheckCleanFile"
+﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Views.Update.CheckCleanFile"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Views"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
-        xmlns:models="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Models"
-        xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.ViewModels"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
-        xmlns:node="clr-namespace:_7dtd_svmanager_fix_mvvm.Update.Models.Node"
+        xmlns:update="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Update"
+        xmlns:update1="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels.Update"
+        xmlns:node="clr-namespace:_7dtd_svmanager_fix_mvvm.Models.Update.Node"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance viewModels:CheckCleanFileViewModel}"
+        d:DataContext="{d:DesignInstance update1:CheckCleanFileViewModel}"
         Title="Check Clean File" Height="450" Width="800" WindowStartupLocation="CenterOwner">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -39,7 +38,7 @@
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
                 <ResourceDictionary Source="/Styles/TreeViewStyle.xaml" />
                 <ResourceDictionary>
-                    <local:RichTextItemsToDocumentConverter x:Key="RichTextItemsConverter"/>
+                    <update:RichTextItemsToDocumentConverter x:Key="RichTextItemsConverter"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

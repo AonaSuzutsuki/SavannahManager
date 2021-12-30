@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Prism.Mvvm;
 
-namespace _7dtd_svmanager_fix_mvvm.Update.Models.Node
+namespace _7dtd_svmanager_fix_mvvm.Models.Update.Node
 {
     public class DirectoryNode : BindableBase
     {

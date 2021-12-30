@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
 
-namespace _7dtd_svmanager_fix_mvvm.Update.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.Update
 {
     public static class Zip
     {
