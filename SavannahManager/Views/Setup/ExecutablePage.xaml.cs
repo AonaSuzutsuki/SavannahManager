@@ -1,21 +1,8 @@
-﻿using _7dtd_svmanager_fix_mvvm.Setup.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using _7dtd_svmanager_fix_mvvm.Setup.ViewModels;
+﻿using System.Windows.Controls;
+using _7dtd_svmanager_fix_mvvm.Models.Setup;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Setup;
 
-namespace _7dtd_svmanager_fix_mvvm.Setup.Views
+namespace _7dtd_svmanager_fix_mvvm.Views.Setup
 {
     /// <summary>
     /// ExecutablePage.xaml の相互作用ロジック
@@ -28,7 +15,7 @@ namespace _7dtd_svmanager_fix_mvvm.Setup.Views
 
             var model = new ExecutablePageModel(service.Share);
             model.CanChanged += Model_CanChanged;
-            DataContext = new ViewModels.ExecutablePageViewModel(service, model);
+            DataContext = new ExecutablePageViewModel(service, model);
         }
 
         private void Model_CanChanged(object sender, CanChangedEventArgs e)

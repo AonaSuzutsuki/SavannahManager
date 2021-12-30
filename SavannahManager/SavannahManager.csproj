@@ -158,22 +158,22 @@
     <Compile Update="Views\Settings\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Setup\Views\AdminPage.xaml.cs">
+    <Compile Update="Views\Setup\AdminPage.xaml.cs">
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Setup\Views\ConfigPage.xaml.cs">
+    <Compile Update="Views\Setup\ConfigPage.xaml.cs">
       <DependentUpon>ConfigPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Setup\Views\ExecutablePage.xaml.cs">
+    <Compile Update="Views\Setup\ExecutablePage.xaml.cs">
       <DependentUpon>ExecutablePage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Setup\Views\FinishPage.xaml.cs">
+    <Compile Update="Views\Setup\FinishPage.xaml.cs">
       <DependentUpon>FinishPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Setup\Views\FirstPage.xaml.cs">
+    <Compile Update="Views\Setup\FirstPage.xaml.cs">
       <DependentUpon>FirstPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Setup\Views\NavigationBase.xaml.cs">
+    <Compile Update="Views\Setup\NavigationBase.xaml.cs">
       <DependentUpon>NavigationBase.xaml</DependentUpon>
     </Compile>
     <Compile Update="Update\Views\Loading.xaml.cs">
@@ -297,22 +297,22 @@
     <Page Update="Views\Settings\SettingWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Setup\Views\AdminPage.xaml">
+    <Page Update="Views\Setup\AdminPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Setup\Views\ConfigPage.xaml">
+    <Page Update="Views\Setup\ConfigPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Setup\Views\ExecutablePage.xaml">
+    <Page Update="Views\Setup\ExecutablePage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Setup\Views\FinishPage.xaml">
+    <Page Update="Views\Setup\FinishPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Setup\Views\FirstPage.xaml">
+    <Page Update="Views\Setup\FirstPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Setup\Views\NavigationBase.xaml">
+    <Page Update="Views\Setup\NavigationBase.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\ButtonIcon.xaml">

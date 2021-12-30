@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using _7dtd_svmanager_fix_mvvm.Models;
-using _7dtd_svmanager_fix_mvvm.Setup.Models;
+using _7dtd_svmanager_fix_mvvm.Models.Setup;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
-namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.Setup
 {
     public class FirstPageViewModel : NavigationPageViewModelBase
     {

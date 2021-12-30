@@ -1,13 +1,11 @@
 ﻿using System.Windows;
-using _7dtd_svmanager_fix_mvvm.Setup.Models;
-using Reactive.Bindings;
 using System.Windows.Input;
-using Reactive.Bindings.Extensions;
+using _7dtd_svmanager_fix_mvvm.Models.Setup;
 using Prism.Commands;
-using _7dtd_svmanager_fix_mvvm.Setup.Views;
-using CommonStyleLib.ViewModels;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
-namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.Setup
 {
     public class ExecutablePageViewModel : NavigationPageViewModelBase
     {

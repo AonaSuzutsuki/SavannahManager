@@ -1,12 +1,8 @@
 ﻿using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.File;
 using Microsoft.Win32;
-using Prism.Mvvm;
-using SvManagerLibrary.SteamLibrary;
-using System;
-using System.IO;
 
-namespace _7dtd_svmanager_fix_mvvm.Setup.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.Setup
 {
     public class ExecutablePageModel : PageModelBase
     {

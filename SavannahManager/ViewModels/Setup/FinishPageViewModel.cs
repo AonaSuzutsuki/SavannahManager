@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using _7dtd_svmanager_fix_mvvm.Setup.Models;
+﻿using System.Windows;
+using _7dtd_svmanager_fix_mvvm.Models.Setup;
 
-namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.Setup
 {
     public class FinishPageViewModel : NavigationPageViewModelBase
     {

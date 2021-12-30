@@ -1,13 +1,11 @@
 ﻿using System.Windows;
-using _7dtd_svmanager_fix_mvvm.Setup.Models;
-using _7dtd_svmanager_fix_mvvm.Setup.Views;
-using CommonStyleLib.ViewModels;
+using System.Windows.Input;
+using _7dtd_svmanager_fix_mvvm.Models.Setup;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System.Windows.Input;
 
-namespace _7dtd_svmanager_fix_mvvm.Setup.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.Setup
 {
     public class AdminPageViewModel : NavigationPageViewModelBase
     {

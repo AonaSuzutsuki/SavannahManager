@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Prism.Mvvm;
-
-namespace _7dtd_svmanager_fix_mvvm.Setup.Models
+﻿namespace _7dtd_svmanager_fix_mvvm.Models.Setup
 {
     public class FinishPageModel : PageModelBase
     {

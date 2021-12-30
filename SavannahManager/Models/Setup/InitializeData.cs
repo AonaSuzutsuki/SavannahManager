@@ -1,6 +1,4 @@
-﻿using _7dtd_svmanager_fix_mvvm.Models;
-
-namespace _7dtd_svmanager_fix_mvvm.Setup.Models
+﻿namespace _7dtd_svmanager_fix_mvvm.Models.Setup
 {
     public class InitializeData
     {

@@ -21,10 +21,8 @@ using _7dtd_svmanager_fix_mvvm.Models;
 using _7dtd_svmanager_fix_mvvm.Models.Permissions;
 using _7dtd_svmanager_fix_mvvm.Models.PlayerController;
 using _7dtd_svmanager_fix_mvvm.Models.Settings;
-using _7dtd_svmanager_fix_mvvm.Setup.Models;
-using _7dtd_svmanager_fix_mvvm.Setup.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Models.Setup;
 using CommonStyleLib.Views;
-using _7dtd_svmanager_fix_mvvm.Setup.Views;
 using _7dtd_svmanager_fix_mvvm.Update.Models;
 using _7dtd_svmanager_fix_mvvm.Update.ViewModels;
 using _7dtd_svmanager_fix_mvvm.Update.Views;
@@ -37,10 +35,12 @@ using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 using _7dtd_svmanager_fix_mvvm.ViewModels.Permissions;
 using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController;
 using _7dtd_svmanager_fix_mvvm.ViewModels.Settings;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Setup;
 using _7dtd_svmanager_fix_mvvm.Views.Permissions;
 using _7dtd_svmanager_fix_mvvm.Views.PlayerController;
 using _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages;
 using _7dtd_svmanager_fix_mvvm.Views.Settings;
+using _7dtd_svmanager_fix_mvvm.Views.Setup;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {

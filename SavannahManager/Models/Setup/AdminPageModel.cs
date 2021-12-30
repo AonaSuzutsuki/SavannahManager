@@ -1,15 +1,8 @@
-﻿using CommonStyleLib.File;
-using Microsoft.Win32;
-using SvManagerLibrary.SteamLibrary;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommonStyleLib.ExMessageBox;
+using CommonStyleLib.File;
 
-namespace _7dtd_svmanager_fix_mvvm.Setup.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.Setup
 {
     public class AdminPageModel : PageModelBase
     {
