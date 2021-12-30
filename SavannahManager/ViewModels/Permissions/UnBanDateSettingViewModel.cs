@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _7dtd_svmanager_fix_mvvm.Permissions.Models;
-using CommonStyleLib.Models;
+using _7dtd_svmanager_fix_mvvm.Models.Permissions;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
-namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.Permissions
 {
     public class UnBanDateSettingViewModel : ViewModelBase
     {

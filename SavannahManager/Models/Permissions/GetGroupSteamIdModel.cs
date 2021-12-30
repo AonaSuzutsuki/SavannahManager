@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
-using _7dtd_svmanager_fix_mvvm.Models;
-using Newtonsoft.Json;
 using SavannahXmlLib.XmlWrapper;
 using SvManagerLibrary.Web;
 
-namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.Permissions
 {
-    public class GetProfileSteamIdModel : AbstractGetSteamIdModel
+    public class GetGroupSteamIdModel : AbstractGetSteamIdModel
     {
         public override async Task Analyze(string url)
         {
-            url += "?xml=1";
+            if (url.EndsWith("/"))
+                url += "memberslistxml/?xml=1";
+            else
+                url += "/memberslistxml/?xml=1";
 
             try
             {
@@ -25,7 +21,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
                 using var ms = new MemoryStream(xml);
 
                 var reader = new SavannahXmlReader(ms);
-                var steamId = reader.GetNode("/profile/steamID64").InnerText;
+                var steamId = reader.GetNode("/memberList/groupID64").InnerText;
 
                 CanWrite = !string.IsNullOrEmpty(steamId);
                 Steam64Id = steamId;
@@ -40,6 +36,7 @@ namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
                 CanWrite = false;
                 Steam64Id = "Invalid URL.";
             }
+
         }
     }
 }

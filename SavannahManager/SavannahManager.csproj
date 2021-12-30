@@ -128,13 +128,13 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="Permissions\Views\GetSteamId.xaml.cs">
+    <Compile Update="Views\Permissions\GetSteamId.xaml.cs">
       <DependentUpon>GetSteamId.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Permissions\Views\PermissionEditor.xaml.cs">
+    <Compile Update="Views\Permissions\PermissionEditor.xaml.cs">
       <DependentUpon>PermissionEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Permissions\Views\UnBanDateSetting.xaml.cs">
+    <Compile Update="Views\Permissions\UnBanDateSetting.xaml.cs">
       <DependentUpon>UnBanDateSetting.xaml</DependentUpon>
     </Compile>
     <Compile Update="PlayerController\Views\Pages\AdminAdd.xaml.cs">
@@ -267,13 +267,13 @@
     <Page Update="Backup\Views\BackupSelector.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Permissions\Views\GetSteamId.xaml">
+    <Page Update="Views\Permissions\GetSteamId.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Permissions\Views\PermissionEditor.xaml">
+    <Page Update="Views\Permissions\PermissionEditor.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Permissions\Views\UnBanDateSetting.xaml">
+    <Page Update="Views\Permissions\UnBanDateSetting.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="PlayerController\Views\Pages\AdminAdd.xaml">

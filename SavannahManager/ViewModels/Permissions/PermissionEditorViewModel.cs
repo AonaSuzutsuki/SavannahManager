@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using _7dtd_svmanager_fix_mvvm.Permissions.Models;
-using _7dtd_svmanager_fix_mvvm.Permissions.Views;
+using _7dtd_svmanager_fix_mvvm.Models.Permissions;
+using _7dtd_svmanager_fix_mvvm.Views.Permissions;
 using CommonStyleLib.File;
-using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Prism.Commands;
@@ -15,7 +10,7 @@ using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
-namespace _7dtd_svmanager_fix_mvvm.Permissions.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.Permissions
 {
     public abstract class PermissionBaseViewModel : BindableBase
     {

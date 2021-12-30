@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CommonStyleLib.Models;
 
-namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.Permissions
 {
     public abstract class AbstractGetSteamIdModel : ModelBase
     {

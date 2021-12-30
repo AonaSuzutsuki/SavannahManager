@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.Models;
 
-namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.Permissions
 {
     public class UnBanDateSettingModel : ModelBase
     {

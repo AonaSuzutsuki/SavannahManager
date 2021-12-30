@@ -3,18 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Input;
-using CommonExtensionLib.Extensions;
 using CommonStyleLib.Models;
-using Prism.Commands;
 using Prism.Mvvm;
 using SavannahXmlLib.XmlWrapper;
 using SavannahXmlLib.XmlWrapper.Nodes;
 
-namespace _7dtd_svmanager_fix_mvvm.Permissions.Models
+namespace _7dtd_svmanager_fix_mvvm.Models.Permissions
 {
     public abstract class PermissionBase : BindableBase
     {
