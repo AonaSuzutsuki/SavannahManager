@@ -1,16 +1,11 @@
-﻿using _7dtd_svmanager_fix_mvvm.Models;
+﻿using System;
+using System.Collections.ObjectModel;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
-using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
+using _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages;
 using CommonStyleLib.ExMessageBox;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages
+namespace _7dtd_svmanager_fix_mvvm.Models.PlayerController.Pages
 {
     public class DurationInfo
     {

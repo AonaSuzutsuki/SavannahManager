@@ -1,16 +1,8 @@
-﻿using _7dtd_svmanager_fix_mvvm.PlayerController.Models;
+﻿using _7dtd_svmanager_fix_mvvm.Models.PlayerController;
 using CommonStyleLib.ViewModels;
-using Reactive.Bindings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 using CommonStyleLib.Views;
 
-namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController
 {
     public class PlayerBaseViewModel : ViewModelBase
     {

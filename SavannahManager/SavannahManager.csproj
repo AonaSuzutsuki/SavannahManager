@@ -137,19 +137,19 @@
     <Compile Update="Views\Permissions\UnBanDateSetting.xaml.cs">
       <DependentUpon>UnBanDateSetting.xaml</DependentUpon>
     </Compile>
-    <Compile Update="PlayerController\Views\Pages\AdminAdd.xaml.cs">
+    <Compile Update="Views\PlayerController\Pages\AdminAdd.xaml.cs">
       <DependentUpon>AdminAdd.xaml</DependentUpon>
     </Compile>
-    <Compile Update="PlayerController\Views\Pages\Ban.xaml.cs">
+    <Compile Update="Views\PlayerController\Pages\Ban.xaml.cs">
       <DependentUpon>Ban.xaml</DependentUpon>
     </Compile>
-    <Compile Update="PlayerController\Views\Pages\Kick.xaml.cs">
+    <Compile Update="Views\PlayerController\Pages\Kick.xaml.cs">
       <DependentUpon>Kick.xaml</DependentUpon>
     </Compile>
-    <Compile Update="PlayerController\Views\PlayerBase.xaml.cs">
+    <Compile Update="Views\PlayerController\PlayerBase.xaml.cs">
       <DependentUpon>PlayerBase.xaml</DependentUpon>
     </Compile>
-    <Compile Update="PlayerController\Views\PlayerInfoView.xaml.cs">
+    <Compile Update="Views\PlayerController\PlayerInfoView.xaml.cs">
       <DependentUpon>PlayerInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Settings\KeyConfig.xaml.cs">
@@ -276,19 +276,19 @@
     <Page Update="Views\Permissions\UnBanDateSetting.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PlayerController\Views\Pages\AdminAdd.xaml">
+    <Page Update="Views\PlayerController\Pages\AdminAdd.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PlayerController\Views\Pages\Ban.xaml">
+    <Page Update="Views\PlayerController\Pages\Ban.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PlayerController\Views\Pages\Kick.xaml">
+    <Page Update="Views\PlayerController\Pages\Kick.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PlayerController\Views\PlayerBase.xaml">
+    <Page Update="Views\PlayerController\PlayerBase.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PlayerController\Views\PlayerInfoView.xaml">
+    <Page Update="Views\PlayerController\PlayerInfoView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Settings\KeyConfig.xaml">

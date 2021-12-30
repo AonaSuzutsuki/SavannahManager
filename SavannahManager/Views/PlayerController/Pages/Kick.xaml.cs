@@ -1,12 +1,10 @@
-﻿using _7dtd_svmanager_fix_mvvm.Models;
-using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
-using _7dtd_svmanager_fix_mvvm.PlayerController.Models.Pages;
-using _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels.Pages;
-using System;
-using System.Windows;
+﻿using System;
 using System.Windows.Controls;
+using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
+using _7dtd_svmanager_fix_mvvm.Models.PlayerController.Pages;
+using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController.Pages;
 
-namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages
+namespace _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages
 {
     /// <summary>
     /// Kick.xaml の相互作用ロジック

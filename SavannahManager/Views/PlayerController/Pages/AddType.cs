@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages
+﻿namespace _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages
 {
     public class AddType
     {

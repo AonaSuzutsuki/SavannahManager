@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.Windows.Input;
-using _7dtd_svmanager_fix_mvvm.PlayerController.Models;
-using _7dtd_svmanager_fix_mvvm.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Models.PlayerController;
 using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Prism.Commands;
 using SvManagerLibrary.Player;
 
-namespace _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels
+namespace _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController
 {
     public class PlayerInfoViewModel : ViewModelBase
     {
