@@ -290,7 +290,7 @@
                                                     </StackPanel>
                                                 </Grid>
 
-                                                <Button Content="Start server with SSH" Margin="0,10,0,0" Style="{StaticResource FlatButton}" Command="{Binding StartServerWithSShCommand}" />
+                                                <Button Content="Start server with SSH" Height="25" Margin="0,10,0,0" Style="{StaticResource FlatButton}" Command="{Binding StartServerWithSShCommand}" />
                                             </StackPanel>
                                         </TabItem>
 

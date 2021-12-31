@@ -129,7 +129,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             {
                 SetProperty(ref _localMode, value);
                 ConnectionPanelIsEnabled = !value;
-                StartBtEnabled = value;
             }
         }
         private bool _localModeEnabled = true;
@@ -330,7 +329,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             _isLogGetter = Setting.IsLogGetter;
             LocalMode = Setting.LocalMode;
-            StartBtEnabled = LocalMode;
 
             IsBeta = Setting.IsBetaMode;
 
@@ -411,6 +409,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         public async Task<bool> ServerStart()
         {
+            if (!LocalMode)
+            {
+                return ServerStartWithSsh();
+            }
+
             if (!FileExistCheck()) return false;
 
             var checkedValues = ConfigChecker.GetConfigInfo(ConfigFilePath);
@@ -697,8 +700,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Telnet = GenerateTelnetClient(this);
             var connected = await Task.Factory.StartNew(() => Telnet.Connect(localAddress, localPort));
             TelnetBtIsEnabled = true;
-            if (LocalMode)
-                StartBtEnabled = true;
+            StartBtEnabled = true;
 
             IsFailed = false;
             if (connected)
@@ -762,7 +764,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             ConnectionPanelIsEnabled = !LocalMode;
             LocalModeEnabled = true;
-            StartBtEnabled = LocalMode;
+            StartBtEnabled = true;
 
             _loggingStream?.Dispose();
             _loggingStream = null;
