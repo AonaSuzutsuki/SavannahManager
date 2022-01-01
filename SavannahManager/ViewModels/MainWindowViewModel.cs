@@ -330,6 +330,28 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         protected override void MainWindow_Loaded()
         {
             _model.Initialize();
+            
+            if (_model.Setting.IsEncryptPassword)
+            {
+                var inputWidth = 300;
+                var inputHeight = 200;
+                var item = MainWindowModel.CalculateCenterTop(_model, inputWidth, inputHeight);
+                var inputViewModel = new InputWindowViewModel(new WindowService(), new InputWindowModel
+                {
+                    Width = inputWidth,
+                    Height = inputHeight,
+                    Top = item.top,
+                    Left = item.left
+                });
+                WindowManageService.ShowDialog<InputWindow>(inputViewModel);
+                var password = inputViewModel.IsCancel ? null : inputViewModel.InputText.Value;
+                _model.InitializeEncryptionData(password);
+            }
+            else
+            {
+                _model.InitializeEncryptionData();
+            }
+
 
             _model.RefreshLabels();
 
