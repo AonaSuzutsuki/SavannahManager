@@ -9,15 +9,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 {
     public sealed class SettingLoader
     {
-        /// <summary>
-        /// Singleton SettingLoader instance for all.
-        /// </summary>
-        public static SettingLoader SettingInstance { private set; get; }
-
-        static SettingLoader()
-        {
-            SettingInstance = new SettingLoader(ConstantValues.SettingFilePath);
-        }
 
         private const string MainClassName = "Main";
         private const string ServerClassName = "Server";

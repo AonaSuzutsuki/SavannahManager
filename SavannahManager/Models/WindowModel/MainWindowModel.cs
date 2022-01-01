@@ -256,7 +256,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         public MainWindowModel()
         {
-            Setting = SettingLoader.SettingInstance;
+            Setting = new SettingLoader(ConstantValues.SettingFilePath);
             ShortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
                 ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + Resources.KeyConfigPath);
         }
