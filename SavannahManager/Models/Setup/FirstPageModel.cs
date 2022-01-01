@@ -7,6 +7,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Setup
     public class FirstPageModel : PageModelBase
     {
 
+        private readonly SettingLoader _settingLoader;
         private int _languagesSelectedIndex;
 
         public int LanguagesSelectedIndex
@@ -22,20 +23,19 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Setup
 
         public FirstPageModel(InitializeData initializeData) : base(initializeData)
         {
-            var settingLoader = SettingLoader.SettingInstance;
-            var cultureName = settingLoader.CultureName;
+            _settingLoader = initializeData.Setting;
+            var cultureName = _settingLoader.CultureName;
 
             LanguagesSelectedIndex = cultureName == ResourceService.Japanese ? 1 : 0;
         }
 
         public void ChangeCulture()
         {
-            var settingLoader = SettingLoader.SettingInstance;
             if (LanguagesSelectedIndex < 0 || LanguagesSelectedIndex >= Languages.Count)
                 return;
 
-            settingLoader.CultureName = Languages[LanguagesSelectedIndex].Item2;
-            settingLoader.ApplyCulture();
+            _settingLoader.CultureName = Languages[LanguagesSelectedIndex].Item2;
+            _settingLoader.ApplyCulture();
             
         }
     }

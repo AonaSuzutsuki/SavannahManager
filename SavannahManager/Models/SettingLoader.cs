@@ -4,20 +4,12 @@ using System.IO;
 using _7dtd_svmanager_fix_mvvm.LangResources;
 using CommonCoreLib.CommonPath;
 using CommonCoreLib.Ini;
+using SvManagerLibrary.Crypto;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
-    public sealed class SettingLoader
+    public sealed class SettingLoader : IDisposable
     {
-        /// <summary>
-        /// Singleton SettingLoader instance for all.
-        /// </summary>
-        public static SettingLoader SettingInstance { private set; get; }
-
-        static SettingLoader()
-        {
-            SettingInstance = new SettingLoader(ConstantValues.SettingFilePath);
-        }
 
         private const string MainClassName = "Main";
         private const string ServerClassName = "Server";
@@ -57,6 +49,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public bool IsAutoUpdate { get; set; }
 
+        public bool IsEncryptPassword { get; set; }
+
         public string BackupDirPath { get; set; }
 
         public string RestoreDirPath { get; set; }
@@ -73,11 +67,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public string SshExeFileDirectory { get; set; }
 
         public string SshConfigFileName { get; set; }
+        
+        public bool CanEncrypt => _encryptWrapper != null;
 
         #endregion
 
 
         private readonly IniLoader _iniLoader;
+        private RijndaelWrapper _encryptWrapper;
+
         public SettingLoader(string filename)
         {
             _iniLoader = new IniLoader(filename);
@@ -136,6 +134,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private void Load()
         {
+            IsEncryptPassword = _iniLoader.GetValue(MainClassName, "IsEncryptPassword", false);
+            if (!IsEncryptPassword)
+            {
+                Password = _iniLoader.GetValue(ServerClassName, "Password", "");
+            }
+
             Width = _iniLoader.GetValue(MainClassName, "Width", 900);
             Height = _iniLoader.GetValue(MainClassName, "Height", 550);
 
@@ -146,8 +150,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             Address = _iniLoader.GetValue(ServerClassName, "Address", "");
 
             Port = _iniLoader.GetValue(ServerClassName, "Port", 8081);
-
-            Password = _iniLoader.GetValue(ServerClassName, "Password", "");
 
             LocalMode = _iniLoader.GetValue(MainClassName, "LocalServerMode", true);
 
@@ -178,6 +180,25 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             SshConfigFileName = _iniLoader.GetValue(ServerClassName, "SshConfigFileName", "");
         }
 
+        public void SetEncryptionPassword(string password)
+        {
+            _encryptWrapper = new RijndaelWrapper(password, "9BBF8AA1-227C-4670-BF4B-DC279E254B03");
+        }
+
+        public void LoadEncryptionData()
+        {
+            var encryptedPassword = _iniLoader.GetValue(ServerClassName, "Password", "");
+
+            try
+            {
+                Password = _encryptWrapper.Decrypt(encryptedPassword);
+            }
+            catch
+            {
+                Password = "";
+            }
+        }
+
         public void ApplyCulture()
         {
             ResourceService.Current.ChangeCulture(CultureName);
@@ -186,6 +207,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public void Save()
         {
             _iniLoader.SetValue(MainClassName, "Version", "1.1");
+
+            _iniLoader.SetValue(MainClassName, "IsEncryptPassword", IsEncryptPassword);
+            if (!IsEncryptPassword)
+            {
+                _iniLoader.SetValue(ServerClassName, "Password", Password);
+            }
+            else
+            {
+                if (_encryptWrapper != null)
+                {
+                    _iniLoader.SetValue(ServerClassName, "Password", _encryptWrapper.Encrypt(Password));
+                }
+            }
+
             _iniLoader.SetValue(MainClassName, "Width", Width);
             _iniLoader.SetValue(MainClassName, "Height", Height);
             _iniLoader.SetValue(ServerClassName, "ExePath", ExeFilePath);
@@ -193,7 +228,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(ServerClassName, "AdminPath", AdminFilePath);
             _iniLoader.SetValue(ServerClassName, "Address", Address);
             _iniLoader.SetValue(ServerClassName, "Port", Port);
-            _iniLoader.SetValue(ServerClassName, "Password", Password);
             _iniLoader.SetValue(MainClassName, "LocalServerMode", LocalMode);
             _iniLoader.SetValue(MainClassName, "Culture", CultureName);
             _iniLoader.SetValue(MainClassName, "ConsoleLogLength", ConsoleTextLength);
@@ -210,6 +244,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(ServerClassName, "SshUserName", SshUserName);
             _iniLoader.SetValue(ServerClassName, "SshExeFileDirectory", SshExeFileDirectory);
             _iniLoader.SetValue(ServerClassName, "SshConfigFileName", SshConfigFileName);
+        }
+
+        public void Dispose()
+        {
+            _encryptWrapper?.Dispose();
         }
     }
 }

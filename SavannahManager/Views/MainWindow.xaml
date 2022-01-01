@@ -51,10 +51,6 @@
     </Window.Resources>
 
     <Grid Style="{StaticResource ResourceKey=BackgroundGrid}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="380*"/>
-            <ColumnDefinition Width="709*"/>
-        </Grid.ColumnDefinitions>
         <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" Opacity="{Binding AroundBorderOpacity.Value}" BorderThickness="1" Grid.ColumnSpan="2" />
 
         <Grid Grid.ColumnSpan="2" Margin="{Binding MainWindowMargin}">

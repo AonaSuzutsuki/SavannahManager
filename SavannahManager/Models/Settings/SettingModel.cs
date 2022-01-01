@@ -14,6 +14,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
         private int _telnetWaitTime = 2;
         private bool _isBetaMode;
         private bool _isAutoUpdate = true;
+        private bool _isEncryptPassword;
         private string _backupDirPath;
         private string _restoreDirPath;
         private readonly SettingLoader _setting;
@@ -75,6 +76,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
             set => base.SetProperty(ref _isAutoUpdate, value);
         }
 
+        public bool IsEncryptPassword
+        {
+            get => _isEncryptPassword;
+            set => SetProperty(ref _isEncryptPassword, value);
+        }
+
         public string BackupDirPath
         {
             get => _backupDirPath;
@@ -106,9 +113,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
                 TelnetWaitTime = setting.TelnetWaitTime;
                 IsBetaMode = setting.IsBetaMode;
                 IsAutoUpdate = setting.IsAutoUpdate;
+                IsEncryptPassword = setting.IsEncryptPassword;
                 BackupDirPath = setting.BackupDirPath;
                 RestoreDirPath = setting.RestoreDirPath;
             }
+        }
+
+        public void EnabledEncryptionData(string password)
+        {
+            _setting.SetEncryptionPassword(password);
         }
 
         public void Save()
@@ -123,6 +136,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
                 _setting.TelnetWaitTime = TelnetWaitTime;
                 _setting.IsBetaMode = IsBetaMode;
                 _setting.IsAutoUpdate = IsAutoUpdate;
+                _setting.IsEncryptPassword = IsEncryptPassword;
                 _setting.BackupDirPath = BackupDirPath;
                 _setting.RestoreDirPath = RestoreDirPath;
                 _setting.Save();

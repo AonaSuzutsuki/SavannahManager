@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.Models.Settings;
+using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 using _7dtd_svmanager_fix_mvvm.Views.Settings;
 using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.ViewModels;
@@ -43,6 +44,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
 
             IsBetaModeChecked = model.ToReactivePropertyAsSynchronized(m => m.IsBetaMode);
             IsAutoUpdateChecked = model.ToReactivePropertyAsSynchronized(m => m.IsAutoUpdate);
+            IsEncryptPassword = model.ToReactivePropertyAsSynchronized(m => m.IsEncryptPassword);
+
             BackupDirPath = model.ToReactivePropertyAsSynchronized(m => m.BackupDirPath);
             RestoreDirPath = model.ToReactivePropertyAsSynchronized(m => m.RestoreDirPath);
             #endregion
@@ -60,6 +63,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
 
         public ReactiveProperty<bool> IsBetaModeChecked { get; set; }
         public ReactiveProperty<bool> IsAutoUpdateChecked { get; set; }
+        public ReactiveProperty<bool> IsEncryptPassword { get; set; }
+
         public ReactiveProperty<string> BackupDirPath { get; set; }
         public ReactiveProperty<string> RestoreDirPath { get; set; }
         #endregion
@@ -117,7 +122,26 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
 
         private void SaveBt_Click()
         {
+            if (_model.IsEncryptPassword)
+            {
+                var inputWidth = 300;
+                var inputHeight = 200;
+                var item = MainWindowModel.CalculateCenterTop(_model, inputWidth, inputHeight);
+                var inputViewModel = new InputWindowViewModel(new WindowService(), new InputWindowModel
+                {
+                    Width = inputWidth,
+                    Height = inputHeight,
+                    Top = item.top,
+                    Left = item.left
+                });
+                WindowManageService.ShowDialog<InputWindow>(inputViewModel);
+                if (!inputViewModel.IsCancel)
+                {
+                    _model.EnabledEncryptionData(inputViewModel.InputText.Value);
+                }
+            }
             _model.Save();
+
             WindowManageService.Close();
         }
         #endregion
