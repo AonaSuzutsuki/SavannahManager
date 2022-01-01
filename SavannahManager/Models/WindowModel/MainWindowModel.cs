@@ -21,6 +21,7 @@ using SvManagerLibrary.Chat;
 using SvManagerLibrary.Player;
 using CommonExtensionLib.Extensions;
 using System.Linq;
+using System.Windows.Forms;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 using _7dtd_svmanager_fix_mvvm.Models.Update;
 
@@ -256,7 +257,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         public MainWindowModel()
         {
-            Setting = SettingLoader.SettingInstance;
+            Setting = new SettingLoader(ConstantValues.SettingFilePath);
             ShortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
                 ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + Resources.KeyConfigPath);
         }
@@ -279,11 +280,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Left = (screenWidth - Width) / 2;
         }
 
+        public static (double left, double top) CalculateCenterTop(ModelBase model, double targetWidth, double targetHeight)
+        {
+            var returnLeft = model.Left + model.Width / 2 - targetWidth / 2;
+            var returnTop = model.Top + model.Height / 2 - targetHeight / 2;
+
+            return (returnLeft, returnTop);
+        }
+
         public void Initialize()
         {
             Address = Setting.Address;
             PortText = Setting.Port.ToString();
-            Password = Setting.Password;
 
             IsConsoleLogTextWrapping = Setting.IsConsoleLogTextWrapping;
             ConsoleTextLength = Setting.ConsoleTextLength;
@@ -295,6 +303,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             IsBeta = Setting.IsBetaMode;
 
             Setting.ApplyCulture();
+        }
+
+        public void InitializeEncryptionData(string password = null)
+        {
+            if (password != null)
+            {
+                Setting.SetEncryptionPassword(password);
+                Setting.LoadEncryptionData();
+            }
+
+            Password = Setting.Password;
         }
 
         public async Task<bool> CheckUpdate()
@@ -1057,6 +1076,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 }
 
                 Setting.Save();
+                Setting.Dispose();
             }
 
             _disposed = true;
