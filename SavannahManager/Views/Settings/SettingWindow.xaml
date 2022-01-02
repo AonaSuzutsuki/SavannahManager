@@ -247,7 +247,14 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Label Grid.Row="0" Content="Encryption" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                                    <CheckBox IsEnabled="True" Content="Encrypt Password" Grid.Row="1" IsChecked="{Binding IsEncryptPassword.Value}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox IsEnabled="True" Content="Encrypt Password" Grid.Row="1" IsChecked="{Binding IsEncryptPassword.Value}" />
+                                        <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                            <Hyperlink Foreground="White" Command="{Binding ResetPasswordCommand}" >
+                                                Reset password
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </StackPanel>
                                 </Grid>
 
                             </StackPanel>

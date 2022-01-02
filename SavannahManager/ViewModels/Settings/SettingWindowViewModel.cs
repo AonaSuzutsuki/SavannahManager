@@ -24,6 +24,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
             GetAdminFilePathCommand = new DelegateCommand(GetAdminFilePathBt_Click);
             HelpHyperlinkCommand = new DelegateCommand<string>(OpenHelpHyperlink);
 
+            ResetPasswordCommand = new DelegateCommand(ResetPassword);
+
             KeyEditCommand = new DelegateCommand(KeyEditBt_Click);
 
             GetBackupDirCommand = new DelegateCommand(GetBackupDirBt_Click);
@@ -76,6 +78,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
 
         public ICommand HelpHyperlinkCommand { get; set; }
 
+        public ICommand ResetPasswordCommand { get; set; }
+
         public ICommand KeyEditCommand { get; set; }
 
         public ICommand GetBackupDirCommand { get; set; }
@@ -120,26 +124,41 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
             _model.GetRestoreDirPath();
         }
 
-        private void SaveBt_Click()
+        private void ResetPassword()
         {
             if (_model.IsEncryptPassword)
             {
-                var inputWidth = 300;
-                var inputHeight = 200;
-                var item = MainWindowModel.CalculateCenterTop(_model, inputWidth, inputHeight);
+                const int inputWidth = InputWindowViewModel.DefaultWidth;
+                const int inputHeight = InputWindowViewModel.DefaultHeight;
+                var (left, top) = MainWindowModel.CalculateCenterTop(_model, inputWidth, inputHeight);
                 var inputViewModel = new InputWindowViewModel(new WindowService(), new InputWindowModel
                 {
                     Width = inputWidth,
                     Height = inputHeight,
-                    Top = item.top,
-                    Left = item.left
-                });
+                    Top = top,
+                    Left = left
+                })
+                {
+                    Title =
+                    {
+                        Value = "Password Dialog"
+                    },
+                    Message =
+                    {
+                        Value = "Input password for encryption."
+                    }
+                };
                 WindowManageService.ShowDialog<InputWindow>(inputViewModel);
                 if (!inputViewModel.IsCancel)
                 {
                     _model.EnabledEncryptionData(inputViewModel.InputText.Value);
                 }
             }
+        }
+        private void SaveBt_Click()
+        {
+            if (_model.IsRequirePassword)
+                ResetPassword();
             _model.Save();
 
             WindowManageService.Close();

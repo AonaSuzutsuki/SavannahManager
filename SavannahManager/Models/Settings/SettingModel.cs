@@ -94,6 +94,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
             set => SetProperty(ref _restoreDirPath, value);
         }
 
+        public bool IsRequirePassword => !_setting.CanEncrypt;
 
         public ShortcutKeyManager ShortcutKeyManager { get; }
 
