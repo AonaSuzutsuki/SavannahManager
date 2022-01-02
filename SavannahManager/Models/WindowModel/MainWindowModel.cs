@@ -430,7 +430,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         {
             if (!LocalMode)
             {
-                return ServerStartWithSsh();
+                return await ServerStartWithSsh();
             }
 
             if (!FileExistCheck()) return false;
