@@ -305,15 +305,25 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Setting.ApplyCulture();
         }
 
-        public void InitializeEncryptionData(string password = null)
+        public bool InitializeEncryptionData(string password = null)
         {
             if (password != null)
             {
                 Setting.SetEncryptionPassword(password);
-                Setting.LoadEncryptionData();
+                try
+                {
+                    Setting.LoadEncryptionData();
+                }
+                catch
+                {
+                    _errorOccurred.OnNext("Invalid password.");
+                    return false;
+                }
             }
 
             Password = Setting.Password;
+
+            return true;
         }
 
         public async Task<bool> CheckUpdate()
