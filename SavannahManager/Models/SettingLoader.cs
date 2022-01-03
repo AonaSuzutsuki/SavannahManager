@@ -196,6 +196,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             catch
             {
                 Password = "";
+                _encryptWrapper = null;
+                throw;
             }
         }
 
@@ -215,7 +217,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
             else
             {
-                if (_encryptWrapper != null)
+                if (_encryptWrapper != null && !string.IsNullOrEmpty(Password))
                 {
                     _iniLoader.SetValue(ServerClassName, "Password", _encryptWrapper.Encrypt(Password));
                 }

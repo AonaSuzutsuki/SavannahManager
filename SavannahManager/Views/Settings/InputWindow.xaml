@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:InputWindowViewModel}"
         d:DesignHeight="200" d:DesignWidth="300"
-        Title="InputPasswordWindow" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}"
+        Title="{Binding Title.Value}" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}"
         ResizeMode="CanMinimize" WindowStartupLocation="CenterOwner">
 
     <WindowChrome.WindowChrome>
@@ -44,7 +44,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
-                <Label Content="Input" Style="{StaticResource ResourceKey=StatTitle}" />
+                <Label Content="{Binding Title.Value}" Style="{StaticResource ResourceKey=StatTitle}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
@@ -61,7 +61,10 @@
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
 
-                <TextBox Text="{Binding InputText.Value, UpdateSourceTrigger=PropertyChanged}" Height="30" />
+                <StackPanel VerticalAlignment="Center">
+                    <Label Content="{Binding Message.Value}" />
+                    <TextBox Text="{Binding InputText.Value, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Height="30" />
+                </StackPanel>
 
                 <Grid Grid.Row="1">
 

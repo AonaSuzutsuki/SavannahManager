@@ -349,19 +349,33 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             
             if (_model.Setting.IsEncryptPassword)
             {
-                var inputWidth = 300;
-                var inputHeight = 200;
-                var item = MainWindowModel.CalculateCenterTop(_model, inputWidth, inputHeight);
-                var inputViewModel = new InputWindowViewModel(new WindowService(), new InputWindowModel
+                string password;
+                do
                 {
-                    Width = inputWidth,
-                    Height = inputHeight,
-                    Top = item.top,
-                    Left = item.left
-                });
-                WindowManageService.ShowDialog<InputWindow>(inputViewModel);
-                var password = inputViewModel.IsCancel ? null : inputViewModel.InputText.Value;
-                _model.InitializeEncryptionData(password);
+                    const int inputWidth = InputWindowViewModel.DefaultWidth;
+                    const int inputHeight = InputWindowViewModel.DefaultHeight;
+                    var (left, top) = MainWindowModel.CalculateCenterTop(_model, inputWidth, inputHeight);
+                    var inputViewModel = new InputWindowViewModel(new WindowService(), new InputWindowModel
+                    {
+                        Width = inputWidth,
+                        Height = inputHeight,
+                        Top = top,
+                        Left = left
+                    })
+                    {
+                        Title =
+                        {
+                            Value = "Password Dialog"
+                        },
+                        Message =
+                        {
+                            Value = "Input password for decryption."
+                        }
+                    };
+
+                    WindowManageService.ShowDialog<InputWindow>(inputViewModel);
+                    password = inputViewModel.IsCancel ? null : inputViewModel.InputText.Value;
+                } while (!_model.InitializeEncryptionData(password));
             }
             else
             {

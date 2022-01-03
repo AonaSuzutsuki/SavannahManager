@@ -15,9 +15,16 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
 {
     public class InputWindowViewModel : ViewModelBase
     {
+        #region Constants
+
+        public const int DefaultWidth = 300;
+        public const int DefaultHeight = 200;
+
+        #endregion
+
         #region Fields
 
-        
+
 
         #endregion
 
@@ -32,6 +39,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
 
         public bool IsCancel { get; set; } = true;
 
+        public ReactiveProperty<string> Title { get; set; }
+        public ReactiveProperty<string> Message { get; set; }
         public ReactiveProperty<string> InputText { get; set; }
 
         #endregion
@@ -40,6 +49,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
         public InputWindowViewModel(IWindowService windowService, InputWindowModel model) : base(windowService, model)
         {
             InputText = new ReactiveProperty<string>("");
+            Title = new ReactiveProperty<string>("");
+            Message = new ReactiveProperty<string>("");
 
             OkCommand = new DelegateCommand(OkClick);
             CancelCommand = new DelegateCommand(CancelClick);
