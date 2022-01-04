@@ -6,10 +6,9 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
-        xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Models.Converter"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels"
-        xmlns:converter1="clr-namespace:_7dtd_svmanager_fix_mvvm.Models.Converter"
+        xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Converter"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
@@ -51,10 +50,6 @@
     </Window.Resources>
 
     <Grid Style="{StaticResource ResourceKey=BackgroundGrid}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="380*"/>
-            <ColumnDefinition Width="709*"/>
-        </Grid.ColumnDefinitions>
         <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" Opacity="{Binding AroundBorderOpacity.Value}" BorderThickness="1" Grid.ColumnSpan="2" />
 
         <Grid Grid.ColumnSpan="2" Margin="{Binding MainWindowMargin}">
@@ -191,7 +186,7 @@
 
                     <Grid Grid.Column="1" Name="CenterPanel" HorizontalAlignment="Stretch" Margin="0,0,2,0">
                         <Grid Margin="0,0,0,26">
-                            <TextBox Text="{Binding ConsoleLogText, Mode=OneWay}" Name="ConsoleTextBox" AcceptsReturn="True" TextWrapping="{Binding IsConsoleLogTextWrapping.Value, Converter={converter1:TextWrappingConverter}}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch">
+                            <TextBox Text="{Binding ConsoleLogText, Mode=OneWay}" Name="ConsoleTextBox" AcceptsReturn="True" TextWrapping="{Binding IsConsoleLogTextWrapping.Value, Converter={converter:TextWrappingConverter}}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseEnter">
                                         <i:InvokeCommandAction  Command="{Binding ConsoleTextBoxMouseEnter}" />
@@ -221,9 +216,11 @@
                                     </i:Interaction.Triggers>
                                 </ListBox>
                             </Popup>-->
-                            <TextBox Text="{Binding CmdText, UpdateSourceTrigger=PropertyChanged}" Height="25" ContextMenu="{StaticResource CopyCutPaste}">
+                            <TextBox Name="CmdTextBox" Text="{Binding CmdText, UpdateSourceTrigger=PropertyChanged}" Height="25" ContextMenu="{StaticResource CopyCutPaste}">
                                 <TextBox.InputBindings>
                                     <KeyBinding Key="Enter" Command="{Binding CmdTextBoxEnterDown}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
+                                    <KeyBinding Key="Up" Command="{Binding SetCmdHistoryCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+                                    <KeyBinding Key="Down" Command="{Binding SetCmdHistoryCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
                                 </TextBox.InputBindings>
                             </TextBox>
                         </DockPanel>

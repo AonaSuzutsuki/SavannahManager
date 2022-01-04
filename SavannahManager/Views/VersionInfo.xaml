@@ -78,7 +78,7 @@
                         </StackPanel>
                         <StackPanel>
                             <Label Content="{Binding VersionLabel.Value}" />
-                            <Label Content="Copyright (C) Aona Suzutsuki 2014 - 2021" />
+                            <Label Content="{Binding Copyright.Value}" />
                         </StackPanel>
                     </StackPanel>
 

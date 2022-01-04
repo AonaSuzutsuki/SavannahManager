@@ -11,8 +11,6 @@ using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.LangResources;
-using _7dtd_svmanager_fix_mvvm.Settings;
-using _7dtd_svmanager_fix_mvvm.Update.Models;
 using _7dtd_svmanager_fix_mvvm.ViewModels;
 using _7dtd_svmanager_fix_mvvm.Models.Config;
 using CommonStyleLib.Models;
@@ -23,7 +21,9 @@ using SvManagerLibrary.Chat;
 using SvManagerLibrary.Player;
 using CommonExtensionLib.Extensions;
 using System.Linq;
+using System.Windows.Forms;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
+using _7dtd_svmanager_fix_mvvm.Models.Update;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
@@ -228,10 +228,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         private int _port;
         private string _password = string.Empty;
 
-        private readonly List<ChatInfo> _chatArray = new List<ChatInfo>();
-
-        private readonly Dictionary<int, UserDetail> _playersDictionary = new Dictionary<int, UserDetail>();
-        private readonly List<int> _connectedIds = new List<int>();
+        private readonly List<ChatInfo> _chatArray = new();
+        private readonly CommandCollector _commandCollector = new();
+        private readonly Dictionary<int, UserDetail> _playersDictionary = new();
+        private readonly List<int> _connectedIds = new();
 
         private bool _isServerForceStop;
 
@@ -257,7 +257,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         public MainWindowModel()
         {
-            Setting = SettingLoader.SettingInstance;
+            Setting = new SettingLoader(ConstantValues.SettingFilePath);
             ShortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
                 ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + Resources.KeyConfigPath);
         }
@@ -280,11 +280,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Left = (screenWidth - Width) / 2;
         }
 
+        public static (double left, double top) CalculateCenterTop(ModelBase model, double targetWidth, double targetHeight)
+        {
+            var returnLeft = model.Left + model.Width / 2 - targetWidth / 2;
+            var returnTop = model.Top + model.Height / 2 - targetHeight / 2;
+
+            return (returnLeft, returnTop);
+        }
+
         public void Initialize()
         {
             Address = Setting.Address;
             PortText = Setting.Port.ToString();
-            Password = Setting.Password;
 
             IsConsoleLogTextWrapping = Setting.IsConsoleLogTextWrapping;
             ConsoleTextLength = Setting.ConsoleTextLength;
@@ -296,6 +303,27 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             IsBeta = Setting.IsBetaMode;
 
             Setting.ApplyCulture();
+        }
+
+        public bool InitializeEncryptionData(string password = null)
+        {
+            if (password != null)
+            {
+                Setting.SetEncryptionPassword(password);
+                try
+                {
+                    Setting.LoadEncryptionData();
+                }
+                catch
+                {
+                    _errorOccurred.OnNext("Invalid password.");
+                    return false;
+                }
+            }
+
+            Password = Setting.Password;
+
+            return true;
         }
 
         public async Task<bool> CheckUpdate()
@@ -548,11 +576,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             return true;
         }
         
-        public void TelnetConnectOrDisconnect()
+        public void SwitchTelnetConnection()
         {
             if (!IsConnected)
             {
-                _ = TelnetConnect().ContinueWith((task) =>
+                _ = ConnectTelnet().ContinueWith((task) =>
                 {
                     var innerExceptions = task.Exception?.InnerExceptions;
                     if (innerExceptions != null)
@@ -566,10 +594,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
             else
             {
-                TelnetDisconnect();
+                DisconnectTelnet();
             }
         }
-        private async Task TelnetConnect()
+        private async Task ConnectTelnet()
         {
             var localAddress = Address;
             var localPort = _port;
@@ -631,7 +659,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 TelnetFinish();
             }
         }
-        private void TelnetDisconnect()
+        private void DisconnectTelnet()
         {
             try
             {
@@ -831,8 +859,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
 #endif
 
+            _commandCollector.AddCommand(cmd);
             SocTelnetSendNrt(cmd);
         }
+
+        public string GetPreviousCommand()
+        {
+            return _commandCollector.GetPreviousCommand();
+        }
+
+        public string GetNextCommand()
+        {
+            return _commandCollector.GetNextCommand();
+        }
+
         public bool CheckConnected()
         {
             if (IsConnected)
@@ -967,13 +1007,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             else if (ShortcutKeyManager.IsPushed("ConTelnetKey", Keyboard.Modifiers, key))
             {
                 if (!IsConnected)
-                    _ = TelnetConnect();
+                    _ = ConnectTelnet();
             }
             else if (ShortcutKeyManager.IsPushed("DisConTelnetKey", Keyboard.Modifiers, key))
             {
                 if (IsConnected)
                 {
-                    TelnetDisconnect();
+                    DisconnectTelnet();
                 }
             }
         }
@@ -1046,6 +1086,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 }
 
                 Setting.Save();
+                Setting.Dispose();
             }
 
             _disposed = true;

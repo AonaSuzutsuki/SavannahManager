@@ -6,40 +6,43 @@ using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using _7dtd_svmanager_fix_mvvm.Backup.Models;
-using _7dtd_svmanager_fix_mvvm.Backup.ViewModels;
-using _7dtd_svmanager_fix_mvvm.Backup.Views;
 using _7dtd_svmanager_fix_mvvm.LangResources;
 using _7dtd_svmanager_fix_mvvm.Models;
-using _7dtd_svmanager_fix_mvvm.Permissions.Models;
-using _7dtd_svmanager_fix_mvvm.Permissions.ViewModels;
-using _7dtd_svmanager_fix_mvvm.Permissions.Views;
-using _7dtd_svmanager_fix_mvvm.PlayerController.Models;
-using _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels;
-using _7dtd_svmanager_fix_mvvm.PlayerController.Views;
-using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
-using _7dtd_svmanager_fix_mvvm.Settings.Models;
-using _7dtd_svmanager_fix_mvvm.Settings.ViewModels;
-using _7dtd_svmanager_fix_mvvm.Settings.Views;
-using _7dtd_svmanager_fix_mvvm.Setup.Models;
-using _7dtd_svmanager_fix_mvvm.Setup.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Models.Backup;
+using _7dtd_svmanager_fix_mvvm.Models.Permissions;
+using _7dtd_svmanager_fix_mvvm.Models.PlayerController;
+using _7dtd_svmanager_fix_mvvm.Models.Settings;
+using _7dtd_svmanager_fix_mvvm.Models.Setup;
+using _7dtd_svmanager_fix_mvvm.Models.Update;
 using CommonStyleLib.Views;
-using _7dtd_svmanager_fix_mvvm.Setup.Views;
-using _7dtd_svmanager_fix_mvvm.Update.Models;
-using _7dtd_svmanager_fix_mvvm.Update.ViewModels;
-using _7dtd_svmanager_fix_mvvm.Update.Views;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.Models;
 using SvManagerLibrary.Player;
 using SvManagerLibrary.Telnet;
 using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Backup;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Permissions;
+using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Settings;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Setup;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Update;
+using _7dtd_svmanager_fix_mvvm.Views.Backup;
+using _7dtd_svmanager_fix_mvvm.Views.Permissions;
+using _7dtd_svmanager_fix_mvvm.Views.PlayerController;
+using _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages;
+using _7dtd_svmanager_fix_mvvm.Views.Settings;
+using _7dtd_svmanager_fix_mvvm.Views.Setup;
+using _7dtd_svmanager_fix_mvvm.Views.Update;
+using CommonNavigationControlLib.Navigation.ViewModels;
+using CommonNavigationControlLib.Navigation.Views;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -138,6 +141,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             DeleteLogCommand = new DelegateCommand(DeleteLog);
 
             CmdTextBoxEnterDown = new DelegateCommand<string>(SendCmd);
+            SetCmdHistoryCommand = new DelegateCommand<KeyBinding>(SetCmdHistory);
 
             OpenTelnetWaitTimeCalculatorCommand = new DelegateCommand(OpenTelnetWaitTimeCalculator);
             GetTimeCommand = new DelegateCommand(GetTime);
@@ -230,6 +234,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand ShowPlayerInfoCommand { get; set; }
 
         public ICommand ChatTextBoxEnterDown { get; set; }
+        public ICommand SetCmdHistoryCommand { get; set; }
 
         public ICommand ConsoleTextBoxMouseEnter { get; set; }
         public ICommand ConsoleTextBoxMouseLeave { get; set; }
@@ -325,6 +330,42 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         protected override void MainWindow_Loaded()
         {
             _model.Initialize();
+            
+            if (_model.Setting.IsEncryptPassword)
+            {
+                string password;
+                do
+                {
+                    const int inputWidth = InputWindowViewModel.DefaultWidth;
+                    const int inputHeight = InputWindowViewModel.DefaultHeight;
+                    var (left, top) = MainWindowModel.CalculateCenterTop(_model, inputWidth, inputHeight);
+                    var inputViewModel = new InputWindowViewModel(new WindowService(), new InputWindowModel
+                    {
+                        Width = inputWidth,
+                        Height = inputHeight,
+                        Top = top,
+                        Left = left
+                    })
+                    {
+                        Title =
+                        {
+                            Value = "Password Dialog"
+                        },
+                        Message =
+                        {
+                            Value = "Input password for decryption."
+                        }
+                    };
+
+                    WindowManageService.ShowDialog<InputWindow>(inputViewModel);
+                    password = inputViewModel.IsCancel ? null : inputViewModel.InputText.Value;
+                } while (!_model.InitializeEncryptionData(password));
+            }
+            else
+            {
+                _model.InitializeEncryptionData();
+            }
+
 
             _model.RefreshLabels();
 
@@ -400,7 +441,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 var service = new NavigationWindowService<InitializeData>
                 {
                     Owner = window,
-                    Navigation = window.MainFrame,
+                    Navigation = window.NavigationControl,
                     Share = new InitializeData
                     {
                         Setting = _model.Setting,
@@ -408,13 +449,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                         ServerFilePath = _model.Setting.ExeFilePath,
                         ServerAdminConfigFilePath = _model.Setting.AdminFilePath
                     },
-                    Pages = new List<Tuple<Type, bool>>
+                    Pages = new List<NavigationPageInfo>
                     {
-                        new Tuple<Type, bool>(typeof(FirstPage), true),
-                        new Tuple<Type, bool>(typeof(ExecutablePage), true),
-                        new Tuple<Type, bool>(typeof(ConfigPage), true),
-                        new Tuple<Type, bool>(typeof(AdminPage), true),
-                        new Tuple<Type, bool>(typeof(FinishPage), true)
+                        new(typeof(FirstPage)),
+                        new(typeof(ExecutablePage)),
+                        new(typeof(ConfigPage)),
+                        new(typeof(AdminPage)),
+                        new(typeof(FinishPage))
                     }
                 };
                 service.NavigationValue.WindowTitle = LangResources.SetupResource.UI_NameLabel;
@@ -491,7 +532,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void ConnectTelnet()
         {
-            _model.TelnetConnectOrDisconnect();
+            _model.SwitchTelnetConnection();
         }
 
         public void AutoRestart()
@@ -654,6 +695,23 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             CmdText = string.Empty;
         }
 
+        private void SetCmdHistory(KeyBinding e)
+        {
+            var key = e.Key;
+            var cmd = "";
+            switch (key)
+            {
+                case Key.Up:
+                    cmd = _model.GetPreviousCommand();
+                    break;
+                case Key.Down:
+                    cmd = _model.GetNextCommand();
+                    break;
+            }
+
+            CmdText = cmd;
+            _mainWindowService.Select(_mainWindowService.CmdTextBox, CmdText.Length, 0);
+        }
 
         private void OpenTelnetWaitTimeCalculator()
         {
@@ -735,8 +793,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             {
                 if (!_consoleIsFocus)
                 {
-                    _mainWindowService.Select(ConsoleLogText.Length, 0);
-                    _mainWindowService.ScrollToEnd();
+                    _mainWindowService.Select(_mainWindowService.ConsoleTextBox, ConsoleLogText.Length, 0);
+                    _mainWindowService.ScrollToEnd(_mainWindowService.ConsoleTextBox);
                 }
             }
         }

@@ -27,10 +27,12 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             CopyDonationAddressCommand = new DelegateCommand<string>(DonateBt_Clicked);
 
             VersionLabel = model.ObserveProperty(m => m.Version).ToReactiveProperty();
+            Copyright = model.ObserveProperty(m => m.Copyright).ToReactiveProperty();
         }
 
         #region Properties
         public ReactiveProperty<string> VersionLabel { get; set; }
+        public ReactiveProperty<string> Copyright { get; set; }
         #endregion
 
         #region EventProperties

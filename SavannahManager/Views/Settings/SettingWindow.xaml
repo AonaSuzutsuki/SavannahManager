@@ -1,0 +1,335 @@
+﻿<Window x:Class="_7dtd_svmanager_fix_mvvm.Views.Settings.SettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+        xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
+        xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
+        xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels.Settings"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModels:SettingWindowViewModel}"
+        ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
+        Title="Settings" Height="{Binding Height.Value, Mode=OneWayToSource, FallbackValue=300}" Width="{Binding Width.Value, Mode=OneWayToSource, FallbackValue=400}" Top="{Binding Top.Value, Mode=OneWayToSource}" Left="{Binding Left.Value, Mode=OneWayToSource}" ResizeMode="CanMinimize">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding Closing}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Activated">
+            <i:InvokeCommandAction Command="{Binding Activated}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Deactivated">
+            <i:InvokeCommandAction Command="{Binding Deactivated}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
+                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
+                      UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
+        <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" BorderThickness="1" />
+
+        <Grid Margin="{Binding MainWindowMargin}">
+
+            <StackPanel Orientation="Horizontal" Margin="5,0,0,0"
+                        HorizontalAlignment="left"
+                        VerticalAlignment="Top">
+                <Image Source="{StaticResource Icon}" Width="15" Height="15" Stretch="Uniform" WindowChrome.IsHitTestVisibleInChrome="True">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDown">
+                            <commonViews:InteractiveCommand Command="{Binding ImageMouseDown}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Image>
+                <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_SettingsNameLabel, Mode=OneWay}" Style="{DynamicResource ResourceKey=StatTitle}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top">
+                <Button Name="MainWindowMinimumBt" Content="0" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowMinimumBtClick}" />
+                <Button Name="MainWindowCloseBt" Content="r" Style="{DynamicResource CaptionButtonStyleKey}" Command="{Binding MainWindowCloseBtClick}" />
+            </StackPanel>
+            <Grid Margin="0,30,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="33" />
+                </Grid.RowDefinitions>
+
+                <TabControl Grid.Row="0" Margin="4,0,4,4">
+
+                    <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_GeneralLabel, Mode=OneWay}">
+                        <StackPanel Orientation="Vertical" Margin="3">
+
+                            <Grid Margin="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_ServerFilePathLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="340" />
+                                        <ColumnDefinition Width="36" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Text="{Binding ExeFilePathText.Value}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Height="24" />
+                                    <Button Name="GetSvFilePathBt" Grid.Column="1" Style="{DynamicResource FlatButton}" Content="..." HorizontalAlignment="Center" VerticalAlignment="Top"  Width="26" Height="24" Command="{Binding GetSvFilePathCommand}" />
+                                </Grid>
+                            </Grid>
+
+                            <Grid Margin="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_ConfigFilePathLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="340" />
+                                        <ColumnDefinition Width="36" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Text="{Binding ConfigFilePathText.Value}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Height="24" />
+                                    <Button Name="GetConfFilePathBt" Grid.Column="1" Style="{DynamicResource FlatButton}" Content="..." HorizontalAlignment="Center" VerticalAlignment="Top"  Width="26" Height="24" Command="{Binding GetConfFilePathCommand}" />
+                                </Grid>
+                            </Grid>
+
+                            <Grid Margin="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_AdminFilePathLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="340" />
+                                        <ColumnDefinition Width="36" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Text="{Binding AdminFilePathText.Value}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Height="24" />
+                                    <Button Name="GetAdminFilePathBt" Grid.Column="1" Style="{DynamicResource FlatButton}" Content="..." HorizontalAlignment="Center" VerticalAlignment="Top"  Width="26" Height="24" Command="{Binding GetAdminFilePathCommand}" />
+                                </Grid>
+                            </Grid>
+
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_LogLabel, Mode=OneWay}">
+                        <Grid>
+                            <StackPanel Orientation="Vertical" Margin="3">
+
+                                <Grid Margin="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_LogLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                    <CheckBox Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_LogGetterEnabledLabel, Mode=OneWay}" IsEnabled="True" IsChecked="{Binding IsLogGetterChecked.Value}" Grid.Row="1" />
+                                </Grid>
+
+                                <Grid Margin="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel>
+                                        <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_LogLength, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                        <Grid Margin="3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="10" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="60" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="1" Text="{Binding ConsoleLengthText.Value}">
+                                                <i:Interaction.Behaviors>
+                                                    <behaviors:NumTextBehavior />
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                            <Label Grid.Column="2" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_TextLength, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_KeyConfigLabel, Mode=OneWay}">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Orientation="Vertical" Margin="3">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_ShortcutKeyLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                    <Button Name="KeyEditBt" Width="100" Height="25" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_KeyEditBTLabel, Mode=OneWay}" Margin="50,0,0,0" Style="{DynamicResource FlatButton}" Command="{Binding KeyEditCommand}" />
+                                </StackPanel>
+
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="Telnet">
+                        <StackPanel>
+                            <Grid Margin="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                    <Label Content="Telnet wait time" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                    <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                        <Hyperlink Foreground="White" Command="{Binding HelpHyperlinkCommand}" CommandParameter="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.Help_TelnetWaitTime, Mode=OneWay}">
+                                            ?
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </StackPanel>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBox Text="{Binding TelnetWaitTime.Value}" HorizontalContentAlignment="Right" />
+                                    <Label Grid.Column="2" Content="ms" />
+                                </Grid>
+                            </Grid>
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_OthersLabel, Mode=OneWay}">
+                        <Grid>
+                            <StackPanel Orientation="Vertical" Margin="3">
+
+                                <Grid Margin="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_BetaModeLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                        <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                            <Hyperlink Foreground="White" Command="{Binding HelpHyperlinkCommand}" CommandParameter="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.Help_BetaMode, Mode=OneWay}">
+                                                ?
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <CheckBox Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_BetaModeEnabledLabel, Mode=OneWay}" IsChecked="{Binding IsBetaModeChecked.Value}" Grid.Row="1" IsEnabled="True" />
+                                </Grid>
+
+                                <Grid Margin="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_UpdateLabel, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                    <CheckBox IsEnabled="True" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_AutoCheckUpdLabel, Mode=OneWay}" Grid.Row="1" IsChecked="{Binding IsAutoUpdateChecked.Value}" />
+                                </Grid>
+
+                                <Grid Margin="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Content="Encryption" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                        <CheckBox IsEnabled="True" Content="Encrypt Password" Grid.Row="1" IsChecked="{Binding IsEncryptPassword.Value}" />
+                                        <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                            <Hyperlink Foreground="White" Command="{Binding ResetPasswordCommand}" >
+                                                Reset password
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
+
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Backup" IsEnabled="{Binding IsBetaModeChecked.Value}">
+                        <Grid>
+                            <StackPanel Orientation="Vertical" Margin="3">
+
+                                <Grid Margin="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_BackupDestinationPath, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="25" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBox Text="{Binding BackupDirPath.Value}" />
+                                        <Button Grid.Column="2" Content="..." Style="{DynamicResource FlatButton}" Command="{Binding GetBackupDirCommand}" />
+
+                                    </Grid>
+
+                                </Grid>
+
+                                <Grid Margin="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_RestoreDestinationPath, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                        
+                                        <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                            <Hyperlink Foreground="White" Command="{Binding HelpHyperlinkCommand}" CommandParameter="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.Help_BackupRestorePath, Mode=OneWay}">
+                                                ?
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="25" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBox Text="{Binding RestoreDirPath.Value}" />
+                                        <Button Grid.Column="2" Content="..." Style="{DynamicResource FlatButton}" Command="{Binding GetRestoreDirCommand}" />
+
+                                    </Grid>
+
+                                </Grid>
+
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                </TabControl>
+
+                <Grid Margin="0,0,3,0" Grid.Row="1">
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_SaveBT, Mode=OneWay}" Name="SaveBt" Style="{DynamicResource FlatButton}" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding SaveBtCommand}" />
+                        <Button Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_CancelBT, Mode=OneWay}" Style="{DynamicResource FlatButton}" Margin="3,0,0,0" Width="80" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding MainWindowCloseBtClick}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>

@@ -21,11 +21,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             set => SetProperty(ref _version, value);
         }
 
+        private string _copyrgiht;
+
+        public string Copyright
+        {
+            get => _copyrgiht;
+            set => SetProperty(ref _copyrgiht, value);
+        }
+
         public void SetVersion()
         {
-            //var asm = Assembly.GetExecutingAssembly();
+            var asm = Assembly.GetExecutingAssembly();
             //var ver = asm.GetName().Version;
-
+            Copyright = Attribute.GetCustomAttribute(asm, typeof(AssemblyCopyrightAttribute))
+                is AssemblyCopyrightAttribute copyrightAttribute ? copyrightAttribute.Copyright : string.Empty;
             Version = ConstantValues.Version; //ver.ToString() + "b";
         }
 
