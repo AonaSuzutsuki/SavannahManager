@@ -117,7 +117,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             OpenVersionInfoCommand = new DelegateCommand(OpenMenuVersionInfo);
 
             StartServerCommand = new DelegateCommand(StartServer);
-            StartServerWithSShCommand = new DelegateCommand(StartServerWithSSh);
             StopServerCommand = new DelegateCommand(StopServer);
             ConnectTelnetCommand = new DelegateCommand(ConnectTelnet);
             AutoRestartCommand = new DelegateCommand(AutoRestart);
@@ -224,7 +223,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand OpenVersionInfoCommand { get; set; }
 
         public ICommand StartServerCommand { get; set; }
-        public ICommand StartServerWithSShCommand { get; set; }
         public ICommand StopServerCommand { get; set; }
         public ICommand ConnectTelnetCommand { get; set; }
         public ICommand AutoRestartCommand { get; set; }
@@ -533,11 +531,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void StartServer()
         {
             _ = _model.ServerStart();
-        }
-
-        private void StartServerWithSSh()
-        {
-            _ = _model.ServerStartWithSsh();
         }
 
         private void StopServer()
