@@ -261,6 +261,38 @@
                         </Grid>
                     </TabItem>
 
+                    <TabItem Header="Restart" IsEnabled="{Binding IsBetaModeChecked.Value}">
+                        <Grid>
+                            <StackPanel Orientation="Vertical" Margin="3">
+
+                                <StackPanel Margin="3">
+                                    <Label Content="Scheduled Time" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+
+                                    <CheckBox IsEnabled="False" Content="Interval Time" IsChecked="True" Visibility="Collapsed" />
+
+                                    <Grid Margin="0, 5, 0, 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBox Text="{Binding IntervalTime.Value}" />
+
+                                        <ComboBox Grid.Column="2" SelectedIndex="{Binding IntervalTimeSelectedIndex.Value, FallbackValue=2}">
+                                            <ComboBoxItem Content="Sec" />
+                                            <ComboBoxItem Content="Min" />
+                                            <ComboBoxItem Content="Hour" />
+                                        </ComboBox>
+                                    </Grid>
+
+                                </StackPanel>
+
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
                     <TabItem Header="Backup" IsEnabled="{Binding IsBetaModeChecked.Value}">
                         <Grid>
                             <StackPanel Orientation="Vertical" Margin="3">

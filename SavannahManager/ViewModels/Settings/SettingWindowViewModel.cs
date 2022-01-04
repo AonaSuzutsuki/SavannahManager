@@ -48,6 +48,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
             IsAutoUpdateChecked = model.ToReactivePropertyAsSynchronized(m => m.IsAutoUpdate);
             IsEncryptPassword = model.ToReactivePropertyAsSynchronized(m => m.IsEncryptPassword);
 
+            IntervalTime = model.ToReactivePropertyAsSynchronized(m => m.IntervalTime);
+            IntervalTimeSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.IntervalTimeSelectedIndex);
+
             BackupDirPath = model.ToReactivePropertyAsSynchronized(m => m.BackupDirPath);
             RestoreDirPath = model.ToReactivePropertyAsSynchronized(m => m.RestoreDirPath);
             #endregion
@@ -66,6 +69,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
         public ReactiveProperty<bool> IsBetaModeChecked { get; set; }
         public ReactiveProperty<bool> IsAutoUpdateChecked { get; set; }
         public ReactiveProperty<bool> IsEncryptPassword { get; set; }
+
+        public ReactiveProperty<int> IntervalTime { get; set; }
+        public ReactiveProperty<int> IntervalTimeSelectedIndex { get; set; }
 
         public ReactiveProperty<string> BackupDirPath { get; set; }
         public ReactiveProperty<string> RestoreDirPath { get; set; }

@@ -51,6 +51,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public bool IsEncryptPassword { get; set; }
 
+        public int IntervalTime { get; set; }
+
+        public int IntervalTimeMode { get; set; }
+
         public string BackupDirPath { get; set; }
 
         public string RestoreDirPath { get; set; }
@@ -157,6 +161,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             IsAutoUpdate = _iniLoader.GetValue(MainClassName, "IsUpdateCheck", true);
 
+            IntervalTime = _iniLoader.GetValue(MainClassName, "IntervalTime", 5);
+
+            IntervalTimeMode = _iniLoader.GetValue(MainClassName, "IntervalTimeMode", 2);
+
             BackupDirPath = _iniLoader.GetValue(BackupClassName, "DirPath", "backup").UnifiedSystemPathSeparator();
 
             RestoreDirPath = _iniLoader.GetValue(BackupClassName, "RestoreDirPath", "").UnifiedSystemPathSeparator();
@@ -222,6 +230,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(MainClassName, "IsLogOutput", IsLogGetter);
             _iniLoader.SetValue(MainClassName, "IsFirstBoot", IsFirstBoot);
             _iniLoader.SetValue(MainClassName, "IsUpdateCheck", IsAutoUpdate);
+            _iniLoader.SetValue(MainClassName, "IntervalTime", IntervalTime);
+            _iniLoader.SetValue(MainClassName, "IntervalTimeMode", IntervalTimeMode);
             _iniLoader.SetValue(BackupClassName, "DirPath", BackupDirPath);
             _iniLoader.SetValue(BackupClassName, "RestoreDirPath", RestoreDirPath);
             _iniLoader.SetValue(MainClassName, "IsConsoleTextWrapping", IsConsoleLogTextWrapping);

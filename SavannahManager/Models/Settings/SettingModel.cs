@@ -15,6 +15,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
         private bool _isBetaMode;
         private bool _isAutoUpdate = true;
         private bool _isEncryptPassword;
+        private int _intervalTime;
+        private int _intervalTimeSelectedIndex;
         private string _backupDirPath;
         private string _restoreDirPath;
         private readonly SettingLoader _setting;
@@ -82,6 +84,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
             set => SetProperty(ref _isEncryptPassword, value);
         }
 
+        public int IntervalTime
+        {
+            get => _intervalTime;
+            set => SetProperty(ref _intervalTime, value);
+        }
+
+        public int IntervalTimeSelectedIndex
+        {
+            get => _intervalTimeSelectedIndex;
+            set => SetProperty(ref _intervalTimeSelectedIndex, value);
+        }
+
         public string BackupDirPath
         {
             get => _backupDirPath;
@@ -115,6 +129,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
                 IsBetaMode = setting.IsBetaMode;
                 IsAutoUpdate = setting.IsAutoUpdate;
                 IsEncryptPassword = setting.IsEncryptPassword;
+                IntervalTime = setting.IntervalTime;
+                IntervalTimeSelectedIndex = setting.IntervalTimeMode;
                 BackupDirPath = setting.BackupDirPath;
                 RestoreDirPath = setting.RestoreDirPath;
             }
@@ -138,6 +154,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
                 _setting.IsBetaMode = IsBetaMode;
                 _setting.IsAutoUpdate = IsAutoUpdate;
                 _setting.IsEncryptPassword = IsEncryptPassword;
+                _setting.IntervalTime = IntervalTime;
+                _setting.IntervalTimeMode = IntervalTimeSelectedIndex;
                 _setting.BackupDirPath = BackupDirPath;
                 _setting.RestoreDirPath = RestoreDirPath;
                 _setting.Save();

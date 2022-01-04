@@ -505,11 +505,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 StopAutoRestart();
             }
 
-            _autoRestart = new AutoRestart(this, new TimeSpan(0, 0, 2, 0));
+            _autoRestart = new AutoRestart(this);
             var newsLabel = BottomNewsLabel;
             _autoRestart.TimeProgress.Subscribe((ts) =>
             {
-                BottomNewsLabel = $"{newsLabel}, AutoRestart: {ts:hh\\:mm\\:ss} remaining.";
+                BottomNewsLabel = $"{newsLabel}, AutoRestart: {ts:d\\.hh\\:mm\\:ss} remaining.";
                 Debug.WriteLine($"AutoRestart: {ts} remaining.");
             }, () => BottomNewsLabel = newsLabel);
             _autoRestart.Start();
