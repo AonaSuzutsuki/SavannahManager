@@ -512,6 +512,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 BottomNewsLabel = $"{newsLabel}, AutoRestart: {ts:d\\.hh\\:mm\\:ss} remaining.";
                 Debug.WriteLine($"AutoRestart: {ts} remaining.");
             }, () => BottomNewsLabel = newsLabel);
+            _autoRestart.FewRemaining.Subscribe(ts =>
+            {
+                SocTelnetSend($"say {ts:ss}");
+            });
             _autoRestart.Start();
 
             AutoRestartText = "AutoRestart Enabled";

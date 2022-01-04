@@ -32,12 +32,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private readonly Subject<TimeSpan> _timeProgress = new();
         public IObservable<TimeSpan> TimeProgress => _timeProgress;
 
+        private readonly Subject<TimeSpan> _fewRemaining = new();
+        public IObservable<TimeSpan> FewRemaining => _fewRemaining;
+
         #endregion
 
-        public AutoRestart(IMainWindowServerStart model, TimeSpan thresholdTime)
+        public AutoRestart(IMainWindowServerStart model)
         {
             _model = model;
-            _baseTime = thresholdTime;
+            _baseTime = model.Setting.IntervalTimeMode switch
+            {
+                0 => new TimeSpan(0, 0, model.Setting.IntervalTime),
+                1 => new TimeSpan(0, model.Setting.IntervalTime, 0),
+                _ => new TimeSpan(model.Setting.IntervalTime, 0, 0)
+            };
             _thresholdTime = CalculateThresholdTime(_baseTime);
         }
 
@@ -74,6 +82,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     }
 
                     _timeProgress.OnNext(_thresholdTime - DateTime.Now);
+                    
+                    if (_thresholdTime - DateTime.Now <= new TimeSpan(0, 0, 5))
+                    {
+                        _fewRemaining.OnNext(_thresholdTime - DateTime.Now);
+                    }
 
                     await Task.Delay(1000);
                 }
