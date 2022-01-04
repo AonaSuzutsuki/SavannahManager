@@ -6,10 +6,9 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
-        xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Models.Converter"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels"
-        xmlns:converter1="clr-namespace:_7dtd_svmanager_fix_mvvm.Models.Converter"
+        xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Converter"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
@@ -187,7 +186,7 @@
 
                     <Grid Grid.Column="1" Name="CenterPanel" HorizontalAlignment="Stretch" Margin="0,0,2,0">
                         <Grid Margin="0,0,0,26">
-                            <TextBox Text="{Binding ConsoleLogText, Mode=OneWay}" Name="ConsoleTextBox" AcceptsReturn="True" TextWrapping="{Binding IsConsoleLogTextWrapping.Value, Converter={converter1:TextWrappingConverter}}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch">
+                            <TextBox Text="{Binding ConsoleLogText, Mode=OneWay}" Name="ConsoleTextBox" AcceptsReturn="True" TextWrapping="{Binding IsConsoleLogTextWrapping.Value, Converter={converter:TextWrappingConverter}}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseEnter">
                                         <i:InvokeCommandAction  Command="{Binding ConsoleTextBoxMouseEnter}" />
