@@ -30,6 +30,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views
 
         public TextBox ConsoleTextBox { get; set; }
         public TextBox CmdTextBox { get; set; }
+        public TextBox ChatLogText { get; set; }
 
         public void Select(TextBox textBox, int start, int length)
         {
@@ -55,7 +56,8 @@ namespace _7dtd_svmanager_fix_mvvm.Views
             var windowService = new MainWindowService(this)
             {
                 ConsoleTextBox =  ConsoleTextBox,
-                CmdTextBox = CmdTextBox
+                CmdTextBox = CmdTextBox,
+                ChatLogText = ChatLogText
             };
             var mainWindowModel = new MainWindowModel();
             var vm = new ViewModels.MainWindowViewModel(windowService, mainWindowModel);

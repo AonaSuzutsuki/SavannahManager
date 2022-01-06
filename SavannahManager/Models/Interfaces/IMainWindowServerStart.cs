@@ -22,6 +22,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Interfaces
     public interface IMainWindowServerStart
     {
         public bool IsConnected { get; }
+        public SettingLoader Setting { get; }
 
         Task<bool> ServerStart();
         Task<bool> ServerStartWithSsh();
