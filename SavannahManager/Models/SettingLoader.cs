@@ -12,6 +12,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
     {
 
         private const string MainClassName = "Main";
+        private const string AutoRestartClassName = "AutoRestart";
         private const string ServerClassName = "Server";
         private const string BackupClassName = "Backup";
 
@@ -51,9 +52,27 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public bool IsEncryptPassword { get; set; }
 
+
+        #region Auto Restart
+
         public int IntervalTime { get; set; }
 
         public int IntervalTimeMode { get; set; }
+
+        public bool IsAutoRestartSendMessage { get; set; }
+
+        public int AutoRestartSendingMessageStartTime { get; set; }
+
+        public int AutoRestartSendingMessageStartTimeMode { get; set; }
+
+        public int AutoRestartSendingMessageIntervalTime { get; set; }
+
+        public int AutoRestartSendingMessageIntervalTimeMode { get; set; }
+
+        public string AutoRestartSendingMessageFormat { get; set; }
+
+        #endregion
+
 
         public string BackupDirPath { get; set; }
 
@@ -161,12 +180,21 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             IsAutoUpdate = _iniLoader.GetValue(MainClassName, "IsUpdateCheck", true);
 
-            IntervalTime = _iniLoader.GetValue(MainClassName, "IntervalTime", 5);
-
-            IntervalTimeMode = _iniLoader.GetValue(MainClassName, "IntervalTimeMode", 2);
+            IntervalTime = _iniLoader.GetValue(AutoRestartClassName, "IntervalTime", 5);
+            IntervalTimeMode = _iniLoader.GetValue(AutoRestartClassName, "IntervalTimeMode", 2);
+            IsAutoRestartSendMessage = _iniLoader.GetValue(AutoRestartClassName, "IsSendMessage", false);
+            AutoRestartSendingMessageStartTime =
+                _iniLoader.GetValue(AutoRestartClassName, "SendingMessageStartTime", 1);
+            AutoRestartSendingMessageStartTimeMode =
+                _iniLoader.GetValue(AutoRestartClassName, "SendingMessageStartTimeMode", 1);
+            AutoRestartSendingMessageIntervalTime =
+                _iniLoader.GetValue(AutoRestartClassName, "SendingMessageIntervalTime", 10);
+            AutoRestartSendingMessageIntervalTimeMode =
+                _iniLoader.GetValue(AutoRestartClassName, "SendingMessageIntervalTimeMode", 0);
+            AutoRestartSendingMessageFormat = _iniLoader.GetValue(MainClassName, "SendingMessageFormat", 
+                    "Restart the server after {0} seconds.");
 
             BackupDirPath = _iniLoader.GetValue(BackupClassName, "DirPath", "backup").UnifiedSystemPathSeparator();
-
             RestoreDirPath = _iniLoader.GetValue(BackupClassName, "RestoreDirPath", "").UnifiedSystemPathSeparator();
 
             IsConsoleLogTextWrapping = _iniLoader.GetValue(MainClassName, "IsConsoleTextWrapping", false);
@@ -230,8 +258,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(MainClassName, "IsLogOutput", IsLogGetter);
             _iniLoader.SetValue(MainClassName, "IsFirstBoot", IsFirstBoot);
             _iniLoader.SetValue(MainClassName, "IsUpdateCheck", IsAutoUpdate);
-            _iniLoader.SetValue(MainClassName, "IntervalTime", IntervalTime);
-            _iniLoader.SetValue(MainClassName, "IntervalTimeMode", IntervalTimeMode);
+            _iniLoader.SetValue(AutoRestartClassName, "IntervalTime", IntervalTime);
+            _iniLoader.SetValue(AutoRestartClassName, "IntervalTimeMode", IntervalTimeMode);
+            _iniLoader.SetValue(AutoRestartClassName, "IsSendMessage", IsAutoRestartSendMessage);
+            _iniLoader.SetValue(AutoRestartClassName, "SendingMessageStartTime", AutoRestartSendingMessageStartTime);
+            _iniLoader.SetValue(AutoRestartClassName, "SendingMessageStartTimeMode", AutoRestartSendingMessageStartTimeMode);
+            _iniLoader.SetValue(AutoRestartClassName, "SendingMessageIntervalTime", AutoRestartSendingMessageIntervalTime);
+            _iniLoader.SetValue(AutoRestartClassName, "SendingMessageIntervalTimeMode", AutoRestartSendingMessageIntervalTimeMode);
+            _iniLoader.SetValue(AutoRestartClassName, "SendingMessageFormat", AutoRestartSendingMessageFormat);
             _iniLoader.SetValue(BackupClassName, "DirPath", BackupDirPath);
             _iniLoader.SetValue(BackupClassName, "RestoreDirPath", RestoreDirPath);
             _iniLoader.SetValue(MainClassName, "IsConsoleTextWrapping", IsConsoleLogTextWrapping);
