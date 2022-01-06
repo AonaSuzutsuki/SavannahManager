@@ -192,7 +192,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #region Fields
         private readonly MainWindowService _mainWindowService;
         private readonly MainWindowModel _model;
-        private StringBuilder _consoleLog = new StringBuilder();
+        private StringBuilder _consoleLog = new();
+        private StringBuilder _chatLog = new();
 
         private bool _chatLogIsFocus;
         private bool _consoleIsFocus;
@@ -810,6 +811,30 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 _mainWindowService.ScrollToEnd(_mainWindowService.ConsoleTextBox);
             }
         }
+
+        private void AppendChatText(string text, int maxLength)
+        {
+            if (_chatLog == null)
+            {
+                _chatLog = new StringBuilder(maxLength * 2);
+            }
+            _chatLog.Append(text);
+            if (_chatLog.Length > maxLength)
+            {
+                _chatLog.Remove(0, _chatLog.Length - maxLength);
+            }
+
+            ChatLogText.Value = _chatLog.ToString();
+
+            if (!_chatLogIsFocus)
+            {
+                WindowManageService.Dispatch(DispatcherPriority.Background, () =>
+                {
+                    _mainWindowService.Select(_mainWindowService.ChatLogText, ConsoleLogText.Length, 0);
+                    _mainWindowService.ScrollToEnd(_mainWindowService.ChatLogText);
+                });
+            }
+        }
         #endregion
 
 
@@ -836,16 +861,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             if (log.IndexOf("Chat", StringComparison.Ordinal) > -1)
             {
                 var chat = _model.GetChatText(log);
-                ChatLogText.Value += chat;
-
-                if (!_chatLogIsFocus)
-                {
-                    WindowManageService.Dispatch(DispatcherPriority.Background, () =>
-                    {
-                        _mainWindowService.Select(_mainWindowService.ChatLogText, ConsoleLogText.Length, 0);
-                        _mainWindowService.ScrollToEnd(_mainWindowService.ChatLogText);
-                    });
-                }
+                AppendChatText(chat, 16384);
             }
             if (log.IndexOf("INF Created player with id=", StringComparison.Ordinal) > -1)
             {
