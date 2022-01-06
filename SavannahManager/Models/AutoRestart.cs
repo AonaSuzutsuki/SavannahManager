@@ -15,6 +15,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private readonly TimeSpan _baseTime;
         private DateTime _thresholdTime;
+        private DateTime _messageDateTime;
 
         private bool _isRequestStop;
         private readonly IMainWindowServerStart _model;
@@ -32,12 +33,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private readonly Subject<TimeSpan> _timeProgress = new();
         public IObservable<TimeSpan> TimeProgress => _timeProgress;
 
+        private readonly Subject<TimeSpan> _fewRemaining = new();
+        public IObservable<TimeSpan> FewRemaining => _fewRemaining;
+
         #endregion
 
-        public AutoRestart(IMainWindowServerStart model, TimeSpan thresholdTime)
+        public AutoRestart(IMainWindowServerStart model)
         {
             _model = model;
-            _baseTime = thresholdTime;
+            _baseTime = model.Setting.IntervalTimeMode switch
+            {
+                0 => new TimeSpan(0, 0, model.Setting.IntervalTime),
+                1 => new TimeSpan(0, model.Setting.IntervalTime, 0),
+                _ => new TimeSpan(model.Setting.IntervalTime, 0, 0)
+            };
             _thresholdTime = CalculateThresholdTime(_baseTime);
         }
 
@@ -50,6 +59,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             Task.Factory.StartNew(async () =>
             {
+                _messageDateTime = DateTime.MinValue;
                 var isStop = false;
                 while (!_isRequestStop)
                 {
@@ -74,13 +84,56 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     }
 
                     _timeProgress.OnNext(_thresholdTime - DateTime.Now);
+                    
+                    if (CanSendMessage())
+                    {
+                        _fewRemaining.OnNext(_thresholdTime - DateTime.Now);
+                    }
 
-                    await Task.Delay(1000);
+                    await Task.Delay(500);
                 }
 
                 IsRestarting = false;
                 _timeProgress.OnCompleted();
             });
+        }
+
+        public bool CanSendMessage()
+        {
+            if (!_model.Setting.IsAutoRestartSendMessage)
+                return false;
+
+            var startTime = _model.Setting.AutoRestartSendingMessageStartTime;
+            var startTimeMode = _model.Setting.AutoRestartSendingMessageStartTimeMode;
+            var interval = _model.Setting.AutoRestartSendingMessageIntervalTime;
+            var intervalTimeMode = _model.Setting.AutoRestartSendingMessageIntervalTimeMode;
+
+            var startTimeSpan = startTimeMode switch
+            {
+                0 => new TimeSpan(0, 0, startTime),
+                _ => new TimeSpan(0, startTime, 0)
+            };
+            var intervalTimeSpan = intervalTimeMode switch
+            {
+                0 => new TimeSpan(0, 0, interval),
+                _ => new TimeSpan(0, interval, 0)
+            };
+
+            if (_thresholdTime - DateTime.Now <= startTimeSpan)
+            {
+                if (_messageDateTime == DateTime.MinValue)
+                {
+                    _messageDateTime = DateTime.Now;
+                }
+
+                if (DateTime.Now - _messageDateTime >= intervalTimeSpan)
+                {
+                    _messageDateTime = DateTime.Now;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void Dispose()

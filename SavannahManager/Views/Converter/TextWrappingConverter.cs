@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace _7dtd_svmanager_fix_mvvm.Models.Converter
+namespace _7dtd_svmanager_fix_mvvm.Views.Converter
 {
     public class TextWrappingConverter : MarkupExtension, IValueConverter
     {

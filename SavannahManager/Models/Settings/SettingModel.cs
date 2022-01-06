@@ -15,6 +15,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
         private bool _isBetaMode;
         private bool _isAutoUpdate = true;
         private bool _isEncryptPassword;
+        private int _intervalTime;
+        private int _intervalTimeSelectedIndex;
+        private bool _isAutoRestartSendMessage;
+        private int _autoRestartSendingMessageStartTime;
+        private int _autoRestartSendingMessageStartTimeMode;
+        private int _autoRestartSendingMessageIntervalTime;
+        private int _autoRestartSendingMessageIntervalTimeMode;
+        private string _autoRestartSendingMessageFormat;
         private string _backupDirPath;
         private string _restoreDirPath;
         private readonly SettingLoader _setting;
@@ -82,6 +90,54 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
             set => SetProperty(ref _isEncryptPassword, value);
         }
 
+        public int IntervalTime
+        {
+            get => _intervalTime;
+            set => SetProperty(ref _intervalTime, value);
+        }
+
+        public int IntervalTimeSelectedIndex
+        {
+            get => _intervalTimeSelectedIndex;
+            set => SetProperty(ref _intervalTimeSelectedIndex, value);
+        }
+
+        public bool IsAutoRestartSendMessage
+        {
+            get => _isAutoRestartSendMessage;
+            set => SetProperty(ref _isAutoRestartSendMessage, value);
+        }
+
+        public int AutoRestartSendingMessageStartTime
+        {
+            get => _autoRestartSendingMessageStartTime;
+            set => SetProperty(ref _autoRestartSendingMessageStartTime, value);
+        }
+
+        public int AutoRestartSendingMessageStartTimeMode
+        {
+            get => _autoRestartSendingMessageStartTimeMode;
+            set => SetProperty(ref _autoRestartSendingMessageStartTimeMode, value);
+        }
+
+        public int AutoRestartSendingMessageIntervalTime
+        {
+            get => _autoRestartSendingMessageIntervalTime;
+            set => SetProperty(ref _autoRestartSendingMessageIntervalTime, value);
+        }
+
+        public int AutoRestartSendingMessageIntervalTimeMode
+        {
+            get => _autoRestartSendingMessageIntervalTimeMode;
+            set => SetProperty(ref _autoRestartSendingMessageIntervalTimeMode, value);
+        }
+
+        public string AutoRestartSendingMessageFormat
+        {
+            get => _autoRestartSendingMessageFormat;
+            set => SetProperty(ref _autoRestartSendingMessageFormat, value);
+        }
+
         public string BackupDirPath
         {
             get => _backupDirPath;
@@ -115,6 +171,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
                 IsBetaMode = setting.IsBetaMode;
                 IsAutoUpdate = setting.IsAutoUpdate;
                 IsEncryptPassword = setting.IsEncryptPassword;
+                IntervalTime = setting.IntervalTime;
+                IntervalTimeSelectedIndex = setting.IntervalTimeMode;
+                IsAutoRestartSendMessage = setting.IsAutoRestartSendMessage;
+                AutoRestartSendingMessageStartTime = setting.AutoRestartSendingMessageStartTime;
+                AutoRestartSendingMessageStartTimeMode = setting.AutoRestartSendingMessageStartTimeMode;
+                AutoRestartSendingMessageIntervalTime = setting.AutoRestartSendingMessageIntervalTime;
+                AutoRestartSendingMessageIntervalTimeMode = setting.AutoRestartSendingMessageIntervalTimeMode;
+                AutoRestartSendingMessageFormat = setting.AutoRestartSendingMessageFormat;
                 BackupDirPath = setting.BackupDirPath;
                 RestoreDirPath = setting.RestoreDirPath;
             }
@@ -138,6 +202,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
                 _setting.IsBetaMode = IsBetaMode;
                 _setting.IsAutoUpdate = IsAutoUpdate;
                 _setting.IsEncryptPassword = IsEncryptPassword;
+                _setting.IntervalTime = IntervalTime;
+                _setting.IntervalTimeMode = IntervalTimeSelectedIndex;
+                _setting.IsAutoRestartSendMessage = IsAutoRestartSendMessage;
+                _setting.AutoRestartSendingMessageStartTime = AutoRestartSendingMessageStartTime;
+                _setting.AutoRestartSendingMessageStartTimeMode = AutoRestartSendingMessageStartTimeMode;
+                _setting.AutoRestartSendingMessageIntervalTime = AutoRestartSendingMessageIntervalTime;
+                _setting.AutoRestartSendingMessageIntervalTimeMode = AutoRestartSendingMessageIntervalTimeMode;
+                _setting.AutoRestartSendingMessageFormat = AutoRestartSendingMessageFormat;
                 _setting.BackupDirPath = BackupDirPath;
                 _setting.RestoreDirPath = RestoreDirPath;
                 _setting.Save();
