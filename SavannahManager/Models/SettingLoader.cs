@@ -87,6 +87,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public string SshUserName { get; set; }
 
+        public string SshPassword { get; set; }
+
         public string SshExeFileDirectory { get; set; }
 
         public string SshConfigFileName { get; set; }
@@ -224,14 +226,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public void LoadEncryptionData()
         {
             var encryptedPassword = _iniLoader.GetValue(ServerClassName, "Password", "");
+            var encryptedSshPassword = _iniLoader.GetValue(ServerClassName, "SshPassword", "");
 
             try
             {
                 Password = _encryptWrapper.Decrypt(encryptedPassword);
+                SshPassword = _encryptWrapper.Decrypt(encryptedSshPassword);
             }
             catch
             {
                 Password = "";
+                SshPassword = "";
                 _encryptWrapper = null;
                 throw;
             }
@@ -256,6 +261,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 if (_encryptWrapper != null && !string.IsNullOrEmpty(Password))
                 {
                     _iniLoader.SetValue(ServerClassName, "Password", _encryptWrapper.Encrypt(Password));
+                    _iniLoader.SetValue(ServerClassName, "SshPassword", _encryptWrapper.Encrypt(SshPassword));
                 }
             }
 

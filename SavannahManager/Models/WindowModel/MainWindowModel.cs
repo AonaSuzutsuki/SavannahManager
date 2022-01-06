@@ -359,6 +359,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
 
             Password = Setting.Password;
+            SshPasswordText = Setting.SshPassword;
 
             return true;
         }
@@ -386,6 +387,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             int.TryParse(_sshPortText, out var sshPort);
             Setting.SshPort = sshPort;
             Setting.SshUserName = _sshUserNameText;
+            Setting.SshPassword = _sshPasswordText;
             Setting.SshExeFileDirectory = _sshExeFileDirectoryText;
             Setting.SshConfigFileName = _sshConfigFileNameText;
         }
