@@ -9,7 +9,7 @@
         xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels.Settings"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:InputWindowViewModel}"
-        d:DesignHeight="200" d:DesignWidth="300"
+        d:DesignHeight="250" d:DesignWidth="300"
         Title="{Binding Title.Value}" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}"
         ResizeMode="CanMinimize" WindowStartupLocation="CenterOwner">
 
@@ -64,6 +64,34 @@
                 <StackPanel VerticalAlignment="Center">
                     <Label Content="{Binding Message.Value}" />
                     <TextBox Text="{Binding InputText.Value, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Height="30" />
+
+                    <TextBlock Margin="0, 5, 0, 0">
+                        <Hyperlink Foreground="White" Command="{Binding OpenOptionCommand}" >
+                            Option
+                            <Hyperlink.Style>
+                                <Style TargetType="{x:Type Hyperlink}">
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                    <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Hyperlink.Style>
+                        </Hyperlink>
+                    </TextBlock>
+
+                    <Grid Margin="0, 5, 0, 0" Visibility="{Binding OptionGridVisibility.Value}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Salt" />
+                        <TextBox Grid.Column="1" Text="{Binding InputSaltText.Value}" />
+                    </Grid>
                 </StackPanel>
 
                 <Grid Grid.Row="1">

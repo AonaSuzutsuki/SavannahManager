@@ -341,6 +341,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             if (_model.Setting.IsEncryptPassword)
             {
                 string password;
+                string salt;
                 do
                 {
                     const int inputWidth = InputWindowViewModel.DefaultWidth;
@@ -366,7 +367,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
                     WindowManageService.ShowDialog<InputWindow>(inputViewModel);
                     password = inputViewModel.IsCancel ? null : inputViewModel.InputText.Value;
-                } while (!_model.InitializeEncryptionData(password));
+                    salt = inputViewModel.IsCancel ? null : inputViewModel.InputSaltText.Value;
+                } while (!_model.InitializeEncryptionData(password, salt));
             }
             else
             {
