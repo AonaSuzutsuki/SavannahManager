@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using _7dtd_svmanager_fix_mvvm.LangResources;
+using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonCoreLib.CommonPath;
 using CommonCoreLib.Ini;
 using SvManagerLibrary.Crypto;
@@ -92,7 +93,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public string SshExeFileDirectory { get; set; }
 
         public string SshConfigFileName { get; set; }
-        
+
+        public int SshAuthMode { get; set; }
+
+        public string SshKeyPath { get; set; }
+
         public bool CanEncrypt => _encryptWrapper != null;
 
         #endregion
@@ -216,6 +221,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             SshUserName = _iniLoader.GetValue(ServerClassName, "SshUserName", "");
             SshExeFileDirectory = _iniLoader.GetValue(ServerClassName, "SshExeFileDirectory", "");
             SshConfigFileName = _iniLoader.GetValue(ServerClassName, "SshConfigFileName", "");
+            SshAuthMode = _iniLoader.GetValue(ServerClassName, "SshAuthMode", AuthMode.Password.ToInt());
+            SshKeyPath = _iniLoader.GetValue(ServerClassName, "SshKeyPath", "");
         }
 
         public void SetEncryptionPassword(string password, string salt)
@@ -297,6 +304,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(ServerClassName, "SshUserName", SshUserName);
             _iniLoader.SetValue(ServerClassName, "SshExeFileDirectory", SshExeFileDirectory);
             _iniLoader.SetValue(ServerClassName, "SshConfigFileName", SshConfigFileName);
+            _iniLoader.SetValue(ServerClassName, "SshAuthMode", SshAuthMode);
+            _iniLoader.SetValue(ServerClassName, "SshKeyPath", SshKeyPath);
         }
 
         public void Dispose()

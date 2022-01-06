@@ -41,6 +41,7 @@ using _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages;
 using _7dtd_svmanager_fix_mvvm.Views.Settings;
 using _7dtd_svmanager_fix_mvvm.Views.Setup;
 using _7dtd_svmanager_fix_mvvm.Views.Update;
+using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonNavigationControlLib.Navigation.ViewModels;
 using CommonNavigationControlLib.Navigation.Views;
 
@@ -190,6 +191,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             SshPasswordText = model.ToReactivePropertyAsSynchronized(m => m.SshPasswordText);
             SshExeFileDirectoryText = model.ToReactivePropertyAsSynchronized(m => m.SshExeFileDirectoryText);
             SshConfigFileNameText = model.ToReactivePropertyAsSynchronized(m => m.SshConfigFileNameText);
+            SshAuthMode = model.ToReactivePropertyAsSynchronized(m => m.SshAuthMode);
+            SshKeyPathText = model.ToReactivePropertyAsSynchronized(m => m.SshKeyPathText);
+            SshPassPhraseText = model.ToReactivePropertyAsSynchronized(m => m.SshPassPhraseText);
 
             #endregion
 
@@ -345,6 +349,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ReactiveProperty<string> SshPasswordText { get; set; }
         public ReactiveProperty<string> SshExeFileDirectoryText { get; set; }
         public ReactiveProperty<string> SshConfigFileNameText { get; set; }
+        public ReactiveProperty<AuthMode> SshAuthMode { get; set; }
+        public ReactiveProperty<string> SshKeyPathText { get; set; }
+        public ReactiveProperty<string> SshPassPhraseText { get; set; }
+
         #endregion
 
         #region EventMethods

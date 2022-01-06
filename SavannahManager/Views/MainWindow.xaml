@@ -288,6 +288,9 @@
                                                         SshPassword="{Binding SshPasswordText.Value}"
                                                         SshExeFileDirectory="{Binding SshExeFileDirectoryText.Value}"
                                                         SshConfigFileName="{Binding SshConfigFileNameText.Value}"
+                                                        SshAuthMode="{Binding SshAuthMode.Value}"
+                                                        SshKeyPath="{Binding SshKeyPathText.Value}"
+                                                        SshPassPhrase="{Binding SshPassPhraseText.Value}"
                                                         />
                                                 </Grid>
                                             </StackPanel>

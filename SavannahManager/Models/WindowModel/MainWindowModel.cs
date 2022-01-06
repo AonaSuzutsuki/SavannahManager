@@ -25,6 +25,7 @@ using System.Windows.Forms;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 using _7dtd_svmanager_fix_mvvm.Models.Ssh;
 using _7dtd_svmanager_fix_mvvm.Models.Update;
+using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using Renci.SshNet.Common;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
@@ -196,6 +197,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         private string _sshPasswordText = string.Empty;
         private string _sshExeFileDirectoryText;
         private string _sshConfigFileNameText;
+        private AuthMode _sshAuthMode;
+        private string _sshKeyPathText;
+        private string _sshPassPhraseText;
 
         public string SshAddressText
         {
@@ -226,6 +230,22 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         {
             get => _sshConfigFileNameText;
             set => SetProperty(ref _sshConfigFileNameText, value);
+        }
+
+        public AuthMode SshAuthMode
+        {
+            get => _sshAuthMode;
+            set => SetProperty(ref _sshAuthMode, value);
+        }
+        public string SshKeyPathText
+        {
+            get => _sshKeyPathText;
+            set => SetProperty(ref _sshKeyPathText, value);
+        }
+        public string SshPassPhraseText
+        {
+            get => _sshPassPhraseText;
+            set => SetProperty(ref _sshPassPhraseText, value);
         }
         #endregion
 
@@ -339,6 +359,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             SshUserNameText = Setting.SshUserName;
             SshExeFileDirectoryText = Setting.SshExeFileDirectory;
             SshConfigFileNameText = Setting.SshConfigFileName;
+            SshAuthMode = Setting.SshAuthMode.FromInt();
+            SshKeyPathText = Setting.SshKeyPath;
 
             Setting.ApplyCulture();
         }
@@ -392,6 +414,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Setting.SshPassword = _sshPasswordText;
             Setting.SshExeFileDirectory = _sshExeFileDirectoryText;
             Setting.SshConfigFileName = _sshConfigFileNameText;
+            Setting.SshAuthMode = _sshAuthMode.ToInt();
+            Setting.SshKeyPath = _sshKeyPathText;
         }
         public void ChangeCulture(string cultureName)
         {
