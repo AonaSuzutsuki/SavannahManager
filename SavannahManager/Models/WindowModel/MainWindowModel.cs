@@ -503,7 +503,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 StartBtEnabled = true;
                 TelnetBtIsEnabled = true;
                 LocalModeEnabled = true;
-                RefreshLabels();
+                BottomNewsLabel = Resources.UI_ReadyComplete;
             }
             catch (SshOperationTimeoutException)
             {
@@ -512,7 +512,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 StartBtEnabled = true;
                 TelnetBtIsEnabled = true;
                 LocalModeEnabled = true;
-                RefreshLabels();
+                BottomNewsLabel = Resources.UI_ReadyComplete;
             }
 
             await ConnectTelnetForServerStart(Address, _port, Password);
