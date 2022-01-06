@@ -174,7 +174,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
                 WindowManageService.ShowDialog<InputWindow>(inputViewModel);
                 if (!inputViewModel.IsCancel)
                 {
-                    _model.EnabledEncryptionData(inputViewModel.InputText.Value);
+                    _model.EnabledEncryptionData(inputViewModel.InputText.Value, inputViewModel.InputSaltText.Value);
                 }
             }
         }

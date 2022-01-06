@@ -218,9 +218,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             SshConfigFileName = _iniLoader.GetValue(ServerClassName, "SshConfigFileName", "");
         }
 
-        public void SetEncryptionPassword(string password)
+        public void SetEncryptionPassword(string password, string salt)
         {
-            _encryptWrapper = new RijndaelWrapper(password, "9BBF8AA1-227C-4670-BF4B-DC279E254B03");
+            salt ??= Environment.MachineName;
+            _encryptWrapper = new RijndaelWrapper(password, CommonCoreLib.Crypto.Sha256.GetSha256(salt));
         }
 
         public void LoadEncryptionData()

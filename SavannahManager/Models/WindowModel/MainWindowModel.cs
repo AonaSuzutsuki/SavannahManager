@@ -343,11 +343,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Setting.ApplyCulture();
         }
 
-        public bool InitializeEncryptionData(string password = null)
+        public bool InitializeEncryptionData(string password = null, string salt = null)
         {
             if (password != null)
             {
-                Setting.SetEncryptionPassword(password);
+                salt = string.IsNullOrEmpty(salt) ? null : salt;
+                Setting.SetEncryptionPassword(password, salt);
                 try
                 {
                     Setting.LoadEncryptionData();
