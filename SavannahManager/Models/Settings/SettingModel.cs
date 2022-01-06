@@ -184,9 +184,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
             }
         }
 
-        public void EnabledEncryptionData(string password)
+        public void EnabledEncryptionData(string password, string salt)
         {
-            _setting.SetEncryptionPassword(password);
+            salt = string.IsNullOrEmpty(salt) ? null : salt;
+            _setting.SetEncryptionPassword(password, salt);
         }
 
         public void Save()
