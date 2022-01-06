@@ -392,27 +392,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 #endif
         }
 
-        private async Task CheckUpdate()
-        {
-            var availableUpdate = await _model.CheckUpdate();
-            if (availableUpdate)
-            {
-                var dialogResult = _mainWindowService.MessageBoxShow(LangResources.Resources.UI_DoUpdateAlertMessage,
-                    LangResources.Resources.UI_DoUpdateAlertTitle, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
-                if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
-                {
-                    var updFormModel = new UpdFormModel();
-                    await updFormModel.Initialize();
-
-                    WindowManageService.Dispatch(() =>
-                    {
-                        var vm = new UpdFormViewModel(new WindowService(), updFormModel, true);
-                        WindowManageService.Show<UpdForm>(vm);
-                    });
-                }
-            }
-        }
-
         protected override void MainWindow_Closing()
         {
             _model.SettingsSave();
@@ -775,6 +754,27 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region Methods
+        private async Task CheckUpdate()
+        {
+            var availableUpdate = await _model.CheckUpdate();
+            if (availableUpdate)
+            {
+                var dialogResult = _mainWindowService.MessageBoxShow(LangResources.Resources.UI_DoUpdateAlertMessage,
+                    LangResources.Resources.UI_DoUpdateAlertTitle, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+                if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
+                {
+                    var updFormModel = new UpdFormModel();
+                    await updFormModel.Initialize();
+
+                    WindowManageService.Dispatch(() =>
+                    {
+                        var vm = new UpdFormViewModel(new WindowService(), updFormModel, true);
+                        WindowManageService.Show<UpdForm>(vm);
+                    });
+                }
+            }
+        }
+
         private void AppendConsoleText(string text, int maxLength)
         {
             if (_consoleLog == null)
@@ -791,11 +791,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             if (!_consoleIsFocus)
             {
-                if (!_consoleIsFocus)
-                {
-                    _mainWindowService.Select(_mainWindowService.ConsoleTextBox, ConsoleLogText.Length, 0);
-                    _mainWindowService.ScrollToEnd(_mainWindowService.ConsoleTextBox);
-                }
+                _mainWindowService.Select(_mainWindowService.ConsoleTextBox, ConsoleLogText.Length, 0);
+                _mainWindowService.ScrollToEnd(_mainWindowService.ConsoleTextBox);
             }
         }
         #endregion
