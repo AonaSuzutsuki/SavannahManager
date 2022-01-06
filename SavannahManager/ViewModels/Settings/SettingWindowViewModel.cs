@@ -48,6 +48,20 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
             IsAutoUpdateChecked = model.ToReactivePropertyAsSynchronized(m => m.IsAutoUpdate);
             IsEncryptPassword = model.ToReactivePropertyAsSynchronized(m => m.IsEncryptPassword);
 
+            AutoRestartIntervalTime = model.ToReactivePropertyAsSynchronized(m => m.IntervalTime);
+            AutoRestartIntervalTimeMode = model.ToReactivePropertyAsSynchronized(m => m.IntervalTimeSelectedIndex);
+            IsAutoRestartSendMessage = model.ToReactivePropertyAsSynchronized(m => m.IsAutoRestartSendMessage);
+            AutoRestartSendingMessageStartTime =
+                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageStartTime);
+            AutoRestartSendingMessageStartTimeMode =
+                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageStartTimeMode);
+            AutoRestartSendingMessageIntervalTime =
+                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageIntervalTime);
+            AutoRestartSendingMessageIntervalTimeMode =
+                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageIntervalTimeMode);
+            AutoRestartSendingMessageFormat =
+                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageFormat);
+
             BackupDirPath = model.ToReactivePropertyAsSynchronized(m => m.BackupDirPath);
             RestoreDirPath = model.ToReactivePropertyAsSynchronized(m => m.RestoreDirPath);
             #endregion
@@ -66,6 +80,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
         public ReactiveProperty<bool> IsBetaModeChecked { get; set; }
         public ReactiveProperty<bool> IsAutoUpdateChecked { get; set; }
         public ReactiveProperty<bool> IsEncryptPassword { get; set; }
+
+        public ReactiveProperty<int> AutoRestartIntervalTime { get; set; }
+        public ReactiveProperty<int> AutoRestartIntervalTimeMode { get; set; }
+        public ReactiveProperty<bool> IsAutoRestartSendMessage { get; set; }
+        public ReactiveProperty<int> AutoRestartSendingMessageStartTime { get; set; }
+        public ReactiveProperty<int> AutoRestartSendingMessageStartTimeMode { get; set; }
+        public ReactiveProperty<int> AutoRestartSendingMessageIntervalTime { get; set; }
+        public ReactiveProperty<int> AutoRestartSendingMessageIntervalTimeMode { get; set; }
+        public ReactiveProperty<string> AutoRestartSendingMessageFormat { get; set; }
 
         public ReactiveProperty<string> BackupDirPath { get; set; }
         public ReactiveProperty<string> RestoreDirPath { get; set; }

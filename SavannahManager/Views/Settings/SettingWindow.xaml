@@ -261,6 +261,92 @@
                         </Grid>
                     </TabItem>
 
+                    <TabItem Header="Restart" IsEnabled="{Binding IsBetaModeChecked.Value}">
+                        <Grid>
+                            <StackPanel Orientation="Vertical" Margin="3">
+
+                                <StackPanel Margin="3">
+                                    <Label Content="Scheduled Time" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+
+                                    <CheckBox IsEnabled="False" Content="Interval Time" IsChecked="True" Visibility="Collapsed" />
+
+                                    <Grid Margin="0, 5, 0, 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBox Text="{Binding AutoRestartIntervalTime.Value}" />
+
+                                        <ComboBox Grid.Column="2" SelectedIndex="{Binding AutoRestartIntervalTimeMode.Value, FallbackValue=2}">
+                                            <ComboBoxItem Content="Sec" />
+                                            <ComboBoxItem Content="Min" />
+                                            <ComboBoxItem Content="Hour" />
+                                        </ComboBox>
+                                    </Grid>
+
+                                    <CheckBox Content="Send message when the server restart time is approaching" Margin="0, 5, 0, 0" IsChecked="{Binding IsAutoRestartSendMessage.Value}" />
+
+                                    <Grid Margin="0, 5, 0, 0" IsEnabled="{Binding IsAutoRestartSendMessage.Value}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Content="Start Time" />
+
+                                        <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageStartTime.Value}" />
+
+                                        <ComboBox Grid.Column="4" SelectedIndex="{Binding AutoRestartSendingMessageStartTimeMode.Value, FallbackValue=0}">
+                                            <ComboBoxItem Content="Sec" />
+                                            <ComboBoxItem Content="Min" />
+                                        </ComboBox>
+                                    </Grid>
+
+                                    <Grid Margin="0, 5, 0, 0" IsEnabled="{Binding IsAutoRestartSendMessage.Value}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Content="Interval Time" />
+
+                                        <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageIntervalTime.Value}" />
+
+                                        <ComboBox Grid.Column="4" SelectedIndex="{Binding AutoRestartSendingMessageIntervalTimeMode.Value, FallbackValue=0}">
+                                            <ComboBoxItem Content="Sec" />
+                                            <ComboBoxItem Content="Min" />
+                                        </ComboBox>
+                                    </Grid>
+
+                                    <Grid Margin="0, 5, 0, 0" IsEnabled="{Binding IsAutoRestartSendMessage.Value}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Content="Message Format" />
+
+                                        <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageFormat.Value}" />
+                                    </Grid>
+
+                                </StackPanel>
+
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
                     <TabItem Header="Backup" IsEnabled="{Binding IsBetaModeChecked.Value}">
                         <Grid>
                             <StackPanel Orientation="Vertical" Margin="3">
