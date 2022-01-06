@@ -135,6 +135,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             ShowPlayerInfoCommand = new DelegateCommand(WatchPlayerInfo);
 
             ChatTextBoxEnterDown = new DelegateCommand<string>(ChatTextBoxEnter_Down);
+            ChatLogMouseEnterCommand = new DelegateCommand(ChatLogMouseEnter);
+            ChatLogMouseLeaveCommand = new DelegateCommand(ChatLogMouseLeave);
 
             ConsoleTextBoxMouseEnter = new DelegateCommand(ConsoleTextBoxMouse_Enter);
             ConsoleTextBoxMouseLeave = new DelegateCommand(ConsoleTextBoxMouse_Leave);
@@ -165,7 +167,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
 
             IsConsoleLogTextWrapping = model.ToReactivePropertyAsSynchronized(m => m.IsConsoleLogTextWrapping);
-            ChatLogText = model.ObserveProperty(m => m.ChatLogText).ToReactiveProperty();
+            ChatLogText = new ReactiveProperty<string>();
             ChatInputText = model.ToReactivePropertyAsSynchronized(m => m.ChatInputText);
             
             ConnectionPanelIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.ConnectionPanelIsEnabled);
@@ -192,6 +194,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private readonly MainWindowModel _model;
         private StringBuilder _consoleLog = new StringBuilder();
 
+        private bool _chatLogIsFocus;
         private bool _consoleIsFocus;
 
         private int _usersListSelectedIndex = -1;
@@ -234,6 +237,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand ShowPlayerInfoCommand { get; set; }
 
         public ICommand ChatTextBoxEnterDown { get; set; }
+        public ICommand ChatLogMouseEnterCommand { get; set; }
+        public ICommand ChatLogMouseLeaveCommand { get; set; }
+
         public ICommand SetCmdHistoryCommand { get; set; }
 
         public ICommand ConsoleTextBoxMouseEnter { get; set; }
@@ -654,6 +660,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             _model.SendChat(e, () => _model.ChatInputText = "");
         }
 
+        private void ChatLogMouseEnter()
+        {
+            _chatLogIsFocus = true;
+        }
+        private void ChatLogMouseLeave()
+        {
+            _chatLogIsFocus = false;
+        }
+
         private void ConsoleTextBoxMouse_Enter()
         {
             _consoleIsFocus = true;
@@ -820,7 +835,17 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             if (log.IndexOf("Chat", StringComparison.Ordinal) > -1)
             {
-                _model.AddChatText(log);
+                var chat = _model.GetChatText(log);
+                ChatLogText.Value += chat;
+
+                if (!_chatLogIsFocus)
+                {
+                    WindowManageService.Dispatch(DispatcherPriority.Background, () =>
+                    {
+                        _mainWindowService.Select(_mainWindowService.ChatLogText, ConsoleLogText.Length, 0);
+                        _mainWindowService.ScrollToEnd(_mainWindowService.ChatLogText);
+                    });
+                }
             }
             if (log.IndexOf("INF Created player with id=", StringComparison.Ordinal) > -1)
             {

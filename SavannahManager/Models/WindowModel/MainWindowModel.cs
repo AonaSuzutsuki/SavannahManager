@@ -85,13 +85,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             set => SetProperty(ref _usersList, value);
         }
 
-
-        private string _chatLogText;
-        public string ChatLogText
-        {
-            get => _chatLogText;
-            set => SetProperty(ref _chatLogText, value);
-        }
         private string _chatInputText;
         public string ChatInputText
         {
@@ -706,12 +699,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Telnet = null;
         }
 
-        public void AddChatText(string text)
+        public string GetChatText(string text)
         {
             _chatArray.AddMultiLine(text);
             var cData = _chatArray.LastOrDefault();
             if (cData != null)
-                ChatLogText += $"{cData.Name}: {cData.Message}\r\n";
+                return $"{cData.Name}: {cData.Message}\r\n";
+            return string.Empty;
         }
         public void SendChat(string text, Action act)
         {
