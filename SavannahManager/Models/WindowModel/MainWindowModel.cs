@@ -514,7 +514,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }, () => BottomNewsLabel = newsLabel);
             _autoRestart.FewRemaining.Subscribe(ts =>
             {
-                SocTelnetSend($"say {ts:ss}");
+                SocTelnetSend($"say \"{string.Format(Setting.AutoRestartSendingMessageFormat, ts.Seconds)}\"");
             });
             _autoRestart.Start();
 
