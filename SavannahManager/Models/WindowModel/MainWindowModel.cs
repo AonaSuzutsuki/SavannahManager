@@ -25,6 +25,7 @@ using System.Windows.Forms;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 using _7dtd_svmanager_fix_mvvm.Models.Ssh;
 using _7dtd_svmanager_fix_mvvm.Models.Update;
+using Renci.SshNet.Common;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
@@ -495,13 +496,23 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                                        $"&& ./startserver.sh -configfile={SshConfigFileNameText}");
                 await Task.Delay(500);
             }
-            catch (Renci.SshNet.Common.SshAuthenticationException)
+            catch (SshAuthenticationException)
             {
                 _errorOccurred.OnNext("failed to authenticate on ssh.");
+
+                StartBtEnabled = true;
+                TelnetBtIsEnabled = true;
+                LocalModeEnabled = true;
+                RefreshLabels();
             }
-            catch (System.Net.Sockets.SocketException)
+            catch (SshOperationTimeoutException)
             {
                 _errorOccurred.OnNext("failed to connect ssh.");
+
+                StartBtEnabled = true;
+                TelnetBtIsEnabled = true;
+                LocalModeEnabled = true;
+                RefreshLabels();
             }
 
             await ConnectTelnetForServerStart(Address, _port, Password);
@@ -584,8 +595,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 var reason = "";
                 if (!IsBeta)
                     reason = "because beta mod not enabled";
-                else if (!LocalMode)
-                    reason = "because local server mode not enabled";
                 else if (!IsConnected)
                     reason = "because telnet are not connected";
 
