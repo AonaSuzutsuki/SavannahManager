@@ -9,6 +9,7 @@
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels"
         xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Converter"
+        xmlns:userControls="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.UserControls"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
@@ -280,20 +281,14 @@
                                             <StackPanel>
 
                                                 <Grid>
-                                                    <StackPanel Margin="5">
-                                                        <Label Content="Address" Padding="0" />
-                                                        <TextBox Text="{Binding SshAddressText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
-                                                        <Label Content="Port" Padding="0" />
-                                                        <TextBox Text="{Binding SshPortText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
-                                                        <Label Content="Username" Padding="0" />
-                                                        <TextBox Text="{Binding SshUserNameText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
-                                                        <Label Content="Password" Padding="0" />
-                                                        <TextBox Text="{Binding SshPasswordText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
-                                                        <Label Content="7 Days to Die Directory" Padding="0" />
-                                                        <TextBox Text="{Binding SshExeFileDirectoryText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
-                                                        <Label Content="Config File Name" Padding="0" />
-                                                        <TextBox Text="{Binding SshConfigFileNameText.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
-                                                    </StackPanel>
+                                                    <userControls:SshControl
+                                                        SshAddress="{Binding SshAddressText.Value}"
+                                                        SshPort="{Binding SshPortText.Value}"
+                                                        SshUserName="{Binding SshUserNameText.Value}"
+                                                        SshPassword="{Binding SshPasswordText.Value}"
+                                                        SshExeFileDirectory="{Binding SshExeFileDirectoryText.Value}"
+                                                        SshConfigFileName="{Binding SshConfigFileNameText.Value}"
+                                                        />
                                                 </Grid>
                                             </StackPanel>
                                         </TabItem>

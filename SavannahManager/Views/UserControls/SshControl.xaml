@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="_7dtd_svmanager_fix_mvvm.Views.UserControls.SshControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance local:SshControl}"
+             d:DesignHeight="400" d:DesignWidth="300">
+
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/SavannahManager2;component/Styles/ButtonIcon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <StackPanel Margin="5">
+            <Label Content="Address" Padding="0" />
+            <TextBox Text="{Binding SshAddress, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+            <Label Content="Port" Padding="0" />
+            <TextBox Text="{Binding SshPort, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+            <Label Content="Username" Padding="0" />
+            <TextBox Text="{Binding SshUserName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+            <Label Content="Password" Padding="0" />
+            <TextBox Text="{Binding SshPassword, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" Style="{StaticResource PasswordStyle}" />
+            <Label Content="7 Days to Die Directory" Padding="0" />
+            <TextBox Text="{Binding SshExeFileDirectory, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+            <Label Content="Config File Name" Padding="0" />
+            <TextBox Text="{Binding SshConfigFileName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+        </StackPanel>
+    </Grid>
+</UserControl>
