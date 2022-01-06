@@ -100,6 +100,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public bool CanSendMessage()
         {
+            if (!_model.Setting.IsAutoRestartSendMessage)
+                return false;
+
             var startTime = _model.Setting.AutoRestartSendingMessageStartTime;
             var startTimeMode = _model.Setting.AutoRestartSendingMessageStartTimeMode;
             var interval = _model.Setting.AutoRestartSendingMessageIntervalTime;
