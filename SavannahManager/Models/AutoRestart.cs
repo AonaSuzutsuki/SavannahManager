@@ -90,7 +90,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                         _fewRemaining.OnNext(_thresholdTime - DateTime.Now);
                     }
 
-                    await Task.Delay(1000);
+                    await Task.Delay(500);
                 }
 
                 IsRestarting = false;
