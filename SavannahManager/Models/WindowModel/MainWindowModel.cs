@@ -23,11 +23,14 @@ using CommonExtensionLib.Extensions;
 using System.Linq;
 using System.Windows.Forms;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
+using _7dtd_svmanager_fix_mvvm.Models.Ssh;
 using _7dtd_svmanager_fix_mvvm.Models.Update;
+using _7dtd_svmanager_fix_mvvm.Views.UserControls;
+using Renci.SshNet.Common;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
-    public class MainWindowModel : ModelBase, IMainWindowTelnet, IMainWindowServerStart, IDisposable
+    public class MainWindowModel : ModelBase, IMainWindowTelnet, IMainWindowServerStart, IRelease
     {
         #region AppendedLogTextEvent
         public class AppendedLogTextEventArgs
@@ -122,7 +125,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             {
                 SetProperty(ref _localMode, value);
                 ConnectionPanelIsEnabled = !value;
-                StartBtEnabled = value;
             }
         }
         private bool _localModeEnabled = true;
@@ -186,6 +188,64 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         {
             get => _isConsoleLogTextWrapping;
             set => SetProperty(ref _isConsoleLogTextWrapping, value);
+        }
+
+
+        private string _sshAddressText = string.Empty;
+        private string _sshPortText = string.Empty;
+        private string _sshUserNameText = string.Empty;
+        private string _sshPasswordText = string.Empty;
+        private string _sshExeFileDirectoryText;
+        private string _sshConfigFileNameText;
+        private AuthMode _sshAuthMode;
+        private string _sshKeyPathText;
+        private string _sshPassPhraseText;
+
+        public string SshAddressText
+        {
+            get => _sshAddressText;
+            set => SetProperty(ref _sshAddressText, value);
+        }
+        public string SshPortText
+        {
+            get => _sshPortText;
+            set => SetProperty(ref _sshPortText, value);
+        }
+        public string SshUserNameText
+        {
+            get => _sshUserNameText;
+            set => SetProperty(ref _sshUserNameText, value);
+        }
+        public string SshPasswordText
+        {
+            get => _sshPasswordText;
+            set => SetProperty(ref _sshPasswordText, value);
+        }
+        public string SshExeFileDirectoryText
+        {
+            get => _sshExeFileDirectoryText;
+            set => SetProperty(ref _sshExeFileDirectoryText, value);
+        }
+        public string SshConfigFileNameText
+        {
+            get => _sshConfigFileNameText;
+            set => SetProperty(ref _sshConfigFileNameText, value);
+        }
+
+        public AuthMode SshAuthMode
+        {
+            get => _sshAuthMode;
+            set => SetProperty(ref _sshAuthMode, value);
+        }
+        public string SshKeyPathText
+        {
+            get => _sshKeyPathText;
+            set => SetProperty(ref _sshKeyPathText, value);
+        }
+        public string SshPassPhraseText
+        {
+            get => _sshPassPhraseText;
+            set => SetProperty(ref _sshPassPhraseText, value);
         }
         #endregion
 
@@ -291,9 +351,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             _isLogGetter = Setting.IsLogGetter;
             LocalMode = Setting.LocalMode;
-            StartBtEnabled = LocalMode;
 
             IsBeta = Setting.IsBetaMode;
+
+            SshAddressText = Setting.SshAddress;
+            SshPortText = Setting.SshPort.ToString();
+            SshUserNameText = Setting.SshUserName;
+            SshExeFileDirectoryText = Setting.SshExeFileDirectory;
+            SshConfigFileNameText = Setting.SshConfigFileName;
+            SshAuthMode = Setting.SshAuthMode.FromInt();
+            SshKeyPathText = Setting.SshKeyPath;
 
             Setting.ApplyCulture();
         }
@@ -316,6 +383,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
 
             Password = Setting.Password;
+            SshPasswordText = Setting.SshPassword;
 
             return true;
         }
@@ -338,6 +406,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Setting.Port = _port;
             Setting.Password = _password;
             Setting.IsConsoleLogTextWrapping = IsConsoleLogTextWrapping;
+
+            Setting.SshAddress = _sshAddressText;
+            int.TryParse(_sshPortText, out var sshPort);
+            Setting.SshPort = sshPort;
+            Setting.SshUserName = _sshUserNameText;
+            Setting.SshPassword = _sshPasswordText;
+            Setting.SshExeFileDirectory = _sshExeFileDirectoryText;
+            Setting.SshConfigFileName = _sshConfigFileNameText;
+            Setting.SshAuthMode = _sshAuthMode.ToInt();
+            Setting.SshKeyPath = _sshKeyPathText;
         }
         public void ChangeCulture(string cultureName)
         {
@@ -379,15 +457,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
 
 
-        public async Task ServerStart()
+        public async Task<bool> ServerStart()
         {
-            if (!FileExistCheck()) return;
+            if (!LocalMode)
+            {
+                return await ServerStartWithSsh();
+            }
+
+            if (!FileExistCheck()) return false;
 
             var checkedValues = ConfigChecker.GetConfigInfo(ConfigFilePath);
             if (checkedValues.IsFailed)
             {
                 _errorOccurred.OnNext(checkedValues.Message);
-                return;
+                return false;
             }
 
             const string localAddress = "127.0.0.1";
@@ -397,13 +480,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             if (IsConnected)
             {
                 _errorOccurred.OnNext(Resources.AlreadyConnected);
-                return;
+                return false;
             }
 
             var serverProcessManager = new ServerProcessManager(ExeFilePath, ConfigFilePath);
             void ProcessFailedAction(string message) => _errorOccurred.OnNext(message);
             if (!serverProcessManager.ProcessStart(ProcessFailedAction))
-                return;
+                return false;
 
             StartBtEnabled = false;
             TelnetBtIsEnabled = false;
@@ -412,6 +495,60 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             BottomNewsLabel = Resources.UI_WaitingServer;
             SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
 
+            await ConnectTelnetForServerStart(localAddress, localPort, localPassword);
+            return true;
+        }
+        public async Task<bool> ServerStartWithSsh()
+        {
+            if (IsConnected)
+            {
+                _errorOccurred.OnNext(Resources.AlreadyConnected);
+                return false;
+            }
+
+            StartBtEnabled = false;
+            TelnetBtIsEnabled = false;
+            LocalModeEnabled = false;
+
+            BottomNewsLabel = Resources.UI_WaitingServer;
+            SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor2);
+
+            try
+            {
+                using var sshManager = new SshServerManager(SshAddressText);
+                if (SshAuthMode == AuthMode.Password)
+                    sshManager.Connect(SshUserNameText, SshPasswordText);
+                else
+                    sshManager.Connect(SshUserNameText, SshPassPhraseText, SshKeyPathText);
+                sshManager.StartServer($"cd {SshExeFileDirectoryText} " +
+                                       $"&& ./startserver.sh -configfile={SshConfigFileNameText}");
+                await Task.Delay(500);
+            }
+            catch (SshAuthenticationException)
+            {
+                _errorOccurred.OnNext("failed to authenticate on ssh.");
+
+                StartBtEnabled = true;
+                TelnetBtIsEnabled = true;
+                LocalModeEnabled = true;
+                BottomNewsLabel = Resources.UI_ReadyComplete;
+            }
+            catch (SshOperationTimeoutException)
+            {
+                _errorOccurred.OnNext("failed to connect ssh.");
+
+                StartBtEnabled = true;
+                TelnetBtIsEnabled = true;
+                LocalModeEnabled = true;
+                BottomNewsLabel = Resources.UI_ReadyComplete;
+            }
+
+            await ConnectTelnetForServerStart(Address, _port, Password);
+            return true;
+        }
+
+        private async Task ConnectTelnetForServerStart(string address, int port, string password)
+        {
             Telnet = GenerateTelnetClient(this);
             await Task.Factory.StartNew(() =>
             {
@@ -431,7 +568,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                         break;
                     }
 
-                    if (Telnet.Connect(localAddress, localPort))
+                    if (Telnet.Connect(address, port))
                     {
                         IsConnected = true;
                         IsTelnetLoading = false;
@@ -444,7 +581,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                         SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor);
 
                         Telnet.Write(TelnetClient.Cr);
-                        AppendConsoleLog(SocTelnetSend(localPassword));
+                        AppendConsoleLog(SocTelnetSend(password));
 
                         MakeLogStream();
 
@@ -455,6 +592,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 }
             });
         }
+
         public bool ServerStop()
         {
             if (IsTelnetLoading)
@@ -480,13 +618,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         public bool StartAutoRestart()
         {
-            if (!IsBeta || !LocalMode || !IsConnected)
+            if (!IsBeta || !IsConnected)
             {
                 var reason = "";
                 if (!IsBeta)
                     reason = "because beta mod not enabled";
-                else if (!LocalMode)
-                    reason = "because local server mode not enabled";
                 else if (!IsConnected)
                     reason = "because telnet are not connected";
 
@@ -499,7 +635,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 StopAutoRestart();
             }
 
-            _autoRestart = new AutoRestart(this);
+            var isSsh = !LocalMode;
+
+            _autoRestart = new AutoRestart(new MainWindowServerStart(this, isSsh));
             var newsLabel = BottomNewsLabel;
             _autoRestart.TimeProgress.Subscribe((ts) =>
             {
@@ -627,8 +765,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Telnet = GenerateTelnetClient(this);
             var connected = await Task.Factory.StartNew(() => Telnet.Connect(localAddress, localPort));
             TelnetBtIsEnabled = true;
-            if (LocalMode)
-                StartBtEnabled = true;
+            StartBtEnabled = true;
 
             IsFailed = false;
             if (connected)
@@ -692,7 +829,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             ConnectionPanelIsEnabled = !LocalMode;
             LocalModeEnabled = true;
-            StartBtEnabled = LocalMode;
+            StartBtEnabled = true;
 
             _loggingStream?.Dispose();
             _loggingStream = null;
@@ -1029,6 +1166,27 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             GC.SuppressFinalize(this);
         }
 
+        public void Release()
+        {
+            if (Telnet != null)
+            {
+                lock (Telnet)
+                {
+                    Telnet?.Dispose();
+                    Telnet = null;
+                }
+            }
+
+            if (_autoRestart != null)
+            {
+                lock (_autoRestart)
+                {
+                    _autoRestart.Dispose();
+                    _autoRestart = null;
+                }
+            }
+        }
+
         // Protected implementation of Dispose pattern.
         protected virtual void Dispose(bool disposing)
         {
@@ -1037,23 +1195,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             if (disposing)
             {
-                if (Telnet != null)
-                {
-                    lock (Telnet)
-                    {
-                        Telnet?.Dispose();
-                        Telnet = null;
-                    }
-                }
-
-                if (_autoRestart != null)
-                {
-                    lock (_autoRestart)
-                    {
-                        _autoRestart.Dispose();
-                        _autoRestart = null;
-                    }
-                }
+                Release();
 
                 if (_telnetFinishedSubject != null)
                 {

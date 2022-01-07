@@ -9,6 +9,7 @@
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels"
         xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Converter"
+        xmlns:userControls="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.UserControls"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
@@ -274,6 +275,25 @@
                                                     </StackPanel>
                                                 </Grid>
                                             </Grid>
+                                        </TabItem>
+
+                                        <TabItem Header="SSH" IsEnabled="{Binding IsBeta.Value}">
+                                            <StackPanel>
+
+                                                <Grid>
+                                                    <userControls:SshControl
+                                                        SshAddress="{Binding SshAddressText.Value}"
+                                                        SshPort="{Binding SshPortText.Value}"
+                                                        SshUserName="{Binding SshUserNameText.Value}"
+                                                        SshPassword="{Binding SshPasswordText.Value}"
+                                                        SshExeFileDirectory="{Binding SshExeFileDirectoryText.Value}"
+                                                        SshConfigFileName="{Binding SshConfigFileNameText.Value}"
+                                                        SshAuthMode="{Binding SshAuthMode.Value}"
+                                                        SshKeyPath="{Binding SshKeyPathText.Value}"
+                                                        SshPassPhrase="{Binding SshPassPhraseText.Value}"
+                                                        />
+                                                </Grid>
+                                            </StackPanel>
                                         </TabItem>
 
                                         <TabItem Header="IP">

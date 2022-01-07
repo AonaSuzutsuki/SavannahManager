@@ -27,6 +27,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             }
 
             var last = _commands.Last;
+            if (last == null)
+                return;
+
             var newNode = new LinkedListNode<string>(cmd);
             _commands.AddBefore(last, newNode);
         }

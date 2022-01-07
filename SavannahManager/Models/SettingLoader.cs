@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using _7dtd_svmanager_fix_mvvm.LangResources;
+using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonCoreLib.CommonPath;
 using CommonCoreLib.Ini;
 using SvManagerLibrary.Crypto;
@@ -80,6 +81,22 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public bool IsConsoleLogTextWrapping { get; set; }
 
+
+        public string SshAddress { get; set; }
+
+        public int SshPort { get; set; }
+
+        public string SshUserName { get; set; }
+
+        public string SshPassword { get; set; }
+
+        public string SshExeFileDirectory { get; set; }
+
+        public string SshConfigFileName { get; set; }
+
+        public int SshAuthMode { get; set; }
+
+        public string SshKeyPath { get; set; }
 
         public bool CanEncrypt => _encryptWrapper != null;
 
@@ -198,6 +215,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             RestoreDirPath = _iniLoader.GetValue(BackupClassName, "RestoreDirPath", "").UnifiedSystemPathSeparator();
 
             IsConsoleLogTextWrapping = _iniLoader.GetValue(MainClassName, "IsConsoleTextWrapping", false);
+
+            SshAddress = _iniLoader.GetValue(ServerClassName, "SshAddress", "");
+            SshPort = _iniLoader.GetValue(ServerClassName, "SshPort", 22);
+            SshUserName = _iniLoader.GetValue(ServerClassName, "SshUserName", "");
+            SshExeFileDirectory = _iniLoader.GetValue(ServerClassName, "SshExeFileDirectory", "");
+            SshConfigFileName = _iniLoader.GetValue(ServerClassName, "SshConfigFileName", "");
+            SshAuthMode = _iniLoader.GetValue(ServerClassName, "SshAuthMode", AuthMode.Password.ToInt());
+            SshKeyPath = _iniLoader.GetValue(ServerClassName, "SshKeyPath", "");
         }
 
         public void SetEncryptionPassword(string password, string salt)
@@ -209,14 +234,17 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public void LoadEncryptionData()
         {
             var encryptedPassword = _iniLoader.GetValue(ServerClassName, "Password", "");
+            var encryptedSshPassword = _iniLoader.GetValue(ServerClassName, "SshPassword", "");
 
             try
             {
                 Password = _encryptWrapper.Decrypt(encryptedPassword);
+                SshPassword = _encryptWrapper.Decrypt(encryptedSshPassword);
             }
             catch
             {
                 Password = "";
+                SshPassword = "";
                 _encryptWrapper = null;
                 throw;
             }
@@ -241,6 +269,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 if (_encryptWrapper != null && !string.IsNullOrEmpty(Password))
                 {
                     _iniLoader.SetValue(ServerClassName, "Password", _encryptWrapper.Encrypt(Password));
+                    _iniLoader.SetValue(ServerClassName, "SshPassword", _encryptWrapper.Encrypt(SshPassword));
                 }
             }
 
@@ -270,6 +299,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(BackupClassName, "DirPath", BackupDirPath);
             _iniLoader.SetValue(BackupClassName, "RestoreDirPath", RestoreDirPath);
             _iniLoader.SetValue(MainClassName, "IsConsoleTextWrapping", IsConsoleLogTextWrapping);
+            _iniLoader.SetValue(ServerClassName, "SshAddress", SshAddress);
+            _iniLoader.SetValue(ServerClassName, "SshPort", SshPort);
+            _iniLoader.SetValue(ServerClassName, "SshUserName", SshUserName);
+            _iniLoader.SetValue(ServerClassName, "SshExeFileDirectory", SshExeFileDirectory);
+            _iniLoader.SetValue(ServerClassName, "SshConfigFileName", SshConfigFileName);
+            _iniLoader.SetValue(ServerClassName, "SshAuthMode", SshAuthMode);
+            _iniLoader.SetValue(ServerClassName, "SshKeyPath", SshKeyPath);
         }
 
         public void Dispose()

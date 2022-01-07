@@ -18,7 +18,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private DateTime _messageDateTime;
 
         private bool _isRequestStop;
-        private readonly IMainWindowServerStart _model;
+        private readonly MainWindowServerStart _model;
+        private readonly SettingLoader _setting;
 
         #endregion
 
@@ -38,14 +39,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         #endregion
 
-        public AutoRestart(IMainWindowServerStart model)
+        public AutoRestart(MainWindowServerStart model)
         {
             _model = model;
-            _baseTime = model.Setting.IntervalTimeMode switch
+            _setting = model.Model.Setting;
+            _baseTime = _setting.IntervalTimeMode switch
             {
-                0 => new TimeSpan(0, 0, model.Setting.IntervalTime),
-                1 => new TimeSpan(0, model.Setting.IntervalTime, 0),
-                _ => new TimeSpan(model.Setting.IntervalTime, 0, 0)
+                0 => new TimeSpan(0, 0, _setting.IntervalTime),
+                1 => new TimeSpan(0, _setting.IntervalTime, 0),
+                _ => new TimeSpan(_setting.IntervalTime, 0, 0)
             };
             _thresholdTime = CalculateThresholdTime(_baseTime);
         }
@@ -66,15 +68,24 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                     if (!isStop && DateTime.Now >= _thresholdTime)
                     {
                         IsRestarting = true;
-                        _model.ServerStop();
+                        _model.Model.ServerStop();
                         isStop = true;
                     }
 
                     if (isStop)
                     {
-                        if (!_model.IsConnected)
+                        if (!_model.Model.IsConnected)
                         {
-                            await _model.ServerStart();
+                            if (!_model.IsSsh)
+                            {
+                                if (!await _model.Model.ServerStart())
+                                    return;
+                            }
+                            else
+                            {
+                                if (!await _model.Model.ServerStartWithSsh())
+                                    return;
+                            }
                             IsRestarting = false;
                             isStop = false;
                             _thresholdTime = CalculateThresholdTime(_baseTime);
@@ -100,13 +111,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public bool CanSendMessage()
         {
-            if (!_model.Setting.IsAutoRestartSendMessage)
+            if (!_setting.IsAutoRestartSendMessage)
                 return false;
 
-            var startTime = _model.Setting.AutoRestartSendingMessageStartTime;
-            var startTimeMode = _model.Setting.AutoRestartSendingMessageStartTimeMode;
-            var interval = _model.Setting.AutoRestartSendingMessageIntervalTime;
-            var intervalTimeMode = _model.Setting.AutoRestartSendingMessageIntervalTimeMode;
+            var startTime = _setting.AutoRestartSendingMessageStartTime;
+            var startTimeMode = _setting.AutoRestartSendingMessageStartTimeMode;
+            var interval = _setting.AutoRestartSendingMessageIntervalTime;
+            var intervalTimeMode = _setting.AutoRestartSendingMessageIntervalTimeMode;
 
             var startTimeSpan = startTimeMode switch
             {

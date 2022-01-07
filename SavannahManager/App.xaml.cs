@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 
 namespace _7dtd_svmanager_fix_mvvm
 {
@@ -13,7 +14,7 @@ namespace _7dtd_svmanager_fix_mvvm
     /// </summary>
     public partial class App : Application
     {
-        private IDisposable _mainWindow;
+        private IRelease _mainWindow;
         private void MyApp_Startup(object sender, StartupEventArgs e)
         {
             TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
@@ -29,14 +30,15 @@ namespace _7dtd_svmanager_fix_mvvm
             if (e.ExceptionObject is Exception exception)
             {
                 ShowAndWriteException(exception);
-                _mainWindow.Dispose();
+                _mainWindow.Release();
             }
         }
 
         private void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            ShowAndWriteException(e.Exception);
-            _mainWindow.Dispose();
+            var exception = e.Exception.InnerException;
+            ShowAndWriteException(exception);
+            _mainWindow.Release();
         }
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

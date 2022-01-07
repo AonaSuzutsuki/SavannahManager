@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 using CommonStyleLib.Views;
 using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 
@@ -45,9 +46,9 @@ namespace _7dtd_svmanager_fix_mvvm.Views
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window, IDisposable
+    public partial class MainWindow : Window, IRelease
     {
-        private readonly IDisposable _model;
+        private readonly IRelease _model;
         public MainWindow()
         {
             InitializeComponent();
@@ -75,6 +76,11 @@ namespace _7dtd_svmanager_fix_mvvm.Views
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public void Release()
+        {
+            _model?.Release();
         }
 
         // Protected implementation of Dispose pattern.
