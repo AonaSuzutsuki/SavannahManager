@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CommonStyleLib.File;
+using Prism.Commands;
 using Reactive.Bindings;
 
 namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
@@ -134,6 +136,12 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
 
         #endregion
 
+        #region Event Properties
+
+        public ICommand SetKeyPathCommand { get; set; }
+
+        #endregion
+
         public SshControl()
         {
             InitializeComponent();
@@ -142,6 +150,15 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
             SshPasswordChecked.PropertyChanged += SshAuthModeChanged;
             SshKeyChecked = new ReactiveProperty<bool>();
             SshKeyChecked.PropertyChanged += SshAuthModeChanged;
+
+            SetKeyPathCommand = new DelegateCommand(SetKeyPath);
+        }
+
+        private void SetKeyPath()
+        {
+            var path = FileSelector.GetFilePath("", "All files (*.*)|*.*", "", FileSelector.FileSelectorType.Read);
+            if (!string.IsNullOrEmpty(path))
+                SshKeyPath = path;
         }
 
         private static void SshAuthModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

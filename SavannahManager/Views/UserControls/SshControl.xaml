@@ -48,7 +48,17 @@
 
                     <StackPanel Visibility="{Binding SshKeyChecked.Value, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}, Converter={converters:AuthModePasswordVisibilityConverter}}">
                         <Label Content="Key's Path" Padding="0" />
-                        <TextBox Text="{Binding SshKeyPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="25" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Text="{Binding SshKeyPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+                            <Button Grid.Column="2" Content="..." Style="{StaticResource FlatButton}" Command="{Binding SetKeyPathCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" />
+                        </Grid>
 
                         <Label Content="Pass Phrase" Padding="0" />
                         <TextBox Text="{Binding SshPassPhrase, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" Style="{StaticResource PasswordStyle}" />

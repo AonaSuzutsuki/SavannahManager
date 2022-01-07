@@ -516,7 +516,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             try
             {
                 using var sshManager = new SshServerManager(SshAddressText);
-                sshManager.Connect(SshUserNameText, SshPasswordText);
+                if (SshAuthMode == AuthMode.Password)
+                    sshManager.Connect(SshUserNameText, SshPasswordText);
+                else
+                    sshManager.Connect(SshUserNameText, SshPassPhraseText, SshKeyPathText);
                 sshManager.StartServer($"cd {SshExeFileDirectoryText} " +
                                        $"&& ./startserver.sh -configfile={SshConfigFileNameText}");
                 await Task.Delay(500);
