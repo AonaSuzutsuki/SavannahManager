@@ -67,6 +67,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Update
 
         protected override void MainWindow_Loaded()
         {
+            var vm = new LoadingViewModel(new WindowService(), new LoadingModel());
+            WindowManageService.Show<Loading>(vm);
+
             var task = _model.Initialize();
             task.ContinueWith(t =>
             {
@@ -75,6 +78,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Update
                 foreach (var exceptionInnerException in t.Exception.InnerExceptions)
                     App.ShowAndWriteException(exceptionInnerException);
             }, TaskContinuationOptions.OnlyOnFaulted);
+            task.ContinueWith(t =>
+            {
+                WindowManageService.Dispatch(() => vm.MainWindowCloseBtClick.Execute(null));
+            });
         }
 
         private void VersionList_SelectionChanged(int? arg)

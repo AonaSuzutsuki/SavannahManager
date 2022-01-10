@@ -43,6 +43,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Permissions
 
         public static DateTime? ConvertStringToDateTime(string text)
         {
+            if (text == null)
+                return DateTime.Now;
+
             //2035-12-31 23:59:59
             var regex = new Regex("(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2}) (?<hour>[0-9]{2}):(?<minute>[0-9]{2}):(?<second>[0-9]{2})");
             var match = regex.Match(text);
