@@ -6,7 +6,10 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         mc:Ignorable="d"
-        Title="PlayerInfoView" Height="400" Width="650">
+        Title="PlayerInfoView" Height="400" Width="650"
+        BorderBrush="{Binding AroundBorderColor.Value}"
+        Opacity="{Binding AroundBorderOpacity.Value}"
+        Style="{DynamicResource WindowStyle}">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -23,15 +26,10 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
-                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
-                      UseAeroCaptionButtons="False" />
-    </WindowChrome.WindowChrome>
-
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/Window.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
                 <ResourceDictionary Source="/Styles/LinkLabel.xaml" />
@@ -40,7 +38,6 @@
     </Window.Resources>
 
     <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
-        <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" Opacity="{Binding AroundBorderOpacity.Value}" BorderThickness="1" />
 
         <Grid Margin="{Binding MainWindowMargin}">
 
