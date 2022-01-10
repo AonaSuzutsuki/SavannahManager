@@ -11,17 +11,33 @@
         d:DataContext="{d:DesignInstance viewModels:InputWindowViewModel}"
         d:DesignHeight="250" d:DesignWidth="300"
         Title="{Binding Title.Value}" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}"
-        ResizeMode="CanMinimize" WindowStartupLocation="CenterOwner">
+        ResizeMode="CanMinimize" WindowStartupLocation="CenterOwner"
+        BorderBrush="{Binding AroundBorderColor.Value}"
+        Opacity="{Binding AroundBorderOpacity.Value}"
+        Style="{DynamicResource WindowStyle}">
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
-                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
-                      UseAeroCaptionButtons="False" />
-    </WindowChrome.WindowChrome>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding Closing}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Activated">
+            <i:InvokeCommandAction Command="{Binding Activated}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Deactivated">
+            <i:InvokeCommandAction Command="{Binding Deactivated}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="StateChanged">
+            <i:InvokeCommandAction Command="{Binding StateChanged}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="KeyDown">
+            <commonViews:InvokeDelegateCommandAction Command="{Binding KeyDown}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/Window.xaml" />
                 <ResourceDictionary Source="/Styles/ButtonIcon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
@@ -30,7 +46,6 @@
     </Window.Resources>
 
     <Grid Style="{StaticResource ResourceKey=BackgroundGrid}">
-        <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" Opacity="{Binding AroundBorderOpacity.Value}" BorderThickness="1" Grid.ColumnSpan="2" />
 
         <Grid Grid.ColumnSpan="2" Margin="{Binding MainWindowMargin}">
 

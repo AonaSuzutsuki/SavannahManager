@@ -7,7 +7,10 @@
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
-        Title="Settings" Height="200" Width="450" ResizeMode="CanMinimize">
+        Title="Settings" Height="200" Width="450" ResizeMode="CanMinimize"
+        BorderBrush="{Binding AroundBorderColor.Value}"
+        Opacity="{Binding AroundBorderOpacity.Value}"
+        Style="{DynamicResource WindowStyle}">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -21,15 +24,10 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
-                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
-                      UseAeroCaptionButtons="False" />
-    </WindowChrome.WindowChrome>
-
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/Window.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -37,7 +35,6 @@
     </Window.Resources>
 
     <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
-        <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" BorderThickness="1" />
 
         <Grid Margin="{Binding MainWindowMargin}">
 

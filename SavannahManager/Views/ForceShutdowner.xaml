@@ -11,7 +11,10 @@
         d:DataContext="{d:DesignInstance viewModels:ForceShutdownerViewModel}"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
-        Title="Settings" Height="300" Width="400" ResizeMode="CanMinimize">
+        Title="Settings" Height="300" Width="400" ResizeMode="CanMinimize"
+        BorderBrush="{Binding AroundBorderColor.Value}"
+        Opacity="{Binding AroundBorderOpacity.Value}"
+        Style="{DynamicResource WindowStyle}">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -34,6 +37,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/Window.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -41,7 +45,6 @@
     </Window.Resources>
 
     <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
-        <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" BorderThickness="1" />
 
         <Grid Margin="{Binding MainWindowMargin}">
 
