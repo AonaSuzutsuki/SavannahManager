@@ -275,7 +275,7 @@
                                             </Grid>
                                         </TabItem>
 
-                                        <TabItem Header="SSH" IsEnabled="{Binding IsBeta.Value}">
+                                        <TabItem Header="SSH">
                                             <StackPanel>
 
                                                 <Grid>
