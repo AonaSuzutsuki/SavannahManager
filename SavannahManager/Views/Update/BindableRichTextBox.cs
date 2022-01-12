@@ -6,11 +6,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace _7dtd_svmanager_fix_mvvm.Views.Update
 {
-    public class RichTextItemsToDocumentConverter : IValueConverter
+    public class RichTextItemsToDocumentConverter : MarkupExtension, IValueConverter
     {
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -77,6 +78,11 @@ namespace _7dtd_svmanager_fix_mvvm.Views.Update
         public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
         }
     }
 

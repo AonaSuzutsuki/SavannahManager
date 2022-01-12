@@ -89,6 +89,7 @@
                         <MenuItem Header="Config Editor" Name="ConfigEditorBt" Command="{Binding OpenConfigEditorCommand}" />
                         <MenuItem Header="Xml Editor" Command="{Binding OpenXmlEditorCommand}" />
                         <MenuItem Header="Backup Editor" Name="BackupEditorBt" Command="{Binding OpenBackupEditorCommand}" IsEnabled="{Binding IsBeta.Value}" />
+                        <MenuItem Header="Log Viewer" Command="{Binding OpenLogViewerCommand}" />
                     </MenuItem>
                     <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_HelpBT, Mode=OneWay}" IsEnabled="True">
                         <MenuItem IsEnabled="True" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_UpdateCheckBT, Mode=OneWay}" Name="MenuCheckUpdateBt" Command="{Binding OpenCheckUpdateCommand}" />

@@ -88,7 +88,7 @@
                 </ListBox>
 
                 <!--<RichTextBox Text="{Binding DetailText.Value}" IsReadOnly="False" Margin="5,0,0,0" Grid.Column="1" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" TextWrapping="Wrap" ContextMenu="{StaticResource CopyOnly}" />-->
-                <update:BindableRichTextBox Grid.Column="1" Background="Transparent" Foreground="White" Document="{Binding RichDetailText.Value, Mode=OneWay, Converter={StaticResource RichTextItemsConverter}}" IsReadOnly="True" VerticalScrollBarVisibility="Visible" ContextMenu="{StaticResource CopyOnly}">
+                <update:BindableRichTextBox Grid.Column="1" Background="Transparent" Foreground="White" Document="{Binding RichDetailText.Value, Mode=OneWay, Converter={update:RichTextItemsToDocumentConverter}}" IsReadOnly="True" VerticalScrollBarVisibility="Visible" ContextMenu="{StaticResource CopyOnly}">
                     <update:BindableRichTextBox.Resources>
                         <Style TargetType="Hyperlink">
                             <Setter Property="Cursor" Value="Hand" />
