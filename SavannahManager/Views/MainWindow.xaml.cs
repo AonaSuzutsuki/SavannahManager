@@ -49,6 +49,8 @@ namespace _7dtd_svmanager_fix_mvvm.Views
     public partial class MainWindow : Window, IRelease
     {
         private readonly IRelease _model;
+        private readonly IDisposable _viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -63,6 +65,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views
             var vm = new ViewModels.MainWindowViewModel(windowService, mainWindowModel);
             DataContext = vm;
             _model = mainWindowModel;
+            _viewModel = vm;
 
             ContentRendered += (sender, args) => { vm.Loaded.Execute(null); };
         }
@@ -92,6 +95,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views
             if (disposing)
             {
                 _model?.Dispose();
+                _viewModel?.Dispose();
             }
 
             _disposed = true;

@@ -11,10 +11,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Permissions
     {
         public UnBanDateSettingViewModel(IWindowService windowService, UnBanDateSettingModel model) : base(windowService, model)
         {
-            SelectedDate = model.ToReactivePropertyAsSynchronized(m => m.SelectedDate);
-            HourText = model.ToReactivePropertyAsSynchronized(m => m.HourText);
-            MinuteText = model.ToReactivePropertyAsSynchronized(m => m.MinuteText);
-            SecondText = model.ToReactivePropertyAsSynchronized(m => m.SecondText);
+            SelectedDate = model.ToReactivePropertyAsSynchronized(m => m.SelectedDate).AddTo(CompositeDisposable);
+            HourText = model.ToReactivePropertyAsSynchronized(m => m.HourText).AddTo(CompositeDisposable);
+            MinuteText = model.ToReactivePropertyAsSynchronized(m => m.MinuteText).AddTo(CompositeDisposable);
+            SecondText = model.ToReactivePropertyAsSynchronized(m => m.SecondText).AddTo(CompositeDisposable);
         }
 
         #region Properties

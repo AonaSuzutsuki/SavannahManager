@@ -25,6 +25,11 @@ namespace _7dtd_svmanager_fix_mvvm
             mainWindow.Show();
         }
 
+        private void App_OnExit(object sender, ExitEventArgs e)
+        {
+            _mainWindow.Dispose();
+        }
+
         private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             if (e.ExceptionObject is Exception exception)

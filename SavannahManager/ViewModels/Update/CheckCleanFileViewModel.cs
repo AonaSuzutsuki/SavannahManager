@@ -5,6 +5,7 @@ using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels.Update
 {
@@ -22,7 +23,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Update
         {
             _model = model;
 
-            TreeViewItems = model.TreeViewItems.ToReadOnlyReactiveCollection();
+            TreeViewItems = model.TreeViewItems.ToReadOnlyReactiveCollection().AddTo(CompositeDisposable);
 
             AllSelectCommand = new DelegateCommand(AllSelect);
             AllDeSelectCommand = new DelegateCommand(AllDeSelect);

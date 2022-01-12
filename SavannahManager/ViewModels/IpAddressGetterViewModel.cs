@@ -27,9 +27,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             #endregion
 
             #region PropertyInitialize
-            ExternalIpAddress = model.ToReactivePropertyAsSynchronized(m => m.ExternalIpAddress);
-            LocalIpAddress = model.ToReactivePropertyAsSynchronized(m => m.LocalIpAddress);
-            StatusLabel = model.ToReactivePropertyAsSynchronized(m => m.StatusLabel);
+            ExternalIpAddress = model.ToReactivePropertyAsSynchronized(m => m.ExternalIpAddress).AddTo(CompositeDisposable);
+            LocalIpAddress = model.ToReactivePropertyAsSynchronized(m => m.LocalIpAddress).AddTo(CompositeDisposable);
+            StatusLabel = model.ToReactivePropertyAsSynchronized(m => m.StatusLabel).AddTo(CompositeDisposable);
             #endregion
         }
 
