@@ -17,7 +17,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Setup
             GetPathCommand = new DelegateCommand(GetPathBt_Click);
             AutoSearchCommand = new DelegateCommand(AutoSearchBt_Click);
 
-            ServerFilePathText = model.ToReactivePropertyAsSynchronized(m => m.ServerFilePathText);
+            ServerFilePathText = model.ToReactivePropertyAsSynchronized(m => m.ServerFilePathText).AddTo(CompositeDisposable);
         }
 
         public ReactiveProperty<string> ServerFilePathText { get; set; }
