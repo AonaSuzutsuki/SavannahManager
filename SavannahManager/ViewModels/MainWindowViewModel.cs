@@ -45,6 +45,8 @@ using _7dtd_svmanager_fix_mvvm.Views.Update;
 using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonNavigationControlLib.Navigation.ViewModels;
 using CommonNavigationControlLib.Navigation.Views;
+using _7dtd_svmanager_fix_mvvm.Models.PlayerController.Pages;
+using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController.Pages;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -594,16 +596,22 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
-            var adminAdd = new AdminAdd(_model, AddType.Type.Admin, name);
+            var adminModel = new AdminAddModel(_model, new AddType(AddType.Type.Admin))
+            {
+                Name = name
+            };
+            var adminViewModel = new AdminAddViewModel(adminModel);
+            var adminAdd = new AdminAdd(adminViewModel, adminModel);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = adminAdd;
                 window.AssignEnded();
                 window.Navigate();
-                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                var vm = new PlayerBaseViewModel(new PlayerBaseWindowService(adminViewModel), playerBaseModel)
                 {
                     WindowTitle = "Add"
                 };
+                return vm;
             });
         }
         private void AdminRemovePlayer()
@@ -616,13 +624,18 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
-            var whitelistAdd = new AdminAdd(_model, AddType.Type.Whitelist, name);
+            var whitelistModel = new AdminAddModel(_model, new AddType(AddType.Type.Whitelist))
+            {
+                Name = name
+            };
+            var whitelistViewModel = new AdminAddViewModel(whitelistModel);
+            var whitelistAdd = new AdminAdd(whitelistViewModel, whitelistModel);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = whitelistAdd;
                 window.AssignEnded();
                 window.Navigate();
-                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                return new PlayerBaseViewModel(new PlayerBaseWindowService(whitelistViewModel), playerBaseModel)
                 {
                     WindowTitle = "Whitelist"
                 };
@@ -638,13 +651,18 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
-            var kick = new Kick(_model, name);
+            var kickModel = new KickModel(_model)
+            {
+                Name = name
+            };
+            var kickViewModel = new KickViewModel(kickModel);
+            var kick = new Kick(kickViewModel, kickModel);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = kick;
                 window.AssignEnded();
                 window.Navigate();
-                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                return new PlayerBaseViewModel(new PlayerBaseWindowService(kickViewModel), playerBaseModel)
                 {
                     WindowTitle = "Kick"
                 };
@@ -656,13 +674,18 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
-            var ban = new Ban(_model, name);
+            var banModel = new BanModel(_model)
+            {
+                Name = name
+            };
+            var banViewModel = new BanViewModel(banModel);
+            var ban = new Ban(banViewModel, banModel);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = ban;
                 window.AssignEnded();
                 window.Navigate();
-                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                return new PlayerBaseViewModel(new PlayerBaseWindowService(banViewModel), playerBaseModel)
                 {
                     WindowTitle = "Ban"
                 };
