@@ -138,41 +138,41 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Permissions
         {
             _model = model;
 
-            IsEdited = model.ObserveProperty(m => m.IsEdited).ToReactiveProperty();
-            CanSave = model.ObserveProperty(m => m.CanSave).ToReactiveProperty();
+            IsEdited = model.ObserveProperty(m => m.IsEdited).ToReactiveProperty().AddTo(CompositeDisposable);
+            CanSave = model.ObserveProperty(m => m.CanSave).ToReactiveProperty().AddTo(CompositeDisposable);
 
             CommandPermissions = model.CommandPermissions.ToReadOnlyReactiveCollection(m
-                => new PermissionInfoViewModel(m, WindowManageService));
+                => new PermissionInfoViewModel(m, WindowManageService)).AddTo(CompositeDisposable);
             AdminPermissions = model.AdminPermissions.ToReadOnlyReactiveCollection(m
                 => new AdminPermissionInfoViewModel(m, WindowManageService)
                 {
                     GetSteamIdFunc = GetSteamId,
                     TextBoxChangedAction = Edited
-                });
+                }).AddTo(CompositeDisposable);
             AdminGroupPermissions = model.AdminGroupPermissions.ToReadOnlyReactiveCollection(m
                 => new AdminPermissionInfoViewModel(m, WindowManageService)
                 {
                     GetSteamIdFunc = GetSteamGroupId,
                     TextBoxChangedAction = Edited
-                });
+                }).AddTo(CompositeDisposable);
             WhitelistPermissions = model.WhitelistPermissions.ToReadOnlyReactiveCollection(m
                 => new WhitelistPermissionInfoViewModel(m, WindowManageService)
                 {
                     GetSteamIdFunc = GetSteamId,
                     TextBoxChangedAction = Edited
-                });
+                }).AddTo(CompositeDisposable);
             WhitelistGroupPermissions = model.WhitelistGroupPermissions.ToReadOnlyReactiveCollection(m
                 => new WhitelistPermissionInfoViewModel(m, WindowManageService)
                 {
                     GetSteamIdFunc = GetSteamGroupId,
                     TextBoxChangedAction = Edited
-                });
+                }).AddTo(CompositeDisposable);
             BlacklistPermissions = model.BlacklistPermissions.ToReadOnlyReactiveCollection(m
                 => new BlackListPermissionInfoViewModel(m, WindowManageService)
                 {
                     GetSteamIdFunc = GetSteamId,
                     TextBoxChangedAction = Edited
-                });
+                }).AddTo(CompositeDisposable);
 
             NewFileCommand = new DelegateCommand(NewFile);
             OpenFileCommand = new DelegateCommand(OpenFile);

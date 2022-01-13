@@ -27,14 +27,14 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Update
                 Loaded = new DelegateCommand(() => { });
             }
 
-            VersionListView = model.ToReactivePropertyAsSynchronized(m => m.VersionList);
-            VersionListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.VersionListSelectedIndex);
-            UpdateBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.CanUpdate);
-            CancelBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.CanCancel);
-            RichDetailText = model.ToReactivePropertyAsSynchronized(m => m.RichDetailText);
-            DetailText = model.ToReactivePropertyAsSynchronized(m => m.DetailText);
-            CurrentVersion = model.ToReactivePropertyAsSynchronized(m => m.CurrentVersion);
-            LatestVersion = model.ToReactivePropertyAsSynchronized(m => m.LatestVersion);
+            VersionListView = model.ToReactivePropertyAsSynchronized(m => m.VersionList).AddTo(CompositeDisposable);
+            VersionListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.VersionListSelectedIndex).AddTo(CompositeDisposable);
+            UpdateBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.CanUpdate).AddTo(CompositeDisposable);
+            CancelBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.CanCancel).AddTo(CompositeDisposable);
+            RichDetailText = model.ToReactivePropertyAsSynchronized(m => m.RichDetailText).AddTo(CompositeDisposable);
+            DetailText = model.ToReactivePropertyAsSynchronized(m => m.DetailText).AddTo(CompositeDisposable);
+            CurrentVersion = model.ToReactivePropertyAsSynchronized(m => m.CurrentVersion).AddTo(CompositeDisposable);
+            LatestVersion = model.ToReactivePropertyAsSynchronized(m => m.LatestVersion).AddTo(CompositeDisposable);
 
             VersionListSelectionChanged = new DelegateCommand<int?>(VersionList_SelectionChanged);
             DoUpdateCommand = new DelegateCommand(Update);

@@ -7,15 +7,15 @@ using Reactive.Bindings.Extensions;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController.Pages
 {
-    public class AdminAddViewModel : BindableBase
+    public class AdminAddViewModel : PageViewModelBase
     {
         private readonly AdminAddModel _model;
         public AdminAddViewModel(AdminAddModel model)
         {
             _model = model;
 
-            NameText = model.ToReactivePropertyAsSynchronized(m => m.Name);
-            PermissionText = model.ToReactivePropertyAsSynchronized(m => m.Permission);
+            NameText = model.ToReactivePropertyAsSynchronized(m => m.Name).AddTo(CompositeDisposable);
+            PermissionText = model.ToReactivePropertyAsSynchronized(m => m.Permission).AddTo(CompositeDisposable);
 
             AddAdminCommand = new DelegateCommand(model.AddAdmin);
             CancelCommand = new DelegateCommand(model.Cancel);

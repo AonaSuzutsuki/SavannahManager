@@ -7,13 +7,13 @@ using Reactive.Bindings.Extensions;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController.Pages
 {
-    public class KickViewModel : BindableBase
+    public class KickViewModel : PageViewModelBase
     {
         public KickViewModel(KickModel model)
         {
             _model = model;
 
-            NameText = model.ToReactivePropertyAsSynchronized(m => m.Name);
+            NameText = model.ToReactivePropertyAsSynchronized(m => m.Name).AddTo(CompositeDisposable);
 
             KickPlayerCommanded = new DelegateCommand(KickBt_Clicked);
             CancelCommand = new DelegateCommand(model.Cancel);

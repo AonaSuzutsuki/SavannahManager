@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -44,6 +45,8 @@ using _7dtd_svmanager_fix_mvvm.Views.Update;
 using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonNavigationControlLib.Navigation.ViewModels;
 using CommonNavigationControlLib.Navigation.Views;
+using _7dtd_svmanager_fix_mvvm.Models.PlayerController.Pages;
+using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController.Pages;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -158,42 +161,42 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             #region Property Initialize
 
-            IsBeta = model.ObserveProperty(m => m.IsBeta).ToReactiveProperty();
+            IsBeta = model.ObserveProperty(m => m.IsBeta).ToReactiveProperty().AddTo(CompositeDisposable);
 
-            StartBtEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled);
-            TelnetBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled);
-            TelnetBtLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel);
-            AutoRestartText = model.ObserveProperty(m => m.AutoRestartText).ToReactiveProperty();
+            StartBtEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled).AddTo(CompositeDisposable);
+            TelnetBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled).AddTo(CompositeDisposable);
+            TelnetBtLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel).AddTo(CompositeDisposable);
+            AutoRestartText = model.ObserveProperty(m => m.AutoRestartText).ToReactiveProperty().AddTo(CompositeDisposable);
 
-            UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
+            UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList).AddTo(CompositeDisposable);
 
-            IsConsoleLogTextWrapping = model.ToReactivePropertyAsSynchronized(m => m.IsConsoleLogTextWrapping);
+            IsConsoleLogTextWrapping = model.ToReactivePropertyAsSynchronized(m => m.IsConsoleLogTextWrapping).AddTo(CompositeDisposable);
             ChatLogText = new ReactiveProperty<string>();
-            ChatInputText = model.ToReactivePropertyAsSynchronized(m => m.ChatInputText);
+            ChatInputText = model.ToReactivePropertyAsSynchronized(m => m.ChatInputText).AddTo(CompositeDisposable);
             
-            ConnectionPanelIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.ConnectionPanelIsEnabled);
-            LocalModeChecked = model.ToReactivePropertyAsSynchronized(m => m.LocalMode);
-            LocalModeEnabled = model.ToReactivePropertyAsSynchronized(m => m.LocalModeEnabled);
-            TelnetAddressText = model.ToReactivePropertyAsSynchronized(m => m.Address);
-            TelnetPortText = model.ToReactivePropertyAsSynchronized(m => m.PortText);
-            TelnetPasswordText = model.ToReactivePropertyAsSynchronized(m => m.Password);
+            ConnectionPanelIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.ConnectionPanelIsEnabled).AddTo(CompositeDisposable);
+            LocalModeChecked = model.ToReactivePropertyAsSynchronized(m => m.LocalMode).AddTo(CompositeDisposable);
+            LocalModeEnabled = model.ToReactivePropertyAsSynchronized(m => m.LocalModeEnabled).AddTo(CompositeDisposable);
+            TelnetAddressText = model.ToReactivePropertyAsSynchronized(m => m.Address).AddTo(CompositeDisposable);
+            TelnetPortText = model.ToReactivePropertyAsSynchronized(m => m.PortText).AddTo(CompositeDisposable);
+            TelnetPasswordText = model.ToReactivePropertyAsSynchronized(m => m.Password).AddTo(CompositeDisposable);
 
-            TimeDayText = model.ToReactivePropertyAsSynchronized(m => m.TimeDayText);
-            TimeHourText = model.ToReactivePropertyAsSynchronized(m => m.TimeHourText);
-            TimeMinuteText = model.ToReactivePropertyAsSynchronized(m => m.TimeMinuteText);
+            TimeDayText = model.ToReactivePropertyAsSynchronized(m => m.TimeDayText).AddTo(CompositeDisposable);
+            TimeHourText = model.ToReactivePropertyAsSynchronized(m => m.TimeHourText).AddTo(CompositeDisposable);
+            TimeMinuteText = model.ToReactivePropertyAsSynchronized(m => m.TimeMinuteText).AddTo(CompositeDisposable);
 
-            BottomNewsLabel = model.ToReactivePropertyAsSynchronized(m => m.BottomNewsLabel);
+            BottomNewsLabel = model.ToReactivePropertyAsSynchronized(m => m.BottomNewsLabel).AddTo(CompositeDisposable);
             BottomDebugLabel = new ReactiveProperty<string>();
 
-            SshAddressText = model.ToReactivePropertyAsSynchronized(m => m.SshAddressText);
-            SshPortText = model.ToReactivePropertyAsSynchronized(m => m.SshPortText);
-            SshUserNameText = model.ToReactivePropertyAsSynchronized(m => m.SshUserNameText);
-            SshPasswordText = model.ToReactivePropertyAsSynchronized(m => m.SshPasswordText);
-            SshExeFileDirectoryText = model.ToReactivePropertyAsSynchronized(m => m.SshExeFileDirectoryText);
-            SshConfigFileNameText = model.ToReactivePropertyAsSynchronized(m => m.SshConfigFileNameText);
-            SshAuthMode = model.ToReactivePropertyAsSynchronized(m => m.SshAuthMode);
-            SshKeyPathText = model.ToReactivePropertyAsSynchronized(m => m.SshKeyPathText);
-            SshPassPhraseText = model.ToReactivePropertyAsSynchronized(m => m.SshPassPhraseText);
+            SshAddressText = model.ToReactivePropertyAsSynchronized(m => m.SshAddressText).AddTo(CompositeDisposable);
+            SshPortText = model.ToReactivePropertyAsSynchronized(m => m.SshPortText).AddTo(CompositeDisposable);
+            SshUserNameText = model.ToReactivePropertyAsSynchronized(m => m.SshUserNameText).AddTo(CompositeDisposable);
+            SshPasswordText = model.ToReactivePropertyAsSynchronized(m => m.SshPasswordText).AddTo(CompositeDisposable);
+            SshExeFileDirectoryText = model.ToReactivePropertyAsSynchronized(m => m.SshExeFileDirectoryText).AddTo(CompositeDisposable);
+            SshConfigFileNameText = model.ToReactivePropertyAsSynchronized(m => m.SshConfigFileNameText).AddTo(CompositeDisposable);
+            SshAuthMode = model.ToReactivePropertyAsSynchronized(m => m.SshAuthMode).AddTo(CompositeDisposable);
+            SshKeyPathText = model.ToReactivePropertyAsSynchronized(m => m.SshKeyPathText).AddTo(CompositeDisposable);
+            SshPassPhraseText = model.ToReactivePropertyAsSynchronized(m => m.SshPassPhraseText).AddTo(CompositeDisposable);
 
             #endregion
 
@@ -593,16 +596,22 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
-            var adminAdd = new AdminAdd(_model, AddType.Type.Admin, name);
+            var adminModel = new AdminAddModel(_model, new AddType(AddType.Type.Admin))
+            {
+                Name = name
+            };
+            var adminViewModel = new AdminAddViewModel(adminModel);
+            var adminAdd = new AdminAdd(adminViewModel, adminModel);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = adminAdd;
                 window.AssignEnded();
                 window.Navigate();
-                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                var vm = new PlayerBaseViewModel(new PlayerBaseWindowService(adminViewModel), playerBaseModel)
                 {
                     WindowTitle = "Add"
                 };
+                return vm;
             });
         }
         private void AdminRemovePlayer()
@@ -615,13 +624,18 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
-            var whitelistAdd = new AdminAdd(_model, AddType.Type.Whitelist, name);
+            var whitelistModel = new AdminAddModel(_model, new AddType(AddType.Type.Whitelist))
+            {
+                Name = name
+            };
+            var whitelistViewModel = new AdminAddViewModel(whitelistModel);
+            var whitelistAdd = new AdminAdd(whitelistViewModel, whitelistModel);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = whitelistAdd;
                 window.AssignEnded();
                 window.Navigate();
-                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                return new PlayerBaseViewModel(new PlayerBaseWindowService(whitelistViewModel), playerBaseModel)
                 {
                     WindowTitle = "Whitelist"
                 };
@@ -637,13 +651,18 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
-            var kick = new Kick(_model, name);
+            var kickModel = new KickModel(_model)
+            {
+                Name = name
+            };
+            var kickViewModel = new KickViewModel(kickModel);
+            var kick = new Kick(kickViewModel, kickModel);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = kick;
                 window.AssignEnded();
                 window.Navigate();
-                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                return new PlayerBaseViewModel(new PlayerBaseWindowService(kickViewModel), playerBaseModel)
                 {
                     WindowTitle = "Kick"
                 };
@@ -655,13 +674,18 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
-            var ban = new Ban(_model, name);
+            var banModel = new BanModel(_model)
+            {
+                Name = name
+            };
+            var banViewModel = new BanViewModel(banModel);
+            var ban = new Ban(banViewModel, banModel);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = ban;
                 window.AssignEnded();
                 window.Navigate();
-                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                return new PlayerBaseViewModel(new PlayerBaseWindowService(banViewModel), playerBaseModel)
                 {
                     WindowTitle = "Ban"
                 };

@@ -15,16 +15,16 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Backup
         {
             _model = model;
 
-            BackupList = model.BackupList.ToReadOnlyReactiveCollection();
-            BackupFileList = model.BackupFileList.ToReadOnlyReactiveCollection();
-            BackupProgressValue = model.ObserveProperty(m => m.BackupProgressValue).ToReactiveProperty();
-            ProgressLabel = model.ObserveProperty(m => m.ProgressLabel).ToReactiveProperty();
-            RestoreBtEnabled = model.ObserveProperty(m => m.CanRestore).ToReactiveProperty();
-            ForwardBtIsEnabled = model.ObserveProperty(m => m.ForwardBtIsEnabled).ToReactiveProperty();
-            BackBtIsEnabled = model.ObserveProperty(m => m.BackBtIsEnabled).ToReactiveProperty();
-            PathText = model.ToReactivePropertyAsSynchronized(m => m.PathText);
-            DeleteBtEnabled = model.ObserveProperty(m => m.CanRestore).ToReactiveProperty();
-            DeleteAllBtEnabled = model.ObserveProperty(m => m.CanDeleteAll).ToReactiveProperty();
+            BackupList = model.BackupList.ToReadOnlyReactiveCollection().AddTo(CompositeDisposable);
+            BackupFileList = model.BackupFileList.ToReadOnlyReactiveCollection().AddTo(CompositeDisposable);
+            BackupProgressValue = model.ObserveProperty(m => m.BackupProgressValue).ToReactiveProperty().AddTo(CompositeDisposable);
+            ProgressLabel = model.ObserveProperty(m => m.ProgressLabel).ToReactiveProperty().AddTo(CompositeDisposable);
+            RestoreBtEnabled = model.ObserveProperty(m => m.CanRestore).ToReactiveProperty().AddTo(CompositeDisposable);
+            ForwardBtIsEnabled = model.ObserveProperty(m => m.ForwardBtIsEnabled).ToReactiveProperty().AddTo(CompositeDisposable);
+            BackBtIsEnabled = model.ObserveProperty(m => m.BackBtIsEnabled).ToReactiveProperty().AddTo(CompositeDisposable);
+            PathText = model.ToReactivePropertyAsSynchronized(m => m.PathText).AddTo(CompositeDisposable);
+            DeleteBtEnabled = model.ObserveProperty(m => m.CanRestore).ToReactiveProperty().AddTo(CompositeDisposable);
+            DeleteAllBtEnabled = model.ObserveProperty(m => m.CanDeleteAll).ToReactiveProperty().AddTo(CompositeDisposable);
 
             RestoreCommand = new DelegateCommand(RestoreBt_Clicked);
             BackupCommand = new DelegateCommand(BackupBt_Clicked);

@@ -20,8 +20,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Setup
         public FirstPageViewModel(NavigationWindowService<InitializeData> bindableValue, FirstPageModel model) : base(bindableValue?.NavigationValue)
         {
             _model = model;
-            LanguagesSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.LanguagesSelectedIndex);
-            Languages = model.Languages.ToReadOnlyReactiveCollection(m => m.Item1);
+            LanguagesSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.LanguagesSelectedIndex).AddTo(CompositeDisposable);
+            Languages = model.Languages.ToReadOnlyReactiveCollection(m => m.Item1).AddTo(CompositeDisposable);
 
             SelectionChangedCommand = new DelegateCommand(SelectionChanged);
         }
