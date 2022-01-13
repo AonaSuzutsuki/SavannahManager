@@ -26,8 +26,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             Loaded = new DelegateCommand(Window_Loaded);
             CopyDonationAddressCommand = new DelegateCommand<string>(DonateBt_Clicked);
 
-            VersionLabel = model.ObserveProperty(m => m.Version).ToReactiveProperty();
-            Copyright = model.ObserveProperty(m => m.Copyright).ToReactiveProperty();
+            VersionLabel = model.ObserveProperty(m => m.Version).ToReactiveProperty().AddTo(CompositeDisposable);
+            Copyright = model.ObserveProperty(m => m.Copyright).ToReactiveProperty().AddTo(CompositeDisposable);
         }
 
         #region Properties

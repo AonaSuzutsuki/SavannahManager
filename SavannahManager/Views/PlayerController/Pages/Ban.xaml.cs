@@ -19,17 +19,12 @@ namespace _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages
         }
         #endregion
         
-        public Ban(IMainWindowTelnet telnet, string playerId = "")
+        public Ban(BanViewModel banViewModel, BanModel banModel)
         {
             InitializeComponent();
 
-            var model = new BanModel(telnet);
-            var vm = new BanViewModel(model);
-            DataContext = vm;
-
-            model.Ended += Model_Ended;
-
-            model.Name = playerId;
+            banModel.Ended += Model_Ended;
+            DataContext = banViewModel;
         }
 
         private void Model_Ended(object sender, EventArgs e)

@@ -7,16 +7,16 @@ using Reactive.Bindings.Extensions;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController.Pages
 {
-    public class BanViewModel
+    public class BanViewModel : PageViewModelBase
     {
         private BanModel model;
         public BanViewModel(BanModel model)
         {
             this.model = model;
 
-            DurationUnitList = model.DurationList.ToReadOnlyReactiveCollection(x => x.Name);
-            NameText = model.ToReactivePropertyAsSynchronized(m => m.Name);
-            Duration = model.ToReactivePropertyAsSynchronized(m => m.Duration);
+            DurationUnitList = model.DurationList.ToReadOnlyReactiveCollection(x => x.Name).AddTo(CompositeDisposable);
+            NameText = model.ToReactivePropertyAsSynchronized(m => m.Name).AddTo(CompositeDisposable);
+            Duration = model.ToReactivePropertyAsSynchronized(m => m.Duration).AddTo(CompositeDisposable);
 
             BanPlayerCommanded = new DelegateCommand(BanBt_Clicked);
             CancelCommand = new DelegateCommand(model.Cancel);

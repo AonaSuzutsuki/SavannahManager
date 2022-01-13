@@ -21,8 +21,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             _model = model;
 
-            WaitTime = model.ObserveProperty(m => m.WaitTimeText).ToReactiveProperty();
-            RecommendedWaitTime = model.ObserveProperty(m => m.RecommendedWaitTimeText).ToReactiveProperty();
+            WaitTime = model.ObserveProperty(m => m.WaitTimeText).ToReactiveProperty().AddTo(CompositeDisposable);
+            RecommendedWaitTime = model.ObserveProperty(m => m.RecommendedWaitTimeText).ToReactiveProperty().AddTo(CompositeDisposable);
 
             CalculateWaitTimeCommand = new DelegateCommand(CalculateWaitTime);
             SetToSettingsCommand = new DelegateCommand<string>(SetToSettings);

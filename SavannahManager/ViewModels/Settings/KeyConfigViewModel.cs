@@ -23,11 +23,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
             OkayCommand = new DelegateCommand(OKayBt_Click);
             InputKeyTextBoxKeyDown = new DelegateCommand<KeyEventArgs>(InputKeyTextBox_KeyDown);
 
-            KeyList = new ReadOnlyObservableCollection<ShortcutKeyForList>(model.KeyList);
-            KeyListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.CurrentIndex);
-            CommandText = model.ToReactivePropertyAsSynchronized(m => m.CommandText);
-            CurrentKeyText = model.ToReactivePropertyAsSynchronized(m => m.CurrentKeyText);
-            InputKeyText = model.ToReactivePropertyAsSynchronized(m => m.KeyString);
+            KeyList = model.KeyList.ToReadOnlyReactiveCollection().AddTo(CompositeDisposable);
+            KeyListSelectedIndex = model.ToReactivePropertyAsSynchronized(m => m.CurrentIndex).AddTo(CompositeDisposable);
+            CommandText = model.ToReactivePropertyAsSynchronized(m => m.CommandText).AddTo(CompositeDisposable);
+            CurrentKeyText = model.ToReactivePropertyAsSynchronized(m => m.CurrentKeyText).AddTo(CompositeDisposable);
+            InputKeyText = model.ToReactivePropertyAsSynchronized(m => m.KeyString).AddTo(CompositeDisposable);
         }
 
         private ReadOnlyObservableCollection<ShortcutKeyForList> _keyList;

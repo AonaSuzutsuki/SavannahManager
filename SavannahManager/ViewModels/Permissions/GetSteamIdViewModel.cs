@@ -15,8 +15,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Permissions
         {
             _model = model;
 
-            SteamId = model.ObserveProperty(m => m.Steam64Id).ToReactiveProperty();
-            ApplyBtEnabled = model.ObserveProperty(m => m.CanWrite).ToReactiveProperty();
+            SteamId = model.ObserveProperty(m => m.Steam64Id).ToReactiveProperty().AddTo(CompositeDisposable);
+            ApplyBtEnabled = model.ObserveProperty(m => m.CanWrite).ToReactiveProperty().AddTo(CompositeDisposable);
 
             AnalyzeCommand = new DelegateCommand(Analyze);
             ApplyCommand = new DelegateCommand(Apply);

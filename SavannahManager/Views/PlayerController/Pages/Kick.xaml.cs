@@ -19,18 +19,12 @@ namespace _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages
         }
         #endregion
 
-        public Kick(IMainWindowTelnet telnet, string playerId = "")
+        public Kick(KickViewModel kickViewModel, KickModel kickModel)
         {
             InitializeComponent();
 
-            var model = new KickModel(telnet)
-            {
-                Name = playerId
-            };
-            model.Ended += Model_Ended;
-
-            var vm = new KickViewModel(model);
-            DataContext = vm;
+            kickModel.Ended += Model_Ended;
+            DataContext = kickViewModel;
         }
 
         private void Model_Ended(object sender, EventArgs e)

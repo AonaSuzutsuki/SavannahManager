@@ -37,9 +37,9 @@
   <ItemGroup>
     <PackageReference Include="BackupLib" Version="1.0.6" />
     <PackageReference Include="CommonCoreLib" Version="1.0.4" />
-    <PackageReference Include="CommonExtensionLib" Version="1.0.4" />
-    <PackageReference Include="CommonNavigationControlLib" Version="1.0.2" />
-    <PackageReference Include="CommonStyleLib" Version="1.0.6" />
+    <PackageReference Include="CommonExtensionLib" Version="1.0.5" />
+    <PackageReference Include="CommonNavigationControlLib" Version="1.0.5" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.9" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="SavannahXmlLib" Version="1.0.5" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />

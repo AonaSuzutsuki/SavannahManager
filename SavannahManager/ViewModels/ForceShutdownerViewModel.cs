@@ -22,8 +22,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             ForceShutdownCommand = new DelegateCommand(ShutdownBt_Click);
             SelectionChanged = new DelegateCommand<int?>(Selection_Changed);
 
-            ProcessData = new ReadOnlyObservableCollection<ProcessTab>(model.ProcessData);
-            ShutdownBtIsEnabled = model.ObserveProperty(m => m.ProcessSelected).ToReactiveProperty();
+            ProcessData = model.ProcessData.ToReadOnlyReactiveCollection().AddTo(CompositeDisposable);
+            ShutdownBtIsEnabled = model.ObserveProperty(m => m.ProcessSelected).ToReactiveProperty().AddTo(CompositeDisposable);
         }
 
         #region EventProperties

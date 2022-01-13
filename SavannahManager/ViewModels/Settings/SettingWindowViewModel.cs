@@ -35,35 +35,35 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
             #endregion
 
             #region Property Initialize
-            ExeFilePathText = model.ToReactivePropertyAsSynchronized(m => m.ExeFilePath);
-            ConfigFilePathText = model.ToReactivePropertyAsSynchronized(m => m.ConfigFilePath);
-            AdminFilePathText = model.ToReactivePropertyAsSynchronized(m => m.AdminFilePath);
+            ExeFilePathText = model.ToReactivePropertyAsSynchronized(m => m.ExeFilePath).AddTo(CompositeDisposable);
+            ConfigFilePathText = model.ToReactivePropertyAsSynchronized(m => m.ConfigFilePath).AddTo(CompositeDisposable);
+            AdminFilePathText = model.ToReactivePropertyAsSynchronized(m => m.AdminFilePath).AddTo(CompositeDisposable);
 
-            IsLogGetterChecked = model.ToReactivePropertyAsSynchronized(m => m.IsLogGetter);
-            ConsoleLengthText = model.ToReactivePropertyAsSynchronized(m => m.ConsoleLengthText);
+            IsLogGetterChecked = model.ToReactivePropertyAsSynchronized(m => m.IsLogGetter).AddTo(CompositeDisposable);
+            ConsoleLengthText = model.ToReactivePropertyAsSynchronized(m => m.ConsoleLengthText).AddTo(CompositeDisposable);
 
-            TelnetWaitTime = model.ToReactivePropertyAsSynchronized(m => m.TelnetWaitTime);
+            TelnetWaitTime = model.ToReactivePropertyAsSynchronized(m => m.TelnetWaitTime).AddTo(CompositeDisposable);
 
-            IsBetaModeChecked = model.ToReactivePropertyAsSynchronized(m => m.IsBetaMode);
-            IsAutoUpdateChecked = model.ToReactivePropertyAsSynchronized(m => m.IsAutoUpdate);
-            IsEncryptPassword = model.ToReactivePropertyAsSynchronized(m => m.IsEncryptPassword);
+            IsBetaModeChecked = model.ToReactivePropertyAsSynchronized(m => m.IsBetaMode).AddTo(CompositeDisposable);
+            IsAutoUpdateChecked = model.ToReactivePropertyAsSynchronized(m => m.IsAutoUpdate).AddTo(CompositeDisposable);
+            IsEncryptPassword = model.ToReactivePropertyAsSynchronized(m => m.IsEncryptPassword).AddTo(CompositeDisposable);
 
-            AutoRestartIntervalTime = model.ToReactivePropertyAsSynchronized(m => m.IntervalTime);
-            AutoRestartIntervalTimeMode = model.ToReactivePropertyAsSynchronized(m => m.IntervalTimeSelectedIndex);
-            IsAutoRestartSendMessage = model.ToReactivePropertyAsSynchronized(m => m.IsAutoRestartSendMessage);
+            AutoRestartIntervalTime = model.ToReactivePropertyAsSynchronized(m => m.IntervalTime).AddTo(CompositeDisposable);
+            AutoRestartIntervalTimeMode = model.ToReactivePropertyAsSynchronized(m => m.IntervalTimeSelectedIndex).AddTo(CompositeDisposable);
+            IsAutoRestartSendMessage = model.ToReactivePropertyAsSynchronized(m => m.IsAutoRestartSendMessage).AddTo(CompositeDisposable);
             AutoRestartSendingMessageStartTime =
-                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageStartTime);
+                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageStartTime).AddTo(CompositeDisposable);
             AutoRestartSendingMessageStartTimeMode =
-                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageStartTimeMode);
+                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageStartTimeMode).AddTo(CompositeDisposable);
             AutoRestartSendingMessageIntervalTime =
-                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageIntervalTime);
+                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageIntervalTime).AddTo(CompositeDisposable);
             AutoRestartSendingMessageIntervalTimeMode =
-                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageIntervalTimeMode);
+                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageIntervalTimeMode).AddTo(CompositeDisposable);
             AutoRestartSendingMessageFormat =
-                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageFormat);
+                model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageFormat).AddTo(CompositeDisposable);
 
-            BackupDirPath = model.ToReactivePropertyAsSynchronized(m => m.BackupDirPath);
-            RestoreDirPath = model.ToReactivePropertyAsSynchronized(m => m.RestoreDirPath);
+            BackupDirPath = model.ToReactivePropertyAsSynchronized(m => m.BackupDirPath).AddTo(CompositeDisposable);
+            RestoreDirPath = model.ToReactivePropertyAsSynchronized(m => m.RestoreDirPath).AddTo(CompositeDisposable);
             #endregion
         }
 

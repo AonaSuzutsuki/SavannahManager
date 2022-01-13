@@ -22,17 +22,12 @@ namespace _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages
         #region Fiels
         #endregion
 
-        public AdminAdd(IMainWindowTelnet telnet, AddType.Type addType, string playerId = "")
+        public AdminAdd(AdminAddViewModel vm, AdminAddModel adminModel)
         {
             InitializeComponent();
 
-            var model = new AdminAddModel(telnet, new AddType(addType))
-            {
-                Name = playerId
-            };
-            model.Ended += Model_Ended;
-
-            var vm = new AdminAddViewModel(model);
+            adminModel.Ended += Model_Ended;
+            
             DataContext = vm;
         }
 
