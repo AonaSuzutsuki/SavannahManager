@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -8,6 +11,9 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Media;
+using Brushes = System.Windows.Media.Brushes;
+using Color = System.Windows.Media.Color;
+using Size = System.Windows.Size;
 
 namespace _7dtd_svmanager_fix_mvvm.Views.Update
 {
@@ -132,7 +138,9 @@ namespace _7dtd_svmanager_fix_mvvm.Views.Update
     {
         #region 依存関係プロパティ
         public static readonly DependencyProperty DocumentProperty = DependencyProperty.Register("Document", typeof(FlowDocument),
-            typeof(BindableRichTextBox), new UIPropertyMetadata(null, OnRichTextItemsChanged));
+            typeof(BindableRichTextBox), new UIPropertyMetadata(null, DocumentChanged));
+        public static readonly DependencyProperty WordWrappingProperty = DependencyProperty.Register("WordWrapping", typeof(bool),
+            typeof(BindableRichTextBox), new UIPropertyMetadata(true, WordWrappingChangedCallback));
         #endregion  // 依存関係プロパティ
 
         #region 公開プロパティ
@@ -141,16 +149,67 @@ namespace _7dtd_svmanager_fix_mvvm.Views.Update
             get => (FlowDocument)GetValue(DocumentProperty);
             set => SetValue(DocumentProperty, value);
         }
+
+        public bool WordWrapping
+        {
+            get => (bool)GetValue(WordWrappingProperty);
+            set => SetValue(WordWrappingProperty, value);
+        }
         #endregion  // 公開プロパティ
 
         #region イベントハンドラ
-        private static void OnRichTextItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void DocumentChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is RichTextBox control)
+            SetDocument(sender, e.NewValue);
+        }
+
+        private static void WordWrappingChangedCallback(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is BindableRichTextBox bindableRichTextBox)
             {
-                control.Document = e.NewValue as FlowDocument;
+                SetDocument(bindableRichTextBox, bindableRichTextBox.Document);
+            }
+        }
+
+        private static void SetDocument(object sender, object newValue)
+        {
+            if (sender is not RichTextBox control || newValue is not FlowDocument flowDocument)
+                return;
+
+            control.Document = flowDocument;
+
+            if (control is not BindableRichTextBox bindableRichTextBox)
+                return;
+
+            if (bindableRichTextBox.WordWrapping)
+            {
+                control.Document.PageWidth = double.NaN;
+            }
+            else
+            {
+                control.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+                
+                var size = MeasureString(bindableRichTextBox);
+                control.Document.PageWidth = size.Width + 12;
             }
         }
         #endregion  // イベントハンドラ
+
+        private static Size MeasureString(RichTextBox control)
+        {
+            using var graphics = Graphics.FromHwnd(IntPtr.Zero);
+            var dpiX = graphics.DpiX;
+
+            var text = new TextRange(control.Document.ContentStart, control.Document.ContentEnd).Text;
+            var formattedText = new FormattedText(text,
+                CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                new Typeface(control.FontFamily, control.FontStyle, control.FontWeight, control.FontStretch),
+                control.FontSize,
+                Brushes.Black,
+                dpiX);
+
+            return new Size(formattedText.Width, formattedText.Height);
+        }
     }
 }
