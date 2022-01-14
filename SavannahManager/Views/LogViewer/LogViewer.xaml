@@ -110,7 +110,7 @@
 
             <GridSplitter Grid.Column="1" Width="5" Margin="0" Background="Transparent" VerticalAlignment="Stretch" />
 
-            <update:BindableRichTextBox Grid.Column="2" Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" Document="{Binding RichLogDetailItems.Value, Mode=OneWay, Converter={update:RichTextItemsToDocumentConverter}}" HorizontalScrollBarVisibility="Visible" />
+            <update:BindableRichTextBox Grid.Column="2" Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" Document="{Binding RichLogDetailItems.Value, Mode=OneWay, Converter={update:RichTextItemsToDocumentConverter}}" WordWrapping="False" IsReadOnly="True" ContextMenu="{StaticResource CopyOnly}" />
         </Grid>
 
     </Grid>
