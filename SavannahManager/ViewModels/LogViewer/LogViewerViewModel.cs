@@ -20,10 +20,9 @@ using Reactive.Bindings.Extensions;
 namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
 {
 
-    public class LogViewerViewModel : ViewModelBase, IDisposable
+    public class LogViewerViewModel : ViewModelBase
     {
         private readonly LogViewerModel _model;
-        private readonly CompositeDisposable _compositeDisposable = new();
 
         public Action<IDisposable> ClosedAction { get; set; }
 
@@ -36,7 +35,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
         {
             _model = model;
 
-            LogFileList = model.LogFileList.ToReadOnlyReactiveCollection(m => m.Name).AddTo(_compositeDisposable);
+            LogFileList = model.LogFileList.ToReadOnlyReactiveCollection(m => m.Name).AddTo(CompositeDisposable);
             RichLogDetailItems = model.ObserveProperty(m => m.RichLogDetailItems).ToReactiveProperty();
 
             LogFileListSelectionChangedCommand = new DelegateCommand<int?>(LogFileListSelectionChanged);
@@ -57,11 +56,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
                 return;
 
             _model.AnalyzeLogFile(index.Value);
-        }
-
-        public void Dispose()
-        {
-            _compositeDisposable?.Dispose();
         }
     }
 }
