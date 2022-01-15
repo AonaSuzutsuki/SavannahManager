@@ -91,6 +91,8 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
         {
             if (control.WordWrapping)
             {
+                control.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+
                 control.Document.PageWidth = double.NaN;
             }
             else
