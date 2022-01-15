@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using _7dtd_svmanager_fix_mvvm.Views.Update;
+using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonStyleLib.Models;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
@@ -42,7 +43,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 
         public void Load()
         {
-            var files = CommonCoreLib.File.DirectorySearcher.GetAllFiles("logs", "*.log");
+            var files = CommonCoreLib.File.DirectorySearcher.GetAllFiles("logs", "*.log").ToList();
+            files.Reverse();
 
             foreach (var file in files)
             {
@@ -50,7 +52,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
             }
         }
 
-        public void AnalyzeLogFile(int index)
+        public async Task AnalyzeLogFile(int index)
         {
             if (index < 0 && index >= LogFileList.Count)
                 return;
@@ -62,22 +64,24 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
                 return;
             }
 
-            var list = new List<RichTextItem>(LogFileList.Count);
-
-            using var stream = new FileStream(logFileInfo.FullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using var streamReader = new StreamReader(stream);
-            while (streamReader.Peek() > -1)
+            await Task.Factory.StartNew(() =>
             {
-                var line = streamReader.ReadLine();
-                if (line == null)
-                    continue;
+                var list = new List<RichTextItem>(LogFileList.Count);
+                using var stream = new FileStream(logFileInfo.FullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using var streamReader = new StreamReader(stream);
+                while (streamReader.Peek() > -1)
+                {
+                    var line = streamReader.ReadLine();
+                    if (line == null)
+                        continue;
 
-                var paragraph = AnalyzeLine(line);
-                list.Add(paragraph);
-            }
+                    var paragraph = AnalyzeLine(line);
+                    list.Add(paragraph);
+                }
 
-            RichLogDetailItems = new ObservableCollection<RichTextItem>(list);
-            _cache.Add(logFileInfo.FullPath, RichLogDetailItems);
+                RichLogDetailItems = new ObservableCollection<RichTextItem>(list);
+                _cache.Add(logFileInfo.FullPath, RichLogDetailItems);
+            });
         }
 
         private RichTextItem AnalyzeLine(string line)

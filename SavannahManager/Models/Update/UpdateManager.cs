@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using _7dtd_svmanager_fix_mvvm.Views.Update;
+using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonExtensionLib.Extensions;
 using SavannahXmlLib.XmlWrapper;
 using SavannahXmlLib.XmlWrapper.Nodes;

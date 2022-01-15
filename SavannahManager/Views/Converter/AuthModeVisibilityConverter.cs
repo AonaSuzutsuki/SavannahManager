@@ -10,7 +10,7 @@ using System.Windows.Markup;
 
 namespace _7dtd_svmanager_fix_mvvm.Views.Converter
 {
-    public class AuthModePasswordVisibilityConverter : MarkupExtension, IValueConverter
+    public class BooleanVisibilityConverter : MarkupExtension, IValueConverter
     {
         public override object ProvideValue(IServiceProvider serviceProvider)
         {

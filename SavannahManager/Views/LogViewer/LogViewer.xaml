@@ -8,6 +8,9 @@
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels.LogViewer"
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.LogViewer"
+        xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
+        xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Converter"
+        xmlns:userControls="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.UserControls"
         mc:Ignorable="d"
         Title="Log Viewer" Height="450" Width="800"
         d:DataContext="{d:DesignInstance viewModels:LogViewerViewModel}"
@@ -46,10 +49,10 @@
                         <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Constants.xaml" />
                     </ResourceDictionary.MergedDictionaries>
 
-                    <Style TargetType="{x:Type update:BindableRichTextBox}">
+                    <Style TargetType="{x:Type userControls:BindableRichTextBox}">
                         <Setter Property="Template">
                             <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type update:BindableRichTextBox}">
+                                <ControlTemplate TargetType="{x:Type userControls:BindableRichTextBox}">
                                     <Border Name="Border" BorderBrush="{StaticResource BorderColor}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0">
                                         <ScrollViewer x:Name="PART_ContentHost" Margin="0,0,0,0" Focusable="false" Style="{StaticResource ListBoxScrollKey}" />
                                     </Border>
@@ -110,7 +113,21 @@
 
             <GridSplitter Grid.Column="1" Width="5" Margin="0" Background="Transparent" VerticalAlignment="Stretch" />
 
-            <update:BindableRichTextBox Grid.Column="2" Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" Document="{Binding RichLogDetailItems.Value, Mode=OneWay, Converter={update:RichTextItemsToDocumentConverter}}" WordWrapping="False" IsReadOnly="True" ContextMenu="{StaticResource CopyOnly}" />
+            <Grid Grid.Column="2">
+                <userControls:BindableRichTextBox Grid.Column="2" Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" BindingDocument="{Binding RichLogDetailItems.Value, Mode=OneWay, Converter={converter:RichTextItemsToDocumentConverter}}" WordWrapping="{Binding IsWordWrapping.Value}" IsReadOnly="True" TextChangedCommand="{Binding TextChangedCommand}">
+                    <userControls:BindableRichTextBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="ApplicationCommands.Copy" />
+                            <Separator Style="{StaticResource MLB_Separator}" />
+                            <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_TextWrapping, Mode=OneWay}" IsCheckable="True" IsChecked="{Binding IsWordWrapping.Value}" />
+                        </ContextMenu>
+                    </userControls:BindableRichTextBox.ContextMenu>
+                </userControls:BindableRichTextBox>
+
+                <Grid Height="30" Margin="20, 0" Background="#222" Visibility="{Binding ProgressBarVisibility.Value, Converter={converter:BooleanVisibilityConverter}}">
+                    <ProgressBar Value="100" Style="{StaticResource IndeterminateProgressBar}" />
+                </Grid>
+            </Grid>
         </Grid>
 
     </Grid>
