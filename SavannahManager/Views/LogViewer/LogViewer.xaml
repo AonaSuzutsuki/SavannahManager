@@ -114,7 +114,7 @@
             <GridSplitter Grid.Column="1" Width="5" Margin="0" Background="Transparent" VerticalAlignment="Stretch" />
 
             <Grid Grid.Column="2">
-                <userControls:BindableRichTextBox Grid.Column="2" Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" BindingDocument="{Binding RichLogDetailItems.Value, Mode=OneWay, Converter={converter:RichTextItemsToDocumentConverter}}" WordWrapping="{Binding IsWordWrapping.Value}" IsReadOnly="True" TextChangedCommand="{Binding TextChangedCommand}">
+                <userControls:BindableRichTextBox Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" BindingDocument="{Binding RichLogDetailItems.Value, Mode=OneWay, Converter={converter:RichTextItemsToDocumentConverter}}" WordWrapping="{Binding IsWordWrapping.Value}" IsReadOnly="True" TextChangedCommand="{Binding TextChangedCommand}">
                     <userControls:BindableRichTextBox.ContextMenu>
                         <ContextMenu>
                             <MenuItem Command="ApplicationCommands.Copy" />
