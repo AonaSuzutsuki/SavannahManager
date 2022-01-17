@@ -114,18 +114,35 @@
             <GridSplitter Grid.Column="1" Width="5" Margin="0" Background="Transparent" VerticalAlignment="Stretch" />
 
             <Grid Grid.Column="2">
-                <userControls:BindableRichTextBox Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" BindingDocument="{Binding RichLogDetailItems.Value, Mode=OneWay, Converter={converter:RichTextItemsToDocumentConverter}}" WordWrapping="{Binding IsWordWrapping.Value}" IsReadOnly="True" TextChangedCommand="{Binding TextChangedCommand}">
-                    <userControls:BindableRichTextBox.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Command="ApplicationCommands.Copy" />
-                            <Separator Style="{StaticResource MLB_Separator}" />
-                            <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_TextWrapping, Mode=OneWay}" IsCheckable="True" IsChecked="{Binding IsWordWrapping.Value}" />
-                        </ContextMenu>
-                    </userControls:BindableRichTextBox.ContextMenu>
-                </userControls:BindableRichTextBox>
 
-                <Grid Height="30" Margin="20, 0" Background="#222" Visibility="{Binding ProgressBarVisibility.Value, Converter={converter:BooleanVisibilityConverter}}">
-                    <ProgressBar Value="100" Style="{StaticResource IndeterminateProgressBar}" />
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <userControls:BindableRichTextBox x:Name="LogTextBox" Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" IsLazyLoad="True" BindingDocument="{Binding RichLogDetailItems.Value, Converter={converter:RichTextItemsToDocumentConverter}}" WordWrapping="{Binding IsWordWrapping.Value}" IsReadOnly="True" TextChangedCommand="{Binding TextChangedCommand}" ScrollEndedCommand="{Binding ScrollEndedCommand}">
+                        <userControls:BindableRichTextBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="ApplicationCommands.Copy" />
+                                <Separator Style="{StaticResource MLB_Separator}" />
+                                <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_TextWrapping, Mode=OneWay}" IsCheckable="True" IsChecked="{Binding IsWordWrapping.Value}" />
+                            </ContextMenu>
+                        </userControls:BindableRichTextBox.ContextMenu>
+                    </userControls:BindableRichTextBox>
+
+                    <Grid Height="30" Margin="20, 0" Background="#222" Visibility="{Binding ProgressBarVisibility.Value, Converter={converter:BooleanVisibilityConverter}}">
+                        <ProgressBar Value="100" Style="{StaticResource IndeterminateProgressBar}" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Line:" />
+                        <Label Content="{Binding LoadedLineLabel.Value}" />
+                        <Label Content="Loaded" />
+                    </StackPanel>
                 </Grid>
             </Grid>
         </Grid>

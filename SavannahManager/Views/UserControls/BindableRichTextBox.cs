@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using _7dtd_svmanager_fix_mvvm.Extensions;
 
 namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
 {
@@ -15,6 +18,19 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
         #region Fields
 
         private readonly float _dpiX;
+        
+        private List<Block> _blocks;
+
+        #endregion
+
+        #region Properties
+
+        public int SplitLine { get; set; } = 128;
+        public bool AutoSplitLine { get; set; } = true;
+        public bool IsLazyLoad { get; set; } = false;
+
+        public int Lines => _blocks?.Count ?? 0;
+        public int CurrentLines { get; private set; } = 0;
 
         #endregion
 
@@ -27,6 +43,9 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
             typeof(BindableRichTextBox), new UIPropertyMetadata(true, WordWrappingChanged));
 
         public static readonly DependencyProperty TextChangedCommandProperty = DependencyProperty.Register("TextChangedCommand", typeof(ICommand),
+            typeof(BindableRichTextBox), new UIPropertyMetadata(null));
+
+        public static readonly DependencyProperty ScrollEndedCommandProperty = DependencyProperty.Register("ScrollEndedCommand", typeof(ICommand),
             typeof(BindableRichTextBox), new UIPropertyMetadata(null));
 
         #endregion
@@ -51,6 +70,12 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
             set => SetValue(TextChangedCommandProperty, value);
         }
 
+        public ICommand ScrollEndedCommand
+        {
+            get => (ICommand)GetValue(ScrollEndedCommandProperty);
+            set => SetValue(ScrollEndedCommandProperty, value);
+        }
+
         #endregion
 
         #region Event Methods
@@ -62,10 +87,27 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
         /// <param name="e">Event parameter.</param>
         private static void BindingDocumentChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is not RichTextBox control || e.NewValue is not FlowDocument flowDocument)
+            if (sender is not BindableRichTextBox control || e.NewValue is not FlowDocument flowDocument)
                 return;
 
-            control.Document = flowDocument;
+            if (control.IsLazyLoad)
+            {
+                var blocks = new List<Block>(flowDocument.Blocks.Count);
+                blocks.AddRange(flowDocument.Blocks);
+
+                control._blocks = blocks;
+
+                var sliceDocument = new FlowDocument();
+                var takeBlocks = blocks.Take(control.SplitLine).ToList();
+                sliceDocument.Blocks.AddRange(takeBlocks);
+
+                control.CurrentLines = takeBlocks.Count;
+                control.Document = sliceDocument;
+            }
+            else
+            {
+                control.Document = flowDocument;
+            }
         }
 
         /// <summary>
@@ -99,7 +141,8 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
             {
                 control.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
 
-                var size = MeasureString(control);
+                var text = new TextRange(control.Document.ContentStart, control.Document.ContentEnd).Text;
+                var size = MeasureString(control, text);
                 control.Document.PageWidth = size.Width + 15;
             }
         }
@@ -109,9 +152,8 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
         /// </summary>
         /// <param name="control">RichTextBox object</param>
         /// <returns>Size of text on RichTextBox.</returns>
-        private static System.Windows.Size MeasureString(BindableRichTextBox control)
+        private static System.Windows.Size MeasureString(BindableRichTextBox control, string text)
         {
-            var text = new TextRange(control.Document.ContentStart, control.Document.ContentEnd).Text;
             var formattedText = new FormattedText(text,
                 CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
@@ -123,17 +165,66 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
             return new System.Windows.Size(formattedText.Width, formattedText.Height);
         }
 
+        private void SetSplitSize()
+        {
+            if (!AutoSplitLine)
+                return;
+
+            var lineSize = MeasureString(this, "text");
+            var splitLine = (int)(ActualHeight / lineSize.Height) * 4;
+            SplitLine = splitLine;
+        }
+
         public BindableRichTextBox()
         {
             using var graphics = Graphics.FromHwnd(IntPtr.Zero);
             _dpiX = graphics.DpiX;
 
+            Loaded += (sender, args) =>
+            {
+                if (Template.FindName("PART_ContentHost", this) is not ScrollViewer scrollViewer)
+                    return;
+
+                SetSplitSize();
+
+                var prevVerticalOffset = .0;
+                var prevScrollableHeight = .0;
+                scrollViewer.ScrollChanged += (_, _) =>
+                {
+                    if (prevVerticalOffset.Equals(scrollViewer.VerticalOffset) && prevScrollableHeight.Equals(scrollViewer.ScrollableHeight))
+                        return;
+
+                    prevVerticalOffset = scrollViewer.VerticalOffset;
+                    prevScrollableHeight = scrollViewer.ScrollableHeight;
+
+                    var isEnded = scrollViewer.VerticalOffset.Equals(scrollViewer.ScrollableHeight);
+                    if (!isEnded)
+                        return;
+
+                    ScrollEndedCommand?.Execute(this);
+                };
+            };
+
             TextChanged += (_, _) =>
             {
                 ResizeDocument(this);
-                TextChangedCommand?.Execute(null);
+                TextChangedCommand?.Execute(this);
+            };
+            SizeChanged += (sender, args) =>
+            {
+                SetSplitSize();
             };
 
+        }
+
+        public void ShowNext()
+        {
+            if (!IsLazyLoad)
+                return;
+
+            var takeBlocks = _blocks.Skip(CurrentLines).Take(SplitLine).ToList();
+            Document.Blocks.AddRange(takeBlocks);
+            CurrentLines += takeBlocks.Count;
         }
     }
 }

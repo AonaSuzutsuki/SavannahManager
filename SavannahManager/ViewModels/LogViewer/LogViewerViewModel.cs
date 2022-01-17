@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.Models.LogViewer;
 using _7dtd_svmanager_fix_mvvm.Views.Update;
@@ -31,9 +32,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
         public ReactiveProperty<bool> IsWordWrapping { get; set; }
         public ReactiveProperty<bool> ProgressBarVisibility { get; set; }
         public ReactiveProperty<ObservableCollection<RichTextItem>> RichLogDetailItems { get; set; }
+        public ReactiveProperty<string> LoadedLineLabel { get; set; }
 
         public ICommand LogFileListSelectionChangedCommand { get; set; }
         public ICommand TextChangedCommand { get; set; }
+        public ICommand ScrollEndedCommand { get; set; }
 
         public LogViewerViewModel(IWindowService windowService, LogViewerModel model) : base(windowService, model)
         {
@@ -43,9 +46,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
             RichLogDetailItems = model.ObserveProperty(m => m.RichLogDetailItems).ToReactiveProperty().AddTo(CompositeDisposable);
             ProgressBarVisibility = new ReactiveProperty<bool>();
             IsWordWrapping = new ReactiveProperty<bool>();
+            LoadedLineLabel = new ReactiveProperty<string>();
 
             LogFileListSelectionChangedCommand = new DelegateCommand<int?>(LogFileListSelectionChanged);
-            TextChangedCommand = new DelegateCommand(TextChanged);
+            TextChangedCommand = new DelegateCommand<BindableRichTextBox>(TextChanged);
+            ScrollEndedCommand = new DelegateCommand<BindableRichTextBox>(ReachEndLogText);
 
             model.Load();
         }
@@ -66,9 +71,19 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
             _ = _model.AnalyzeLogFile(index.Value);
         }
 
-        public void TextChanged()
+        public void TextChanged(BindableRichTextBox control)
         {
             ProgressBarVisibility.Value = false;
+            LoadedLineLabel.Value = $"{control.CurrentLines}/{control.Lines}";
+        }
+
+        public void ReachEndLogText(BindableRichTextBox control)
+        {
+            control.ShowNext();
+
+            LoadedLineLabel.Value = $"{control.CurrentLines}/{control.Lines}";
+
+            Debug.WriteLine("This is the end {0}/{1}", control.CurrentLines, control.Lines);
         }
     }
 }
