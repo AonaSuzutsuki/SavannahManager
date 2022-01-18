@@ -65,12 +65,17 @@ namespace _7dtd_svmanager_fix_mvvm
             MessageBox.Show(mes, "予期せぬエラー", MessageBoxButton.OK, MessageBoxImage.Error);
 
             var dt = DateTime.Now;
-            OutToFile(AppInfo.GetAppPath() + @"\error-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
+            OutToFile("error-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
         }
 
         private static void OutToFile(string filename, string text)
         {
-            using var fs = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+            var dirName = "errors";
+            var dirInfo = new DirectoryInfo(dirName);
+            if (!dirInfo.Exists)
+                dirInfo.Create();
+
+            using var fs = new FileStream($"{dirInfo.FullName}\\{filename}", FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
             using var sw = new StreamWriter(fs, System.Text.Encoding.UTF8);
             sw.Write(text);
         }
