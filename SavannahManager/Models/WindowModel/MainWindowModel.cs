@@ -289,7 +289,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         private bool _isServerForceStop;
 
         private bool _isLogGetter;
-        private LogStream _loggingStream;
 
         private AutoRestart _autoRestart;
         #endregion
@@ -583,8 +582,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                         Telnet.Write(TelnetClient.Cr);
                         AppendConsoleLog(SocTelnetSend(password));
 
-                        MakeLogStream();
-
                         break;
                     }
 
@@ -665,17 +662,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             _autoRestart = null;
             AutoRestartText = "AutoRestart Disabled";
             AutoRestartEnabled = false;
-        }
-
-        private void MakeLogStream()
-        {
-            if (_isLogGetter)
-                _loggingStream = new LogStream(ConstantValues.LogDirectoryPath);
-        }
-
-        public void WriteLogStream(string log)
-        {
-            _loggingStream?.WriteSteam(log);
         }
 
         private bool FileExistCheck()
@@ -770,7 +756,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             IsFailed = false;
             if (connected)
             {
-                MakeLogStream();
                 TelnetBtLabel = Resources.UI_DisconnectFromTelnet;
                 LocalModeEnabled = false;
                 ConnectionPanelIsEnabled = false;
@@ -816,6 +801,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             {
                 TelnetEventWaitTime = model.Setting.TelnetWaitTime
             };
+
+            if (model._isLogGetter)
+            {
+                telnet.EnableLogging(ConstantValues.LogDirectoryPath);
+            }
+
             telnet.Started += (sender, args) => model._telnetStartedSubject?.OnNext(args);
             telnet.Finished += (sender, args) => model._telnetFinishedSubject?.OnNext(args);
             telnet.ReadEvent += (sender, args) => model._telnetReadSubject?.OnNext(args);
@@ -830,9 +821,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             ConnectionPanelIsEnabled = !LocalMode;
             LocalModeEnabled = true;
             StartBtEnabled = true;
-
-            _loggingStream?.Dispose();
-            _loggingStream = null;
+            
             Telnet?.Dispose();
             Telnet = null;
         }

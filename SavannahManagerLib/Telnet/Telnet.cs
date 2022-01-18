@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -107,6 +108,8 @@ namespace SvManagerLibrary.Telnet
         /// </summary>
         public BreakLineType BreakLine { get; set; } = BreakLineType.CrLf;
 
+        private LogStream LoggingStream { get; set; }
+
         public byte[] BreakLineData
         {
             get
@@ -151,6 +154,14 @@ namespace SvManagerLibrary.Telnet
             {
                 ReceiveTimeout = ReceiveTimeout,
                 ReceiveBufferSize = ReceiveBufferSize
+            };
+        }
+
+        public void EnableLogging(string directoryName)
+        {
+            LoggingStream = new LogStream(directoryName)
+            {
+                AutoFlush = true
             };
         }
 
@@ -244,6 +255,11 @@ namespace SvManagerLibrary.Telnet
                 var bytes = new byte[socket.ReceiveBufferSize];
                 _ = socket.Receive(bytes, SocketFlags.None);
                 var returner = Encoding.GetString(bytes);
+
+                if (LoggingStream != null && !string.IsNullOrEmpty(returner))
+                {
+                    LoggingStream.Write(returner.TrimEnd('\0'));
+                }
 
                 return returner;
 
@@ -427,6 +443,14 @@ namespace SvManagerLibrary.Telnet
 
                     _clientSocket = null;
                 });
+
+                if (LoggingStream != null)
+                {
+                    lock (LoggingStream)
+                    {
+                        LoggingStream.Dispose();
+                    }
+                }
             }
 
             _disposedValue = true;
