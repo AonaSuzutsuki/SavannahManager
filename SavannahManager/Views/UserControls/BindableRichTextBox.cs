@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using _7dtd_svmanager_fix_mvvm.Extensions;
 
 namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
 {

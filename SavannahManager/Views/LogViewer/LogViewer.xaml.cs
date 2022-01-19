@@ -13,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using _7dtd_svmanager_fix_mvvm.Extensions;
 using _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer;
 
 namespace _7dtd_svmanager_fix_mvvm.Views.LogViewer
