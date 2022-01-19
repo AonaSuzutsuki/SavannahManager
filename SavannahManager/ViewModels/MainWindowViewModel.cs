@@ -6,39 +6,47 @@ using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using _7dtd_svmanager_fix_mvvm.Backup.Models;
-using _7dtd_svmanager_fix_mvvm.Backup.ViewModels;
-using _7dtd_svmanager_fix_mvvm.Backup.Views;
 using _7dtd_svmanager_fix_mvvm.LangResources;
 using _7dtd_svmanager_fix_mvvm.Models;
-using _7dtd_svmanager_fix_mvvm.Permissions.Models;
-using _7dtd_svmanager_fix_mvvm.Permissions.ViewModels;
-using _7dtd_svmanager_fix_mvvm.Permissions.Views;
-using _7dtd_svmanager_fix_mvvm.PlayerController.Models;
-using _7dtd_svmanager_fix_mvvm.PlayerController.ViewModels;
-using _7dtd_svmanager_fix_mvvm.PlayerController.Views;
-using _7dtd_svmanager_fix_mvvm.PlayerController.Views.Pages;
-using _7dtd_svmanager_fix_mvvm.Settings.Models;
-using _7dtd_svmanager_fix_mvvm.Settings.ViewModels;
-using _7dtd_svmanager_fix_mvvm.Settings.Views;
-using _7dtd_svmanager_fix_mvvm.Setup.Models;
-using _7dtd_svmanager_fix_mvvm.Setup.ViewModels;
+using _7dtd_svmanager_fix_mvvm.Models.Backup;
+using _7dtd_svmanager_fix_mvvm.Models.Permissions;
+using _7dtd_svmanager_fix_mvvm.Models.PlayerController;
+using _7dtd_svmanager_fix_mvvm.Models.Settings;
+using _7dtd_svmanager_fix_mvvm.Models.Setup;
+using _7dtd_svmanager_fix_mvvm.Models.Update;
 using CommonStyleLib.Views;
-using _7dtd_svmanager_fix_mvvm.Setup.Views;
-using _7dtd_svmanager_fix_mvvm.Update.Models;
-using _7dtd_svmanager_fix_mvvm.Update.ViewModels;
-using _7dtd_svmanager_fix_mvvm.Update.Views;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.Models;
 using SvManagerLibrary.Player;
 using SvManagerLibrary.Telnet;
+using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Backup;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Permissions;
+using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Settings;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Setup;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Update;
+using _7dtd_svmanager_fix_mvvm.Views.Backup;
+using _7dtd_svmanager_fix_mvvm.Views.Permissions;
+using _7dtd_svmanager_fix_mvvm.Views.PlayerController;
+using _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages;
+using _7dtd_svmanager_fix_mvvm.Views.Settings;
+using _7dtd_svmanager_fix_mvvm.Views.Setup;
+using _7dtd_svmanager_fix_mvvm.Views.Update;
+using _7dtd_svmanager_fix_mvvm.Views.UserControls;
+using CommonNavigationControlLib.Navigation.ViewModels;
+using CommonNavigationControlLib.Navigation.Views;
+using _7dtd_svmanager_fix_mvvm.Models.PlayerController.Pages;
+using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController.Pages;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -115,6 +123,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             StartServerCommand = new DelegateCommand(StartServer);
             StopServerCommand = new DelegateCommand(StopServer);
             ConnectTelnetCommand = new DelegateCommand(ConnectTelnet);
+            AutoRestartCommand = new DelegateCommand(AutoRestart);
             OpenCommandListCommand = new DelegateCommand(OpenCommandList);
 
             PlayerListRefreshCommand = new DelegateCommand(PlayerListRefresh);
@@ -130,12 +139,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             ShowPlayerInfoCommand = new DelegateCommand(WatchPlayerInfo);
 
             ChatTextBoxEnterDown = new DelegateCommand<string>(ChatTextBoxEnter_Down);
+            ChatLogMouseEnterCommand = new DelegateCommand(ChatLogMouseEnter);
+            ChatLogMouseLeaveCommand = new DelegateCommand(ChatLogMouseLeave);
 
             ConsoleTextBoxMouseEnter = new DelegateCommand(ConsoleTextBoxMouse_Enter);
             ConsoleTextBoxMouseLeave = new DelegateCommand(ConsoleTextBoxMouse_Leave);
             DeleteLogCommand = new DelegateCommand(DeleteLog);
 
             CmdTextBoxEnterDown = new DelegateCommand<string>(SendCmd);
+            SetCmdHistoryCommand = new DelegateCommand<KeyBinding>(SetCmdHistory);
 
             OpenTelnetWaitTimeCalculatorCommand = new DelegateCommand(OpenTelnetWaitTimeCalculator);
             GetTimeCommand = new DelegateCommand(GetTime);
@@ -149,31 +161,42 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             #region Property Initialize
 
-            IsBeta = model.ObserveProperty(m => m.IsBeta).ToReactiveProperty();
+            IsBeta = model.ObserveProperty(m => m.IsBeta).ToReactiveProperty().AddTo(CompositeDisposable);
 
-            StartBtEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled);
-            TelnetBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled);
-            TelnetBtLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel);
+            StartBtEnabled = model.ToReactivePropertyAsSynchronized(m => m.StartBtEnabled).AddTo(CompositeDisposable);
+            TelnetBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled).AddTo(CompositeDisposable);
+            TelnetBtLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel).AddTo(CompositeDisposable);
+            AutoRestartText = model.ObserveProperty(m => m.AutoRestartText).ToReactiveProperty().AddTo(CompositeDisposable);
 
-            UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList);
+            UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList).AddTo(CompositeDisposable);
 
-            IsConsoleLogTextWrapping = model.ToReactivePropertyAsSynchronized(m => m.IsConsoleLogTextWrapping);
-            ChatLogText = model.ObserveProperty(m => m.ChatLogText).ToReactiveProperty();
-            ChatInputText = model.ToReactivePropertyAsSynchronized(m => m.ChatInputText);
+            IsConsoleLogTextWrapping = model.ToReactivePropertyAsSynchronized(m => m.IsConsoleLogTextWrapping).AddTo(CompositeDisposable);
+            ChatLogText = new ReactiveProperty<string>();
+            ChatInputText = model.ToReactivePropertyAsSynchronized(m => m.ChatInputText).AddTo(CompositeDisposable);
             
-            ConnectionPanelIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.ConnectionPanelIsEnabled);
-            LocalModeChecked = model.ToReactivePropertyAsSynchronized(m => m.LocalMode);
-            LocalModeEnabled = model.ToReactivePropertyAsSynchronized(m => m.LocalModeEnabled);
-            TelnetAddressText = model.ToReactivePropertyAsSynchronized(m => m.Address);
-            TelnetPortText = model.ToReactivePropertyAsSynchronized(m => m.PortText);
-            TelnetPasswordText = model.ToReactivePropertyAsSynchronized(m => m.Password);
+            ConnectionPanelIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.ConnectionPanelIsEnabled).AddTo(CompositeDisposable);
+            LocalModeChecked = model.ToReactivePropertyAsSynchronized(m => m.LocalMode).AddTo(CompositeDisposable);
+            LocalModeEnabled = model.ToReactivePropertyAsSynchronized(m => m.LocalModeEnabled).AddTo(CompositeDisposable);
+            TelnetAddressText = model.ToReactivePropertyAsSynchronized(m => m.Address).AddTo(CompositeDisposable);
+            TelnetPortText = model.ToReactivePropertyAsSynchronized(m => m.PortText).AddTo(CompositeDisposable);
+            TelnetPasswordText = model.ToReactivePropertyAsSynchronized(m => m.Password).AddTo(CompositeDisposable);
 
-            TimeDayText = model.ToReactivePropertyAsSynchronized(m => m.TimeDayText);
-            TimeHourText = model.ToReactivePropertyAsSynchronized(m => m.TimeHourText);
-            TimeMinuteText = model.ToReactivePropertyAsSynchronized(m => m.TimeMinuteText);
+            TimeDayText = model.ToReactivePropertyAsSynchronized(m => m.TimeDayText).AddTo(CompositeDisposable);
+            TimeHourText = model.ToReactivePropertyAsSynchronized(m => m.TimeHourText).AddTo(CompositeDisposable);
+            TimeMinuteText = model.ToReactivePropertyAsSynchronized(m => m.TimeMinuteText).AddTo(CompositeDisposable);
 
-            BottomNewsLabel = model.ToReactivePropertyAsSynchronized(m => m.BottomNewsLabel);
+            BottomNewsLabel = model.ToReactivePropertyAsSynchronized(m => m.BottomNewsLabel).AddTo(CompositeDisposable);
             BottomDebugLabel = new ReactiveProperty<string>();
+
+            SshAddressText = model.ToReactivePropertyAsSynchronized(m => m.SshAddressText).AddTo(CompositeDisposable);
+            SshPortText = model.ToReactivePropertyAsSynchronized(m => m.SshPortText).AddTo(CompositeDisposable);
+            SshUserNameText = model.ToReactivePropertyAsSynchronized(m => m.SshUserNameText).AddTo(CompositeDisposable);
+            SshPasswordText = model.ToReactivePropertyAsSynchronized(m => m.SshPasswordText).AddTo(CompositeDisposable);
+            SshExeFileDirectoryText = model.ToReactivePropertyAsSynchronized(m => m.SshExeFileDirectoryText).AddTo(CompositeDisposable);
+            SshConfigFileNameText = model.ToReactivePropertyAsSynchronized(m => m.SshConfigFileNameText).AddTo(CompositeDisposable);
+            SshAuthMode = model.ToReactivePropertyAsSynchronized(m => m.SshAuthMode).AddTo(CompositeDisposable);
+            SshKeyPathText = model.ToReactivePropertyAsSynchronized(m => m.SshKeyPathText).AddTo(CompositeDisposable);
+            SshPassPhraseText = model.ToReactivePropertyAsSynchronized(m => m.SshPassPhraseText).AddTo(CompositeDisposable);
 
             #endregion
 
@@ -183,8 +206,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #region Fields
         private readonly MainWindowService _mainWindowService;
         private readonly MainWindowModel _model;
-        private StringBuilder _consoleLog = new StringBuilder();
+        private StringBuilder _consoleLog = new();
+        private StringBuilder _chatLog = new();
 
+        private bool _chatLogIsFocus;
         private bool _consoleIsFocus;
 
         private int _usersListSelectedIndex = -1;
@@ -211,6 +236,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand StartServerCommand { get; set; }
         public ICommand StopServerCommand { get; set; }
         public ICommand ConnectTelnetCommand { get; set; }
+        public ICommand AutoRestartCommand { get; set; }
         public ICommand OpenCommandListCommand { get; set; }
 
         public ICommand PlayerListRefreshCommand { get; set; }
@@ -226,6 +252,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand ShowPlayerInfoCommand { get; set; }
 
         public ICommand ChatTextBoxEnterDown { get; set; }
+        public ICommand ChatLogMouseEnterCommand { get; set; }
+        public ICommand ChatLogMouseLeaveCommand { get; set; }
+
+        public ICommand SetCmdHistoryCommand { get; set; }
 
         public ICommand ConsoleTextBoxMouseEnter { get; set; }
         public ICommand ConsoleTextBoxMouseLeave { get; set; }
@@ -251,6 +281,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ReactiveProperty<bool> StartBtEnabled { get; set; }
         public ReactiveProperty<bool> TelnetBtIsEnabled { get; set; }
         public ReactiveProperty<string> TelnetBtLabel { get; set; }
+        public ReactiveProperty<string> AutoRestartText { get; set; }
         
         public ReactiveProperty<ObservableCollection<UserDetail>> UsersList { get; set; }
         public int UsersListSelectedIndex
@@ -314,12 +345,61 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         
         public ReactiveProperty<string> BottomNewsLabel { get; set; }
         public ReactiveProperty<string> BottomDebugLabel { get; set; }
+
+        public ReactiveProperty<string> SshAddressText { get; set; }
+        public ReactiveProperty<string> SshPortText { get; set; }
+        public ReactiveProperty<string> SshUserNameText { get; set; }
+        public ReactiveProperty<string> SshPasswordText { get; set; }
+        public ReactiveProperty<string> SshExeFileDirectoryText { get; set; }
+        public ReactiveProperty<string> SshConfigFileNameText { get; set; }
+        public ReactiveProperty<AuthMode> SshAuthMode { get; set; }
+        public ReactiveProperty<string> SshKeyPathText { get; set; }
+        public ReactiveProperty<string> SshPassPhraseText { get; set; }
+
         #endregion
 
         #region EventMethods
         protected override void MainWindow_Loaded()
         {
             _model.Initialize();
+            
+            if (_model.Setting.IsEncryptPassword)
+            {
+                string password;
+                string salt;
+                do
+                {
+                    const int inputWidth = InputWindowViewModel.DefaultWidth;
+                    const int inputHeight = InputWindowViewModel.DefaultHeight;
+                    var (left, top) = MainWindowModel.CalculateCenterTop(_model, inputWidth, inputHeight);
+                    var inputViewModel = new InputWindowViewModel(new WindowService(), new InputWindowModel
+                    {
+                        Width = inputWidth,
+                        Height = inputHeight,
+                        Top = top,
+                        Left = left
+                    })
+                    {
+                        Title =
+                        {
+                            Value = "Password Dialog"
+                        },
+                        Message =
+                        {
+                            Value = "Input password for decryption."
+                        }
+                    };
+
+                    WindowManageService.ShowDialog<InputWindow>(inputViewModel);
+                    password = inputViewModel.IsCancel ? null : inputViewModel.InputText.Value;
+                    salt = inputViewModel.IsCancel ? null : inputViewModel.InputSaltText.Value;
+                } while (!_model.InitializeEncryptionData(password, salt));
+            }
+            else
+            {
+                _model.InitializeEncryptionData();
+            }
+
 
             _model.RefreshLabels();
 
@@ -344,27 +424,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 }
             });
 #endif
-        }
-
-        private async Task CheckUpdate()
-        {
-            var availableUpdate = await _model.CheckUpdate();
-            if (availableUpdate)
-            {
-                var dialogResult = _mainWindowService.MessageBoxShow(LangResources.Resources.UI_DoUpdateAlertMessage,
-                    LangResources.Resources.UI_DoUpdateAlertTitle, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
-                if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
-                {
-                    var updFormModel = new UpdFormModel();
-                    await updFormModel.Initialize();
-
-                    WindowManageService.Dispatch(() =>
-                    {
-                        var vm = new UpdFormViewModel(new WindowService(), updFormModel, true);
-                        WindowManageService.Show<UpdForm>(vm);
-                    });
-                }
-            }
         }
 
         protected override void MainWindow_Closing()
@@ -395,7 +454,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                 var service = new NavigationWindowService<InitializeData>
                 {
                     Owner = window,
-                    Navigation = window.MainFrame,
+                    Navigation = window.NavigationControl,
                     Share = new InitializeData
                     {
                         Setting = _model.Setting,
@@ -403,13 +462,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                         ServerFilePath = _model.Setting.ExeFilePath,
                         ServerAdminConfigFilePath = _model.Setting.AdminFilePath
                     },
-                    Pages = new List<Tuple<Type, bool>>
+                    Pages = new List<NavigationPageInfo>
                     {
-                        new Tuple<Type, bool>(typeof(FirstPage), true),
-                        new Tuple<Type, bool>(typeof(ExecutablePage), true),
-                        new Tuple<Type, bool>(typeof(ConfigPage), true),
-                        new Tuple<Type, bool>(typeof(AdminPage), true),
-                        new Tuple<Type, bool>(typeof(FinishPage), true)
+                        new(typeof(FirstPage)),
+                        new(typeof(ExecutablePage)),
+                        new(typeof(ConfigPage)),
+                        new(typeof(AdminPage)),
+                        new(typeof(FinishPage))
                     }
                 };
                 service.NavigationValue.WindowTitle = LangResources.SetupResource.UI_NameLabel;
@@ -470,8 +529,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void StartServer()
         {
-            _model.ServerStart();
+            _ = _model.ServerStart();
         }
+
         private void StopServer()
         {
             var isForceShutdown = _model.ServerStop();
@@ -482,10 +542,24 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var vm = new ForceShutdownerViewModel(new WindowService(), forceShutdownerModel);
             WindowManageService.ShowNonOwnerOnly<ForceShutdowner>(vm);
         }
+
         private void ConnectTelnet()
         {
-            _model.TelnetConnectOrDisconnect();
+            _model.SwitchTelnetConnection();
         }
+
+        public void AutoRestart()
+        {
+            if (!_model.AutoRestartEnabled)
+            {
+                _model.StartAutoRestart();
+            }
+            else
+            {
+                _model.StopAutoRestart();
+            }
+        }
+
         private void OpenCommandList()
         {
 
@@ -522,16 +596,22 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
-            var adminAdd = new AdminAdd(_model, AddType.Type.Admin, name);
+            var adminModel = new AdminAddModel(_model, new AddType(AddType.Type.Admin))
+            {
+                Name = name
+            };
+            var adminViewModel = new AdminAddViewModel(adminModel);
+            var adminAdd = new AdminAdd(adminViewModel, adminModel);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = adminAdd;
                 window.AssignEnded();
                 window.Navigate();
-                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                var vm = new PlayerBaseViewModel(new PlayerBaseWindowService(adminViewModel), playerBaseModel)
                 {
                     WindowTitle = "Add"
                 };
+                return vm;
             });
         }
         private void AdminRemovePlayer()
@@ -544,13 +624,18 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
-            var whitelistAdd = new AdminAdd(_model, AddType.Type.Whitelist, name);
+            var whitelistModel = new AdminAddModel(_model, new AddType(AddType.Type.Whitelist))
+            {
+                Name = name
+            };
+            var whitelistViewModel = new AdminAddViewModel(whitelistModel);
+            var whitelistAdd = new AdminAdd(whitelistViewModel, whitelistModel);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = whitelistAdd;
                 window.AssignEnded();
                 window.Navigate();
-                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                return new PlayerBaseViewModel(new PlayerBaseWindowService(whitelistViewModel), playerBaseModel)
                 {
                     WindowTitle = "Whitelist"
                 };
@@ -566,13 +651,18 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
-            var kick = new Kick(_model, name);
+            var kickModel = new KickModel(_model)
+            {
+                Name = name
+            };
+            var kickViewModel = new KickViewModel(kickModel);
+            var kick = new Kick(kickViewModel, kickModel);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = kick;
                 window.AssignEnded();
                 window.Navigate();
-                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                return new PlayerBaseViewModel(new PlayerBaseWindowService(kickViewModel), playerBaseModel)
                 {
                     WindowTitle = "Kick"
                 };
@@ -584,13 +674,18 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var name = string.IsNullOrEmpty(playerInfo.Id) ? string.Empty : playerInfo.Id;
 
             var playerBaseModel = new PlayerBaseModel();
-            var ban = new Ban(_model, name);
+            var banModel = new BanModel(_model)
+            {
+                Name = name
+            };
+            var banViewModel = new BanViewModel(banModel);
+            var ban = new Ban(banViewModel, banModel);
             WindowManageService.ShowDialog<PlayerBase>(window =>
             {
                 window.Page = ban;
                 window.AssignEnded();
                 window.Navigate();
-                return new PlayerBaseViewModel(new WindowService(), playerBaseModel)
+                return new PlayerBaseViewModel(new PlayerBaseWindowService(banViewModel), playerBaseModel)
                 {
                     WindowTitle = "Ban"
                 };
@@ -614,6 +709,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             _model.SendChat(e, () => _model.ChatInputText = "");
         }
 
+        private void ChatLogMouseEnter()
+        {
+            _chatLogIsFocus = true;
+        }
+        private void ChatLogMouseLeave()
+        {
+            _chatLogIsFocus = false;
+        }
+
         private void ConsoleTextBoxMouse_Enter()
         {
             _consoleIsFocus = true;
@@ -634,6 +738,23 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             CmdText = string.Empty;
         }
 
+        private void SetCmdHistory(KeyBinding e)
+        {
+            var key = e.Key;
+            var cmd = "";
+            switch (key)
+            {
+                case Key.Up:
+                    cmd = _model.GetPreviousCommand();
+                    break;
+                case Key.Down:
+                    cmd = _model.GetNextCommand();
+                    break;
+            }
+
+            CmdText = cmd;
+            _mainWindowService.Select(_mainWindowService.CmdTextBox, CmdText.Length, 0);
+        }
 
         private void OpenTelnetWaitTimeCalculator()
         {
@@ -697,6 +818,27 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         #endregion
 
         #region Methods
+        private async Task CheckUpdate()
+        {
+            var availableUpdate = await _model.CheckUpdate();
+            if (availableUpdate)
+            {
+                var dialogResult = _mainWindowService.MessageBoxShow(LangResources.Resources.UI_DoUpdateAlertMessage,
+                    LangResources.Resources.UI_DoUpdateAlertTitle, ExMessageBoxBase.MessageType.Asterisk, ExMessageBoxBase.ButtonType.YesNo);
+                if (dialogResult == ExMessageBoxBase.DialogResult.Yes)
+                {
+                    var updFormModel = new UpdFormModel();
+                    await updFormModel.Initialize();
+
+                    WindowManageService.Dispatch(() =>
+                    {
+                        var vm = new UpdFormViewModel(new WindowService(), updFormModel, true);
+                        WindowManageService.Show<UpdForm>(vm);
+                    });
+                }
+            }
+        }
+
         private void AppendConsoleText(string text, int maxLength)
         {
             if (_consoleLog == null)
@@ -713,11 +855,32 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
             if (!_consoleIsFocus)
             {
-                if (!_consoleIsFocus)
+                _mainWindowService.Select(_mainWindowService.ConsoleTextBox, ConsoleLogText.Length, 0);
+                _mainWindowService.ScrollToEnd(_mainWindowService.ConsoleTextBox);
+            }
+        }
+
+        private void AppendChatText(string text, int maxLength)
+        {
+            if (_chatLog == null)
+            {
+                _chatLog = new StringBuilder(maxLength * 2);
+            }
+            _chatLog.Append(text);
+            if (_chatLog.Length > maxLength)
+            {
+                _chatLog.Remove(0, _chatLog.Length - maxLength);
+            }
+
+            ChatLogText.Value = _chatLog.ToString();
+
+            if (!_chatLogIsFocus)
+            {
+                WindowManageService.Dispatch(DispatcherPriority.Background, () =>
                 {
-                    _mainWindowService.Select(ConsoleLogText.Length, 0);
-                    _mainWindowService.ScrollToEnd();
-                }
+                    _mainWindowService.Select(_mainWindowService.ChatLogText, ConsoleLogText.Length, 0);
+                    _mainWindowService.ScrollToEnd(_mainWindowService.ChatLogText);
+                });
             }
         }
         #endregion
@@ -732,19 +895,19 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             _model.PlayerClean();
             _model.TelnetFinish();
+            _model.StopAutoRestart();
         }
 
         private void TelnetReadEvent(TelnetClient.TelnetReadEventArgs e)
         {
             var log = "{0}".FormatString(e.Log);
 
-            _model.WriteLogStream(log);
-
             _model.AppendConsoleLog(log);
 
             if (log.IndexOf("Chat", StringComparison.Ordinal) > -1)
             {
-                _model.AddChatText(log);
+                var chat = _model.GetChatText(log);
+                AppendChatText(chat, 16384);
             }
             if (log.IndexOf("INF Created player with id=", StringComparison.Ordinal) > -1)
             {

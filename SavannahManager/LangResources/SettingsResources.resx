@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfigFilePath" xml:space="preserve">
     <value>コンフィグファイルパス</value>
@@ -128,6 +128,10 @@
   <data name="Filter_XmlFile" xml:space="preserve">
     <value>XMLファイル (*.xml)|*.xml|すべてのファイル(*.*)|*.*</value>
     <comment>フィルター</comment>
+  </data>
+  <data name="Help_BackupRestorePath" xml:space="preserve">
+    <value>復元する際のディレクトリパスです。
+空の場合は「%AppData%\7DaysToDie」が復元先として使用されます。</value>
   </data>
   <data name="Help_BetaMode" xml:space="preserve">
     <value>ベータモードでは開発中の機能を使用することができます。
@@ -152,6 +156,10 @@ Get Timeなどのコンソールログに出力しないで解析する機能で
   </data>
   <data name="UI_AutoCheckUpdLabel" xml:space="preserve">
     <value>自動でアップデートをチェックする</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_BackupDestinationPath" xml:space="preserve">
+    <value>バックアップ保存先のパス</value>
     <comment>UI, 設定</comment>
   </data>
   <data name="UI_BetaModeEnabledLabel" xml:space="preserve">
@@ -196,6 +204,10 @@ Get Timeなどのコンソールログに出力しないで解析する機能で
   </data>
   <data name="UI_OthersLabel" xml:space="preserve">
     <value>その他</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_RestoreDestinationPath" xml:space="preserve">
+    <value>復元先のパス</value>
     <comment>UI, 設定</comment>
   </data>
   <data name="UI_SaveBT" xml:space="preserve">

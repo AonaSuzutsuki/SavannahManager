@@ -2,24 +2,18 @@
 using System.Diagnostics;
 using System.IO;
 using _7dtd_svmanager_fix_mvvm.LangResources;
+using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonCoreLib.CommonPath;
 using CommonCoreLib.Ini;
+using SvManagerLibrary.Crypto;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
-    public sealed class SettingLoader
+    public sealed class SettingLoader : IDisposable
     {
-        /// <summary>
-        /// Singleton SettingLoader instance for all.
-        /// </summary>
-        public static SettingLoader SettingInstance { private set; get; }
-
-        static SettingLoader()
-        {
-            SettingInstance = new SettingLoader(ConstantValues.SettingFilePath);
-        }
 
         private const string MainClassName = "Main";
+        private const string AutoRestartClassName = "AutoRestart";
         private const string ServerClassName = "Server";
         private const string BackupClassName = "Backup";
 
@@ -57,16 +51,61 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public bool IsAutoUpdate { get; set; }
 
+        public bool IsEncryptPassword { get; set; }
+
+
+        #region Auto Restart
+
+        public int IntervalTime { get; set; }
+
+        public int IntervalTimeMode { get; set; }
+
+        public bool IsAutoRestartSendMessage { get; set; }
+
+        public int AutoRestartSendingMessageStartTime { get; set; }
+
+        public int AutoRestartSendingMessageStartTimeMode { get; set; }
+
+        public int AutoRestartSendingMessageIntervalTime { get; set; }
+
+        public int AutoRestartSendingMessageIntervalTimeMode { get; set; }
+
+        public string AutoRestartSendingMessageFormat { get; set; }
+
+        #endregion
+
+
         public string BackupDirPath { get; set; }
 
         public string RestoreDirPath { get; set; }
 
         public bool IsConsoleLogTextWrapping { get; set; }
 
+
+        public string SshAddress { get; set; }
+
+        public int SshPort { get; set; }
+
+        public string SshUserName { get; set; }
+
+        public string SshPassword { get; set; }
+
+        public string SshExeFileDirectory { get; set; }
+
+        public string SshConfigFileName { get; set; }
+
+        public int SshAuthMode { get; set; }
+
+        public string SshKeyPath { get; set; }
+
+        public bool CanEncrypt => _encryptWrapper != null;
+
         #endregion
 
 
         private readonly IniLoader _iniLoader;
+        private RijndaelWrapper _encryptWrapper;
+
         public SettingLoader(string filename)
         {
             _iniLoader = new IniLoader(filename);
@@ -125,6 +164,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private void Load()
         {
+            IsEncryptPassword = _iniLoader.GetValue(MainClassName, "IsEncryptPassword", false);
+            if (!IsEncryptPassword)
+            {
+                Password = _iniLoader.GetValue(ServerClassName, "Password", "");
+            }
+
             Width = _iniLoader.GetValue(MainClassName, "Width", 900);
             Height = _iniLoader.GetValue(MainClassName, "Height", 550);
 
@@ -135,8 +180,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             Address = _iniLoader.GetValue(ServerClassName, "Address", "");
 
             Port = _iniLoader.GetValue(ServerClassName, "Port", 8081);
-
-            Password = _iniLoader.GetValue(ServerClassName, "Password", "");
 
             LocalMode = _iniLoader.GetValue(MainClassName, "LocalServerMode", true);
 
@@ -154,11 +197,57 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             IsAutoUpdate = _iniLoader.GetValue(MainClassName, "IsUpdateCheck", true);
 
-            BackupDirPath = _iniLoader.GetValue(BackupClassName, "DirPath", "backup").UnifiedSystemPathSeparator();
+            IntervalTime = _iniLoader.GetValue(AutoRestartClassName, "IntervalTime", 5);
+            IntervalTimeMode = _iniLoader.GetValue(AutoRestartClassName, "IntervalTimeMode", 2);
+            IsAutoRestartSendMessage = _iniLoader.GetValue(AutoRestartClassName, "IsSendMessage", false);
+            AutoRestartSendingMessageStartTime =
+                _iniLoader.GetValue(AutoRestartClassName, "SendingMessageStartTime", 1);
+            AutoRestartSendingMessageStartTimeMode =
+                _iniLoader.GetValue(AutoRestartClassName, "SendingMessageStartTimeMode", 1);
+            AutoRestartSendingMessageIntervalTime =
+                _iniLoader.GetValue(AutoRestartClassName, "SendingMessageIntervalTime", 10);
+            AutoRestartSendingMessageIntervalTimeMode =
+                _iniLoader.GetValue(AutoRestartClassName, "SendingMessageIntervalTimeMode", 0);
+            AutoRestartSendingMessageFormat = _iniLoader.GetValue(MainClassName, "SendingMessageFormat", 
+                    "Restart the server after {0} seconds.");
 
+            BackupDirPath = _iniLoader.GetValue(BackupClassName, "DirPath", "backup").UnifiedSystemPathSeparator();
             RestoreDirPath = _iniLoader.GetValue(BackupClassName, "RestoreDirPath", "").UnifiedSystemPathSeparator();
 
             IsConsoleLogTextWrapping = _iniLoader.GetValue(MainClassName, "IsConsoleTextWrapping", false);
+
+            SshAddress = _iniLoader.GetValue(ServerClassName, "SshAddress", "");
+            SshPort = _iniLoader.GetValue(ServerClassName, "SshPort", 22);
+            SshUserName = _iniLoader.GetValue(ServerClassName, "SshUserName", "");
+            SshExeFileDirectory = _iniLoader.GetValue(ServerClassName, "SshExeFileDirectory", "");
+            SshConfigFileName = _iniLoader.GetValue(ServerClassName, "SshConfigFileName", "");
+            SshAuthMode = _iniLoader.GetValue(ServerClassName, "SshAuthMode", AuthMode.Password.ToInt());
+            SshKeyPath = _iniLoader.GetValue(ServerClassName, "SshKeyPath", "");
+        }
+
+        public void SetEncryptionPassword(string password, string salt)
+        {
+            salt ??= Environment.MachineName;
+            _encryptWrapper = new RijndaelWrapper(password, CommonCoreLib.Crypto.Sha256.GetSha256(salt));
+        }
+
+        public void LoadEncryptionData()
+        {
+            var encryptedPassword = _iniLoader.GetValue(ServerClassName, "Password", "");
+            var encryptedSshPassword = _iniLoader.GetValue(ServerClassName, "SshPassword", "");
+
+            try
+            {
+                Password = _encryptWrapper.Decrypt(encryptedPassword);
+                SshPassword = _encryptWrapper.Decrypt(encryptedSshPassword);
+            }
+            catch
+            {
+                Password = "";
+                SshPassword = "";
+                _encryptWrapper = null;
+                throw;
+            }
         }
 
         public void ApplyCulture()
@@ -169,6 +258,21 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public void Save()
         {
             _iniLoader.SetValue(MainClassName, "Version", "1.1");
+
+            _iniLoader.SetValue(MainClassName, "IsEncryptPassword", IsEncryptPassword);
+            if (!IsEncryptPassword)
+            {
+                _iniLoader.SetValue(ServerClassName, "Password", Password);
+            }
+            else
+            {
+                if (_encryptWrapper != null && !string.IsNullOrEmpty(Password))
+                {
+                    _iniLoader.SetValue(ServerClassName, "Password", _encryptWrapper.Encrypt(Password ?? string.Empty));
+                    _iniLoader.SetValue(ServerClassName, "SshPassword", _encryptWrapper.Encrypt(SshPassword ?? string.Empty));
+                }
+            }
+
             _iniLoader.SetValue(MainClassName, "Width", Width);
             _iniLoader.SetValue(MainClassName, "Height", Height);
             _iniLoader.SetValue(ServerClassName, "ExePath", ExeFilePath);
@@ -176,7 +280,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(ServerClassName, "AdminPath", AdminFilePath);
             _iniLoader.SetValue(ServerClassName, "Address", Address);
             _iniLoader.SetValue(ServerClassName, "Port", Port);
-            _iniLoader.SetValue(ServerClassName, "Password", Password);
             _iniLoader.SetValue(MainClassName, "LocalServerMode", LocalMode);
             _iniLoader.SetValue(MainClassName, "Culture", CultureName);
             _iniLoader.SetValue(MainClassName, "ConsoleLogLength", ConsoleTextLength);
@@ -185,9 +288,29 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(MainClassName, "IsLogOutput", IsLogGetter);
             _iniLoader.SetValue(MainClassName, "IsFirstBoot", IsFirstBoot);
             _iniLoader.SetValue(MainClassName, "IsUpdateCheck", IsAutoUpdate);
+            _iniLoader.SetValue(AutoRestartClassName, "IntervalTime", IntervalTime);
+            _iniLoader.SetValue(AutoRestartClassName, "IntervalTimeMode", IntervalTimeMode);
+            _iniLoader.SetValue(AutoRestartClassName, "IsSendMessage", IsAutoRestartSendMessage);
+            _iniLoader.SetValue(AutoRestartClassName, "SendingMessageStartTime", AutoRestartSendingMessageStartTime);
+            _iniLoader.SetValue(AutoRestartClassName, "SendingMessageStartTimeMode", AutoRestartSendingMessageStartTimeMode);
+            _iniLoader.SetValue(AutoRestartClassName, "SendingMessageIntervalTime", AutoRestartSendingMessageIntervalTime);
+            _iniLoader.SetValue(AutoRestartClassName, "SendingMessageIntervalTimeMode", AutoRestartSendingMessageIntervalTimeMode);
+            _iniLoader.SetValue(AutoRestartClassName, "SendingMessageFormat", AutoRestartSendingMessageFormat);
             _iniLoader.SetValue(BackupClassName, "DirPath", BackupDirPath);
             _iniLoader.SetValue(BackupClassName, "RestoreDirPath", RestoreDirPath);
             _iniLoader.SetValue(MainClassName, "IsConsoleTextWrapping", IsConsoleLogTextWrapping);
+            _iniLoader.SetValue(ServerClassName, "SshAddress", SshAddress);
+            _iniLoader.SetValue(ServerClassName, "SshPort", SshPort);
+            _iniLoader.SetValue(ServerClassName, "SshUserName", SshUserName);
+            _iniLoader.SetValue(ServerClassName, "SshExeFileDirectory", SshExeFileDirectory);
+            _iniLoader.SetValue(ServerClassName, "SshConfigFileName", SshConfigFileName);
+            _iniLoader.SetValue(ServerClassName, "SshAuthMode", SshAuthMode);
+            _iniLoader.SetValue(ServerClassName, "SshKeyPath", SshKeyPath);
+        }
+
+        public void Dispose()
+        {
+            _encryptWrapper?.Dispose();
         }
     }
 }

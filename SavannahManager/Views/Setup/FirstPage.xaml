@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="_7dtd_svmanager_fix_mvvm.Views.Setup.FirstPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
+      xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
+      mc:Ignorable="d" 
+      TextOptions.TextFormattingMode="Display"
+      TextOptions.TextRenderingMode="ClearType"
+      UseLayoutRounding="True">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <Label FontWeight="Bold" FontSize="14" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_Page1Title, Mode=OneWay}" />
+            <TextBlock TextWrapping="WrapWithOverflow" Style="{DynamicResource ExTextBlock}" Text="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_Page1Description, Mode=OneWay}" />
+
+            <Grid Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"  />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SetupResources.UI_Language, Mode=OneWay}" />
+                <ComboBox Grid.Column="2" Width="150" ItemsSource="{Binding Languages}" SelectedIndex="{Binding LanguagesSelectedIndex.Value}" HorizontalAlignment="Left">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

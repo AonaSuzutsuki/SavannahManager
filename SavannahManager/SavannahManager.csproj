@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -9,16 +9,13 @@
     <AssemblyName>SavannahManager2</AssemblyName>
     <Authors>Aona Suzutsuki</Authors>
     <Company>Kimama Lab.</Company>
-    <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2021</Copyright>
-    <AssemblyVersion>2.5.45.1</AssemblyVersion>
-    <FileVersion>2.5.45.1</FileVersion>
-    <Version>2.5.45.1</Version>
+    <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2022</Copyright>
+    <AssemblyVersion>2.5.46.2</AssemblyVersion>
+    <FileVersion>2.5.46.2</FileVersion>
+    <Version>2.5.46.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Backup\Images\DirectoryIcon.png" />
-    <None Remove="Backup\Images\FileIcon.png" />
-    <None Remove="Backup\Images\no-image.png" />
     <None Remove="Images\Calendar.png" />
     <None Remove="Images\Information.png" />
     <None Remove="Images\Refresh.png" />
@@ -32,16 +29,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Backup\Images\DirectoryIcon.png" />
-    <EmbeddedResource Include="Backup\Images\FileIcon.png" />
-    <EmbeddedResource Include="Backup\Images\no-image.png" />
+    <EmbeddedResource Include="Images\Backup\DirectoryIcon.png" />
+    <EmbeddedResource Include="Images\Backup\FileIcon.png" />
+    <EmbeddedResource Include="Images\Backup\no-image.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BackupLib" Version="1.0.6" />
     <PackageReference Include="CommonCoreLib" Version="1.0.4" />
-    <PackageReference Include="CommonNavigationControlLib" Version="1.0.1" />
-    <PackageReference Include="CommonStyleLib" Version="1.0.5" />
+    <PackageReference Include="CommonExtensionLib" Version="1.0.5" />
+    <PackageReference Include="CommonNavigationControlLib" Version="1.0.5" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.9" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="SavannahXmlLib" Version="1.0.5" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
@@ -70,7 +68,7 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Backup\Views\BackupSelector.xaml.cs">
+    <Compile Update="Views\Backup\BackupSelector.xaml.cs">
       <DependentUpon>BackupSelector.xaml</DependentUpon>
     </Compile>
     <Compile Update="LangResources\CmdListResources.Designer.cs">
@@ -128,58 +126,55 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="Permissions\Views\GetSteamId.xaml.cs">
+    <Compile Update="Views\Permissions\GetSteamId.xaml.cs">
       <DependentUpon>GetSteamId.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Permissions\Views\PermissionEditor.xaml.cs">
+    <Compile Update="Views\Permissions\PermissionEditor.xaml.cs">
       <DependentUpon>PermissionEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Permissions\Views\UnBanDateSetting.xaml.cs">
+    <Compile Update="Views\Permissions\UnBanDateSetting.xaml.cs">
       <DependentUpon>UnBanDateSetting.xaml</DependentUpon>
     </Compile>
-    <Compile Update="PlayerController\Views\Pages\AdminAdd.xaml.cs">
+    <Compile Update="Views\PlayerController\Pages\AdminAdd.xaml.cs">
       <DependentUpon>AdminAdd.xaml</DependentUpon>
     </Compile>
-    <Compile Update="PlayerController\Views\Pages\Ban.xaml.cs">
+    <Compile Update="Views\PlayerController\Pages\Ban.xaml.cs">
       <DependentUpon>Ban.xaml</DependentUpon>
     </Compile>
-    <Compile Update="PlayerController\Views\Pages\Kick.xaml.cs">
+    <Compile Update="Views\PlayerController\Pages\Kick.xaml.cs">
       <DependentUpon>Kick.xaml</DependentUpon>
     </Compile>
-    <Compile Update="PlayerController\Views\PlayerBase.xaml.cs">
+    <Compile Update="Views\PlayerController\PlayerBase.xaml.cs">
       <DependentUpon>PlayerBase.xaml</DependentUpon>
     </Compile>
-    <Compile Update="PlayerController\Views\PlayerInfoView.xaml.cs">
+    <Compile Update="Views\PlayerController\PlayerInfoView.xaml.cs">
       <DependentUpon>PlayerInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Settings\Views\KeyConfig.xaml.cs">
+    <Compile Update="Views\Settings\KeyConfig.xaml.cs">
       <DependentUpon>KeyConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Settings\Views\SettingWindow.xaml.cs">
+    <Compile Update="Views\Settings\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Setup\Views\AdminPage.xaml.cs">
+    <Compile Update="Views\Setup\AdminPage.xaml.cs">
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Setup\Views\ConfigPage.xaml.cs">
+    <Compile Update="Views\Setup\ConfigPage.xaml.cs">
       <DependentUpon>ConfigPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Setup\Views\ExecutablePage.xaml.cs">
+    <Compile Update="Views\Setup\ExecutablePage.xaml.cs">
       <DependentUpon>ExecutablePage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Setup\Views\FinishPage.xaml.cs">
+    <Compile Update="Views\Setup\FinishPage.xaml.cs">
       <DependentUpon>FinishPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Setup\Views\FirstPage.xaml.cs">
+    <Compile Update="Views\Setup\FirstPage.xaml.cs">
       <DependentUpon>FirstPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Setup\Views\NavigationBase.xaml.cs">
-      <DependentUpon>NavigationBase.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Update\Views\Loading.xaml.cs">
+    <Compile Update="Views\Update\Loading.xaml.cs">
       <DependentUpon>Loading.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Update\Views\UpdForm.xaml.cs">
+    <Compile Update="Views\Update\UpdForm.xaml.cs">
       <DependentUpon>UpdForm.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ForceShutdowner.xaml.cs">
@@ -264,55 +259,52 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Backup\Views\BackupSelector.xaml">
+    <Page Update="Views\Backup\BackupSelector.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Permissions\Views\GetSteamId.xaml">
+    <Page Update="Views\Permissions\GetSteamId.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Permissions\Views\PermissionEditor.xaml">
+    <Page Update="Views\Permissions\PermissionEditor.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Permissions\Views\UnBanDateSetting.xaml">
+    <Page Update="Views\Permissions\UnBanDateSetting.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PlayerController\Views\Pages\AdminAdd.xaml">
+    <Page Update="Views\PlayerController\Pages\AdminAdd.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PlayerController\Views\Pages\Ban.xaml">
+    <Page Update="Views\PlayerController\Pages\Ban.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PlayerController\Views\Pages\Kick.xaml">
+    <Page Update="Views\PlayerController\Pages\Kick.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PlayerController\Views\PlayerBase.xaml">
+    <Page Update="Views\PlayerController\PlayerBase.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PlayerController\Views\PlayerInfoView.xaml">
+    <Page Update="Views\PlayerController\PlayerInfoView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Settings\Views\KeyConfig.xaml">
+    <Page Update="Views\Settings\KeyConfig.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Settings\Views\SettingWindow.xaml">
+    <Page Update="Views\Settings\SettingWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Setup\Views\AdminPage.xaml">
+    <Page Update="Views\Setup\AdminPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Setup\Views\ConfigPage.xaml">
+    <Page Update="Views\Setup\ConfigPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Setup\Views\ExecutablePage.xaml">
+    <Page Update="Views\Setup\ExecutablePage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Setup\Views\FinishPage.xaml">
+    <Page Update="Views\Setup\FinishPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Setup\Views\FirstPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Setup\Views\NavigationBase.xaml">
+    <Page Update="Views\Setup\FirstPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\ButtonIcon.xaml">
@@ -328,10 +320,10 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Update\Views\Loading.xaml">
+    <Page Update="Views\Update\Loading.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Update\Views\UpdForm.xaml">
+    <Page Update="Views\Update\UpdForm.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\ForceShutdowner.xaml">

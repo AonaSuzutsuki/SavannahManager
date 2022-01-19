@@ -14,7 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 using CommonStyleLib.Views;
+using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 
 namespace _7dtd_svmanager_fix_mvvm.Views
 {
@@ -27,36 +29,43 @@ namespace _7dtd_svmanager_fix_mvvm.Views
         }
 
         public TextBox ConsoleTextBox { get; set; }
+        public TextBox CmdTextBox { get; set; }
+        public TextBox ChatLogText { get; set; }
 
-        public void Select(int start, int length)
+        public void Select(TextBox textBox, int start, int length)
         {
-            ConsoleTextBox.Select(start, length);
+            textBox.Select(start, length);
         }
 
-        public void ScrollToEnd()
+        public void ScrollToEnd(TextBox textBox)
         {
-            ConsoleTextBox.ScrollToEnd();
+            textBox.ScrollToEnd();
         }
     }
 
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window, IDisposable
+    public partial class MainWindow : Window, IRelease
     {
-        private readonly IDisposable _model;
+        private readonly IRelease _model;
+        private readonly IDisposable _viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
 
             var windowService = new MainWindowService(this)
             {
-                ConsoleTextBox =  ConsoleTextBox
+                ConsoleTextBox =  ConsoleTextBox,
+                CmdTextBox = CmdTextBox,
+                ChatLogText = ChatLogText
             };
-            var mainWindowModel = new Models.MainWindowModel();
+            var mainWindowModel = new MainWindowModel();
             var vm = new ViewModels.MainWindowViewModel(windowService, mainWindowModel);
             DataContext = vm;
             _model = mainWindowModel;
+            _viewModel = vm;
 
             ContentRendered += (sender, args) => { vm.Loaded.Execute(null); };
         }
@@ -72,6 +81,11 @@ namespace _7dtd_svmanager_fix_mvvm.Views
             GC.SuppressFinalize(this);
         }
 
+        public void Release()
+        {
+            _model?.Release();
+        }
+
         // Protected implementation of Dispose pattern.
         protected virtual void Dispose(bool disposing)
         {
@@ -81,6 +95,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views
             if (disposing)
             {
                 _model?.Dispose();
+                _viewModel?.Dispose();
             }
 
             _disposed = true;

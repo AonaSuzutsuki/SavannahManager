@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfigFilePath" xml:space="preserve">
     <value>Config File Path</value>
@@ -128,6 +128,10 @@
   <data name="Filter_XmlFile" xml:space="preserve">
     <value>XML Files (*.xml)|*.xml|All Files(*.*)|*.*</value>
     <comment>Filter</comment>
+  </data>
+  <data name="Help_BackupRestorePath" xml:space="preserve">
+    <value>The directory path for restoring.
+It will be expanded to "%AppData%\7DaysToDie" if the path is empty.</value>
   </data>
   <data name="Help_BetaMode" xml:space="preserve">
     <value>In beta mode, you can use features that are still under development.
@@ -154,6 +158,10 @@ In a local environment, 2000 milliseconds (2 seconds) should usually be enough.<
     <value>Check automatically updates</value>
     <comment>UI, Setting</comment>
   </data>
+  <data name="UI_BackupDestinationPath" xml:space="preserve">
+    <value>Backup Destination Path</value>
+    <comment>UI, Setting</comment>
+  </data>
   <data name="UI_BetaModeEnabledLabel" xml:space="preserve">
     <value>Enable Betamode</value>
     <comment>UI, Setting</comment>
@@ -176,11 +184,11 @@ In a local environment, 2000 milliseconds (2 seconds) should usually be enough.<
   </data>
   <data name="UI_KeyConfigLabel" xml:space="preserve">
     <value>Key</value>
-    <comment>UI, 設定</comment>
+    <comment>UI, Setting</comment>
   </data>
   <data name="UI_KeyEditBTLabel" xml:space="preserve">
     <value>Edit Key</value>
-    <comment>UI, 設定</comment>
+    <comment>UI, Setting</comment>
   </data>
   <data name="UI_LogGetterEnabledLabel" xml:space="preserve">
     <value>Enable Outputing logs</value>
@@ -192,10 +200,14 @@ In a local environment, 2000 milliseconds (2 seconds) should usually be enough.<
   </data>
   <data name="UI_LogLength" xml:space="preserve">
     <value>Length of Console Text</value>
-    <comment>UI, 設定</comment>
+    <comment>UI, Setting</comment>
   </data>
   <data name="UI_OthersLabel" xml:space="preserve">
     <value>Others</value>
+    <comment>UI, Setting</comment>
+  </data>
+  <data name="UI_RestoreDestinationPath" xml:space="preserve">
+    <value>Restore Destination Path</value>
     <comment>UI, Setting</comment>
   </data>
   <data name="UI_SaveBT" xml:space="preserve">
@@ -212,11 +224,11 @@ In a local environment, 2000 milliseconds (2 seconds) should usually be enough.<
   </data>
   <data name="UI_ShortcutKeyLabel" xml:space="preserve">
     <value>Shortcut Key</value>
-    <comment>UI, 設定</comment>
+    <comment>UI, Setting</comment>
   </data>
   <data name="UI_TextLength" xml:space="preserve">
     <value>Characters</value>
-    <comment>UI, 設定</comment>
+    <comment>UI, Setting</comment>
   </data>
   <data name="UI_UpdateLabel" xml:space="preserve">
     <value>Update</value>

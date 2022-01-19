@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 
 namespace _7dtd_svmanager_fix_mvvm
 {
@@ -13,7 +14,7 @@ namespace _7dtd_svmanager_fix_mvvm
     /// </summary>
     public partial class App : Application
     {
-        private IDisposable _mainWindow;
+        private IRelease _mainWindow;
         private void MyApp_Startup(object sender, StartupEventArgs e)
         {
             TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
@@ -24,19 +25,25 @@ namespace _7dtd_svmanager_fix_mvvm
             mainWindow.Show();
         }
 
+        private void App_OnExit(object sender, ExitEventArgs e)
+        {
+            _mainWindow.Dispose();
+        }
+
         private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             if (e.ExceptionObject is Exception exception)
             {
                 ShowAndWriteException(exception);
-                _mainWindow.Dispose();
+                _mainWindow.Release();
             }
         }
 
         private void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            ShowAndWriteException(e.Exception);
-            _mainWindow.Dispose();
+            var exception = e.Exception.InnerException;
+            ShowAndWriteException(exception);
+            _mainWindow.Release();
         }
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -58,12 +65,17 @@ namespace _7dtd_svmanager_fix_mvvm
             MessageBox.Show(mes, "予期せぬエラー", MessageBoxButton.OK, MessageBoxImage.Error);
 
             var dt = DateTime.Now;
-            OutToFile(AppInfo.GetAppPath() + @"\error-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
+            OutToFile("error-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
         }
 
         private static void OutToFile(string filename, string text)
         {
-            using var fs = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+            var dirName = "errors";
+            var dirInfo = new DirectoryInfo(dirName);
+            if (!dirInfo.Exists)
+                dirInfo.Create();
+
+            using var fs = new FileStream($"{dirInfo.FullName}\\{filename}", FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
             using var sw = new StreamWriter(fs, System.Text.Encoding.UTF8);
             sw.Write(text);
         }

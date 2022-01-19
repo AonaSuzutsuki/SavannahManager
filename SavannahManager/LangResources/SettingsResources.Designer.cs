@@ -19,7 +19,7 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class SettingsResources {
@@ -97,6 +97,16 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   復元する際のディレクトリパスです。
+        ///空の場合は「%AppData%\7DaysToDie」が復元先として使用されます。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Help_BackupRestorePath {
+            get {
+                return ResourceManager.GetString("Help_BackupRestorePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ベータモードでは開発中の機能を使用することができます。
         ///正式に実装する保証はなければ、動作保証もできないので使用には注意してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
@@ -151,6 +161,15 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         public static string UI_AutoCheckUpdLabel {
             get {
                 return ResourceManager.GetString("UI_AutoCheckUpdLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   バックアップ保存先のパス に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_BackupDestinationPath {
+            get {
+                return ResourceManager.GetString("UI_BackupDestinationPath", resourceCulture);
             }
         }
         
@@ -250,6 +269,15 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         public static string UI_OthersLabel {
             get {
                 return ResourceManager.GetString("UI_OthersLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   復元先のパス に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_RestoreDestinationPath {
+            get {
+                return ResourceManager.GetString("UI_RestoreDestinationPath", resourceCulture);
             }
         }
         

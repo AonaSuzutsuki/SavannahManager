@@ -6,15 +6,19 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
-        xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Models.Converter"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels"
-        xmlns:converter1="clr-namespace:_7dtd_svmanager_fix_mvvm.Models.Converter"
+        xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Converter"
+        xmlns:userControls="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.UserControls"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
         d:DesignWidth="800" d:DesignHeight="600"
-        Title="Savannah Manager" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True">
+        Title="Savannah Manager" Height="{Binding Path=Height.Value,Mode=TwoWay}" Width="{Binding Path=Width.Value,Mode=TwoWay}" Top="{Binding Path=Top.Value,Mode=TwoWay}" Left="{Binding Path=Left.Value,Mode=TwoWay}"
+        TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType"
+        BorderBrush="{Binding AroundBorderColor.Value}"
+        Opacity="{Binding AroundBorderOpacity.Value}"
+        Style="{DynamicResource WindowStyle}">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -34,15 +38,10 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
-                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
-                      UseAeroCaptionButtons="False" />
-    </WindowChrome.WindowChrome>
-
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/Window.xaml" />
                 <ResourceDictionary Source="/Styles/ButtonIcon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
@@ -51,11 +50,6 @@
     </Window.Resources>
 
     <Grid Style="{StaticResource ResourceKey=BackgroundGrid}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="380*"/>
-            <ColumnDefinition Width="709*"/>
-        </Grid.ColumnDefinitions>
-        <Border Name="AroundBorder" BorderBrush="{Binding AroundBorderColor.Value}" Opacity="{Binding AroundBorderOpacity.Value}" BorderThickness="1" Grid.ColumnSpan="2" />
 
         <Grid Grid.ColumnSpan="2" Margin="{Binding MainWindowMargin}">
 
@@ -108,7 +102,9 @@
                 <Button Width="23" Height="23" Name="StopBt" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource ResourceKey=StopBt}" Margin="3,0,0,0" Command="{Binding StopServerCommand}" />
                 <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" BorderThickness="1" />
                 <Button Name="TelnetBt" IsEnabled="{Binding TelnetBtIsEnabled.Value}" Style="{StaticResource TelnetBt}" Margin="4,0,0,0" Content="{Binding TelnetBtLabel.Value}" Command="{Binding ConnectTelnetCommand}" />
-                <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" Visibility="Hidden" BorderThickness="1" />
+                <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" Visibility="Visible" BorderThickness="1" />
+                <Button IsEnabled="{Binding IsBeta.Value}" Style="{StaticResource AutoRestartButton}" Margin="4,0,0,0" Content="{Binding AutoRestartText.Value}" Command="{Binding AutoRestartCommand}" />
+
                 <Button Name="CommandListBt" Style="{StaticResource CommandListBt}" Margin="4,0,0,0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ShowCommandListBT, Mode=OneWay}" Command="{Binding OpenCommandListCommand}" IsEnabled="False" Visibility="Hidden" />
                 <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" BorderThickness="1" Visibility="Hidden" />
             </StackPanel>
@@ -176,7 +172,18 @@
                                 </ListView.ContextMenu>
                             </ListView>
                             <GridSplitter Background="Transparent" Grid.Row="1" Margin="0,0,0,0" HorizontalAlignment="Stretch" Height="Auto"/>
-                            <TextBox Text="{Binding ChatLogText.Value}" Grid.Row="2" Margin="0,1,0,0" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch" ContextMenu="{StaticResource CopyOnly}" />
+
+                            <TextBox Name="ChatLogText" Text="{Binding ChatLogText.Value}" Grid.Row="2" Margin="0,1,0,0" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch" ContextMenu="{StaticResource CopyOnly}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <i:InvokeCommandAction  Command="{Binding ChatLogMouseEnterCommand}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseLeave">
+                                        <i:InvokeCommandAction  Command="{Binding ChatLogMouseLeaveCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+
                             <TextBox Name="ChatTextBox" Text="{Binding ChatInputText.Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Margin="0,1,0,0" AcceptsReturn="False" TextWrapping="NoWrap" VerticalScrollBarVisibility="Hidden" IsReadOnly="False" Height="25"  VerticalAlignment="Stretch" ContextMenu="{StaticResource CopyCutPaste}">
                                 <TextBox.InputBindings>
                                     <KeyBinding Key="Enter" Command="{Binding ChatTextBoxEnterDown}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
@@ -189,7 +196,7 @@
 
                     <Grid Grid.Column="1" Name="CenterPanel" HorizontalAlignment="Stretch" Margin="0,0,2,0">
                         <Grid Margin="0,0,0,26">
-                            <TextBox Text="{Binding ConsoleLogText, Mode=OneWay}" Name="ConsoleTextBox" AcceptsReturn="True" TextWrapping="{Binding IsConsoleLogTextWrapping.Value, Converter={converter1:TextWrappingConverter}}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch">
+                            <TextBox Text="{Binding ConsoleLogText, Mode=OneWay}" Name="ConsoleTextBox" AcceptsReturn="True" TextWrapping="{Binding IsConsoleLogTextWrapping.Value, Converter={converter:TextWrappingConverter}}" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True" Height="Auto"  VerticalAlignment="Stretch">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseEnter">
                                         <i:InvokeCommandAction  Command="{Binding ConsoleTextBoxMouseEnter}" />
@@ -219,9 +226,11 @@
                                     </i:Interaction.Triggers>
                                 </ListBox>
                             </Popup>-->
-                            <TextBox Text="{Binding CmdText, UpdateSourceTrigger=PropertyChanged}" Height="25" ContextMenu="{StaticResource CopyCutPaste}">
+                            <TextBox Name="CmdTextBox" Text="{Binding CmdText, UpdateSourceTrigger=PropertyChanged}" Height="25" ContextMenu="{StaticResource CopyCutPaste}">
                                 <TextBox.InputBindings>
                                     <KeyBinding Key="Enter" Command="{Binding CmdTextBoxEnterDown}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
+                                    <KeyBinding Key="Up" Command="{Binding SetCmdHistoryCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+                                    <KeyBinding Key="Down" Command="{Binding SetCmdHistoryCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
                                 </TextBox.InputBindings>
                             </TextBox>
                         </DockPanel>
@@ -264,6 +273,25 @@
                                                     </StackPanel>
                                                 </Grid>
                                             </Grid>
+                                        </TabItem>
+
+                                        <TabItem Header="SSH">
+                                            <StackPanel>
+
+                                                <Grid>
+                                                    <userControls:SshControl
+                                                        SshAddress="{Binding SshAddressText.Value}"
+                                                        SshPort="{Binding SshPortText.Value}"
+                                                        SshUserName="{Binding SshUserNameText.Value}"
+                                                        SshPassword="{Binding SshPasswordText.Value}"
+                                                        SshExeFileDirectory="{Binding SshExeFileDirectoryText.Value}"
+                                                        SshConfigFileName="{Binding SshConfigFileNameText.Value}"
+                                                        SshAuthMode="{Binding SshAuthMode.Value}"
+                                                        SshKeyPath="{Binding SshKeyPathText.Value}"
+                                                        SshPassPhrase="{Binding SshPassPhraseText.Value}"
+                                                        />
+                                                </Grid>
+                                            </StackPanel>
                                         </TabItem>
 
                                         <TabItem Header="IP">

@@ -12,6 +12,7 @@ using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -25,11 +26,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             Loaded = new DelegateCommand(Window_Loaded);
             CopyDonationAddressCommand = new DelegateCommand<string>(DonateBt_Clicked);
 
-            VersionLabel = model.ObserveProperty(m => m.Version).ToReactiveProperty();
+            VersionLabel = model.ObserveProperty(m => m.Version).ToReactiveProperty().AddTo(CompositeDisposable);
+            Copyright = model.ObserveProperty(m => m.Copyright).ToReactiveProperty().AddTo(CompositeDisposable);
         }
 
         #region Properties
         public ReactiveProperty<string> VersionLabel { get; set; }
+        public ReactiveProperty<string> Copyright { get; set; }
         #endregion
 
         #region EventProperties

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using CommonStyleLib.Views;
+using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -27,9 +28,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             #endregion
 
             #region PropertyInitialize
-            ExternalIpAddress = model.ToReactivePropertyAsSynchronized(m => m.ExternalIpAddress);
-            Port = model.ToReactivePropertyAsSynchronized(m => m.PortText);
-            StatusLabel = model.ToReactivePropertyAsSynchronized(m => m.StatusLabel);
+            ExternalIpAddress = model.ToReactivePropertyAsSynchronized(m => m.ExternalIpAddress).AddTo(CompositeDisposable);
+            Port = model.ToReactivePropertyAsSynchronized(m => m.PortText).AddTo(CompositeDisposable);
+            StatusLabel = model.ToReactivePropertyAsSynchronized(m => m.StatusLabel).AddTo(CompositeDisposable);
             #endregion
         }
 
