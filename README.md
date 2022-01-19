@@ -54,6 +54,6 @@ NUnit:                          Copyright (c) 2019 Charlie Poole, Rob Prouse
 Newtonsoft.Json:                Copyright (c) 2007 James Newton-King  
 Moq:                            Copyright (c) 2007, Clarius Consulting, Manas Technology Solutions, InSTEDD  
 OpenCover:                      Copyright (c) 2011-2019 Shaun Wilde  
-
+SSH.NET:                        Copyright (C) Renci 2010-2021
 
 This software includes the work that is distributed in the Apache License 2.0
