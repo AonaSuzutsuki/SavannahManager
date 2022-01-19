@@ -8,6 +8,9 @@ using CommonCoreLib;
 
 namespace SvManagerLibrary.Telnet
 {
+    /// <summary>
+    /// Provides a Stream for logging.
+    /// </summary>
     public class LogStream : Stream, IDisposable
     {
         private FileStream _fs;
@@ -22,7 +25,15 @@ namespace SvManagerLibrary.Telnet
             set => _fs.Position = value;
         }
 
+        /// <summary>
+        /// Automatically writes to a file when writing.
+        /// </summary>
         public bool AutoFlush { get; set; }
+
+        /// <summary>
+        /// The encoding of strings when writing files.
+        /// </summary>
+        public Encoding TextEncoding { get; set; } = Encoding.UTF8;
 
         public LogStream(string dirPath)
         {
@@ -60,12 +71,16 @@ namespace SvManagerLibrary.Telnet
             _fs.Write(buffer, offset, count);
         }
 
+        /// <summary>
+        /// Write the string to this stream.
+        /// </summary>
+        /// <param name="text"></param>
         public void Write(string text)
         {
             if (text == null)
                 return;
 
-            var data = Encoding.UTF8.GetBytes(text);
+            var data = TextEncoding.GetBytes(text);
             Write(data, 0, data.Length);
 
             if (AutoFlush)

@@ -108,8 +108,14 @@ namespace SvManagerLibrary.Telnet
         /// </summary>
         public BreakLineType BreakLine { get; set; } = BreakLineType.CrLf;
 
+        /// <summary>
+        /// LogStream object for telnet raw logging.
+        /// </summary>
         private LogStream LoggingStream { get; set; }
 
+        /// <summary>
+        /// Get the byte array of the line break line code according to BreakLine.
+        /// </summary>
         public byte[] BreakLineData
         {
             get
@@ -157,10 +163,15 @@ namespace SvManagerLibrary.Telnet
             };
         }
 
+        /// <summary>
+        /// Enable logging.
+        /// </summary>
+        /// <param name="directoryName"></param>
         public void EnableLogging(string directoryName)
         {
             LoggingStream = new LogStream(directoryName)
             {
+                TextEncoding = Encoding,
                 AutoFlush = true
             };
         }
