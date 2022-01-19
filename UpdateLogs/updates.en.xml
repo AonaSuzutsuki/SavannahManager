@@ -1,5 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.5.46.2">
+    1. Support japanese in settings backup tab.
+    2. Support auto restarting server.
+      If you want to use it, please enable the beta mode.
+      You can also set a detailed restart time in the Restart tab of the settings.
+    3. Fixed an issue where logs could not be retrieved when a task error occurred.
+    4. Support to change text from history when push up/down key.
+    5. Support to encrypt password.
+    6. Fixed an issue that crash to open calendar window in permission editor when date text is null.
+    7. Fixed the Japanese translation of a20 in ConfigEditor.
+    8. Changed the directory to output error log when occurs exception to "errors" directory.
+    9. Fixed the method of getting Telnet logs.
+    10. Added the ability to start a server via SSH.
+      You can start a Linux 7dtd server.
+      Note that the environment I'm checking is Ubuntu 18.04 only.
+  </update>
   <update version="2.5.45.1">
     1. The player list display now supports a20.
     2. Support a20 server config on ConfigEditor.

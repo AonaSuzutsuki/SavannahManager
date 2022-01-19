@@ -915,8 +915,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             var log = "{0}".FormatString(e.Log);
 
-            _model.WriteLogStream(log);
-
             _model.AppendConsoleLog(log);
 
             if (log.IndexOf("Chat", StringComparison.Ordinal) > -1)

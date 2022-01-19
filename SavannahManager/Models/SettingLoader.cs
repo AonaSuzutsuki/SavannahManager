@@ -268,8 +268,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             {
                 if (_encryptWrapper != null && !string.IsNullOrEmpty(Password))
                 {
-                    _iniLoader.SetValue(ServerClassName, "Password", _encryptWrapper.Encrypt(Password));
-                    _iniLoader.SetValue(ServerClassName, "SshPassword", _encryptWrapper.Encrypt(SshPassword));
+                    _iniLoader.SetValue(ServerClassName, "Password", _encryptWrapper.Encrypt(Password ?? string.Empty));
+                    _iniLoader.SetValue(ServerClassName, "SshPassword", _encryptWrapper.Encrypt(SshPassword ?? string.Empty));
                 }
             }
 
