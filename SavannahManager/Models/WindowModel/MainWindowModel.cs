@@ -259,7 +259,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             get => _isConnected && RowConnected;
             set => _isConnected = value;
         }
-        private bool RowConnected => Telnet != null && Telnet.Connected;
+        private bool RowConnected => LockFunction(telnet => telnet != null && telnet.Connected);
 
         public bool AutoRestartEnabled { get; set; }
 
@@ -567,7 +567,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                         break;
                     }
 
-                    if (Telnet.Connect(address, port))
+                    if (LockFunction(telnet => telnet.Connect(address, port)))
                     {
                         IsConnected = true;
                         IsTelnetLoading = false;
@@ -579,7 +579,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                         BottomNewsLabel = Resources.UI_FinishedLaunching;
                         SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor);
 
-                        Telnet.Write(TelnetClient.Cr);
+                        LockAction(telnet => telnet.Write(TelnetClient.Cr));
                         AppendConsoleLog(SocTelnetSend(password));
 
                         break;
@@ -588,6 +588,24 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                     Thread.Sleep(2000);
                 }
             });
+        }
+
+        private void LockAction(Action<TelnetClient> action)
+        {
+            if (Telnet == null) return;
+            lock (Telnet)
+            {
+                action(Telnet);
+            }
+        }
+
+        private T LockFunction<T>(Func<TelnetClient, T> func)
+        {
+            if (Telnet == null) return default;
+            lock (Telnet)
+            {
+                return func(Telnet);
+            }
         }
 
         public bool ServerStop()
@@ -749,7 +767,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             StartBtEnabled = false;
             TelnetBtIsEnabled = false;
             Telnet = GenerateTelnetClient(this);
-            var connected = await Task.Factory.StartNew(() => Telnet.Connect(localAddress, localPort));
+            var connected = await Task.Factory.StartNew(() => LockFunction(telnet => telnet.Connect(localAddress, localPort)));
             TelnetBtIsEnabled = true;
             StartBtEnabled = true;
 
@@ -762,7 +780,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 StartBtEnabled = false;
 
                 IsConnected = true;
-                Telnet.Write(TelnetClient.Cr);
+                LockAction(telnet => telnet.Write(TelnetClient.Cr));
                 AppendConsoleLog(SocTelnetSend(localPassword));
             }
             else
@@ -821,9 +839,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             ConnectionPanelIsEnabled = !LocalMode;
             LocalModeEnabled = true;
             StartBtEnabled = true;
-            
-            Telnet?.Dispose();
-            Telnet = null;
+
+            if (Telnet != null)
+            {
+                lock (Telnet)
+                {
+                    Telnet?.Dispose();
+                    Telnet = null;
+                }
+            }
         }
 
         public string GetChatText(string text)
@@ -837,7 +861,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         public void SendChat(string text, Action act)
         {
             if (CheckConnected())
-                Chat.SendChat(Telnet, text);
+            {
+                LockAction(telnet => Chat.SendChat(telnet, text));
+            }
             act();
         }
 
@@ -851,7 +877,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             _connectedIds.Clear();
             PlayerClean();
-            var playerInfoArray = Player.GetPlayerInfoList(Telnet);
+            var playerInfoArray = LockFunction(Player.GetPlayerInfoList);
             foreach (var uDetail in playerInfoArray)
                 AddUser(uDetail);
         }
@@ -923,7 +949,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             if (!CheckConnected())
                 return;
 
-            var timeInfo = Time.GetTimeFromTelnet(Telnet);
+            var timeInfo = LockFunction(Time.GetTimeFromTelnet);
 
             TimeDayText = timeInfo.Day.ToString();
             TimeHourText = timeInfo.Hour.ToString();
@@ -951,7 +977,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                             Minute = TimeMinuteText.ToInt()
 
                         };
-                        Time.SendTime(Telnet, timeInfo);
+                        LockAction(telnet => Time.SendTime(telnet, timeInfo));
                     }
                 }
             });
@@ -1008,8 +1034,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         }
         private void SocTelnetSendDirect(string cmd)
         {
-            Telnet.Write(cmd);
-            Telnet.Write(TelnetClient.Crlf);
+            LockAction(telnet =>
+            {
+                telnet.Write(cmd);
+                telnet.Write(TelnetClient.Crlf);
+            });
         }
         private string SocTelnetSend(string cmd)
         {
@@ -1017,9 +1046,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 return null;
 
             SocTelnetSendDirect(cmd);
-            Thread.Sleep(100);
-            var log = Telnet.Read().TrimEnd('\0');
-            log += Telnet.Read().TrimEnd('\0');
+
+            var log = LockFunction(telnet => telnet.Read().TrimEnd('\0'));
+            log += LockFunction(telnet => telnet.Read().TrimEnd('\0'));
 
             return log;
         }
