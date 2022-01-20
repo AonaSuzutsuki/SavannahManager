@@ -67,7 +67,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
             await Task.Factory.StartNew(() =>
             {
                 var list = new List<RichTextItem>(LogFileList.Count);
-                using var stream = new FileStream(logFileInfo.FullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using var stream = new FileStream(logFileInfo.FullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 using var streamReader = new StreamReader(stream);
                 while (streamReader.Peek() > -1)
                 {
