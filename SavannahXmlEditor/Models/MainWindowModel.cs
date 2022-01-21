@@ -130,11 +130,12 @@ namespace _7dtd_XmlEditor.Models
             IsEdited = false;
 
             _declaration = SavannahXmlConstants.Utf8Declaration;
-            _root = new TreeViewItemInfo(new SavannahTagNode { TagName = "root" }, this)
+            var root = new TreeViewItemInfo(new SavannahTagNode { TagName = "root" }, this)
             {
                 IsRoot = true
             };
-            TreeViewItems.Add(_root);
+            _root = root;
+            TreeViewItems.Add(root);
         }
 
         public void OpenFile()

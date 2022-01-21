@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,16 +25,16 @@ namespace _7dtd_XmlEditor.ViewModels
         {
             this._model = model;
 
-            IsEditedTitle = model.ObserveProperty(m => m.IsEditedTitle).ToReactiveProperty();
-            TreeViewItems = model.TreeViewItems.ToReadOnlyReactiveCollection(m => m);
-            TreeViewSelectedItem = model.ToReactivePropertyAsSynchronized(m => m.SelectedItem);
+            IsEditedTitle = model.ObserveProperty(m => m.IsEditedTitle).ToReactiveProperty().AddTo(CompositeDisposable);
+            TreeViewItems = model.ObserveProperty(m => m.TreeViewItems).ToReactiveProperty().AddTo(CompositeDisposable);
+            TreeViewSelectedItem = model.ToReactivePropertyAsSynchronized(m => m.SelectedItem).AddTo(CompositeDisposable);
 
-            FullPath = model.ObserveProperty(m => m.FullPath).ToReactiveProperty();
-            IsAttributesEnabled = model.ObserveProperty(m => m.IsAttributesEnabled).ToReactiveProperty();
-            Attributes = model.Attributes.ToReadOnlyReactiveCollection(m => m);
-            InnerXml = model.ToReactivePropertyAsSynchronized(m => m.InnerXml);
-            ContextMenuEnabled = model.ObserveProperty(m => m.ContextMenuEnabled).ToReactiveProperty();
-            AddElementEnabled = model.ObserveProperty(m => m.AddElementEnabled).ToReactiveProperty();
+            FullPath = model.ObserveProperty(m => m.FullPath).ToReactiveProperty().AddTo(CompositeDisposable);
+            IsAttributesEnabled = model.ObserveProperty(m => m.IsAttributesEnabled).ToReactiveProperty().AddTo(CompositeDisposable);
+            Attributes = model.ObserveProperty(m => m.Attributes).ToReactiveProperty().AddTo(CompositeDisposable);
+            InnerXml = model.ToReactivePropertyAsSynchronized(m => m.InnerXml).AddTo(CompositeDisposable);
+            ContextMenuEnabled = model.ObserveProperty(m => m.ContextMenuEnabled).ToReactiveProperty().AddTo(CompositeDisposable);
+            AddElementEnabled = model.ObserveProperty(m => m.AddElementEnabled).ToReactiveProperty().AddTo(CompositeDisposable);
 
             FileNewBtClick = new DelegateCommand(FileNewBt_Click);
             FileOpenBtClick = new DelegateCommand(FileOpenBt_Click);
@@ -62,12 +63,12 @@ namespace _7dtd_XmlEditor.ViewModels
         #region Properties
         public ReactiveProperty<string> IsEditedTitle { get; set; }
 
-        public ReadOnlyReactiveCollection<TreeViewItemInfo> TreeViewItems { get; set; }
+        public ReactiveProperty<ObservableCollection<TreeViewItemInfo>> TreeViewItems { get; set; }
         public ReactiveProperty<TreeViewItemInfo> TreeViewSelectedItem { get; set; }
 
         public ReactiveProperty<string> FullPath { get; set; }
         public ReactiveProperty<bool> IsAttributesEnabled { get; set; }
-        public ReadOnlyReactiveCollection<ViewAttributeInfo> Attributes { get; set; }
+        public ReactiveProperty<ObservableCollection<ViewAttributeInfo>> Attributes { get; set; }
         public ReactiveProperty<string> InnerXml { get; set; }
 
         public ReactiveProperty<bool> ContextMenuEnabled { get; set; }
