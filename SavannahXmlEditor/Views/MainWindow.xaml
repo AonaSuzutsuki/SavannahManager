@@ -83,7 +83,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <views:BindableSelectedItemTreeView x:Name="ItemTreeView" ItemsSource="{Binding TreeViewItems.Value}" BindableSelectedItem="{Binding TreeViewSelectedItem.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IgnoreNullSelectedItem="False" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <views:BindableSelectedItemTreeView x:Name="ItemTreeView" ItemsSource="{Binding TreeViewItems}" BindableSelectedItem="{Binding TreeViewSelectedItem.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IgnoreNullSelectedItem="False" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
                         <i:Interaction.Behaviors>
                             <views:MoveableTreeViewBehavior DropCommand="{Binding DropCommand}" DataType="treeView:TreeViewItemInfo" />
                         </i:Interaction.Behaviors>
@@ -199,7 +199,7 @@
                                 <Button Content="-" Width="25" Height="25" Margin="0,5,0,0" Style="{DynamicResource FlatButton}" Command="{Binding RemoveAttributeBtClicked}" />
                             </StackPanel>
 
-                            <ListView Grid.Column="1" ItemsSource="{Binding Attributes.Value}" IsEnabled="{Binding IsAttributesEnabled.Value}">
+                            <ListView Grid.Column="1" ItemsSource="{Binding Attributes}" IsEnabled="{Binding IsAttributesEnabled.Value}">
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
