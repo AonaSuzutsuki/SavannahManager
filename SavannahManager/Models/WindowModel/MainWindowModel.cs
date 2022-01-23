@@ -999,7 +999,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         /*
          * Common Telnet Methods
          */
-        public void SendCommand(string cmd)
+        public void SendCommand(string cmd, bool isCollect = true)
         {
 #if DEBUG
             if (cmd == "gc")
@@ -1010,7 +1010,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
 #endif
 
-            _commandCollector.AddCommand(cmd);
+            if (isCollect && !string.IsNullOrEmpty(cmd))
+                _commandCollector.AddCommand(cmd);
             SocTelnetSendNrt(cmd);
         }
 

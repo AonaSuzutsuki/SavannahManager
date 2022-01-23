@@ -775,7 +775,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         }
         private void SaveWorld()
         {
-            _model.SendCommand("saveworld");
+            _model.SendCommand("saveworld", false);
         }
 
         private void OpenPermissionEditor()
