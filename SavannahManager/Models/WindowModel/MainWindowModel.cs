@@ -1012,6 +1012,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             if (isCollect && !string.IsNullOrEmpty(cmd))
                 _commandCollector.AddCommand(cmd);
+            _commandCollector.Reset();
             SocTelnetSendNrt(cmd);
         }
 
