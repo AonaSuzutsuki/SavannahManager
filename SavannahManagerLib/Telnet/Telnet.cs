@@ -215,6 +215,8 @@ namespace SvManagerLibrary.Telnet
             {
                 _clientSocket.Connect(address, port);
 
+                LoggingStream?.Start();
+
                 var endPoint = (IPEndPoint)_clientSocket.RemoteEndPoint;
                 OnStarted(new TelnetReadEventArgs() { IpAddress = endPoint.Address.ToString() });
                 if (ReadEvent != null)
@@ -273,7 +275,6 @@ namespace SvManagerLibrary.Telnet
                 }
 
                 return returner;
-
             });
         }
 
