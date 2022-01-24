@@ -10,9 +10,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using CommonStyleLib.Views;
-using SavannahManagerStyleLib.Models.SshFileSelector;
-using SavannahManagerStyleLib.ViewModels.SshFileSelector;
-using SavannahManagerStyleLib.Views.SshFileSelector;
 
 namespace ConfigEditor_mvvm
 {
@@ -23,9 +20,7 @@ namespace ConfigEditor_mvvm
     {
         private void MyApp_Startup(object sender, StartupEventArgs e)
         {
-            Window mw = new FileSelectorView();
-            var model = new FileSelectorModel();
-            mw.DataContext = new FileSelectorViewModel(new WindowService(mw), model);
+            Window mw = new MainWindow();
             mw.Show();
         }
 

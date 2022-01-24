@@ -8,7 +8,7 @@
         xmlns:sshFileSelector="clr-namespace:SavannahManagerStyleLib.ViewModels.SshFileSelector"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance sshFileSelector:FileSelectorViewModel}"
-        Title="FileSelectorView" Height="450" Width="800" Style="{DynamicResource WindowStyle}">
+        Title="SFTP File Selector" Height="450" Width="800" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterOwner">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -52,7 +52,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
-                <Label Content="Savannah Manager" Style="{StaticResource ResourceKey=StatTitle}" />
+                <Label Content="SFTP File Selector" Style="{StaticResource ResourceKey=StatTitle}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"

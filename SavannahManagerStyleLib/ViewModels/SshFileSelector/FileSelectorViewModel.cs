@@ -1,10 +1,13 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Reactive.Subjects;
+using System.Windows.Input;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using SavannahManagerStyleLib.Models.SshFileSelector;
+using SavannahManagerStyleLib.Views.SshFileSelector;
 
 namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
 {
@@ -37,6 +40,13 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
 
         #endregion
 
+        #region Properties
+
+        private readonly Subject<string> _fileDoubleClickedSubject = new();
+        public IObservable<string> FileDoubleClicked => _fileDoubleClickedSubject;
+
+        #endregion
+
         public FileSelectorViewModel(IWindowService windowService, FileSelectorModel model) : base(windowService, model)
         {
             _model = model;
@@ -50,8 +60,27 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             ForwardPageCommand = new DelegateCommand(ForwardPage);
             TraceBackPageCommand = new DelegateCommand(TraceBackPage);
             BackupFileListMouseDoubleClickCommand = new DelegateCommand<SftpFileDetailInfo>(BackupFileListMouseDoubleClick);
+        }
 
-            model.Open();
+        public void OpenConnectionWindow()
+        {
+            var model = new InputConnectionInfoModel();
+            var vm = new InputConnectionInfoViewModel(new WindowService(), model);
+            WindowManageService.ShowDialog<InputConnectionInfoView>(vm);
+
+            if (vm.IsCancel)
+                return;
+
+            if (vm.SshPasswordChecked.Value)
+            {
+                _model.Open(vm.Address.Value, vm.Port.Value);
+                _model.Connect(vm.Username.Value, vm.SshPassword.Value);
+            }
+            else
+            {
+                _model.Open(vm.Address.Value, vm.Port.Value);
+                _model.Connect(vm.Username.Value, vm.SshPassPhrase.Value, vm.SshKeyPath.Value);
+            }
         }
 
         public void BackPage()
@@ -79,6 +108,10 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             {
                 _model.NewDirectory();
                 _model.ChangeDirectory(path);
+            }
+            else
+            {
+                _fileDoubleClickedSubject.OnNext(path);
             }
         }
 

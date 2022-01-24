@@ -3,8 +3,11 @@ using SvManagerLibrary.Ssh;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reactive.Subjects;
+using System.Text;
 using System.Windows.Media;
 using SavannahManagerStyleLib.Models.Image;
 
@@ -19,6 +22,8 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
 
     public class FileSelectorModel : ModelBase, IDisposable
     {
+        #region Fields
+
         private SftpServerConnector _sftpServerConnector;
         private Stack<string> _pageForwardHistory;
         private Stack<string> _pageBackHistory;
@@ -27,6 +32,10 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
         private bool _canGoForward;
         private string _currentDirectory;
         private ObservableCollection<SftpFileDetailInfo> _fileList = new();
+
+        #endregion
+
+        #region Properties
 
         public bool CanGoBack
         {
@@ -52,15 +61,31 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             set => SetProperty(ref _fileList, value);
         }
 
-        public FileSelectorModel()
-        {
+        #endregion
 
+        #region Events
+        
+        #endregion
+
+        public void Open(string address, int port = 22)
+        {
+            _sftpServerConnector = new SftpServerConnector(address, port);
         }
 
-        public void Open()
+        public void Connect(string userName, string password)
         {
-            _sftpServerConnector = new SftpServerConnector("");
-            _sftpServerConnector.SetLoginInformation("", "");
+            _sftpServerConnector.SetLoginInformation(userName, password);
+            if (_sftpServerConnector.Connect())
+            {
+                _pageForwardHistory = new Stack<string>();
+                _pageBackHistory = new Stack<string>();
+                ResetDirectoryInfo();
+            }
+        }
+
+        public void Connect(string userName, string passPhrase, string keyPath)
+        {
+            _sftpServerConnector.SetLoginInformation(userName, passPhrase, keyPath);
             if (_sftpServerConnector.Connect())
             {
                 _pageForwardHistory = new Stack<string>();
@@ -84,6 +109,15 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             ResetDirectoryInfo();
         }
 
+        public Stream DownloadFile(string path)
+        {
+            var ms = new MemoryStream();
+            _sftpServerConnector.Download(path, ms);
+
+            ms.Position = 0;
+            return ms;
+        }
+
         public void DirectoryForward()
         {
             if (_pageForwardHistory.Count <= 0)
@@ -93,12 +127,6 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             _pageBackHistory.Push(_sftpServerConnector.WorkingDirectory);
             ChangeDirectory(name);
         }
-
-        //public void DirectoryBack()
-        //{
-        //    _pageForwardHistory.Push(_sftpServerConnector.WorkingDirectory);
-        //    ChangeDirectory($"{_sftpServerConnector.WorkingDirectory}/..");
-        //}
 
         public void DirectoryBack()
         {
@@ -123,7 +151,7 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             {
                 var name = Path.GetFileName(x.Path) ?? "";
                 return !name.StartsWith(".");
-            });
+            }).ToList();
 
             var directoryImage = ImageLoader.LoadFromResource("SavannahManagerStyleLib.Resources.Files.DirectoryIcon.png");
             var fileImage = ImageLoader.LoadFromResource("SavannahManagerStyleLib.Resources.Files.FileIcon.png");

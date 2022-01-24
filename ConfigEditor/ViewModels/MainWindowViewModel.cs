@@ -9,10 +9,14 @@ using CommonStyleLib.ViewModels;
 using System.Windows.Input;
 using Reactive.Bindings;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommonStyleLib.Views;
 using ConfigEditor_mvvm.Models;
 using Reactive.Bindings.Extensions;
 using Prism.Commands;
+using SavannahManagerStyleLib.Models.SshFileSelector;
+using SavannahManagerStyleLib.ViewModels.SshFileSelector;
+using SavannahManagerStyleLib.Views.SshFileSelector;
 
 namespace ConfigEditor_mvvm.ViewModels
 {
@@ -31,6 +35,7 @@ namespace ConfigEditor_mvvm.ViewModels
             OpenBtClicked = new DelegateCommand(OpenBt_Clicked);
             SaveAsBtClicked = new DelegateCommand(SaveAsBt_Clicked);
             SaveBtClicked = new DelegateCommand(SaveBt_Clicked);
+            SaveAsSftpCommand = new DelegateCommand(SaveAsSftp);
 
             VersionsListSelectionChanged = new DelegateCommand(VersionsList_SelectionChanged);
             ConfigListSelectionChanged = new DelegateCommand(ConfigList_SelectionChanged);
@@ -95,6 +100,7 @@ namespace ConfigEditor_mvvm.ViewModels
         public ICommand OpenBtClicked { get; }
         public ICommand SaveAsBtClicked { get; }
         public ICommand SaveBtClicked { get; }
+        public ICommand SaveAsSftpCommand { get; }
 
         public ICommand VersionsListSelectionChanged { get; }
         public ICommand ConfigListSelectionChanged { get; }
@@ -124,6 +130,26 @@ namespace ConfigEditor_mvvm.ViewModels
         public void SaveBt_Clicked()
         {
             _model.Save();
+        }
+
+        public void SaveAsSftp()
+        {
+            
+            var model = new FileSelectorModel();
+            var vm = new FileSelectorViewModel(new WindowService(), model);
+            vm.FileDoubleClicked.Subscribe(path =>
+            {
+                using var stream = model.DownloadFile(path);
+
+                var array = new byte[stream.Length];
+                _ = stream.Read(array, 0, array.Length);
+                var text = Encoding.UTF8.GetString(array);
+
+                Debug.WriteLine(text);
+            });
+            vm.OpenConnectionWindow();
+
+            WindowManageService.ShowDialog<FileSelectorView>(vm);
         }
 
         public void VersionsList_SelectionChanged()

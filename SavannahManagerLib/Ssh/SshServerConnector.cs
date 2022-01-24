@@ -83,6 +83,16 @@ namespace SvManagerLibrary.Ssh
             return _sftpClient.IsConnected;
         }
 
+        public void Download(string path, Stream outStream, Action<ulong> callback = null)
+        {
+            _sftpClient.DownloadFile(path, outStream, callback);
+        }
+
+        public void Upload(string path, Stream inStream, Action<ulong> callback = null)
+        {
+            _sftpClient.UploadFile(inStream, path, callback);
+        }
+
         public IEnumerable<SftpFileInfo> GetItems()
         {
             var items = _sftpClient.ListDirectory(WorkingDirectory);
