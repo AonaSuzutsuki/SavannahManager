@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
+	<LangVersion>latest</LangVersion>
     <RootNamespace>SavannahManagerStyleLib</RootNamespace>
     <AssemblyName>SavannahManagerStyleLib</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -13,7 +14,14 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.0.0</Version>
     <Description>Core style library for Savannah Manager.</Description>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Files\DirectoryIcon.png" />
+    <EmbeddedResource Include="Resources\Files\FileIcon.png" />
+    <EmbeddedResource Include="Resources\Files\no-image.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommonStyleLib" Version="1.0.11" />
@@ -41,10 +49,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>

@@ -29,12 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Images\Backup\DirectoryIcon.png" />
-    <EmbeddedResource Include="Images\Backup\FileIcon.png" />
-    <EmbeddedResource Include="Images\Backup\no-image.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="BackupLib" Version="1.0.6" />
     <PackageReference Include="CommonCoreLib" Version="1.0.4" />
     <PackageReference Include="CommonExtensionLib" Version="1.0.5" />

@@ -125,8 +125,8 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
                 return !name.StartsWith(".");
             });
 
-            var directoryImage = ImageLoader.LoadFromResource("_7dtd_svmanager_fix_mvvm.Images.Backup.DirectoryIcon.png");
-            var fileImage = ImageLoader.LoadFromResource("_7dtd_svmanager_fix_mvvm.Images.Backup.FileIcon.png");
+            var directoryImage = ImageLoader.LoadFromResource("SavannahManagerStyleLib.Resources.Files.DirectoryIcon.png");
+            var fileImage = ImageLoader.LoadFromResource("SavannahManagerStyleLib.Resources.Files.FileIcon.png");
             
             FileList.Clear();
 

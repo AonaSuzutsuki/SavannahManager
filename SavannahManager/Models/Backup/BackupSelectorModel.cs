@@ -32,11 +32,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Backup
             var list = new List<BackupItem>();
             foreach (var pathMapItem in pathMapItems)
             {
-                ImageSource imageSource = ImageLoader.LoadFromResource("_7dtd_svmanager_fix_mvvm.Images.Backup.no-image.png");
+                ImageSource imageSource = ImageLoader.LoadFromResource("SavannahManagerStyleLib.Resources.Files.no-image.png");
                 if (pathMapItem.ItemType == PathMapItemType.File)
-                    imageSource = ImageLoader.LoadFromResource("_7dtd_svmanager_fix_mvvm.Images.Backup.FileIcon.png");
+                    imageSource = ImageLoader.LoadFromResource("SavannahManagerStyleLib.Resources.Files.FileIcon.png");
                 if (pathMapItem.ItemType == PathMapItemType.Directory)
-                    imageSource = ImageLoader.LoadFromResource("_7dtd_svmanager_fix_mvvm.Images.Backup.DirectoryIcon.png");
+                    imageSource = ImageLoader.LoadFromResource("SavannahManagerStyleLib.Resources.Files.DirectoryIcon.png");
 
                 list.Add(new BackupItem
                 {
