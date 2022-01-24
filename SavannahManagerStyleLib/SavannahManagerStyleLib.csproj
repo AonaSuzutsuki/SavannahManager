@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-windows</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>SavannahManagerStyleLib</RootNamespace>
+    <AssemblyName>SavannahManagerStyleLib</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Authors>Aona Suzutsuki</Authors>
+    <Company>Kimama Lab.</Company>
+    <Copyright>Copyright © AonaSuzutsuki 2014 - 2022</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+    <Description>Core style library for Savannah Manager.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommonStyleLib" Version="1.0.11" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="ReactiveProperty" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SavannahManagerLib\SavannahManagerLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\SshFileSelector\FileSelectorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\Window.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\SshFileSelector\FileSelectorView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
+</Project>

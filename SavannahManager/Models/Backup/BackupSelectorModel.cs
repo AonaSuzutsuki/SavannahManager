@@ -4,12 +4,12 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using _7dtd_svmanager_fix_mvvm.Models.Backup.Image;
 using BackupLib.Backup;
 using BackupLib.CommonPath;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.Models;
+using SavannahManagerStyleLib.Models.Image;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.Backup
 {

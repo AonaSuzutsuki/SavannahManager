@@ -48,6 +48,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SavannahManagerLib\SavannahManagerLib.csproj" />
+    <ProjectReference Include="..\SavannahManagerStyleLib\SavannahManagerStyleLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

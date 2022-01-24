@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace _7dtd_svmanager_fix_mvvm.Models.Backup.Image
+namespace SavannahManagerStyleLib.Models.Image
 {
     public static class ImageLoader
     {
