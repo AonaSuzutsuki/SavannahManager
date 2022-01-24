@@ -11,12 +11,20 @@ using SavannahManagerStyleLib.Views.SshFileSelector;
 
 namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
 {
+    public enum FileSelectorMode
+    {
+        Open,
+        Save,
+        SaveAs
+    }
+
     public class FileSelectorViewModel : ViewModelBase
     {
 
         #region Fields
 
         private readonly FileSelectorModel _model;
+        private FileSelectorMode _mode = FileSelectorMode.Open;
 
         #endregion
 
@@ -28,6 +36,23 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
         public ReactiveProperty<string> PathText { get; set; }
         public ReadOnlyReactiveCollection<SftpFileDetailInfo> FileList { get; set; }
 
+        public FileSelectorMode Mode
+        {
+            get => _mode;
+            set
+            {
+                _mode = value;
+                SaveContent.Value = value switch
+                {
+                    FileSelectorMode.Open => "Open",
+                    FileSelectorMode.Save => "Save",
+                    FileSelectorMode.SaveAs => "SaveAs",
+                    _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+                };
+            }
+        }
+        public ReactiveProperty<string> SaveContent { get; set; }
+
         #endregion
 
         #region Event Properties
@@ -37,6 +62,9 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
         public ICommand TraceBackPageCommand { get; set; }
 
         public ICommand BackupFileListMouseDoubleClickCommand { get; set; }
+
+        public ICommand SaveCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
         #endregion
 
@@ -54,13 +82,17 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             BackBtIsEnabled = model.ObserveProperty(m => m.CanGoBack).ToReactiveProperty().AddTo(CompositeDisposable);
             ForwardBtIsEnabled = model.ObserveProperty(m => m.CanGoForward).ToReactiveProperty().AddTo(CompositeDisposable);
             PathText = model.ToReactivePropertyAsSynchronized(m => m.CurrentDirectory).AddTo(CompositeDisposable); ;
-            FileList = model.FileList.ToReadOnlyReactiveCollection().AddTo(CompositeDisposable); ;
+            FileList = model.FileList.ToReadOnlyReactiveCollection().AddTo(CompositeDisposable);
+            SaveContent = new ReactiveProperty<string>();
 
             BackPageCommand = new DelegateCommand(BackPage);
             ForwardPageCommand = new DelegateCommand(ForwardPage);
             TraceBackPageCommand = new DelegateCommand(TraceBackPage);
             BackupFileListMouseDoubleClickCommand = new DelegateCommand<SftpFileDetailInfo>(BackupFileListMouseDoubleClick);
+            SaveCommand = new DelegateCommand(Save);
+            CancelCommand = new DelegateCommand(Cancel);
         }
+
 
         public void OpenConnectionWindow()
         {
@@ -113,6 +145,27 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             {
                 _fileDoubleClickedSubject.OnNext(path);
             }
+        }
+
+        private void Save()
+        {
+            if (_mode == FileSelectorMode.Open)
+            {
+
+            }
+            else if (_mode == FileSelectorMode.Save)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
+        public void Cancel()
+        {
+            WindowManageService.Close();
         }
 
         public override void Dispose()

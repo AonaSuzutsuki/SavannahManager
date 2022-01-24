@@ -136,7 +136,10 @@ namespace ConfigEditor_mvvm.ViewModels
         {
             
             var model = new FileSelectorModel();
-            var vm = new FileSelectorViewModel(new WindowService(), model);
+            var vm = new FileSelectorViewModel(new WindowService(), model)
+            {
+                Mode = FileSelectorMode.SaveAs
+            };
             vm.FileDoubleClicked.Subscribe(path =>
             {
                 using var stream = model.DownloadFile(path);

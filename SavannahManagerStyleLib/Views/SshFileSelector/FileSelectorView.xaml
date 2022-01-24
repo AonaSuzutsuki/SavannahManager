@@ -76,6 +76,8 @@
                     <RowDefinition Height="30" />
                     <RowDefinition Height="5" />
                     <RowDefinition />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
 
                 <Grid>
@@ -124,6 +126,20 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ListBox>
+
+                <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox />
+                    <Button Grid.Column="2" Content="{Binding SaveContent.Value}" Style="{StaticResource FlatButton}" Command="{Binding SaveCommand}" />
+                    <Button Grid.Column="4" Content="Cancel" Style="{StaticResource FlatButton}" Command="{Binding CancelCommand}" />
+                </Grid>
 
             </Grid>
 
