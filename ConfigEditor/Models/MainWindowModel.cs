@@ -445,60 +445,14 @@ namespace ConfigEditor_mvvm.Models
             loader.Write();
             IsModified = false;
         }
-
-        /// <summary>
-        /// Perform arbitrary file selection and load processing.
-        /// </summary>
+        
         public void OpenFileViaSftp(Stream stream)
         {
             FilePath = null;
             ResetButtons();
 
             var configLoader = new ConfigLoader(stream);
-            LoadToConfigListViaSftp(configLoader);
-        }
-
-        private void LoadToConfigListViaSftp(ConfigLoader configLoader)
-        {
-            if (VersionListSelectedIndex < 0) return;
-
-            ConfigList.Clear();
-            var version = VersionList[VersionListSelectedIndex];
-            if (configLoader == null)
-            {
-                var list = new List<ConfigListInfo>(_templateLoader.GetConfigList(version));
-                ConfigList.AddRange(list);
-            }
-            else
-            {
-                var templateDic = _templateLoader.GetConfigDictionary(version);
-                var templateKeys = new List<string>(templateDic.Keys);
-                var configDic = configLoader.GetAll();
-                var keys = new List<string>(configDic.Keys);
-                
-                // コンフィグファイルとtemplateに含まれるプロパティだけ追加
-                foreach (var configInfo in configDic.Values)
-                {
-                    var propertyName = configInfo.PropertyName;
-                    if (templateDic.ContainsKey(propertyName))
-                    {
-                        var configListInfo = templateDic[propertyName];
-                        configListInfo.Value = configInfo.Value;
-                        ConfigList.Add(configListInfo);
-                    }
-                }
-
-                // templateにあるがコンフィグファイルにないものを追加
-                var nRepetitions = templateKeys.ToArray().Except(keys.ToArray());
-                foreach (string key in nRepetitions)
-                {
-                    if (templateDic.ContainsKey(key))
-                    {
-                        var configListInfo = templateDic[key];
-                        ConfigList.Add(configListInfo);
-                    }
-                }
-            }
+            LoadToConfigList(configLoader);
         }
 
         public MemoryStream CreateConfigXml()
