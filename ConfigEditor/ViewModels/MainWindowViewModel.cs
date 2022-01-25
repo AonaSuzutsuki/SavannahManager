@@ -33,6 +33,7 @@ namespace ConfigEditor_mvvm.ViewModels
 
             NewFileBtClicked = new DelegateCommand(NewFileBt_Clicked);
             OpenBtClicked = new DelegateCommand(OpenBt_Clicked);
+            OpenSftpCommand = new DelegateCommand(OpenSftp);
             SaveAsBtClicked = new DelegateCommand(SaveAsBt_Clicked);
             SaveBtClicked = new DelegateCommand(SaveBt_Clicked);
             SaveAsSftpCommand = new DelegateCommand(SaveAsSftp);
@@ -98,6 +99,7 @@ namespace ConfigEditor_mvvm.ViewModels
         #region Event Properties
         public ICommand NewFileBtClicked { get; }
         public ICommand OpenBtClicked { get; }
+        public ICommand OpenSftpCommand { get; }
         public ICommand SaveAsBtClicked { get; }
         public ICommand SaveBtClicked { get; }
         public ICommand SaveAsSftpCommand { get; }
@@ -132,25 +134,37 @@ namespace ConfigEditor_mvvm.ViewModels
             _model.Save();
         }
 
-        public void SaveAsSftp()
+        public void OpenSftp()
         {
-            
             var model = new FileSelectorModel();
             var vm = new FileSelectorViewModel(new WindowService(), model)
             {
-                Mode = FileSelectorMode.SaveAs
+                Mode = FileSelectorMode.Open,
+                IsNewConnection = true
             };
-            vm.FileDoubleClicked.Subscribe(path =>
+            model.OpenCallbackAction = item =>
             {
-                using var stream = model.DownloadFile(path);
+                using var stream = item.Stream;
 
-                var array = new byte[stream.Length];
-                _ = stream.Read(array, 0, array.Length);
-                var text = Encoding.UTF8.GetString(array);
+                _model.OpenFileViaSftp(stream);
+            };
 
-                Debug.WriteLine(text);
-            });
-            vm.OpenConnectionWindow();
+            WindowManageService.ShowDialog<FileSelectorView>(vm);
+        }
+
+        public void SaveAsSftp()
+        {
+            var model = new FileSelectorModel();
+            var vm = new FileSelectorViewModel(new WindowService(), model)
+            {
+                Mode = FileSelectorMode.SaveAs,
+                IsNewConnection = true
+            };
+            model.SaveDataFunction = () =>
+            {
+                using var stream = _model.CreateConfigXml();
+                return stream.ToArray();
+            };
 
             WindowManageService.ShowDialog<FileSelectorView>(vm);
         }

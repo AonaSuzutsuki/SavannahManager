@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reactive.Subjects;
 using System.Windows.Input;
 using CommonStyleLib.ViewModels;
@@ -14,7 +15,6 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
     public enum FileSelectorMode
     {
         Open,
-        Save,
         SaveAs
     }
 
@@ -35,6 +35,9 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
 
         public ReactiveProperty<string> PathText { get; set; }
         public ReadOnlyReactiveCollection<SftpFileDetailInfo> FileList { get; set; }
+        public ReactiveProperty<SftpFileDetailInfo> SelectedFileItem { get; set; }
+
+        public ReactiveProperty<string> FileName { get; set; }
 
         public FileSelectorMode Mode
         {
@@ -45,8 +48,7 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
                 SaveContent.Value = value switch
                 {
                     FileSelectorMode.Open => "Open",
-                    FileSelectorMode.Save => "Save",
-                    FileSelectorMode.SaveAs => "SaveAs",
+                    FileSelectorMode.SaveAs => "Save As",
                     _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
                 };
             }
@@ -61,6 +63,7 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
         public ICommand ForwardPageCommand { get; set; }
         public ICommand TraceBackPageCommand { get; set; }
 
+        public ICommand BackupFileListSelectionChangedCommand { get; set; }
         public ICommand BackupFileListMouseDoubleClickCommand { get; set; }
 
         public ICommand SaveCommand { get; set; }
@@ -69,6 +72,8 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
         #endregion
 
         #region Properties
+
+        public bool IsNewConnection { get; set; }
 
         private readonly Subject<string> _fileDoubleClickedSubject = new();
         public IObservable<string> FileDoubleClicked => _fileDoubleClickedSubject;
@@ -83,25 +88,40 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             ForwardBtIsEnabled = model.ObserveProperty(m => m.CanGoForward).ToReactiveProperty().AddTo(CompositeDisposable);
             PathText = model.ToReactivePropertyAsSynchronized(m => m.CurrentDirectory).AddTo(CompositeDisposable); ;
             FileList = model.FileList.ToReadOnlyReactiveCollection().AddTo(CompositeDisposable);
+            SelectedFileItem = new ReactiveProperty<SftpFileDetailInfo>();
+            FileName = new ReactiveProperty<string>();
             SaveContent = new ReactiveProperty<string>();
 
             BackPageCommand = new DelegateCommand(BackPage);
             ForwardPageCommand = new DelegateCommand(ForwardPage);
             TraceBackPageCommand = new DelegateCommand(TraceBackPage);
+            BackupFileListSelectionChangedCommand = new DelegateCommand<SftpFileDetailInfo>(BackupFileListSelectionChanged);
             BackupFileListMouseDoubleClickCommand = new DelegateCommand<SftpFileDetailInfo>(BackupFileListMouseDoubleClick);
             SaveCommand = new DelegateCommand(Save);
             CancelCommand = new DelegateCommand(Cancel);
         }
 
+        protected override void MainWindow_Loaded()
+        {
+            base.MainWindow_Loaded();
 
-        public void OpenConnectionWindow()
+            if (IsNewConnection)
+            {
+                if (!OpenConnectionWindow())
+                    WindowManageService.Close();
+            }
+        }
+
+        private bool OpenConnectionWindow()
         {
             var model = new InputConnectionInfoModel();
             var vm = new InputConnectionInfoViewModel(new WindowService(), model);
             WindowManageService.ShowDialog<InputConnectionInfoView>(vm);
 
             if (vm.IsCancel)
-                return;
+            {
+                return false;
+            }
 
             if (vm.SshPasswordChecked.Value)
             {
@@ -113,6 +133,8 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
                 _model.Open(vm.Address.Value, vm.Port.Value);
                 _model.Connect(vm.Username.Value, vm.SshPassPhrase.Value, vm.SshKeyPath.Value);
             }
+
+            return true;
         }
 
         public void BackPage()
@@ -130,6 +152,15 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             _model.TraceBackPage();
         }
 
+        public void BackupFileListSelectionChanged(SftpFileDetailInfo item)
+        {
+            if (item == null)
+                return;
+
+            var path = item.Path;
+            FileName.Value = Path.GetFileName(path);
+        }
+
         public void BackupFileListMouseDoubleClick(SftpFileDetailInfo item)
         {
             if (item == null)
@@ -143,7 +174,7 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             }
             else
             {
-                _fileDoubleClickedSubject.OnNext(path);
+                Save();
             }
         }
 
@@ -151,16 +182,20 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
         {
             if (_mode == FileSelectorMode.Open)
             {
+                var selectedItem = SelectedFileItem.Value;
 
-            }
-            else if (_mode == FileSelectorMode.Save)
-            {
+                if (selectedItem == null || selectedItem.IsDirectory)
+                    return;
 
+                _model.DoOpenAction(selectedItem.Path);
             }
             else
             {
-
+                var fullPath = _model.GetFullPath(FileName.Value);
+                _model.DoSaveAction(fullPath);
             }
+
+            WindowManageService.Close();
         }
 
         public void Cancel()

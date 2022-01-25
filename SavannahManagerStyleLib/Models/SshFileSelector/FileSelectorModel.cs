@@ -20,6 +20,16 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
         public string DateString { get; set; }
     }
 
+    public class SftpOpenStreamItem
+    {
+        public Stream Stream { get; }
+
+        public SftpOpenStreamItem(Stream stream)
+        {
+            Stream = stream;
+        }
+    }
+
     public class FileSelectorModel : ModelBase, IDisposable
     {
         #region Fields
@@ -36,6 +46,9 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
         #endregion
 
         #region Properties
+
+        public Action<SftpOpenStreamItem> OpenCallbackAction { get; set; }
+        public Func<byte[]> SaveDataFunction { get; set; }
 
         public bool CanGoBack
         {
@@ -118,6 +131,25 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             return ms;
         }
 
+        public void DoOpenAction(string path)
+        {
+            if (OpenCallbackAction == null)
+                return;
+
+            var stream = DownloadFile(path);
+            OpenCallbackAction?.Invoke(new SftpOpenStreamItem(stream));
+        }
+
+        public void DoSaveAction(string path)
+        {
+            var data = SaveDataFunction?.Invoke();
+            if (data == null)
+                return;
+
+            using var stream = new MemoryStream(data);
+            _sftpServerConnector.Upload(path, stream);
+        }
+
         public void DirectoryForward()
         {
             if (_pageForwardHistory.Count <= 0)
@@ -145,7 +177,16 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             ChangeDirectory($"{_sftpServerConnector.WorkingDirectory}/..");
         }
 
-        public void ResetDirectoryInfo()
+        public string GetFullPath(string name)
+        {
+            if (name == null)
+                return null;
+
+            var directoryPath = CurrentDirectory.TrimEnd('/');
+            return $"{directoryPath}/{name}";
+        }
+
+        private void ResetDirectoryInfo()
         {
             var files = _sftpServerConnector.GetItems().Where(x =>
             {

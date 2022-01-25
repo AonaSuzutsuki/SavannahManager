@@ -11,6 +11,9 @@
         Title="SFTP File Selector" Height="450" Width="800" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterOwner">
 
     <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Loaded}" />
+        </i:EventTrigger>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding Closing}" />
         </i:EventTrigger>
@@ -99,7 +102,7 @@
                     <TextBox Grid.Column="1" Text="{Binding PathText.Value}" />
                 </Grid>
 
-                <ListBox Grid.Row="2" ItemsSource="{Binding FileList}" BorderThickness="1" Background="Transparent" SelectionMode="Extended" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox Grid.Row="2" ItemsSource="{Binding FileList}" BorderThickness="1" Background="Transparent" SelectedItem="{Binding SelectedFileItem.Value}" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -121,6 +124,9 @@
                     </ListBox.ItemTemplate>
 
                     <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding BackupFileListSelectionChangedCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox} }, Path=SelectedItem}" />
+                        </i:EventTrigger>
                         <i:EventTrigger EventName="MouseDoubleClick">
                             <i:InvokeCommandAction Command="{Binding BackupFileListMouseDoubleClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox} }, Path=SelectedItem}" />
                         </i:EventTrigger>
@@ -136,7 +142,7 @@
                         <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBox />
+                    <TextBox Text="{Binding FileName.Value}" />
                     <Button Grid.Column="2" Content="{Binding SaveContent.Value}" Style="{StaticResource FlatButton}" Command="{Binding SaveCommand}" />
                     <Button Grid.Column="4" Content="Cancel" Style="{StaticResource FlatButton}" Command="{Binding CancelCommand}" />
                 </Grid>

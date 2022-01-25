@@ -12,6 +12,7 @@ namespace SvManagerLibrary.Config
     public class ConfigLoader
     {
         private readonly string _fileName;
+        private readonly Stream _stream;
         private SavannahXmlReader _reader;
 
         private readonly Dictionary<string, ConfigInfo> _configs = new Dictionary<string, ConfigInfo>();
@@ -26,14 +27,21 @@ namespace SvManagerLibrary.Config
             _fileName = path;
             if (!newFile)
             {
-                Load();
+                using var fs = new FileStream(_fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+                Load(fs);
             }
         }
 
-        private void Load()
+        public ConfigLoader(Stream stream, bool newData = false)
         {
-            using var fs = new FileStream(_fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-            _reader = new SavannahXmlReader(fs);
+            _stream = stream;
+            if (!newData)
+                Load(stream);
+        }
+
+        private void Load(Stream stream)
+        {
+            _reader = new SavannahXmlReader(stream);
             var names = _reader.GetAttributes("name", "ServerSettings/property").ToList();
             var values = _reader.GetAttributes("value", "ServerSettings/property").ToList();
 
@@ -142,8 +150,15 @@ namespace SvManagerLibrary.Config
         /// </summary>
         public void Write()
         {
-            using var fs = new FileStream(_fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
-            Write(fs, _configs);
+            if (_stream == null)
+            {
+                using var fs = new FileStream(_fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+                Write(fs, _configs);
+            }
+            else
+            {
+                Write(_stream, _configs);
+            }
         }
 
 
