@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace _7dtd_svmanager_fix_mvvm.Views.Converter
+namespace SavannahManagerStyleLib.Views.Converter
 {
-    public class AuthModePasswordVisibilityConverter : MarkupExtension, IValueConverter
+    public class BoolVisibilityConverter : MarkupExtension, IValueConverter
     {
         public override object ProvideValue(IServiceProvider serviceProvider)
         {

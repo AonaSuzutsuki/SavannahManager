@@ -125,12 +125,12 @@
                     <Grid>
                         <Border BorderThickness="1" BorderBrush="{StaticResource BorderColor}" Padding="5" Margin="0, 0, 0, 5">
                             <StackPanel>
-                                <StackPanel Visibility="{Binding SshPasswordChecked.Value, Converter={converter:AuthModePasswordVisibilityConverter}}">
+                                <StackPanel Visibility="{Binding SshPasswordChecked.Value, Converter={converter:BoolVisibilityConverter}}">
                                     <Label Content="Password" Padding="0" />
                                     <TextBox Text="{Binding SshPassword.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" Style="{StaticResource PasswordStyle}" />
                                 </StackPanel>
 
-                                <StackPanel Visibility="{Binding SshKeyChecked.Value,  Converter={converter:AuthModePasswordVisibilityConverter}}">
+                                <StackPanel Visibility="{Binding SshKeyChecked.Value,  Converter={converter:BoolVisibilityConverter}}">
                                     <Label Content="Key's Path" Padding="0" />
 
                                     <Grid>

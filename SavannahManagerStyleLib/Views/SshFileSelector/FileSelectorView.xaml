@@ -6,6 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:sshFileSelector="clr-namespace:SavannahManagerStyleLib.ViewModels.SshFileSelector"
+        xmlns:converter="clr-namespace:SavannahManagerStyleLib.Views.Converter"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance sshFileSelector:FileSelectorViewModel}"
         Title="SFTP File Selector" Height="450" Width="800" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterOwner">
