@@ -171,7 +171,7 @@ namespace ConfigEditor_mvvm.ViewModels
 
         public void VersionsList_SelectionChanged()
         {
-            _model.LoadToConfigList();
+            _model.VersionListSelectionChanged();
         }
         public void ConfigList_SelectionChanged()
         {
