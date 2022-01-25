@@ -103,38 +103,42 @@
                     <TextBox Grid.Column="1" Text="{Binding PathText.Value}" />
                 </Grid>
 
-                <ListBox Grid.Row="2" ItemsSource="{Binding FileList}" BorderThickness="1" Background="Transparent" SelectedItem="{Binding SelectedFileItem.Value}" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel ItemHeight="120" ItemWidth="120" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <Image Source="{Binding ImageSource}" Width="50" Height="50" HorizontalAlignment="Center" />
-                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" />
-                                <TextBlock Text="{Binding DateString}" FontSize="11px" HorizontalAlignment="Center" Foreground="White" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
+                <Grid Grid.Row="2">
+                    <ListBox ItemsSource="{Binding FileList}" BorderThickness="1" Background="Transparent" SelectedItem="{Binding SelectedFileItem.Value}" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel ItemHeight="120" ItemWidth="120" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Image Source="{Binding ImageSource}" Width="50" Height="50" HorizontalAlignment="Center" />
+                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" />
+                                    <TextBlock Text="{Binding DateString}" FontSize="11px" HorizontalAlignment="Center" Foreground="White" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
 
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding BackupFileListSelectionChangedCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox} }, Path=SelectedItem}" />
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding BackupFileListMouseDoubleClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox} }, Path=SelectedItem}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ListBox>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding BackupFileListSelectionChangedCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox} }, Path=SelectedItem}" />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding BackupFileListMouseDoubleClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox} }, Path=SelectedItem}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListBox>
 
-                <Grid Grid.Row="4">
+                    <ProgressBar Height="30" Value="100" Visibility="{Binding IsLoading.Value, Converter={converter:BoolVisibilityConverter}}" Margin="20, 0" VerticalAlignment="Center" Style="{StaticResource IndeterminateProgressBar}" />
+                </Grid>
+
+                    <Grid Grid.Row="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="5" />

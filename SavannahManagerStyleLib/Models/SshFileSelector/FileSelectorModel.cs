@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Subjects;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Media;
 using SavannahManagerStyleLib.Models.Image;
 
@@ -85,25 +86,27 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             _sftpServerConnector = new SftpServerConnector(address, port);
         }
 
-        public void Connect(string userName, string password)
+        public async Task Connect(string userName, string password)
         {
             _sftpServerConnector.SetLoginInformation(userName, password);
-            if (_sftpServerConnector.Connect())
+            if (await Task.Factory.StartNew(() => _sftpServerConnector.Connect()))
             {
                 _pageForwardHistory = new Stack<string>();
                 _pageBackHistory = new Stack<string>();
-                ResetDirectoryInfo();
+                var files = await Task.Factory.StartNew(GetFileList);
+                ResetDirectoryInfo(files);
             }
         }
 
-        public void Connect(string userName, string passPhrase, string keyPath)
+        public async Task Connect(string userName, string passPhrase, string keyPath)
         {
             _sftpServerConnector.SetLoginInformation(userName, passPhrase, keyPath);
-            if (_sftpServerConnector.Connect())
+            if (await Task.Factory.StartNew(() => _sftpServerConnector.Connect()))
             {
                 _pageForwardHistory = new Stack<string>();
                 _pageBackHistory = new Stack<string>();
-                ResetDirectoryInfo();
+                var files = await Task.Factory.StartNew(GetFileList);
+                ResetDirectoryInfo(files);
             }
         }
 
@@ -113,13 +116,14 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             _pageBackHistory.Push(_sftpServerConnector.WorkingDirectory);
         }
 
-        public void ChangeDirectory(string path)
+        public async Task ChangeDirectory(string path)
         {
             if (string.IsNullOrEmpty(path))
                 return;
 
             _sftpServerConnector.ChangeDirectory(path);
-            ResetDirectoryInfo();
+            var files = await Task.Factory.StartNew(GetFileList);
+            ResetDirectoryInfo(files);
         }
 
         public Stream DownloadFile(string path)
@@ -150,31 +154,31 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             _sftpServerConnector.Upload(path, stream);
         }
 
-        public void DirectoryForward()
+        public async Task DirectoryForward()
         {
             if (_pageForwardHistory.Count <= 0)
                 return;
 
             var name = _pageForwardHistory.Pop();
             _pageBackHistory.Push(_sftpServerConnector.WorkingDirectory);
-            ChangeDirectory(name);
+            await ChangeDirectory(name);
         }
 
-        public void DirectoryBack()
+        public async Task DirectoryBack()
         {
             if (_pageBackHistory.Count <= 0)
                 return;
 
             var name = _pageBackHistory.Pop();
             _pageForwardHistory.Push(_sftpServerConnector.WorkingDirectory);
-            ChangeDirectory(name);
+            await ChangeDirectory(name);
         }
 
-        public void TraceBackPage()
+        public async Task TraceBackPage()
         {
             _pageForwardHistory.Clear();
             _pageBackHistory.Push(_sftpServerConnector.WorkingDirectory);
-            ChangeDirectory($"{_sftpServerConnector.WorkingDirectory}/..");
+            await ChangeDirectory($"{_sftpServerConnector.WorkingDirectory}/..");
         }
 
         public string GetFullPath(string name)
@@ -186,7 +190,7 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             return $"{directoryPath}/{name}";
         }
 
-        private void ResetDirectoryInfo()
+        private List<SftpServerConnector.SftpFileInfo> GetFileList()
         {
             var files = _sftpServerConnector.GetItems().Where(x =>
             {
@@ -194,6 +198,11 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
                 return !name.StartsWith(".");
             }).ToList();
 
+            return files;
+        }
+
+        private void ResetDirectoryInfo(List<SftpServerConnector.SftpFileInfo> files)
+        {
             var directoryImage = ImageLoader.LoadFromResource("SavannahManagerStyleLib.Resources.Files.DirectoryIcon.png");
             var fileImage = ImageLoader.LoadFromResource("SavannahManagerStyleLib.Resources.Files.FileIcon.png");
             

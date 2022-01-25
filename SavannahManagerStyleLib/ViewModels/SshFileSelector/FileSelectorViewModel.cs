@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
@@ -36,6 +37,8 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
         public ReactiveProperty<string> PathText { get; set; }
         public ReadOnlyReactiveCollection<SftpFileDetailInfo> FileList { get; set; }
         public ReactiveProperty<SftpFileDetailInfo> SelectedFileItem { get; set; }
+
+        public ReactiveProperty<bool> IsLoading { get; set; }
 
         public ReactiveProperty<string> FileName { get; set; }
 
@@ -89,6 +92,7 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             PathText = model.ToReactivePropertyAsSynchronized(m => m.CurrentDirectory).AddTo(CompositeDisposable); ;
             FileList = model.FileList.ToReadOnlyReactiveCollection().AddTo(CompositeDisposable);
             SelectedFileItem = new ReactiveProperty<SftpFileDetailInfo>();
+            IsLoading = new ReactiveProperty<bool>();
             FileName = new ReactiveProperty<string>();
             SaveContent = new ReactiveProperty<string>();
 
@@ -107,12 +111,16 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
 
             if (IsNewConnection)
             {
-                if (!OpenConnectionWindow())
-                    WindowManageService.Close();
+                OpenConnectionWindow().ContinueWith(t =>
+                {
+                    var result = t.Result;
+                    if (!result)
+                        WindowManageService.Dispatch(WindowManageService.Close);
+                });
             }
         }
 
-        private bool OpenConnectionWindow()
+        private async Task<bool> OpenConnectionWindow()
         {
             var model = new InputConnectionInfoModel();
             var vm = new InputConnectionInfoViewModel(new WindowService(), model);
@@ -123,33 +131,46 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
                 return false;
             }
 
-            if (vm.SshPasswordChecked.Value)
+            var item = new
             {
-                _model.Open(vm.Address.Value, vm.Port.Value);
-                _model.Connect(vm.Username.Value, vm.SshPassword.Value);
+                Address = vm.Address.Value,
+                Port = vm.Port.Value,
+                Username = vm.Username.Value,
+                IsPassword = vm.SshPasswordChecked.Value,
+                Password = vm.SshPassword.Value,
+                KeyPath = vm.SshKeyPath.Value,
+                PassPhrase = vm.SshPassPhrase.Value
+            };
+
+            IsLoading.Value = true;
+            if (item.IsPassword)
+            {
+                _model.Open(item.Address, item.Port);
+                await _model.Connect(item.Username, item.Password);
             }
             else
             {
-                _model.Open(vm.Address.Value, vm.Port.Value);
-                _model.Connect(vm.Username.Value, vm.SshPassPhrase.Value, vm.SshKeyPath.Value);
+                _model.Open(item.Address, item.Port);
+                await _model.Connect(item.Username, item.PassPhrase, item.KeyPath);
             }
 
+            IsLoading.Value = false;
             return true;
         }
 
         public void BackPage()
         {
-            _model.DirectoryBack();
+            _ = _model.DirectoryBack();
         }
 
         public void ForwardPage()
         {
-            _model.DirectoryForward();
+            _ = _model.DirectoryForward();
         }
 
         public void TraceBackPage()
         {
-            _model.TraceBackPage();
+            _ = _model.TraceBackPage();
         }
 
         public void BackupFileListSelectionChanged(SftpFileDetailInfo item)
@@ -170,7 +191,7 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             if (item.IsDirectory)
             {
                 _model.NewDirectory();
-                _model.ChangeDirectory(path);
+                _ = _model.ChangeDirectory(path);
             }
             else
             {
