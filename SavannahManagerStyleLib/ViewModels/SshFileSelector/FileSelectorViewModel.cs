@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Prism.Commands;
@@ -212,6 +214,14 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             }
             else
             {
+                if (FileList.Any(x => x.Name == FileName.Value))
+                {
+                    var dialogResult = WindowManageService.MessageBoxShow("File exists. Are you sure to overwrite?", "File exists.",
+                        ExMessageBoxBase.MessageType.Question, ExMessageBoxBase.ButtonType.YesNo);
+                    if (dialogResult == ExMessageBoxBase.DialogResult.No)
+                        return;
+                }
+
                 var fullPath = _model.GetFullPath(FileName.Value);
                 _model.DoSaveAction(fullPath);
             }
