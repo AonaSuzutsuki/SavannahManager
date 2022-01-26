@@ -141,6 +141,9 @@ namespace ConfigEditor_mvvm.Models
         #endregion
 
         #region Properties
+
+        public SettingLoader SettingLoader { get; }
+
         private bool _isModified;
         /// <summary>
         /// Set or get the state of editing. Also change the presence or absence of the title mark.
@@ -164,7 +167,6 @@ namespace ConfigEditor_mvvm.Models
         #endregion
 
         #region Fields
-        private readonly SettingLoader _settingLoader;
         //private ConfigLoader _configLoader;
         private readonly TemplateLoader _templateLoader;
 
@@ -181,7 +183,7 @@ namespace ConfigEditor_mvvm.Models
             ConfigList = new ObservableCollection<ConfigListInfo>();
             ValueList = new ObservableCollection<string>();
 
-            _settingLoader = new SettingLoader(ConstantValues.SettingFilePath);
+            SettingLoader = new SettingLoader(ConstantValues.SettingFilePath);
 
             var language = LangResources.CommonResources.Language;
             _templateLoader = new TemplateLoader(language, ConstantValues.VersionListPath);
@@ -237,7 +239,7 @@ namespace ConfigEditor_mvvm.Models
         /// </summary>
         public void OpenFile()
         {
-            var dirName = _settingLoader.OpenDirectoryPath;
+            var dirName = SettingLoader.OpenDirectoryPath;
             var filePath = FileSelector.GetFilePath(dirName, 
                 LangResources.CommonResources.Filter_XmlFile, ConstantValues.ServerConfigFileName, FileSelector.FileSelectorType.Read);
             if (!string.IsNullOrEmpty(filePath))
@@ -246,7 +248,7 @@ namespace ConfigEditor_mvvm.Models
 
                 var loader = new ConfigLoader(filePath);
                 LoadToConfigList(loader);
-                _settingLoader.OpenDirectoryPath = Path.GetDirectoryName(filePath);
+                SettingLoader.OpenDirectoryPath = Path.GetDirectoryName(filePath);
                 IsModified = false;
                 SaveBtEnabled = true;
             }
@@ -398,7 +400,7 @@ namespace ConfigEditor_mvvm.Models
         /// <returns></returns>
         private (bool result, string filePath) SelectFileOnSaveAs()
         {
-            var dirName = _settingLoader.OpenDirectoryPath;
+            var dirName = SettingLoader.OpenDirectoryPath;
             var filePath = FileSelector.GetFilePath(dirName,
                 LangResources.CommonResources.Filter_XmlFile, ConstantValues.ServerConfigFileName, FileSelector.FileSelectorType.Write);
             if (!string.IsNullOrEmpty(filePath))

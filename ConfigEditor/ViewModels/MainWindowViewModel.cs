@@ -117,6 +117,13 @@ namespace ConfigEditor_mvvm.ViewModels
             _model.ShortcutKey(e, Keyboard.Modifiers);
         }
 
+        protected override void MainWindow_Closing()
+        {
+            base.MainWindow_Closing();
+
+            _model.SettingLoader.Save();
+        }
+
         public void NewFileBt_Clicked()
         {
             _model.LoadNewData();

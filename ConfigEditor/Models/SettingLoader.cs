@@ -1,28 +1,52 @@
 ﻿using CommonCoreLib.Ini;
+using SavannahManagerStyleLib.Models;
+using System.IO;
 
 namespace ConfigEditor_mvvm.Models
 {
-    public class SettingLoader
+    public sealed class SettingLoader : AbstractSettingLoader
     {
+        private const string MainClassName = "Main";
         public const string DirectoryPath = @"C:\";
 
-        private string _openDirectoryPath = DirectoryPath;
-        public string OpenDirectoryPath
-        {
-            get => _openDirectoryPath;
-            set
-            {
-                _openDirectoryPath = value;
-                iniLoader.SetValue("CONFIGEDITOR", "DIRPATH", value);
-            }
-        }
+        private readonly IniLoader _iniLoader;
 
-        IniLoader iniLoader;
+        public string OpenDirectoryPath { get; set; } = DirectoryPath;
 
         public SettingLoader(string fileName)
         {
-            iniLoader = new IniLoader(fileName);
-            OpenDirectoryPath = iniLoader.GetValue("CONFIGEDITOR", "DIRPATH", DirectoryPath);
+            _iniLoader = new IniLoader(fileName);
+            if (CheckOldFormat())
+            {
+                LoadOldFormat();
+                File.WriteAllText(fileName, "");
+            }
+            else
+            {
+                Load();
+            }
+        }
+
+        private bool CheckOldFormat()
+        {
+            var value = _iniLoader.GetValue(MainClassName, "Version", "1.0");
+            return value == "1.0";
+        }
+
+        private void LoadOldFormat()
+        {
+            OpenDirectoryPath = _iniLoader.GetValue("CONFIGEDITOR", "DIRPATH", DirectoryPath);
+        }
+
+        protected override void Load()
+        {
+            OpenDirectoryPath = _iniLoader.GetValue(MainClassName, "DirectoryPath", DirectoryPath);
+        }
+
+        public override void Save()
+        {
+            _iniLoader.SetValue(MainClassName, "Version", "1.1");
+            _iniLoader.SetValue(MainClassName, "DirectoryPath", OpenDirectoryPath);
         }
     }
 }

@@ -5,11 +5,12 @@ using _7dtd_svmanager_fix_mvvm.LangResources;
 using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonCoreLib.CommonPath;
 using CommonCoreLib.Ini;
+using SavannahManagerStyleLib.Models;
 using SvManagerLibrary.Crypto;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
-    public sealed class SettingLoader : IDisposable
+    public sealed class SettingLoader : AbstractSettingLoader, IDisposable
     {
 
         private const string MainClassName = "Main";
@@ -122,7 +123,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private bool CheckOldFormat()
         {
-            var value = _iniLoader.GetValue(MainClassName, "Version", "1.1");
+            var value = _iniLoader.GetValue(MainClassName, "Version", "1.0");
             return value == "1.0";
         }
 
@@ -162,7 +163,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             IsConsoleLogTextWrapping = _iniLoader.GetValue("MAIN", "CONSOLETEXTWRAPPING", false);
         }
 
-        private void Load()
+        protected override void Load()
         {
             IsEncryptPassword = _iniLoader.GetValue(MainClassName, "IsEncryptPassword", false);
             if (!IsEncryptPassword)
@@ -255,7 +256,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             ResourceService.Current.ChangeCulture(CultureName);
         }
 
-        public void Save()
+        public override void Save()
         {
             _iniLoader.SetValue(MainClassName, "Version", "1.1");
 
