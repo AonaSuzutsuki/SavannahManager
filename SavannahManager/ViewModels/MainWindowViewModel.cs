@@ -47,6 +47,8 @@ using CommonNavigationControlLib.Navigation.ViewModels;
 using CommonNavigationControlLib.Navigation.Views;
 using _7dtd_svmanager_fix_mvvm.Models.PlayerController.Pages;
 using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController.Pages;
+using SavannahManagerStyleLib.ViewModels.Encryption;
+using SavannahManagerStyleLib.Views.Encryption;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -372,7 +374,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                     const int inputWidth = InputWindowViewModel.DefaultWidth;
                     const int inputHeight = InputWindowViewModel.DefaultHeight;
                     var (left, top) = MainWindowModel.CalculateCenterTop(_model, inputWidth, inputHeight);
-                    var inputViewModel = new InputWindowViewModel(new WindowService(), new InputWindowModel
+                    var inputViewModel = new InputWindowViewModel(new WindowService(), new ModelBase
                     {
                         Width = inputWidth,
                         Height = inputHeight,
