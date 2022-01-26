@@ -15,23 +15,6 @@ using SavannahManagerStyleLib.Views.SshFileSelector;
 
 namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
 {
-    public enum FileSelectorMode
-    {
-        Open,
-        SaveAs
-    }
-
-    public class ConnectionInformation
-    {
-        public string Address { get; set; }
-        public int Port { get; set; }
-        public string Username { get; set; }
-        public bool IsPassword { get; set; }
-        public string Password { get; set; }
-        public string KeyPath { get; set; }
-        public string PassPhrase { get; set; }
-    }
-
     public class FileSelectorViewModel : ViewModelBase
     {
 
@@ -123,12 +106,24 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
         {
             base.MainWindow_Loaded();
 
-            OpenConnectionWindow().ContinueWith(t =>
+            var task = OpenConnectionWindow();
+            task.ContinueWith(t =>
             {
                 var result = t.Result;
                 if (!result)
                     WindowManageService.Dispatch(WindowManageService.Close);
+                
+                IsCancel = false;
             });
+            task.ContinueWith(t =>
+            {
+                var e = t.Exception?.InnerException;
+                if (e == null)
+                    return;
+
+                WindowManageService.MessageBoxDispatchShow(e.Message, "Error", ExMessageBoxBase.MessageType.Hand);
+                WindowManageService.Dispatch(WindowManageService.Close);
+            }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         private async Task<bool> OpenConnectionWindow()
@@ -151,19 +146,21 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
                 IsPassword = vm.SshPasswordChecked.Value,
                 Password = vm.SshPassword.Value,
                 KeyPath = vm.SshKeyPath.Value,
-                PassPhrase = vm.SshPassPhrase.Value
+                PassPhrase = vm.SshPassPhrase.Value,
+                DefaultWorkingDirectory = vm.WorkingDirectory.Value
             };
 
             IsLoading.Value = true;
             if (ConnectionInformation.IsPassword)
             {
                 _model.Open(ConnectionInformation.Address, ConnectionInformation.Port);
-                await _model.Connect(ConnectionInformation.Username, ConnectionInformation.Password);
+                await _model.Connect(ConnectionInformation.Username, ConnectionInformation.Password, ConnectionInformation.DefaultWorkingDirectory);
             }
             else
             {
                 _model.Open(ConnectionInformation.Address, ConnectionInformation.Port);
-                await _model.Connect(ConnectionInformation.Username, ConnectionInformation.PassPhrase, ConnectionInformation.KeyPath);
+                await _model.Connect(ConnectionInformation.Username, ConnectionInformation.PassPhrase,
+                    ConnectionInformation.KeyPath, ConnectionInformation.DefaultWorkingDirectory);
             }
 
             IsLoading.Value = false;
@@ -236,7 +233,6 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
                 _model.DoSaveAction(fullPath);
             }
 
-            IsCancel = false;
             WindowManageService.Close();
         }
 

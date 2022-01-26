@@ -458,7 +458,8 @@ namespace ConfigEditor_mvvm.Models
                 IsPassword = SettingLoader.SftpIsPassword,
                 Username = SettingLoader.SftpUserName,
                 KeyPath = SettingLoader.SftpKeyPath,
-                Password = SettingLoader.SftpPassword
+                Password = SettingLoader.SftpPassword,
+                DefaultWorkingDirectory = SettingLoader.SftpDefaultWorkingDirectory
             };
         }
 
@@ -470,6 +471,7 @@ namespace ConfigEditor_mvvm.Models
             SettingLoader.SftpUserName = information.Username;
             SettingLoader.SftpPassword = information.Password;
             SettingLoader.SftpKeyPath = information.KeyPath;
+            SettingLoader.SftpDefaultWorkingDirectory = information.DefaultWorkingDirectory;
         }
         
         public void OpenFileViaSftp(Stream stream)

@@ -30,6 +30,8 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
         public ReactiveProperty<string> SshPassword { get; set; }
         public ReactiveProperty<string> SshKeyPath { get; set; }
         public ReactiveProperty<string> SshPassPhrase { get; set; }
+        
+        public ReactiveProperty<string> WorkingDirectory { get; set; }
 
         public ICommand SetKeyPathCommand { get; set; }
         public ICommand ConnectCommand { get; set; }
@@ -45,6 +47,7 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             SshPassword = new ReactiveProperty<string>();
             SshKeyPath = new ReactiveProperty<string>();
             SshPassPhrase = new ReactiveProperty<string>();
+            WorkingDirectory = new ReactiveProperty<string>();
 
             SetKeyPathCommand = new DelegateCommand(SetKeyPath);
             ConnectCommand = new DelegateCommand(Connect);
@@ -62,6 +65,7 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             SshPassword.Value = information.Password;
             SshKeyPath.Value = information.KeyPath;
             SshPassPhrase.Value = information.PassPhrase;
+            WorkingDirectory.Value = information.DefaultWorkingDirectory;
 
             if (information.IsPassword)
                 SshPasswordChecked.Value = true;

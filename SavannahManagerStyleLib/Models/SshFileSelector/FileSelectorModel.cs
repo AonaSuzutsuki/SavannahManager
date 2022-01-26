@@ -89,36 +89,25 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             _sftpServerConnector = new SftpServerConnector(address, port);
         }
 
-        public async Task Connect(string userName, string password)
+        public async Task Connect(string userName, string password, string workingDirectory = null)
         {
-            try
-            {
-                _sftpServerConnector.SetLoginInformation(userName, password);
-                await Connect();
-            }
-            catch (Renci.SshNet.Common.SshException e)
-            {
-                _errorOccurred.OnNext(e);
-            }
+            _sftpServerConnector.SetLoginInformation(userName, password);
+            await Connect(workingDirectory);
         }
 
-        public async Task Connect(string userName, string passPhrase, string keyPath)
+        public async Task Connect(string userName, string passPhrase, string keyPath, string workingDirectory = null)
         {
-            try
-            {
-                _sftpServerConnector.SetLoginInformation(userName, passPhrase, keyPath);
-                await Connect();
-            }
-            catch (Renci.SshNet.Common.SshException e)
-            {
-                _errorOccurred.OnNext(e);
-            }
+            _sftpServerConnector.SetLoginInformation(userName, passPhrase, keyPath);
+            await Connect(workingDirectory);
         }
 
-        private async Task Connect()
+        private async Task Connect(string workingDirectory)
         {
             if (await Task.Factory.StartNew(() => _sftpServerConnector.Connect()))
             {
+                if (!string.IsNullOrEmpty(workingDirectory))
+                    _sftpServerConnector.ChangeDirectory(workingDirectory);
+
                 _pageForwardHistory = new Stack<string>();
                 _pageBackHistory = new Stack<string>();
                 var files = await Task.Factory.StartNew(GetFileList);

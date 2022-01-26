@@ -29,6 +29,7 @@ namespace ConfigEditor_mvvm.Models
         public bool SftpIsPassword { get; set; }
 
         public string SftpKeyPath { get; set; }
+        public string SftpDefaultWorkingDirectory { get; set; }
 
         #endregion
 
@@ -66,6 +67,7 @@ namespace ConfigEditor_mvvm.Models
             SftpUserName = _iniLoader.GetValue(SftpClassName, nameof(SftpUserName), string.Empty);
             SftpIsPassword = _iniLoader.GetValue(SftpClassName, nameof(SftpIsPassword), true);
             SftpKeyPath = _iniLoader.GetValue(SftpClassName, nameof(SftpKeyPath), string.Empty);
+            SftpDefaultWorkingDirectory = _iniLoader.GetValue(SftpClassName, nameof(SftpDefaultWorkingDirectory), string.Empty);
 
 #if DEBUG
             SftpPassword = _iniLoader.GetValue(SftpClassName, nameof(SftpPassword), string.Empty);
@@ -82,6 +84,7 @@ namespace ConfigEditor_mvvm.Models
             _iniLoader.SetValue(SftpClassName, nameof(SftpUserName), SftpUserName);
             _iniLoader.SetValue(SftpClassName, nameof(SftpIsPassword), SftpIsPassword);
             _iniLoader.SetValue(SftpClassName, nameof(SftpKeyPath), SftpKeyPath);
+            _iniLoader.SetValue(SftpClassName, nameof(SftpDefaultWorkingDirectory), SftpDefaultWorkingDirectory);
 
 #if DEBUG
             _iniLoader.SetValue(SftpClassName, nameof(SftpPassword), SftpPassword);

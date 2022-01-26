@@ -10,7 +10,7 @@
         xmlns:converter="clr-namespace:SavannahManagerStyleLib.Views.Converter"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance sshFileSelector:InputConnectionInfoViewModel}"
-        Title="SFTP Connection Wizard" ResizeMode="CanMinimize" Height="340" Width="400" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterOwner">
+        Title="SFTP Connection Wizard" ResizeMode="CanMinimize" Height="380" Width="400" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterOwner">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -86,7 +86,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Content="Address" />
-                            <TextBox Grid.Column="1" Text="{Binding Address.Value}" />
+                            <TextBox Grid.Column="1" Text="{Binding Address.Value}" VerticalContentAlignment="Center" />
                         </Grid>
 
                         <Grid Grid.Column="2">
@@ -96,7 +96,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Content="Port" />
-                            <TextBox Grid.Column="1" Text="{Binding Port.Value}" />
+                            <TextBox Grid.Column="1" Text="{Binding Port.Value}" VerticalContentAlignment="Center" />
                         </Grid>
 
                     </Grid>
@@ -108,7 +108,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Content="Username" />
-                        <TextBox Grid.Column="1" Text="{Binding Username.Value}" />
+                        <TextBox Grid.Column="1" Text="{Binding Username.Value}" VerticalContentAlignment="Center" />
                     </Grid>
 
                     <Grid Margin="0, 5">
@@ -127,7 +127,7 @@
                             <StackPanel>
                                 <StackPanel Visibility="{Binding SshPasswordChecked.Value, Converter={converter:BoolVisibilityConverter}}">
                                     <Label Content="Password" Padding="0" />
-                                    <TextBox Text="{Binding SshPassword.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" Style="{StaticResource PasswordStyle}" />
+                                    <TextBox Text="{Binding SshPassword.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" Style="{StaticResource PasswordStyle}" VerticalContentAlignment="Center" />
                                 </StackPanel>
 
                                 <StackPanel Visibility="{Binding SshKeyChecked.Value,  Converter={converter:BoolVisibilityConverter}}">
@@ -140,15 +140,25 @@
                                             <ColumnDefinition Width="25" />
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBox Text="{Binding SshKeyPath.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+                                        <TextBox Text="{Binding SshKeyPath.Value}" VerticalAlignment="Top" Height="22"  VerticalContentAlignment="Center" ContextMenu="{StaticResource CopyCutPaste}" />
                                         <Button Grid.Column="2" Content="..." Style="{StaticResource FlatButton}" Command="{Binding SetKeyPathCommand}" />
                                     </Grid>
 
                                     <Label Content="Pass Phrase" Padding="0" />
-                                    <TextBox Text="{Binding SshPassPhrase.Value}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" Style="{StaticResource PasswordStyle}" />
+                                    <TextBox Text="{Binding SshPassPhrase.Value}" VerticalAlignment="Top" Height="22"  VerticalContentAlignment="Center" ContextMenu="{StaticResource CopyCutPaste}" Style="{StaticResource PasswordStyle}" />
                                 </StackPanel>
                             </StackPanel>
                         </Border>
+                    </Grid>
+
+                    <Grid Margin="0, 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Working Directory" />
+                        <TextBox Grid.Column="1" Text="{Binding WorkingDirectory.Value}" VerticalContentAlignment="Center" />
                     </Grid>
 
                 </StackPanel>
