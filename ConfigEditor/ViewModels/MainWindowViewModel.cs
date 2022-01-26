@@ -147,7 +147,7 @@ namespace ConfigEditor_mvvm.ViewModels
             var vm = new FileSelectorViewModel(new WindowService(), model)
             {
                 Mode = FileSelectorMode.Open,
-                IsNewConnection = true
+                ConnectionInformation = _model.CreateConnectionInformation()
             };
             model.OpenCallbackAction = item =>
             {
@@ -157,6 +157,9 @@ namespace ConfigEditor_mvvm.ViewModels
             };
 
             WindowManageService.ShowDialog<FileSelectorView>(vm);
+
+            if (!vm.IsCancel)
+                _model.SaveConnectionInformation(vm.ConnectionInformation);
         }
 
         public void SaveAsSftp()
@@ -165,7 +168,7 @@ namespace ConfigEditor_mvvm.ViewModels
             var vm = new FileSelectorViewModel(new WindowService(), model)
             {
                 Mode = FileSelectorMode.SaveAs,
-                IsNewConnection = true
+                ConnectionInformation = _model.CreateConnectionInformation()
             };
             model.SaveDataFunction = () =>
             {
@@ -174,6 +177,9 @@ namespace ConfigEditor_mvvm.ViewModels
             };
 
             WindowManageService.ShowDialog<FileSelectorView>(vm);
+
+            if (!vm.IsCancel)
+                _model.SaveConnectionInformation(vm.ConnectionInformation);
         }
 
         public void VersionsList_SelectionChanged()

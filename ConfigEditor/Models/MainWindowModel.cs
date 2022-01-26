@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using SavannahManagerStyleLib.ViewModels.SshFileSelector;
 
 namespace ConfigEditor_mvvm.Models
 {
@@ -446,6 +447,29 @@ namespace ConfigEditor_mvvm.Models
 
             loader.Write();
             IsModified = false;
+        }
+
+        public ConnectionInformation CreateConnectionInformation()
+        {
+            return new ConnectionInformation
+            {
+                Address = SettingLoader.SftpAddress,
+                Port = SettingLoader.SftpPort,
+                IsPassword = SettingLoader.SftpIsPassword,
+                Username = SettingLoader.SftpUserName,
+                KeyPath = SettingLoader.SftpKeyPath,
+                Password = SettingLoader.SftpPassword
+            };
+        }
+
+        public void SaveConnectionInformation(ConnectionInformation information)
+        {
+            SettingLoader.SftpAddress = information.Address;
+            SettingLoader.SftpPort = information.Port;
+            SettingLoader.SftpIsPassword = information.IsPassword;
+            SettingLoader.SftpUserName = information.Username;
+            SettingLoader.SftpPassword = information.Password;
+            SettingLoader.SftpKeyPath = information.KeyPath;
         }
         
         public void OpenFileViaSftp(Stream stream)

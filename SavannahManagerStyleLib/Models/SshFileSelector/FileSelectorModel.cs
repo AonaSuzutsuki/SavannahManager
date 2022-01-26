@@ -78,9 +78,12 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
         #endregion
 
         #region Events
-        
-        #endregion
 
+        private readonly Subject<Exception> _errorOccurred = new();
+        public IObservable<Exception> ErrorOccurred => _errorOccurred;
+
+        #endregion
+        
         public void Open(string address, int port = 22)
         {
             _sftpServerConnector = new SftpServerConnector(address, port);
@@ -88,19 +91,32 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
 
         public async Task Connect(string userName, string password)
         {
-            _sftpServerConnector.SetLoginInformation(userName, password);
-            if (await Task.Factory.StartNew(() => _sftpServerConnector.Connect()))
+            try
             {
-                _pageForwardHistory = new Stack<string>();
-                _pageBackHistory = new Stack<string>();
-                var files = await Task.Factory.StartNew(GetFileList);
-                ResetDirectoryInfo(files);
+                _sftpServerConnector.SetLoginInformation(userName, password);
+                await Connect();
+            }
+            catch (Renci.SshNet.Common.SshException e)
+            {
+                _errorOccurred.OnNext(e);
             }
         }
 
         public async Task Connect(string userName, string passPhrase, string keyPath)
         {
-            _sftpServerConnector.SetLoginInformation(userName, passPhrase, keyPath);
+            try
+            {
+                _sftpServerConnector.SetLoginInformation(userName, passPhrase, keyPath);
+                await Connect();
+            }
+            catch (Renci.SshNet.Common.SshException e)
+            {
+                _errorOccurred.OnNext(e);
+            }
+        }
+
+        private async Task Connect()
+        {
             if (await Task.Factory.StartNew(() => _sftpServerConnector.Connect()))
             {
                 _pageForwardHistory = new Stack<string>();

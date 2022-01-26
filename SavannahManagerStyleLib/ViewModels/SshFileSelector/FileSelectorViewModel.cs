@@ -21,6 +21,17 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
         SaveAs
     }
 
+    public class ConnectionInformation
+    {
+        public string Address { get; set; }
+        public int Port { get; set; }
+        public string Username { get; set; }
+        public bool IsPassword { get; set; }
+        public string Password { get; set; }
+        public string KeyPath { get; set; }
+        public string PassPhrase { get; set; }
+    }
+
     public class FileSelectorViewModel : ViewModelBase
     {
 
@@ -59,6 +70,10 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             }
         }
         public ReactiveProperty<string> SaveContent { get; set; }
+        
+        public ConnectionInformation ConnectionInformation { get; set; }
+
+        public bool IsCancel { get; private set; } = true;
 
         #endregion
 
@@ -73,15 +88,6 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
 
         public ICommand SaveCommand { get; set; }
         public ICommand CancelCommand { get; set; }
-
-        #endregion
-
-        #region Properties
-
-        public bool IsNewConnection { get; set; }
-
-        private readonly Subject<string> _fileDoubleClickedSubject = new();
-        public IObservable<string> FileDoubleClicked => _fileDoubleClickedSubject;
 
         #endregion
 
@@ -105,27 +111,31 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             BackupFileListMouseDoubleClickCommand = new DelegateCommand<SftpFileDetailInfo>(BackupFileListMouseDoubleClick);
             SaveCommand = new DelegateCommand(Save);
             CancelCommand = new DelegateCommand(Cancel);
+
+            model.ErrorOccurred.Subscribe(e =>
+            {
+                WindowManageService.MessageBoxShow(e.Message, "Error", ExMessageBoxBase.MessageType.Hand);
+                WindowManageService.Close();
+            });
         }
 
         protected override void MainWindow_Loaded()
         {
             base.MainWindow_Loaded();
 
-            if (IsNewConnection)
+            OpenConnectionWindow().ContinueWith(t =>
             {
-                OpenConnectionWindow().ContinueWith(t =>
-                {
-                    var result = t.Result;
-                    if (!result)
-                        WindowManageService.Dispatch(WindowManageService.Close);
-                });
-            }
+                var result = t.Result;
+                if (!result)
+                    WindowManageService.Dispatch(WindowManageService.Close);
+            });
         }
 
         private async Task<bool> OpenConnectionWindow()
         {
             var model = new InputConnectionInfoModel();
             var vm = new InputConnectionInfoViewModel(new WindowService(), model);
+            vm.SetConnectionInformation(ConnectionInformation);
             WindowManageService.ShowDialog<InputConnectionInfoView>(vm);
 
             if (vm.IsCancel)
@@ -133,7 +143,7 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
                 return false;
             }
 
-            var item = new
+            ConnectionInformation = new ConnectionInformation
             {
                 Address = vm.Address.Value,
                 Port = vm.Port.Value,
@@ -145,15 +155,15 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             };
 
             IsLoading.Value = true;
-            if (item.IsPassword)
+            if (ConnectionInformation.IsPassword)
             {
-                _model.Open(item.Address, item.Port);
-                await _model.Connect(item.Username, item.Password);
+                _model.Open(ConnectionInformation.Address, ConnectionInformation.Port);
+                await _model.Connect(ConnectionInformation.Username, ConnectionInformation.Password);
             }
             else
             {
-                _model.Open(item.Address, item.Port);
-                await _model.Connect(item.Username, item.PassPhrase, item.KeyPath);
+                _model.Open(ConnectionInformation.Address, ConnectionInformation.Port);
+                await _model.Connect(ConnectionInformation.Username, ConnectionInformation.PassPhrase, ConnectionInformation.KeyPath);
             }
 
             IsLoading.Value = false;
@@ -226,6 +236,7 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
                 _model.DoSaveAction(fullPath);
             }
 
+            IsCancel = false;
             WindowManageService.Close();
         }
 

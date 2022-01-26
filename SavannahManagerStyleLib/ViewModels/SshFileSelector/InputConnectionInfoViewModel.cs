@@ -38,7 +38,7 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
         public InputConnectionInfoViewModel(IWindowService windowService, InputConnectionInfoModel model) : base(windowService, model)
         {
             Address = new ReactiveProperty<string>();
-            Port = new ReactiveProperty<int>(22);
+            Port = new ReactiveProperty<int>();
             Username = new ReactiveProperty<string>();
             SshPasswordChecked = new ReactiveProperty<bool>(true);
             SshKeyChecked = new ReactiveProperty<bool>();
@@ -49,6 +49,25 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             SetKeyPathCommand = new DelegateCommand(SetKeyPath);
             ConnectCommand = new DelegateCommand(Connect);
             CancelCommand = new DelegateCommand(Cancel);
+        }
+
+        public void SetConnectionInformation(ConnectionInformation information)
+        {
+            if (information == null)
+                return;
+
+            Address.Value = information.Address;
+            Port.Value = information.Port;
+            Username.Value = information.Username;
+            SshPassword.Value = information.Password;
+            SshKeyPath.Value = information.KeyPath;
+            SshPassPhrase.Value = information.PassPhrase;
+
+            if (information.IsPassword)
+                SshPasswordChecked.Value = true;
+            else
+                SshKeyChecked.Value = true;
+
         }
 
         private void SetKeyPath()
