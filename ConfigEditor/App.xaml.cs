@@ -31,7 +31,7 @@ namespace ConfigEditor_mvvm
             MessageBox.Show(mes, "予期せぬエラー", MessageBoxButton.OK, MessageBoxImage.Error);
 
             DateTime dt = DateTime.Now;
-            OutToFile(AppInfo.GetAppPath() + @"\configeditor-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
+            OutToFile("configeditor-" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log", mes);
 
             e.Handled = true;
             Shutdown();
@@ -39,13 +39,14 @@ namespace ConfigEditor_mvvm
 
         private void OutToFile(string filename, string text)
         {
-            using (var fs = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
-            {
-                using (var sw = new StreamWriter(fs, System.Text.Encoding.UTF8))
-                {
-                    sw.Write(text);
-                }
-            }
+            var dirName = "errors";
+            var dirInfo = new DirectoryInfo(dirName);
+            if (!dirInfo.Exists)
+                dirInfo.Create();
+
+            using var fs = new FileStream($"{dirInfo.FullName}\\{filename}", FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+            using var sw = new StreamWriter(fs, System.Text.Encoding.UTF8);
+            sw.Write(text);
         }
     }
 }
