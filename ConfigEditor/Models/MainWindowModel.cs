@@ -437,7 +437,17 @@ namespace ConfigEditor_mvvm.Models
                 FilePath = filePath;
             }
 
-            var loader = new ConfigLoader(FilePath, true);
+            using var fs = new FileStream(FilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+
+            var loader = CreateConfigLoader();
+
+            loader.Write(fs);
+            IsModified = false;
+        }
+
+        private ConfigLoader CreateConfigLoader()
+        {
+            var loader = new ConfigLoader();
             foreach (var configListInfo in ConfigList)
             {
                 if (configListInfo.Property.Equals("SaveGameFolder") && string.IsNullOrEmpty(configListInfo.Value))
@@ -445,8 +455,7 @@ namespace ConfigEditor_mvvm.Models
                 loader.AddProperty(configListInfo.Property, configListInfo.Value);
             }
 
-            loader.Write();
-            IsModified = false;
+            return loader;
         }
 
         public ConnectionInformation CreateConnectionInformation()
@@ -463,7 +472,7 @@ namespace ConfigEditor_mvvm.Models
             };
         }
 
-        public void SaveConnectionInformation(ConnectionInformation information)
+        public void SetToSettingLoader(ConnectionInformation information)
         {
             SettingLoader.SftpAddress = information.Address;
             SettingLoader.SftpPort = information.Port;
@@ -486,16 +495,9 @@ namespace ConfigEditor_mvvm.Models
         public MemoryStream CreateConfigXml()
         {
             var stream = new MemoryStream();
-            var configLoader = new ConfigLoader(stream, true);
-            configLoader.Clear();
-            foreach (var configListInfo in ConfigList)
-            {
-                if (configListInfo.Property.Equals("SaveGameFolder") && string.IsNullOrEmpty(configListInfo.Value))
-                    continue;
-                configLoader.AddProperty(configListInfo.Property, configListInfo.Value);
-            }
+            var configLoader = CreateConfigLoader();
 
-            configLoader.Write();
+            configLoader.Write(stream);
             stream.Position = 0;
 
             ResetButtons();

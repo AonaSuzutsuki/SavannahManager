@@ -29,6 +29,7 @@ namespace ConfigEditor_mvvm.Models
         public bool SftpIsPassword { get; set; }
 
         public string SftpKeyPath { get; set; }
+
         public string SftpDefaultWorkingDirectory { get; set; }
 
         #endregion

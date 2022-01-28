@@ -159,7 +159,7 @@ namespace ConfigEditor_mvvm.ViewModels
             WindowManageService.ShowDialog<FileSelectorView>(vm);
 
             if (!vm.IsCancel)
-                _model.SaveConnectionInformation(vm.ConnectionInformation);
+                _model.SetToSettingLoader(vm.ConnectionInformation);
         }
 
         public void SaveAsSftp()
@@ -179,7 +179,7 @@ namespace ConfigEditor_mvvm.ViewModels
             WindowManageService.ShowDialog<FileSelectorView>(vm);
 
             if (!vm.IsCancel)
-                _model.SaveConnectionInformation(vm.ConnectionInformation);
+                _model.SetToSettingLoader(vm.ConnectionInformation);
         }
 
         public void VersionsList_SelectionChanged()
