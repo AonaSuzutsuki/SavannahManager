@@ -100,7 +100,11 @@
                         <Border Width="1" Margin="5,2,5,0" BorderBrush="{DynamicResource BorderWhiteColor}" BorderThickness="1" />
                     </StackPanel>
 
-                    <TextBox Grid.Column="1" Text="{Binding PathText.Value}" />
+                    <TextBox Name="PathTextBox" Grid.Column="1" Text="{Binding PathText.Value}">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding PathTextEnterDownCommand}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
+                        </TextBox.InputBindings>
+                    </TextBox>
                 </Grid>
 
                 <Grid Grid.Row="2">
@@ -117,13 +121,33 @@
                         </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
                                     <Image Source="{Binding ImageSource}" Width="50" Height="50" HorizontalAlignment="Center" />
-                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" />
-                                    <TextBlock Text="{Binding DateString}" FontSize="11px" HorizontalAlignment="Center" Foreground="White" />
-                                </StackPanel>
+                                    <TextBlock Grid.Row="1" Text="{Binding Name}" Visibility="{Binding IsEditMode, Converter={converter:InverseBoolVisibilityConverter}}" Width="Auto" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Foreground="White" />
+                                    <TextBox Grid.Row="1" Text="{Binding Name}" FontSize="11px" Visibility="{Binding IsEditMode, Converter={converter:BoolVisibilityConverter}}"  HorizontalAlignment="Center" TextWrapping="Wrap">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="LostFocus">
+                                                <i:InvokeCommandAction Command="{Binding EditTextBoxLostFocusCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Rename" IsEnabled="{Binding SelectedFileItem.Value, Converter={converter:NullBoolConverter}}" Command="{Binding RenameCommand}" />
+                                <Separator Style="{DynamicResource MLB_Separator}" />
+                                <MenuItem Header="Delete" IsEnabled="{Binding SelectedFileItem.Value, Converter={converter:NullBoolConverter}}" Command="{Binding DeleteCommand}" />
+                                <MenuItem Header="Create Directory" Command="{Binding MakeDirectoryCommand}" />
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">

@@ -11,5 +11,12 @@ namespace SavannahManagerStyleLib.Views.SshFileSelector
         {
             InitializeComponent();
         }
+
+        public void PathTextBoxScrollToEnd()
+        {
+            PathTextBox.CaretIndex = PathTextBox.Text.Length;
+            var rect = PathTextBox.GetRectFromCharacterIndex(PathTextBox.CaretIndex);
+            PathTextBox.ScrollToHorizontalOffset(rect.Right);
+        }
     }
 }

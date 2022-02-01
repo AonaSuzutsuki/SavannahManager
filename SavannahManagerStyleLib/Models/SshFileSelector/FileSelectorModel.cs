@@ -9,24 +9,72 @@ using System.Linq;
 using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media;
+using Prism.Commands;
+using Prism.Mvvm;
 using SavannahManagerStyleLib.Models.Image;
+using SavannahManagerStyleLib.ViewModels.SshFileSelector;
 
 namespace SavannahManagerStyleLib.Models.SshFileSelector
 {
-    public class SftpFileDetailInfo : SftpServerConnector.SftpFileInfo
+    public class SftpFileDetailInfo : BindableBase
     {
+        #region Fields
+        
+        private string _fullPath;
+        private string _name;
+        private bool _isEditMode;
+
+        #endregion
+
+        public Func<SftpFileDetailInfo, Task> LostFocusAction { get; set; }
+
+        public string Parent => Path.GetDirectoryName(FullPath)?.Replace("\\", "/").TrimEnd('/');
+
+        public string FullPath
+        {
+            get => _fullPath;
+            set => SetProperty(ref _fullPath, value);
+        }
+        public bool IsDirectory { get; set; }
+
         public ImageSource ImageSource { get; set; }
-        public string Name { get; set; }
+
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
         public string DateString { get; set; }
+
+        public bool IsEditMode
+        {
+            get => _isEditMode;
+            set => SetProperty(ref _isEditMode, value);
+        }
+
+        public ICommand EditTextBoxLostFocusCommand { get; set; }
+
+        public SftpFileDetailInfo()
+        {
+            EditTextBoxLostFocusCommand = new DelegateCommand(EditTextBoxLostFocus);
+        }
+
+        public void EditTextBoxLostFocus()
+        {
+            LostFocusAction?.Invoke(this);
+        }
     }
 
     public class SftpOpenStreamItem
     {
+        public string FullPath { get; set; }
         public Stream Stream { get; }
 
-        public SftpOpenStreamItem(Stream stream)
+        public SftpOpenStreamItem(Stream stream, string fullPath)
         {
+            FullPath = fullPath;
             Stream = stream;
         }
     }
@@ -48,8 +96,12 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
 
         #region Properties
 
+        public HashSet<string> TargetExtensions { get; set; }
+
+        public bool IsOpenStream { get; set; } = true;
         public Action<SftpOpenStreamItem> OpenCallbackAction { get; set; }
         public Func<byte[]> SaveDataFunction { get; set; }
+        public FileDirectoryMode DirectoryMode { get; set; } = FileDirectoryMode.File;
 
         public bool CanGoBack
         {
@@ -82,8 +134,11 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
         private readonly Subject<Exception> _errorOccurred = new();
         public IObservable<Exception> ErrorOccurred => _errorOccurred;
 
+        private readonly Subject<Exception> _caughtErrorOccurred = new();
+        public IObservable<Exception> CaughtOccurred => _caughtErrorOccurred;
+
         #endregion
-        
+
         public void Open(string address, int port = 22)
         {
             _sftpServerConnector = new SftpServerConnector(address, port);
@@ -126,7 +181,21 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             if (string.IsNullOrEmpty(path))
                 return;
 
-            _sftpServerConnector.ChangeDirectory(path);
+            try
+            {
+                _sftpServerConnector.ChangeDirectory(path);
+            }
+            catch (Renci.SshNet.Common.SftpPathNotFoundException e)
+            {
+                _caughtErrorOccurred.OnNext(e);
+                return;
+            }
+            catch (Renci.SshNet.Common.SftpPermissionDeniedException e)
+            {
+                _caughtErrorOccurred.OnNext(e);
+                return;
+            }
+
             var files = await Task.Factory.StartNew(GetFileList);
             ResetDirectoryInfo(files);
         }
@@ -140,13 +209,60 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
             return ms;
         }
 
+        public void MakeDirectory()
+        {
+            FileList.Add(new SftpFileDetailInfo
+            {
+                ImageSource = ImageLoader.LoadFromResource("SavannahManagerStyleLib.Resources.Files.DirectoryIcon.png"),
+                IsDirectory = true,
+                IsEditMode = true,
+                LostFocusAction = async info =>
+                {
+                    if (string.IsNullOrEmpty(info.Name))
+                    {
+                        FileList.Remove(info);
+                        return;
+                    }
+
+                    _sftpServerConnector.MakeDirectory($"{CurrentDirectory}/{info.Name}");
+
+                    var files = await Task.Factory.StartNew(GetFileList);
+                    ResetDirectoryInfo(files);
+                }
+            });
+        }
+
+        public async Task Rename(SftpFileDetailInfo info)
+        {
+            if (_sftpServerConnector is not { IsConnected: true } || info.Parent == null)
+                return;
+
+            var oldPath = $"{info.Parent}/{Path.GetFileName(info.FullPath)?.Replace("\\", "/")}";
+            var newPath = $"{info.Parent}/{info.Name}";
+
+            _sftpServerConnector.Rename(oldPath, newPath);
+
+            info.FullPath = newPath;
+            info.Name = Path.GetFileName(newPath);
+            var files = await Task.Factory.StartNew(GetFileList);
+            ResetDirectoryInfo(files);
+        }
+
+        public async Task Delete(string path)
+        {
+            _sftpServerConnector.Delete(path);
+
+            var files = await Task.Factory.StartNew(GetFileList);
+            ResetDirectoryInfo(files);
+        }
+
         public void DoOpenAction(string path)
         {
             if (OpenCallbackAction == null)
                 return;
 
-            var stream = DownloadFile(path);
-            OpenCallbackAction?.Invoke(new SftpOpenStreamItem(stream));
+            var stream = IsOpenStream ? DownloadFile(path) : null;
+            OpenCallbackAction?.Invoke(new SftpOpenStreamItem(stream, path));
         }
 
         public void DoSaveAction(string path)
@@ -218,22 +334,37 @@ namespace SavannahManagerStyleLib.Models.SshFileSelector
                 var item = new SftpFileDetailInfo
                 {
                     ImageSource = directoryImage,
-                    Path = sftpFileInfo.Path,
+                    FullPath = sftpFileInfo.Path,
                     Name = Path.GetFileName(sftpFileInfo.Path),
-                    IsDirectory = true
+                    IsDirectory = true,
+                    LostFocusAction = async (info) => await Rename(info)
                 };
                 FileList.Add(item);
             }
 
-            foreach (var sftpFileInfo in files.Where(x => !x.IsDirectory && Path.GetExtension(x.Path) == ".xml"))
+            if (DirectoryMode == FileDirectoryMode.File)
             {
-                var item = new SftpFileDetailInfo
+
+                IEnumerable<SftpServerConnector.SftpFileInfo> targetFiles;
+                if (TargetExtensions != null && TargetExtensions.Any())
                 {
-                    ImageSource = fileImage,
-                    Path = sftpFileInfo.Path,
-                    Name = Path.GetFileName(sftpFileInfo.Path)
-                };
-                FileList.Add(item);
+                    targetFiles = files.Where(x => !x.IsDirectory && TargetExtensions.Contains(Path.GetExtension(x.Path)));
+                }
+                else
+                {
+                    targetFiles = files.Where(x => !x.IsDirectory);
+                }
+
+                foreach (var sftpFileInfo in targetFiles)
+                {
+                    var item = new SftpFileDetailInfo
+                    {
+                        ImageSource = fileImage,
+                        FullPath = sftpFileInfo.Path,
+                        Name = Path.GetFileName(sftpFileInfo.Path)
+                    };
+                    FileList.Add(item);
+                }
             }
 
             CurrentDirectory = _sftpServerConnector.WorkingDirectory;
