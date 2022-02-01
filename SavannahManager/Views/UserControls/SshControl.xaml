@@ -67,9 +67,34 @@
             </Border>
 
             <Label Content="7 Days to Die Directory" Padding="0" />
-            <TextBox Text="{Binding SshExeFileDirectory, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="25" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox Text="{Binding SshExeFileDirectory, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+
+                <Button Grid.Column="2" Content="..." Style="{StaticResource FlatButton}" Command="{Binding SetPathFromSftpCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" CommandParameter="7dtdDirectory" />
+
+            </Grid>
+
             <Label Content="Config File Name" Padding="0" />
-            <TextBox Text="{Binding SshConfigFileName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="25" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox Text="{Binding SshConfigFileName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+
+                <Button Grid.Column="2" Content="..." Style="{StaticResource FlatButton}" Command="{Binding SetPathFromSftpCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" CommandParameter="7dtdConfigFileName" />
+
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>

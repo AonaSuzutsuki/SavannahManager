@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +14,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CommonExtensionLib.Extensions;
 using CommonStyleLib.File;
+using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
+using SavannahManagerStyleLib.Extensions;
+using SavannahManagerStyleLib.Models.SshFileSelector;
+using SavannahManagerStyleLib.ViewModels.SshFileSelector;
+using SavannahManagerStyleLib.Views.SshFileSelector;
 
 namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
 {
@@ -24,6 +31,13 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
     /// </summary>
     public partial class SshControl : UserControl
     {
+        #region Fields
+
+        private Window _owner;
+        private WindowService _windowService;
+
+        #endregion
+
         #region Dependency Properties
 
         public static readonly DependencyProperty SshAddressProperty = DependencyProperty.Register(nameof(SshAddress),
@@ -128,7 +142,6 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
 
         #endregion
 
-
         #region Properties
 
         public ReactiveProperty<bool> SshPasswordChecked { get; set; }
@@ -139,6 +152,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
         #region Event Properties
 
         public ICommand SetKeyPathCommand { get; set; }
+        public ICommand SetPathFromSftpCommand { get; set; }
 
         #endregion
 
@@ -152,6 +166,18 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
             SshKeyChecked.PropertyChanged += SshAuthModeChanged;
 
             SetKeyPathCommand = new DelegateCommand(SetKeyPath);
+            SetPathFromSftpCommand = new DelegateCommand<string>(SetPathFromSftp);
+
+            Loaded += (sender, args) =>
+            {
+                if (sender is not SshControl control)
+                    return;
+
+                var w = Window.GetWindow(this);
+                _owner = w;
+
+                _windowService = new WindowService(_owner);
+            };
         }
 
         private void SetKeyPath()
@@ -159,6 +185,61 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
             var path = FileSelector.GetFilePath("", "All files (*.*)|*.*", "", FileSelector.FileSelectorType.Read);
             if (!string.IsNullOrEmpty(path))
                 SshKeyPath = path;
+        }
+
+        private void SetPathFromSftp(string mode)
+        {
+            var directoryMode = FileDirectoryMode.File;
+
+            var model = new FileSelectorModel
+            {
+                IsOpenStream = false
+            };
+
+            if (mode == "7dtdDirectory")
+            {
+                directoryMode = FileDirectoryMode.Directory;
+
+                model.OpenCallbackAction = item =>
+                {
+                    var path = item.FullPath;
+                    SshExeFileDirectory = path.Replace(" ", "\\ ");
+                };
+            }
+            else if (mode == "7dtdConfigFileName")
+            {
+                directoryMode = FileDirectoryMode.File;
+
+                model.TargetExtensions = new HashSet<string>
+                {
+                    ".xml"
+                };
+                model.OpenCallbackAction = item =>
+                {
+                    var path = item.FullPath;
+                    SshConfigFileName = System.IO.Path.GetFileName(path);
+                };
+            }
+
+            model.DirectoryMode = directoryMode;
+
+            var vm = new FileSelectorViewModel(new FileSelectorWindowService(), model)
+            {
+                Mode = FileSelectorMode.Open,
+                ConnectionInformation = new ConnectionInformation
+                {
+                    Address = SshAddress,
+                    Port = SshPort.ToInt(),
+                    IsPassword = SshAuthMode == AuthMode.Password,
+                    DefaultWorkingDirectory = "",
+                    KeyPath = SshKeyPath,
+                    Username = SshUserName,
+                    Password = SshPassword,
+                    PassPhrase = SshPassPhrase
+                }
+            };
+
+            _windowService.ShowDialog<FileSelectorView>(vm);
         }
 
         private static void SshAuthModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
