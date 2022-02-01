@@ -144,7 +144,7 @@ namespace ConfigEditor_mvvm.ViewModels
         public void OpenSftp()
         {
             var model = new FileSelectorModel();
-            var vm = new FileSelectorViewModel(new WindowService(), model)
+            var vm = new FileSelectorViewModel(new FileSelectorWindowService(), model)
             {
                 Mode = FileSelectorMode.Open,
                 ConnectionInformation = _model.CreateConnectionInformation()
@@ -165,7 +165,7 @@ namespace ConfigEditor_mvvm.ViewModels
         public void SaveAsSftp()
         {
             var model = new FileSelectorModel();
-            var vm = new FileSelectorViewModel(new WindowService(), model)
+            var vm = new FileSelectorViewModel(new FileSelectorWindowService(), model)
             {
                 Mode = FileSelectorMode.SaveAs,
                 ConnectionInformation = _model.CreateConnectionInformation()
