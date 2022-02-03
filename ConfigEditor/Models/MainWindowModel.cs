@@ -203,6 +203,7 @@ namespace ConfigEditor_mvvm.Models
                     FilePath = filePath;
                     
                     LoadToConfigList(configLoader);
+                    SaveBtEnabled = true;
                     return;
                 }
             }
