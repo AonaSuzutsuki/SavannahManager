@@ -81,7 +81,7 @@
 
             </Grid>
 
-            <Label Content="Shell Script File Name" />
+            <Label Content="Command" />
 
             <Grid>
                 <Grid.ColumnDefinitions>

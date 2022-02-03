@@ -528,7 +528,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 else
                     sshManager.Connect(SshUserNameText, SshPassPhraseText, SshKeyPathText);
                 sshManager.StartServer($"cd {SshExeFileDirectoryText} " +
-                                       $"&& ./{SshShellScriptFileName} {SshArgument}");
+                                       $"&& {SshShellScriptFileName}" +
+                                       (string.IsNullOrEmpty(SshArgument) ? "" : $" {SshArgument}"));
                 await Task.Delay(500);
             }
             catch (SshAuthenticationException)
