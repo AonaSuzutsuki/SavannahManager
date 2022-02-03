@@ -223,7 +223,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             SshUserName = _iniLoader.GetValue(ServerClassName, "SshUserName", "");
             SshExeFileDirectory = _iniLoader.GetValue(ServerClassName, "SshExeFileDirectory", "");
             SshShellScriptFileName = _iniLoader.GetValue(ServerClassName, "SshShellScriptFileName", "");
-            SshArgument = _iniLoader.GetValue(ServerClassName, "SshArgument", "");
+            SshArgument = _iniLoader.GetValue(ServerClassName, "SshArgument", "-configfile=serverconfig.xml");
             SshAuthMode = _iniLoader.GetValue(ServerClassName, "SshAuthMode", AuthMode.Password.ToInt());
             SshKeyPath = _iniLoader.GetValue(ServerClassName, "SshKeyPath", "");
         }
