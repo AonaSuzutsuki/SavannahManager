@@ -37,7 +37,7 @@ namespace ConfigEditor_mvvm.Models
         public SettingLoader(string fileName)
         {
             _iniLoader = new IniLoader(fileName);
-            if (CheckOldFormat())
+            if (File.Exists(fileName) && CheckOldFormat())
             {
                 LoadOldFormat();
                 File.WriteAllText(fileName, "");

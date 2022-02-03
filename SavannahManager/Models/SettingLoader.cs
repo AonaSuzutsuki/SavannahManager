@@ -110,7 +110,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public SettingLoader(string filename)
         {
             _iniLoader = new IniLoader(filename);
-            if (CheckOldFormat())
+            if (File.Exists(filename) && CheckOldFormat())
             {
                 LoadOldFormat();
                 File.WriteAllText(filename, "");
