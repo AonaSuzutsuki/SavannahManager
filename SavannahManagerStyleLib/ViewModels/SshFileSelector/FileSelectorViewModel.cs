@@ -291,10 +291,7 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             }
             else
             {
-                if (selectedItem == null)
-                    return;
-
-                if (selectedItem.IsDirectory)
+                if (selectedItem is { IsDirectory: true })
                 {
                     _ = _model.ChangeDirectory(selectedItem.FullPath);
                     return;
@@ -302,7 +299,8 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
 
                 if (_mode == FileSelectorMode.Open)
                 {
-                    _model.DoOpenAction(selectedItem.FullPath);
+                    if (selectedItem != null)
+                        _model.DoOpenAction(selectedItem.FullPath);
                 }
                 else
                 {
