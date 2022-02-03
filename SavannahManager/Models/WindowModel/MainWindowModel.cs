@@ -196,7 +196,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         private string _sshUserNameText = string.Empty;
         private string _sshPasswordText = string.Empty;
         private string _sshExeFileDirectoryText;
-        private string _sshConfigFileNameText;
+        private string _sshShellScriptFileName;
+        private string _sshArgument;
         private AuthMode _sshAuthMode;
         private string _sshKeyPathText;
         private string _sshPassPhraseText;
@@ -226,10 +227,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             get => _sshExeFileDirectoryText;
             set => SetProperty(ref _sshExeFileDirectoryText, value);
         }
-        public string SshConfigFileNameText
+
+        public string SshShellScriptFileName
         {
-            get => _sshConfigFileNameText;
-            set => SetProperty(ref _sshConfigFileNameText, value);
+            get => _sshShellScriptFileName;
+            set => SetProperty(ref _sshShellScriptFileName, value);
+        }
+        public string SshArgument
+        {
+            get => _sshArgument;
+            set => SetProperty(ref _sshArgument, value);
         }
 
         public AuthMode SshAuthMode
@@ -357,7 +364,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             SshPortText = Setting.SshPort.ToString();
             SshUserNameText = Setting.SshUserName;
             SshExeFileDirectoryText = Setting.SshExeFileDirectory;
-            SshConfigFileNameText = Setting.SshConfigFileName;
+            SshShellScriptFileName = Setting.SshShellScriptFileName;
+            SshArgument = Setting.SshArgument;
             SshAuthMode = Setting.SshAuthMode.FromInt();
             SshKeyPathText = Setting.SshKeyPath;
 
@@ -398,23 +406,23 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         }
         public void SettingsSave()
         {
-            Setting.Width = (int)width;
-            Setting.Height = (int)height;
-            Setting.Address = _address;
-            Setting.LocalMode = _localMode;
+            Setting.Width = (int)Width;
+            Setting.Height = (int)Height;
+            Setting.Address = Address;
+            Setting.LocalMode = LocalMode;
             Setting.Port = _port;
-            Setting.Password = _password;
+            Setting.Password = Password;
             Setting.IsConsoleLogTextWrapping = IsConsoleLogTextWrapping;
 
-            Setting.SshAddress = _sshAddressText;
-            int.TryParse(_sshPortText, out var sshPort);
-            Setting.SshPort = sshPort;
-            Setting.SshUserName = _sshUserNameText;
-            Setting.SshPassword = _sshPasswordText;
-            Setting.SshExeFileDirectory = _sshExeFileDirectoryText;
-            Setting.SshConfigFileName = _sshConfigFileNameText;
-            Setting.SshAuthMode = _sshAuthMode.ToInt();
-            Setting.SshKeyPath = _sshKeyPathText;
+            Setting.SshAddress = SshAddressText;
+            Setting.SshPort = SshPortText.ToInt();
+            Setting.SshUserName = SshUserNameText;
+            Setting.SshPassword = SshPasswordText;
+            Setting.SshExeFileDirectory = SshExeFileDirectoryText;
+            Setting.SshShellScriptFileName = SshShellScriptFileName;
+            Setting.SshArgument = SshArgument;
+            Setting.SshAuthMode = SshAuthMode.ToInt();
+            Setting.SshKeyPath = SshKeyPathText;
         }
         public void ChangeCulture(string cultureName)
         {
@@ -520,7 +528,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 else
                     sshManager.Connect(SshUserNameText, SshPassPhraseText, SshKeyPathText);
                 sshManager.StartServer($"cd {SshExeFileDirectoryText} " +
-                                       $"&& ./startserver.sh -configfile={SshConfigFileNameText}");
+                                       $"&& ./{SshShellScriptFileName} {SshArgument}");
                 await Task.Delay(500);
             }
             catch (SshAuthenticationException)

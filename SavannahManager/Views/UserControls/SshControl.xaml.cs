@@ -81,7 +81,12 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
             typeof(SshControl),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-        public static readonly DependencyProperty SshConfigFileNameProperty =DependencyProperty.Register(nameof(SshConfigFileName),
+        public static readonly DependencyProperty SshShellScriptFileNameProperty = DependencyProperty.Register(nameof(SshShellScriptFileName),
+            typeof(string),
+            typeof(SshControl),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty SshArgumentProperty =DependencyProperty.Register(nameof(SshArgument),
             typeof(string),
             typeof(SshControl),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -134,10 +139,16 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
             set => SetValue(SshExeFileDirectoryProperty, value);
         }
 
-        public string SshConfigFileName
+        public string SshShellScriptFileName
         {
-            get => (string)GetValue(SshConfigFileNameProperty);
-            set => SetValue(SshConfigFileNameProperty, value);
+            get => (string)GetValue(SshShellScriptFileNameProperty);
+            set => SetValue(SshShellScriptFileNameProperty, value);
+        }
+
+        public string SshArgument
+        {
+            get => (string)GetValue(SshArgumentProperty);
+            set => SetValue(SshArgumentProperty, value);
         }
 
         #endregion
@@ -206,18 +217,18 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
                     SshExeFileDirectory = path.Replace(" ", "\\ ");
                 };
             }
-            else if (mode == "7dtdConfigFileName")
+            else if (mode == "7dtdShellScriptFileName")
             {
                 directoryMode = FileDirectoryMode.File;
 
                 model.TargetExtensions = new HashSet<string>
                 {
-                    ".xml"
+                    ".sh"
                 };
                 model.OpenCallbackAction = item =>
                 {
                     var path = item.FullPath;
-                    SshConfigFileName = System.IO.Path.GetFileName(path);
+                    SshShellScriptFileName = System.IO.Path.GetFileName(path);
                 };
             }
 

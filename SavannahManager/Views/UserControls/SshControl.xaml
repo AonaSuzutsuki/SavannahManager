@@ -7,7 +7,7 @@
              xmlns:converter="clr-namespace:SavannahManagerStyleLib.Views.Converter;assembly=SavannahManagerStyleLib"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:SshControl}"
-             d:DesignHeight="400" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="300">
 
 
     <UserControl.Resources>
@@ -81,7 +81,7 @@
 
             </Grid>
 
-            <Label Content="Config File Name" Padding="0" />
+            <Label Content="Shell Script File Name" />
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -90,11 +90,15 @@
                     <ColumnDefinition Width="25" />
                 </Grid.ColumnDefinitions>
 
-                <TextBox Text="{Binding SshConfigFileName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
+                <TextBox Text="{Binding SshShellScriptFileName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
 
-                <Button Grid.Column="2" Content="..." Style="{StaticResource FlatButton}" Command="{Binding SetPathFromSftpCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" CommandParameter="7dtdConfigFileName" />
+                <Button Grid.Column="2" Content="..." Style="{StaticResource FlatButton}" Command="{Binding SetPathFromSftpCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" CommandParameter="7dtdShellScriptFileName" />
 
             </Grid>
+
+            <Label Content="Arguments" />
+
+            <TextBox Text="{Binding SshArgument, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SshControl}}}" VerticalAlignment="Top" Height="22" ContextMenu="{StaticResource CopyCutPaste}" />
         </StackPanel>
     </Grid>
 </UserControl>

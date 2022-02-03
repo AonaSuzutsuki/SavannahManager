@@ -92,8 +92,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public string SshPassword { get; set; }
 
         public string SshExeFileDirectory { get; set; }
+        public string SshShellScriptFileName { get; set; }
 
-        public string SshConfigFileName { get; set; }
+        public string SshArgument { get; set; }
 
         public int SshAuthMode { get; set; }
 
@@ -221,7 +222,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             SshPort = _iniLoader.GetValue(ServerClassName, "SshPort", 22);
             SshUserName = _iniLoader.GetValue(ServerClassName, "SshUserName", "");
             SshExeFileDirectory = _iniLoader.GetValue(ServerClassName, "SshExeFileDirectory", "");
-            SshConfigFileName = _iniLoader.GetValue(ServerClassName, "SshConfigFileName", "");
+            SshShellScriptFileName = _iniLoader.GetValue(ServerClassName, "SshShellScriptFileName", "");
+            SshArgument = _iniLoader.GetValue(ServerClassName, "SshArgument", "");
             SshAuthMode = _iniLoader.GetValue(ServerClassName, "SshAuthMode", AuthMode.Password.ToInt());
             SshKeyPath = _iniLoader.GetValue(ServerClassName, "SshKeyPath", "");
         }
@@ -303,8 +305,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(ServerClassName, "SshAddress", SshAddress);
             _iniLoader.SetValue(ServerClassName, "SshPort", SshPort);
             _iniLoader.SetValue(ServerClassName, "SshUserName", SshUserName);
+            _iniLoader.SetValue(ServerClassName, "SshShellScriptFileName", SshShellScriptFileName);
             _iniLoader.SetValue(ServerClassName, "SshExeFileDirectory", SshExeFileDirectory);
-            _iniLoader.SetValue(ServerClassName, "SshConfigFileName", SshConfigFileName);
+            _iniLoader.SetValue(ServerClassName, "SshArgument", SshArgument);
             _iniLoader.SetValue(ServerClassName, "SshAuthMode", SshAuthMode);
             _iniLoader.SetValue(ServerClassName, "SshKeyPath", SshKeyPath);
         }
