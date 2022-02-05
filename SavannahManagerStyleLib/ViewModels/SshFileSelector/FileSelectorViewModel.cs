@@ -26,7 +26,6 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
 
         #region Fields
 
-        private readonly FileSelectorWindowService _fileSelectorWindowService;
         private readonly FileSelectorModel _model;
         private FileSelectorMode _mode = FileSelectorMode.Open;
 
@@ -96,7 +95,6 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
                 windowService.PathTextBoxScrollToEnd = view.PathTextBoxScrollToEnd;
             });
 
-            _fileSelectorWindowService = windowService;
             _model = model;
 
             BackBtIsEnabled = model.ObserveProperty(m => m.CanGoBack).ToReactiveProperty().AddTo(CompositeDisposable);
@@ -123,7 +121,7 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
 
             PathText.PropertyChanged += (_, _) =>
             {
-                _fileSelectorWindowService.PathTextBoxScrollToEnd();
+                windowService.PathTextBoxScrollToEnd();
             };
 
             model.ErrorOccurred.Subscribe(e =>
@@ -287,7 +285,17 @@ namespace SavannahManagerStyleLib.ViewModels.SshFileSelector
             var selectedItem = SelectedFileItem.Value;
             if (_model.DirectoryMode == FileDirectoryMode.Directory)
             {
-                _model.DoOpenAction(selectedItem == null ? $"{PathText.Value}/{FileName.Value}" : selectedItem.FullPath);
+                var fullPath = "";
+                if (selectedItem != null)
+                {
+                    fullPath = selectedItem.FullPath;
+                }
+                else
+                {
+                    var parent = Path.GetFileName(PathText.Value.TrimEnd('/'));
+                    fullPath = parent == FileName.Value ? $"{PathText.Value}" : $"{PathText.Value}/{FileName.Value}";
+                }
+                _model.DoOpenAction(fullPath);
             }
             else
             {
