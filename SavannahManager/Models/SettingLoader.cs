@@ -92,6 +92,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public string SshPassword { get; set; }
 
         public string SshExeFileDirectory { get; set; }
+
         public string SshShellScriptFileName { get; set; }
 
         public string SshArgument { get; set; }
@@ -221,8 +222,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             SshAddress = _iniLoader.GetValue(ServerClassName, "SshAddress", "");
             SshPort = _iniLoader.GetValue(ServerClassName, "SshPort", 22);
             SshUserName = _iniLoader.GetValue(ServerClassName, "SshUserName", "");
-            SshExeFileDirectory = _iniLoader.GetValue(ServerClassName, "SshExeFileDirectory", "");
-            SshShellScriptFileName = _iniLoader.GetValue(ServerClassName, "SshShellScriptFileName", "");
+            SshExeFileDirectory = _iniLoader.GetValue(ServerClassName, "SshExeFileDirectory", "~/Steam/steamapps/common/7\\ Days\\ to\\ Die\\ Dedicated\\ Server");
+            SshShellScriptFileName = _iniLoader.GetValue(ServerClassName, "SshShellScriptFileName", "./startserver.sh");
             SshArgument = _iniLoader.GetValue(ServerClassName, "SshArgument", "-configfile=serverconfig.xml");
             SshAuthMode = _iniLoader.GetValue(ServerClassName, "SshAuthMode", AuthMode.Password.ToInt());
             SshKeyPath = _iniLoader.GetValue(ServerClassName, "SshKeyPath", "");
