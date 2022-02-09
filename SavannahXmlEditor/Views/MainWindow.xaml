@@ -64,6 +64,11 @@
                         <MenuItem Header="Save(_S)" Command="{Binding FileSaveBtClick}" />
                         <MenuItem Header="Save As(_A)" Command="{Binding FileSaveAsBtClick}" />
                         <Separator Style="{DynamicResource MLB_Separator}" />
+
+                        <MenuItem Header="Open (SFTP)" Command="{Binding OpenSftpCommand}" />
+                        <MenuItem Header="Save As (SFTP)" Command="{Binding SaveAsSftpCommand}" />
+
+                        <Separator Style="{DynamicResource MLB_Separator}" />
                         <MenuItem Header="Exit(_X)" Command="{Binding MainWindowCloseBtClick}" />
                     </MenuItem>
                 </Menu>
