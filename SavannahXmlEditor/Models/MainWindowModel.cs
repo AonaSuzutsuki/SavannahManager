@@ -216,7 +216,7 @@ namespace _7dtd_XmlEditor.Models
             else
                 InnerXml = info.Node.InnerText;
 
-            IsAttributesEnabled = !(info.Node is SavannahTextNode);
+            IsAttributesEnabled = (info.Node is SavannahTagNode);
         }
 
         public void LostFocus(ViewAttributeInfo info)
@@ -369,6 +369,7 @@ namespace _7dtd_XmlEditor.Models
             TreeViewItems.Clear();
             TreeViewItems.Add(itemInfo);
 
+            _openedFilePath = null;
             IsEdited = false;
         }
 
