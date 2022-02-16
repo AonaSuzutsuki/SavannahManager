@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Xaml.Behaviors;
 using Prism.Commands;
-using _7dtd_XmlEditor.Extensions;
+using SavannahManagerStyleLib.Extensions;
 using _7dtd_XmlEditor.Models.TreeView;
 
 namespace _7dtd_XmlEditor.Views

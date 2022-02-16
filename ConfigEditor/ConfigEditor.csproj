@@ -148,11 +148,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommonStyleLib" Version="1.0.11" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.12" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SavannahManagerLib\SavannahManagerLib.csproj" />
+    <ProjectReference Include="..\SavannahManagerStyleLib\SavannahManagerStyleLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -193,6 +194,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Styles\Window.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -14,6 +14,24 @@
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
         Title="MainWindow" Height="450" Width="800">
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding Closing}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Activated">
+            <i:InvokeCommandAction Command="{Binding Activated}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Deactivated">
+            <i:InvokeCommandAction Command="{Binding Deactivated}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="StateChanged">
+            <i:InvokeCommandAction Command="{Binding StateChanged}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="KeyDown">
+            <commonViews:InvokeDelegateCommandAction Command="{Binding KeyDown}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
                       ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
@@ -61,8 +79,13 @@
                         <MenuItem Header="New(_N)" Command="{Binding FileNewBtClick}" />
                         <MenuItem Header="Open(_O)" Command="{Binding FileOpenBtClick}" />
                         <Separator Style="{DynamicResource MLB_Separator}" />
-                        <MenuItem Header="Save(_S)" Command="{Binding FileSaveBtClick}" />
-                        <MenuItem Header="Save As(_A)" Command="{Binding FileSaveAsBtClick}" />
+                        <MenuItem Header="Save(_S)" IsEnabled="{Binding SaveIsEnabled.Value}" Command="{Binding FileSaveBtClick}" />
+                        <MenuItem Header="Save As(_A)" IsEnabled="{Binding SaveIsEnabled.Value}" Command="{Binding FileSaveAsBtClick}" />
+                        <Separator Style="{DynamicResource MLB_Separator}" />
+
+                        <MenuItem Header="Open (SFTP)" Command="{Binding OpenSftpCommand}" />
+                        <MenuItem Header="Save As (SFTP)" IsEnabled="{Binding SaveIsEnabled.Value}" Command="{Binding SaveAsSftpCommand}" />
+
                         <Separator Style="{DynamicResource MLB_Separator}" />
                         <MenuItem Header="Exit(_X)" Command="{Binding MainWindowCloseBtClick}" />
                     </MenuItem>

@@ -47,6 +47,8 @@ using CommonNavigationControlLib.Navigation.ViewModels;
 using CommonNavigationControlLib.Navigation.Views;
 using _7dtd_svmanager_fix_mvvm.Models.PlayerController.Pages;
 using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController.Pages;
+using SavannahManagerStyleLib.ViewModels.Encryption;
+using SavannahManagerStyleLib.Views.Encryption;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels
 {
@@ -193,7 +195,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             SshUserNameText = model.ToReactivePropertyAsSynchronized(m => m.SshUserNameText).AddTo(CompositeDisposable);
             SshPasswordText = model.ToReactivePropertyAsSynchronized(m => m.SshPasswordText).AddTo(CompositeDisposable);
             SshExeFileDirectoryText = model.ToReactivePropertyAsSynchronized(m => m.SshExeFileDirectoryText).AddTo(CompositeDisposable);
-            SshConfigFileNameText = model.ToReactivePropertyAsSynchronized(m => m.SshConfigFileNameText).AddTo(CompositeDisposable);
+            SshShellScriptFileName = model.ToReactivePropertyAsSynchronized(m => m.SshShellScriptFileName).AddTo(CompositeDisposable);
+            SshArgumentText = model.ToReactivePropertyAsSynchronized(m => m.SshArgument).AddTo(CompositeDisposable);
             SshAuthMode = model.ToReactivePropertyAsSynchronized(m => m.SshAuthMode).AddTo(CompositeDisposable);
             SshKeyPathText = model.ToReactivePropertyAsSynchronized(m => m.SshKeyPathText).AddTo(CompositeDisposable);
             SshPassPhraseText = model.ToReactivePropertyAsSynchronized(m => m.SshPassPhraseText).AddTo(CompositeDisposable);
@@ -351,7 +354,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ReactiveProperty<string> SshUserNameText { get; set; }
         public ReactiveProperty<string> SshPasswordText { get; set; }
         public ReactiveProperty<string> SshExeFileDirectoryText { get; set; }
-        public ReactiveProperty<string> SshConfigFileNameText { get; set; }
+        public ReactiveProperty<string> SshShellScriptFileName { get; set; }
+        public ReactiveProperty<string> SshArgumentText { get; set; }
         public ReactiveProperty<AuthMode> SshAuthMode { get; set; }
         public ReactiveProperty<string> SshKeyPathText { get; set; }
         public ReactiveProperty<string> SshPassPhraseText { get; set; }
@@ -372,7 +376,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
                     const int inputWidth = InputWindowViewModel.DefaultWidth;
                     const int inputHeight = InputWindowViewModel.DefaultHeight;
                     var (left, top) = MainWindowModel.CalculateCenterTop(_model, inputWidth, inputHeight);
-                    var inputViewModel = new InputWindowViewModel(new WindowService(), new InputWindowModel
+                    var inputViewModel = new InputWindowViewModel(new WindowService(), new ModelBase
                     {
                         Width = inputWidth,
                         Height = inputHeight,

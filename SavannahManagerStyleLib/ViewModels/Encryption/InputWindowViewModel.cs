@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
-using _7dtd_svmanager_fix_mvvm.Models.Settings;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 
-namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
+namespace SavannahManagerStyleLib.ViewModels.Encryption
 {
     public class InputWindowViewModel : ViewModelBase
     {
@@ -51,7 +45,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
         #endregion
 
 
-        public InputWindowViewModel(IWindowService windowService, InputWindowModel model) : base(windowService, model)
+        public InputWindowViewModel(IWindowService windowService, ModelBase model) : base(windowService, model)
         {
             InputText = new ReactiveProperty<string>("");
             InputSaltText = new ReactiveProperty<string>("");

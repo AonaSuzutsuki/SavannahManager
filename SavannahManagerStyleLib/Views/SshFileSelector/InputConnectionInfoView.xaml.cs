@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace _7dtd_svmanager_fix_mvvm.Views.Settings
+namespace SavannahManagerStyleLib.Views.SshFileSelector
 {
     /// <summary>
-    /// InputPasswordWindow.xaml の相互作用ロジック
+    /// InputConnectionInfoView.xaml の相互作用ロジック
     /// </summary>
-    public partial class InputWindow : Window
+    public partial class InputConnectionInfoView : Window
     {
-        public InputWindow()
+        public InputConnectionInfoView()
         {
             InitializeComponent();
         }

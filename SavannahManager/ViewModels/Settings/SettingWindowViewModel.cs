@@ -3,11 +3,14 @@ using _7dtd_svmanager_fix_mvvm.Models.Settings;
 using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 using _7dtd_svmanager_fix_mvvm.Views.Settings;
 using CommonStyleLib.ExMessageBox;
+using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using SavannahManagerStyleLib.ViewModels.Encryption;
+using SavannahManagerStyleLib.Views.Encryption;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
 {
@@ -154,7 +157,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
                 const int inputWidth = InputWindowViewModel.DefaultWidth;
                 const int inputHeight = InputWindowViewModel.DefaultHeight;
                 var (left, top) = MainWindowModel.CalculateCenterTop(_model, inputWidth, inputHeight);
-                var inputViewModel = new InputWindowViewModel(new WindowService(), new InputWindowModel
+                var inputViewModel = new InputWindowViewModel(new WindowService(), new ModelBase
                 {
                     Width = inputWidth,
                     Height = inputHeight,
