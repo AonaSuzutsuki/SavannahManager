@@ -10,9 +10,9 @@
     <Authors>Aona Suzutsuki</Authors>
     <Company>Kimama Lab.</Company>
     <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2022</Copyright>
-    <AssemblyVersion>2.5.47.3</AssemblyVersion>
-    <FileVersion>2.5.47.3</FileVersion>
-    <Version>2.5.47.3</Version>
+    <AssemblyVersion>2.5.48.4</AssemblyVersion>
+    <FileVersion>2.5.48.4</FileVersion>
+    <Version>2.5.48.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,17 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Images\Backup\DirectoryIcon.png" />
-    <EmbeddedResource Include="Images\Backup\FileIcon.png" />
-    <EmbeddedResource Include="Images\Backup\no-image.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="BackupLib" Version="1.0.6" />
     <PackageReference Include="CommonCoreLib" Version="1.0.4" />
     <PackageReference Include="CommonExtensionLib" Version="1.0.5" />
     <PackageReference Include="CommonNavigationControlLib" Version="1.0.5" />
-    <PackageReference Include="CommonStyleLib" Version="1.0.10" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.12" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="SavannahXmlLib" Version="1.0.5" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
@@ -48,6 +42,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SavannahManagerLib\SavannahManagerLib.csproj" />
+    <ProjectReference Include="..\SavannahManagerStyleLib\SavannahManagerStyleLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

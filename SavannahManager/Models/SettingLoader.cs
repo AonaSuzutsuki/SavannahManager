@@ -5,11 +5,12 @@ using _7dtd_svmanager_fix_mvvm.LangResources;
 using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonCoreLib.CommonPath;
 using CommonCoreLib.Ini;
+using SavannahManagerStyleLib.Models;
 using SvManagerLibrary.Crypto;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
-    public sealed class SettingLoader : IDisposable
+    public sealed class SettingLoader : AbstractSettingLoader, IDisposable
     {
 
         private const string MainClassName = "Main";
@@ -92,7 +93,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public string SshExeFileDirectory { get; set; }
 
-        public string SshConfigFileName { get; set; }
+        public string SshShellScriptFileName { get; set; }
+
+        public string SshArgument { get; set; }
 
         public int SshAuthMode { get; set; }
 
@@ -109,7 +112,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public SettingLoader(string filename)
         {
             _iniLoader = new IniLoader(filename);
-            if (CheckOldFormat())
+            if (File.Exists(filename) && CheckOldFormat())
             {
                 LoadOldFormat();
                 File.WriteAllText(filename, "");
@@ -122,7 +125,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private bool CheckOldFormat()
         {
-            var value = _iniLoader.GetValue(MainClassName, "Version", "1.1");
+            var value = _iniLoader.GetValue(MainClassName, "Version", "1.0");
             return value == "1.0";
         }
 
@@ -162,7 +165,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             IsConsoleLogTextWrapping = _iniLoader.GetValue("MAIN", "CONSOLETEXTWRAPPING", false);
         }
 
-        private void Load()
+        protected override void Load()
         {
             IsEncryptPassword = _iniLoader.GetValue(MainClassName, "IsEncryptPassword", false);
             if (!IsEncryptPassword)
@@ -219,8 +222,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             SshAddress = _iniLoader.GetValue(ServerClassName, "SshAddress", "");
             SshPort = _iniLoader.GetValue(ServerClassName, "SshPort", 22);
             SshUserName = _iniLoader.GetValue(ServerClassName, "SshUserName", "");
-            SshExeFileDirectory = _iniLoader.GetValue(ServerClassName, "SshExeFileDirectory", "");
-            SshConfigFileName = _iniLoader.GetValue(ServerClassName, "SshConfigFileName", "");
+            SshExeFileDirectory = _iniLoader.GetValue(ServerClassName, "SshExeFileDirectory", "~/Steam/steamapps/common/7\\ Days\\ to\\ Die\\ Dedicated\\ Server");
+            SshShellScriptFileName = _iniLoader.GetValue(ServerClassName, "SshShellScriptFileName", "./startserver.sh");
+            SshArgument = _iniLoader.GetValue(ServerClassName, "SshArgument", "-configfile=serverconfig.xml");
             SshAuthMode = _iniLoader.GetValue(ServerClassName, "SshAuthMode", AuthMode.Password.ToInt());
             SshKeyPath = _iniLoader.GetValue(ServerClassName, "SshKeyPath", "");
         }
@@ -255,7 +259,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             ResourceService.Current.ChangeCulture(CultureName);
         }
 
-        public void Save()
+        public override void Save()
         {
             _iniLoader.SetValue(MainClassName, "Version", "1.1");
 
@@ -302,8 +306,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(ServerClassName, "SshAddress", SshAddress);
             _iniLoader.SetValue(ServerClassName, "SshPort", SshPort);
             _iniLoader.SetValue(ServerClassName, "SshUserName", SshUserName);
+            _iniLoader.SetValue(ServerClassName, "SshShellScriptFileName", SshShellScriptFileName);
             _iniLoader.SetValue(ServerClassName, "SshExeFileDirectory", SshExeFileDirectory);
-            _iniLoader.SetValue(ServerClassName, "SshConfigFileName", SshConfigFileName);
+            _iniLoader.SetValue(ServerClassName, "SshArgument", SshArgument);
             _iniLoader.SetValue(ServerClassName, "SshAuthMode", SshAuthMode);
             _iniLoader.SetValue(ServerClassName, "SshKeyPath", SshKeyPath);
         }

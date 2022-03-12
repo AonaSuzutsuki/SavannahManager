@@ -64,6 +64,8 @@ namespace SvManagerLibrary.Ssh
 
         #region Properties
 
+        public bool IsConnected => _sftpClient.IsConnected;
+
         public string WorkingDirectory => _sftpClient.WorkingDirectory;
 
         #endregion
@@ -81,6 +83,37 @@ namespace SvManagerLibrary.Ssh
             _sftpClient.Connect();
 
             return _sftpClient.IsConnected;
+        }
+
+        public void Download(string path, Stream outStream, Action<ulong> callback = null)
+        {
+            _sftpClient.DownloadFile(path, outStream, callback);
+        }
+
+        public void Upload(string path, Stream inStream, Action<ulong> callback = null)
+        {
+            _sftpClient.UploadFile(inStream, path, callback);
+        }
+
+        public void Rename(string oldPath, string newPath)
+        {
+            if (oldPath == newPath)
+                return;
+
+            _sftpClient.RenameFile(oldPath, newPath);
+        }
+
+        public void Delete(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return;
+            
+            _sftpClient.Delete(path);
+        }
+
+        public void MakeDirectory(string path)
+        {
+            _sftpClient.CreateDirectory(path);
         }
 
         public IEnumerable<SftpFileInfo> GetItems()

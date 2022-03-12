@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace _7dtd_XmlEditor.Extensions
+namespace SavannahManagerStyleLib.Extensions
 {
     public static class DependencyObjectExtensions
     {
@@ -18,6 +16,20 @@ namespace _7dtd_XmlEditor.Extensions
                 null => default,
                 T ret => ret,
                 _ => parent.GetParent<T>()
+            };
+        }
+
+        public static T GetParentNonVisualTreeHelper<T>(this DependencyObject obj)
+        {
+            if (obj is not FrameworkElement element)
+                return default;
+
+            var parent = element.Parent;
+            return parent switch
+            {
+                null => default,
+                T ret => ret,
+                _ => parent.GetParentNonVisualTreeHelper<T>()
             };
         }
 

@@ -1,22 +1,18 @@
-﻿using System;
-using System.ComponentModel;
-using CommonCoreLib.Ini;
+﻿using CommonCoreLib.Ini;
 using SavannahManagerStyleLib.Models;
-using System.IO;
 
-namespace ConfigEditor_mvvm.Models
+namespace _7dtd_XmlEditor.Models
 {
     public sealed class SettingLoader : AbstractSettingLoader
     {
         private const string MainClassName = "Main";
         private const string SftpClassName = "Sftp";
-        public const string DirectoryPath = @"C:\";
 
         private readonly IniLoader _iniLoader;
 
         #region Properties
 
-        public string OpenDirectoryPath { get; set; } = DirectoryPath;
+        public string OpenDirectoryPath { get; set; }
 
         public string SftpAddress { get; set; }
 
@@ -37,31 +33,12 @@ namespace ConfigEditor_mvvm.Models
         public SettingLoader(string fileName)
         {
             _iniLoader = new IniLoader(fileName);
-            if (File.Exists(fileName) && CheckOldFormat())
-            {
-                LoadOldFormat();
-                File.WriteAllText(fileName, "");
-            }
-            else
-            {
-                Load();
-            }
-        }
-
-        private bool CheckOldFormat()
-        {
-            var value = _iniLoader.GetValue(MainClassName, "Version", "1.0");
-            return value == "1.0";
-        }
-
-        private void LoadOldFormat()
-        {
-            OpenDirectoryPath = _iniLoader.GetValue("CONFIGEDITOR", "DIRPATH", DirectoryPath);
+            Load();
         }
 
         protected override void Load()
         {
-            OpenDirectoryPath = _iniLoader.GetValue(MainClassName, "DirectoryPath", DirectoryPath);
+            OpenDirectoryPath = _iniLoader.GetValue(MainClassName, "DirectoryPath", "C:\\");
 
             SftpAddress = _iniLoader.GetValue(SftpClassName, nameof(SftpAddress), string.Empty);
             SftpPort = _iniLoader.GetValue(SftpClassName, nameof(SftpPort), 22);

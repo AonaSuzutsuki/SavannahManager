@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using CommonStyleLib.Models;
 
-namespace _7dtd_svmanager_fix_mvvm.Models.Settings
+namespace SavannahManagerStyleLib.Models.SshFileSelector
 {
-    public class InputWindowModel : ModelBase
+    public class InputConnectionInfoModel : ModelBase
     {
     }
 }
