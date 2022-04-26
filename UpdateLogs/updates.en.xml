@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.5.49.5">
+    1. Fixed a problem in the Permission Editor calendar where single-digit hours are included and the values disappear when the calendar is reopened.
+  </update>
   <update version="2.5.48.4">
     1. SFTP read/write support in ConfigEditor and XmlEditor.
     2. SSH startup options have been changed so that Undead Legacy and others can be started.

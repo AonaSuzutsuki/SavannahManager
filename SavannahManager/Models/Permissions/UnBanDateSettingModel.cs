@@ -38,7 +38,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Permissions
         public string ConvertToString()
         {
             //2035-12-31 23:59:59
-            return $"{SelectedDate?.ToString("yyyy-MM-dd")} {HourText}:{MinuteText}:{SecondText}";
+            return $"{SelectedDate?.ToString("yyyy-MM-dd")} {HourText:D2}:{MinuteText:D2}:{SecondText:D2}";
         }
 
         public static DateTime? ConvertStringToDateTime(string text)
