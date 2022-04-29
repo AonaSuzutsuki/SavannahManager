@@ -11,6 +11,7 @@ using CommonCoreLib;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.File;
 using CommonStyleLib.Models;
+using SavannahManagerStyleLib.ViewModels.SshFileSelector;
 using SavannahXmlLib.XmlWrapper;
 using SavannahXmlLib.XmlWrapper.Nodes;
 
@@ -48,6 +49,8 @@ namespace _7dtd_XmlEditor.Models
         #endregion
 
         #region Properties
+
+        public SettingLoader SettingLoader { get; }
 
         public string IsEditedTitle
         {
@@ -121,6 +124,11 @@ namespace _7dtd_XmlEditor.Models
         }
         #endregion
 
+        public MainWindowModel()
+        {
+            SettingLoader = new SettingLoader(ConstantValues.SettingFilePath);
+        }
+
         public void NewFile()
         {
             TreeViewItems.Clear();
@@ -130,20 +138,20 @@ namespace _7dtd_XmlEditor.Models
             IsEdited = false;
 
             _declaration = SavannahXmlConstants.Utf8Declaration;
-            _root = new TreeViewItemInfo(new SavannahTagNode { TagName = "root" }, this)
+            var root = new TreeViewItemInfo(new SavannahTagNode { TagName = "root" }, this)
             {
                 IsRoot = true
             };
-            TreeViewItems.Add(_root);
+            _root = root;
+            TreeViewItems.Add(root);
         }
 
-        public void OpenFile()
+        public void OpenFile(string filePath)
         {
-            var filePath = FileSelector.GetFilePath(AppInfo.GetAppPath(), "XML Files(*.xml)|*.xml|All Files(*.*)|*.*"
-                , "", FileSelector.FileSelectorType.Read);
             if (!string.IsNullOrEmpty(filePath))
             {
-                var (dec, itemInfo) = OpenFile(filePath, this);
+                using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                var (dec, itemInfo) = OpenFile(fileStream, this);
                 _declaration = dec;
                 _root = itemInfo;
                 TreeViewItems.Clear();
@@ -154,11 +162,11 @@ namespace _7dtd_XmlEditor.Models
             _openedFilePath = filePath;
         }
 
-        public void Save()
+        public void Save(Action saveAsAction)
         {
             if (string.IsNullOrEmpty(_openedFilePath))
             {
-                SaveAs();
+                saveAsAction?.Invoke();
             }
             else
             {
@@ -171,11 +179,8 @@ namespace _7dtd_XmlEditor.Models
             IsEdited = false;
         }
 
-        public void SaveAs()
+        public void SaveAs(string filePath)
         {
-            var filePath = FileSelector.GetFilePath(AppInfo.GetAppPath(), "XML Files(*.xml)|*.xml|All Files(*.*)|*.*",
-                "", FileSelector.FileSelectorType.Write);
-
             if (!string.IsNullOrEmpty(filePath))
                 SaveFile(filePath, _declaration, _root.Node);
             _openedFilePath = filePath;
@@ -211,7 +216,7 @@ namespace _7dtd_XmlEditor.Models
             else
                 InnerXml = info.Node.InnerText;
 
-            IsAttributesEnabled = !(info.Node is SavannahTextNode);
+            IsAttributesEnabled = (info.Node is SavannahTagNode);
         }
 
         public void LostFocus(ViewAttributeInfo info)
@@ -356,7 +361,55 @@ namespace _7dtd_XmlEditor.Models
             //SelectionChange();
         }
 
-        
+        public void OpenFileViaSftp(Stream stream)
+        {
+            var (dec, itemInfo) = OpenFile(stream, this);
+            _declaration = dec;
+            _root = itemInfo;
+            TreeViewItems.Clear();
+            TreeViewItems.Add(itemInfo);
+
+            _openedFilePath = null;
+            IsEdited = false;
+        }
+
+        public MemoryStream CreateXml()
+        {
+            var ms = new MemoryStream();
+            SaveFile(ms, _declaration, _root.Node);
+            ms.Position = 0;
+            return ms;
+        }
+
+        public ConnectionInformation CreateConnectionInformation()
+        {
+            return new ConnectionInformation
+            {
+                Address = SettingLoader.SftpAddress,
+                Port = SettingLoader.SftpPort,
+                IsPassword = SettingLoader.SftpIsPassword,
+                Username = SettingLoader.SftpUserName,
+                KeyPath = SettingLoader.SftpKeyPath,
+                Password = SettingLoader.SftpPassword,
+                DefaultWorkingDirectory = SettingLoader.SftpDefaultWorkingDirectory
+            };
+        }
+
+        public void SetToSettingLoader(ConnectionInformation information)
+        {
+            SettingLoader.SftpAddress = information.Address;
+            SettingLoader.SftpPort = information.Port;
+            SettingLoader.SftpIsPassword = information.IsPassword;
+            SettingLoader.SftpUserName = information.Username;
+            SettingLoader.SftpPassword = information.Password;
+            SettingLoader.SftpKeyPath = information.KeyPath;
+            SettingLoader.SftpDefaultWorkingDirectory = information.DefaultWorkingDirectory;
+        }
+
+        public void SaveSettings()
+        {
+            SettingLoader.Save();
+        }
 
         private TreeViewItemInfo GetSelectedInfo(TreeViewItemInfo info)
         {
@@ -386,9 +439,9 @@ namespace _7dtd_XmlEditor.Models
             return null;
         }
 
-        private static (string declaration, TreeViewItemInfo root) OpenFile(string filePath, IEditedModel editedModel)
+        private static (string declaration, TreeViewItemInfo root) OpenFile(Stream stream, IEditedModel editedModel)
         {
-            var reader = new SavannahXmlReader(filePath, false);
+            var reader = new SavannahXmlReader(stream, false);
             var declaration = reader.Declaration;
             var root = new TreeViewItemInfo(reader.GetAllNodes(), editedModel)
             {
@@ -409,6 +462,19 @@ namespace _7dtd_XmlEditor.Models
             };
             Console.WriteLine(node.InnerXml);
             writer.Write(filePath, tagNode);
+        }
+
+        private static void SaveFile(Stream stream, string declaration, AbstractSavannahXmlNode node)
+        {
+            if (!(node is SavannahTagNode tagNode))
+                return;
+
+            var writer = new SavannahXmlWriter(declaration)
+            {
+                IgnoreComments = false
+            };
+            Console.WriteLine(node.InnerXml);
+            writer.Write(stream, tagNode);
         }
     }
 }

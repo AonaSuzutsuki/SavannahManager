@@ -11,7 +11,6 @@ namespace SvManagerLibrary.Config
     /// </summary>
     public class ConfigLoader
     {
-        private readonly string _fileName;
         private SavannahXmlReader _reader;
 
         private readonly Dictionary<string, ConfigInfo> _configs = new Dictionary<string, ConfigInfo>();
@@ -21,19 +20,24 @@ namespace SvManagerLibrary.Config
         /// </summary>
         /// <param name="path">A filepath to be loaded or created.</param>
         /// <param name="newFile">Whether to create a new file.</param>
-        public ConfigLoader(string path, bool newFile = false)
+        public ConfigLoader(string path)
         {
-            _fileName = path;
-            if (!newFile)
-            {
-                Load();
-            }
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+            Load(fs);
         }
 
-        private void Load()
+        public ConfigLoader(Stream stream)
         {
-            using var fs = new FileStream(_fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-            _reader = new SavannahXmlReader(fs);
+            Load(stream);
+        }
+
+        public ConfigLoader()
+        {
+        }
+
+        private void Load(Stream stream)
+        {
+            _reader = new SavannahXmlReader(stream);
             var names = _reader.GetAttributes("name", "ServerSettings/property").ToList();
             var values = _reader.GetAttributes("value", "ServerSettings/property").ToList();
 
@@ -140,10 +144,9 @@ namespace SvManagerLibrary.Config
         /// <summary>
         /// Write config to saved path.
         /// </summary>
-        public void Write()
+        public void Write(Stream stream)
         {
-            using var fs = new FileStream(_fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
-            Write(fs, _configs);
+            Write(stream, _configs);
         }
 
 

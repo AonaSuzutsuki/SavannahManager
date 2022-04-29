@@ -14,6 +14,7 @@ namespace SvManagerLibrary.Telnet
     public class LogStream : Stream, IDisposable
     {
         private FileStream _fs;
+        private string _dirPath;
 
         public override bool CanRead => _fs.CanRead;
         public override bool CanSeek => _fs.CanSeek;
@@ -37,12 +38,17 @@ namespace SvManagerLibrary.Telnet
 
         public LogStream(string dirPath)
         {
+            _dirPath = dirPath;
+        }
+
+        public void Start()
+        {
             var di = new DirectoryInfo(AppInfo.GetAppPath() + @"\logs");
             if (!di.Exists)
                 di.Create();
             var dt = DateTime.Now;
 
-            _fs = new FileStream(dirPath + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log",
+            _fs = new FileStream(_dirPath + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log",
                 FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
         }
 

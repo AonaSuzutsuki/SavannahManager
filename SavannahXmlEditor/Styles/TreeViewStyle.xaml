@@ -12,7 +12,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <Border BorderThickness="1" BorderBrush="Gray">
-                        <ScrollViewer Style="{StaticResource CustomScrollViewer}">
+                        <ScrollViewer Style="{DynamicResource CustomScrollViewer}">
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>

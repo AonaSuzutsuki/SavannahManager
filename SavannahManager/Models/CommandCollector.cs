@@ -19,6 +19,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _current = _commands.Last;
         }
 
+        public void Reset()
+        {
+            _current = _commands.Last;
+        }
+
         public void AddCommand(string cmd)
         {
             if (_commands.Count > MaxSaved)

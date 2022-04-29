@@ -6,7 +6,9 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:app="clr-namespace:ConfigEditor_mvvm.LangResources"
+        xmlns:viewModels="clr-namespace:ConfigEditor_mvvm.ViewModels"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True" ResizeMode="CanResize"
@@ -82,6 +84,11 @@
                         <MenuItem Name="OpenBt" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_OpenBT, Mode=OneWay}" Command="{Binding OpenBtClicked}" />
                         <MenuItem Name="SaveAsBt" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_SaveAsBT, Mode=OneWay}" Command="{Binding SaveAsBtClicked}" />
                         <MenuItem Name="SaveBt" Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_SaveBT, Mode=OneWay}" IsEnabled="{Binding SaveBtEnabled.Value}" Command="{Binding SaveBtClicked}" />
+
+                        <Separator Style="{DynamicResource MLB_Separator}" />
+
+                        <MenuItem Header="Open (SFTP)" Command="{Binding OpenSftpCommand}" />
+                        <MenuItem Header="Save As (SFTP)" Command="{Binding SaveAsSftpCommand}" />
 
                         <Separator Style="{DynamicResource MLB_Separator}" />
 

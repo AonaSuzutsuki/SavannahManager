@@ -181,7 +181,7 @@
   </property>
   <property name="BedrollExpiryTime" value="45" selection="" type="">
     ベッドロールが最終オンラインから何日で無効化されるかどうか。
-	ゲーム内時間なのかリアル時間なのかは不明
+    ゲーム内時間なのかリアル時間なのかは不明
   </property>
   <property name="MaxSpawnedZombies" value="64" selection="" type="integer">
     ゾンビの最大湧き数。

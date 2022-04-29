@@ -196,7 +196,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         private string _sshUserNameText = string.Empty;
         private string _sshPasswordText = string.Empty;
         private string _sshExeFileDirectoryText;
-        private string _sshConfigFileNameText;
+        private string _sshShellScriptFileName;
+        private string _sshArgument;
         private AuthMode _sshAuthMode;
         private string _sshKeyPathText;
         private string _sshPassPhraseText;
@@ -226,10 +227,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             get => _sshExeFileDirectoryText;
             set => SetProperty(ref _sshExeFileDirectoryText, value);
         }
-        public string SshConfigFileNameText
+
+        public string SshShellScriptFileName
         {
-            get => _sshConfigFileNameText;
-            set => SetProperty(ref _sshConfigFileNameText, value);
+            get => _sshShellScriptFileName;
+            set => SetProperty(ref _sshShellScriptFileName, value);
+        }
+        public string SshArgument
+        {
+            get => _sshArgument;
+            set => SetProperty(ref _sshArgument, value);
         }
 
         public AuthMode SshAuthMode
@@ -259,7 +266,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             get => _isConnected && RowConnected;
             set => _isConnected = value;
         }
-        private bool RowConnected => Telnet != null && Telnet.Connected;
+        private bool RowConnected => LockFunction(telnet => telnet != null && telnet.Connected);
 
         public bool AutoRestartEnabled { get; set; }
 
@@ -357,7 +364,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             SshPortText = Setting.SshPort.ToString();
             SshUserNameText = Setting.SshUserName;
             SshExeFileDirectoryText = Setting.SshExeFileDirectory;
-            SshConfigFileNameText = Setting.SshConfigFileName;
+            SshShellScriptFileName = Setting.SshShellScriptFileName;
+            SshArgument = Setting.SshArgument;
             SshAuthMode = Setting.SshAuthMode.FromInt();
             SshKeyPathText = Setting.SshKeyPath;
 
@@ -398,23 +406,23 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         }
         public void SettingsSave()
         {
-            Setting.Width = (int)width;
-            Setting.Height = (int)height;
-            Setting.Address = _address;
-            Setting.LocalMode = _localMode;
+            Setting.Width = (int)Width;
+            Setting.Height = (int)Height;
+            Setting.Address = Address;
+            Setting.LocalMode = LocalMode;
             Setting.Port = _port;
-            Setting.Password = _password;
+            Setting.Password = Password;
             Setting.IsConsoleLogTextWrapping = IsConsoleLogTextWrapping;
 
-            Setting.SshAddress = _sshAddressText;
-            int.TryParse(_sshPortText, out var sshPort);
-            Setting.SshPort = sshPort;
-            Setting.SshUserName = _sshUserNameText;
-            Setting.SshPassword = _sshPasswordText;
-            Setting.SshExeFileDirectory = _sshExeFileDirectoryText;
-            Setting.SshConfigFileName = _sshConfigFileNameText;
-            Setting.SshAuthMode = _sshAuthMode.ToInt();
-            Setting.SshKeyPath = _sshKeyPathText;
+            Setting.SshAddress = SshAddressText;
+            Setting.SshPort = SshPortText.ToInt();
+            Setting.SshUserName = SshUserNameText;
+            Setting.SshPassword = SshPasswordText;
+            Setting.SshExeFileDirectory = SshExeFileDirectoryText;
+            Setting.SshShellScriptFileName = SshShellScriptFileName;
+            Setting.SshArgument = SshArgument;
+            Setting.SshAuthMode = SshAuthMode.ToInt();
+            Setting.SshKeyPath = SshKeyPathText;
         }
         public void ChangeCulture(string cultureName)
         {
@@ -520,7 +528,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 else
                     sshManager.Connect(SshUserNameText, SshPassPhraseText, SshKeyPathText);
                 sshManager.StartServer($"cd {SshExeFileDirectoryText} " +
-                                       $"&& ./startserver.sh -configfile={SshConfigFileNameText}");
+                                       $"&& {SshShellScriptFileName}" +
+                                       (string.IsNullOrEmpty(SshArgument) ? "" : $" {SshArgument}"));
                 await Task.Delay(500);
             }
             catch (SshAuthenticationException)
@@ -567,7 +576,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                         break;
                     }
 
-                    if (Telnet.Connect(address, port))
+                    if (LockFunction(telnet => telnet.Connect(address, port)))
                     {
                         IsConnected = true;
                         IsTelnetLoading = false;
@@ -579,7 +588,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                         BottomNewsLabel = Resources.UI_FinishedLaunching;
                         SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor);
 
-                        Telnet.Write(TelnetClient.Cr);
+                        LockAction(telnet => telnet.Write(TelnetClient.Cr));
                         AppendConsoleLog(SocTelnetSend(password));
 
                         break;
@@ -588,6 +597,24 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                     Thread.Sleep(2000);
                 }
             });
+        }
+
+        private void LockAction(Action<TelnetClient> action)
+        {
+            if (Telnet == null) return;
+            lock (Telnet)
+            {
+                action(Telnet);
+            }
+        }
+
+        private T LockFunction<T>(Func<TelnetClient, T> func)
+        {
+            if (Telnet == null) return default;
+            lock (Telnet)
+            {
+                return func(Telnet);
+            }
         }
 
         public bool ServerStop()
@@ -749,7 +776,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             StartBtEnabled = false;
             TelnetBtIsEnabled = false;
             Telnet = GenerateTelnetClient(this);
-            var connected = await Task.Factory.StartNew(() => Telnet.Connect(localAddress, localPort));
+            var connected = await Task.Factory.StartNew(() => LockFunction(telnet => telnet.Connect(localAddress, localPort)));
             TelnetBtIsEnabled = true;
             StartBtEnabled = true;
 
@@ -762,7 +789,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 StartBtEnabled = false;
 
                 IsConnected = true;
-                Telnet.Write(TelnetClient.Cr);
+                LockAction(telnet => telnet.Write(TelnetClient.Cr));
                 AppendConsoleLog(SocTelnetSend(localPassword));
             }
             else
@@ -821,9 +848,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             ConnectionPanelIsEnabled = !LocalMode;
             LocalModeEnabled = true;
             StartBtEnabled = true;
-            
-            Telnet?.Dispose();
-            Telnet = null;
+
+            if (Telnet != null)
+            {
+                lock (Telnet)
+                {
+                    Telnet?.Dispose();
+                    Telnet = null;
+                }
+            }
         }
 
         public string GetChatText(string text)
@@ -837,7 +870,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         public void SendChat(string text, Action act)
         {
             if (CheckConnected())
-                Chat.SendChat(Telnet, text);
+            {
+                LockAction(telnet => Chat.SendChat(telnet, text));
+            }
             act();
         }
 
@@ -851,7 +886,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             _connectedIds.Clear();
             PlayerClean();
-            var playerInfoArray = Player.GetPlayerInfoList(Telnet);
+            var playerInfoArray = LockFunction(Player.GetPlayerInfoList);
             foreach (var uDetail in playerInfoArray)
                 AddUser(uDetail);
         }
@@ -923,7 +958,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             if (!CheckConnected())
                 return;
 
-            var timeInfo = Time.GetTimeFromTelnet(Telnet);
+            var timeInfo = LockFunction(Time.GetTimeFromTelnet);
 
             TimeDayText = timeInfo.Day.ToString();
             TimeHourText = timeInfo.Hour.ToString();
@@ -951,7 +986,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                             Minute = TimeMinuteText.ToInt()
 
                         };
-                        Time.SendTime(Telnet, timeInfo);
+                        LockAction(telnet => Time.SendTime(telnet, timeInfo));
                     }
                 }
             });
@@ -973,7 +1008,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         /*
          * Common Telnet Methods
          */
-        public void SendCommand(string cmd)
+        public void SendCommand(string cmd, bool isCollect = true)
         {
 #if DEBUG
             if (cmd == "gc")
@@ -984,7 +1019,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
 #endif
 
-            _commandCollector.AddCommand(cmd);
+            if (isCollect && !string.IsNullOrEmpty(cmd))
+                _commandCollector.AddCommand(cmd);
+            _commandCollector.Reset();
             SocTelnetSendNrt(cmd);
         }
 
@@ -1008,8 +1045,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         }
         private void SocTelnetSendDirect(string cmd)
         {
-            Telnet.Write(cmd);
-            Telnet.Write(TelnetClient.Crlf);
+            LockAction(telnet =>
+            {
+                telnet.Write(cmd);
+                telnet.Write(TelnetClient.Crlf);
+            });
         }
         private string SocTelnetSend(string cmd)
         {
@@ -1017,9 +1057,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 return null;
 
             SocTelnetSendDirect(cmd);
-            Thread.Sleep(100);
-            var log = Telnet.Read().TrimEnd('\0');
-            log += Telnet.Read().TrimEnd('\0');
+
+            var log = LockFunction(telnet => telnet.Read().TrimEnd('\0'));
+            log += LockFunction(telnet => telnet.Read().TrimEnd('\0'));
 
             return log;
         }

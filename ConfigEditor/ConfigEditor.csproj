@@ -48,6 +48,8 @@
     <None Remove="lang\a18b\ja_ConfigData.xml" />
     <None Remove="lang\a19b\en_ConfigData.xml" />
     <None Remove="lang\a19b\ja_ConfigData.xml" />
+    <None Remove="lang\a20.4b\en_ConfigData.xml" />
+    <None Remove="lang\a20.4b\ja_ConfigData.xml" />
     <None Remove="lang\a20b\en_ConfigData.xml" />
     <None Remove="lang\a20b\ja_ConfigData.xml" />
     <None Remove="lang\VersionList.xml" />
@@ -136,6 +138,12 @@
     <Content Include="lang\a19b\ja_ConfigData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="lang\a20.4b\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a20.4b\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="lang\a20b\en_ConfigData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -148,11 +156,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommonStyleLib" Version="1.0.9" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.12" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SavannahManagerLib\SavannahManagerLib.csproj" />
+    <ProjectReference Include="..\SavannahManagerStyleLib\SavannahManagerStyleLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -193,6 +202,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Styles\Window.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.5.49.5">
+    1. Permission Editorのカレンダーで一桁時間が含まれる場合、開き直すと値が消える問題を修正しました。
+  </update>
+  <update version="2.5.48.4">
+    1. ConfigEditor, XmlEditorでSFTPでの読み書きに対応しました。
+    2. SSH起動のオプションを変更してUndead Legacyなども起動できるようにしました。
+  </update>
+  <update version="2.5.47.3">
+    1. Telnet接続でNullReferenceExceptionが発生する場合がある問題を修正しました。
+    2. 強制シャットダウンやXmlEditorなどのリスト表示で複数表示される問題を修正しました。
+  </update>
   <update version="2.5.46.2">
     1. 設定のバックアップタブ内を日本語対応しました。
     2. 自動再起動機能を追加しました。

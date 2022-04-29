@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using SavannahManagerStyleLib.ViewModels.SshFileSelector;
 
 namespace ConfigEditor_mvvm.Models
 {
@@ -141,6 +142,9 @@ namespace ConfigEditor_mvvm.Models
         #endregion
 
         #region Properties
+
+        public SettingLoader SettingLoader { get; }
+
         private bool _isModified;
         /// <summary>
         /// Set or get the state of editing. Also change the presence or absence of the title mark.
@@ -159,11 +163,12 @@ namespace ConfigEditor_mvvm.Models
                     ModifiedVisibility = Visibility.Hidden;
             }
         }
+
+        public string FilePath { get; private set; }
         #endregion
 
         #region Fields
-        private readonly SettingLoader _settingLoader;
-        private ConfigLoader _configLoader;
+        //private ConfigLoader _configLoader;
         private readonly TemplateLoader _templateLoader;
 
         // Event avoidance at loading
@@ -179,23 +184,31 @@ namespace ConfigEditor_mvvm.Models
             ConfigList = new ObservableCollection<ConfigListInfo>();
             ValueList = new ObservableCollection<string>();
 
-            _settingLoader = new SettingLoader(ConstantValues.SettingFilePath);
+            SettingLoader = new SettingLoader(ConstantValues.SettingFilePath);
 
             var language = LangResources.CommonResources.Language;
             _templateLoader = new TemplateLoader(language, ConstantValues.VersionListPath);
             VersionList.AddRange(_templateLoader.VersionList);
+
+            // Select Version
+            VersionListSelectedIndex = VersionList.Count - 1;
 
             var cmdArray = Environment.GetCommandLineArgs();
             if (cmdArray.Length > 1)
             {
                 var filePath = cmdArray[1];
                 if (File.Exists(filePath))
-                    _configLoader = new ConfigLoader(cmdArray[1]);
+                {
+                    var configLoader = new ConfigLoader(cmdArray[1]);
+                    FilePath = filePath;
+                    
+                    LoadToConfigList(configLoader);
+                    SaveBtEnabled = true;
+                    return;
+                }
             }
 
-            // Select Version
-            VersionListSelectedIndex = VersionList.Count - 1;
-            LoadToConfigList();
+            LoadNewConfig();
         }
 
         /// <summary>
@@ -218,77 +231,105 @@ namespace ConfigEditor_mvvm.Models
         /// </summary>
         public void LoadNewData()
         {
-            _configLoader = null;
-            LoadToConfigList();
+            LoadNewConfig();
+            FilePath = null;
+            ResetButtons();
         }
+
         /// <summary>
         /// Perform arbitrary file selection and load processing.
         /// </summary>
         public void OpenFile()
         {
-            var dirName = _settingLoader.OpenDirectoryPath;
+            var dirName = SettingLoader.OpenDirectoryPath;
             var filePath = FileSelector.GetFilePath(dirName, 
                 LangResources.CommonResources.Filter_XmlFile, ConstantValues.ServerConfigFileName, FileSelector.FileSelectorType.Read);
             if (!string.IsNullOrEmpty(filePath))
             {
-                _configLoader = new ConfigLoader(filePath);
-                LoadToConfigList();
-                _settingLoader.OpenDirectoryPath = Path.GetDirectoryName(filePath);
+                FilePath = filePath;
+
+                var loader = new ConfigLoader(filePath);
+                LoadToConfigList(loader);
+                SettingLoader.OpenDirectoryPath = Path.GetDirectoryName(filePath);
+                IsModified = false;
+                SaveBtEnabled = true;
             }
+        }
+
+        private void LoadNewConfig()
+        {
+            if (VersionListSelectedIndex < 0)
+                return;
+
+            ConfigList.Clear();
+
+            var version = VersionList[VersionListSelectedIndex];
+            var list = new List<ConfigListInfo>(_templateLoader.GetConfigList(version));
+            ConfigList.AddRange(list);
+        }
+
+        public void VersionListSelectionChanged()
+        {
+            if (FilePath == null)
+            {
+                LoadNewConfig();
+            }
+            else
+            {
+                var loader = new ConfigLoader(FilePath);
+                LoadToConfigList(loader);
+            }
+        }
+
+        private void ResetButtons()
+        {
+            IsModified = false;
+            SaveBtEnabled = false;
         }
 
         /// <summary>
         /// Load and display config.
         /// </summary>
-        public void LoadToConfigList()
+        private void LoadToConfigList(ConfigLoader loader)
         {
             if (VersionListSelectedIndex < 0) return;
 
             ConfigList.Clear();
+
             var version = VersionList[VersionListSelectedIndex];
-            if (_configLoader == null)
+
+            var templateDic = _templateLoader.GetConfigDictionary(version);
+            var templateKeys = new List<string>(templateDic.Keys);
+            var configDic = loader.GetAll();
+            var keys = new List<string>(configDic.Keys);
+
+            //var templateKeysClone = new List<string>(templateKeys);
+            //var keysClone = new List<string>(keys);
+
+            //templateKeysClone.RemoveAll(keysClone.Contains);
+            //keysClone.RemoveAll(templateKeys.Contains);
+
+            // コンフィグファイルとtemplateに含まれるプロパティだけ追加
+            foreach (var configInfo in configDic.Values)
             {
-                var list = new List<ConfigListInfo>(_templateLoader.GetConfigList(version));
-                ConfigList.AddRange(list);
-                SaveBtEnabled = false;
+                var propertyName = configInfo.PropertyName;
+                if (templateDic.ContainsKey(propertyName))
+                {
+                    var configListInfo = templateDic[propertyName];
+                    configListInfo.Value = configInfo.Value;
+                    ConfigList.Add(configListInfo);
+                }
             }
-            else
+
+            // templateにあるがコンフィグファイルにないものを追加
+            var nRepetitions = templateKeys.ToArray().Except(keys.ToArray());
+            foreach (string key in nRepetitions)
             {
-                var templateDic = _templateLoader.GetConfigDictionary(version);
-                var templateKeys = new List<string>(templateDic.Keys);
-                var configDic = _configLoader.GetAll();
-                var keys = new List<string>(configDic.Keys);
-
-                //var templateKeysClone = new List<string>(templateKeys);
-                //var keysClone = new List<string>(keys);
-
-                //templateKeysClone.RemoveAll(keysClone.Contains);
-                //keysClone.RemoveAll(templateKeys.Contains);
-
-                // コンフィグファイルとtemplateに含まれるプロパティだけ追加
-                foreach (var configInfo in configDic.Values)
+                if (templateDic.ContainsKey(key))
                 {
-                    var propertyName = configInfo.PropertyName;
-                    if (templateDic.ContainsKey(propertyName))
-                    {
-                        var configListInfo = templateDic[propertyName];
-                        configListInfo.Value = configInfo.Value;
-                        ConfigList.Add(configListInfo);
-                    }
+                    var configListInfo = templateDic[key];
+                    ConfigList.Add(configListInfo);
                 }
-
-                // templateにあるがコンフィグファイルにないものを追加
-                var nRepetitions = templateKeys.ToArray().Except(keys.ToArray());
-                foreach (string key in nRepetitions)
-                {
-                    if (templateDic.ContainsKey(key))
-                    {
-                        var configListInfo = templateDic[key];
-                        ConfigList.Add(configListInfo);
-                    }
-                }
-
-                SaveBtEnabled = true;
             }
         }
 
@@ -359,47 +400,110 @@ namespace ConfigEditor_mvvm.Models
         /// Get file selection and path for SaveAs.
         /// </summary>
         /// <returns></returns>
-        private bool SelectFileOnSaveAs()
+        private (bool result, string filePath) SelectFileOnSaveAs()
         {
-            var dirName = _settingLoader.OpenDirectoryPath;
+            var dirName = SettingLoader.OpenDirectoryPath;
             var filePath = FileSelector.GetFilePath(dirName,
                 LangResources.CommonResources.Filter_XmlFile, ConstantValues.ServerConfigFileName, FileSelector.FileSelectorType.Write);
             if (!string.IsNullOrEmpty(filePath))
             {
-                _configLoader = new ConfigLoader(filePath, true);
                 SaveBtEnabled = true;
-                return true;
+                return (true, filePath);
             }
-            return false;
+            return (false, null);
         }
         /// <summary>
         /// SaveAs
         /// </summary>
         public void SaveAs()
         {
-            if (SelectFileOnSaveAs())
+            var (result, filePath) = SelectFileOnSaveAs();
+            if (result)
+            {
+                FilePath = filePath;
                 Save();
+            }
         }
         /// <summary>
         /// Overwrite save. If no file is selected, do SaveAs.
         /// </summary>
         public void Save()
         {
-            if (_configLoader == null)
+            if (FilePath == null)
             {
-                if (!SelectFileOnSaveAs()) return;
+                var (result, filePath) = SelectFileOnSaveAs();
+                if (!result)
+                    return;
+
+                FilePath = filePath;
             }
 
-            _configLoader.Clear();
+            using var fs = new FileStream(FilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+
+            var loader = CreateConfigLoader();
+
+            loader.Write(fs);
+            IsModified = false;
+        }
+
+        private ConfigLoader CreateConfigLoader()
+        {
+            var loader = new ConfigLoader();
             foreach (var configListInfo in ConfigList)
             {
                 if (configListInfo.Property.Equals("SaveGameFolder") && string.IsNullOrEmpty(configListInfo.Value))
                     continue;
-                _configLoader.AddProperty(configListInfo.Property, configListInfo.Value);
+                loader.AddProperty(configListInfo.Property, configListInfo.Value);
             }
 
-            _configLoader.Write();
-            IsModified = false;
+            return loader;
+        }
+
+        public ConnectionInformation CreateConnectionInformation()
+        {
+            return new ConnectionInformation
+            {
+                Address = SettingLoader.SftpAddress,
+                Port = SettingLoader.SftpPort,
+                IsPassword = SettingLoader.SftpIsPassword,
+                Username = SettingLoader.SftpUserName,
+                KeyPath = SettingLoader.SftpKeyPath,
+                Password = SettingLoader.SftpPassword,
+                DefaultWorkingDirectory = SettingLoader.SftpDefaultWorkingDirectory
+            };
+        }
+
+        public void SetToSettingLoader(ConnectionInformation information)
+        {
+            SettingLoader.SftpAddress = information.Address;
+            SettingLoader.SftpPort = information.Port;
+            SettingLoader.SftpIsPassword = information.IsPassword;
+            SettingLoader.SftpUserName = information.Username;
+            SettingLoader.SftpPassword = information.Password;
+            SettingLoader.SftpKeyPath = information.KeyPath;
+            SettingLoader.SftpDefaultWorkingDirectory = information.DefaultWorkingDirectory;
+        }
+        
+        public void OpenFileViaSftp(Stream stream)
+        {
+            FilePath = null;
+            ResetButtons();
+
+            var configLoader = new ConfigLoader(stream);
+            LoadToConfigList(configLoader);
+        }
+
+        public MemoryStream CreateConfigXml()
+        {
+            var stream = new MemoryStream();
+            var configLoader = CreateConfigLoader();
+
+            configLoader.Write(stream);
+            stream.Position = 0;
+
+            ResetButtons();
+
+            return stream;
         }
     }
 }

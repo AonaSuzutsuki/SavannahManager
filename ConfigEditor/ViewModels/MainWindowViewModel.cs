@@ -9,10 +9,14 @@ using CommonStyleLib.ViewModels;
 using System.Windows.Input;
 using Reactive.Bindings;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommonStyleLib.Views;
 using ConfigEditor_mvvm.Models;
 using Reactive.Bindings.Extensions;
 using Prism.Commands;
+using SavannahManagerStyleLib.Models.SshFileSelector;
+using SavannahManagerStyleLib.ViewModels.SshFileSelector;
+using SavannahManagerStyleLib.Views.SshFileSelector;
 
 namespace ConfigEditor_mvvm.ViewModels
 {
@@ -29,8 +33,10 @@ namespace ConfigEditor_mvvm.ViewModels
 
             NewFileBtClicked = new DelegateCommand(NewFileBt_Clicked);
             OpenBtClicked = new DelegateCommand(OpenBt_Clicked);
+            OpenSftpCommand = new DelegateCommand(OpenSftp);
             SaveAsBtClicked = new DelegateCommand(SaveAsBt_Clicked);
             SaveBtClicked = new DelegateCommand(SaveBt_Clicked);
+            SaveAsSftpCommand = new DelegateCommand(SaveAsSftp);
 
             VersionsListSelectionChanged = new DelegateCommand(VersionsList_SelectionChanged);
             ConfigListSelectionChanged = new DelegateCommand(ConfigList_SelectionChanged);
@@ -93,8 +99,10 @@ namespace ConfigEditor_mvvm.ViewModels
         #region Event Properties
         public ICommand NewFileBtClicked { get; }
         public ICommand OpenBtClicked { get; }
+        public ICommand OpenSftpCommand { get; }
         public ICommand SaveAsBtClicked { get; }
         public ICommand SaveBtClicked { get; }
+        public ICommand SaveAsSftpCommand { get; }
 
         public ICommand VersionsListSelectionChanged { get; }
         public ICommand ConfigListSelectionChanged { get; }
@@ -107,6 +115,13 @@ namespace ConfigEditor_mvvm.ViewModels
         protected override void MainWindow_KeyDown(KeyEventArgs e)
         {
             _model.ShortcutKey(e, Keyboard.Modifiers);
+        }
+
+        protected override void MainWindow_Closing()
+        {
+            base.MainWindow_Closing();
+
+            _model.SettingLoader.Save();
         }
 
         public void NewFileBt_Clicked()
@@ -126,9 +141,50 @@ namespace ConfigEditor_mvvm.ViewModels
             _model.Save();
         }
 
+        public void OpenSftp()
+        {
+            var model = new FileSelectorModel();
+            var vm = new FileSelectorViewModel(new FileSelectorWindowService(), model)
+            {
+                Mode = FileSelectorMode.Open,
+                ConnectionInformation = _model.CreateConnectionInformation()
+            };
+            model.OpenCallbackAction = item =>
+            {
+                using var stream = item.Stream;
+
+                _model.OpenFileViaSftp(stream);
+            };
+
+            WindowManageService.ShowDialog<FileSelectorView>(vm);
+
+            if (!vm.IsCancel)
+                _model.SetToSettingLoader(vm.ConnectionInformation);
+        }
+
+        public void SaveAsSftp()
+        {
+            var model = new FileSelectorModel();
+            var vm = new FileSelectorViewModel(new FileSelectorWindowService(), model)
+            {
+                Mode = FileSelectorMode.SaveAs,
+                ConnectionInformation = _model.CreateConnectionInformation()
+            };
+            model.SaveDataFunction = () =>
+            {
+                using var stream = _model.CreateConfigXml();
+                return stream.ToArray();
+            };
+
+            WindowManageService.ShowDialog<FileSelectorView>(vm);
+
+            if (!vm.IsCancel)
+                _model.SetToSettingLoader(vm.ConnectionInformation);
+        }
+
         public void VersionsList_SelectionChanged()
         {
-            _model.LoadToConfigList();
+            _model.VersionListSelectionChanged();
         }
         public void ConfigList_SelectionChanged()
         {

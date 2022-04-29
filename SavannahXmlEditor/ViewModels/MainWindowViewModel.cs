@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,12 +8,17 @@ using System.Windows.Input;
 using _7dtd_XmlEditor.Models;
 using _7dtd_XmlEditor.Models.TreeView;
 using _7dtd_XmlEditor.Views;
+using CommonCoreLib;
+using CommonStyleLib.File;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using SavannahManagerStyleLib.Models.SshFileSelector;
+using SavannahManagerStyleLib.ViewModels.SshFileSelector;
+using SavannahManagerStyleLib.Views.SshFileSelector;
 using SavannahXmlLib.XmlWrapper;
 using SavannahXmlLib.XmlWrapper.Nodes;
 
@@ -24,21 +30,23 @@ namespace _7dtd_XmlEditor.ViewModels
         {
             this._model = model;
 
-            IsEditedTitle = model.ObserveProperty(m => m.IsEditedTitle).ToReactiveProperty();
-            TreeViewItems = model.TreeViewItems.ToReadOnlyReactiveCollection(m => m);
-            TreeViewSelectedItem = model.ToReactivePropertyAsSynchronized(m => m.SelectedItem);
+            IsEditedTitle = model.ObserveProperty(m => m.IsEditedTitle).ToReactiveProperty().AddTo(CompositeDisposable);
+            TreeViewItems = model.TreeViewItems.ToReadOnlyReactiveCollection().AddTo(CompositeDisposable);
+            TreeViewSelectedItem = model.ToReactivePropertyAsSynchronized(m => m.SelectedItem).AddTo(CompositeDisposable);
 
-            FullPath = model.ObserveProperty(m => m.FullPath).ToReactiveProperty();
-            IsAttributesEnabled = model.ObserveProperty(m => m.IsAttributesEnabled).ToReactiveProperty();
-            Attributes = model.Attributes.ToReadOnlyReactiveCollection(m => m);
-            InnerXml = model.ToReactivePropertyAsSynchronized(m => m.InnerXml);
-            ContextMenuEnabled = model.ObserveProperty(m => m.ContextMenuEnabled).ToReactiveProperty();
-            AddElementEnabled = model.ObserveProperty(m => m.AddElementEnabled).ToReactiveProperty();
+            FullPath = model.ObserveProperty(m => m.FullPath).ToReactiveProperty().AddTo(CompositeDisposable);
+            IsAttributesEnabled = model.ObserveProperty(m => m.IsAttributesEnabled).ToReactiveProperty().AddTo(CompositeDisposable);
+            Attributes = model.Attributes.ToReadOnlyReactiveCollection().AddTo(CompositeDisposable);
+            InnerXml = model.ToReactivePropertyAsSynchronized(m => m.InnerXml).AddTo(CompositeDisposable);
+            ContextMenuEnabled = model.ObserveProperty(m => m.ContextMenuEnabled).ToReactiveProperty().AddTo(CompositeDisposable);
+            AddElementEnabled = model.ObserveProperty(m => m.AddElementEnabled).ToReactiveProperty().AddTo(CompositeDisposable);
 
             FileNewBtClick = new DelegateCommand(FileNewBt_Click);
             FileOpenBtClick = new DelegateCommand(FileOpenBt_Click);
             FileSaveBtClick = new DelegateCommand(FileSaveBt_Click);
             FileSaveAsBtClick = new DelegateCommand(FileSaveAsBt_Click);
+            OpenSftpCommand = new DelegateCommand(OpenSftp);
+            SaveAsSftpCommand = new DelegateCommand(SaveAsSftp);
 
             DropCommand = new DelegateCommand<DropArguments>(TreeViewDrop);
             TreeViewSelectedItemChangedCommand = new DelegateCommand(TreeViewSelectedItemChanged);
@@ -79,6 +87,8 @@ namespace _7dtd_XmlEditor.ViewModels
         public ICommand FileOpenBtClick { get; set; }
         public ICommand FileSaveBtClick { get; set; }
         public ICommand FileSaveAsBtClick { get; set; }
+        public ICommand OpenSftpCommand { get; }
+        public ICommand SaveAsSftpCommand { get; }
 
 
         public ICommand DropCommand { get; set; }
@@ -100,25 +110,79 @@ namespace _7dtd_XmlEditor.ViewModels
         #endregion
 
         #region Event Methods
+
+        protected override void MainWindow_Closing()
+        {
+            base.MainWindow_Closing();
+
+            _model.SaveSettings();
+        }
+
         public void FileNewBt_Click()
         {
             _model.NewFile();
         }
         public void FileOpenBt_Click()
         {
-            _model.OpenFile();
+            var filePath = FileSelector.GetFilePath(AppInfo.GetAppPath(), "XML Files(*.xml)|*.xml|All Files(*.*)|*.*"
+                , "", FileSelector.FileSelectorType.Read);
+            _model.OpenFile(filePath);
         }
 
         public void FileSaveBt_Click()
         {
-            _model.Save();
+
+            _model.Save(FileSaveAsBt_Click);
         }
 
         public void FileSaveAsBt_Click()
         {
-            _model.SaveAs();
+            var filePath = FileSelector.GetFilePath(AppInfo.GetAppPath(), "XML Files(*.xml)|*.xml|All Files(*.*)|*.*",
+                "", FileSelector.FileSelectorType.Write);
+
+            _model.SaveAs(filePath);
         }
 
+        public void OpenSftp()
+        {
+            var model = new FileSelectorModel();
+            var vm = new FileSelectorViewModel(new FileSelectorWindowService(), model)
+            {
+                Mode = FileSelectorMode.Open,
+                ConnectionInformation = _model.CreateConnectionInformation()
+            };
+            model.OpenCallbackAction = item =>
+            {
+                using var stream = item.Stream;
+
+                _model.OpenFileViaSftp(stream);
+            };
+
+            WindowManageService.ShowDialog<FileSelectorView>(vm);
+
+            if (!vm.IsCancel)
+                _model.SetToSettingLoader(vm.ConnectionInformation);
+        }
+
+        public void SaveAsSftp()
+        {
+            var model = new FileSelectorModel();
+            var vm = new FileSelectorViewModel(new FileSelectorWindowService(), model)
+            {
+                Mode = FileSelectorMode.SaveAs,
+                ConnectionInformation = _model.CreateConnectionInformation()
+            };
+            model.SaveDataFunction = () =>
+            {
+                using var stream = _model.CreateXml();
+                return stream.ToArray();
+            };
+
+            WindowManageService.ShowDialog<FileSelectorView>(vm);
+
+            if (!vm.IsCancel)
+                _model.SetToSettingLoader(vm.ConnectionInformation);
+        }
 
         public void TreeViewDrop(DropArguments info)
         {
