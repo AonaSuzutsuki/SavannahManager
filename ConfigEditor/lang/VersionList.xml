@@ -15,5 +15,6 @@
     <config version="a18b">lang\a18b</config>
     <config version="a19b">lang\a19b</config>
     <config version="a20b">lang\a20b</config>
+    <config version="a20.4b">lang\a20.4b</config>
   </configs>
 </root>
