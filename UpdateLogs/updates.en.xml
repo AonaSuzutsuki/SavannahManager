@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.5.51.7">
+    1. Updated packages.
+  </update>
   <update version="2.5.50.6">
     1. Added a20.4b to the Config Editor template.
   </update>
