@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.5.51.7">
+    1. Updated packages.
+  </update>
+  <update version="2.5.50.6">
+    1. Added a20.4b to the Config Editor template.
+  </update>
   <update version="2.5.49.5">
     1. Fixed a problem in the Permission Editor calendar where single-digit hours are included and the values disappear when the calendar is reopened.
   </update>

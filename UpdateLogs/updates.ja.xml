@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.5.51.7">
+    1. 依存ライブラリを更新しました。
+  </update>
+  <update version="2.5.50.6">
+    1. Config Editorのテンプレートにa20.4bを追加しました。
+  </update>
   <update version="2.5.49.5">
     1. Permission Editorのカレンダーで一桁時間が含まれる場合、開き直すと値が消える問題を修正しました。
   </update>
