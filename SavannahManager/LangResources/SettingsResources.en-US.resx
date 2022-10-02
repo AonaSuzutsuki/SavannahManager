@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfigFilePath" xml:space="preserve">
     <value>Config File Path</value>
@@ -178,8 +178,28 @@ In a local environment, 2000 milliseconds (2 seconds) should usually be enough.<
     <value>Config File Path</value>
     <comment>UI, Setting</comment>
   </data>
+  <data name="UI_EnabledRestartMessage" xml:space="preserve">
+    <value>Send message when the server restart time is approaching</value>
+    <comment>UI, Setting</comment>
+  </data>
+  <data name="UI_Encryption" xml:space="preserve">
+    <value>Encryption</value>
+    <comment>UI, Setting</comment>
+  </data>
+  <data name="UI_EncryptPassword" xml:space="preserve">
+    <value>Encrypt Password</value>
+    <comment>UI, Setting</comment>
+  </data>
   <data name="UI_GeneralLabel" xml:space="preserve">
     <value>General</value>
+    <comment>UI, Setting</comment>
+  </data>
+  <data name="UI_Hour" xml:space="preserve">
+    <value>Hour</value>
+    <comment>UI, Setting</comment>
+  </data>
+  <data name="UI_IntervalTime" xml:space="preserve">
+    <value>Interval Time</value>
     <comment>UI, Setting</comment>
   </data>
   <data name="UI_KeyConfigLabel" xml:space="preserve">
@@ -202,8 +222,24 @@ In a local environment, 2000 milliseconds (2 seconds) should usually be enough.<
     <value>Length of Console Text</value>
     <comment>UI, Setting</comment>
   </data>
+  <data name="UI_MessageFormat" xml:space="preserve">
+    <value>Message Format</value>
+    <comment>UI, Setting</comment>
+  </data>
+  <data name="UI_Minute" xml:space="preserve">
+    <value>Minute</value>
+    <comment>UI, Setting</comment>
+  </data>
   <data name="UI_OthersLabel" xml:space="preserve">
     <value>Others</value>
+    <comment>UI, Setting</comment>
+  </data>
+  <data name="UI_ResetPassword" xml:space="preserve">
+    <value>Reset Password</value>
+    <comment>UI, Setting</comment>
+  </data>
+  <data name="UI_Restart" xml:space="preserve">
+    <value>Restart</value>
     <comment>UI, Setting</comment>
   </data>
   <data name="UI_RestoreDestinationPath" xml:space="preserve">
@@ -212,6 +248,14 @@ In a local environment, 2000 milliseconds (2 seconds) should usually be enough.<
   </data>
   <data name="UI_SaveBT" xml:space="preserve">
     <value>Save</value>
+    <comment>UI, Setting</comment>
+  </data>
+  <data name="UI_ScheduledTime" xml:space="preserve">
+    <value>Scheduled Time</value>
+    <comment>UI, Setting</comment>
+  </data>
+  <data name="UI_Second" xml:space="preserve">
+    <value>Second</value>
     <comment>UI, Setting</comment>
   </data>
   <data name="UI_ServerFilePathLabel" xml:space="preserve">
@@ -224,6 +268,10 @@ In a local environment, 2000 milliseconds (2 seconds) should usually be enough.<
   </data>
   <data name="UI_ShortcutKeyLabel" xml:space="preserve">
     <value>Shortcut Key</value>
+    <comment>UI, Setting</comment>
+  </data>
+  <data name="UI_StartTime" xml:space="preserve">
+    <value>Start Time</value>
     <comment>UI, Setting</comment>
   </data>
   <data name="UI_TextLength" xml:space="preserve">
