@@ -15,7 +15,7 @@
   <property name="ServerLoginConfirmationText" value="" selection="" type="string">
     If set the user will see the message during joining the server and has to confirm it before continuing
   </property>
-  <property name="Region" value="NorthAmericaEast" selection="" type="">
+  <property name="Region" value="NorthAmericaEast" selection="NorthAmericaEast/NorthAmericaWest/CentralAmerica/SouthAmerica/Europe/Russia/Asia/MiddleEast/Africa/Oceania" type="combo">
     The region this server is in. Values: NorthAmericaEast, NorthAmericaWest, CentralAmerica, SouthAmerica, Europe, Russia, Asia, MiddleEast, Africa, Oceania
   </property>
   <property name="Language" value="English" selection="" type="">

@@ -243,12 +243,12 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Content="Encryption" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                    <Label Grid.Row="0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Encryption, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
                                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                        <CheckBox IsEnabled="True" Content="Encrypt Password" Grid.Row="1" IsChecked="{Binding IsEncryptPassword.Value}" />
+                                        <CheckBox IsEnabled="True" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_EncryptPassword, Mode=OneWay}" Grid.Row="1" IsChecked="{Binding IsEncryptPassword.Value}" />
                                         <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-                                            <Hyperlink Foreground="White" Command="{Binding ResetPasswordCommand}" >
-                                                Reset password
+                                            <Hyperlink Foreground="White" Command="{Binding ResetPasswordCommand}">
+                                                <Run Text="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_ResetPassword, Mode=OneWay}" />
                                             </Hyperlink>
                                         </TextBlock>
                                     </StackPanel>
@@ -258,12 +258,12 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="Restart" IsEnabled="{Binding IsBetaModeChecked.Value}">
+                    <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Restart, Mode=OneWay}" IsEnabled="{Binding IsBetaModeChecked.Value}">
                         <Grid>
                             <StackPanel Orientation="Vertical" Margin="3">
 
                                 <StackPanel Margin="3">
-                                    <Label Content="Scheduled Time" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                    <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_ScheduledTime, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
                                     <CheckBox IsEnabled="False" Content="Interval Time" IsChecked="True" Visibility="Collapsed" />
 
@@ -278,13 +278,13 @@
                                         <TextBox Text="{Binding AutoRestartIntervalTime.Value}" />
 
                                         <ComboBox Grid.Column="2" SelectedIndex="{Binding AutoRestartIntervalTimeMode.Value, FallbackValue=2}">
-                                            <ComboBoxItem Content="Sec" />
-                                            <ComboBoxItem Content="Min" />
-                                            <ComboBoxItem Content="Hour" />
+                                            <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Second, Mode=OneWay}" />
+                                            <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Minute, Mode=OneWay}" />
+                                            <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Hour, Mode=OneWay}" />
                                         </ComboBox>
                                     </Grid>
 
-                                    <CheckBox Content="Send message when the server restart time is approaching" Margin="0, 5, 0, 0" IsChecked="{Binding IsAutoRestartSendMessage.Value}" />
+                                    <CheckBox Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_EnabledRestartMessage, Mode=OneWay}" Margin="0, 5, 0, 0" IsChecked="{Binding IsAutoRestartSendMessage.Value}" />
 
                                     <Grid Margin="0, 5, 0, 0" IsEnabled="{Binding IsAutoRestartSendMessage.Value}">
                                         <Grid.ColumnDefinitions>
@@ -296,13 +296,13 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
 
-                                        <Label Content="Start Time" />
+                                        <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_StartTime, Mode=OneWay}" />
 
                                         <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageStartTime.Value}" />
 
                                         <ComboBox Grid.Column="4" SelectedIndex="{Binding AutoRestartSendingMessageStartTimeMode.Value, FallbackValue=0}">
-                                            <ComboBoxItem Content="Sec" />
-                                            <ComboBoxItem Content="Min" />
+                                            <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Second, Mode=OneWay}" />
+                                            <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Minute, Mode=OneWay}" />
                                         </ComboBox>
                                     </Grid>
 
@@ -316,13 +316,13 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
 
-                                        <Label Content="Interval Time" />
+                                        <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_IntervalTime, Mode=OneWay}" />
 
                                         <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageIntervalTime.Value}" />
 
                                         <ComboBox Grid.Column="4" SelectedIndex="{Binding AutoRestartSendingMessageIntervalTimeMode.Value, FallbackValue=0}">
-                                            <ComboBoxItem Content="Sec" />
-                                            <ComboBoxItem Content="Min" />
+                                            <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Second, Mode=OneWay}" />
+                                            <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Minute, Mode=OneWay}" />
                                         </ComboBox>
                                     </Grid>
 
@@ -333,7 +333,7 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
 
-                                        <Label Content="Message Format" />
+                                        <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_MessageFormat, Mode=OneWay}" />
 
                                         <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageFormat.Value}" />
                                     </Grid>

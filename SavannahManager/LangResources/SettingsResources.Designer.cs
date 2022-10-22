@@ -210,11 +210,56 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   再起動時にチャットメッセージを送信する に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_EnabledRestartMessage {
+            get {
+                return ResourceManager.GetString("UI_EnabledRestartMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   暗号化 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Encryption {
+            get {
+                return ResourceManager.GetString("UI_Encryption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   パスワードを暗号化 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_EncryptPassword {
+            get {
+                return ResourceManager.GetString("UI_EncryptPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   全般 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_GeneralLabel {
             get {
                 return ResourceManager.GetString("UI_GeneralLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   時間 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Hour {
+            get {
+                return ResourceManager.GetString("UI_Hour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   送信間隔 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_IntervalTime {
+            get {
+                return ResourceManager.GetString("UI_IntervalTime", resourceCulture);
             }
         }
         
@@ -264,11 +309,47 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   チャット形式 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_MessageFormat {
+            get {
+                return ResourceManager.GetString("UI_MessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   分 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Minute {
+            get {
+                return ResourceManager.GetString("UI_Minute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   その他 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_OthersLabel {
             get {
                 return ResourceManager.GetString("UI_OthersLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   パスワードをリセット に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_ResetPassword {
+            get {
+                return ResourceManager.GetString("UI_ResetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   自動再起動 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Restart {
+            get {
+                return ResourceManager.GetString("UI_Restart", resourceCulture);
             }
         }
         
@@ -287,6 +368,24 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         public static string UI_SaveBT {
             get {
                 return ResourceManager.GetString("UI_SaveBT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   予約時間 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_ScheduledTime {
+            get {
+                return ResourceManager.GetString("UI_ScheduledTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   秒 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Second {
+            get {
+                return ResourceManager.GetString("UI_Second", resourceCulture);
             }
         }
         
@@ -314,6 +413,15 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         public static string UI_ShortcutKeyLabel {
             get {
                 return ResourceManager.GetString("UI_ShortcutKeyLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   開始時間 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_StartTime {
+            get {
+                return ResourceManager.GetString("UI_StartTime", resourceCulture);
             }
         }
         
