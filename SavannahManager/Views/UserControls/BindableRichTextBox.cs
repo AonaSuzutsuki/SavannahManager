@@ -185,7 +185,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views.UserControls
                     return;
 
                 SetSplitSize();
-
+                
                 var prevVerticalOffset = .0;
                 var prevScrollableHeight = .0;
                 scrollViewer.ScrollChanged += (_, _) =>

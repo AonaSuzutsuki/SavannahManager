@@ -12,7 +12,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using _7dtd_svmanager_fix_mvvm.Views.Update;
 using _7dtd_svmanager_fix_mvvm.Views.UserControls;
+using CommonExtensionLib.Extensions;
 using CommonStyleLib.Models;
+using SvManagerLibrary.Chat;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 {
@@ -22,16 +24,59 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
         public string FullPath => Info.FullName;
         public FileInfo Info { get; }
 
+        private string _cache;
+
+        public StringReader GetStringReader()
+        {
+            if (_cache != null)
+                return new StringReader(_cache);
+
+            _cache = File.ReadAllText(FullPath);
+            return new StringReader(_cache);
+        }
+
+        public void ClearCache()
+        {
+            _cache = null;
+        }
+
         public LogFileInfo(string path)
         {
             Info = new FileInfo(path);
         }
     }
 
+    public class PlayerItemInfo
+    {
+        public enum InOutType
+        {
+            In,
+            Out
+        }
+
+        public InOutType InOut { get; set; }
+        public string Date { get; set; }
+        public string Name { get; set; }
+        public string Id { get; set; }
+        public string SteamId { get; set; }
+        public string IpAddress { get; set; }
+        public string Position { get; set; }
+    }
+
+    public class LogCacheItem
+    {
+        public ObservableCollection<RichTextItem> RichTextItems { get; set; }
+        public ObservableCollection<ChatInfo> ChatItems { get; set; }
+        public ObservableCollection<PlayerItemInfo> PlayerItems { get; set; }
+    }
+
     public class LogViewerModel : ModelBase
     {
+        private LogFileInfo _currentFileInfo;
         private ObservableCollection<RichTextItem> _richLogDetailItems = new();
-        private readonly Dictionary<string, ObservableCollection<RichTextItem>> _cache = new();
+        private readonly Dictionary<string, LogCacheItem> _cache = new();
+        private ObservableCollection<ChatInfo> _chatInfos = new();
+        private ObservableCollection<PlayerItemInfo> _playerItemInfos = new();
 
         public ObservableCollection<LogFileInfo> LogFileList { get; set; } = new();
 
@@ -39,6 +84,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
         {
             get => _richLogDetailItems;
             set => SetProperty(ref _richLogDetailItems, value);
+        }
+
+        public ObservableCollection<ChatInfo> ChatInfos
+        {
+            get => _chatInfos;
+            set => SetProperty(ref _chatInfos, value);
+        }
+
+        public ObservableCollection<PlayerItemInfo> PlayerItemInfos
+        {
+            get => _playerItemInfos;
+            set => SetProperty(ref _playerItemInfos, value);
         }
 
         public void Load()
@@ -57,22 +114,94 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
             if (index < 0 && index >= LogFileList.Count)
                 return;
 
+            _currentFileInfo?.ClearCache();
+
             var logFileInfo = LogFileList[index];
+            _currentFileInfo = logFileInfo;
             if (_cache.ContainsKey(logFileInfo.FullPath))
             {
-                RichLogDetailItems = _cache[logFileInfo.FullPath];
+                var cache = _cache[logFileInfo.FullPath];
+                RichLogDetailItems = cache.RichTextItems;
+                ChatInfos = cache.ChatItems;
+                PlayerItemInfos = cache.PlayerItems;
+
                 return;
             }
 
             await Task.Factory.StartNew(() =>
             {
                 var list = new List<RichTextItem>(LogFileList.Count);
-                using var stream = new FileStream(logFileInfo.FullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                using var streamReader = new StreamReader(stream);
-                while (streamReader.Peek() > -1)
+                var chats = new List<ChatInfo>();
+                var players = new Dictionary<string, List<PlayerItemInfo>>();
+                using var reader = logFileInfo.GetStringReader();
+                while (reader.Peek() > -1)
                 {
-                    var line = streamReader.ReadLine();
+                    var line = reader.ReadLine();
                     if (line == null)
+                        continue;
+
+                    var paragraph = AnalyzeLine(line);
+                    list.Add(paragraph);
+
+                    var chatInfo = ChatInfoConverter.ConvertChat(line);
+                    if (chatInfo != null)
+                        chats.Add(chatInfo);
+
+                    AnalyzePlayer(players, line);
+                }
+
+                RichLogDetailItems = new ObservableCollection<RichTextItem>(list);
+                ChatInfos = new ObservableCollection<ChatInfo>(chats);
+
+                var playerItemList = new List<PlayerItemInfo>();
+                foreach (var playerItems in players)
+                {
+                    playerItemList.AddRange(playerItems.Value);
+                }
+
+                PlayerItemInfos = new ObservableCollection<PlayerItemInfo>(playerItemList.OrderBy(x => x.Date));
+
+                _cache.Add(logFileInfo.FullPath, new LogCacheItem
+                {
+                    RichTextItems = RichLogDetailItems,
+                    ChatItems = ChatInfos,
+                    PlayerItems = PlayerItemInfos
+                });
+            });
+        }
+
+        public async Task ChangeFilter(string filter)
+        {
+            var fileInfo = _currentFileInfo;
+
+            if (fileInfo == null)
+                return;
+
+            if (!_cache.ContainsKey(fileInfo.FullPath))
+                return;
+
+            if (string.IsNullOrEmpty(filter))
+            {
+                var cache = _cache[fileInfo.FullPath];
+                RichLogDetailItems = cache.RichTextItems;
+                return;
+            }
+
+            await Task.Factory.StartNew(() =>
+            {
+                var regex = new Regex(filter);
+
+                var list = new List<RichTextItem>(LogFileList.Count);
+                using var reader = _currentFileInfo.GetStringReader();
+                while (reader.Peek() > -1)
+                {
+                    var line = reader.ReadLine();
+                    if (line == null)
+                        continue;
+
+                    var match = regex.Match(line);
+
+                    if (!match.Success)
                         continue;
 
                     var paragraph = AnalyzeLine(line);
@@ -80,11 +209,77 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
                 }
 
                 RichLogDetailItems = new ObservableCollection<RichTextItem>(list);
-                _cache.Add(logFileInfo.FullPath, RichLogDetailItems);
             });
         }
 
-        private RichTextItem AnalyzeLine(string line)
+        private static void AnalyzePlayer(Dictionary<string, List<PlayerItemInfo>> playerDict, string line)
+        {
+            List<PlayerItemInfo> GetPlayerList(string id)
+            {
+                if (!playerDict.ContainsKey(id))
+                {
+                    var players = new List<PlayerItemInfo>();
+                    playerDict.Add(id, players);
+                    return players;
+                }
+                else
+                {
+                    var players = playerDict[id];
+                    return players;
+                }
+            }
+
+            var connectedRegex = new Regex("^(?<date>[0-9a-zA-Z-:]+) (?<tick>[0-9.]+) INF Player connected, entityid=(?<id>[0-9]+), name=(?<name>.*), pltfmid=(?<steamId>[a-zA-Z0-9_]+), crossid=[a-zA-Z_0-9]+, steamOwner=[a-zA-Z_0-9]+, ip=(?<ip>[a-zA-Z0-9.:]+)$");
+            var spawnedRegex = new Regex("^(?<date>[0-9a-zA-Z-:]+) (?<tick>[0-9.]+) INF PlayerSpawnedInWorld \\(reason:(?<reason>.*), position: (?<position>[0-9, -]+)\\): EntityID=(?<id>[0-9-]+), PltfmId='[a-zA-Z0-9_]+', CrossId='[a-zA-Z0-9_]+', OwnerID='[a-zA-Z0-9_]+', PlayerName='(?<name>.*)'$");
+            var disconnectedRegex = new Regex("^(?<date>[0-9a-zA-Z-:]+) (?<tick>[0-9.]+) INF Player disconnected: EntityID=(?<id>[0-9]+), PltfmId='(?<steamId>[a-zA-Z0-9_]+)', CrossId='[a-zA-Z0-9_]+', OwnerID='[a-zA-Z0-9_]+', PlayerName='(?<name>.*)'$");
+
+            var connectedMatch = connectedRegex.Match(line);
+            var spawnedMatch = spawnedRegex.Match(line);
+            var disconnectedMatch = disconnectedRegex.Match(line);
+
+            if (connectedMatch.Success)
+            {
+                var id = connectedMatch.Groups["id"].Value;
+                var players = GetPlayerList(id);
+                
+                players.Add(new PlayerItemInfo
+                {
+                    InOut = PlayerItemInfo.InOutType.In,
+                    Date = connectedMatch.Groups["date"].Value,
+                    Id = id,
+                    Name = connectedMatch.Groups["name"].Value,
+                    SteamId = connectedMatch.Groups["steamId"].Value,
+                    IpAddress = connectedMatch.Groups["ip"].Value
+                });
+            }
+            else if (disconnectedMatch.Success)
+            {
+                var id = disconnectedMatch.Groups["id"].Value;
+                var players = GetPlayerList(id);
+
+                players.Add(new PlayerItemInfo
+                {
+                    InOut = PlayerItemInfo.InOutType.Out,
+                    Date = disconnectedMatch.Groups["date"].Value,
+                    Id = id,
+                    Name = disconnectedMatch.Groups["name"].Value,
+                    SteamId = disconnectedMatch.Groups["steamId"].Value
+                });
+            }
+            else if (spawnedMatch.Success)
+            {
+                var id = spawnedMatch.Groups["id"].Value;
+                var players = GetPlayerList(id);
+                var player = players.LastOrDefault(x => x.InOut == PlayerItemInfo.InOutType.In);
+
+                if (player != null)
+                {
+                    player.Position = spawnedMatch.Groups["position"].Value;
+                }
+            }
+        }
+
+        private static RichTextItem AnalyzeLine(string line)
         {
             var item = AnalyzeComment(line);
             if (item != null)
@@ -99,7 +294,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
             return text;
         }
 
-        private RichTextItem CreateTextItem(string line)
+        private static RichTextItem CreateTextItem(string line)
         {
             var paragraph = new RichTextItem
             {
@@ -114,7 +309,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
             return paragraph;
         }
 
-        private RichTextItem AnalyzeCommonText(string line)
+        private static RichTextItem AnalyzeCommonText(string line)
         {
             var expression = @"^(?<Time>[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2} [0-9]+\.[0-9]+) (?<InfoType>[a-zA-Z]+) (?<Message>.*)$";
             var regex = new Regex(expression);
@@ -157,7 +352,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
             return paragraph;
         }
 
-        private RichTextItem AnalyzeComment(string line)
+        private static RichTextItem AnalyzeComment(string line)
         {
             var expression = @"^\*\*\* (.*)$";
             var regex = new Regex(expression);

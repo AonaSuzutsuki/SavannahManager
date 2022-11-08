@@ -11,6 +11,7 @@
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Converter"
         xmlns:userControls="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.UserControls"
+        xmlns:behaviors="clr-namespace:SavannahManagerStyleLib.Views.Behaviors;assembly=SavannahManagerStyleLib"
         mc:Ignorable="d"
         Title="Log Viewer" Height="450" Width="800"
         d:DataContext="{d:DesignInstance viewModels:LogViewerViewModel}"
@@ -92,57 +93,150 @@
                 <MenuItem Header="File(_F)">
                     <MenuItem Header="Exit(_X)" Command="{Binding MainWindowCloseBtClick}" />
                 </MenuItem>
+                <MenuItem Header="Tools(_T)">
+                    <MenuItem Header="Export Player" />
+                    <MenuItem Header="Export Chat" />
+                </MenuItem>
             </Menu>
         </StackPanel>
 
         <Grid Margin="5, 50, 5, 5">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250" />
-                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="280" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <ListBox ItemsSource="{Binding LogFileList}" Background="Transparent" Foreground="White" ItemContainerStyle="{StaticResource CustomListBoxItem}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding LogFileListSelectionChangedCommand}" CommandParameter="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </ListBox>
-
-            <GridSplitter Grid.Column="1" Width="5" Margin="0" Background="Transparent" VerticalAlignment="Stretch" />
-
-            <Grid Grid.Column="2">
-
+            <Grid HorizontalAlignment="Stretch" Margin="0,0,5,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="5" />
                     <RowDefinition Height="30" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <Grid>
-                    <userControls:BindableRichTextBox x:Name="LogTextBox" Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" IsLazyLoad="True" BindingDocument="{Binding RichLogDetailItems.Value, Converter={converter:RichTextItemsToDocumentConverter}}" WordWrapping="{Binding IsWordWrapping.Value}" IsReadOnly="True" TextChangedCommand="{Binding TextChangedCommand}" ScrollEndedCommand="{Binding ScrollEndedCommand}">
-                        <userControls:BindableRichTextBox.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Command="ApplicationCommands.Copy" />
-                                <Separator Style="{StaticResource MLB_Separator}" />
-                                <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_TextWrapping, Mode=OneWay}" IsCheckable="True" IsChecked="{Binding IsWordWrapping.Value}" />
-                            </ContextMenu>
-                        </userControls:BindableRichTextBox.ContextMenu>
-                    </userControls:BindableRichTextBox>
+                <ListBox Grid.Row="2" ItemsSource="{Binding LogFileList}" Background="Transparent" Foreground="White" ItemContainerStyle="{StaticResource CustomListBoxItem}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type viewModels:LogFileItem}">
+                            <Grid Height="25">
 
-                    <Grid Height="30" Margin="20, 0" Background="#222" Visibility="{Binding ProgressBarVisibility.Value, Converter={converter:BooleanVisibilityConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="0" />
+                                    <ColumnDefinition Width="70" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock VerticalAlignment="Center">
+                                    <Run Text="{Binding Title}" />
+                                </TextBlock>
+
+                                <TextBlock Grid.Column="2" VerticalAlignment="Center">
+                                    <Run Text="{Binding FileSizeText}" />
+                                </TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding LogFileListSelectionChangedCommand}" CommandParameter="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListBox>
+            </Grid>
+
+            <GridSplitter Grid.Column="0" Width="5" Margin="0" Background="Transparent" VerticalAlignment="Stretch" />
+
+            <Grid Grid.Column="1">
+                <Grid>
+                    
+                    <TabControl>
+                        <TabItem Header="Log">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="0" />
+                                    <RowDefinition />
+                                    <RowDefinition Height="5" />
+                                    <RowDefinition Height="30" />
+                                </Grid.RowDefinitions>
+
+                                <StackPanel VerticalAlignment="Center" Height="25" Orientation="Horizontal" Grid.Row="0">
+                                    <Label Content="Filter" />
+                                    <TextBox Text="{Binding FilterText.Value}" Width="300" VerticalContentAlignment="Center" />
+                                    <Button Content="Apply" Style="{StaticResource FlatButton}" Command="{Binding ApplyFilterCommand}"/>
+                                </StackPanel>
+
+                                <userControls:BindableRichTextBox Grid.Row="2" x:Name="LogTextBox" Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" IsLazyLoad="True" BindingDocument="{Binding RichLogDetailItems.Value, Converter={converter:RichTextItemsToDocumentConverter}}" WordWrapping="{Binding IsWordWrapping.Value}" IsReadOnly="True" TextChangedCommand="{Binding TextChangedCommand}" ScrollEndedCommand="{Binding ScrollEndedCommand}">
+                                    <userControls:BindableRichTextBox.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Command="ApplicationCommands.Copy" />
+                                            <Separator Style="{StaticResource MLB_Separator}" />
+                                            <MenuItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_TextWrapping, Mode=OneWay}" IsCheckable="True" IsChecked="{Binding IsWordWrapping.Value}" />
+                                        </ContextMenu>
+                                    </userControls:BindableRichTextBox.ContextMenu>
+                                </userControls:BindableRichTextBox>
+
+                                <Grid Grid.Row="4">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Line:" />
+                                        <Label Content="{Binding LoadedLineLabel.Value}" />
+                                        <Label Content="Loaded" />
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+
+                        <TabItem Header="Player">
+                            <ListView ItemsSource="{Binding PlayerItems.Value}" Height="Auto" Width="Auto" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:SortableListViewBehavior FirstSort="Date" />
+                                </i:Interaction.Behaviors>
+
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding Date}">
+                                            <GridViewColumnHeader Tag="Date" Content="Date" />
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding InOut}">
+                                            <GridViewColumnHeader Tag="InOut" Content="In/Out" />
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding Name}">
+                                            <GridViewColumnHeader Tag="Name" Content="Name" />
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding Id}">
+                                            <GridViewColumnHeader Tag="Id" Content="Id" />
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding SteamId}">
+                                            <GridViewColumnHeader Tag="SteamId" Content="Steam Id" />
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding IpAddress}">
+                                            <GridViewColumnHeader Tag="IpAddress" Content="IP Id" />
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding Position}">
+                                            <GridViewColumnHeader Tag="Position" Content="Position" />
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </TabItem>
+
+                        <TabItem Header="Chat">
+                            <ListView ItemsSource="{Binding ChatItems.Value}" Height="Auto" Width="Auto" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Width="140" Header="Date" DisplayMemberBinding="{Binding Path=Date}" />
+                                        <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding Path=Name}" />
+                                        <GridViewColumn Width="300" Header="Body" DisplayMemberBinding="{Binding Path=Message}" />
+                                        <GridViewColumn Width="50" Header="Id" DisplayMemberBinding="{Binding Path=Id}" />
+                                        <GridViewColumn Width="100" Header="Steam Id" DisplayMemberBinding="{Binding Path=SteamId}" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </TabItem>
+                    </TabControl>
+
+                    <Grid Height="30" Margin="20, 0" Background="#222" Visibility="{Binding ProgressBarVisibility.Value, Converter={converter:BooleanVisibilityConverter}, FallbackValue=Hidden}">
                         <ProgressBar Value="100" Style="{StaticResource IndeterminateProgressBar}" />
                     </Grid>
-                </Grid>
-
-                <Grid Grid.Row="2">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Line:" />
-                        <Label Content="{Binding LoadedLineLabel.Value}" />
-                        <Label Content="Loaded" />
-                    </StackPanel>
                 </Grid>
             </Grid>
         </Grid>

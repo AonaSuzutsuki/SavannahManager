@@ -18,9 +18,29 @@ using CommonStyleLib.Views;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using SvManagerLibrary.Chat;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
 {
+    public class LogFileItem
+    {
+        public string Title { get; set; }
+        public long FileSize { get; set; }
+        public string FileSizeText { get; set; }
+
+        public LogFileItem(LogFileInfo info)
+        {
+            Title = info.Name;
+            FileSize = info.Info.Length;
+
+            if (FileSize < 1024)
+                FileSizeText = $"{FileSize}Bytes";
+            else if (FileSize < 1024 * 1024)
+                FileSizeText = $"{Math.Floor((double)FileSize / 1024)}KB";
+            else if (FileSize < 1024 * 1024 * 1024)
+                FileSizeText = $"{Math.Floor((double)FileSize / (1024 * 1024))}MB";
+        }
+    }
 
     public class LogViewerViewModel : ViewModelBase
     {
@@ -28,29 +48,40 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
 
         public Action<IDisposable> ClosedAction { get; set; }
 
-        public ReadOnlyCollection<string> LogFileList { get; set; }
+        public ReadOnlyCollection<LogFileItem> LogFileList { get; set; }
         public ReactiveProperty<bool> IsWordWrapping { get; set; }
         public ReactiveProperty<bool> ProgressBarVisibility { get; set; }
         public ReactiveProperty<ObservableCollection<RichTextItem>> RichLogDetailItems { get; set; }
         public ReactiveProperty<string> LoadedLineLabel { get; set; }
 
+        public ReactiveProperty<string> FilterText { get; set; }
+        public ReactiveProperty<ObservableCollection<PlayerItemInfo>> PlayerItems { get; set; }
+        public ReactiveProperty<ObservableCollection<ChatInfo>> ChatItems { get; set; }
+
         public ICommand LogFileListSelectionChangedCommand { get; set; }
         public ICommand TextChangedCommand { get; set; }
         public ICommand ScrollEndedCommand { get; set; }
+
+        public ICommand ApplyFilterCommand { get; set; }
 
         public LogViewerViewModel(IWindowService windowService, LogViewerModel model) : base(windowService, model)
         {
             _model = model;
 
-            LogFileList = model.LogFileList.ToReadOnlyReactiveCollection(m => m.Name).AddTo(CompositeDisposable);
+            LogFileList = model.LogFileList.ToReadOnlyReactiveCollection(m => new LogFileItem(m)).AddTo(CompositeDisposable);
             RichLogDetailItems = model.ObserveProperty(m => m.RichLogDetailItems).ToReactiveProperty().AddTo(CompositeDisposable);
             ProgressBarVisibility = new ReactiveProperty<bool>();
             IsWordWrapping = new ReactiveProperty<bool>();
             LoadedLineLabel = new ReactiveProperty<string>();
 
+            FilterText = new ReactiveProperty<string>();
+            PlayerItems = model.ObserveProperty(m => m.PlayerItemInfos).ToReactiveProperty().AddTo(CompositeDisposable);
+            ChatItems = model.ObserveProperty(m => m.ChatInfos).ToReactiveProperty().AddTo(CompositeDisposable);
+
             LogFileListSelectionChangedCommand = new DelegateCommand<int?>(LogFileListSelectionChanged);
             TextChangedCommand = new DelegateCommand<BindableRichTextBox>(TextChanged);
             ScrollEndedCommand = new DelegateCommand<BindableRichTextBox>(ReachEndLogText);
+            ApplyFilterCommand = new DelegateCommand(ApplyFilter);
 
             model.Load();
         }
@@ -84,6 +115,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
             LoadedLineLabel.Value = $"{control.CurrentLines}/{control.Lines}";
 
             Debug.WriteLine("This is the end {0}/{1}", control.CurrentLines, control.Lines);
+        }
+
+        public void ApplyFilter()
+        {
+            _ = _model.ChangeFilter(FilterText.Value);
         }
     }
 }

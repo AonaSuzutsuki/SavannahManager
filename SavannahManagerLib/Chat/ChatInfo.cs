@@ -8,6 +8,16 @@ namespace SvManagerLibrary.Chat
     public class ChatInfo
     {
         /// <summary>
+        /// Id of the player who sent you the message.
+        /// </summary>
+        public string Id { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Steam ID of the player who sent you the message.
+        /// </summary>
+        public string SteamId { get; set; } = string.Empty;
+
+        /// <summary>
         /// Name of the player who sent you the message.
         /// </summary>
         public string Name { set; get; } = string.Empty;
@@ -16,6 +26,11 @@ namespace SvManagerLibrary.Chat
         /// The message that was sent.
         /// </summary>
         public string Message { set; get; } = string.Empty;
+
+        /// <summary>
+        /// Date of sending message.
+        /// </summary>
+        public string Date { get; set; } = string.Empty;
 
         /// <summary>
         /// Check the equivalence of this object and the argument object.
