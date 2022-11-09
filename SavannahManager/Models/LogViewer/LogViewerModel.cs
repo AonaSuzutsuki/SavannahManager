@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,58 +17,6 @@ using SvManagerLibrary.Chat;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 {
-    public class LogFileInfo
-    {
-        public string Name => Info.Name;
-        public string FullPath => Info.FullName;
-        public FileInfo Info { get; }
-
-        private string _cache;
-
-        public StringReader GetStringReader()
-        {
-            if (_cache != null)
-                return new StringReader(_cache);
-
-            _cache = File.ReadAllText(FullPath);
-            return new StringReader(_cache);
-        }
-
-        public void ClearCache()
-        {
-            _cache = null;
-        }
-
-        public LogFileInfo(string path)
-        {
-            Info = new FileInfo(path);
-        }
-    }
-
-    public class PlayerItemInfo
-    {
-        public enum InOutType
-        {
-            In,
-            Out
-        }
-
-        public InOutType InOut { get; set; }
-        public string Date { get; set; }
-        public string Name { get; set; }
-        public string Id { get; set; }
-        public string SteamId { get; set; }
-        public string IpAddress { get; set; }
-        public string Position { get; set; }
-    }
-
-    public class LogCacheItem
-    {
-        public ObservableCollection<RichTextItem> RichTextItems { get; set; }
-        public ObservableCollection<ChatInfo> ChatItems { get; set; }
-        public ObservableCollection<PlayerItemInfo> PlayerItems { get; set; }
-    }
-
     public class LogViewerModel : ModelBase
     {
         private LogFileInfo _currentFileInfo;

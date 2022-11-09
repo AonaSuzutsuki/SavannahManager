@@ -125,9 +125,11 @@
                                     <ColumnDefinition Width="70" />
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock VerticalAlignment="Center">
-                                    <Run Text="{Binding Title}" />
-                                </TextBlock>
+                                <Grid>
+                                    <TextBlock VerticalAlignment="Center">
+                                        <Run Text="{Binding Title}" />
+                                    </TextBlock>
+                                </Grid>
 
                                 <TextBlock Grid.Column="2" VerticalAlignment="Center">
                                     <Run Text="{Binding FileSizeText}" />
@@ -162,7 +164,7 @@
                                 <StackPanel VerticalAlignment="Center" Height="25" Orientation="Horizontal" Grid.Row="0">
                                     <Label Content="Filter" />
                                     <TextBox Text="{Binding FilterText.Value}" Width="300" VerticalContentAlignment="Center" />
-                                    <Button Content="Apply" Style="{StaticResource FlatButton}" Command="{Binding ApplyFilterCommand}"/>
+                                    <Button Content="Apply" Width="50" Margin="5,0,0,0" Style="{StaticResource FlatButton}" Command="{Binding ApplyFilterCommand}"/>
                                 </StackPanel>
 
                                 <userControls:BindableRichTextBox Grid.Row="2" x:Name="LogTextBox" Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" IsLazyLoad="True" BindingDocument="{Binding RichLogDetailItems.Value, Converter={converter:RichTextItemsToDocumentConverter}}" WordWrapping="{Binding IsWordWrapping.Value}" IsReadOnly="True" TextChangedCommand="{Binding TextChangedCommand}" ScrollEndedCommand="{Binding ScrollEndedCommand}">
