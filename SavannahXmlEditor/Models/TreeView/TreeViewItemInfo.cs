@@ -96,7 +96,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
             if (root is SavannahTagNode tagRoot)
             {
                 RemoveReservedAttributes(tagRoot);
-                Children = new ObservableCollection<TreeViewItemInfoBase>(from node in tagRoot.ChildNodes
+                Children = new ObservableCollection<ITreeViewItemInfoBase>(from node in tagRoot.ChildNodes
                     select new TreeViewItemInfo(node, editedModel, this));
             }
 
