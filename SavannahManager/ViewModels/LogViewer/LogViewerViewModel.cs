@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.Models.LogViewer;
+using _7dtd_svmanager_fix_mvvm.Views.LogViewer;
 using _7dtd_svmanager_fix_mvvm.Views.Update;
 using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonStyleLib.Models;
@@ -38,6 +39,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
         public ReactiveProperty<ObservableCollection<PlayerItemInfo>> PlayerItems { get; set; }
         public ReactiveProperty<ObservableCollection<ChatInfo>> ChatItems { get; set; }
 
+        public ICommand ExportPlayerCommand { get; set; }
+        public ICommand ExportChatCommand { get; set; }
+
         public ICommand LogFileListSelectionChangedCommand { get; set; }
         public ICommand TextChangedCommand { get; set; }
         public ICommand ScrollEndedCommand { get; set; }
@@ -58,6 +62,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
             PlayerItems = model.ObserveProperty(m => m.PlayerItemInfos).ToReactiveProperty().AddTo(CompositeDisposable);
             ChatItems = model.ObserveProperty(m => m.ChatInfos).ToReactiveProperty().AddTo(CompositeDisposable);
 
+            ExportPlayerCommand = new DelegateCommand(ExportPlayer);
+            ExportChatCommand = new DelegateCommand(ExportChat);
             LogFileListSelectionChangedCommand = new DelegateCommand<int?>(LogFileListSelectionChanged);
             TextChangedCommand = new DelegateCommand<BindableRichTextBox>(TextChanged);
             ScrollEndedCommand = new DelegateCommand<BindableRichTextBox>(ReachEndLogText);
@@ -71,6 +77,22 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
             base.MainWindowCloseBt_Click();
 
             ClosedAction?.Invoke(this);
+        }
+
+        public void ExportPlayer()
+        {
+            var players = (from x in _model.PlayerItemInfos select x.GetMap()).ToList();
+            var model = new LogExportModel(PlayerItemInfo.Names(), players);
+            var vm = new LogExportViewModel(new WindowService(), model);
+            WindowManageService.ShowDialog<LogExport>(vm);
+        }
+
+        public void ExportChat()
+        {
+            var chats = (from x in _model.ChatInfos select x.GetMap()).ToList();
+            var model = new LogExportModel(ChatInfo.Names(), chats);
+            var vm = new LogExportViewModel(new WindowService(), model);
+            WindowManageService.ShowDialog<LogExport>(vm);
         }
 
         public void LogFileListSelectionChanged(int? index)

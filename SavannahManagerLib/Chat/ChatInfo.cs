@@ -69,5 +69,29 @@ namespace SvManagerLibrary.Chat
                 return true;
             return false;
         }
+
+        public Dictionary<string, string> GetMap()
+        {
+            return new Dictionary<string, string>
+            {
+                { nameof(Date), Date },
+                { nameof(Name), Name },
+                { nameof(Id), Id },
+                { nameof(SteamId), SteamId },
+                { nameof(Message), Message }
+            };
+        }
+
+        public static IEnumerable<string> Names()
+        {
+            return new List<string>
+            {
+                nameof(Date),
+                nameof(Name),
+                nameof(Id),
+                nameof(SteamId),
+                nameof(Message)
+            };
+        }
     }
 }

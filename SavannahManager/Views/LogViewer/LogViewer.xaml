@@ -94,8 +94,8 @@
                     <MenuItem Header="Exit(_X)" Command="{Binding MainWindowCloseBtClick}" />
                 </MenuItem>
                 <MenuItem Header="Tools(_T)">
-                    <MenuItem Header="Export Player" />
-                    <MenuItem Header="Export Chat" />
+                    <MenuItem Header="Export Player" Command="{Binding ExportPlayerCommand}" />
+                    <MenuItem Header="Export Chat" Command="{Binding ExportChatCommand}" />
                 </MenuItem>
             </Menu>
         </StackPanel>
@@ -114,7 +114,31 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <ListBox Grid.Row="2" ItemsSource="{Binding LogFileList}" Background="Transparent" Foreground="White" ItemContainerStyle="{StaticResource CustomListBoxItem}">
+                <ListBox Grid.Row="2" ItemsSource="{Binding LogFileList}" Background="Transparent" Foreground="White" ItemContainerStyle="{StaticResource CustomListBoxItem}" BorderBrush="{StaticResource  BorderWhiteColor}" BorderThickness="1">
+                    <ListBox.Style>
+                        <Style TargetType="ListBox">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBox">
+                                        <Border Name="Border" BorderBrush="{StaticResource BorderColor}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0">
+                                            <ScrollViewer Margin="0,0,0,0" Focusable="false" Style="{DynamicResource ListBoxScrollKey}">
+                                                <StackPanel Margin="2" IsItemsHost="True" />
+                                            </ScrollViewer>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" Value="false">
+                                                <Setter TargetName="Border" Property="Background" Value="Transparent" />
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource BorderColor}" />
+                                            </Trigger>
+                                            <Trigger Property="IsGrouping" Value="true">
+                                                <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.Style>
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type viewModels:LogFileItem}">
                             <Grid Height="25">
