@@ -11,9 +11,9 @@
     <AssemblyName>7dtd-XmlEditor</AssemblyName>
     <RootNamespace>_7dtd_XmlEditor</RootNamespace>
     <PackageId>7dtd_XmlEditor</PackageId>
-    <AssemblyVersion>1.1.2.0</AssemblyVersion>
-    <FileVersion>1.1.2.0</FileVersion>
-    <Version>1.1.2.0</Version>
+    <AssemblyVersion>1.1.3.1</AssemblyVersion>
+    <FileVersion>1.1.3.1</FileVersion>
+    <Version>1.1.3.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -25,7 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommonStyleLib" Version="1.0.15" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.16" />
     <PackageReference Include="SavannahXmlLib" Version="1.0.5" />
   </ItemGroup>
 
