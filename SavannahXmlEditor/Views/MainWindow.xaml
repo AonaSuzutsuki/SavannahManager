@@ -10,6 +10,7 @@
         xmlns:models="clr-namespace:_7dtd_XmlEditor.Models"
         xmlns:treeView="clr-namespace:_7dtd_XmlEditor.Models.TreeView"
         xmlns:views="clr-namespace:_7dtd_XmlEditor.Views"
+        xmlns:treeViewBehavior="clr-namespace:CommonStyleLib.Views.Behaviors.TreeViewBehavior;assembly=CommonStyleLib"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
         Title="MainWindow" Height="450" Width="800">
@@ -108,7 +109,7 @@
 
                     <views:BindableSelectedItemTreeView x:Name="ItemTreeView" ItemsSource="{Binding TreeViewItems}" BindableSelectedItem="{Binding TreeViewSelectedItem.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IgnoreNullSelectedItem="False" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
                         <i:Interaction.Behaviors>
-                            <views:MoveableTreeViewBehavior DropCommand="{Binding DropCommand}" DataType="treeView:TreeViewItemInfo" />
+                            <treeViewBehavior:MoveableTreeViewBehavior DropCommand="{Binding DropCommand}" DataType="treeView:TreeViewItemInfo" />
                         </i:Interaction.Behaviors>
 
                         <i:Interaction.Triggers>
