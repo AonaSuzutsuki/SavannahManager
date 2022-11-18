@@ -82,7 +82,9 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <Label Content="Column Definition" />
+                    <TextBlock Foreground="White" VerticalAlignment="Center">
+                        <Run Text="Column Definition" />
+                    </TextBlock>
 
                     <ListBox Grid.Row="2" ItemsSource="{Binding ColumnItems.Value}" Background="Transparent" ItemContainerStyle="{StaticResource MoveableListBoxItem}">
                         <i:Interaction.Behaviors>
@@ -114,7 +116,9 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <Label Content="Preview" />
+                    <TextBlock Foreground="White" VerticalAlignment="Center">
+                        <Run Text="Preview" />
+                    </TextBlock>
 
                     <TextBox Grid.Row="2" Text="{Binding PreviewText.Value}" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ContextMenu="{StaticResource CopyOnly}" />
                 </Grid>

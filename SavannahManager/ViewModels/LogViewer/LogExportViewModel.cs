@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.Models.LogViewer;
+using CommonCoreLib;
+using CommonStyleLib.File;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
@@ -44,7 +46,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
 
         public void Save()
         {
+            // 2021-12-20- 14-12-37.log
+            var fileName = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss");
+            var prefix = _model.Mode;
+            var saveFile =
+                FileSelector.GetFilePath(AppInfo.GetAppPath(), "TSV File (*.tsv)|*.tsv|All File (*.*)|*.*", $"{prefix}-{fileName}.tsv", FileSelector.FileSelectorType.Write);
 
+            _model.SaveFile(saveFile);
         }
     }
 }
