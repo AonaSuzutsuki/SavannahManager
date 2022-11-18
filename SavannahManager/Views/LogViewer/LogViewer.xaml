@@ -235,7 +235,7 @@
                                             <GridViewColumnHeader Tag="SteamId" Content="Steam Id" />
                                         </GridViewColumn>
                                         <GridViewColumn Width="140" DisplayMemberBinding="{Binding IpAddress}">
-                                            <GridViewColumnHeader Tag="IpAddress" Content="IP Id" />
+                                            <GridViewColumnHeader Tag="IpAddress" Content="IP" />
                                         </GridViewColumn>
                                         <GridViewColumn Width="140" DisplayMemberBinding="{Binding Position}">
                                             <GridViewColumnHeader Tag="Position" Content="Position" />
