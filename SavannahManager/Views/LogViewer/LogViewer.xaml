@@ -94,8 +94,8 @@
                     <MenuItem Header="Exit(_X)" Command="{Binding MainWindowCloseBtClick}" />
                 </MenuItem>
                 <MenuItem Header="Tools(_T)">
-                    <MenuItem Header="Export Player" Command="{Binding ExportPlayerCommand}" />
-                    <MenuItem Header="Export Chat" Command="{Binding ExportChatCommand}" />
+                    <MenuItem Header="Export Player" Command="{Binding ExportPlayerCommand}" IsEnabled="{Binding CanExportPlayer.Value}" />
+                    <MenuItem Header="Export Chat" Command="{Binding ExportChatCommand}" IsEnabled="{Binding CanExportChat.Value}" />
                 </MenuItem>
             </Menu>
         </StackPanel>
@@ -242,6 +242,11 @@
                                         </GridViewColumn>
                                     </GridView>
                                 </ListView.View>
+                                <ListView.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Export Players to File" Command="{Binding ExportPlayerCommand}" IsEnabled="{Binding CanExportPlayer.Value}" />
+                                    </ContextMenu>
+                                </ListView.ContextMenu>
                             </ListView>
                         </TabItem>
 
@@ -256,6 +261,11 @@
                                         <GridViewColumn Width="100" Header="Steam Id" DisplayMemberBinding="{Binding Path=SteamId}" />
                                     </GridView>
                                 </ListView.View>
+                                <ListView.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Export Chats to File" Command="{Binding ExportChatCommand}" IsEnabled="{Binding CanExportChat.Value}" />
+                                    </ContextMenu>
+                                </ListView.ContextMenu>
                             </ListView>
                         </TabItem>
                     </TabControl>

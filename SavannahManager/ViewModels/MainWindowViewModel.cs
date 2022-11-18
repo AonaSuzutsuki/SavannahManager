@@ -528,7 +528,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             var model = new LogViewerModel();
             var vm = new LogViewerViewModel(new WindowService(), model);
-            vm.ClosedAction = (disposable) => disposable.Dispose();
             WindowManageService.Show<Views.LogViewer.LogViewer>(vm);
         }
         private void OpenMenuCheckUpdate()

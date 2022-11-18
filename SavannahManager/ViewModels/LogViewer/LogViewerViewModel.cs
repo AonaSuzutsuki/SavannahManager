@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -27,7 +28,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
     {
         private readonly LogViewerModel _model;
 
-        public Action<IDisposable> ClosedAction { get; set; }
+        public ReactiveProperty<bool> CanExportPlayer { get; set; }
+        public ReactiveProperty<bool> CanExportChat { get; set; }
 
         public ReadOnlyCollection<LogFileItem> LogFileList { get; set; }
         public ReactiveProperty<bool> IsWordWrapping { get; set; }
@@ -52,6 +54,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
         {
             _model = model;
 
+            CanExportPlayer = new ReactiveProperty<bool>();
+            CanExportChat = new ReactiveProperty<bool>();
+
             LogFileList = model.LogFileList.ToReadOnlyReactiveCollection(m => new LogFileItem(m)).AddTo(CompositeDisposable);
             RichLogDetailItems = model.ObserveProperty(m => m.RichLogDetailItems).ToReactiveProperty().AddTo(CompositeDisposable);
             ProgressBarVisibility = new ReactiveProperty<bool>();
@@ -60,7 +65,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
 
             FilterText = new ReactiveProperty<string>();
             PlayerItems = model.ObserveProperty(m => m.PlayerItemInfos).ToReactiveProperty().AddTo(CompositeDisposable);
+            PlayerItems.PropertyChanged += (sender, args) => CanExportPlayer.Value = _model.PlayerItemInfos.Any();
             ChatItems = model.ObserveProperty(m => m.ChatInfos).ToReactiveProperty().AddTo(CompositeDisposable);
+            ChatItems.PropertyChanged += (sender, args) => CanExportChat.Value = _model.ChatInfos.Any();
 
             ExportPlayerCommand = new DelegateCommand(ExportPlayer);
             ExportChatCommand = new DelegateCommand(ExportChat);
@@ -72,17 +79,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
             model.Load();
         }
 
-        protected override void MainWindowCloseBt_Click()
-        {
-            base.MainWindowCloseBt_Click();
-
-            ClosedAction?.Invoke(this);
-        }
-
         public void ExportPlayer()
         {
             var players = (from x in _model.PlayerItemInfos select x.GetMap()).ToList();
-            var model = new LogExportModel(PlayerItemInfo.Names(), players);
+            var model = new LogExportModel(PlayerItemInfo.Names(), players, "players");
             var vm = new LogExportViewModel(new WindowService(), model);
             WindowManageService.ShowDialog<LogExport>(vm);
         }
@@ -90,7 +90,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
         public void ExportChat()
         {
             var chats = (from x in _model.ChatInfos select x.GetMap()).ToList();
-            var model = new LogExportModel(ChatInfo.Names(), chats);
+            var model = new LogExportModel(ChatInfo.Names(), chats, "chats");
             var vm = new LogExportViewModel(new WindowService(), model);
             WindowManageService.ShowDialog<LogExport>(vm);
         }
