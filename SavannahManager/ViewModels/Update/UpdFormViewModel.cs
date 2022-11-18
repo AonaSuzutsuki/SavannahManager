@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.Models.Update;
 using _7dtd_svmanager_fix_mvvm.Views.Update;
+using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;

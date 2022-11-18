@@ -9,6 +9,7 @@
         xmlns:update="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Update"
         xmlns:update1="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels.Update"
         xmlns:node="clr-namespace:_7dtd_svmanager_fix_mvvm.Models.Update.Node"
+        xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Converter"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance update1:CheckCleanFileViewModel}"
         Title="Check Clean File" Height="450" Width="800" WindowStartupLocation="CenterOwner">
@@ -38,7 +39,7 @@
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
                 <ResourceDictionary Source="/Styles/TreeViewStyle.xaml" />
                 <ResourceDictionary>
-                    <update:RichTextItemsToDocumentConverter x:Key="RichTextItemsConverter"/>
+                    <converter:RichTextItemsToDocumentConverter x:Key="RichTextItemsConverter"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
