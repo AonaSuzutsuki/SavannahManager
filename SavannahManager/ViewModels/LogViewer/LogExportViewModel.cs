@@ -53,6 +53,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
                 FileSelector.GetFilePath(AppInfo.GetAppPath(), "TSV File (*.tsv)|*.tsv|All File (*.*)|*.*", $"{prefix}-{fileName}.tsv", FileSelector.FileSelectorType.Write);
 
             _model.SaveFile(saveFile);
+            WindowManageService.Close();
         }
     }
 }
