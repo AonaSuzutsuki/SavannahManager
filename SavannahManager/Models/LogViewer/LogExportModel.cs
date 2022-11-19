@@ -62,6 +62,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
         {
 
             var sb = new StringBuilder();
+            sb.AppendLine(string.Join("\t", ColumnItems.Select(x => x.Text)));
             foreach (var dict in _logList)
             {
                 foreach (var columnItem in ColumnItems)
