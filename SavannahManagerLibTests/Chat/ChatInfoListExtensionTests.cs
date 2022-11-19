@@ -20,8 +20,11 @@ namespace SvManagerLibraryTests2.Chat
             {
                 new ChatInfo()
                 {
+                    Id = "-1",
+                    SteamId = "-non-player-",
                     Name = "Server",
-                    Message = "Hello, World."
+                    Message = "Hello, World.",
+                    Date = "2019-01-19T16:14:21"
                 }
             };
 
@@ -39,13 +42,19 @@ namespace SvManagerLibraryTests2.Chat
             {
                 new ChatInfo()
                 {
+                    Id = "-1",
+                    SteamId = "-non-player-",
                     Name = "Server",
-                    Message = "Hello, World."
+                    Message = "Hello, World.",
+                    Date = "2019-01-19T16:14:21"
                 },
                 new ChatInfo()
                 {
+                    Id = "-1",
+                    SteamId = "-non-player-",
                     Name = "Server2",
-                    Message = "HogeHoge."
+                    Message = "HogeHoge.",
+                    Date = "2019-01-19T16:14:21"
                 }
             };
 

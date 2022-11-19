@@ -17,8 +17,11 @@ namespace SvManagerLibraryTests2.Chat
             var text = "2019-01-19T16:14:21 140.048 INF Chat (from '-non-player-', entity id '-1', to 'Global'): 'Server': Hello, World.";
             var exp = new ChatInfo()
             {
+                Id = "-1",
+                SteamId = "-non-player-",
                 Name = "Server",
-                Message = "Hello, World."
+                Message = "Hello, World.",
+                Date = "2019-01-19T16:14:21"
             };
             var act = ChatInfoConverter.ConvertChat(text);
 

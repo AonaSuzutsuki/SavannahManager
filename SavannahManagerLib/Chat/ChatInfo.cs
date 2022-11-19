@@ -40,8 +40,11 @@ namespace SvManagerLibrary.Chat
         public override bool Equals(object obj)
         {
             return obj is ChatInfo info &&
+                   Id == info.Id &&
+                   SteamId == info.SteamId &&
                    Name == info.Name &&
-                   Message == info.Message;
+                   Message == info.Message &&
+                   Date == info.Date;
         }
 
         /// <summary>
@@ -51,8 +54,11 @@ namespace SvManagerLibrary.Chat
         public override int GetHashCode()
         {
             var hashCode = -835697798;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Id);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(SteamId);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Message);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Date);
             return hashCode;
         }
 
