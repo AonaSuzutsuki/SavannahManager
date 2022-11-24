@@ -3,7 +3,7 @@
 namespace SvManagerLibrary.Telnet
 {
     /// <summary>
-    /// Proviced exception code for telnet.
+    /// Provided exception code for telnet.
     /// </summary>
     public class TelnetException
     {

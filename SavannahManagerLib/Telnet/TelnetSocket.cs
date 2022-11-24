@@ -30,6 +30,11 @@ namespace SvManagerLibrary.Telnet
         int ReceiveBufferSize { get; set; }
 
         /// <summary>
+        /// Gets or sets a value that receive timeout of the Socket.
+        /// </summary>
+        int ReceiveTimeout { get; set; }
+
+        /// <summary>
         /// Determines the status of the Socket.
         /// </summary>
         /// <param name="microSeconds">The time to wait for a response, in microseconds.</param>

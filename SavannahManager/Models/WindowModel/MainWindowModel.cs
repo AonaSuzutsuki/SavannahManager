@@ -831,7 +831,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             if (model._isLogGetter)
             {
-                telnet.EnableLogging(ConstantValues.LogDirectoryPath);
+                telnet.LogDirectory = ConstantValues.LogDirectoryPath;
             }
 
             telnet.Started += (sender, args) => model._telnetStartedSubject?.OnNext(args);

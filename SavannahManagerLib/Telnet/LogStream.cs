@@ -11,20 +11,15 @@ namespace SvManagerLibrary.Telnet
     /// <summary>
     /// Provides a Stream for logging.
     /// </summary>
-    public class LogStream : Stream, IDisposable
+    public class LogStream : IDisposable
     {
-        private FileStream _fs;
-        private string _dirPath;
+#if DEBUG
+        public Stream Stream { get; private set; }
+#else
+        private Stream Stream { get; set; }
+#endif
 
-        public override bool CanRead => _fs.CanRead;
-        public override bool CanSeek => _fs.CanSeek;
-        public override bool CanWrite => _fs.CanWrite;
-        public override long Length => _fs.Length;
-        public override long Position
-        {
-            get => _fs.Position;
-            set => _fs.Position = value;
-        }
+        public long Length => Stream.Length;
 
         /// <summary>
         /// Automatically writes to a file when writing.
@@ -38,43 +33,25 @@ namespace SvManagerLibrary.Telnet
 
         public LogStream(string dirPath)
         {
-            _dirPath = dirPath;
-        }
-
-        public void Start()
-        {
-            var di = new DirectoryInfo(AppInfo.GetAppPath() + @"\logs");
+            var di = new DirectoryInfo(dirPath);
             if (!di.Exists)
                 di.Create();
             var dt = DateTime.Now;
 
-            _fs = new FileStream(_dirPath + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log",
+            var stream = new FileStream(di.FullName + "\\" + dt.ToString("yyyy-MM-dd- HH-mm-ss") + ".log",
                 FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+
+            Stream = stream;
         }
 
-        public override void Flush()
+        public void Flush()
         {
-            _fs.Flush();
+            Stream.Flush();
         }
 
-        public override int Read(byte[] buffer, int offset, int count)
+        public void Write(byte[] buffer, int offset, int count)
         {
-            return _fs.Read(buffer, offset, count);
-        }
-
-        public override long Seek(long offset, SeekOrigin origin)
-        {
-            return _fs.Seek(offset, origin);
-        }
-
-        public override void SetLength(long value)
-        {
-            _fs.SetLength(value);
-        }
-
-        public override void Write(byte[] buffer, int offset, int count)
-        {
-            _fs.Write(buffer, offset, count);
+            Stream.Write(buffer, offset, count);
         }
 
         /// <summary>
@@ -95,17 +72,15 @@ namespace SvManagerLibrary.Telnet
             }
         }
 
-        protected override void Dispose(bool disposing)
+        public void Dispose()
         {
-            base.Dispose(disposing);
-
-            if (_fs != null)
+            if (Stream != null)
             {
-                lock (_fs)
+                lock (Stream)
                 {
-                    _fs?.Flush();
-                    _fs?.Dispose();
-                    _fs = null;
+                    Stream?.Flush();
+                    Stream?.Dispose();
+                    Stream = null;
                 }
             }
         }
