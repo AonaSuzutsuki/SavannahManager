@@ -5,7 +5,7 @@
       You can analyze log file be out put with Savannah Manager 2.
       It analyze 7dtd Telnet logs, so if you want to analyze those of different Telnet clients, place the log file in the following location with the file name *.log.
         ・[Directory of Savannah Manager 2]\logs
-      For other usage, see the <nobr /><a href="https://github.com/AonaSuzutsuki/SavannahManager/wiki">Wiki</a><nobr />.
+      For other usage, see the <nobr /><a href="https://github.com/AonaSuzutsuki/SavannahManager/wiki/AnalyzeLog">Wiki</a><nobr />.
     2. Updated packages.
   </update>
   <update version="2.5.51.7">
