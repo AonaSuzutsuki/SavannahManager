@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SvManagerLibrary.Crypto
 {
-    public class RsaWrapper
+    public class RsaWrapper : IDisposable
     {
 
         public enum KeyType
@@ -14,43 +14,43 @@ namespace SvManagerLibrary.Crypto
             Private
         }
 
+        private readonly RSACryptoServiceProvider _rsaCryptoService = new RSACryptoServiceProvider();
+
         public string PublicKey { get; set; }
 
         public string PrivateKey { get; set; }
 
-        public RsaWrapper() { }
-
-        public RsaWrapper(KeyType keyType)
+        public RsaWrapper(bool isCreateAllKey = true)
         {
-            CreateKey(keyType);
+            if (isCreateAllKey)
+                CreateKey();
         }
 
-        private void CreateKey(KeyType keyType = KeyType.All)
+        public void CreatePublicKey()
         {
-            var rsa = new RSACryptoServiceProvider();
+            Initialize(KeyType.Private);
 
-            switch (keyType)
-            {
-                case KeyType.Private:
-                    PrivateKey = rsa.ToXmlString(true);
-                    break;
-                case KeyType.Public:
-                    PublicKey = rsa.ToXmlString(false);
-                    break;
-                default:
-                    PrivateKey = rsa.ToXmlString(true);
-                    PublicKey = rsa.ToXmlString(false);
-                    break;
-            }
+            PublicKey = _rsaCryptoService.ToXmlString(false);
         }
 
+        private void CreateKey()
+        {
+            using var rsa = new RSACryptoServiceProvider();
+
+            PrivateKey = rsa.ToXmlString(true);
+            PublicKey = rsa.ToXmlString(false);
+        }
+
+        private void Initialize(KeyType keyType)
+        {
+            _rsaCryptoService.FromXmlString(keyType == KeyType.Private ? PrivateKey : PublicKey);
+        }
+        
         #region Encrypt
         public byte[] Encrypt(byte[] data)
         {
-            var rsa = new RSACryptoServiceProvider();
-            rsa.FromXmlString(PublicKey);
-
-            var encrypted = rsa.Encrypt(data, true);
+            Initialize(KeyType.Public);
+            var encrypted = _rsaCryptoService.Encrypt(data, true);
             return encrypted;
         }
 
@@ -66,10 +66,8 @@ namespace SvManagerLibrary.Crypto
         #region Decrypt
         public byte[] Decrypt(byte[] data)
         {
-            var rsa = new RSACryptoServiceProvider();
-            rsa.FromXmlString(PrivateKey);
-
-            var decrypted = rsa.Decrypt(data, true);
+            Initialize(KeyType.Private);
+            var decrypted = _rsaCryptoService.Decrypt(data, true);
             return decrypted;
         }
 
@@ -80,5 +78,10 @@ namespace SvManagerLibrary.Crypto
             return Encoding.UTF8.GetString(data);
         }
         #endregion
+
+        public void Dispose()
+        {
+            _rsaCryptoService?.Dispose();
+        }
     }
 }
