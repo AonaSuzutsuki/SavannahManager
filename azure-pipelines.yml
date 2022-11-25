@@ -62,7 +62,9 @@ steps:
     reportDirectory: 'CoverageReport'
 
 - task: PublishPipelineArtifact@1
+  condition: always()
   inputs:
     targetPath: '$(Pipeline.Workspace)'
     artifact: 'test'
     publishLocation: 'pipeline'
+    
