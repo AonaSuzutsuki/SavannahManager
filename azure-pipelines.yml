@@ -52,11 +52,12 @@ steps:
 - task: reportgenerator@4
   inputs:
     reports: '**/coverage.cobertura.xml'
-    targetdir: 'CoverageReport'
+    targetdir: '$(Pipeline.Workspace)/coverlet'
     reporttypes: 'HtmlInline_AzurePipelines'
+    verbosity: 'Verbose'
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '**/coverage.cobertura.xml'
-    reportDirectory: 'CoverageReport'
+    summaryFileLocation: '$(Pipeline.Workspace)/coverlet/Cobertura.xml'
+    
