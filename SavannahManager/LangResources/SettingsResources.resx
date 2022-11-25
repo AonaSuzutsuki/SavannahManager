@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfigFilePath" xml:space="preserve">
     <value>コンフィグファイルパス</value>
@@ -178,8 +178,28 @@ Get Timeなどのコンソールログに出力しないで解析する機能で
     <value>コンフィグファイルパス</value>
     <comment>UI, 設定</comment>
   </data>
+  <data name="UI_EnabledRestartMessage" xml:space="preserve">
+    <value>再起動時にチャットメッセージを送信する</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Encryption" xml:space="preserve">
+    <value>暗号化</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_EncryptPassword" xml:space="preserve">
+    <value>パスワードを暗号化</value>
+    <comment>UI, 設定</comment>
+  </data>
   <data name="UI_GeneralLabel" xml:space="preserve">
     <value>全般</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Hour" xml:space="preserve">
+    <value>時間</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_IntervalTime" xml:space="preserve">
+    <value>送信間隔</value>
     <comment>UI, 設定</comment>
   </data>
   <data name="UI_KeyConfigLabel" xml:space="preserve">
@@ -202,8 +222,24 @@ Get Timeなどのコンソールログに出力しないで解析する機能で
     <value>コンソールテキストの長さ</value>
     <comment>UI, 設定</comment>
   </data>
+  <data name="UI_MessageFormat" xml:space="preserve">
+    <value>チャット形式</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Minute" xml:space="preserve">
+    <value>分</value>
+    <comment>UI, 設定</comment>
+  </data>
   <data name="UI_OthersLabel" xml:space="preserve">
     <value>その他</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_ResetPassword" xml:space="preserve">
+    <value>パスワードをリセット</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Restart" xml:space="preserve">
+    <value>自動再起動</value>
     <comment>UI, 設定</comment>
   </data>
   <data name="UI_RestoreDestinationPath" xml:space="preserve">
@@ -212,6 +248,14 @@ Get Timeなどのコンソールログに出力しないで解析する機能で
   </data>
   <data name="UI_SaveBT" xml:space="preserve">
     <value>保存</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_ScheduledTime" xml:space="preserve">
+    <value>予約時間</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Second" xml:space="preserve">
+    <value>秒</value>
     <comment>UI, 設定</comment>
   </data>
   <data name="UI_ServerFilePathLabel" xml:space="preserve">
@@ -224,6 +268,10 @@ Get Timeなどのコンソールログに出力しないで解析する機能で
   </data>
   <data name="UI_ShortcutKeyLabel" xml:space="preserve">
     <value>ショートカットキー</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_StartTime" xml:space="preserve">
+    <value>開始時間</value>
     <comment>UI, 設定</comment>
   </data>
   <data name="UI_TextLength" xml:space="preserve">

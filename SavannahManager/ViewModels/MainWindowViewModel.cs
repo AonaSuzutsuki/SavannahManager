@@ -17,6 +17,7 @@ using System.Windows.Threading;
 using _7dtd_svmanager_fix_mvvm.LangResources;
 using _7dtd_svmanager_fix_mvvm.Models;
 using _7dtd_svmanager_fix_mvvm.Models.Backup;
+using _7dtd_svmanager_fix_mvvm.Models.LogViewer;
 using _7dtd_svmanager_fix_mvvm.Models.Permissions;
 using _7dtd_svmanager_fix_mvvm.Models.PlayerController;
 using _7dtd_svmanager_fix_mvvm.Models.Settings;
@@ -30,12 +31,14 @@ using SvManagerLibrary.Player;
 using SvManagerLibrary.Telnet;
 using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 using _7dtd_svmanager_fix_mvvm.ViewModels.Backup;
+using _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer;
 using _7dtd_svmanager_fix_mvvm.ViewModels.Permissions;
 using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController;
 using _7dtd_svmanager_fix_mvvm.ViewModels.Settings;
 using _7dtd_svmanager_fix_mvvm.ViewModels.Setup;
 using _7dtd_svmanager_fix_mvvm.ViewModels.Update;
 using _7dtd_svmanager_fix_mvvm.Views.Backup;
+using _7dtd_svmanager_fix_mvvm.Views.LogViewer;
 using _7dtd_svmanager_fix_mvvm.Views.Permissions;
 using _7dtd_svmanager_fix_mvvm.Views.PlayerController;
 using _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages;
@@ -119,6 +122,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             OpenConfigEditorCommand = new DelegateCommand(OpenConfigEditor);
             OpenXmlEditorCommand = new DelegateCommand(OpenMenuXmlEditor);
             OpenBackupEditorCommand = new DelegateCommand(OpenMenuBackupEditor);
+            OpenLogViewerCommand = new DelegateCommand(OpenLogViewer);
             OpenCheckUpdateCommand = new DelegateCommand(OpenMenuCheckUpdate);
             OpenVersionInfoCommand = new DelegateCommand(OpenMenuVersionInfo);
 
@@ -233,6 +237,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand OpenConfigEditorCommand { get; set; }
         public ICommand OpenXmlEditorCommand { get; set; }
         public ICommand OpenBackupEditorCommand { get; set; }
+        public ICommand OpenLogViewerCommand { get; set; }
         public ICommand OpenCheckUpdateCommand { get; set; }
         public ICommand OpenVersionInfoCommand { get; set; }
 
@@ -517,6 +522,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var backupModel = new BackupSelectorModel(setting);
             var vm = new BackupSelectorViewModel(new WindowService(), backupModel);
             WindowManageService.Show<BackupSelector>(vm);
+        }
+
+        private void OpenLogViewer()
+        {
+            var model = new LogViewerModel();
+            var vm = new LogViewerViewModel(new WindowService(), model);
+            WindowManageService.Show<Views.LogViewer.LogViewer>(vm);
         }
         private void OpenMenuCheckUpdate()
         {

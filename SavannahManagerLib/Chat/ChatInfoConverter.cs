@@ -16,8 +16,8 @@ namespace SvManagerLibrary.Chat
         public static ChatInfo ConvertChat(string text)
         {
             //2019-01-19T16:14:21 140.048 INF Chat (from '-non-player-', entity id '-1', to 'Global'): 'Server': test
-            var chatData = new ChatInfo();
-            const string expression = "^([0-9a-zA-Z:-]+) ([0-9.]+?) INF Chat \\(.*\\): '(?<name>.*)': (?<chat>.*)$"; // "^(?<date>.*?) (.*?) INF Chat: '(?<name>.*?)': (?<chat>.*?)$";
+            // "^(?<date>.*?) (.*?) INF Chat: '(?<name>.*?)': (?<chat>.*?)$";
+            const string expression = "^(?<date>[0-9a-zA-Z:-]+) ([0-9.]+?) INF Chat \\(from '(?<steamId>[a-zA-Z0-9_-]+)', entity id '(?<id>[0-9-]+)'.*\\): '(?<name>.*)': (?<chat>.*)$";
             var reg = new Regex(expression);
             var sr = new StringReader(text);
 
@@ -26,12 +26,19 @@ namespace SvManagerLibrary.Chat
                 var match = reg.Match(sr.ReadLine() ?? string.Empty);
                 if (match.Success)
                 {
-                    chatData.Name = match.Groups["name"].Value;
-                    chatData.Message = match.Groups["chat"].Value;
+                    var chatData = new ChatInfo
+                    {
+                        Name = match.Groups["name"].Value,
+                        Message = match.Groups["chat"].Value,
+                        Date = match.Groups["date"].Value,
+                        Id = match.Groups["id"].Value,
+                        SteamId = match.Groups["steamId"].Value
+                    };
+                    return chatData;
                 }
             }
 
-            return chatData;
+            return null;
         }
     }
 }

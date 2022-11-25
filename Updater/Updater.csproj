@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommonCoreLib" Version="1.0.4" />
-    <PackageReference Include="CommonStyleLib" Version="1.0.14" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.18" />
     <PackageReference Include="SavannahXmlLib" Version="1.0.5" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
     <PackageReference Include="UpdateLib" Version="1.0.0" />

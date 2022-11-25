@@ -1,7 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.52.0">
+    1. ログビューアーを追加しました。
+      Savannah Manager 2が出力するlogファイルを解析することが可能です。
+      7dtdのTelnetログを解析するだけなので、異なるTelnetクライアントのものを解析したい場合は、ログファイルを以下の場所に*.logというファイル名で配置してください。
+        ・[Savannah Manager 2のディレクトリ]\logs
+      その他の使用方法は<nobr /><a href="https://github.com/AonaSuzutsuki/SavannahManager/wiki/AnalyzeLog.ja">Wiki</a><nobr />を参照してください。
+    2. 依存ライブラリを更新しました。
+  </update>
   <update version="2.5.51.7">
-    1. 依存ライブラリを更新しました。
+	1. 依存ライブラリを更新しました。
   </update>
   <update version="2.5.50.6">
     1. Config Editorのテンプレートにa20.4bを追加しました。

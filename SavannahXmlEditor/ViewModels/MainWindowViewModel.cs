@@ -13,6 +13,7 @@ using CommonStyleLib.File;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
+using CommonStyleLib.Views.Behaviors.TreeViewBehavior;
 using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -195,12 +196,12 @@ namespace _7dtd_XmlEditor.ViewModels
             if (!(sourceItemParent.Node is SavannahTagNode sourceItemParentNode) || !(targetItemParent.Node is SavannahTagNode targetItemParentNode))
                 return;
 
-            if (insertType == MoveableTreeViewBehavior.InsertType.Before)
+            if (insertType == DropArguments.InsertType.Before)
             {
                 sourceItemParentNode.RemoveChildElement(sourceItem.Node);
                 targetItemParentNode.AddBeforeChildElement(targetItem.Node, sourceItem.Node);
             }
-            else if (insertType == MoveableTreeViewBehavior.InsertType.After)
+            else if (insertType == DropArguments.InsertType.After)
             {
                 sourceItemParentNode.RemoveChildElement(sourceItem.Node);
                 targetItemParentNode.AddAfterChildElement(targetItem.Node, sourceItem.Node);

@@ -109,6 +109,11 @@ namespace SvManagerLibrary.Telnet
         public BreakLineType BreakLine { get; set; } = BreakLineType.CrLf;
 
         /// <summary>
+        /// Directory to out put log.
+        /// </summary>
+        public string LogDirectory { get; set; }
+
+        /// <summary>
         /// LogStream object for telnet raw logging.
         /// </summary>
         private LogStream LoggingStream { get; set; }
@@ -156,24 +161,7 @@ namespace SvManagerLibrary.Telnet
         /// </summary>
         public TelnetClient()
         {
-            _clientSocket = new TelnetSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
-            {
-                ReceiveTimeout = ReceiveTimeout,
-                ReceiveBufferSize = ReceiveBufferSize
-            };
-        }
-
-        /// <summary>
-        /// Enable logging.
-        /// </summary>
-        /// <param name="directoryName"></param>
-        public void EnableLogging(string directoryName)
-        {
-            LoggingStream = new LogStream(directoryName)
-            {
-                TextEncoding = Encoding,
-                AutoFlush = true
-            };
+            _clientSocket = new TelnetSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
         /// <summary>
@@ -183,6 +171,12 @@ namespace SvManagerLibrary.Telnet
         public TelnetClient(ITelnetSocket socket)
         {
             _clientSocket = socket;
+        }
+
+        private void Initialize()
+        {
+            _clientSocket.ReceiveBufferSize = ReceiveBufferSize;
+            _clientSocket.ReceiveTimeout = ReceiveTimeout;
         }
 
         private void LockAction(Action<ITelnetSocket> action)
@@ -211,22 +205,31 @@ namespace SvManagerLibrary.Telnet
         /// <returns>Whether the connection was established or not.</returns>
         public bool Connect(string address, int port)
         {
+            Initialize();
+
             try
             {
                 _clientSocket.Connect(address, port);
-
-                LoggingStream?.Start();
-
-                var endPoint = (IPEndPoint)_clientSocket.RemoteEndPoint;
-                OnStarted(new TelnetReadEventArgs() { IpAddress = endPoint.Address.ToString() });
-                if (ReadEvent != null)
-                    _ = HandleTcp(endPoint);
-                return true;
             }
             catch
             {
                 return false;
             }
+            
+            if (!string.IsNullOrEmpty(LogDirectory))
+            {
+                LoggingStream = new LogStream(LogDirectory)
+                {
+                    TextEncoding = Encoding,
+                    AutoFlush = true
+                };
+            }
+
+            var endPoint = (IPEndPoint)_clientSocket.RemoteEndPoint;
+            OnStarted(new TelnetReadEventArgs() { IpAddress = endPoint.Address.ToString() });
+            if (ReadEvent != null)
+                _ = HandleTcp(endPoint);
+            return true;
         }
 
         private async Task HandleTcp(IPEndPoint end)

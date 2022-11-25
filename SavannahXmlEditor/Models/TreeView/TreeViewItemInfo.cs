@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using CommonCoreLib.CommonLinq;
+using CommonStyleLib.Views.Behaviors.TreeViewBehavior;
 using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
@@ -33,7 +34,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         #region Event
 
-        private readonly Subject<TreeViewItemInfo> _failedLostFocus = new Subject<TreeViewItemInfo>();
+        private readonly Subject<TreeViewItemInfo> _failedLostFocus = new();
         public IObservable<TreeViewItemInfo> FailedLostFocus => _failedLostFocus;
 
         #endregion
@@ -95,7 +96,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
             if (root is SavannahTagNode tagRoot)
             {
                 RemoveReservedAttributes(tagRoot);
-                children = new ObservableCollection<TreeViewItemInfoBase>(from node in tagRoot.ChildNodes
+                Children = new ObservableCollection<ITreeViewItemInfoBase>(from node in tagRoot.ChildNodes
                     select new TreeViewItemInfo(node, editedModel, this));
             }
 
@@ -117,8 +118,8 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         public void RemoveReservedAttributes(SavannahTagNode tagNode)
         {
-            bool.TryParse(tagNode.GetAttribute(XmlExpanded)?.Value, out var isExpanded);
-            bool.TryParse(tagNode.GetAttribute(XmlSelected)?.Value, out var isSelected);
+            _ = bool.TryParse(tagNode.GetAttribute(XmlExpanded)?.Value, out var isExpanded);
+            _ = bool.TryParse(tagNode.GetAttribute(XmlSelected)?.Value, out var isSelected);
             IsExpanded = isExpanded;
             IsSelected = isSelected;
             tagNode.RemoveAttribute(XmlExpanded);
@@ -129,7 +130,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
         {
             info ??= this;
 
-            if (!(info.Node is SavannahTagNode tagNode))
+            if (info.Node is not SavannahTagNode tagNode)
                 return;
 
             info.RemoveReservedAttributes(tagNode);
@@ -154,7 +155,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         public void EnableTextEdit()
         {
-            if (!(Node is SavannahTagNode))
+            if (Node is not SavannahTagNode)
                 return;
 
             TextBlockVisibility = Visibility.Collapsed;
@@ -191,9 +192,9 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         public IEnumerable<TreeViewItemInfo> GetChildrenEnumerable()
         {
-            if (children == null)
+            if (Children == null)
                 yield break;
-            foreach (var info in children)
+            foreach (var info in Children)
             {
                 yield return info as TreeViewItemInfo;
             }
@@ -201,7 +202,7 @@ namespace _7dtd_XmlEditor.Models.TreeView
 
         public static string GetNodeName(AbstractSavannahXmlNode node)
         {
-            if (!(node is SavannahTagNode tagNode))
+            if (node is not SavannahTagNode tagNode)
                 return $"{node.TagName}";
 
             return tagNode.Attributes.Any() ? $"{node.TagName} {tagNode.Attributes.ToAttributesText(", ")}" : $"{node.TagName}";

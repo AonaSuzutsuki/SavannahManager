@@ -2,6 +2,7 @@
 #define TELNET_TEST
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -33,15 +34,29 @@ namespace SvManagerLibraryTests2.Telnet
                 });
             mock.Setup(m => m.Connect(It.IsAny<string>(), It.IsAny<int>()));
             mock.Setup(m => m.RemoteEndPoint).Returns(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 26900));
+            mock.Setup(m => m.Send(It.IsAny<byte[]>(), It.IsAny<int>(), It.IsAny<SocketFlags>())).Returns(4);
 
             return mock;
+        }
+
+        public static TelnetClient GetTelnetClient(ITelnetSocket socket)
+        {
+            var telnetClient = new TelnetClient(socket)
+            {
+                Encoding = Encoding.UTF8,
+                TelnetEventWaitTime = 200,
+                ReceiveTimeout = 500,
+                ReceiveBufferSize = 1024
+            };
+
+            return telnetClient;
         }
 
         [Test]
         public void ConnectTest()
         {
             var mock = GetSocketMock();
-            var telnetClient = new TelnetClient(mock.Object);
+            using var telnetClient = GetTelnetClient(mock.Object);
             var connected = telnetClient.Connect("localhost", 26900);
             var exp = true;
 
@@ -52,7 +67,7 @@ namespace SvManagerLibraryTests2.Telnet
         public void ReadTest()
         {
             var mock = GetSocketMock();
-            var telnetClient = new TelnetClient(mock.Object);
+            using var telnetClient = GetTelnetClient(mock.Object);
             var log = telnetClient.Read().TrimEnd('\0');
             var exp = "test\n";
 
@@ -63,7 +78,7 @@ namespace SvManagerLibraryTests2.Telnet
         public void DestructionEventReadTest()
         {
             var mock = GetSocketMock();
-            var telnetClient = new TelnetClient(mock.Object);
+            using var telnetClient = GetTelnetClient(mock.Object);
             var log = telnetClient.DestructionEventRead("lp");
             var exp = "test\n";
 
@@ -96,7 +111,7 @@ namespace SvManagerLibraryTests2.Telnet
                         }
                     }
                 });
-            var telnetClient = new TelnetClient(mock.Object);
+            using var telnetClient = GetTelnetClient(mock.Object);
 
             var value = telnetClient.DestructionEventRead("");
             var exp = "test message.\n";
@@ -129,7 +144,7 @@ namespace SvManagerLibraryTests2.Telnet
                         }
                     }
                 });
-            var telnetClient = new TelnetClient(mock.Object);
+            using var telnetClient = GetTelnetClient(mock.Object);
 
             var value = telnetClient.DestructionEventRead("", "test3 message.");
             var exp = "test\ntest2\ntest3 message.\n";
@@ -162,11 +177,96 @@ namespace SvManagerLibraryTests2.Telnet
                     }
                 });
 
-            var telnetClient = new TelnetClient(mock.Object);
+            using var telnetClient = GetTelnetClient(mock.Object);
             var waitTime = telnetClient.CalculateWaitTime();
             var exp = 100;
 
             Assert.AreEqual(exp, waitTime);
+        }
+
+        [Test]
+        public void WriteLineTest()
+        {
+            var mock = GetSocketMock();
+            using var telnetClient = GetTelnetClient(mock.Object);
+
+            var cmd = "help";
+
+            telnetClient.WriteLine(cmd);
+
+            var data = telnetClient.Encoding.GetBytes(cmd);
+            var concat = data.Concat(telnetClient.BreakLineData).ToArray();
+            mock.Verify(x => x.Send(concat, concat.Length, SocketFlags.None));
+        }
+
+        [Test]
+        public void WriteStringTest()
+        {
+            var mock = GetSocketMock();
+            using var telnetClient = GetTelnetClient(mock.Object);
+
+            var cmd = "help";
+
+            telnetClient.Write(cmd);
+
+            var data = telnetClient.Encoding.GetBytes(cmd);
+            mock.Verify(x => x.Send(data, data.Length, SocketFlags.None));
+        }
+
+        [Test]
+        public void WriteByteTest()
+        {
+            var mock = GetSocketMock();
+            using var telnetClient = GetTelnetClient(mock.Object);
+
+            var cmd = telnetClient.Encoding.GetBytes("help");
+
+            telnetClient.Write(cmd);
+            
+            mock.Verify(x => x.Send(cmd, cmd.Length, SocketFlags.None));
+        }
+
+        [Test]
+        public void BreakLineTest()
+        {
+            var mock = GetSocketMock();
+            using var telnetClient = GetTelnetClient(mock.Object);
+
+            telnetClient.BreakLine = TelnetClient.BreakLineType.Cr;
+            var breakLine1 = telnetClient.BreakLineData;
+
+            telnetClient.BreakLine = TelnetClient.BreakLineType.Lf;
+            var breakLine2 = telnetClient.BreakLineData;
+
+            telnetClient.BreakLine = TelnetClient.BreakLineType.CrLf;
+            var breakLine3 = telnetClient.BreakLineData;
+
+            CollectionAssert.AreEqual(TelnetClient.Cr, breakLine1);
+            CollectionAssert.AreEqual(TelnetClient.Lf, breakLine2);
+            CollectionAssert.AreEqual(TelnetClient.Crlf, breakLine3);
+        }
+
+        [Test]
+        public void HandleTcpTest()
+        {
+            var manualEvent = new ManualResetEvent(false);
+
+            var mock = GetSocketMock();
+            using var telnetClient = GetTelnetClient(mock.Object);
+            
+            var result = "";
+            telnetClient.ReadEvent += (_, args) =>
+            {
+                result = args.Log;
+                manualEvent.Set();
+            };
+            telnetClient.Connect("", 0);
+
+            telnetClient.WriteLine("help");
+
+            manualEvent.WaitOne(1000, false);
+
+            Assert.AreEqual("test\n", result);
         }
     }
 }

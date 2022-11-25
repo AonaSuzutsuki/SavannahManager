@@ -12,7 +12,7 @@ namespace SvManagerLibrary.Chat
         /// </summary>
         /// <param name="telnet">The telnet client.</param>
         /// <param name="message">A message to be sent.</param>
-        public static void SendChat(TelnetClient telnet, string message)
+        public static void SendChat(ITelnetClient telnet, string message)
         {
             TelnetException.CheckTelnetClient(telnet);
 
