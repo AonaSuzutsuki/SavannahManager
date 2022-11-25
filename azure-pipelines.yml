@@ -40,7 +40,7 @@ steps:
   inputs:
     command: 'test'
     projects: '**/*.csproj'
-    arguments: '--logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    arguments: '--logger trx --collect:"XPlat Code Coverage" --DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
     publishTestResults: false
 
 - task: PublishTestResults@2
@@ -51,12 +51,13 @@ steps:
 
 - task: reportgenerator@4
   inputs:
-    reports: '**/coverage.*.cobertura.xml'
-    targetdir: 'CoverageReport'
-    reporttypes: 'HtmlInline_AzurePipelines'
+    reports: '**/coverage.cobertura.xml'
+    targetdir: '$(Pipeline.Workspace)/coverlet'
+    reporttypes: 'HtmlInline_AzurePipelines;Cobertura'
+    verbosity: 'Verbose'
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '**/coverage.*.cobertura.xml'
-    reportDirectory: 'CoverageReport'
+    summaryFileLocation: '$(Pipeline.Workspace)/coverlet/Cobertura.xml'
+    reportDirectory: '$(Pipeline.Workspace)/coverlet'
