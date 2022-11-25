@@ -60,4 +60,9 @@ steps:
   inputs:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '$(Pipeline.Workspace)/coverlet/Cobertura.xml'
+    reportDirectory: '$(Pipeline.Workspace)/coverlet'
     
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)'
+    publishLocation: 'pipeline'
