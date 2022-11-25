@@ -60,3 +60,9 @@ steps:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '**/coverage.*.cobertura.xml'
     reportDirectory: 'CoverageReport'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)'
+    artifact: 'test'
+    publishLocation: 'pipeline'
