@@ -53,7 +53,7 @@ steps:
   inputs:
     reports: '**/coverage.cobertura.xml'
     targetdir: '$(Pipeline.Workspace)/coverlet'
-    reporttypes: 'Cobertura'
+    reporttypes: 'HtmlInline_AzurePipelines;Cobertura'
     verbosity: 'Verbose'
 
 - task: PublishCodeCoverageResults@1
