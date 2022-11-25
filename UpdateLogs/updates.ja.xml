@@ -7,6 +7,7 @@
         ・[Savannah Manager 2のディレクトリ]\logs
       その他の使用方法は<nobr /><a href="https://github.com/AonaSuzutsuki/SavannahManager/wiki/AnalyzeLog.ja">Wiki</a><nobr />を参照してください。
     2. 依存ライブラリを更新しました。
+    3. タスクバーに表示されるアイコンを追加しました。
   </update>
   <update version="2.5.51.7">
 	1. 依存ライブラリを更新しました。
