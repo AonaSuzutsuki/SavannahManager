@@ -13,11 +13,7 @@ namespace SvManagerLibrary.Telnet
     /// </summary>
     public class LogStream : IDisposable
     {
-#if DEBUG
-        public Stream Stream { get; private set; }
-#else
         private Stream Stream { get; set; }
-#endif
 
         public long Length => Stream.Length;
 
