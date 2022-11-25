@@ -40,7 +40,7 @@ steps:
   inputs:
     command: 'test'
     projects: '**/*.csproj'
-    arguments: '--collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+    arguments: '--logger trx --collect:"XPlat Code Coverage" --DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
     publishTestResults: false
 
 - task: PublishTestResults@2
@@ -58,7 +58,7 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '**/coverage.*.cobertura.xml'
+    summaryFileLocation: '**/coverage.cobertura.xml'
     reportDirectory: 'CoverageReport'
 
 - task: PublishPipelineArtifact@1
