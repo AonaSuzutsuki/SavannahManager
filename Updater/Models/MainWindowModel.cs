@@ -111,6 +111,7 @@ namespace Updater.Models
             {
                 if (ExitCode == 0)
                 {
+                    Directory.SetCurrentDirectory(_updateInfo.ExtractDirectoryPath);
                     Process.Start(_updateInfo.ExtractDirectoryPath + @"\" + _updateInfo.FileName);
                 }
             }
