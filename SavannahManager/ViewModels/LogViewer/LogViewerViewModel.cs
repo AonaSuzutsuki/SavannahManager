@@ -31,7 +31,11 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
         public ReactiveProperty<bool> CanExportPlayer { get; set; }
         public ReactiveProperty<bool> CanExportChat { get; set; }
 
+        public ObservableCollection<string> EncodingItems { get; set; }
+        public ReactiveProperty<string> EncodingSelectedItem { get; set; }
+
         public ReadOnlyCollection<LogFileItem> LogFileList { get; set; }
+        public ReactiveProperty<LogFileItem> LogFileSelectedItem { get; set; }
         public ReactiveProperty<bool> IsWordWrapping { get; set; }
         public ReactiveProperty<bool> ProgressBarVisibility { get; set; }
         public ReactiveProperty<ObservableCollection<RichTextItem>> RichLogDetailItems { get; set; }
@@ -57,7 +61,32 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
             CanExportPlayer = new ReactiveProperty<bool>();
             CanExportChat = new ReactiveProperty<bool>();
 
+            EncodingItems = new ObservableCollection<string>(LogFileInfo.EncodingNames);
+
             LogFileList = model.LogFileList.ToReadOnlyReactiveCollection(m => new LogFileItem(m)).AddTo(CompositeDisposable);
+            LogFileSelectedItem = new ReactiveProperty<LogFileItem>();
+            LogFileSelectedItem.PropertyChanged += (sender, args) =>
+            {
+                if (EncodingSelectedItem != null)
+                    EncodingSelectedItem.Value = LogFileSelectedItem.Value.EncodingName;
+            };
+
+            EncodingSelectedItem = new ReactiveProperty<string>();
+            EncodingSelectedItem.PropertyChanged += (sender, args) =>
+            {
+                if (_model.CurrentFileInfo == null)
+                    return;
+
+                if (_model.CurrentFileInfo.EncodingName != EncodingSelectedItem.Value)
+                {
+                    if (ProgressBarVisibility != null)
+                        ProgressBarVisibility.Value = true;
+                    _model.CurrentFileInfo.EncodingName = EncodingSelectedItem.Value;
+                    _model.RemoveCurrentLogCache();
+                    _ = _model.AnalyzeCurrentLogFile();
+                }
+            };
+
             RichLogDetailItems = model.ObserveProperty(m => m.RichLogDetailItems).ToReactiveProperty().AddTo(CompositeDisposable);
             ProgressBarVisibility = new ReactiveProperty<bool>();
             IsWordWrapping = new ReactiveProperty<bool>();

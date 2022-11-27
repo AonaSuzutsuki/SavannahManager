@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -29,6 +30,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 
         public ObservableCollection<LogFileInfo> LogFileList { get; set; } = new();
 
+        public LogFileInfo CurrentFileInfo
+        {
+            get => _currentFileInfo;
+            set => SetProperty(ref _currentFileInfo, value);
+        }
+
         public ObservableCollection<RichTextItem> RichLogDetailItems
         {
             get => _richLogDetailItems;
@@ -49,7 +56,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 
         public void Load()
         {
-            var files = CommonCoreLib.File.DirectorySearcher.GetAllFiles("logs", "*.log").ToList();
+            var files = Directory.GetFiles("logs", "*.log").ToList();
             files.Reverse();
 
             foreach (var file in files)
@@ -67,14 +74,27 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 
             var logFileInfo = LogFileList[index];
             _currentFileInfo = logFileInfo;
-            if (_cache.ContainsKey(logFileInfo.FullPath))
-            {
-                var cache = _cache[logFileInfo.FullPath];
-                RichLogDetailItems = cache.RichTextItems;
-                ChatInfos = cache.ChatItems;
-                PlayerItemInfos = cache.PlayerItems;
 
+            await AnalyzeCurrentLogFile();
+        }
+
+        public async Task AnalyzeCurrentLogFile()
+        {
+            var logFileInfo = _currentFileInfo;
+            if (logFileInfo == null)
                 return;
+
+            lock (_cache)
+            {
+                if (_cache.ContainsKey(logFileInfo.FullPath))
+                {
+                    var cache = _cache[logFileInfo.FullPath];
+                    RichLogDetailItems = cache.RichTextItems;
+                    ChatInfos = cache.ChatItems;
+                    PlayerItemInfos = cache.PlayerItems;
+
+                    return;
+                }
             }
             
             await Task.Factory.StartNew(() =>
@@ -92,13 +112,28 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 
                 PlayerItemInfos = new ObservableCollection<PlayerItemInfo>(playerItemList.OrderBy(x => x.Date));
 
-                _cache.Add(logFileInfo.FullPath, new LogCacheItem
+                lock (_cache)
                 {
-                    RichTextItems = RichLogDetailItems,
-                    ChatItems = ChatInfos,
-                    PlayerItems = PlayerItemInfos
-                });
+                    _cache.Add(logFileInfo.FullPath, new LogCacheItem
+                    {
+                        RichTextItems = RichLogDetailItems,
+                        ChatItems = ChatInfos,
+                        PlayerItems = PlayerItemInfos
+                    });
+                }
             });
+        }
+
+        public void RemoveCurrentLogCache()
+        {
+            var logFileInfo = _currentFileInfo;
+            if (logFileInfo == null)
+                return;
+
+            lock(_cache)
+            {
+                _cache.Remove(logFileInfo.FullPath);
+            }
         }
 
         public async Task ChangeFilter(string filter)
@@ -108,14 +143,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
             if (fileInfo == null)
                 return;
 
-            if (!_cache.ContainsKey(fileInfo.FullPath))
-                return;
+            lock(_cache)
+            {
+                if (!_cache.ContainsKey(fileInfo.FullPath))
+                    return;
+            }
 
             if (string.IsNullOrEmpty(filter))
             {
-                var cache = _cache[fileInfo.FullPath];
-                RichLogDetailItems = cache.RichTextItems;
-                return;
+                lock (_cache)
+                {
+                    var cache = _cache[fileInfo.FullPath];
+                    RichLogDetailItems = cache.RichTextItems;
+                    return;
+                }
             }
             
             await Task.Factory.StartNew(() =>

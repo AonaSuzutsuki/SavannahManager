@@ -109,12 +109,13 @@
 
             <Grid HorizontalAlignment="Stretch" Margin="0,0,5,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
+                    <RowDefinition Height="0" />
                     <RowDefinition Height="5" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <ListBox Grid.Row="2" ItemsSource="{Binding LogFileList}" Background="Transparent" Foreground="White" ItemContainerStyle="{StaticResource CustomListBoxItem}" BorderBrush="{StaticResource  BorderWhiteColor}" BorderThickness="1">
+                <ListBox Grid.Row="2" ItemsSource="{Binding LogFileList}"
+                         SelectedItem="{Binding LogFileSelectedItem.Value}" Background="Transparent" Foreground="White" ItemContainerStyle="{StaticResource CustomListBoxItem}" BorderBrush="{StaticResource  BorderWhiteColor}" BorderThickness="1">
                     <ListBox.Style>
                         <Style TargetType="ListBox">
                             <Setter Property="Template">
@@ -185,11 +186,32 @@
                                     <RowDefinition Height="30" />
                                 </Grid.RowDefinitions>
 
-                                <StackPanel VerticalAlignment="Center" Height="25" Orientation="Horizontal" Grid.Row="0">
-                                    <Label Content="Filter" />
-                                    <TextBox Text="{Binding FilterText.Value}" Width="300" VerticalContentAlignment="Center" />
-                                    <Button Content="Apply" Width="50" Margin="5,0,0,0" Style="{StaticResource FlatButton}" Command="{Binding ApplyFilterCommand}"/>
-                                </StackPanel>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="165" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Encoding" />
+                                        <ComboBox Width="100" Height="25" SelectedIndex="0" ItemsSource="{Binding EncodingItems}" SelectedItem="{Binding EncodingSelectedItem.Value}" />
+                                    </StackPanel>
+
+                                    <Grid Grid.Column="1">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="3" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Content="Filter" />
+                                        <TextBox Grid.Column="1" Height="25" Text="{Binding FilterText.Value}" VerticalContentAlignment="Center" />
+                                        <Button Grid.Column="3" Height="25" Content="Apply" Style="{StaticResource FlatButton}" Command="{Binding ApplyFilterCommand}"/>
+                                    </Grid>
+                                </Grid>
 
                                 <userControls:BindableRichTextBox Grid.Row="2" x:Name="LogTextBox" Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" IsLazyLoad="True" BindingDocument="{Binding RichLogDetailItems.Value, Converter={converter:RichTextItemsToDocumentConverter}}" WordWrapping="{Binding IsWordWrapping.Value}" IsReadOnly="True" TextChangedCommand="{Binding TextChangedCommand}" ScrollEndedCommand="{Binding ScrollEndedCommand}">
                                     <userControls:BindableRichTextBox.ContextMenu>
