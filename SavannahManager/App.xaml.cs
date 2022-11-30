@@ -17,6 +17,8 @@ namespace _7dtd_svmanager_fix_mvvm
         private IRelease _mainWindow;
         private void MyApp_Startup(object sender, StartupEventArgs e)
         {
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
             TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 

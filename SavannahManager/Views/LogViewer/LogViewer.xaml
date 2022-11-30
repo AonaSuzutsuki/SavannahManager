@@ -12,6 +12,7 @@
         xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Converter"
         xmlns:userControls="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.UserControls"
         xmlns:behaviors="clr-namespace:SavannahManagerStyleLib.Views.Behaviors;assembly=SavannahManagerStyleLib"
+        xmlns:localBehaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
         mc:Ignorable="d"
         Title="Log Viewer" Height="450" Width="800"
         d:DataContext="{d:DesignInstance viewModels:LogViewerViewModel}"
@@ -103,70 +104,39 @@
         <Grid Margin="5, 50, 5, 5">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="280" />
+                <ColumnDefinition Width="310" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <Grid HorizontalAlignment="Stretch" Margin="0,0,5,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
+                    <RowDefinition Height="0" />
                     <RowDefinition Height="5" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <ListBox Grid.Row="2" ItemsSource="{Binding LogFileList}" Background="Transparent" Foreground="White" ItemContainerStyle="{StaticResource CustomListBoxItem}" BorderBrush="{StaticResource  BorderWhiteColor}" BorderThickness="1">
-                    <ListBox.Style>
-                        <Style TargetType="ListBox">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBox">
-                                        <Border Name="Border" BorderBrush="{StaticResource BorderColor}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0">
-                                            <ScrollViewer Margin="0,0,0,0" Focusable="false" Style="{DynamicResource ListBoxScrollKey}">
-                                                <StackPanel Margin="2" IsItemsHost="True" />
-                                            </ScrollViewer>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsEnabled" Value="false">
-                                                <Setter TargetName="Border" Property="Background" Value="Transparent" />
-                                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource BorderColor}" />
-                                            </Trigger>
-                                            <Trigger Property="IsGrouping" Value="true">
-                                                <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.Style>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:LogFileItem}">
-                            <Grid Height="25">
+                <ListView Grid.Row="2" ItemsSource="{Binding LogFileList}" SelectedItem="{Binding LogFileSelectedItem.Value}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <i:Interaction.Behaviors>
+                        <behaviors:SortableAnnotationListViewBehavior FirstSort="Title" FirstSortOrder="Desc" />
+                    </i:Interaction.Behaviors>
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="0" />
-                                    <ColumnDefinition Width="70" />
-                                </Grid.ColumnDefinitions>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="210" DisplayMemberBinding="{Binding Title}">
+                                <GridViewColumnHeader Tag="Title" Content="Title" />
+                            </GridViewColumn>
+                            <GridViewColumn Width="70" DisplayMemberBinding="{Binding FileSizeText}">
+                                <GridViewColumnHeader Tag="FileSizeText" Content="File Size" />
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
 
-                                <Grid>
-                                    <TextBlock VerticalAlignment="Center">
-                                        <Run Text="{Binding Title}" />
-                                    </TextBlock>
-                                </Grid>
-
-                                <TextBlock Grid.Column="2" VerticalAlignment="Center">
-                                    <Run Text="{Binding FileSizeText}" />
-                                </TextBlock>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding LogFileListSelectionChangedCommand}" CommandParameter="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" />
+                            <i:InvokeCommandAction Command="{Binding LogFileListSelectionChangedCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </ListBox>
+                </ListView>
             </Grid>
 
             <GridSplitter Grid.Column="0" Width="5" Margin="0" Background="Transparent" VerticalAlignment="Stretch" />
@@ -185,11 +155,32 @@
                                     <RowDefinition Height="30" />
                                 </Grid.RowDefinitions>
 
-                                <StackPanel VerticalAlignment="Center" Height="25" Orientation="Horizontal" Grid.Row="0">
-                                    <Label Content="Filter" />
-                                    <TextBox Text="{Binding FilterText.Value}" Width="300" VerticalContentAlignment="Center" />
-                                    <Button Content="Apply" Width="50" Margin="5,0,0,0" Style="{StaticResource FlatButton}" Command="{Binding ApplyFilterCommand}"/>
-                                </StackPanel>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="165" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Encoding" />
+                                        <ComboBox Width="100" Height="25" SelectedIndex="0" ItemsSource="{Binding EncodingItems}" SelectedItem="{Binding EncodingSelectedItem.Value}" />
+                                    </StackPanel>
+
+                                    <Grid Grid.Column="1">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="3" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Content="Filter" />
+                                        <TextBox Grid.Column="1" Height="25" Text="{Binding FilterText.Value}" VerticalContentAlignment="Center" />
+                                        <Button Grid.Column="3" Height="25" Content="Apply" Style="{StaticResource FlatButton}" Command="{Binding ApplyFilterCommand}"/>
+                                    </Grid>
+                                </Grid>
 
                                 <userControls:BindableRichTextBox Grid.Row="2" x:Name="LogTextBox" Background="Transparent" Foreground="White" VerticalScrollBarVisibility="Visible" IsLazyLoad="True" BindingDocument="{Binding RichLogDetailItems.Value, Converter={converter:RichTextItemsToDocumentConverter}}" WordWrapping="{Binding IsWordWrapping.Value}" IsReadOnly="True" TextChangedCommand="{Binding TextChangedCommand}" ScrollEndedCommand="{Binding ScrollEndedCommand}">
                                     <userControls:BindableRichTextBox.ContextMenu>
