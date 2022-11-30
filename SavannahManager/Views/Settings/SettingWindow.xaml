@@ -258,7 +258,7 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Restart, Mode=OneWay}" IsEnabled="{Binding IsBetaModeChecked.Value}">
+                    <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Restart, Mode=OneWay}">
                         <Grid>
                             <StackPanel Orientation="Vertical" Margin="3">
 
