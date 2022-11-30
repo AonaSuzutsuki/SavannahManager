@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.53.1">
+    1. Added the function to select character encoding in the log viewer.
+      There are two character encodings that can be selected: "UTF-8 (default)" and "Shift-JIS".
+    2. Added date to log viewer file list.
+    3. Added a header to the log viewer file list and be able sort.
+    4. Removed backup function.
+      Please contact me if you need it.
+      I will delete it if you do not contact me.
+  </update>
   <update version="2.6.52.0">
     1. Added LogViewer
       You can analyze log file be out put with Savannah Manager 2.
