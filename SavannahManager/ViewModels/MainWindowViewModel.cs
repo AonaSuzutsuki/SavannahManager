@@ -121,7 +121,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             SetLangEnglishCommand = new DelegateCommand(SetMenuLangEnglish);
             OpenConfigEditorCommand = new DelegateCommand(OpenConfigEditor);
             OpenXmlEditorCommand = new DelegateCommand(OpenMenuXmlEditor);
-            OpenBackupEditorCommand = new DelegateCommand(OpenMenuBackupEditor);
             OpenLogViewerCommand = new DelegateCommand(OpenLogViewer);
             OpenCheckUpdateCommand = new DelegateCommand(OpenMenuCheckUpdate);
             OpenVersionInfoCommand = new DelegateCommand(OpenMenuVersionInfo);
@@ -236,7 +235,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand SetLangEnglishCommand { get; set; }
         public ICommand OpenConfigEditorCommand { get; set; }
         public ICommand OpenXmlEditorCommand { get; set; }
-        public ICommand OpenBackupEditorCommand { get; set; }
         public ICommand OpenLogViewerCommand { get; set; }
         public ICommand OpenCheckUpdateCommand { get; set; }
         public ICommand OpenVersionInfoCommand { get; set; }
@@ -515,13 +513,6 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         private void OpenMenuXmlEditor()
         {
             _model.RunXmlEditor();
-        }
-        private void OpenMenuBackupEditor()
-        {
-            var setting = _model.Setting;
-            var backupModel = new BackupSelectorModel(setting);
-            var vm = new BackupSelectorViewModel(new WindowService(), backupModel);
-            WindowManageService.Show<BackupSelector>(vm);
         }
 
         private void OpenLogViewer()

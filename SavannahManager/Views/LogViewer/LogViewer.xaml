@@ -14,7 +14,7 @@
         xmlns:behaviors="clr-namespace:SavannahManagerStyleLib.Views.Behaviors;assembly=SavannahManagerStyleLib"
         xmlns:localBehaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
         mc:Ignorable="d"
-        Title="Log Viewer" Height="450" Width="800"
+        Title="Log Viewer" Height="500" Width="900"
         d:DataContext="{d:DesignInstance viewModels:LogViewerViewModel}"
         BorderBrush="{Binding AroundBorderColor.Value}"
         Opacity="{Binding AroundBorderOpacity.Value}"
@@ -104,7 +104,7 @@
         <Grid Margin="5, 50, 5, 5">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="310" />
+                <ColumnDefinition Width="355" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
@@ -117,12 +117,15 @@
 
                 <ListView Grid.Row="2" ItemsSource="{Binding LogFileList}" SelectedItem="{Binding LogFileSelectedItem.Value}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <i:Interaction.Behaviors>
-                        <behaviors:SortableAnnotationListViewBehavior FirstSort="Title" FirstSortOrder="Desc" />
+                        <behaviors:SortableAnnotationListViewBehavior FirstSort="Date" FirstSortOrder="Desc" />
                     </i:Interaction.Behaviors>
 
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Width="210" DisplayMemberBinding="{Binding Title}">
+                            <GridViewColumn Width="85" DisplayMemberBinding="{Binding Date}">
+                                <GridViewColumnHeader Tag="Date" Content="Date" />
+                            </GridViewColumn>
+                            <GridViewColumn Width="170" DisplayMemberBinding="{Binding Title}">
                                 <GridViewColumnHeader Tag="Title" Content="Title" />
                             </GridViewColumn>
                             <GridViewColumn Width="70" DisplayMemberBinding="{Binding FileSizeText}">
