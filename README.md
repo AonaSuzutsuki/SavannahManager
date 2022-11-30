@@ -14,7 +14,8 @@ I thought it was exactly so I used it.
 Thank you very much.  
 
 # Require to run
-1. [.NET 6 Desktop Runtime or Runtime](https://dotnet.microsoft.com/download/dotnet/6.0)
+1. Windows 7 SP1 or later
+2. [.NET 6 Desktop Runtime or Runtime](https://dotnet.microsoft.com/download/dotnet/6.0)
 
 # Development environment
 1. Visual Studio 2022
