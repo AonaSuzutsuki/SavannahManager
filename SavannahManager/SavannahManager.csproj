@@ -10,10 +10,10 @@
     <Authors>Aona Suzutsuki</Authors>
     <Company>Kimama Lab.</Company>
     <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2022</Copyright>
-    <AssemblyVersion>2.6.52.0</AssemblyVersion>
-    <FileVersion>2.6.52.0</FileVersion>
-    <Version>2.6.52.0</Version>
-    <ApplicationIcon>1.ico</ApplicationIcon>
+    <AssemblyVersion>2.6.53.1</AssemblyVersion>
+    <FileVersion>2.6.53.1</FileVersion>
+    <Version>2.6.53.1</Version>
+    <ApplicationIcon>Images\1.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="1.ico" />
+    <Content Include="Images\1.ico" />
     <Content Include="Settings\Permissions\serveradmin.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
