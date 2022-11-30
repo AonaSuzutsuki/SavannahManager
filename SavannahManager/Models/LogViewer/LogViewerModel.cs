@@ -65,6 +65,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
             }
         }
 
+        public int GetFileIndex(LogFileInfo info)
+        {
+            return LogFileList.IndexOf(info);
+        }
+
         public async Task AnalyzeLogFile(int index)
         {
             if (index < 0 && index >= LogFileList.Count)

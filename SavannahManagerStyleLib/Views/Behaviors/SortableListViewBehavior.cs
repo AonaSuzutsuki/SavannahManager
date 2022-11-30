@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,17 +13,24 @@ namespace SavannahManagerStyleLib.Views.Behaviors
 {
     public class SortableListViewBehavior : Behavior<ListView>
     {
+        public enum OrderType
+        {
+            Asc,
+            Desc
+        }
 
         #region Fields
 
         private readonly Dictionary<GridViewColumnHeader, string> _headers =
             new Dictionary<GridViewColumnHeader, string>();
 
-        private bool _isInitialized = false;
+        protected bool IsInitialized = false;
 
         #endregion
 
         #region Dependency Properties
+
+        public OrderType FirstSortOrder { get; set; } = OrderType.Asc;
 
         public string FirstSort
         {
@@ -76,9 +85,9 @@ namespace SavannahManagerStyleLib.Views.Behaviors
                 arg => header.Content = $"{content} {arg}");
         }
 
-        private void AssociatedObjectOnLoaded(object sender, RoutedEventArgs e)
+        protected void AssociatedObjectOnLoaded(object sender, EventArgs e)
         {
-            if (_isInitialized)
+            if (IsInitialized)
                 return;
 
             if (!(AssociatedObject.View is GridView gridView))
@@ -99,20 +108,39 @@ namespace SavannahManagerStyleLib.Views.Behaviors
             if (string.IsNullOrEmpty(FirstSort))
                 return;
 
-            var firstHeader = _headers.Keys.First();
+            var firstHeader = _headers.Keys.First(x => x.Tag.ToString() == FirstSort);
             var content = firstHeader.Content.ToString();
-            GridViewColumnHeaderSort(AssociatedObject, FirstSort,
+            GridViewColumnHeaderSort(AssociatedObject, FirstSortOrder, FirstSort,
                 arg => firstHeader.Content = $"{content} {arg}");
 
-            _isInitialized = true;
+            IsInitialized = true;
         }
 
-
-        private static void GridViewColumnHeaderSort(ListView listView, string headerName, Action<string> setContentSuffixAction)
+        protected virtual void GridViewColumnHeaderSort(ListView listView, OrderType order, string headerName, Action<string> setContentSuffixAction)
         {
             // ListView#ItemsSourceからCollectionViewを取得
             var collectionView = CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            
+            // ソート方法をクリア
+            collectionView.SortDescriptions.Clear();
 
+            if (order == OrderType.Asc)
+            {
+                collectionView.SortDescriptions.Add(new SortDescription(headerName, ListSortDirection.Ascending));
+                setContentSuffixAction?.Invoke("↑");
+            }
+            else
+            {
+                collectionView.SortDescriptions.Add(new SortDescription(headerName, ListSortDirection.Descending));
+                setContentSuffixAction?.Invoke("↓");
+            }
+        }
+
+        protected virtual void GridViewColumnHeaderSort(ListView listView, string headerName, Action<string> setContentSuffixAction)
+        {
+            // ListView#ItemsSourceからCollectionViewを取得
+            var collectionView = CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            
             // CollectionViewからSortDescriptionsの最初の要素を取得
             var sortDescription = collectionView.SortDescriptions.FirstOrDefault();
             // ソート方法をクリア

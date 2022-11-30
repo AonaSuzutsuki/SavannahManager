@@ -100,7 +100,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
 
             ExportPlayerCommand = new DelegateCommand(ExportPlayer);
             ExportChatCommand = new DelegateCommand(ExportChat);
-            LogFileListSelectionChangedCommand = new DelegateCommand<int?>(LogFileListSelectionChanged);
+            LogFileListSelectionChangedCommand = new DelegateCommand<LogFileItem>(LogFileListSelectionChanged);
             TextChangedCommand = new DelegateCommand<BindableRichTextBox>(TextChanged);
             ScrollEndedCommand = new DelegateCommand<BindableRichTextBox>(ReachEndLogText);
             ApplyFilterCommand = new DelegateCommand(ApplyFilter);
@@ -124,13 +124,14 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
             WindowManageService.ShowDialog<LogExport>(vm);
         }
 
-        public void LogFileListSelectionChanged(int? index)
+        public void LogFileListSelectionChanged(LogFileItem item)
         {
-            if (index == null)
+            if (item == null)
                 return;
 
             ProgressBarVisibility.Value = true;
-            _ = _model.AnalyzeLogFile(index.Value);
+            var index = _model.GetFileIndex(item.Info);
+            _ = _model.AnalyzeLogFile(index);
         }
 
         public void TextChanged(BindableRichTextBox control)
