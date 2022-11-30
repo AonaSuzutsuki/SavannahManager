@@ -9,6 +9,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer;
 public class LogFileItem : BindableBase
 {
     public LogFileInfo Info { get; }
+
+    public string Date { get; set; }
     public string Title { get; set; }
     public long FileSize { get; set; }
 
@@ -22,6 +24,7 @@ public class LogFileItem : BindableBase
         Title = info.Name;
         FileSize = info.Info.Length;
         Info = info;
+        Date = info.Date;
 
         if (FileSize < 1024)
             FileSizeText = $"{FileSize}Bytes";

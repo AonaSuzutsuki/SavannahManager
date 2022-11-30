@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Prism.Mvvm;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer;
@@ -15,6 +16,7 @@ public class LogFileInfo : BindableBase
 
     private string _encodingName = EncodingNames.First();
 
+    public string Date { get; set; }
     public string Name => Info.Name;
     public string FullPath => Info.FullName;
     public FileInfo Info { get; }
@@ -51,5 +53,23 @@ public class LogFileInfo : BindableBase
     public LogFileInfo(string path)
     {
         Info = new FileInfo(path);
+
+        var fileName = Info.Name;
+
+        var pattern = "(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2})- (?<hour>[0-9]{2})-(?<minute>[0-9]{2})-(?<second>[0-9]{2})";
+        var regex = new Regex(pattern);
+        var match = regex.Match(fileName);
+        if (match.Success)
+        {
+            var year = match.Groups["year"].Value;
+            var month = match.Groups["month"].Value;
+            var day = match.Groups["day"].Value;
+
+            Date = $"{year}-{month}-{day}";
+        }
+        else
+        {
+            Date = Info.CreationTime.ToString("yyyy-MM-dd");
+        }
     }
 }
