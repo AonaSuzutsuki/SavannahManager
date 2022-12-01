@@ -26,6 +26,7 @@ using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 using _7dtd_svmanager_fix_mvvm.Models.Ssh;
 using _7dtd_svmanager_fix_mvvm.Models.Update;
 using _7dtd_svmanager_fix_mvvm.Views.UserControls;
+using CommonStyleLib.Models.Errors;
 using Renci.SshNet.Common;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
@@ -55,10 +56,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         }
         private readonly Subject<MessageBoxOccurredEventArgs> _messageBoxOccurred = new Subject<MessageBoxOccurredEventArgs>();
         public IObservable<MessageBoxOccurredEventArgs> MessageBoxOccurred => _messageBoxOccurred;
-
-        private readonly Subject<string> _errorOccurred = new Subject<string>();
-        public IObservable<string> ErrorOccurred => _errorOccurred;
-
+        
         #endregion
 
         #region PropertiesForViewModel
@@ -384,7 +382,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 }
                 catch
                 {
-                    _errorOccurred.OnNext("Invalid password.");
+                    ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = "Invalid password." });
                     return false;
                 }
             }
@@ -476,7 +474,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             var checkedValues = ConfigChecker.GetConfigInfo(ConfigFilePath);
             if (checkedValues.IsFailed)
             {
-                _errorOccurred.OnNext(checkedValues.Message);
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = checkedValues.Message });
                 return false;
             }
 
@@ -486,12 +484,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             if (IsConnected)
             {
-                _errorOccurred.OnNext(Resources.AlreadyConnected);
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = Resources.AlreadyConnected });
                 return false;
             }
 
             var serverProcessManager = new ServerProcessManager(ExeFilePath, ConfigFilePath);
-            void ProcessFailedAction(string message) => _errorOccurred.OnNext(message);
+            void ProcessFailedAction(string message) => ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = message });
             if (!serverProcessManager.ProcessStart(ProcessFailedAction))
                 return false;
 
@@ -509,7 +507,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         {
             if (IsConnected)
             {
-                _errorOccurred.OnNext(Resources.AlreadyConnected);
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = Resources.AlreadyConnected });
                 return false;
             }
 
@@ -534,7 +532,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
             catch (SshAuthenticationException)
             {
-                _errorOccurred.OnNext("failed to authenticate on ssh.");
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = "failed to authenticate on ssh." });
 
                 StartBtEnabled = true;
                 TelnetBtIsEnabled = true;
@@ -543,7 +541,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
             catch (SshOperationTimeoutException)
             {
-                _errorOccurred.OnNext("failed to connect ssh.");
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = "failed to connect ssh." });
 
                 StartBtEnabled = true;
                 TelnetBtIsEnabled = true;
@@ -650,7 +648,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 else if (!IsConnected)
                     reason = "because telnet are not connected";
 
-                _errorOccurred.OnNext($"Cannot enable auto restart mode {reason}.");
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = $"Cannot enable auto restart mode {reason}." });
                 return false;
             }
 
@@ -698,13 +696,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 var fi = new FileInfo(ExeFilePath);
                 if (!fi.Exists)
                 {
-                    _errorOccurred.OnNext(string.Format(Resources.Not_Found_0, "7DaysToDieServer.exe"));
+                    ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources.Not_Found_0, "7DaysToDieServer.exe") });
                     return false;
                 }
             }
             catch (ArgumentException)
             {
-                _errorOccurred.OnNext(string.Format(Resources._0_Is_Invalid, Resources.ServerFilePath));
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources._0_Is_Invalid, Resources.ServerFilePath) });
                 return false;
             }
 
@@ -713,13 +711,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 var fi = new FileInfo(ConfigFilePath);
                 if (!fi.Exists)
                 {
-                    _errorOccurred.OnNext(string.Format(Resources.Not_Found_0, Resources.ConfigFilePath));
+                    ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources.Not_Found_0, Resources.ConfigFilePath) });
                     return false;
                 }
             }
             catch (ArgumentException)
             {
-                _errorOccurred.OnNext(string.Format(Resources._0_Is_Invalid, "7DaysToDieServer.exe"));
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources._0_Is_Invalid, "7DaysToDieServer.exe") });
                 return false;
             }
             return true;
@@ -758,14 +756,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
                 if (!File.Exists(ConfigFilePath))
                 {
-                    _errorOccurred.OnNext(string.Format(Resources.Not_Found_0, Resources.ConfigFile));
+                    ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources.Not_Found_0, Resources.ConfigFile) });
                     return;
                 }
 
                 var checkedValues = ConfigChecker.GetConfigInfo(ConfigFilePath);
                 if (checkedValues.IsFailed)
                 {
-                    _errorOccurred.OnNext(checkedValues.Message);
+                    ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = checkedValues.Message });
                     return;
                 }
 
@@ -1040,7 +1038,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             if (IsConnected)
                 return true;
 
-            _errorOccurred.OnNext(Resources.HasnotBeConnected);
+            ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = Resources.HasnotBeConnected });
             return false;
         }
         private void SocTelnetSendDirect(string cmd)
@@ -1105,7 +1103,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             var playerId = UsersList[index].Id;
             if (string.IsNullOrEmpty(playerId))
             {
-                _errorOccurred.OnNext(string.Format(Resources._0_is_Empty, "ID or Name"));
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources._0_is_Empty, "ID or Name") });
                 return;
             }
 
@@ -1141,7 +1139,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
             else
             {
-                _errorOccurred.OnNext(string.Format(Resources._0_is_not_found, Resources.ConfigEditor));
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources._0_is_not_found, Resources.ConfigEditor) });
             }
         }
 
@@ -1151,7 +1149,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             if (fi.Exists)
                 Process.Start(fi.FullName);
             else
-                _errorOccurred.OnNext(string.Format(Resources._0_is_not_found, ConstantValues.XmlEditorFilePath));
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources._0_is_not_found, ConstantValues.XmlEditorFilePath) });
         }
 
 
