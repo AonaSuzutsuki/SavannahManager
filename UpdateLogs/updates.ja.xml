@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.54.2">
+    1. logsディレクトリが存在しない状態でログビューアを開くとクラッシュする問題を修正しました。
+  </update>
   <update version="2.6.53.1">
     1. ログビューアで文字コードを選択できるようにしました。
       選択できる文字コードは現在「UTF-8 (デフォルト)」「Shift-JIS」の2つです。
