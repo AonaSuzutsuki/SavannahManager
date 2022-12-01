@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.54.2">
+    1. Fixed a crash when opening the log viewer without the logs directory present.
+  </update>
   <update version="2.6.53.1">
     1. Added the function to select character encoding in the log viewer.
       There are two character encodings that can be selected: "UTF-8 (default)" and "Shift-JIS".
