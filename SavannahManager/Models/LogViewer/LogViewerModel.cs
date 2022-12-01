@@ -15,6 +15,7 @@ using _7dtd_svmanager_fix_mvvm.Views.Update;
 using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonExtensionLib.Extensions;
 using CommonStyleLib.Models;
+using CommonStyleLib.Models.Errors;
 using SvManagerLibrary.Chat;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
@@ -56,6 +57,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 
         public void Load()
         {
+            if (!Directory.Exists("logs"))
+                return;
+
             var files = Directory.GetFiles("logs", "*.log").ToList();
             files.Reverse();
 

@@ -25,7 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommonStyleLib" Version="1.0.18" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.20" />
     <PackageReference Include="SavannahXmlLib" Version="1.0.5" />
   </ItemGroup>
 

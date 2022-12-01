@@ -96,7 +96,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public MainWindowViewModel(MainWindowService windowService, MainWindowModel model) : base(windowService, model)
         {
             model.ConsoleTextAppended.Subscribe(Model_AppendConsoleText);
-            model.ErrorOccurred.Subscribe((message) => windowService.MessageBoxShow(message,
+            model.ErrorOccurred.Subscribe((message) => windowService.MessageBoxShow(message.ErrorMessage,
                 LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation));
             model.MessageBoxOccurred.Subscribe(args =>
             {
