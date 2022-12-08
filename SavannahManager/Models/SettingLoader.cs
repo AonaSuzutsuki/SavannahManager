@@ -61,6 +61,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public int IntervalTimeMode { get; set; }
 
+        public int RebootingWaitMode { get; set; } // 0: Rebooting Interval, 1: Process Check
+
+        public int RebootIntervalTime { get; set; } = 0;
+
+        public int RebootIntervalTimeMode { get; set; } = 0;
+
         public bool IsAutoRestartSendMessage { get; set; }
 
         public int AutoRestartSendingMessageStartTime { get; set; }

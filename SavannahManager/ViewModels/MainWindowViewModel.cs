@@ -563,7 +563,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             }
             else
             {
-                _model.StopAutoRestart();
+                _model.StopAutoRestart(true);
             }
         }
 

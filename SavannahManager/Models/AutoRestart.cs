@@ -9,6 +9,25 @@ using System.Threading.Tasks;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
+    public class AutoRestartWaitingTimeEventArgs : EventArgs
+    {
+        public enum WaitingType
+        {
+            RestartWait,
+            RebootCoolTime
+        }
+
+        public WaitingType EventType { get; set; }
+
+        public TimeSpan WaitingTime { get; }
+
+        public AutoRestartWaitingTimeEventArgs(WaitingType eventType, TimeSpan waitingTime)
+        {
+            EventType = eventType;
+            WaitingTime = waitingTime;
+        }
+    }
+
     public class AutoRestart : IDisposable
     {
         #region Fields
@@ -16,6 +35,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private readonly TimeSpan _baseTime;
         private DateTime _thresholdTime;
         private DateTime _messageDateTime;
+
+        private readonly TimeSpan _rebootBaseTime;
+        private DateTime _rebootThresholdTime;
 
         private bool _isRequestStop;
         private readonly MainWindowServerStart _model;
@@ -27,12 +49,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public bool IsRestarting { get; private set; }
 
+        public bool IsRebootingCoolTime { get; private set; }
+
         #endregion
 
         #region Events
 
-        private readonly Subject<TimeSpan> _timeProgress = new();
-        public IObservable<TimeSpan> TimeProgress => _timeProgress;
+        private readonly Subject<AutoRestartWaitingTimeEventArgs> _timeProgress = new();
+        public IObservable<AutoRestartWaitingTimeEventArgs> TimeProgress => _timeProgress;
 
         private readonly Subject<TimeSpan> _fewRemaining = new();
         public IObservable<TimeSpan> FewRemaining => _fewRemaining;
@@ -50,6 +74,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 _ => new TimeSpan(_setting.IntervalTime, 0, 0)
             };
             _thresholdTime = CalculateThresholdTime(_baseTime);
+
+            _rebootBaseTime = _setting.RebootIntervalTimeMode switch
+            {
+                0 => new TimeSpan(0, 0, _setting.RebootIntervalTime),
+                1 => new TimeSpan(0, _setting.RebootIntervalTime, 0),
+                _ => new TimeSpan(_setting.RebootIntervalTime, 0, 0)
+            };
+            _rebootThresholdTime = CalculateThresholdTime(_rebootBaseTime + _baseTime);
         }
 
         private static DateTime CalculateThresholdTime(TimeSpan baseTime)
@@ -65,16 +97,19 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 var isStop = false;
                 while (!_isRequestStop)
                 {
-                    if (!isStop && DateTime.Now >= _thresholdTime)
+                    if (_setting.RebootingWaitMode == 0)
                     {
-                        IsRestarting = true;
-                        _model.Model.ServerStop();
-                        isStop = true;
-                    }
+                        // Stop server
+                        if (!isStop && DateTime.Now >= _thresholdTime)
+                        {
+                            IsRestarting = true;
+                            IsRebootingCoolTime = true;
+                            _model.Model.ServerStop();
+                            isStop = true;
+                        }
 
-                    if (isStop)
-                    {
-                        if (!_model.Model.IsConnected)
+                        // Restarting
+                        if (isStop && CanRestart())
                         {
                             if (!_model.IsSsh)
                             {
@@ -87,18 +122,31 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                                     return;
                             }
                             IsRestarting = false;
+                            IsRebootingCoolTime = false;
                             isStop = false;
                             _thresholdTime = CalculateThresholdTime(_baseTime);
                         }
 
-                        await Task.Delay(1000);
-                    }
+                        // Waiting to stop server
+                        if (!isStop)
+                        {
+                            _timeProgress.OnNext(new AutoRestartWaitingTimeEventArgs(AutoRestartWaitingTimeEventArgs.WaitingType.RestartWait, _thresholdTime - DateTime.Now));
 
-                    _timeProgress.OnNext(_thresholdTime - DateTime.Now);
-                    
-                    if (CanSendMessage())
+                            if (CanSendMessage())
+                            {
+                                _fewRemaining.OnNext(_thresholdTime - DateTime.Now);
+                            }
+                        }
+
+                        // Waiting for restart cool time
+                        if (isStop && DateTime.Now < _rebootThresholdTime)
+                        {
+                            _timeProgress.OnNext(new AutoRestartWaitingTimeEventArgs(AutoRestartWaitingTimeEventArgs.WaitingType.RebootCoolTime, _rebootThresholdTime - DateTime.Now));
+                        }
+                    }
+                    else if (_setting.RebootingWaitMode == 1)
                     {
-                        _fewRemaining.OnNext(_thresholdTime - DateTime.Now);
+                        // ToDo
                     }
 
                     await Task.Delay(500);
@@ -107,6 +155,21 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 IsRestarting = false;
                 _timeProgress.OnCompleted();
             });
+        }
+
+        private bool CanRestart()
+        {
+            if (_setting.RebootingWaitMode == 0)
+            {
+                if (DateTime.Now >= _rebootThresholdTime)
+                    return !_model.Model.IsConnected;
+
+                return false;
+            }
+            else
+            {
+                return !_model.Model.IsConnected;
+            }
         }
 
         public bool CanSendMessage()

@@ -658,10 +658,19 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             _autoRestart = new AutoRestart(new MainWindowServerStart(this, isSsh));
             var newsLabel = BottomNewsLabel;
-            _autoRestart.TimeProgress.Subscribe((ts) =>
+            _autoRestart.TimeProgress.Subscribe((args) =>
             {
-                BottomNewsLabel = $"{newsLabel}, AutoRestart: {ts:d\\.hh\\:mm\\:ss} remaining.";
-                Debug.WriteLine($"AutoRestart: {ts} remaining.");
+                var ts = args.WaitingTime;
+                if (args.EventType == AutoRestartWaitingTimeEventArgs.WaitingType.RestartWait)
+                {
+                    BottomNewsLabel = $"{newsLabel}, AutoRestart: {ts:d\\.hh\\:mm\\:ss} remaining.";
+                    Debug.WriteLine($"AutoRestart: {ts} remaining.");
+                }
+                else
+                {
+                    BottomNewsLabel = $"{newsLabel}, Rebooting Cool Time: {ts:d\\.hh\\:mm\\:ss} remaining.";
+                    Debug.WriteLine($"Rebooting Cool Time: {ts} remaining.");
+                }
             }, () => BottomNewsLabel = newsLabel);
             _autoRestart.FewRemaining.Subscribe(ts =>
             {
@@ -675,9 +684,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             return true;
         }
 
-        public void StopAutoRestart()
+        public void StopAutoRestart(bool isUserStop = false)
         {
-            if (_autoRestart == null || _autoRestart.IsRestarting)
+            if (_autoRestart == null)
+                return;
+
+            if (!isUserStop && _autoRestart.IsRestarting)
                 return;
 
             _autoRestart?.Dispose();
