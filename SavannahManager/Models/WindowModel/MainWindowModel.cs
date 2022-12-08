@@ -640,15 +640,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         public bool StartAutoRestart()
         {
-            if (!IsBeta || !IsConnected)
+            if (!IsConnected)
             {
-                var reason = "";
-                if (!IsBeta)
-                    reason = "because beta mod not enabled";
-                else if (!IsConnected)
-                    reason = "because telnet are not connected";
-
-                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = $"Cannot enable auto restart mode {reason}." });
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs
+                {
+                    ErrorMessage = "Cannot enable auto restart mode because telnet are not connected."
+                });
                 return false;
             }
 
