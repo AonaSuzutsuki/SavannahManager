@@ -10,9 +10,9 @@
     <Authors>Aona Suzutsuki</Authors>
     <Company>Kimama Lab.</Company>
     <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2022</Copyright>
-    <AssemblyVersion>2.6.54.2</AssemblyVersion>
-    <FileVersion>2.6.54.2</FileVersion>
-    <Version>2.6.54.2</Version>
+    <AssemblyVersion>2.6.55.3</AssemblyVersion>
+    <FileVersion>2.6.55.3</FileVersion>
+    <Version>2.6.55.3</Version>
     <ApplicationIcon>Images\1.ico</ApplicationIcon>
   </PropertyGroup>
 
