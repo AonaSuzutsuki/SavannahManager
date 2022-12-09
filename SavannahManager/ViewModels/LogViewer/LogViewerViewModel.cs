@@ -35,6 +35,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
         public ReactiveProperty<string> EncodingSelectedItem { get; set; }
 
         public ReadOnlyCollection<LogFileItem> LogFileList { get; set; }
+        public ReactiveProperty<bool> LogFileListEnabled { get; set; }
         public ReactiveProperty<LogFileItem> LogFileSelectedItem { get; set; }
         public ReactiveProperty<bool> IsWordWrapping { get; set; }
         public ReactiveProperty<bool> ProgressBarVisibility { get; set; }
@@ -70,6 +71,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
                 if (EncodingSelectedItem != null)
                     EncodingSelectedItem.Value = LogFileSelectedItem.Value.EncodingName;
             };
+            LogFileListEnabled = new ReactiveProperty<bool>(true);
 
             EncodingSelectedItem = new ReactiveProperty<string>();
             EncodingSelectedItem.PropertyChanged += (sender, args) =>
@@ -131,7 +133,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
 
             ProgressBarVisibility.Value = true;
             var index = _model.GetFileIndex(item.Info);
-            _ = _model.AnalyzeLogFile(index);
+            LogFileListEnabled.Value = false;
+            _ = _model.AnalyzeLogFile(index).ContinueWith(t => LogFileListEnabled.Value = true);
         }
 
         public void TextChanged(BindableRichTextBox control)
