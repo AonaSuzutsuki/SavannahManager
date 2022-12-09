@@ -8,11 +8,12 @@
         xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels.Settings"
+        xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Converter"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:SettingWindowViewModel}"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
-        Title="Settings" Height="{Binding Height.Value, Mode=OneWayToSource, FallbackValue=300}" Width="{Binding Width.Value, Mode=OneWayToSource, FallbackValue=400}" Top="{Binding Top.Value, Mode=OneWayToSource}" Left="{Binding Left.Value, Mode=OneWayToSource}" ResizeMode="CanMinimize"
+        Title="Settings" Height="{Binding Height.Value, Mode=OneWayToSource, FallbackValue=550}" Width="{Binding Width.Value, Mode=OneWayToSource, FallbackValue=400}" Top="{Binding Top.Value, Mode=OneWayToSource}" Left="{Binding Left.Value, Mode=OneWayToSource}" ResizeMode="CanMinimize"
         BorderBrush="{Binding AroundBorderColor.Value}"
         Opacity="{Binding AroundBorderOpacity.Value}"
         Style="{DynamicResource WindowStyle}">
@@ -263,7 +264,14 @@
                             <StackPanel Orientation="Vertical" Margin="3">
 
                                 <StackPanel Margin="3">
-                                    <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_ScheduledTime, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_ScheduledTime, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                        <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                            <Hyperlink Foreground="White" Command="{Binding HelpHyperlinkCommand}" CommandParameter="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.Help_ScheduledTime, Mode=OneWay}">
+                                                ?
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </StackPanel>
 
                                     <CheckBox IsEnabled="False" Content="Interval Time" IsChecked="True" Visibility="Collapsed" />
 
@@ -296,7 +304,14 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
 
-                                        <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_StartTime, Mode=OneWay}" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_StartTime, Mode=OneWay}" />
+                                            <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <Hyperlink Foreground="White" Command="{Binding HelpHyperlinkCommand}" CommandParameter="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.Help_AutoRestartStartTime, Mode=OneWay}">
+                                                    ?
+                                                </Hyperlink>
+                                            </TextBlock>
+                                        </StackPanel>
 
                                         <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageStartTime.Value}" />
 
@@ -316,7 +331,14 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
 
-                                        <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_IntervalTime, Mode=OneWay}" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_IntervalTime, Mode=OneWay}" />
+                                            <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <Hyperlink Foreground="White" Command="{Binding HelpHyperlinkCommand}" CommandParameter="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.Help_AutoRestartIntervalTime, Mode=OneWay}">
+                                                    ?
+                                                </Hyperlink>
+                                            </TextBlock>
+                                        </StackPanel>
 
                                         <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageIntervalTime.Value}" />
 
@@ -336,6 +358,55 @@
                                         <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_MessageFormat, Mode=OneWay}" />
 
                                         <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageFormat.Value}" />
+                                    </Grid>
+
+                                    <Grid Margin="0,30,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="130" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_RebootWaitMode, Mode=OneWay}" />
+                                            <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <Hyperlink Foreground="White" Command="{Binding HelpHyperlinkCommand}" CommandParameter="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.Help_AutoRestartRebootWaitMode, Mode=OneWay}">
+                                                    ?
+                                                </Hyperlink>
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                        <ComboBox Grid.Column="1" Width="150" HorizontalAlignment="Left" SelectedItem="{Binding AutoRestartRebootWaitModeItem.Value, Mode=OneWayToSource}" SelectedIndex="{Binding AutoRestartRebootWaitMode.Value}">
+                                            <ComboBoxItem Content="Cool Time" />
+                                            <ComboBoxItem Content="Wait Process" />
+                                        </ComboBox>
+                                    </Grid>
+
+                                    <!-- Cool Time -->
+                                    <StackPanel Visibility="{Binding AutoRestartRebootWaitModeItem.Value, FallbackValue=Visible, Mode=OneWay, Converter={converter:SettingWaitModeVisibilityConverter}, ConverterParameter=0}">
+
+                                        <Label Content="Cool Time" />
+
+                                        <Grid Margin="0, 5, 0, 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBox Text="{Binding AutoRestartRebootCoolTime.Value}" />
+
+                                            <ComboBox Grid.Column="2" SelectedIndex="{Binding AutoRestartRebootCoolTimeMode.Value, FallbackValue=1}">
+                                                <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Second, Mode=OneWay}" />
+                                                <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Minute, Mode=OneWay}" />
+                                                <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Hour, Mode=OneWay}" />
+                                            </ComboBox>
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <!-- Wait Process -->
+                                    <Grid Visibility="{Binding AutoRestartRebootWaitModeItem.Value, FallbackValue=Collapsed, Mode=OneWay, Converter={converter:SettingWaitModeVisibilityConverter}, ConverterParameter=1}">
+                                        <Label Content="Wait Process" />
                                     </Grid>
 
                                 </StackPanel>

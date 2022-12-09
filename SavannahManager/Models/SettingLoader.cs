@@ -61,11 +61,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public int IntervalTimeMode { get; set; }
 
-        public int RebootingWaitMode { get; set; } // 0: Rebooting Interval, 1: Process Check
+        public int RebootingWaitMode { get; set; } // 0: Rebooting Cool Time, 1: Process Check
 
-        public int RebootIntervalTime { get; set; } = 0;
+        public int RebootIntervalTime { get; set; }
 
-        public int RebootIntervalTimeMode { get; set; } = 0;
+        public int RebootIntervalTimeMode { get; set; }
 
         public bool IsAutoRestartSendMessage { get; set; }
 
@@ -219,6 +219,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 _iniLoader.GetValue(AutoRestartClassName, "SendingMessageIntervalTimeMode", 0);
             AutoRestartSendingMessageFormat = _iniLoader.GetValue(MainClassName, "SendingMessageFormat", 
                     "Restart the server after {0} seconds.");
+            RebootingWaitMode = _iniLoader.GetValue(AutoRestartClassName, nameof(RebootingWaitMode), 0);
+            RebootIntervalTime = _iniLoader.GetValue(AutoRestartClassName, nameof(RebootIntervalTime), 1);
+            RebootIntervalTimeMode = _iniLoader.GetValue(AutoRestartClassName, nameof(RebootIntervalTimeMode), 1);
 
             BackupDirPath = _iniLoader.GetValue(BackupClassName, "DirPath", "backup").UnifiedSystemPathSeparator();
             RestoreDirPath = _iniLoader.GetValue(BackupClassName, "RestoreDirPath", "").UnifiedSystemPathSeparator();
@@ -306,6 +309,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(AutoRestartClassName, "SendingMessageIntervalTime", AutoRestartSendingMessageIntervalTime);
             _iniLoader.SetValue(AutoRestartClassName, "SendingMessageIntervalTimeMode", AutoRestartSendingMessageIntervalTimeMode);
             _iniLoader.SetValue(AutoRestartClassName, "SendingMessageFormat", AutoRestartSendingMessageFormat);
+            _iniLoader.SetValue(AutoRestartClassName, nameof(RebootingWaitMode), RebootingWaitMode);
+            _iniLoader.SetValue(AutoRestartClassName, nameof(RebootIntervalTime), RebootIntervalTime);
+            _iniLoader.SetValue(AutoRestartClassName, nameof(RebootIntervalTimeMode), RebootIntervalTimeMode);
             _iniLoader.SetValue(BackupClassName, "DirPath", BackupDirPath);
             _iniLoader.SetValue(BackupClassName, "RestoreDirPath", RestoreDirPath);
             _iniLoader.SetValue(MainClassName, "IsConsoleTextWrapping", IsConsoleLogTextWrapping);

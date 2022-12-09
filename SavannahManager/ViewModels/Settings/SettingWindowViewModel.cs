@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows.Controls;
+using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.Models.Settings;
 using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
 using _7dtd_svmanager_fix_mvvm.Views.Settings;
@@ -64,6 +65,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
                 model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageIntervalTimeMode).AddTo(CompositeDisposable);
             AutoRestartSendingMessageFormat =
                 model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageFormat).AddTo(CompositeDisposable);
+            AutoRestartRebootWaitModeItem = new ReactiveProperty<ComboBoxItem>();
+            AutoRestartRebootWaitMode = model.ToReactivePropertyAsSynchronized(m => m.RebootingWaitMode)
+                .AddTo(CompositeDisposable);
+            AutoRestartRebootCoolTime = model.ToReactivePropertyAsSynchronized(m => m.AutoRestartRebootCoolTime)
+                .AddTo(CompositeDisposable);
+            AutoRestartRebootCoolTimeMode = model.ToReactivePropertyAsSynchronized(m => m.AutoRestartRebootCoolTimeMode)
+                .AddTo(CompositeDisposable);
 
             BackupDirPath = model.ToReactivePropertyAsSynchronized(m => m.BackupDirPath).AddTo(CompositeDisposable);
             RestoreDirPath = model.ToReactivePropertyAsSynchronized(m => m.RestoreDirPath).AddTo(CompositeDisposable);
@@ -92,6 +100,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
         public ReactiveProperty<int> AutoRestartSendingMessageIntervalTime { get; set; }
         public ReactiveProperty<int> AutoRestartSendingMessageIntervalTimeMode { get; set; }
         public ReactiveProperty<string> AutoRestartSendingMessageFormat { get; set; }
+        public ReactiveProperty<ComboBoxItem> AutoRestartRebootWaitModeItem { get; set; }
+        public ReactiveProperty<int> AutoRestartRebootWaitMode { get; set; }
+        public ReactiveProperty<int> AutoRestartRebootCoolTime { get; set; }
+        public ReactiveProperty<int> AutoRestartRebootCoolTimeMode { get; set; }
 
         public ReactiveProperty<string> BackupDirPath { get; set; }
         public ReactiveProperty<string> RestoreDirPath { get; set; }

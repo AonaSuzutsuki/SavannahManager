@@ -97,6 +97,43 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   メッセージ送信を行う間隔です。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Help_AutoRestartIntervalTime {
+            get {
+                return ResourceManager.GetString("Help_AutoRestartIntervalTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   サーバーが終了した際に起動を行うまでに待機する方法です。
+        ///
+        ///1. クールタイム
+        ///Telnet接続終了後、指定した時間（クールタイム）を待機した後に起動処理を実行します。
+        ///ローカルサーバが多い場合や、SSHを利用した接続の場合に有効です。
+        ///
+        ///2. プロセス待機
+        ///サーバーのプロセスの動作を確認し、終了が確認でき次第、起動処理を実行します。
+        ///待機時間を最小限にし、安全に起動処理が実行できます。
+        ///ただし、複数サーバーが動いている場合はプロセスを手動で設定する必要があります。
+        ///また、SSH環境では使用できません。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Help_AutoRestartRebootWaitMode {
+            get {
+                return ResourceManager.GetString("Help_AutoRestartRebootWaitMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   再起動の残り時間が指定した時間になるとメッセージを送信します。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Help_AutoRestartStartTime {
+            get {
+                return ResourceManager.GetString("Help_AutoRestartStartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   復元する際のディレクトリパスです。
         ///空の場合は「%AppData%\7DaysToDie」が復元先として使用されます。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
@@ -113,6 +150,15 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         public static string Help_BetaMode {
             get {
                 return ResourceManager.GetString("Help_BetaMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   このオプションで指定した時間が経過するとサーバーの再起動を行います。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Help_ScheduledTime {
+            get {
+                return ResourceManager.GetString("Help_ScheduledTime", resourceCulture);
             }
         }
         
@@ -332,6 +378,15 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         public static string UI_OthersLabel {
             get {
                 return ResourceManager.GetString("UI_OthersLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   再起動待機モード に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_RebootWaitMode {
+            get {
+                return ResourceManager.GetString("UI_RebootWaitMode", resourceCulture);
             }
         }
         

@@ -41,7 +41,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private bool _isRequestStop;
         private readonly MainWindowServerStart _model;
-        private readonly SettingLoader _setting;
+        private readonly SettingLoader _setting; // ToDo: remove
 
         #endregion
 
@@ -81,7 +81,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 1 => new TimeSpan(0, _setting.RebootIntervalTime, 0),
                 _ => new TimeSpan(_setting.RebootIntervalTime, 0, 0)
             };
-            _rebootThresholdTime = CalculateThresholdTime(_rebootBaseTime + _baseTime);
+            _rebootThresholdTime = DateTime.MinValue;
+            //_rebootThresholdTime = CalculateThresholdTime(_rebootBaseTime + _baseTime);
         }
 
         private static DateTime CalculateThresholdTime(TimeSpan baseTime)
@@ -108,6 +109,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                             isStop = true;
                         }
 
+                        if (isStop && !_model.Model.IsConnected && _rebootThresholdTime == DateTime.MinValue)
+                        {
+                            _rebootThresholdTime = CalculateThresholdTime(_rebootBaseTime);
+                        }
+
                         // Restarting
                         if (isStop && CanRestart())
                         {
@@ -125,6 +131,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                             IsRebootingCoolTime = false;
                             isStop = false;
                             _thresholdTime = CalculateThresholdTime(_baseTime);
+                            _rebootThresholdTime = DateTime.MinValue;
                         }
 
                         // Waiting to stop server
@@ -161,6 +168,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             if (_setting.RebootingWaitMode == 0)
             {
+                if (_rebootThresholdTime == DateTime.MinValue)
+                    return false;
                 if (DateTime.Now >= _rebootThresholdTime)
                     return !_model.Model.IsConnected;
 
