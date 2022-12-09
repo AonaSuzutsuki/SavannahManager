@@ -94,74 +94,84 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         {
             Task.Factory.StartNew(async () =>
             {
-                _messageDateTime = DateTime.MinValue;
-                var isStop = false;
                 while (!_isRequestStop)
                 {
-                    if (_setting.RebootingWaitMode == 0)
-                    {
-                        // Stop server
-                        if (!isStop && DateTime.Now >= _thresholdTime)
-                        {
-                            IsRestarting = true;
-                            IsRebootingCoolTime = true;
-                            _model.Model.ServerStop();
-                            isStop = true;
-                        }
-
-                        if (isStop && !_model.Model.IsConnected && _rebootThresholdTime == DateTime.MinValue)
-                        {
-                            _rebootThresholdTime = CalculateThresholdTime(_rebootBaseTime);
-                        }
-
-                        // Restarting
-                        if (isStop && CanRestart())
-                        {
-                            if (!_model.IsSsh)
-                            {
-                                if (!await _model.Model.ServerStart())
-                                    return;
-                            }
-                            else
-                            {
-                                if (!await _model.Model.ServerStartWithSsh())
-                                    return;
-                            }
-                            IsRestarting = false;
-                            IsRebootingCoolTime = false;
-                            isStop = false;
-                            _thresholdTime = CalculateThresholdTime(_baseTime);
-                            _rebootThresholdTime = DateTime.MinValue;
-                        }
-
-                        // Waiting to stop server
-                        if (!isStop)
-                        {
-                            _timeProgress.OnNext(new AutoRestartWaitingTimeEventArgs(AutoRestartWaitingTimeEventArgs.WaitingType.RestartWait, _thresholdTime - DateTime.Now));
-
-                            if (CanSendMessage())
-                            {
-                                _fewRemaining.OnNext(_thresholdTime - DateTime.Now);
-                            }
-                        }
-
-                        // Waiting for restart cool time
-                        if (isStop && DateTime.Now < _rebootThresholdTime)
-                        {
-                            _timeProgress.OnNext(new AutoRestartWaitingTimeEventArgs(AutoRestartWaitingTimeEventArgs.WaitingType.RebootCoolTime, _rebootThresholdTime - DateTime.Now));
-                        }
-                    }
-                    else if (_setting.RebootingWaitMode == 1)
-                    {
-                        // ToDo
-                    }
+                    await InnerStartCoolTime();
 
                     await Task.Delay(500);
                 }
 
-                IsRestarting = false;
                 _timeProgress.OnCompleted();
             });
+        }
+
+        private async Task InnerStartCoolTime()
+        {
+            while (!_isRequestStop)
+            {
+                // Stop server
+                if (DateTime.Now >= _thresholdTime)
+                {
+                    IsRestarting = true;
+                    IsRebootingCoolTime = true;
+                    _model.Model.ServerStop();
+                    break;
+                }
+
+                // Waiting to stop server
+                _timeProgress.OnNext(new AutoRestartWaitingTimeEventArgs(AutoRestartWaitingTimeEventArgs.WaitingType.RestartWait, _thresholdTime - DateTime.Now));
+
+                if (CanSendMessage())
+                {
+                    _fewRemaining.OnNext(_thresholdTime - DateTime.Now);
+                }
+
+                await Task.Delay(500);
+            }
+
+            while (!_isRequestStop)
+            {
+                if (!_model.Model.IsConnected && _rebootThresholdTime == DateTime.MinValue)
+                {
+                    _rebootThresholdTime = CalculateThresholdTime(_rebootBaseTime);
+                    break;
+                }
+
+                await Task.Delay(500);
+            }
+
+            while (!_isRequestStop)
+            {
+                // Restarting
+                if (CanRestart())
+                {
+                    if (!_model.IsSsh)
+                    {
+                        if (!await _model.Model.ServerStart())
+                            return;
+                    }
+                    else
+                    {
+                        if (!await _model.Model.ServerStartWithSsh())
+                            return;
+                    }
+                    IsRestarting = false;
+                    IsRebootingCoolTime = false;
+                    _thresholdTime = CalculateThresholdTime(_baseTime);
+                    _rebootThresholdTime = DateTime.MinValue;
+                    break;
+                }
+
+                // Waiting for restart cool time
+                if (DateTime.Now < _rebootThresholdTime)
+                {
+                    _timeProgress.OnNext(new AutoRestartWaitingTimeEventArgs(AutoRestartWaitingTimeEventArgs.WaitingType.RebootCoolTime, _rebootThresholdTime - DateTime.Now));
+                }
+
+                await Task.Delay(500);
+            }
+
+            IsRestarting = false;
         }
 
         private bool CanRestart()
