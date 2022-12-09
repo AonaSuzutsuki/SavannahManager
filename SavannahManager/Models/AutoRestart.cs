@@ -36,12 +36,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         private DateTime _thresholdTime;
         private DateTime _messageDateTime;
 
+        private readonly bool _isAutoRestartSendMessage;
+        private readonly int _autoRestartSendingMessageStartTime;
+        private readonly int _autoRestartSendingMessageStartTimeMode;
+        private readonly int _autoRestartSendingMessageIntervalTime;
+        private readonly int _autoRestartSendingMessageIntervalTimeMode;
+
+        private readonly int _rebootingWaitMode;
         private readonly TimeSpan _rebootBaseTime;
         private DateTime _rebootThresholdTime;
 
         private bool _isRequestStop;
         private readonly MainWindowServerStart _model;
-        private readonly SettingLoader _setting; // ToDo: remove
 
         #endregion
 
@@ -66,23 +72,30 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public AutoRestart(MainWindowServerStart model)
         {
             _model = model;
-            _setting = model.Model.Setting;
-            _baseTime = _setting.IntervalTimeMode switch
+            var setting = model.Model.Setting;
+            _baseTime = setting.IntervalTimeMode switch
             {
-                0 => new TimeSpan(0, 0, _setting.IntervalTime),
-                1 => new TimeSpan(0, _setting.IntervalTime, 0),
-                _ => new TimeSpan(_setting.IntervalTime, 0, 0)
+                0 => new TimeSpan(0, 0, setting.IntervalTime),
+                1 => new TimeSpan(0, setting.IntervalTime, 0),
+                _ => new TimeSpan(setting.IntervalTime, 0, 0)
             };
             _thresholdTime = CalculateThresholdTime(_baseTime);
 
-            _rebootBaseTime = _setting.RebootIntervalTimeMode switch
+            _rebootBaseTime = setting.RebootIntervalTimeMode switch
             {
-                0 => new TimeSpan(0, 0, _setting.RebootIntervalTime),
-                1 => new TimeSpan(0, _setting.RebootIntervalTime, 0),
-                _ => new TimeSpan(_setting.RebootIntervalTime, 0, 0)
+                0 => new TimeSpan(0, 0, setting.RebootIntervalTime),
+                1 => new TimeSpan(0, setting.RebootIntervalTime, 0),
+                _ => new TimeSpan(setting.RebootIntervalTime, 0, 0)
             };
             _rebootThresholdTime = DateTime.MinValue;
             //_rebootThresholdTime = CalculateThresholdTime(_rebootBaseTime + _baseTime);
+
+            _rebootingWaitMode = setting.RebootingWaitMode;
+            _isAutoRestartSendMessage = setting.IsAutoRestartSendMessage;
+            _autoRestartSendingMessageStartTime = setting.AutoRestartSendingMessageStartTime;
+            _autoRestartSendingMessageStartTimeMode = setting.AutoRestartSendingMessageStartTimeMode;
+            _autoRestartSendingMessageIntervalTime = setting.AutoRestartSendingMessageIntervalTime;
+            _autoRestartSendingMessageIntervalTimeMode = setting.AutoRestartSendingMessageIntervalTimeMode;
         }
 
         private static DateTime CalculateThresholdTime(TimeSpan baseTime)
@@ -176,7 +189,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         private bool CanRestart()
         {
-            if (_setting.RebootingWaitMode == 0)
+            if (_rebootingWaitMode == 0)
             {
                 if (_rebootThresholdTime == DateTime.MinValue)
                     return false;
@@ -193,13 +206,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public bool CanSendMessage()
         {
-            if (!_setting.IsAutoRestartSendMessage)
+            if (!_isAutoRestartSendMessage)
                 return false;
 
-            var startTime = _setting.AutoRestartSendingMessageStartTime;
-            var startTimeMode = _setting.AutoRestartSendingMessageStartTimeMode;
-            var interval = _setting.AutoRestartSendingMessageIntervalTime;
-            var intervalTimeMode = _setting.AutoRestartSendingMessageIntervalTimeMode;
+            var startTime = _autoRestartSendingMessageStartTime;
+            var startTimeMode = _autoRestartSendingMessageStartTimeMode;
+            var interval = _autoRestartSendingMessageIntervalTime;
+            var intervalTimeMode = _autoRestartSendingMessageIntervalTimeMode;
 
             var startTimeSpan = startTimeMode switch
             {
