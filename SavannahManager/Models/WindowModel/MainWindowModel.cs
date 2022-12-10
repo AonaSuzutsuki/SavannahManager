@@ -28,6 +28,7 @@ using _7dtd_svmanager_fix_mvvm.Models.Update;
 using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonStyleLib.Models.Errors;
 using Renci.SshNet.Common;
+using _7dtd_svmanager_fix_mvvm.Models.AutoRestart;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
@@ -295,7 +296,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         private bool _isLogGetter;
 
-        private AutoRestart _autoRestart;
+        private AbstractAutoRestart _autoRestart;
         #endregion
 
         #region Event
@@ -656,7 +657,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             var isSsh = !LocalMode;
 
-            _autoRestart = new AutoRestart(new MainWindowServerStart(this, isSsh));
+            _autoRestart = new AutoRestartCoolTime(new MainWindowServerStart(this, isSsh));
             var newsLabel = BottomNewsLabel;
             _autoRestart.TimeProgress.Subscribe((args) =>
             {
