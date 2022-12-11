@@ -22,6 +22,8 @@ public abstract class AbstractAutoRestart : IDisposable
     private readonly int _autoRestartSendingMessageStartTimeMode;
     private readonly int _autoRestartSendingMessageIntervalTime;
     private readonly int _autoRestartSendingMessageIntervalTimeMode;
+    private readonly TimeSpan _startTimeSpan;
+    private readonly TimeSpan _intervalTimeSpan;
     private readonly bool _isAutoRestartRunScript;
     private readonly string _runningScript;
     private bool _isRanScript;
@@ -64,6 +66,17 @@ public abstract class AbstractAutoRestart : IDisposable
         _autoRestartSendingMessageIntervalTimeMode = setting.AutoRestartSendingMessageIntervalTimeMode;
         _isAutoRestartRunScript = setting.IsAutoRestartRunScriptEnabled;
         _runningScript = setting.AutoRestartRunningScript;
+        
+        _startTimeSpan = _autoRestartSendingMessageStartTimeMode switch
+        {
+            0 => new TimeSpan(0, 0, _autoRestartSendingMessageStartTime),
+            _ => new TimeSpan(0, _autoRestartSendingMessageStartTime, 0)
+        };
+        _intervalTimeSpan = _autoRestartSendingMessageIntervalTimeMode switch
+        {
+            0 => new TimeSpan(0, 0, _autoRestartSendingMessageIntervalTime),
+            _ => new TimeSpan(0, _autoRestartSendingMessageIntervalTime, 0)
+        };
     }
 
     public void Start()
@@ -140,7 +153,8 @@ public abstract class AbstractAutoRestart : IDisposable
 
     protected virtual bool StopServer()
     {
-        if (DateTime.Now >= ThresholdTime)
+        var now = DateTime.Now;
+        if (now >= ThresholdTime)
         {
             IsRestarting = true;
             Model.Model.ServerStop();
@@ -148,11 +162,11 @@ public abstract class AbstractAutoRestart : IDisposable
         }
 
         // Waiting to stop server
-        TimeProgressSubject.OnNext(new AutoRestartWaitingTimeEventArgs(AutoRestartWaitingTimeEventArgs.WaitingType.RestartWait, ThresholdTime - DateTime.Now));
+        TimeProgressSubject.OnNext(new AutoRestartWaitingTimeEventArgs(AutoRestartWaitingTimeEventArgs.WaitingType.RestartWait, ThresholdTime - now));
 
-        if (CanSendMessage())
+        if (CanSendMessage(now))
         {
-            FewRemainingSubject.OnNext(ThresholdTime - DateTime.Now);
+            FewRemainingSubject.OnNext(ThresholdTime - now);
         }
 
         return false;
@@ -175,32 +189,21 @@ public abstract class AbstractAutoRestart : IDisposable
 
     protected virtual void WaitingStartServer() {}
 
-    protected bool CanSendMessage()
+    protected bool CanSendMessage(DateTime now)
     {
         if (!_isAutoRestartSendMessage)
             return false;
 
-        var startTimeSpan = _autoRestartSendingMessageStartTimeMode switch
-        {
-            0 => new TimeSpan(0, 0, _autoRestartSendingMessageStartTime),
-            _ => new TimeSpan(0, _autoRestartSendingMessageStartTime, 0)
-        };
-        var intervalTimeSpan = _autoRestartSendingMessageIntervalTimeMode switch
-        {
-            0 => new TimeSpan(0, 0, _autoRestartSendingMessageIntervalTime),
-            _ => new TimeSpan(0, _autoRestartSendingMessageIntervalTime, 0)
-        };
-
-        if (ThresholdTime - DateTime.Now <= startTimeSpan)
+        if (ThresholdTime - now <= _startTimeSpan)
         {
             if (MessageDateTime == DateTime.MinValue)
             {
-                MessageDateTime = DateTime.Now;
+                MessageDateTime = now;
             }
 
-            if (DateTime.Now - MessageDateTime >= intervalTimeSpan)
+            if (now - MessageDateTime >= _intervalTimeSpan)
             {
-                MessageDateTime = DateTime.Now;
+                MessageDateTime = now;
                 return true;
             }
         }
