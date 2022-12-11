@@ -32,7 +32,7 @@ public class AutoRestartCoolTime : AbstractAutoRestart
 
     protected override bool AfterStopTelnet()
     {
-        if (!Model.Model.IsConnected && _rebootThresholdTime == DateTime.MinValue)
+        if (base.AfterStopTelnet() && !Model.Model.IsConnected && _rebootThresholdTime == DateTime.MinValue)
         {
             _rebootThresholdTime = CalculateThresholdTime(_rebootBaseTime);
             return true;

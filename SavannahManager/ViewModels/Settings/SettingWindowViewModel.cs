@@ -66,11 +66,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
             AutoRestartSendingMessageFormat =
                 model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageFormat).AddTo(CompositeDisposable);
             AutoRestartRebootWaitModeItem = new ReactiveProperty<ComboBoxItem>();
-            AutoRestartRebootWaitMode = model.ToReactivePropertyAsSynchronized(m => m.RebootingWaitMode)
+            AutoRestartRebootWaitMode = model.ToReactivePropertyAsSynchronized(m => m.AutoRestartRebootingWaitMode)
                 .AddTo(CompositeDisposable);
             AutoRestartRebootCoolTime = model.ToReactivePropertyAsSynchronized(m => m.AutoRestartRebootCoolTime)
                 .AddTo(CompositeDisposable);
             AutoRestartRebootCoolTimeMode = model.ToReactivePropertyAsSynchronized(m => m.AutoRestartRebootCoolTimeMode)
+                .AddTo(CompositeDisposable);
+            IsAutoRestartRunScriptEnabled = model.ToReactivePropertyAsSynchronized(m => m.IsAutoRestartRunScriptEnabled)
+                .AddTo(CompositeDisposable);
+            AutoRestartRunningScript = model.ToReactivePropertyAsSynchronized(m => m.AutoRestartRunningScript)
                 .AddTo(CompositeDisposable);
 
             BackupDirPath = model.ToReactivePropertyAsSynchronized(m => m.BackupDirPath).AddTo(CompositeDisposable);
@@ -104,6 +108,8 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
         public ReactiveProperty<int> AutoRestartRebootWaitMode { get; set; }
         public ReactiveProperty<int> AutoRestartRebootCoolTime { get; set; }
         public ReactiveProperty<int> AutoRestartRebootCoolTimeMode { get; set; }
+        public ReactiveProperty<bool> IsAutoRestartRunScriptEnabled { get; set; }
+        public ReactiveProperty<string> AutoRestartRunningScript { get; set; }
 
         public ReactiveProperty<string> BackupDirPath { get; set; }
         public ReactiveProperty<string> RestoreDirPath { get; set; }

@@ -25,9 +25,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
         private int _autoRestartSendingMessageIntervalTime;
         private int _autoRestartSendingMessageIntervalTimeMode;
         private string _autoRestartSendingMessageFormat;
-        private int _rebootingWaitMode;
+        private int _autoRestartRebootingWaitMode;
         private int _autoRestartRebootCoolTime;
         private int _autoRestartRebootCoolTimeMode;
+        private bool _isAutoRestartRunScriptEnabled;
+        private string _autoRestartRunningScript;
         private string _backupDirPath;
         private string _restoreDirPath;
         private readonly SettingLoader _setting;
@@ -143,10 +145,10 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
             set => SetProperty(ref _autoRestartSendingMessageFormat, value);
         }
 
-        public int RebootingWaitMode
+        public int AutoRestartRebootingWaitMode
         {
-            get => _rebootingWaitMode;
-            set => SetProperty(ref _rebootingWaitMode, value);
+            get => _autoRestartRebootingWaitMode;
+            set => SetProperty(ref _autoRestartRebootingWaitMode, value);
         }
 
         public int AutoRestartRebootCoolTime
@@ -159,6 +161,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
         {
             get => _autoRestartRebootCoolTimeMode;
             set => SetProperty(ref _autoRestartRebootCoolTimeMode, value);
+        }
+
+        public bool IsAutoRestartRunScriptEnabled
+        {
+            get => _isAutoRestartRunScriptEnabled;
+            set => SetProperty(ref _isAutoRestartRunScriptEnabled, value);
+        }
+
+        public string AutoRestartRunningScript
+        {
+            get => _autoRestartRunningScript;
+            set => SetProperty(ref _autoRestartRunningScript, value);
         }
 
         public string BackupDirPath
@@ -202,9 +216,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
                 AutoRestartSendingMessageIntervalTime = setting.AutoRestartSendingMessageIntervalTime;
                 AutoRestartSendingMessageIntervalTimeMode = setting.AutoRestartSendingMessageIntervalTimeMode;
                 AutoRestartSendingMessageFormat = setting.AutoRestartSendingMessageFormat;
-                RebootingWaitMode = setting.RebootingWaitMode;
+                AutoRestartRebootingWaitMode = setting.RebootingWaitMode;
                 AutoRestartRebootCoolTime = setting.RebootIntervalTime;
                 AutoRestartRebootCoolTimeMode = setting.RebootIntervalTimeMode;
+                IsAutoRestartRunScriptEnabled = setting.IsAutoRestartRunScriptEnabled;
+                AutoRestartRunningScript = setting.AutoRestartRunningScript;
                 BackupDirPath = setting.BackupDirPath;
                 RestoreDirPath = setting.RestoreDirPath;
             }
@@ -237,9 +253,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
                 _setting.AutoRestartSendingMessageIntervalTime = AutoRestartSendingMessageIntervalTime;
                 _setting.AutoRestartSendingMessageIntervalTimeMode = AutoRestartSendingMessageIntervalTimeMode;
                 _setting.AutoRestartSendingMessageFormat = AutoRestartSendingMessageFormat;
-                _setting.RebootingWaitMode = RebootingWaitMode;
+                _setting.RebootingWaitMode = AutoRestartRebootingWaitMode;
                 _setting.RebootIntervalTime = AutoRestartRebootCoolTime;
                 _setting.RebootIntervalTimeMode = AutoRestartRebootCoolTimeMode;
+                _setting.IsAutoRestartRunScriptEnabled = IsAutoRestartRunScriptEnabled;
+                _setting.AutoRestartRunningScript = AutoRestartRunningScript;
                 _setting.BackupDirPath = BackupDirPath;
                 _setting.RestoreDirPath = RestoreDirPath;
                 _setting.Save();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
@@ -21,6 +22,9 @@ public abstract class AbstractAutoRestart : IDisposable
     private readonly int _autoRestartSendingMessageStartTimeMode;
     private readonly int _autoRestartSendingMessageIntervalTime;
     private readonly int _autoRestartSendingMessageIntervalTimeMode;
+    private readonly bool _isAutoRestartRunScript;
+    private readonly string _runningScript;
+    private bool _isRanScript;
 
     #endregion
 
@@ -58,6 +62,8 @@ public abstract class AbstractAutoRestart : IDisposable
         _autoRestartSendingMessageStartTimeMode = setting.AutoRestartSendingMessageStartTimeMode;
         _autoRestartSendingMessageIntervalTime = setting.AutoRestartSendingMessageIntervalTime;
         _autoRestartSendingMessageIntervalTimeMode = setting.AutoRestartSendingMessageIntervalTimeMode;
+        _isAutoRestartRunScript = setting.IsAutoRestartRunScriptEnabled;
+        _runningScript = setting.AutoRestartRunningScript;
     }
 
     public void Start()
@@ -152,7 +158,16 @@ public abstract class AbstractAutoRestart : IDisposable
         return false;
     }
 
-    protected abstract bool AfterStopTelnet();
+    protected virtual bool AfterStopTelnet()
+    {
+        if (!_isRanScript && _isAutoRestartRunScript)
+        {
+            ExecuteCommand(_runningScript);
+            _isRanScript = true;
+        }
+
+        return true;
+    }
 
     protected abstract bool CanRestart();
 
@@ -201,5 +216,34 @@ public abstract class AbstractAutoRestart : IDisposable
     protected static DateTime CalculateThresholdTime(TimeSpan baseTime)
     {
         return DateTime.Now + baseTime;
+    }
+
+    protected static void ExecuteCommand(string command)
+    {
+        var processInfo = new ProcessStartInfo("cmd.exe", "/c " + command)
+        {
+            CreateNoWindow = true,
+            UseShellExecute = false,
+            RedirectStandardError = true,
+            RedirectStandardOutput = true
+        };
+
+        var process = Process.Start(processInfo);
+
+        if (process == null)
+            return;
+
+        process.OutputDataReceived += (sender, e) =>
+            Debug.WriteLine("output>>" + e.Data);
+        process.BeginOutputReadLine();
+
+        process.ErrorDataReceived += (sender, e) =>
+            Debug.WriteLine("error>>" + e.Data);
+        process.BeginErrorReadLine();
+
+        process.WaitForExit();
+
+        Debug.WriteLine($"ExitCode: {process.ExitCode}");
+        process.Close();
     }
 }

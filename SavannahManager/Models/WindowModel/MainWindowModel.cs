@@ -657,7 +657,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             var isSsh = !LocalMode;
 
-            _autoRestart = new AutoRestartCoolTime(new MainWindowServerStart(this, isSsh));
+            if (Setting.RebootingWaitMode == 0)
+            {
+                _autoRestart = new AutoRestartCoolTime(new MainWindowServerStart(this, isSsh));
+            }
+            else
+            {
+                return false;
+            }
+
             var newsLabel = BottomNewsLabel;
             _autoRestart.TimeProgress.Subscribe((args) =>
             {
