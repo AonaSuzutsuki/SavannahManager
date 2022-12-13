@@ -675,6 +675,16 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                     BottomNewsLabel = $"{newsLabel}, AutoRestart: {ts:d\\.hh\\:mm\\:ss} remaining.";
                     Debug.WriteLine($"AutoRestart: {ts} remaining.");
                 }
+                else if (args.EventType == AutoRestartWaitingTimeEventArgs.WaitingType.ProcessWait)
+                {
+                    BottomNewsLabel = $"{newsLabel}, AutoRestart: Waiting to stop server.";
+                    Debug.WriteLine("AutoRestart: Waiting to stop server.");
+                }
+                else if (args.EventType == AutoRestartWaitingTimeEventArgs.WaitingType.ScriptWait)
+                {
+                    BottomNewsLabel = $"{newsLabel}, Script Cool Time: {ts:d\\.hh\\:mm\\:ss} remaining.";
+                    Debug.WriteLine($"Script Cool Time: {ts} remaining.");
+                }
                 else
                 {
                     BottomNewsLabel = $"{newsLabel}, Rebooting Cool Time: {ts:d\\.hh\\:mm\\:ss} remaining.";
@@ -685,6 +695,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             {
                 SocTelnetSend($"say \"{string.Format(Setting.AutoRestartSendingMessageFormat, ts.Seconds)}\"");
             });
+            _autoRestart.ScriptRunning.Subscribe(args =>
+            {
+                BottomNewsLabel = $"{newsLabel}, AutoRestart: Waiting to run the script.";
+                Debug.WriteLine("AutoRestart: Waiting to run the script.");
+            }, () => BottomNewsLabel = newsLabel);
             _autoRestart.Start();
 
             AutoRestartText = "AutoRestart Enabled";

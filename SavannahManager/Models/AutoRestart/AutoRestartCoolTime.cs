@@ -32,10 +32,20 @@ public class AutoRestartCoolTime : AbstractAutoRestart
 
     protected override bool AfterStopTelnet()
     {
-        if (base.AfterStopTelnet() && !Model.Model.IsConnected && _rebootThresholdTime == DateTime.MinValue)
+        if (!Model.Model.IsConnected && _rebootThresholdTime == DateTime.MinValue)
         {
             _rebootThresholdTime = CalculateThresholdTime(_rebootBaseTime);
-            return true;
+        }
+
+        if (!Model.Model.IsConnected && _rebootThresholdTime != DateTime.MinValue)
+        {
+            // Waiting for restart cool time
+            if (DateTime.Now < _rebootThresholdTime)
+            {
+                TimeProgressSubject.OnNext(new AutoRestartWaitingTimeEventArgs(AutoRestartWaitingTimeEventArgs.WaitingType.RebootCoolTime, _rebootThresholdTime - DateTime.Now));
+            }
+
+            return DateTime.Now >= _rebootThresholdTime;
         }
 
         return false;
@@ -51,12 +61,6 @@ public class AutoRestartCoolTime : AbstractAutoRestart
     protected override void WaitingStartServer()
     {
         base.WaitingStartServer();
-
-        // Waiting for restart cool time
-        if (DateTime.Now < _rebootThresholdTime)
-        {
-            TimeProgressSubject.OnNext(new AutoRestartWaitingTimeEventArgs(AutoRestartWaitingTimeEventArgs.WaitingType.RebootCoolTime, _rebootThresholdTime - DateTime.Now));
-        }
     }
 
     protected override bool CanRestart()

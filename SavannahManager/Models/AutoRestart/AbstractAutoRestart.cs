@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.AutoRestart;
@@ -16,6 +17,7 @@ public abstract class AbstractAutoRestart : IDisposable
     protected readonly TimeSpan BaseTime;
     protected DateTime ThresholdTime;
     protected DateTime MessageDateTime;
+    protected DateTime WaitScriptThresholdTime;
 
     private readonly bool _isAutoRestartSendMessage;
     private readonly int _autoRestartSendingMessageStartTime;
@@ -26,7 +28,8 @@ public abstract class AbstractAutoRestart : IDisposable
     private readonly TimeSpan _intervalTimeSpan;
     private readonly bool _isAutoRestartRunScript;
     private readonly string _runningScript;
-    private bool _isRanScript;
+    private readonly bool _isAutoRestartWaitRunningScript;
+    private readonly TimeSpan _ScriptWaitTimeSpan;
 
     #endregion
 
@@ -43,6 +46,9 @@ public abstract class AbstractAutoRestart : IDisposable
 
     protected readonly Subject<TimeSpan> FewRemainingSubject = new();
     public IObservable<TimeSpan> FewRemaining => FewRemainingSubject;
+
+    protected readonly Subject<EventArgs> ScriptRunningSubject = new();
+    public IObservable<EventArgs> ScriptRunning => ScriptRunningSubject;
 
     #endregion
 
@@ -66,7 +72,15 @@ public abstract class AbstractAutoRestart : IDisposable
         _autoRestartSendingMessageIntervalTimeMode = setting.AutoRestartSendingMessageIntervalTimeMode;
         _isAutoRestartRunScript = setting.IsAutoRestartRunScriptEnabled;
         _runningScript = setting.AutoRestartRunningScript;
-        
+        _isAutoRestartWaitRunningScript = setting.IsAutoRestartWaitRunningScript;
+
+        _ScriptWaitTimeSpan = setting.AutoRestartScriptWaitTimeMode switch
+        {
+            0 => new TimeSpan(0, 0, setting.AutoRestartScriptWaitTime),
+            1 => new TimeSpan(0, setting.AutoRestartScriptWaitTime, 0),
+            _ => new TimeSpan(setting.AutoRestartScriptWaitTime, 0, 0)
+        };
+
         _startTimeSpan = _autoRestartSendingMessageStartTimeMode switch
         {
             0 => new TimeSpan(0, 0, _autoRestartSendingMessageStartTime),
@@ -109,6 +123,17 @@ public abstract class AbstractAutoRestart : IDisposable
         while (!IsRequestStop)
         {
             if (AfterStopTelnet())
+                break;
+
+            await Task.Delay(500);
+        }
+
+        if (!IsRequestStop)
+            await RunScript();
+
+        while (!IsRequestStop)
+        {
+            if (WaitRunningScript())
                 break;
 
             await Task.Delay(500);
@@ -174,13 +199,30 @@ public abstract class AbstractAutoRestart : IDisposable
 
     protected virtual bool AfterStopTelnet()
     {
-        if (!_isRanScript && _isAutoRestartRunScript)
-        {
-            ExecuteCommand(_runningScript);
-            _isRanScript = true;
-        }
-
         return true;
+    }
+
+    protected virtual async Task RunScript()
+    {
+        if (_isAutoRestartRunScript)
+        {
+            ScriptRunningSubject.OnNext(EventArgs.Empty);
+            await ExecuteCommand(_runningScript);
+            ScriptRunningSubject.OnCompleted();
+
+            WaitScriptThresholdTime = CalculateThresholdTime(_ScriptWaitTimeSpan);
+        }
+    }
+
+    protected virtual bool WaitRunningScript()
+    {
+        if (!_isAutoRestartWaitRunningScript)
+            return true;
+
+        TimeProgressSubject.OnNext(new AutoRestartWaitingTimeEventArgs(AutoRestartWaitingTimeEventArgs.WaitingType.ScriptWait
+            , WaitScriptThresholdTime - DateTime.Now));
+
+        return DateTime.Now >= WaitScriptThresholdTime;
     }
 
     protected abstract bool CanRestart();
@@ -211,7 +253,7 @@ public abstract class AbstractAutoRestart : IDisposable
         return false;
     }
 
-    public void Dispose()
+    public virtual void Dispose()
     {
         IsRequestStop = true;
     }
@@ -221,7 +263,7 @@ public abstract class AbstractAutoRestart : IDisposable
         return DateTime.Now + baseTime;
     }
 
-    protected static void ExecuteCommand(string command)
+    protected static async Task ExecuteCommand(string command)
     {
         var processInfo = new ProcessStartInfo("cmd.exe", "/c " + command)
         {
@@ -244,7 +286,7 @@ public abstract class AbstractAutoRestart : IDisposable
             Debug.WriteLine("error>>" + e.Data);
         process.BeginErrorReadLine();
 
-        process.WaitForExit();
+        await process.WaitForExitAsync();
 
         Debug.WriteLine($"ExitCode: {process.ExitCode}");
         process.Close();

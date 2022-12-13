@@ -71,6 +71,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public string AutoRestartRunningScript { get; set; }
 
+        public bool IsAutoRestartWaitRunningScript { get; set; }
+
+        public int AutoRestartScriptWaitTime { get; set; }
+
+        public int AutoRestartScriptWaitTimeMode { get; set; }
+
         public bool IsAutoRestartSendMessage { get; set; }
 
         public int AutoRestartSendingMessageStartTime { get; set; }
@@ -230,6 +236,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
                 _iniLoader.GetValue(AutoRestartClassName, "RunScriptEnabled", false);
             AutoRestartRunningScript =
                 _iniLoader.GetValue(AutoRestartClassName, "RunningScript", string.Empty);
+            IsAutoRestartWaitRunningScript = _iniLoader.GetValue(AutoRestartClassName, "WaitRunningScript", false);
+            AutoRestartScriptWaitTime = _iniLoader.GetValue(AutoRestartClassName, "ScriptWaitTime", 1);
+            AutoRestartScriptWaitTimeMode = _iniLoader.GetValue(AutoRestartClassName, "ScriptWaitTimeMode", 1);
 
             BackupDirPath = _iniLoader.GetValue(BackupClassName, "DirPath", "backup").UnifiedSystemPathSeparator();
             RestoreDirPath = _iniLoader.GetValue(BackupClassName, "RestoreDirPath", "").UnifiedSystemPathSeparator();
@@ -322,6 +331,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(AutoRestartClassName, "RebootIntervalTimeMode", RebootIntervalTimeMode);
             _iniLoader.SetValue(AutoRestartClassName, "RunScriptEnabled", IsAutoRestartRunScriptEnabled);
             _iniLoader.SetValue(AutoRestartClassName, "RunningScript", AutoRestartRunningScript);
+            _iniLoader.SetValue(AutoRestartClassName, "WaitRunningScript", IsAutoRestartWaitRunningScript);
+            _iniLoader.SetValue(AutoRestartClassName, "ScriptWaitTime", AutoRestartScriptWaitTime);
+            _iniLoader.SetValue(AutoRestartClassName, "ScriptWaitTimeMode", AutoRestartScriptWaitTimeMode);
             _iniLoader.SetValue(BackupClassName, "DirPath", BackupDirPath);
             _iniLoader.SetValue(BackupClassName, "RestoreDirPath", RestoreDirPath);
             _iniLoader.SetValue(MainClassName, "IsConsoleTextWrapping", IsConsoleLogTextWrapping);

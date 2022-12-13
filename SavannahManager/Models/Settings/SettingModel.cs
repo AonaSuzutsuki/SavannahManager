@@ -30,6 +30,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
         private int _autoRestartRebootCoolTimeMode;
         private bool _isAutoRestartRunScriptEnabled;
         private string _autoRestartRunningScript;
+        private bool _isAutoRestartWaitRunningScript;
+        private int _autoRestartScriptWaitTime;
+        private int _autoRestartScriptWaitTimeMode;
         private string _backupDirPath;
         private string _restoreDirPath;
         private readonly SettingLoader _setting;
@@ -175,6 +178,22 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
             set => SetProperty(ref _autoRestartRunningScript, value);
         }
 
+        public bool IsAutoRestartWaitRunningScript
+        {
+            get => _isAutoRestartWaitRunningScript;
+            set => SetProperty(ref _isAutoRestartWaitRunningScript, value);
+        }
+        public int AutoRestartScriptWaitTime
+        {
+            get => _autoRestartScriptWaitTime;
+            set => SetProperty(ref _autoRestartScriptWaitTime, value);
+        }
+        public int AutoRestartScriptWaitTimeMode
+        {
+            get => _autoRestartScriptWaitTimeMode;
+            set => SetProperty(ref _autoRestartScriptWaitTimeMode, value);
+        }
+
         public string BackupDirPath
         {
             get => _backupDirPath;
@@ -221,6 +240,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
                 AutoRestartRebootCoolTimeMode = setting.RebootIntervalTimeMode;
                 IsAutoRestartRunScriptEnabled = setting.IsAutoRestartRunScriptEnabled;
                 AutoRestartRunningScript = setting.AutoRestartRunningScript;
+                IsAutoRestartWaitRunningScript = setting.IsAutoRestartWaitRunningScript;
+                AutoRestartScriptWaitTime = setting.AutoRestartScriptWaitTime;
+                AutoRestartScriptWaitTimeMode = setting.AutoRestartScriptWaitTimeMode;
                 BackupDirPath = setting.BackupDirPath;
                 RestoreDirPath = setting.RestoreDirPath;
             }
@@ -258,6 +280,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
                 _setting.RebootIntervalTimeMode = AutoRestartRebootCoolTimeMode;
                 _setting.IsAutoRestartRunScriptEnabled = IsAutoRestartRunScriptEnabled;
                 _setting.AutoRestartRunningScript = AutoRestartRunningScript;
+                _setting.IsAutoRestartWaitRunningScript = IsAutoRestartWaitRunningScript;
+                _setting.AutoRestartScriptWaitTime = AutoRestartScriptWaitTime;
+                _setting.AutoRestartScriptWaitTimeMode = AutoRestartScriptWaitTimeMode;
                 _setting.BackupDirPath = BackupDirPath;
                 _setting.RestoreDirPath = RestoreDirPath;
                 _setting.Save();

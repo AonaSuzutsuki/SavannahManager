@@ -7,7 +7,9 @@ public class AutoRestartWaitingTimeEventArgs : EventArgs
     public enum WaitingType
     {
         RestartWait,
-        RebootCoolTime
+        RebootCoolTime,
+        ProcessWait,
+        ScriptWait
     }
 
     public WaitingType EventType { get; set; }

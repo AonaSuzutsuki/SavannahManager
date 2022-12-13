@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
 using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.Models.Settings;
 using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
@@ -76,6 +77,12 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
                 .AddTo(CompositeDisposable);
             AutoRestartRunningScript = model.ToReactivePropertyAsSynchronized(m => m.AutoRestartRunningScript)
                 .AddTo(CompositeDisposable);
+            IsAutoRestartWaitRunningScript = model
+                .ToReactivePropertyAsSynchronized(m => m.IsAutoRestartWaitRunningScript).AddTo(CompositeDisposable);
+            AutoRestartScriptWaitTime = model.ToReactivePropertyAsSynchronized(m => m.AutoRestartScriptWaitTime)
+                .AddTo(CompositeDisposable);
+            AutoRestartScriptWaitTimeMode = model.ToReactivePropertyAsSynchronized(m => m.AutoRestartScriptWaitTimeMode)
+                .AddTo(CompositeDisposable);
 
             BackupDirPath = model.ToReactivePropertyAsSynchronized(m => m.BackupDirPath).AddTo(CompositeDisposable);
             RestoreDirPath = model.ToReactivePropertyAsSynchronized(m => m.RestoreDirPath).AddTo(CompositeDisposable);
@@ -83,6 +90,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
         }
 
         #region Properties
+        
         public ReactiveProperty<string> ExeFilePathText { get; set; }
         public ReactiveProperty<string> ConfigFilePathText { get; set; }
         public ReactiveProperty<string> AdminFilePathText { get; set; }
@@ -110,6 +118,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
         public ReactiveProperty<int> AutoRestartRebootCoolTimeMode { get; set; }
         public ReactiveProperty<bool> IsAutoRestartRunScriptEnabled { get; set; }
         public ReactiveProperty<string> AutoRestartRunningScript { get; set; }
+        public ReactiveProperty<bool> IsAutoRestartWaitRunningScript { get; set; }
+        public ReactiveProperty<int> AutoRestartScriptWaitTime { get; set; }
+        public ReactiveProperty<int> AutoRestartScriptWaitTimeMode { get; set; }
 
         public ReactiveProperty<string> BackupDirPath { get; set; }
         public ReactiveProperty<string> RestoreDirPath { get; set; }

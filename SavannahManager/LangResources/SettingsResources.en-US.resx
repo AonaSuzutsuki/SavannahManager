@@ -136,11 +136,11 @@
     <value>How to wait for the server to start up when it terminates.
 
 1. Cool Time
-After the Telnet connection is terminated, the startup process is executed after waiting for the specified time (cool time).
+After the Telnet connection is terminated, the run script and startup process are executed after waiting for the specified time (cool time).
 This is effective when there are many local servers or when SSH is used for connection. 
 
 2. Wait Process
-Check the operation of the server process and execute the startup process as soon as it is confirmed to be finished.
+Check the operation of the server process and execute the run script and startup process as soon as it is confirmed to be finished.
 This minimizes the waiting time and safely executes the startup process.
 However, the process must be configured manually if multiple servers are running.
 Also, it cannot be used in an SSH environment.</value>

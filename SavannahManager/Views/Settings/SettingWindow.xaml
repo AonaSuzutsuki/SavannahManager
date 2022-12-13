@@ -36,6 +36,18 @@
                 <ResourceDictionary Source="/Styles/Window.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
+                <ResourceDictionary>
+                    <x:Array Type="ComboBoxItem" x:Key="HourMinuteSecondItems">
+                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Second, Mode=OneWay}" />
+                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Minute, Mode=OneWay}" />
+                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Hour, Mode=OneWay}" />
+                    </x:Array>
+
+                    <x:Array Type="ComboBoxItem" x:Key="MinuteSecondItems">
+                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Second, Mode=OneWay}" />
+                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Minute, Mode=OneWay}" />
+                    </x:Array>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -284,11 +296,7 @@
 
                                     <TextBox Text="{Binding AutoRestartIntervalTime.Value}" />
 
-                                    <ComboBox Grid.Column="2" SelectedIndex="{Binding AutoRestartIntervalTimeMode.Value, FallbackValue=2}">
-                                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Second, Mode=OneWay}" />
-                                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Minute, Mode=OneWay}" />
-                                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Hour, Mode=OneWay}" />
-                                    </ComboBox>
+                                    <ComboBox Grid.Column="2" ItemsSource="{StaticResource HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartIntervalTimeMode.Value, FallbackValue=2}" />
                                 </Grid>
 
                                 <CheckBox Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_EnabledRestartMessage, Mode=OneWay}" Margin="0, 5, 0, 0" IsChecked="{Binding IsAutoRestartSendMessage.Value}" />
@@ -314,10 +322,7 @@
 
                                     <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageStartTime.Value}" />
 
-                                    <ComboBox Grid.Column="4" SelectedIndex="{Binding AutoRestartSendingMessageStartTimeMode.Value, FallbackValue=0}">
-                                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Second, Mode=OneWay}" />
-                                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Minute, Mode=OneWay}" />
-                                    </ComboBox>
+                                    <ComboBox Grid.Column="4" ItemsSource="{StaticResource MinuteSecondItems}" SelectedIndex="{Binding AutoRestartSendingMessageStartTimeMode.Value, FallbackValue=0}" />
                                 </Grid>
 
                                 <Grid Margin="0, 5, 0, 0" IsEnabled="{Binding IsAutoRestartSendMessage.Value}">
@@ -341,10 +346,7 @@
 
                                     <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageIntervalTime.Value}" />
 
-                                    <ComboBox Grid.Column="4" SelectedIndex="{Binding AutoRestartSendingMessageIntervalTimeMode.Value, FallbackValue=0}">
-                                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Second, Mode=OneWay}" />
-                                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Minute, Mode=OneWay}" />
-                                    </ComboBox>
+                                    <ComboBox Grid.Column="4" ItemsSource="{StaticResource MinuteSecondItems}" SelectedIndex="{Binding AutoRestartSendingMessageIntervalTimeMode.Value, FallbackValue=0}" />
                                 </Grid>
 
                                 <Grid Margin="0, 5, 0, 0" IsEnabled="{Binding IsAutoRestartSendMessage.Value}">
@@ -395,32 +397,45 @@
 
                                         <TextBox Text="{Binding AutoRestartRebootCoolTime.Value}" />
 
-                                        <ComboBox Grid.Column="2" SelectedIndex="{Binding AutoRestartRebootCoolTimeMode.Value, FallbackValue=1}">
-                                            <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Second, Mode=OneWay}" />
-                                            <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Minute, Mode=OneWay}" />
-                                            <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Hour, Mode=OneWay}" />
-                                        </ComboBox>
+                                        <ComboBox Grid.Column="2" ItemsSource="{StaticResource HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartRebootCoolTimeMode.Value, FallbackValue=1}" />
                                     </Grid>
                                 </StackPanel>
 
                                 <!-- Wait Process -->
-                                <StackPanel Visibility="{Binding AutoRestartRebootWaitModeItem.Value, FallbackValue=Collapsed, Mode=OneWay, Converter={converter:SettingWaitModeVisibilityConverter}, ConverterParameter=1}">
+                                <!--<StackPanel Visibility="{Binding AutoRestartRebootWaitModeItem.Value, FallbackValue=Collapsed, Mode=OneWay, Converter={converter:SettingWaitModeVisibilityConverter}, ConverterParameter=1}">
                                     <Label Content="Wait Process" />
-                                </StackPanel>
+                                </StackPanel>-->
 
                                 <StackPanel Margin="0,10,0,0">
                                     <CheckBox Content="Run bat after stop a server *Only Windows" IsChecked="{Binding IsAutoRestartRunScriptEnabled.Value}" />
 
-                                    <Grid Margin="0,5,0,0" IsEnabled="{Binding IsAutoRestartRunScriptEnabled.Value}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="5" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
+                                    <StackPanel IsEnabled="{Binding IsAutoRestartRunScriptEnabled.Value}">
+                                        <Grid Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
 
-                                        <Label Content="Command" />
-                                        <TextBox Grid.Column="2" Text="{Binding AutoRestartRunningScript.Value}" />
-                                    </Grid>
+                                            <Label Content="Command" />
+                                            <TextBox Grid.Column="2" Text="{Binding AutoRestartRunningScript.Value}" />
+                                        </Grid>
+
+                                        <CheckBox Content="wait to cool time for complete async script." IsChecked="{Binding IsAutoRestartWaitRunningScript.Value}" />
+
+                                        <Grid Margin="0, 5, 0, 0" IsEnabled="{Binding IsAutoRestartWaitRunningScript.Value}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBox Text="{Binding AutoRestartScriptWaitTime.Value}" />
+
+                                            <ComboBox Grid.Column="2" ItemsSource="{StaticResource HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartScriptWaitTimeMode.Value, FallbackValue=1}" />
+                                        </Grid>
+                                    </StackPanel>
                                 </StackPanel>
 
                             </StackPanel>
