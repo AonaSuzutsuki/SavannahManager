@@ -280,6 +280,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         public int ConsoleTextLength { get; private set; }
 
         public TelnetClient Telnet { get; private set; }
+
+        public int CurrentProcessId { get; private set; } = -1;
+
         #endregion
 
         #region Fiels
@@ -463,13 +466,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
 
 
-        public async Task<bool> ServerStart()
+        public async Task<bool> ServerStartForButton()
         {
             if (!LocalMode)
             {
                 return await ServerStartWithSsh();
             }
 
+            return await ServerStart();
+        }
+
+        public async Task<bool> ServerStart()
+        {
             if (!FileExistCheck()) return false;
 
             var checkedValues = ConfigChecker.GetConfigInfo(ConfigFilePath);
@@ -489,10 +497,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 return false;
             }
 
-            var serverProcessManager = new ServerProcessManager(ExeFilePath, ConfigFilePath);
+            using var serverProcessManager = new ServerProcessManager(ExeFilePath, ConfigFilePath);
             void ProcessFailedAction(string message) => ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = message });
             if (!serverProcessManager.ProcessStart(ProcessFailedAction))
                 return false;
+
+            CurrentProcessId = serverProcessManager.ProcessId;
 
             StartBtEnabled = false;
             TelnetBtIsEnabled = false;
@@ -504,6 +514,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             await ConnectTelnetForServerStart(localAddress, localPort, localPassword);
             return true;
         }
+
         public async Task<bool> ServerStartWithSsh()
         {
             if (IsConnected)
@@ -639,7 +650,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             return false;
         }
 
-        public bool StartAutoRestart()
+        public bool StartAutoRestartCoolTime()
         {
             if (!IsConnected)
             {
@@ -652,20 +663,48 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             if (_autoRestart != null)
             {
-                StopAutoRestart();
+                StopAutoRestart(true);
             }
 
-            var isSsh = !LocalMode;
+            _autoRestart = new AutoRestartCoolTime(new MainWindowServerStart(this, !LocalMode));
 
-            if (Setting.RebootingWaitMode == 0)
+            InnerStartAutoRestart();
+
+            return true;
+        }
+
+        public bool StartAutoRestartProcessWaiter(Func<int> callback)
+        {
+            if (!IsConnected)
             {
-                _autoRestart = new AutoRestartCoolTime(new MainWindowServerStart(this, isSsh));
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs
+                {
+                    ErrorMessage = "Cannot enable auto restart mode because telnet are not connected."
+                });
+                return false;
             }
-            else
+
+            if (_autoRestart != null)
+            {
+                StopAutoRestart(true);
+            }
+
+            var autoRestart = new AutoRestartProcessWaiter(new MainWindowServerStart(this, !LocalMode), callback);
+            autoRestart.Initialize();
+            if (!autoRestart.IsAttach)
             {
                 return false;
             }
 
+            _autoRestart = autoRestart;
+
+            InnerStartAutoRestart();
+
+            return true;
+        }
+        
+        private void InnerStartAutoRestart()
+        {
             var newsLabel = BottomNewsLabel;
             _autoRestart.TimeProgress.Subscribe((args) =>
             {
@@ -700,20 +739,26 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 BottomNewsLabel = $"{newsLabel}, AutoRestart: Waiting to run the script.";
                 Debug.WriteLine("AutoRestart: Waiting to run the script.");
             }, () => BottomNewsLabel = newsLabel);
-            _autoRestart.Start();
+            _autoRestart.Start(() => StopAutoRestart(true));
 
             AutoRestartText = "AutoRestart Enabled";
             AutoRestartEnabled = true;
-
-            return true;
         }
 
-        public void StopAutoRestart(bool isUserStop = false)
+        public void StopRequestAutoRestart()
         {
             if (_autoRestart == null)
                 return;
 
-            if (!isUserStop && _autoRestart.IsRestarting)
+            _autoRestart.StopRequest();
+        }
+
+        public void StopAutoRestart(bool forceStop)
+        {
+            if (_autoRestart == null)
+                return;
+
+            if (!forceStop && _autoRestart.IsRestarting)
                 return;
 
             _autoRestart?.Dispose();
@@ -879,6 +924,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             ConnectionPanelIsEnabled = !LocalMode;
             LocalModeEnabled = true;
             StartBtEnabled = true;
+
+            CurrentProcessId = -1;
 
             if (Telnet != null)
             {

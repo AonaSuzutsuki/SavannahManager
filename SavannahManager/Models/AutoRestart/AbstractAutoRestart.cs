@@ -93,7 +93,12 @@ public abstract class AbstractAutoRestart : IDisposable
         };
     }
 
-    public void Start()
+    public void StopRequest()
+    {
+        IsRequestStop = true;
+    }
+
+    public void Start(Action endAction = null)
     {
         Task.Factory.StartNew(async () =>
         {
@@ -106,6 +111,7 @@ public abstract class AbstractAutoRestart : IDisposable
 
             TimeProgressSubject.OnCompleted();
             FewRemainingSubject.OnCompleted();
+            endAction?.Invoke();
         });
     }
 
