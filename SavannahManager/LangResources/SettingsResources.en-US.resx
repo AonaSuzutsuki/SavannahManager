@@ -129,6 +129,25 @@
     <value>XML Files (*.xml)|*.xml|All Files(*.*)|*.*</value>
     <comment>Filter</comment>
   </data>
+  <data name="Help_AutoRestartIntervalTime" xml:space="preserve">
+    <value>The interval at which messages are sent.</value>
+  </data>
+  <data name="Help_AutoRestartRebootWaitMode" xml:space="preserve">
+    <value>How to wait for the server to start up when it terminates.
+
+1. Cool Time
+After the Telnet connection is terminated, the run script and startup process are executed after waiting for the specified time (cool time).
+This is effective when there are many local servers or when SSH is used for connection. 
+
+2. Wait Process
+Check the operation of the server process and execute the run script and startup process as soon as it is confirmed to be finished.
+This minimizes the waiting time and safely executes the startup process.
+However, the process must be configured manually if multiple servers are running.
+Also, it cannot be used in an SSH environment.</value>
+  </data>
+  <data name="Help_AutoRestartStartTime" xml:space="preserve">
+    <value>The system starts sending messages when the time remaining for the restart reaches the specified time.</value>
+  </data>
   <data name="Help_BackupRestorePath" xml:space="preserve">
     <value>The directory path for restoring.
 It will be expanded to "%AppData%\7DaysToDie" if the path is empty.</value>
@@ -136,6 +155,9 @@ It will be expanded to "%AppData%\7DaysToDie" if the path is empty.</value>
   <data name="Help_BetaMode" xml:space="preserve">
     <value>In beta mode, you can use features that are still under development.
 There is no guarantee that they will be formally implemented, nor can they be guaranteed to work, so please be careful when using them.</value>
+  </data>
+  <data name="Help_ScheduledTime" xml:space="preserve">
+    <value>The server will restart after the time specified in this option has elapsed.</value>
   </data>
   <data name="Help_TelnetWaitTime" xml:space="preserve">
     <value>This option will stop the log output for the specified time.
@@ -233,6 +255,9 @@ In a local environment, 2000 milliseconds (2 seconds) should usually be enough.<
   <data name="UI_OthersLabel" xml:space="preserve">
     <value>Others</value>
     <comment>UI, Setting</comment>
+  </data>
+  <data name="UI_RebootWaitMode" xml:space="preserve">
+    <value>Reboot Wait Mode</value>
   </data>
   <data name="UI_ResetPassword" xml:space="preserve">
     <value>Reset Password</value>

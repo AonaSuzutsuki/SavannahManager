@@ -19,7 +19,10 @@ namespace SavannahManagerStyleLib.Views.Behaviors
         protected override void OnAttached()
         {
             var itemsObj = ((INotifyCollectionChanged)AssociatedObject.Items);
-            itemsObj.CollectionChanged += ItemsObjOnCollectionChanged;
+            if (AssociatedObject.Items.Count < 1)
+                itemsObj.CollectionChanged += ItemsObjOnCollectionChanged;
+            else
+                AssociatedObject.Loaded += AssociatedObjectOnLoaded;
         }
 
         private void ItemsObjOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

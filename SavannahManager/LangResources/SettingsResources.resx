@@ -129,6 +129,25 @@
     <value>XMLファイル (*.xml)|*.xml|すべてのファイル(*.*)|*.*</value>
     <comment>フィルター</comment>
   </data>
+  <data name="Help_AutoRestartIntervalTime" xml:space="preserve">
+    <value>メッセージ送信を行う間隔です。</value>
+  </data>
+  <data name="Help_AutoRestartRebootWaitMode" xml:space="preserve">
+    <value>サーバーが終了した際に起動を行うまでに待機する方法です。
+
+1. クールタイム
+Telnet接続終了後、指定した時間（クールタイム）を待機した後にスクリプト実行や起動処理を実行します。
+ローカルサーバが多い場合や、SSHを利用した接続の場合に有効です。
+
+2. プロセス待機
+サーバーのプロセスの動作を確認し、終了が確認でき次第、スクリプト実行や起動処理を実行します。
+待機時間を最小限にし、安全に起動処理が実行できます。
+ただし、複数サーバーが動いている場合はプロセスを手動で設定する必要があります。
+また、SSH環境では使用できません。</value>
+  </data>
+  <data name="Help_AutoRestartStartTime" xml:space="preserve">
+    <value>再起動の残り時間が指定した時間になるとメッセージを送信します。</value>
+  </data>
   <data name="Help_BackupRestorePath" xml:space="preserve">
     <value>復元する際のディレクトリパスです。
 空の場合は「%AppData%\7DaysToDie」が復元先として使用されます。</value>
@@ -136,6 +155,9 @@
   <data name="Help_BetaMode" xml:space="preserve">
     <value>ベータモードでは開発中の機能を使用することができます。
 正式に実装する保証はなければ、動作保証もできないので使用には注意してください。</value>
+  </data>
+  <data name="Help_ScheduledTime" xml:space="preserve">
+    <value>このオプションで指定した時間が経過するとサーバーの再起動を行います。</value>
   </data>
   <data name="Help_TelnetWaitTime" xml:space="preserve">
     <value>このオプションで指定した時間だけログ出力を停止させます。
@@ -233,6 +255,9 @@ Get Timeなどのコンソールログに出力しないで解析する機能で
   <data name="UI_OthersLabel" xml:space="preserve">
     <value>その他</value>
     <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_RebootWaitMode" xml:space="preserve">
+    <value>再起動待機モード</value>
   </data>
   <data name="UI_ResetPassword" xml:space="preserve">
     <value>パスワードをリセット</value>
