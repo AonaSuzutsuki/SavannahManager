@@ -115,7 +115,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <ListView Grid.Row="2" ItemsSource="{Binding LogFileList}" SelectedItem="{Binding LogFileSelectedItem.Value}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                <ListView Grid.Row="2" ItemsSource="{Binding LogFileList}" SelectedItem="{Binding LogFileSelectedItem.Value}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" IsEnabled="{Binding LogFileListEnabled.Value}">
                     <i:Interaction.Behaviors>
                         <behaviors:SortableAnnotationListViewBehavior FirstSort="Date" FirstSortOrder="Desc" />
                     </i:Interaction.Behaviors>

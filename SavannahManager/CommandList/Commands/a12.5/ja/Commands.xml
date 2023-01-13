@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Commands>
+  <Command command="admin add" parameter="{Player ID | Name} {PermissionLevel}" sample="admin add 171 0" serverfixes="0">
+    権限付きの管理者としてプレイヤーを追加します。
+    
+    サンプルではプレイヤーID 171 をパーミッションレベル 0 の管理者として登録します。
+  </Command>
+  <Command command="admin remove" parameter="{Player ID | Name}" sample="admin remove 171" serverfixes="0">
+    管理者からプレイヤーを除外します。
+    
+    サンプルではプレイヤーID 171 を管理者から除外します。
+  </Command>
+  <Command command="aiddebug" parameter="不明" sample="不明" serverfixes="0">
+    Toggles AIDirector debug output.
+  </Command>
+  <Command command="ban" parameter="{Player ID | Name} {Duration} {Unit}" sample="ban 171 1 years" serverfixes="0">
+    指定されたプレイヤーを指定した期間BANします。
+    
+    サンプルではプレイヤーID 171 を1年間追放します。
+  </Command>
+  <Command command="buff" parameter="{BuffName}" sample="不明" serverfixes="0">
+    入力者に指定されたバフを付加します。バフ名は要検証。
+  </Command>
+  <Command command="chunkcache | cc" parameter="" sample="cc" serverfixes="0">
+    キャッシュ内のロードされたチャンクを全て表示します。
+  </Command>
+  <Command command="cp add" parameter="{Command} {PermissionLevel}" sample="cp add kill 0" serverfixes="0">
+    指定されたコマンドのパーミッションレベルを変更または設定します。
+    
+    サンプルではkillコマンドをパーミッションレベル 0 のプレイヤー以外使用できなくします。
+  </Command>
+  <Command command="cp remove" parameter="{Command}" sample="cp remove kill" serverfixes="0">
+    指定されたコマンドのパーミッションレベルを初期化します。
+
+    サンプルではkillコマンドをパーミッションレベルを標準値に変更します。
+  </Command>
+  <Command command="creativemenu | cm" parameter="{ 0 | 1 }" sample="cm 1" serverfixes="0">
+    クリエティブモードを有効化または無効化します。
+    ユーザーコンソールからでのみ効果があります。
+
+    サンプルでは入力者をクリエティブモードに変更します。
+  </Command>
+  <Command command="debuff" parameter="{BuffName}" sample="不明" serverfixes="0">
+    指定されたバフを入力者から取り除きます。バフ名は要検証。
+  </Command>
+  <Command command="debugmenu | dm" parameter="{ 0 | 1 }" sample="dm 1" serverfixes="0">
+    デバッグモードを有効化または無効化します。
+    
+    サンプルでは入力者をデバッグモードに変更します。
+  </Command>
+  <Command command="enablescope | es" parameter="不明" sample="不明" serverfixes="0">
+    スコープでバッグを有効化するようです。
+    よくわかりません。
+  </Command>
+  <Command command="getgamepref | gg" parameter="{Match}" sample="gg Server" serverfixes="0">
+    指定されたワードにマッチするサーバー設定を表示します。
+    
+    サンプルでは Server とマッチする設定を表示します。
+  </Command>
+  <Command command="gettime | gt" parameter="" sample="gt" serverfixes="0">
+    ゲーム内時間を表示しします。
+  </Command>
+  <Command command="give" parameter="{Player ID | Name} {ItemName} {Amount} {(Option)Quality}" sample="give 171 smallEngine 1 300" serverfixes="1">
+    指定したプレイヤーに指定したアイテムを指定数与えます。
+    アイテムはインベントリに入るのではなく、地面に落ちる点に要注意。
+    アイテム名はServer Fixesのlistitemsコマンドで調べることが出来ます。
+    品質は任意です。
+    なお、Server Fixesの導入が必要です。
+    
+    サンプルではプレイヤーID 171 にクオリティレベルが 300 の エンジン を 1つ 足元に出現させます。
+  </Command>
+  <Command command="giveself" parameter="{Player ID | Name} {(Option)Quality}" sample="giveself smallEngine 300" serverfixes="0">
+    入力者に指定したアイテムを指定した品質で与えます。
+    なお、私は使ったことありません。
+  </Command>
+  <Command command="giveselfxp" parameter="{XP Value}" sample="giveselfxp 10000" serverfixes="0">
+    入力者に指定した経験値を与えます。
+  </Command>
+  <Command command="kick " parameter="{Player ID | Name} {(Option)Reason}" sample="kick 171 Hacker" serverfixes="0">
+    指定されたプレイヤーを追放します。
+    理由は追放理由を指定しますが、任意であり、どのような効果があるのか不明です。
+  </Command>
+  <Command command="kickall" parameter="{(Option)Reason}" sample="kickall ServerShutdown" serverfixes="0">
+    サーバー内のプレイヤー全員を追放します。
+  </Command>
+  <Command command="kill " parameter="{Player ID | Name}" sample="kill 171" serverfixes="0">
+    指定したプレイヤーまたは動物・ゾンビを殺害します。
+    実際にはありえない値のダメージを与えるだけです。
+  </Command>
+  <Command command="killall" parameter="" sample="killall" serverfixes="0">
+    サーバー内のプレイヤー全員を殺害します。
+    ゾンビや動物などに影響が及ぶかは不明です。
+  </Command>
+  <Command command="lgo | listgameobjects" parameter="" sample="lgo" serverfixes="0">
+    ゲーム内のオブジェクト数？を表示します。
+  </Command>
+  <Command command="giveself" parameter="{Player ID | Name} {(Option)Quality}" sample="giveselfsmallEngine 300" serverfixes="0">
+    入力者に指定したアイテムを指定した品質で与えます。
+    なお、私は使ったことありません。
+  </Command>
+  <Command command="listents | le" parameter="" sample="" serverfixes="0">
+    エンティティの一覧を表示します。
+  </Command>
+  <Command command="listitems | li" parameter="{SearchString}" sample="li mini" serverfixes="1">
+    指定されたキーワードに一致するアイテムを表示します。
+    
+    サンプルではミニバイクのminiと付くパーツを表示させる目的です。
+  </Command>
+  <Command command="listknownplayers, lkp" parameter="{-online | -notbanned | (SearchString)}" sample="" serverfixes="1">
+    サーバー内に保存されているプレイヤー情報を表示します。
+    lpとの違いはオフラインプレイヤーの表示も可能な点です。
+  </Command>
+  <Command command="listlandprotection | llp" parameter="{Player ID}" sample="" serverfixes="1">
+    ランドクレイムブロックとその所有者を表示します。
+  </Command>
+  <Command command="listplayerids | lpi" parameter="" sample="lpi" serverfixes="0">
+    オンラインのプレイヤーのエンティティIDを表示します。
+  </Command>
+  <Command command="listplayers | lp" parameter="" sample="lp" serverfixes="0">
+    オンラインのプレイヤー情報を表示します。
+  </Command>
+  <Command command="listthreads | lt" parameter="" sample="lt" serverfixes="0">
+    現在走っているスレッドを表示します。
+  </Command>
+  <Command command="loglevel" parameter="不明" sample="不明" serverfixes="0">
+    ログの表示方法を変更するようですが、パラメータが不明で使用できませんでした。
+  </Command>
+  <Command command="mem" parameter="" sample="mem" serverfixes="0">
+    現在のメモリ状況を表示します。
+    また、その際にガベージコレクタを走らせます。
+  </Command>
+  <Command command="reloadwebpermissions" parameter="" sample="reloadwebpermissions" serverfixes="1">
+    ウェブマップのパーミッションを再読み込みします。
+  </Command>
+  <Command command="removelandprotection | rlp" parameter="{SteamID} | {x} {y} {z}" sample="rlp 0 0 0" serverfixes="1">
+    ランドクレイムブロックの効力を無くします。
+    
+    サンプルでは{0, 0, 0}にあるランドクレイムブロックの効力を無くします。
+  </Command>
+  <Command command="rendermap" parameter="" sample="rendermap" serverfixes="1">
+    ウェブマップのレンダリングを開始します。
+    この際、スペックによりだと思いますが、レンダリングが終了するまでサーバーがほぼ応答しない状態になります。
+  </Command>
+  <Command command="reply | re" parameter="不明" sample="不明" serverfixes="1">
+    ユーザーにチャットを送るようですが、詳細は不明です。
+  </Command>
+  <Command command="saveworld | sa" parameter="" sample="sa" serverfixes="0">
+    現在のサーバーの状態を保存します。
+    このコマンドを発行するか、シャットダウンコマンドを用いない限りサーバー情報は保存されません。
+  </Command>
+  <Command command="say" parameter="{Message}" sample="say Test" serverfixes="0">
+    サーバーメッセージを送信します。
+    プレイヤーからはサーバーからのチャットとして表示されます。
+    なお、スペースを含む文字列を指定する際はダブルクオート(")で囲ってください。
+  </Command>
+  <Command command="sayplayer | pm" parameter="不明" sample="不明" serverfixes="1">
+    不明
+  </Command>
+  <Command command="setgamepref | sg" parameter="{PrefName} {Value}" sample="sg CraftTimer 1" serverfixes="0">
+    サーバー設定を書き換え可能なもののみ変更します。
+    基本的にすべてコマンドは通りますが、反映されない可能性があります。
+    設定の一覧はggコマンドにて調べることが可能です。
+    
+    サンプルではクラフトタイマーを1に変更しています。
+    なお、これが反映されるかどうかは未確認です。
+  </Command>
+  <Command command="settime | st" parameter="{Value} | {day} {hour} {minute}" sample="st 0" serverfixes="0">
+    ゲーム内時間を変更します。
+  </Command>
+  <Command command="showalbedo | albedo" parameter="不明" sample="不明" serverfixes="0">
+    enables/disables display of albedo in gBuffer.
+  </Command>
+  <Command command="showchunkdata | sc" parameter="" sample="sc" serverfixes="0">
+    shows some date of the current chunk.
+  </Command>
+  <Command command="showinventory | si" parameter="{SteamID | PlayerName | EntityID}" sample="si 171" serverfixes="1">
+    指定されたプレイヤーのインベントリをコマンドラインで取得します。
+  </Command>
+  <Command command="shownexthordetime" parameter="不明" sample="不明" serverfixes="0">
+    Displays the wandering horde time.
+  </Command>
+  <Command command="shownormals | norms" parameter="不明" sample="不明" serverfixes="0">
+    enables/disables display of normal maps in gBuffer.
+  </Command>
+  <Command command="showspecular | spec" parameter="不明" sample="不明" serverfixes="0">
+    enables/disables display of specular values in gBuffer.
+  </Command>
+  <Command command="shutdown" parameter="" sample="shutdown" serverfixes="0">
+    サーバーを正常に終了させます。
+  </Command>
+  <Command command="sounddebug" parameter="不明" sample="不明" serverfixes="0">
+    Toggles SoundManager debug output.
+  </Command>
+  <Command command="spawnairdrop" parameter="" sample="spawnairdrop" serverfixes="0">
+    強制的に航空支援を行わせます。
+  </Command>
+  <Command command="spawnentity | se" parameter="{PlayerName} {EntityID}" sample="不明" serverfixes="0">
+    指定されたプレイヤーの近くに指定されたエンティティIDのものを出現させます。
+    なお、使用したことがないため詳細は不明です。
+  </Command>
+  <Command command="spawnsupplycrate" parameter="不明" sample="不明" serverfixes="0">
+    プレイヤーの近くに救援物資を出現させます。
+    なお、使用したことがないため詳細は不明です。
+  </Command>
+  <Command command="starve" parameter="不明" sample="不明" serverfixes="0">
+    Makes the player starve.
+  </Command>
+  <Command command="teleportplayer | tele" parameter="{SteamID | PlayerName | EntityID} {SteamID | PlayerName | EntityID} | {x} {y} {z}" sample="tele 172 171" serverfixes="1">
+    指定したプレイヤーを指定した場所にテレポートさせます。
+    パラメータは {プレイヤー プレイヤー} または、 {x y x}で指定します。
+    
+    サンプルではプレイヤーID 172 を 171 にテレポートさせます。
+  </Command>
+  <Command command="thirsty" parameter="不明" sample="不明" serverfixes="0">
+    Makes the player thirsty.
+  </Command>
+  <Command command="version" parameter="" sample="version" serverfixes="0">
+    サーバー及び、導入されているMODのバージョンを出力します。
+  </Command>
+  <Command command="weather" parameter="不明" sample="不明" serverfixes="0">
+    Control weather settings
+  </Command>
+  <Command command="webpermission" parameter="不明" sample="不明" serverfixes="1">
+    Manage web permission levels.
+  </Command>
+  <Command command="webstat" parameter="不明" sample="不明" serverfixes="1">
+    DEBUG PURPOSES ONLY.
+  </Command>
+  <Command command="webtokens" parameter="不明" sample="不明" serverfixes="1">
+    Manage web tokens.
+  </Command>
+  <Command command="whitelist add" parameter="{Player ID | Name} {PermissionLevel}" sample="whitelist add 171 1000" serverfixes="0">
+    指定されたプレイヤーをホワイトリストに追加します。
+    なお、追加した時点でホワイトリストが機能し始めます。
+  </Command>
+  <Command command="whitelist remove" parameter="{Player ID | Name}" sample="whitelist remove 171" serverfixes="0">
+    ホワイトリストから指定されたを除外します。
+  </Command>
+</Commands>

@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using _7dtd_svmanager_fix_mvvm.LangResources;
 using _7dtd_svmanager_fix_mvvm.Models;
+using _7dtd_svmanager_fix_mvvm.Models.AutoRestart;
 using _7dtd_svmanager_fix_mvvm.Models.Backup;
 using _7dtd_svmanager_fix_mvvm.Models.LogViewer;
 using _7dtd_svmanager_fix_mvvm.Models.Permissions;
@@ -49,7 +50,9 @@ using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonNavigationControlLib.Navigation.ViewModels;
 using CommonNavigationControlLib.Navigation.Views;
 using _7dtd_svmanager_fix_mvvm.Models.PlayerController.Pages;
+using _7dtd_svmanager_fix_mvvm.ViewModels.AutoRestart;
 using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController.Pages;
+using _7dtd_svmanager_fix_mvvm.Views.AutoRestart;
 using SavannahManagerStyleLib.ViewModels.Encryption;
 using SavannahManagerStyleLib.Views.Encryption;
 
@@ -536,7 +539,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
 
         private void StartServer()
         {
-            _ = _model.ServerStart();
+            _ = _model.ServerStartForButton();
         }
 
         private void StopServer()
@@ -559,11 +562,28 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             if (!_model.AutoRestartEnabled)
             {
-                _model.StartAutoRestart();
+                if (_model.Setting.RebootingWaitMode == 0)
+                {
+                    _model.StartAutoRestartCoolTime();
+                }
+                else
+                {
+                    _model.StartAutoRestartProcessWaiter(() =>
+                    {
+                        using var model = new ProcessSelectorModel();
+                        var vm = new ProcessSelectorViewModel(new WindowService(), model);
+                        WindowManageService.Dispatch(() =>
+                        {
+                            WindowManageService.ShowDialog<ProcessSelector>(vm);
+                        });
+
+                        return model.ProcessId;
+                    });
+                }
             }
             else
             {
-                _model.StopAutoRestart();
+                _model.StopRequestAutoRestart();
             }
         }
 
@@ -902,7 +922,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         {
             _model.PlayerClean();
             _model.TelnetFinish();
-            _model.StopAutoRestart();
+            _model.StopAutoRestart(false);
         }
 
         private void TelnetReadEvent(TelnetClient.TelnetReadEventArgs e)

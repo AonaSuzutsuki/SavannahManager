@@ -28,6 +28,7 @@ using _7dtd_svmanager_fix_mvvm.Models.Update;
 using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonStyleLib.Models.Errors;
 using Renci.SshNet.Common;
+using _7dtd_svmanager_fix_mvvm.Models.AutoRestart;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
@@ -279,6 +280,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         public int ConsoleTextLength { get; private set; }
 
         public TelnetClient Telnet { get; private set; }
+
+        public int CurrentProcessId { get; private set; } = -1;
+
         #endregion
 
         #region Fiels
@@ -295,7 +299,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         private bool _isLogGetter;
 
-        private AutoRestart _autoRestart;
+        private AbstractAutoRestart _autoRestart;
         #endregion
 
         #region Event
@@ -462,13 +466,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
 
 
-        public async Task<bool> ServerStart()
+        public async Task<bool> ServerStartForButton()
         {
             if (!LocalMode)
             {
                 return await ServerStartWithSsh();
             }
 
+            return await ServerStart();
+        }
+
+        public async Task<bool> ServerStart()
+        {
             if (!FileExistCheck()) return false;
 
             var checkedValues = ConfigChecker.GetConfigInfo(ConfigFilePath);
@@ -488,10 +497,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 return false;
             }
 
-            var serverProcessManager = new ServerProcessManager(ExeFilePath, ConfigFilePath);
+            using var serverProcessManager = new ServerProcessManager(ExeFilePath, ConfigFilePath);
             void ProcessFailedAction(string message) => ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = message });
             if (!serverProcessManager.ProcessStart(ProcessFailedAction))
                 return false;
+
+            CurrentProcessId = serverProcessManager.ProcessId;
 
             StartBtEnabled = false;
             TelnetBtIsEnabled = false;
@@ -503,6 +514,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             await ConnectTelnetForServerStart(localAddress, localPort, localPassword);
             return true;
         }
+
         public async Task<bool> ServerStartWithSsh()
         {
             if (IsConnected)
@@ -638,49 +650,124 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             return false;
         }
 
-        public bool StartAutoRestart()
+        public bool StartAutoRestartCoolTime()
         {
-            if (!IsBeta || !IsConnected)
+            if (!IsConnected)
             {
-                var reason = "";
-                if (!IsBeta)
-                    reason = "because beta mod not enabled";
-                else if (!IsConnected)
-                    reason = "because telnet are not connected";
-
-                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = $"Cannot enable auto restart mode {reason}." });
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs
+                {
+                    ErrorMessage = "Cannot enable auto restart mode because telnet are not connected."
+                });
                 return false;
             }
 
             if (_autoRestart != null)
             {
-                StopAutoRestart();
+                StopAutoRestart(true);
             }
 
-            var isSsh = !LocalMode;
+            _autoRestart = new AutoRestartCoolTime(new MainWindowServerStart(this, !LocalMode));
 
-            _autoRestart = new AutoRestart(new MainWindowServerStart(this, isSsh));
-            var newsLabel = BottomNewsLabel;
-            _autoRestart.TimeProgress.Subscribe((ts) =>
+            InnerStartAutoRestart();
+
+            return true;
+        }
+
+        public bool StartAutoRestartProcessWaiter(Func<int> callback)
+        {
+            if (!IsConnected)
             {
-                BottomNewsLabel = $"{newsLabel}, AutoRestart: {ts:d\\.hh\\:mm\\:ss} remaining.";
-                Debug.WriteLine($"AutoRestart: {ts} remaining.");
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs
+                {
+                    ErrorMessage = "Cannot enable auto restart mode because telnet are not connected."
+                });
+                return false;
+            }
+
+            if (!LocalMode)
+            {
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs
+                {
+                    ErrorMessage = "Cannot enable auto restart mode because local server mode disabled."
+                });
+                return false;
+            }
+
+            if (_autoRestart != null)
+            {
+                StopAutoRestart(true);
+            }
+
+            var autoRestart = new AutoRestartProcessWaiter(new MainWindowServerStart(this, !LocalMode), callback);
+            autoRestart.Initialize();
+            if (!autoRestart.IsAttach)
+            {
+                return false;
+            }
+
+            _autoRestart = autoRestart;
+
+            InnerStartAutoRestart();
+
+            return true;
+        }
+        
+        private void InnerStartAutoRestart()
+        {
+            var newsLabel = BottomNewsLabel;
+            _autoRestart.TimeProgress.Subscribe((args) =>
+            {
+                var ts = args.WaitingTime;
+                if (args.EventType == AutoRestartWaitingTimeEventArgs.WaitingType.RestartWait)
+                {
+                    BottomNewsLabel = $"{newsLabel}, AutoRestart: {ts:d\\.hh\\:mm\\:ss} remaining.";
+                    Debug.WriteLine($"AutoRestart: {ts} remaining.");
+                }
+                else if (args.EventType == AutoRestartWaitingTimeEventArgs.WaitingType.ProcessWait)
+                {
+                    BottomNewsLabel = $"{newsLabel}, AutoRestart: Waiting to stop server.";
+                    Debug.WriteLine("AutoRestart: Waiting to stop server.");
+                }
+                else if (args.EventType == AutoRestartWaitingTimeEventArgs.WaitingType.ScriptWait)
+                {
+                    BottomNewsLabel = $"{newsLabel}, Script Cool Time: {ts:d\\.hh\\:mm\\:ss} remaining.";
+                    Debug.WriteLine($"Script Cool Time: {ts} remaining.");
+                }
+                else
+                {
+                    BottomNewsLabel = $"{newsLabel}, Rebooting Cool Time: {ts:d\\.hh\\:mm\\:ss} remaining.";
+                    Debug.WriteLine($"Rebooting Cool Time: {ts} remaining.");
+                }
             }, () => BottomNewsLabel = newsLabel);
             _autoRestart.FewRemaining.Subscribe(ts =>
             {
                 SocTelnetSend($"say \"{string.Format(Setting.AutoRestartSendingMessageFormat, ts.Seconds)}\"");
             });
-            _autoRestart.Start();
+            _autoRestart.ScriptRunning.Subscribe(args =>
+            {
+                BottomNewsLabel = $"{newsLabel}, AutoRestart: Waiting to run the script.";
+                Debug.WriteLine("AutoRestart: Waiting to run the script.");
+            }, () => BottomNewsLabel = newsLabel);
+            _autoRestart.Start(() => StopAutoRestart(true));
 
             AutoRestartText = "AutoRestart Enabled";
             AutoRestartEnabled = true;
-
-            return true;
         }
 
-        public void StopAutoRestart()
+        public void StopRequestAutoRestart()
         {
-            if (_autoRestart == null || _autoRestart.IsRestarting)
+            if (_autoRestart == null)
+                return;
+
+            _autoRestart.StopRequest();
+        }
+
+        public void StopAutoRestart(bool forceStop)
+        {
+            if (_autoRestart == null)
+                return;
+
+            if (!forceStop && _autoRestart.IsRestarting)
                 return;
 
             _autoRestart?.Dispose();
@@ -846,6 +933,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             ConnectionPanelIsEnabled = !LocalMode;
             LocalModeEnabled = true;
             StartBtEnabled = true;
+
+            CurrentProcessId = -1;
 
             if (Telnet != null)
             {

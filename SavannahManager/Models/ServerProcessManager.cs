@@ -10,12 +10,15 @@ using System.Threading.Tasks;
 
 namespace _7dtd_svmanager_fix_mvvm.Models
 {
-    public class ServerProcessManager
+    public class ServerProcessManager : IDisposable
     {
 
         private const string CopiedConfigFileName = "serverconfig.savannah.xml";
 
         private Process p = new Process();
+
+        public int ProcessId { get; private set; }
+
         public ServerProcessManager(string exeFilePath, string configFilePath)
         {
             var exeDirPath = Path.GetDirectoryName(exeFilePath);
@@ -40,6 +43,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             try
             {
                 p.Start();
+
+                ProcessId = p.Id;
             }
             catch (Win32Exception ex)
             {
@@ -52,6 +57,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
         public void ProcessKill()
         {
             p.Kill();
+        }
+
+        public void Dispose()
+        {
+            p?.Dispose();
         }
     }
 }
