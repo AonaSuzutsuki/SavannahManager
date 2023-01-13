@@ -87,10 +87,26 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
             BackupDirPath = model.ToReactivePropertyAsSynchronized(m => m.BackupDirPath).AddTo(CompositeDisposable);
             RestoreDirPath = model.ToReactivePropertyAsSynchronized(m => m.RestoreDirPath).AddTo(CompositeDisposable);
             #endregion
+
+            HourMinuteSecondItems = new List<string>
+            {
+                LangResources.SettingsResources.UI_Second,
+                LangResources.SettingsResources.UI_Minute,
+                LangResources.SettingsResources.UI_Hour
+            };
+
+            MinuteSecondItems = new List<string>
+            {
+                LangResources.SettingsResources.UI_Second,
+                LangResources.SettingsResources.UI_Minute
+            };
         }
 
         #region Properties
         
+        public IEnumerable<string> HourMinuteSecondItems { get; set; }
+        public IEnumerable<string> MinuteSecondItems { get; set; }
+
         public ReactiveProperty<string> ExeFilePathText { get; set; }
         public ReactiveProperty<string> ConfigFilePathText { get; set; }
         public ReactiveProperty<string> AdminFilePathText { get; set; }

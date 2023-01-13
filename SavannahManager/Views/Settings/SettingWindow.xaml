@@ -37,16 +37,6 @@
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
                 <ResourceDictionary>
-                    <x:Array Type="ComboBoxItem" x:Key="HourMinuteSecondItems">
-                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Second, Mode=OneWay}" />
-                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Minute, Mode=OneWay}" />
-                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Hour, Mode=OneWay}" />
-                    </x:Array>
-
-                    <x:Array Type="ComboBoxItem" x:Key="MinuteSecondItems">
-                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Second, Mode=OneWay}" />
-                        <ComboBoxItem Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Minute, Mode=OneWay}" />
-                    </x:Array>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -296,7 +286,7 @@
 
                                     <TextBox Text="{Binding AutoRestartIntervalTime.Value}" />
 
-                                    <ComboBox Grid.Column="2" ItemsSource="{StaticResource HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartIntervalTimeMode.Value, FallbackValue=2}" />
+                                    <ComboBox Grid.Column="2" ItemsSource="{Binding HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartIntervalTimeMode.Value, FallbackValue=2}" />
                                 </Grid>
 
                                 <CheckBox Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_EnabledRestartMessage, Mode=OneWay}" Margin="0, 5, 0, 0" IsChecked="{Binding IsAutoRestartSendMessage.Value}" />
@@ -322,7 +312,7 @@
 
                                     <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageStartTime.Value}" />
 
-                                    <ComboBox Grid.Column="4" ItemsSource="{StaticResource MinuteSecondItems}" SelectedIndex="{Binding AutoRestartSendingMessageStartTimeMode.Value, FallbackValue=0}" />
+                                    <ComboBox Grid.Column="4" ItemsSource="{Binding MinuteSecondItems}" SelectedIndex="{Binding AutoRestartSendingMessageStartTimeMode.Value, FallbackValue=0}" />
                                 </Grid>
 
                                 <Grid Margin="0, 5, 0, 0" IsEnabled="{Binding IsAutoRestartSendMessage.Value}">
@@ -346,7 +336,7 @@
 
                                     <TextBox Grid.Column="2" Text="{Binding AutoRestartSendingMessageIntervalTime.Value}" />
 
-                                    <ComboBox Grid.Column="4" ItemsSource="{StaticResource MinuteSecondItems}" SelectedIndex="{Binding AutoRestartSendingMessageIntervalTimeMode.Value, FallbackValue=0}" />
+                                    <ComboBox Grid.Column="4" ItemsSource="{Binding MinuteSecondItems}" SelectedIndex="{Binding AutoRestartSendingMessageIntervalTimeMode.Value, FallbackValue=0}" />
                                 </Grid>
 
                                 <Grid Margin="0, 5, 0, 0" IsEnabled="{Binding IsAutoRestartSendMessage.Value}">
@@ -398,7 +388,7 @@
 
                                             <TextBox Text="{Binding AutoRestartRebootCoolTime.Value}" />
 
-                                            <ComboBox Grid.Column="2" ItemsSource="{StaticResource HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartRebootCoolTimeMode.Value, FallbackValue=1}" />
+                                            <ComboBox Grid.Column="2" ItemsSource="{Binding HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartRebootCoolTimeMode.Value, FallbackValue=1}" />
                                         </Grid>
                                     </StackPanel>
                                 </Border>
@@ -435,7 +425,7 @@
 
                                             <TextBox Text="{Binding AutoRestartScriptWaitTime.Value}" />
 
-                                            <ComboBox Grid.Column="2" ItemsSource="{StaticResource HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartScriptWaitTimeMode.Value, FallbackValue=1}" />
+                                            <ComboBox Grid.Column="2" ItemsSource="{Binding HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartScriptWaitTimeMode.Value, FallbackValue=1}" />
                                         </Grid>
                                     </StackPanel>
                                 </StackPanel>
