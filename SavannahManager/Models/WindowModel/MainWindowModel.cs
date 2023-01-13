@@ -684,6 +684,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 return false;
             }
 
+            if (!LocalMode)
+            {
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs
+                {
+                    ErrorMessage = "Cannot enable auto restart mode because local server mode disabled."
+                });
+                return false;
+            }
+
             if (_autoRestart != null)
             {
                 StopAutoRestart(true);

@@ -382,24 +382,26 @@
                                     </ComboBox>
                                 </Grid>
 
-                                <!-- Cool Time -->
-                                <StackPanel Visibility="{Binding AutoRestartRebootWaitModeItem.Value, FallbackValue=Visible, Mode=OneWay, Converter={converter:SettingWaitModeVisibilityConverter}, ConverterParameter=0}">
+                                <Border BorderThickness="1" BorderBrush="{StaticResource StandardBorderBrush}" Margin="5" Padding="5" Visibility="{Binding AutoRestartRebootWaitModeItem.Value, FallbackValue=Visible, Mode=OneWay, Converter={converter:SettingWaitModeVisibilityConverter}, ConverterParameter=0}">
+                                    <!-- Cool Time -->
+                                    <StackPanel>
 
-                                    <Label Content="Cool Time" />
+                                        <Label Content="Cool Time" />
 
-                                    <Grid Margin="0, 5, 0, 0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100" />
-                                            <ColumnDefinition Width="5" />
-                                            <ColumnDefinition Width="100" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
+                                        <Grid Margin="0, 5, 0, 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
 
-                                        <TextBox Text="{Binding AutoRestartRebootCoolTime.Value}" />
+                                            <TextBox Text="{Binding AutoRestartRebootCoolTime.Value}" />
 
-                                        <ComboBox Grid.Column="2" ItemsSource="{StaticResource HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartRebootCoolTimeMode.Value, FallbackValue=1}" />
-                                    </Grid>
-                                </StackPanel>
+                                            <ComboBox Grid.Column="2" ItemsSource="{StaticResource HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartRebootCoolTimeMode.Value, FallbackValue=1}" />
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
 
                                 <!-- Wait Process -->
                                 <!--<StackPanel Visibility="{Binding AutoRestartRebootWaitModeItem.Value, FallbackValue=Collapsed, Mode=OneWay, Converter={converter:SettingWaitModeVisibilityConverter}, ConverterParameter=1}">

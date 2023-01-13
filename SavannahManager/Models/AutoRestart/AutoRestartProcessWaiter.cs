@@ -29,6 +29,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.AutoRestart
 
         public void Initialize()
         {
+            // can get process when ran a local server.
             var processId = Model.Model.CurrentProcessId;
             if (processId > 0)
             {
@@ -36,12 +37,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models.AutoRestart
                 return;
             }
 
+            // search server process.
             _process = AttachProcess(ServerType.Server) ?? AttachProcess(ServerType.Client);
             IsAttach = _process != null;
 
             if (IsAttach)
                 return;
 
+            // open select window if the process cannot be retrieved.
             var process = SelectProcessFunc();
             if (process < 0)
             {
