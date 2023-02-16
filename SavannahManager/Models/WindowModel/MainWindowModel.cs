@@ -32,7 +32,7 @@ using _7dtd_svmanager_fix_mvvm.Models.AutoRestart;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
-    public class MainWindowModel : ModelBase, IMainWindowTelnet, IMainWindowServerStart, IRelease
+    public class MainWindowModel : ModelBase, IMainWindowTelnet, IMainWindowServerStart, IRelease, ISettingMainWindowModel
     {
         #region AppendedLogTextEvent
         public class AppendedLogTextEventArgs

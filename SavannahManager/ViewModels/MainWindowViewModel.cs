@@ -461,7 +461,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var setting = _model.Setting;
             var keyManager = _model.ShortcutKeyManager;
 
-            var settingModel = new SettingModel(setting, keyManager);
+            var settingModel = new SettingModel(setting, keyManager, _model);
             var vm = new SettingWindowViewModel(new WindowService(), settingModel);
             WindowManageService.ShowDialog<SettingWindow>(vm);
             _model.IsBeta = setting.IsBetaMode;
