@@ -741,7 +741,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }, () => BottomNewsLabel = newsLabel);
             _autoRestart.FewRemaining.Subscribe(ts =>
             {
-                SocTelnetSend($"say \"{string.Format(Setting.AutoRestartSendingMessageFormat, ts.Seconds)}\"");
+                var sec = Math.Round(ts.TotalSeconds);
+                SocTelnetSend($"say \"{string.Format(Setting.AutoRestartSendingMessageFormat, sec)}\"");
             });
             _autoRestart.ScriptRunning.Subscribe(args =>
             {
