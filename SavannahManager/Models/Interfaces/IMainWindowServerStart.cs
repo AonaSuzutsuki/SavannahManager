@@ -25,8 +25,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Interfaces
         public SettingLoader Setting { get; }
         public int CurrentProcessId { get; }
 
-        Task<bool> ServerStart();
-        Task<bool> ServerStartWithSsh();
+        Task<bool> ServerStart(bool isAsync = false);
+        Task<bool> ServerStartWithSsh(bool isAsync = false);
         bool ServerStop();
     }
 }
