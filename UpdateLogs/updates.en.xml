@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.56.4">
+    1. Fixed a problem where error messages were not displayed correctly.
+  </update>
+  <update version="2.6.55.3">
+    1. Fixed the restart method of auto-restart
+    2. Two modes of automatic restart have been added.
+      Cool Time: Wait for a specified period of time after Telnet disconnection, and then perform restart process.
+      Wait Process: Wait for the process to terminate after Telnet disconnection, then reboot process.
+  </update>
   <update version="2.6.54.2">
     1. Fixed a crash when opening the log viewer without the logs directory present.
   </update>
