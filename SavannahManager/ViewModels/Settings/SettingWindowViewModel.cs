@@ -120,6 +120,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
         public ReactiveProperty<bool> IsAutoUpdateChecked { get; set; }
         public ReactiveProperty<bool> IsEncryptPassword { get; set; }
 
+        public bool IsAutoRestartEnabled => !_model.MainWindowModel.AutoRestartEnabled;
         public ReactiveProperty<int> AutoRestartIntervalTime { get; set; }
         public ReactiveProperty<int> AutoRestartIntervalTimeMode { get; set; }
         public ReactiveProperty<bool> IsAutoRestartSendMessage { get; set; }

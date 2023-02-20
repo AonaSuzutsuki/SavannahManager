@@ -156,7 +156,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommonStyleLib" Version="1.0.20" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.23" />
   </ItemGroup>
 
   <ItemGroup>

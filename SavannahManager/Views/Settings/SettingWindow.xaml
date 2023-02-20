@@ -262,7 +262,7 @@
                     </TabItem>
 
                     <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_Restart, Mode=OneWay}">
-                        <Grid>
+                        <Grid IsEnabled="{Binding IsAutoRestartEnabled}">
                             <StackPanel Orientation="Vertical" Margin="6">
 
                                 <StackPanel Orientation="Horizontal">

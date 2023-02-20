@@ -32,7 +32,7 @@ using _7dtd_svmanager_fix_mvvm.Models.AutoRestart;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
-    public class MainWindowModel : ModelBase, IMainWindowTelnet, IMainWindowServerStart, IRelease
+    public class MainWindowModel : ModelBase, IMainWindowTelnet, IMainWindowServerStart, IRelease, ISettingMainWindowModel
     {
         #region AppendedLogTextEvent
         public class AppendedLogTextEventArgs
@@ -476,14 +476,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             return await ServerStart();
         }
 
-        public async Task<bool> ServerStart()
+        public async Task<bool> ServerStart(bool isAsync = false)
         {
-            if (!FileExistCheck()) return false;
+            if (!FileExistCheck(isAsync)) return false;
 
             var checkedValues = ConfigChecker.GetConfigInfo(ConfigFilePath);
             if (checkedValues.IsFailed)
             {
-                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = checkedValues.Message });
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = checkedValues.Message, IsAsync = isAsync });
                 return false;
             }
 
@@ -493,12 +493,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             if (IsConnected)
             {
-                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = Resources.AlreadyConnected });
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = Resources.AlreadyConnected, IsAsync = isAsync });
                 return false;
             }
 
             using var serverProcessManager = new ServerProcessManager(ExeFilePath, ConfigFilePath);
-            void ProcessFailedAction(string message) => ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = message });
+            void ProcessFailedAction(string message) => ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = message, IsAsync = isAsync });
             if (!serverProcessManager.ProcessStart(ProcessFailedAction))
                 return false;
 
@@ -515,11 +515,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             return true;
         }
 
-        public async Task<bool> ServerStartWithSsh()
+        public async Task<bool> ServerStartWithSsh(bool isAsync = false)
         {
             if (IsConnected)
             {
-                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = Resources.AlreadyConnected });
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = Resources.AlreadyConnected, IsAsync = isAsync });
                 return false;
             }
 
@@ -544,21 +544,23 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }
             catch (SshAuthenticationException)
             {
-                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = "failed to authenticate on ssh." });
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = "failed to authenticate on ssh.", IsAsync = isAsync });
 
                 StartBtEnabled = true;
                 TelnetBtIsEnabled = true;
                 LocalModeEnabled = true;
                 BottomNewsLabel = Resources.UI_ReadyComplete;
+                return false;
             }
             catch (SshOperationTimeoutException)
             {
-                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = "failed to connect ssh." });
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = "failed to connect ssh.", IsAsync = isAsync });
 
                 StartBtEnabled = true;
                 TelnetBtIsEnabled = true;
                 LocalModeEnabled = true;
                 BottomNewsLabel = Resources.UI_ReadyComplete;
+                return false;
             }
 
             await ConnectTelnetForServerStart(Address, _port, Password);
@@ -741,7 +743,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             }, () => BottomNewsLabel = newsLabel);
             _autoRestart.FewRemaining.Subscribe(ts =>
             {
-                SocTelnetSend($"say \"{string.Format(Setting.AutoRestartSendingMessageFormat, ts.Seconds)}\"");
+                var sec = Math.Round(ts.TotalSeconds);
+                SocTelnetSend($"say \"{string.Format(Setting.AutoRestartSendingMessageFormat, sec)}\"");
             });
             _autoRestart.ScriptRunning.Subscribe(args =>
             {
@@ -776,20 +779,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             AutoRestartEnabled = false;
         }
 
-        private bool FileExistCheck()
+        private bool FileExistCheck(bool isAsync = false)
         {
             try
             {
                 var fi = new FileInfo(ExeFilePath);
                 if (!fi.Exists)
                 {
-                    ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources.Not_Found_0, "7DaysToDieServer.exe") });
+                    ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources.Not_Found_0, "7DaysToDieServer.exe"), IsAsync = isAsync });
                     return false;
                 }
             }
             catch (ArgumentException)
             {
-                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources._0_Is_Invalid, Resources.ServerFilePath) });
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources._0_Is_Invalid, Resources.ServerFilePath), IsAsync = isAsync });
                 return false;
             }
 
@@ -798,13 +801,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 var fi = new FileInfo(ConfigFilePath);
                 if (!fi.Exists)
                 {
-                    ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources.Not_Found_0, Resources.ConfigFilePath) });
+                    ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources.Not_Found_0, Resources.ConfigFilePath), IsAsync = isAsync });
                     return false;
                 }
             }
             catch (ArgumentException)
             {
-                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources._0_Is_Invalid, "7DaysToDieServer.exe") });
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = string.Format(Resources._0_Is_Invalid, "7DaysToDieServer.exe"), IsAsync = isAsync });
                 return false;
             }
             return true;
@@ -1122,12 +1125,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             return _commandCollector.GetNextCommand();
         }
 
-        public bool CheckConnected()
+        public bool CheckConnected(bool isAsync = false)
         {
             if (IsConnected)
                 return true;
 
-            ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = Resources.HasnotBeConnected });
+            ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = Resources.HasnotBeConnected, IsAsync = isAsync });
             return false;
         }
         private void SocTelnetSendDirect(string cmd)
@@ -1138,9 +1141,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 telnet.Write(TelnetClient.Crlf);
             });
         }
-        private string SocTelnetSend(string cmd)
+        private string SocTelnetSend(string cmd, bool isAsync = false)
         {
-            if (!CheckConnected())
+            if (!CheckConnected(isAsync))
                 return null;
 
             SocTelnetSendDirect(cmd);

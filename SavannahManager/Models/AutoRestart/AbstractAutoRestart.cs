@@ -152,7 +152,7 @@ public abstract class AbstractAutoRestart : IDisposable
             {
                 if (!Model.IsSsh)
                 {
-                    if (!await Model.Model.ServerStart())
+                    if (!await Model.Model.ServerStart(true))
                     {
                         IsRequestStop = true;
                         return;
@@ -160,7 +160,7 @@ public abstract class AbstractAutoRestart : IDisposable
                 }
                 else
                 {
-                    if (!await Model.Model.ServerStartWithSsh())
+                    if (!await Model.Model.ServerStartWithSsh(true))
                     {
                         IsRequestStop = true;
                         return;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 using CommonStyleLib.File;
 using CommonStyleLib.Models;
 using Reactive.Bindings;
@@ -210,11 +211,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
 
         public ShortcutKeyManager ShortcutKeyManager { get; }
 
+        public ISettingMainWindowModel MainWindowModel { get; }
 
-        public SettingModel(SettingLoader setting, ShortcutKeyManager shortcutKeyManager)
+
+        public SettingModel(SettingLoader setting, ShortcutKeyManager shortcutKeyManager, ISettingMainWindowModel mainWindowModel)
         {
             _setting = setting;
             ShortcutKeyManager = shortcutKeyManager;
+            MainWindowModel = mainWindowModel;
 
             if (setting != null)
             {

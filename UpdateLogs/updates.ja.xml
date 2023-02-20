@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.56.4">
+    1. エラーメッセージが正しく表示されない問題を修正しました。
+  </update>
+  <update version="2.6.55.3">
+    1. 自動再起動の再起動方法を修正しました。
+    2. 自動再起動に２つのモードを追加しました。
+      Cool Time: Telnet接続解除後に指定した時間待機し、その後に再起動処理を行います。
+      Wait Process: Telnet接続解除後にプロセスが終了するのを待機し、その後に再起動処理を行います。
+  </update>
   <update version="2.6.54.2">
     1. logsディレクトリが存在しない状態でログビューアを開くとクラッシュする問題を修正しました。
   </update>

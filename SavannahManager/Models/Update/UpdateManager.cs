@@ -41,7 +41,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Update
                 IsUpdate = latestVersion != CurrentVersion;
                 IsUpdUpdate = updVersion != latestUpdVersion;
 
-                var details = await _updateClient.DownloadFile(_updateClient.DetailVersionInfoDownloadUrlPath);
+                var details = await _updateClient.DownloadFileAsync(_updateClient.DetailVersionInfoDownloadUrlPath);
 
                 using var stream = new MemoryStream(details);
                 var reader = new SavannahXmlReader(stream);
@@ -68,7 +68,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Update
             AbstractSavannahXmlNode notice;
             try
             {
-                var noticeXml = await _updateClient.DownloadFile("details/" + LangResources.UpdResources.Notice_XmlName);
+                var noticeXml = await _updateClient.DownloadFileAsync("details/" + LangResources.UpdResources.Notice_XmlName);
                 using var ms = new MemoryStream(noticeXml);
                 var reader = new SavannahXmlReader(ms);
                 notice = reader.GetNode($"/notices/notice[@version='{CurrentVersion}']");
