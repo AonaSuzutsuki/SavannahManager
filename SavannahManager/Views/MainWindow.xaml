@@ -354,6 +354,22 @@
                                                 </Grid>
                                             </Grid>
                                         </TabItem>
+
+                                        <TabItem Header="Scheduled">
+                                            <StackPanel Margin="5">
+                                                <CheckBox Content="Enabled to execute scheduled" IsChecked="{Binding IsExecuteScheduledCommand.Value}" />
+
+                                                <ListView Height="200" Margin="0, 5" ItemsSource="{Binding ScheduledCommands}">
+                                                    <ListView.View>
+                                                        <GridView>
+                                                            <GridViewColumn Width="150" Header="Command" DisplayMemberBinding="{Binding Path=Command}" />
+                                                        </GridView>
+                                                    </ListView.View>
+                                                </ListView>
+
+                                                <Button Content="Edit" Height="25" Style="{StaticResource FlatButton}" Command="{Binding OpenListScheduledCommand}" />
+                                            </StackPanel>
+                                        </TabItem>
                                     </TabControl>
 
                                 </Grid>

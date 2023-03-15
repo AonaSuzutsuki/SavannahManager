@@ -433,6 +433,7 @@
                             </StackPanel>
                         </Grid>
                     </TabItem>
+
                 </TabControl>
 
                 <Grid Margin="0,0,3,0" Grid.Row="1">

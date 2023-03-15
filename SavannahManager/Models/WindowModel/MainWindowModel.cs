@@ -29,6 +29,7 @@ using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonStyleLib.Models.Errors;
 using Renci.SshNet.Common;
 using _7dtd_svmanager_fix_mvvm.Models.AutoRestart;
+using _7dtd_svmanager_fix_mvvm.Models.Scheduled;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
@@ -253,6 +254,22 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             get => _sshPassPhraseText;
             set => SetProperty(ref _sshPassPhraseText, value);
         }
+
+        private bool _isExecuteScheduledCommand;
+
+        public bool IsExecuteScheduledCommand
+        {
+            get => _isExecuteScheduledCommand;
+            set => SetProperty(ref _isExecuteScheduledCommand, value);
+        }
+
+        private ObservableCollection<ScheduledCommand> _commands = new();
+        public ObservableCollection<ScheduledCommand> Commands
+        {
+            get => _commands;
+            set => SetProperty(ref _commands, value);
+        }
+
         #endregion
 
         #region Properties
@@ -371,6 +388,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             SshAuthMode = Setting.SshAuthMode.FromInt();
             SshKeyPathText = Setting.SshKeyPath;
 
+            IsExecuteScheduledCommand = Setting.IsExecuteScheduledCommand;
+
             Setting.ApplyCulture();
         }
 
@@ -425,6 +444,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Setting.SshArgument = SshArgument;
             Setting.SshAuthMode = SshAuthMode.ToInt();
             Setting.SshKeyPath = SshKeyPathText;
+
+            Setting.IsExecuteScheduledCommand = IsExecuteScheduledCommand;
         }
         public void ChangeCulture(string cultureName)
         {
