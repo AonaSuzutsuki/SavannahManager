@@ -835,6 +835,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var viewModel = new ListScheduledCommandViewModel(new WindowService(), model);
             WindowManageService.ShowDialog<ListScheduledCommand>(viewModel);
 
+            _model.LoadScheduledCommands();
         }
 
         private void OpenGetIp()
