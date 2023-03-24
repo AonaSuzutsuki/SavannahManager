@@ -13,7 +13,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Scheduled
 
         private readonly List<ScheduledCommandExecutor> _scheduledCommands = new();
 
+        public IEnumerable<ScheduledCommandExecutor> ScheduledCommands => _scheduledCommands;
+
         public ScheduledCommandLoader Loader { get; } = new();
+
+        public bool IsStop => _scheduledCommands.Count(x => x.IsStopCommand) == _scheduledCommands.Count;
 
         public ScheduledCommandRunner(IMainWindowTelnet telnet)
         {

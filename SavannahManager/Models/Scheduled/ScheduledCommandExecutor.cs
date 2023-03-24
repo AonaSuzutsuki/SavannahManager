@@ -5,21 +5,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
+using Prism.Mvvm;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.Scheduled
 {
-    public class ScheduledCommandExecutor
+    public class ScheduledCommandExecutor : BindableBase
     {
-        private bool _isStopTask;
+        #region Fields
 
-        private DateTime _previousTime;
+        private bool _isStopTask;
         private DateTime _startTime;
 
         private readonly IMainWindowTelnet _telnet;
 
+        #endregion
+
+
+        #region Properties
+
+        public DateTime PreviousTime { get; set; }
+
+        public DateTime NextTime { get; set; }
+
         public Task CurrentTask { get; private set; }
 
         public ScheduledCommand Command { get; }
+
+        public bool IsStopCommand { get; private set; } = true;
+
+        #endregion
 
         public ScheduledCommandExecutor(IMainWindowTelnet telnet, ScheduledCommand command)
         {
@@ -30,9 +44,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Scheduled
         public void Start()
         {
             _isStopTask = false;
+            IsStopCommand = false;
 
-            _startTime = DateTime.Now + Command.WaitTime;
-            _previousTime = DateTime.Now;
+            _startTime = DateTime.Now + Command.WaitTime - Command.Interval;
+            PreviousTime = DateTime.MinValue;
+            NextTime = _startTime + Command.Interval;
 
             CurrentTask = Task.Factory.StartNew(async () =>
             {
@@ -40,16 +56,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Scheduled
                 {
                     var now = DateTime.Now;
 
-                    if (now >= _startTime && now >= _previousTime + Command.Interval)
+                    if (now >= _startTime && now >= NextTime)
                     {
                         _telnet.SocTelnetSendNrtNer(Command.Command, true);
-                        _previousTime = now;
+                        PreviousTime = now;
+                        NextTime = now + Command.Interval;
                     }
 
-                    Debug.WriteLine($"{Command}: {(_previousTime + Command.Interval) - now}");
+                    Debug.WriteLine($"{Command.Command}: {NextTime - now}");
 
                     await Task.Delay(100);
                 }
+                IsStopCommand = true;
             });
         }
 

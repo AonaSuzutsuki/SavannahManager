@@ -95,6 +95,8 @@ public class ScheduledCommandLoader
 
             var json = JsonConvert.SerializeObject(obj);
             await using var stream = new FileStream(fileInfo.FullName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            stream.SetLength(0);
+
             await using var sw = new StreamWriter(stream);
             await sw.WriteAsync(json);
             await sw.FlushAsync();

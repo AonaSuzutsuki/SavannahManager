@@ -12,7 +12,7 @@ using Reactive.Bindings.Extensions;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings.ScheduledCommand
 {
-    public class ScheduledCommandInfo
+    public class EditScheduledCommandInfo
     {
         public enum ItemType
         {
@@ -29,7 +29,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings.ScheduledCommand
     {
         private readonly ListScheduledCommandModel _model;
 
-        public ReadOnlyReactiveCollection<ScheduledCommandInfo> ScheduledCommands { get; set; }
+        public ReadOnlyReactiveCollection<EditScheduledCommandInfo> ScheduledCommands { get; set; }
         public ReactiveProperty<int> SelectedCommandIndex { get; set; }
 
         public ICommand AddItemCommand { get; set; }

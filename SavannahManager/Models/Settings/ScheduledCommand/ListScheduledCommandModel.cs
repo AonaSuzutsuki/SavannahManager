@@ -12,9 +12,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings.ScheduledCommand
     {
         private readonly ScheduledCommandLoader _commandLoader;
 
-        private ObservableCollection<ScheduledCommandInfo> _scheduledCommands;
+        private ObservableCollection<EditScheduledCommandInfo> _scheduledCommands;
 
-        public ObservableCollection<ScheduledCommandInfo> ScheduledCommands
+        public ObservableCollection<EditScheduledCommandInfo> ScheduledCommands
         {
             get => _scheduledCommands;
             set => SetProperty(ref _scheduledCommands, value);
@@ -23,14 +23,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings.ScheduledCommand
 
         public ListScheduledCommandModel()
         {
-            _scheduledCommands = new ObservableCollection<ScheduledCommandInfo>();
+            _scheduledCommands = new ObservableCollection<EditScheduledCommandInfo>();
 
             var loader = new ScheduledCommandLoader();
             _ = loader.LoadFromFileAsync().ContinueWith(t =>
             {
-                ScheduledCommands.AddRange(loader.Commands.Select(x => new ScheduledCommandInfo
+                ScheduledCommands.AddRange(loader.Commands.Select(x => new EditScheduledCommandInfo
                 {
-                    Type = ScheduledCommandInfo.ItemType.Item,
+                    Type = EditScheduledCommandInfo.ItemType.Item,
                     Command = x
                 }));
             }, TaskContinuationOptions.OnlyOnRanToCompletion);
@@ -47,9 +47,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings.ScheduledCommand
         public void AddCommand(Scheduled.ScheduledCommand command)
         {
             _commandLoader.AddCommand(command);
-            ScheduledCommands.Add(new ScheduledCommandInfo
+            ScheduledCommands.Add(new EditScheduledCommandInfo
             {
-                Type = ScheduledCommandInfo.ItemType.Item,
+                Type = EditScheduledCommandInfo.ItemType.Item,
                 Command = command
             });
         }
@@ -59,9 +59,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings.ScheduledCommand
             if (index < 0 || index >= ScheduledCommands.Count)
                 return;
 
-            ScheduledCommands[index] = new ScheduledCommandInfo
+            ScheduledCommands[index] = new EditScheduledCommandInfo
             {
-                Type = ScheduledCommandInfo.ItemType.Item,
+                Type = EditScheduledCommandInfo.ItemType.Item,
                 Command = command
             };
             _commandLoader.EditCommand(index, command);

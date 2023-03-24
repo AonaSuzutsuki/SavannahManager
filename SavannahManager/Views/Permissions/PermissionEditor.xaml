@@ -87,6 +87,7 @@
                     <Style x:Key="TextBoxInListView" TargetType="TextBox">
                         <Setter Property="Foreground" Value="white" />
                         <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="CaretBrush" Value="white" />
                         <Setter Property="VerticalContentAlignment" Value="Center" />
                         <Setter Property="ContextMenu" Value="{StaticResource CopyCutPaste}"></Setter>
                         <Setter Property="Template">

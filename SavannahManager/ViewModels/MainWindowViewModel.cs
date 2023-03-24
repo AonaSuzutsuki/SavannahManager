@@ -137,6 +137,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             StopServerCommand = new DelegateCommand(StopServer);
             ConnectTelnetCommand = new DelegateCommand(ConnectTelnet);
             AutoRestartCommand = new DelegateCommand(AutoRestart);
+            ExecuteCommandRunnerCommand = new DelegateCommand(ExecuteCommandRunner);
             OpenCommandListCommand = new DelegateCommand(OpenCommandList);
 
             PlayerListRefreshCommand = new DelegateCommand(PlayerListRefresh);
@@ -181,6 +182,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             TelnetBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled).AddTo(CompositeDisposable);
             TelnetBtLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel).AddTo(CompositeDisposable);
             AutoRestartText = model.ObserveProperty(m => m.AutoRestartText).ToReactiveProperty().AddTo(CompositeDisposable);
+            CommandRunnerButtonText = model.ObserveProperty(m => m.CommandRunnerButtonText).ToReactiveProperty().AddTo(CompositeDisposable);
 
             UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList).AddTo(CompositeDisposable);
 
@@ -256,6 +258,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand StopServerCommand { get; set; }
         public ICommand ConnectTelnetCommand { get; set; }
         public ICommand AutoRestartCommand { get; set; }
+        public ICommand ExecuteCommandRunnerCommand { get; set; }
         public ICommand OpenCommandListCommand { get; set; }
 
         public ICommand PlayerListRefreshCommand { get; set; }
@@ -302,7 +305,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ReactiveProperty<bool> TelnetBtIsEnabled { get; set; }
         public ReactiveProperty<string> TelnetBtLabel { get; set; }
         public ReactiveProperty<string> AutoRestartText { get; set; }
-        
+        public ReactiveProperty<string> CommandRunnerButtonText { get; set; }
+
+
         public ReactiveProperty<ObservableCollection<UserDetail>> UsersList { get; set; }
         public int UsersListSelectedIndex
         {
@@ -378,7 +383,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ReactiveProperty<string> SshPassPhraseText { get; set; }
 
         public ReactiveProperty<bool> IsExecuteScheduledCommand { get; set; }
-        public ReadOnlyReactiveCollection<ScheduledCommand> ScheduledCommands { get; set; }
+        public ReadOnlyReactiveCollection<ScheduledCommandExecutor> ScheduledCommands { get; set; }
 
         #endregion
 
@@ -598,6 +603,18 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             else
             {
                 _model.StopRequestAutoRestart();
+            }
+        }
+
+        public void ExecuteCommandRunner()
+        {
+            if (_model.CommandRunner.IsStop)
+            {
+                _model.StartCommandRunner();
+            }
+            else
+            {
+                _model.StopCommandRunner();
             }
         }
 

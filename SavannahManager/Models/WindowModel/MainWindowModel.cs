@@ -109,6 +109,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             set => SetProperty(ref _autoRestartText, value);
         }
 
+        private string _commandRunnerButtonText = ConstantValues.EnabledCommandRunnerContent;
+        public string CommandRunnerButtonText
+        {
+            get => _commandRunnerButtonText;
+            set => SetProperty(ref _commandRunnerButtonText, value);
+        }
+
         private bool _isBeta;
 
         public bool IsBeta
@@ -263,8 +270,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             set => SetProperty(ref _isExecuteScheduledCommand, value);
         }
 
-        private ObservableCollection<ScheduledCommand> _commands = new();
-        public ObservableCollection<ScheduledCommand> Commands
+        private ObservableCollection<ScheduledCommandExecutor> _commands = new();
+        public ObservableCollection<ScheduledCommandExecutor> Commands
         {
             get => _commands;
             set => SetProperty(ref _commands, value);
@@ -396,7 +403,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             Setting.ApplyCulture();
 
-            LoadScheduledCommandsAsync();
+            _ = LoadScheduledCommandsAsync();
         }
 
         public bool InitializeEncryptionData(string password = null, string salt = null)
@@ -420,14 +427,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             SshPasswordText = Setting.SshPassword;
 
             return true;
-        }
-
-        public async Task LoadScheduledCommandsAsync()
-        {
-            await _scheduledCommandRunner.LoadAsync();
-            var loader = _scheduledCommandRunner.Loader;
-            Commands.Clear();
-            Commands.AddRange(loader.Commands);
         }
 
         public async Task<bool> CheckUpdate()
@@ -605,7 +604,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         private async Task ConnectTelnetForServerStart(string address, int port, string password)
         {
             Telnet = GenerateTelnetClient(this);
-            await Task.Factory.StartNew(() =>
+            await Task.Factory.StartNew(async () =>
             {
                 IsTelnetLoading = true;
                 while (true)
@@ -640,8 +639,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
                         if (IsExecuteScheduledCommand)
                         {
-                            _scheduledCommandRunner.LoadAsync();
-                            _scheduledCommandRunner.Start();
+                            await StartCommandRunner();
                         }
 
                         break;
@@ -650,6 +648,31 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                     Thread.Sleep(2000);
                 }
             });
+        }
+
+        public async Task StartCommandRunner()
+        {
+            if (!CheckConnected())
+                return;
+
+            await LoadScheduledCommandsAsync();
+            _scheduledCommandRunner.Start();
+
+            CommandRunnerButtonText = ConstantValues.DisabledCommandRunnerContent;
+        }
+
+        public void StopCommandRunner()
+        {
+            _scheduledCommandRunner.Stop();
+
+            CommandRunnerButtonText = ConstantValues.EnabledCommandRunnerContent;
+        }
+
+        public async Task LoadScheduledCommandsAsync()
+        {
+            await _scheduledCommandRunner.LoadAsync();
+            Commands.Clear();
+            Commands.AddRange(_scheduledCommandRunner.ScheduledCommands);
         }
 
         private void LockAction(Action<TelnetClient> action)
@@ -923,8 +946,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
                 if (IsExecuteScheduledCommand)
                 {
-                    _scheduledCommandRunner.LoadAsync();
-                    _scheduledCommandRunner.Start();
+                    await StartCommandRunner();
                 }
             }
             else
@@ -977,7 +999,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         public void TelnetFinish()
         {
-            _scheduledCommandRunner.Stop();
+            StopCommandRunner();
 
             TelnetBtLabel = Resources.UI_ConnectWithTelnet;
             IsConnected = false;
