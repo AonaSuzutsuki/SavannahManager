@@ -13,7 +13,7 @@
         xmlns:scheduledCommand="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels.Settings.ScheduledCommand"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance scheduledCommand:ListScheduledCommandViewModel}"
-        Title="ListScheduledCommand" Height="450" Width="800" Style="{DynamicResource WindowStyle}">
+        Title="ListScheduledCommand" WindowStartupLocation="CenterOwner" Height="450" Width="800" Style="{DynamicResource WindowStyle}">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -81,8 +81,8 @@
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0" Content="+" Style="{StaticResource FlatButton}" Command="{Binding AddItemCommand}" />
-                    <Button Grid.Column="2" Content="-" Style="{StaticResource FlatButton}" Command="{Binding RemoveItemCommand}" />
-                    <Button Grid.Column="4" Content="Edit" Style="{StaticResource FlatButton}" Command="{Binding EditItemCommand}" />
+                    <Button Grid.Column="2" Content="-" IsEnabled="{Binding SelectedCommandIndex.Value, Converter={converter:SelectedIndexBooleanConverter}}" Style="{StaticResource FlatButton}" Command="{Binding RemoveItemCommand}" />
+                    <Button Grid.Column="4" Content="Edit" IsEnabled="{Binding SelectedCommandIndex.Value, Converter={converter:SelectedIndexBooleanConverter}}" Style="{StaticResource FlatButton}" Command="{Binding EditItemCommand}" />
                 </Grid>
 
                 <ListView Grid.Row="2" ItemsSource="{Binding ScheduledCommands}" SelectedIndex="{Binding SelectedCommandIndex.Value, Mode=OneWayToSource}">
@@ -93,6 +93,14 @@
                             <GridViewColumn Width="150" Header="Wait Time" DisplayMemberBinding="{Binding Path=Command.WaitTime}" />
                         </GridView>
                     </ListView.View>
+
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add" Command="{Binding AddItemCommand}" />
+                            <MenuItem Header="Edit" IsEnabled="{Binding SelectedCommandIndex.Value, Converter={converter:SelectedIndexBooleanConverter}}" Command="{Binding EditItemCommand}" />
+                            <MenuItem Header="Remove" IsEnabled="{Binding SelectedCommandIndex.Value, Converter={converter:SelectedIndexBooleanConverter}}" Command="{Binding RemoveItemCommand}" />
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                 </ListView>
 
                 <Grid Grid.Row="4">
