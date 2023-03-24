@@ -20,9 +20,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Scheduled
             _telnet = telnet;
         }
 
-        public void Load()
+        public async Task LoadAsync()
         {
-            Loader.LoadFromFile();
+            await Loader.LoadFromFileAsync();
             
             var executors = Loader.Commands.Select(x => 
                 new ScheduledCommandExecutor(_telnet, (ScheduledCommand)x.Clone()));

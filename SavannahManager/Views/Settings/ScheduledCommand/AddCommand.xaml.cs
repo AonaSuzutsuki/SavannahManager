@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace _7dtd_svmanager_fix_mvvm.Views.Settings
+namespace _7dtd_svmanager_fix_mvvm.Views.Settings.ScheduledCommand
 {
     /// <summary>
-    /// ListScheduledCommand.xaml の相互作用ロジック
+    /// AddCommand.xaml の相互作用ロジック
     /// </summary>
-    public partial class ListScheduledCommand : Window
+    public partial class AddCommand : Window
     {
-        public ListScheduledCommand()
+        public AddCommand()
         {
             InitializeComponent();
         }

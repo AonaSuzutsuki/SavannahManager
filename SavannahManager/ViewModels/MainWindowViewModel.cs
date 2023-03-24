@@ -42,9 +42,12 @@ using CommonNavigationControlLib.Navigation.ViewModels;
 using CommonNavigationControlLib.Navigation.Views;
 using _7dtd_svmanager_fix_mvvm.Models.PlayerController.Pages;
 using _7dtd_svmanager_fix_mvvm.Models.Scheduled;
+using _7dtd_svmanager_fix_mvvm.Models.Settings.ScheduledCommand;
 using _7dtd_svmanager_fix_mvvm.ViewModels.AutoRestart;
 using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController.Pages;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Settings.ScheduledCommand;
 using _7dtd_svmanager_fix_mvvm.Views.AutoRestart;
+using _7dtd_svmanager_fix_mvvm.Views.Settings.ScheduledCommand;
 using SavannahManagerStyleLib.ViewModels.Encryption;
 using SavannahManagerStyleLib.Views.Encryption;
 
@@ -835,7 +838,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             var viewModel = new ListScheduledCommandViewModel(new WindowService(), model);
             WindowManageService.ShowDialog<ListScheduledCommand>(viewModel);
 
-            _model.LoadScheduledCommands();
+            _ = _model.LoadScheduledCommandsAsync();
         }
 
         private void OpenGetIp()

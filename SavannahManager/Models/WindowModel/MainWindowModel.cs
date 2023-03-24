@@ -300,6 +300,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         public int CurrentProcessId { get; private set; } = -1;
 
+        public ScheduledCommandRunner CommandRunner => _scheduledCommandRunner;
+
         #endregion
 
         #region Fiels
@@ -394,7 +396,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             Setting.ApplyCulture();
 
-            LoadScheduledCommands();
+            LoadScheduledCommandsAsync();
         }
 
         public bool InitializeEncryptionData(string password = null, string salt = null)
@@ -420,9 +422,9 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             return true;
         }
 
-        public void LoadScheduledCommands()
+        public async Task LoadScheduledCommandsAsync()
         {
-            _scheduledCommandRunner.Load();
+            await _scheduledCommandRunner.LoadAsync();
             var loader = _scheduledCommandRunner.Loader;
             Commands.Clear();
             Commands.AddRange(loader.Commands);
@@ -638,7 +640,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
                         if (IsExecuteScheduledCommand)
                         {
-                            _scheduledCommandRunner.Load();
+                            _scheduledCommandRunner.LoadAsync();
                             _scheduledCommandRunner.Start();
                         }
 
@@ -921,7 +923,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
                 if (IsExecuteScheduledCommand)
                 {
-                    _scheduledCommandRunner.Load();
+                    _scheduledCommandRunner.LoadAsync();
                     _scheduledCommandRunner.Start();
                 }
             }
