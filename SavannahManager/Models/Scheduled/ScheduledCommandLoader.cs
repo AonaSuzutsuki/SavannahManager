@@ -15,10 +15,7 @@ public class ScheduledCommandLoader
     private static readonly SemaphoreSlim Semaphore = new(1);
 
     public List<ScheduledCommand> Commands { get; private set; } = new();
-
-    public void AddCommand(string command, TimeSpan waitTime, TimeSpan interval)
-    {
-    }
+    
 
     public void AddCommand(ScheduledCommand command) => Commands.Add(command);
 
@@ -37,15 +34,6 @@ public class ScheduledCommandLoader
 
         Commands.RemoveAt(index);
         return true;
-    }
-
-    public void RemoveCommand(string command)
-    {
-        var item = Commands.FirstOrDefault(x => x.Command == command);
-        if (item == null)
-            return;
-
-        Commands.Remove(item);
     }
 
     public async Task LoadFromFileAsync()
