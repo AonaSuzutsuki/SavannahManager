@@ -80,7 +80,6 @@ public class ScheduledCommandLoader
 
     private static async Task InternalSave(object obj)
     {
-
         try
         {
             await Semaphore.WaitAsync();

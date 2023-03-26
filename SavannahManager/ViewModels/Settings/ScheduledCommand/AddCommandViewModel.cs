@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using _7dtd_svmanager_fix_mvvm.Models.Settings.ScheduledCommand;
+using CommonStyleLib.ExMessageBox;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
@@ -74,6 +75,20 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings.ScheduledCommand
             ApplyButtonContent = new ReactiveProperty<string>(IsEditMode ? "Edit": "Add");
 
             ApplyCommand = new DelegateCommand(Apply);
+
+            model.ErrorOccurred.Subscribe(message =>
+            {
+                if (message.IsAsync)
+                {
+                    windowService.MessageBoxDispatchShow(message.ErrorMessage,
+                        LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                }
+                else
+                {
+                    windowService.MessageBoxShow(message.ErrorMessage,
+                        LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                }
+            });
         }
 
         public void Apply()

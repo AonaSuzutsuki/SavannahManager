@@ -61,7 +61,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings.ScheduledCommand
 
         public bool Add()
         {
-            Command = new Scheduled.ScheduledCommand(CommandText, WaitTimeText.ToInt(), IntervalText.ToInt(), WaitTimeMode, IntervalTimeMode);
+            var item = CheckParameter();
+            if (item == null)
+                return false;
+
+            Command = new Scheduled.ScheduledCommand(CommandText, item.Value.waitTime, item.Value.interval, WaitTimeMode, IntervalTimeMode);
 
             return true;
         }
@@ -71,6 +75,29 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings.ScheduledCommand
             return Add();
         }
 
-        
+        private (int waitTime, int interval)? CheckParameter()
+        {
+            if (!int.TryParse(WaitTimeText, out var waitTime))
+            {
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs
+                {
+                    ErrorMessage = "Enter \"Wait Time\" as a number greater than or equal to 0."
+                });
+
+                return null;
+            }
+
+            if (!int.TryParse(IntervalText, out var interval) || interval <= 0)
+            {
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs
+                {
+                    ErrorMessage = "Enter \"Interval\" as a number greater than or equal to 1."
+                });
+
+                return null;
+            }
+
+            return (waitTime, interval);
+        }
     }
 }
