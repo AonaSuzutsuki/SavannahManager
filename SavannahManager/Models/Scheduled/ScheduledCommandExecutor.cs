@@ -18,14 +18,25 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Scheduled
 
         private readonly IMainWindowTelnet _telnet;
 
+        private DateTime _previousTime;
+        private DateTime _nextTime;
+
         #endregion
 
 
         #region Properties
 
-        public DateTime PreviousTime { get; set; }
+        public DateTime PreviousTime
+        {
+            get => _previousTime;
+            set => SetProperty(ref _previousTime, value);
+        }
 
-        public DateTime NextTime { get; set; }
+        public DateTime NextTime
+        {
+            get => _nextTime;
+            set => SetProperty(ref _nextTime, value);
+        }
 
         public Task CurrentTask { get; private set; }
 
