@@ -128,7 +128,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="223"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="230"/>
+                        <ColumnDefinition Width="230" MinWidth="230"/>
                     </Grid.ColumnDefinitions>
                     <Grid HorizontalAlignment="Stretch" Margin="0,0,5,0" Width="Auto" Grid.Column="0">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="25">
@@ -245,7 +245,10 @@
                             </TextBox>
                         </DockPanel>
                     </Grid>
-                    <Grid Grid.Column="2" Name="RightPanel" HorizontalAlignment="Right" Margin="0,0,0,0" Width="230">
+
+                    <GridSplitter Grid.Column="2" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="5" Margin="0,0,0,0"/>
+
+                    <Grid Grid.Column="2" Name="RightPanel" HorizontalAlignment="Stretch" Margin="5,0,0,0">
                         <TabControl Name="SettingTab" Background="Transparent" BorderThickness="1" BorderBrush="#FFE7E7E7">
                             <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ServerLabel, Mode=OneWay}">
                                 <Grid Style="{StaticResource TabGrid}">
@@ -371,8 +374,8 @@
                                                     <ListView.View>
                                                         <GridView>
                                                             <GridViewColumn Width="150" Header="Command" DisplayMemberBinding="{Binding Path=Command.Command}" />
-                                                            <GridViewColumn Width="150" Header="Previous" DisplayMemberBinding="{Binding Path=PreviousTime}" />
-                                                            <GridViewColumn Width="150" Header="Next" DisplayMemberBinding="{Binding Path=NextTime}" />
+                                                            <GridViewColumn Width="135" Header="Previous" DisplayMemberBinding="{Binding Path=PreviousTime, Converter={converter:DateTimeStringConverter}}" />
+                                                            <GridViewColumn Width="135" Header="Next" DisplayMemberBinding="{Binding Path=NextTime, Converter={converter:DateTimeStringConverter}}" />
                                                         </GridView>
                                                     </ListView.View>
                                                 </ListView>
