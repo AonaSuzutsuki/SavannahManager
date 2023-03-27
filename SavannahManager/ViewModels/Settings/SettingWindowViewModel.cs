@@ -53,8 +53,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
             IsAutoUpdateChecked = model.ToReactivePropertyAsSynchronized(m => m.IsAutoUpdate).AddTo(CompositeDisposable);
             IsEncryptPassword = model.ToReactivePropertyAsSynchronized(m => m.IsEncryptPassword).AddTo(CompositeDisposable);
 
+            AutoRestartIntervalTimeSelected = model.ToReactivePropertyAsSynchronized(m => m.IntervalTimeSelected)
+                .AddTo(CompositeDisposable);
+            AutoRestartDayOfWeekTimeSelected = model.ToReactivePropertyAsSynchronized(m => m.DayOfWeekTimeSelected)
+                .AddTo(CompositeDisposable);
             AutoRestartIntervalTime = model.ToReactivePropertyAsSynchronized(m => m.IntervalTime).AddTo(CompositeDisposable);
             AutoRestartIntervalTimeMode = model.ToReactivePropertyAsSynchronized(m => m.IntervalTimeSelectedIndex).AddTo(CompositeDisposable);
+            AutoRestartDayOfWeekDate =
+                model.ToReactivePropertyAsSynchronized(m => m.DayOfWeekDate).AddTo(CompositeDisposable);
+            AutoRestartDayOfWeek = model.ToReactivePropertyAsSynchronized(m => m.DayOfWeek).AddTo(CompositeDisposable);
             IsAutoRestartSendMessage = model.ToReactivePropertyAsSynchronized(m => m.IsAutoRestartSendMessage).AddTo(CompositeDisposable);
             AutoRestartSendingMessageStartTime =
                 model.ToReactivePropertyAsSynchronized(m => m.AutoRestartSendingMessageStartTime).AddTo(CompositeDisposable);
@@ -100,12 +107,24 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
                 LangResources.SettingsResources.UI_Second,
                 LangResources.SettingsResources.UI_Minute
             };
+
+            DayOfWeekItems = new List<string>
+            {
+                LangResources.SettingsResources.UI_Day_Sunday,
+                LangResources.SettingsResources.UI_Day_Monday,
+                LangResources.SettingsResources.UI_Day_Tuesday,
+                LangResources.SettingsResources.UI_Day_Wednesday,
+                LangResources.SettingsResources.UI_Day_Thursday,
+                LangResources.SettingsResources.UI_Day_Friday,
+                LangResources.SettingsResources.UI_Day_Saturday,
+            };
         }
 
         #region Properties
         
         public IEnumerable<string> HourMinuteSecondItems { get; set; }
         public IEnumerable<string> MinuteSecondItems { get; set; }
+        public IEnumerable<string> DayOfWeekItems { get; set; }
 
         public ReactiveProperty<string> ExeFilePathText { get; set; }
         public ReactiveProperty<string> ConfigFilePathText { get; set; }
@@ -121,8 +140,12 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
         public ReactiveProperty<bool> IsEncryptPassword { get; set; }
 
         public bool IsAutoRestartEnabled => !_model.MainWindowModel.AutoRestartEnabled;
+        public ReactiveProperty<bool> AutoRestartIntervalTimeSelected { get; set; }
+        public ReactiveProperty<bool> AutoRestartDayOfWeekTimeSelected { get; set; }
         public ReactiveProperty<int> AutoRestartIntervalTime { get; set; }
         public ReactiveProperty<int> AutoRestartIntervalTimeMode { get; set; }
+        public ReactiveProperty<string> AutoRestartDayOfWeekDate { get; set; }
+        public ReactiveProperty<int> AutoRestartDayOfWeek { get; set; }
         public ReactiveProperty<bool> IsAutoRestartSendMessage { get; set; }
         public ReactiveProperty<int> AutoRestartSendingMessageStartTime { get; set; }
         public ReactiveProperty<int> AutoRestartSendingMessageStartTimeMode { get; set; }

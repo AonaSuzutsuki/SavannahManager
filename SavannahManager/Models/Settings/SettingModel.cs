@@ -18,8 +18,12 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
         private bool _isBetaMode;
         private bool _isAutoUpdate = true;
         private bool _isEncryptPassword;
+        private bool _intervalTimeSelected;
+        private bool _dayOfWeekTimeSelected;
         private int _intervalTime;
         private int _intervalTimeSelectedIndex;
+        private string _dayOfWeekDate;
+        private int _dayOfWeek;
         private bool _isAutoRestartSendMessage;
         private int _autoRestartSendingMessageStartTime;
         private int _autoRestartSendingMessageStartTimeMode;
@@ -99,6 +103,30 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
         {
             get => _isEncryptPassword;
             set => SetProperty(ref _isEncryptPassword, value);
+        }
+
+        public bool IntervalTimeSelected
+        {
+            get => _intervalTimeSelected;
+            set => SetProperty(ref _intervalTimeSelected, value);
+        }
+
+        public bool DayOfWeekTimeSelected
+        {
+            get => _dayOfWeekTimeSelected;
+            set => SetProperty(ref _dayOfWeekTimeSelected, value);
+        }
+
+        public string DayOfWeekDate
+        {
+            get => _dayOfWeekDate;
+            set => SetProperty(ref _dayOfWeekDate, value);
+        }
+
+        public int DayOfWeek
+        {
+            get => _dayOfWeek;
+            set => SetProperty(ref _dayOfWeek, value);
         }
 
         public int IntervalTime
@@ -231,8 +259,24 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
                 IsBetaMode = setting.IsBetaMode;
                 IsAutoUpdate = setting.IsAutoUpdate;
                 IsEncryptPassword = setting.IsEncryptPassword;
+
+                var intervalMode = setting.IntervalMode;
+                if (intervalMode == 0)
+                {
+                    IntervalTimeSelected = true;
+                    DayOfWeekTimeSelected = false;
+                }
+                else
+                {
+                    IntervalTimeSelected = false;
+                    DayOfWeekTimeSelected = true;
+                }
+                    
+
                 IntervalTime = setting.IntervalTime;
                 IntervalTimeSelectedIndex = setting.IntervalTimeMode;
+                DayOfWeekDate = setting.DayOfWeekDate;
+                DayOfWeek = setting.DayOfWeek;
                 IsAutoRestartSendMessage = setting.IsAutoRestartSendMessage;
                 AutoRestartSendingMessageStartTime = setting.AutoRestartSendingMessageStartTime;
                 AutoRestartSendingMessageStartTimeMode = setting.AutoRestartSendingMessageStartTimeMode;
@@ -271,8 +315,20 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Settings
                 _setting.IsBetaMode = IsBetaMode;
                 _setting.IsAutoUpdate = IsAutoUpdate;
                 _setting.IsEncryptPassword = IsEncryptPassword;
+                
+                if (IntervalTimeSelected)
+                {
+                    _setting.IntervalMode = 0;
+                }
+                else
+                {
+                    _setting.IntervalMode = 1;
+                }
+
                 _setting.IntervalTime = IntervalTime;
                 _setting.IntervalTimeMode = IntervalTimeSelectedIndex;
+                _setting.DayOfWeekDate = DayOfWeekDate;
+                _setting.DayOfWeek = DayOfWeek;
                 _setting.IsAutoRestartSendMessage = IsAutoRestartSendMessage;
                 _setting.AutoRestartSendingMessageStartTime = AutoRestartSendingMessageStartTime;
                 _setting.AutoRestartSendingMessageStartTimeMode = AutoRestartSendingMessageStartTimeMode;

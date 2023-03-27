@@ -13,7 +13,7 @@
         d:DataContext="{d:DesignInstance viewModels:SettingWindowViewModel}"
         ShowInTaskbar="True" Topmost="False" WindowStartupLocation="CenterScreen" WindowStyle="None"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True"
-        Title="Settings" Height="{Binding Height.Value, Mode=OneWayToSource, FallbackValue=550}" Width="{Binding Width.Value, Mode=OneWayToSource, FallbackValue=400}" Top="{Binding Top.Value, Mode=OneWayToSource}" Left="{Binding Left.Value, Mode=OneWayToSource}" ResizeMode="CanMinimize"
+        Title="Settings" Height="{Binding Height.Value, Mode=OneWayToSource, FallbackValue=600}" Width="{Binding Width.Value, Mode=OneWayToSource, FallbackValue=400}" Top="{Binding Top.Value, Mode=OneWayToSource}" Left="{Binding Left.Value, Mode=OneWayToSource}" ResizeMode="CanMinimize"
         BorderBrush="{Binding AroundBorderColor.Value}"
         Opacity="{Binding AroundBorderOpacity.Value}"
         Style="{DynamicResource WindowStyle}">
@@ -265,29 +265,49 @@
                         <Grid IsEnabled="{Binding IsAutoRestartEnabled}">
                             <StackPanel Orientation="Vertical" Margin="6">
 
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_ScheduledTime, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                                    <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-                                            <Hyperlink Foreground="White" Command="{Binding HelpHyperlinkCommand}" CommandParameter="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.Help_ScheduledTime, Mode=OneWay}">
-                                                ?
-                                            </Hyperlink>
-                                    </TextBlock>
-                                </StackPanel>
+                                <Border Padding="5" BorderThickness="1" BorderBrush="{StaticResource StandardBorderBrush}">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_ScheduledTime, Mode=OneWay}" Padding="0" FontSize="11" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                            <TextBlock FontSize="11" Padding="5,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                                <Hyperlink Foreground="White" Command="{Binding HelpHyperlinkCommand}" CommandParameter="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.Help_ScheduledTime, Mode=OneWay}">
+                                                    ?
+                                                </Hyperlink>
+                                            </TextBlock>
+                                        </StackPanel>
 
-                                <CheckBox IsEnabled="False" Content="Interval Time" IsChecked="True" Visibility="Collapsed" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <RadioButton Content="Interval Time" Margin="5, 0" IsChecked="{Binding AutoRestartIntervalTimeSelected.Value}" />
+                                            <RadioButton Content="Day of week" Margin="5, 0" IsChecked="{Binding AutoRestartDayOfWeekTimeSelected.Value}" />
+                                        </StackPanel>
 
-                                <Grid Margin="0, 5, 0, 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="5" />
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
+                                        <Grid Margin="0,5,0,0" Visibility="{Binding AutoRestartIntervalTimeSelected.Value, Converter={converter:BooleanVisibilityConverter}}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
 
-                                    <TextBox Text="{Binding AutoRestartIntervalTime.Value}" />
+                                            <TextBox Text="{Binding AutoRestartIntervalTime.Value}" />
 
-                                    <ComboBox Grid.Column="2" ItemsSource="{Binding HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartIntervalTimeMode.Value, FallbackValue=2}" />
-                                </Grid>
+                                            <ComboBox Grid.Column="2" ItemsSource="{Binding HourMinuteSecondItems}" SelectedIndex="{Binding AutoRestartIntervalTimeMode.Value, FallbackValue=2}" />
+                                        </Grid>
+
+                                        <Grid Margin="0,5,0,0" Visibility="{Binding AutoRestartDayOfWeekTimeSelected.Value, Converter={converter:BooleanVisibilityConverter},FallbackValue=Collapsed}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBox Text="{Binding AutoRestartDayOfWeekDate.Value}" behaviors:PlaceHolderBehavior.PlaceHolder="14:30" />
+
+                                            <ComboBox Grid.Column="2" ItemsSource="{Binding DayOfWeekItems}" SelectedIndex="{Binding AutoRestartDayOfWeek.Value, FallbackValue=2}" />
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
 
                                 <CheckBox Content="{Binding Source={x:Static app:ResourceService.Current}, Path=SettingsResources.UI_EnabledRestartMessage, Mode=OneWay}" Margin="0, 5, 0, 0" IsChecked="{Binding IsAutoRestartSendMessage.Value}" />
 
