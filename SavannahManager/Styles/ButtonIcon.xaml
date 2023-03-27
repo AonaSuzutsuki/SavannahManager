@@ -161,6 +161,7 @@
     </Style>
 
     <BitmapImage x:Key="RefreshImage" UriSource="/Images/Refresh.png" />
+    <BitmapImage x:Key="CalendarImage" UriSource="/Images/Calendar.png" />
 
     <Style x:Key="RefreshButton" TargetType="Button">
         <Setter Property="Width" Value="24" />
@@ -218,4 +219,31 @@
         </Style.Triggers>
     </Style>
 
+
+
+    <Style x:Key="CommandRunnerButton" TargetType="Button">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Orientation="Horizontal" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Image Width="20" Margin="0,0,0,0" Source="{StaticResource CalendarImage}" VerticalAlignment="Center" />
+                        </Grid>
+                        <ContentPresenter Margin="4,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

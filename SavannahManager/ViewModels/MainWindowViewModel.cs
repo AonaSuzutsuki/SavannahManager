@@ -6,18 +6,13 @@ using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using _7dtd_svmanager_fix_mvvm.LangResources;
-using _7dtd_svmanager_fix_mvvm.Models;
 using _7dtd_svmanager_fix_mvvm.Models.AutoRestart;
-using _7dtd_svmanager_fix_mvvm.Models.Backup;
 using _7dtd_svmanager_fix_mvvm.Models.LogViewer;
 using _7dtd_svmanager_fix_mvvm.Models.Permissions;
 using _7dtd_svmanager_fix_mvvm.Models.PlayerController;
@@ -31,15 +26,11 @@ using CommonStyleLib.Models;
 using SvManagerLibrary.Player;
 using SvManagerLibrary.Telnet;
 using _7dtd_svmanager_fix_mvvm.Models.WindowModel;
-using _7dtd_svmanager_fix_mvvm.ViewModels.Backup;
 using _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer;
 using _7dtd_svmanager_fix_mvvm.ViewModels.Permissions;
 using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController;
 using _7dtd_svmanager_fix_mvvm.ViewModels.Settings;
-using _7dtd_svmanager_fix_mvvm.ViewModels.Setup;
 using _7dtd_svmanager_fix_mvvm.ViewModels.Update;
-using _7dtd_svmanager_fix_mvvm.Views.Backup;
-using _7dtd_svmanager_fix_mvvm.Views.LogViewer;
 using _7dtd_svmanager_fix_mvvm.Views.Permissions;
 using _7dtd_svmanager_fix_mvvm.Views.PlayerController;
 using _7dtd_svmanager_fix_mvvm.Views.PlayerController.Pages;
@@ -50,9 +41,13 @@ using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonNavigationControlLib.Navigation.ViewModels;
 using CommonNavigationControlLib.Navigation.Views;
 using _7dtd_svmanager_fix_mvvm.Models.PlayerController.Pages;
+using _7dtd_svmanager_fix_mvvm.Models.Scheduled;
+using _7dtd_svmanager_fix_mvvm.Models.Settings.ScheduledCommand;
 using _7dtd_svmanager_fix_mvvm.ViewModels.AutoRestart;
 using _7dtd_svmanager_fix_mvvm.ViewModels.PlayerController.Pages;
+using _7dtd_svmanager_fix_mvvm.ViewModels.Settings.ScheduledCommand;
 using _7dtd_svmanager_fix_mvvm.Views.AutoRestart;
+using _7dtd_svmanager_fix_mvvm.Views.Settings.ScheduledCommand;
 using SavannahManagerStyleLib.ViewModels.Encryption;
 using SavannahManagerStyleLib.Views.Encryption;
 
@@ -142,6 +137,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             StopServerCommand = new DelegateCommand(StopServer);
             ConnectTelnetCommand = new DelegateCommand(ConnectTelnet);
             AutoRestartCommand = new DelegateCommand(AutoRestart);
+            ExecuteCommandRunnerCommand = new DelegateCommand(ExecuteCommandRunner);
             OpenCommandListCommand = new DelegateCommand(OpenCommandList);
 
             PlayerListRefreshCommand = new DelegateCommand(PlayerListRefresh);
@@ -172,6 +168,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             SetTimeCommand = new DelegateCommand(SetTime);
             SaveWorldCommand = new DelegateCommand(SaveWorld);
             OpenPermissionEditorCommand = new DelegateCommand(OpenPermissionEditor);
+            OpenListScheduledCommand = new DelegateCommand(OpenListScheduled);
 
             OpenGetIpCommand = new DelegateCommand(OpenGetIp);
             CheckPortCommand = new DelegateCommand(OpenCheckPort);
@@ -185,6 +182,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             TelnetBtIsEnabled = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtIsEnabled).AddTo(CompositeDisposable);
             TelnetBtLabel = model.ToReactivePropertyAsSynchronized(m => m.TelnetBtLabel).AddTo(CompositeDisposable);
             AutoRestartText = model.ObserveProperty(m => m.AutoRestartText).ToReactiveProperty().AddTo(CompositeDisposable);
+            CommandRunnerButtonText = model.ObserveProperty(m => m.CommandRunnerButtonText).ToReactiveProperty().AddTo(CompositeDisposable);
 
             UsersList = model.ToReactivePropertyAsSynchronized(m => m.UsersList).AddTo(CompositeDisposable);
 
@@ -216,6 +214,10 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             SshAuthMode = model.ToReactivePropertyAsSynchronized(m => m.SshAuthMode).AddTo(CompositeDisposable);
             SshKeyPathText = model.ToReactivePropertyAsSynchronized(m => m.SshKeyPathText).AddTo(CompositeDisposable);
             SshPassPhraseText = model.ToReactivePropertyAsSynchronized(m => m.SshPassPhraseText).AddTo(CompositeDisposable);
+
+            IsExecuteScheduledCommand = model.ToReactivePropertyAsSynchronized(m => m.IsExecuteScheduledCommand)
+                .AddTo(CompositeDisposable);
+            ScheduledCommands = model.Commands.ToReadOnlyReactiveCollection().AddTo(CompositeDisposable);
 
             #endregion
 
@@ -256,6 +258,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand StopServerCommand { get; set; }
         public ICommand ConnectTelnetCommand { get; set; }
         public ICommand AutoRestartCommand { get; set; }
+        public ICommand ExecuteCommandRunnerCommand { get; set; }
         public ICommand OpenCommandListCommand { get; set; }
 
         public ICommand PlayerListRefreshCommand { get; set; }
@@ -287,6 +290,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ICommand SetTimeCommand { get; set; }
         public ICommand SaveWorldCommand { get; set; }
         public ICommand OpenPermissionEditorCommand { get; set; }
+        public ICommand OpenListScheduledCommand { get; set; }
 
         public ICommand OpenGetIpCommand { get; set; }
         public ICommand CheckPortCommand { get; set; }
@@ -301,7 +305,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ReactiveProperty<bool> TelnetBtIsEnabled { get; set; }
         public ReactiveProperty<string> TelnetBtLabel { get; set; }
         public ReactiveProperty<string> AutoRestartText { get; set; }
-        
+        public ReactiveProperty<string> CommandRunnerButtonText { get; set; }
+
+
         public ReactiveProperty<ObservableCollection<UserDetail>> UsersList { get; set; }
         public int UsersListSelectedIndex
         {
@@ -375,6 +381,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
         public ReactiveProperty<AuthMode> SshAuthMode { get; set; }
         public ReactiveProperty<string> SshKeyPathText { get; set; }
         public ReactiveProperty<string> SshPassPhraseText { get; set; }
+
+        public ReactiveProperty<bool> IsExecuteScheduledCommand { get; set; }
+        public ReadOnlyReactiveCollection<ScheduledCommandExecutor> ScheduledCommands { get; set; }
 
         #endregion
 
@@ -594,6 +603,18 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             else
             {
                 _model.StopRequestAutoRestart();
+            }
+        }
+
+        public void ExecuteCommandRunner()
+        {
+            if (_model.CommandRunner.IsStop)
+            {
+                _model.StartCommandRunner();
+            }
+            else
+            {
+                _model.StopCommandRunner();
             }
         }
 
@@ -826,6 +847,15 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels
             }
             var vm = new PermissionEditorViewModel(new WindowService(), new PermissionEditorModel(adminFilePath));
             WindowManageService.ShowNonOwner<PermissionEditor>(vm);
+        }
+
+        private void OpenListScheduled()
+        {
+            var model = new ListScheduledCommandModel();
+            var viewModel = new ListScheduledCommandViewModel(new WindowService(), model);
+            WindowManageService.ShowDialog<ListScheduledCommand>(viewModel);
+
+            _ = _model.LoadScheduledCommandsAsync();
         }
 
         private void OpenGetIp()

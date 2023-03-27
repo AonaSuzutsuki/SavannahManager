@@ -29,6 +29,7 @@ using _7dtd_svmanager_fix_mvvm.Views.UserControls;
 using CommonStyleLib.Models.Errors;
 using Renci.SshNet.Common;
 using _7dtd_svmanager_fix_mvvm.Models.AutoRestart;
+using _7dtd_svmanager_fix_mvvm.Models.Scheduled;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
@@ -106,6 +107,13 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         {
             get => _autoRestartText;
             set => SetProperty(ref _autoRestartText, value);
+        }
+
+        private string _commandRunnerButtonText = ConstantValues.EnabledCommandRunnerContent;
+        public string CommandRunnerButtonText
+        {
+            get => _commandRunnerButtonText;
+            set => SetProperty(ref _commandRunnerButtonText, value);
         }
 
         private bool _isBeta;
@@ -253,6 +261,22 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             get => _sshPassPhraseText;
             set => SetProperty(ref _sshPassPhraseText, value);
         }
+
+        private bool _isExecuteScheduledCommand;
+
+        public bool IsExecuteScheduledCommand
+        {
+            get => _isExecuteScheduledCommand;
+            set => SetProperty(ref _isExecuteScheduledCommand, value);
+        }
+
+        private ObservableCollection<ScheduledCommandExecutor> _commands = new();
+        public ObservableCollection<ScheduledCommandExecutor> Commands
+        {
+            get => _commands;
+            set => SetProperty(ref _commands, value);
+        }
+
         #endregion
 
         #region Properties
@@ -283,6 +307,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         public int CurrentProcessId { get; private set; } = -1;
 
+        public ScheduledCommandRunner CommandRunner => _scheduledCommandRunner;
+
         #endregion
 
         #region Fiels
@@ -300,6 +326,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         private bool _isLogGetter;
 
         private AbstractAutoRestart _autoRestart;
+        private readonly ScheduledCommandRunner _scheduledCommandRunner;
         #endregion
 
         #region Event
@@ -321,6 +348,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Setting = new SettingLoader(ConstantValues.SettingFilePath);
             ShortcutKeyManager = new ShortcutKeyManager(ConstantValues.AppDirectoryPath + @"\KeyConfig.xml",
                 ConstantValues.AppDirectoryPath + @"\Settings\KeyConfig\" + Resources.KeyConfigPath);
+            _scheduledCommandRunner = new ScheduledCommandRunner(this);
         }
 
         public override void Activated()
@@ -371,7 +399,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             SshAuthMode = Setting.SshAuthMode.FromInt();
             SshKeyPathText = Setting.SshKeyPath;
 
+            IsExecuteScheduledCommand = Setting.IsExecuteScheduledCommand;
+
             Setting.ApplyCulture();
+
+            _ = LoadScheduledCommandsAsync();
         }
 
         public bool InitializeEncryptionData(string password = null, string salt = null)
@@ -425,6 +457,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             Setting.SshArgument = SshArgument;
             Setting.SshAuthMode = SshAuthMode.ToInt();
             Setting.SshKeyPath = SshKeyPathText;
+
+            Setting.IsExecuteScheduledCommand = IsExecuteScheduledCommand;
         }
         public void ChangeCulture(string cultureName)
         {
@@ -570,7 +604,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         private async Task ConnectTelnetForServerStart(string address, int port, string password)
         {
             Telnet = GenerateTelnetClient(this);
-            await Task.Factory.StartNew(() =>
+            await Task.Factory.StartNew(async () =>
             {
                 IsTelnetLoading = true;
                 while (true)
@@ -603,12 +637,42 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                         LockAction(telnet => telnet.Write(TelnetClient.Cr));
                         AppendConsoleLog(SocTelnetSend(password));
 
+                        if (IsExecuteScheduledCommand)
+                        {
+                            await StartCommandRunner();
+                        }
+
                         break;
                     }
 
                     Thread.Sleep(2000);
                 }
             });
+        }
+
+        public async Task StartCommandRunner()
+        {
+            if (!CheckConnected())
+                return;
+
+            await LoadScheduledCommandsAsync();
+            _scheduledCommandRunner.Start();
+
+            CommandRunnerButtonText = ConstantValues.DisabledCommandRunnerContent;
+        }
+
+        public void StopCommandRunner()
+        {
+            _scheduledCommandRunner.Stop();
+
+            CommandRunnerButtonText = ConstantValues.EnabledCommandRunnerContent;
+        }
+
+        public async Task LoadScheduledCommandsAsync()
+        {
+            await _scheduledCommandRunner.LoadAsync();
+            Commands.Clear();
+            Commands.AddRange(_scheduledCommandRunner.ScheduledCommands);
         }
 
         private void LockAction(Action<TelnetClient> action)
@@ -879,6 +943,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 IsConnected = true;
                 LockAction(telnet => telnet.Write(TelnetClient.Cr));
                 AppendConsoleLog(SocTelnetSend(localPassword));
+
+                if (IsExecuteScheduledCommand)
+                {
+                    await StartCommandRunner();
+                }
             }
             else
             {
@@ -930,6 +999,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         public void TelnetFinish()
         {
+            StopCommandRunner();
+
             TelnetBtLabel = Resources.UI_ConnectWithTelnet;
             IsConnected = false;
 
@@ -1125,12 +1196,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             return _commandCollector.GetNextCommand();
         }
 
-        public bool CheckConnected(bool isAsync = false)
+        public bool CheckConnected(bool isAsync = false, bool isShowError = true)
         {
             if (IsConnected)
                 return true;
 
-            ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = Resources.HasnotBeConnected, IsAsync = isAsync });
+            if (isShowError)
+                ErrorOccurredSubject.OnNext(new ModelErrorEventArgs { ErrorMessage = Resources.HasnotBeConnected, IsAsync = isAsync });
+
             return false;
         }
         private void SocTelnetSendDirect(string cmd)
@@ -1157,6 +1230,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         public bool SocTelnetSendNrt(string cmd)
         {
             if (!CheckConnected())
+                return false;
+
+            SocTelnetSendDirect(cmd);
+            return true;
+        }
+
+        public bool SocTelnetSendNrtNer(string cmd, bool isAsync = false)
+        {
+            if (!CheckConnected(isAsync, false))
                 return false;
 
             SocTelnetSendDirect(cmd);

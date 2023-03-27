@@ -119,6 +119,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         public bool CanEncrypt => _encryptWrapper != null;
 
+        public bool IsExecuteScheduledCommand { get; set; }
+
         #endregion
 
 
@@ -253,6 +255,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             SshArgument = _iniLoader.GetValue(ServerClassName, "SshArgument", "-configfile=serverconfig.xml");
             SshAuthMode = _iniLoader.GetValue(ServerClassName, "SshAuthMode", AuthMode.Password.ToInt());
             SshKeyPath = _iniLoader.GetValue(ServerClassName, "SshKeyPath", "");
+
+            IsExecuteScheduledCommand = _iniLoader.GetValue(MainClassName, nameof(IsExecuteScheduledCommand), false);
         }
 
         public void SetEncryptionPassword(string password, string salt)
@@ -345,6 +349,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(ServerClassName, "SshArgument", SshArgument);
             _iniLoader.SetValue(ServerClassName, "SshAuthMode", SshAuthMode);
             _iniLoader.SetValue(ServerClassName, "SshKeyPath", SshKeyPath);
+
+            _iniLoader.SetValue(MainClassName, nameof(IsExecuteScheduledCommand), IsExecuteScheduledCommand);
         }
 
         public void Dispose()

@@ -39,7 +39,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views.Behaviors
                 if (string.IsNullOrEmpty(textBox.Text))
                     textBox.Background = CreateVisualBrush(placeHolder);
                 else
-                    textBox.Background = new SolidColorBrush(Colors.Transparent);
+                    textBox.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#222");
             };
         }
 
@@ -49,7 +49,7 @@ namespace _7dtd_svmanager_fix_mvvm.Views.Behaviors
             {
                 Text = placeHolder,
                 Padding = new Thickness(5, 1, 1, 1),
-                Foreground = new SolidColorBrush(Colors.LightGray),
+                Foreground = new SolidColorBrush(Colors.Gray),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center
             };
