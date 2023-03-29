@@ -109,7 +109,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             set => SetProperty(ref _autoRestartText, value);
         }
 
-        private string _commandRunnerButtonText = ConstantValues.EnabledCommandRunnerContent;
+        private string _commandRunnerButtonText = ConstantValues.DisabledCommandRunnerContent;
         public string CommandRunnerButtonText
         {
             get => _commandRunnerButtonText;
@@ -658,18 +658,21 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             await LoadScheduledCommandsAsync();
             _scheduledCommandRunner.Start();
 
-            CommandRunnerButtonText = ConstantValues.DisabledCommandRunnerContent;
+            CommandRunnerButtonText = ConstantValues.EnabledCommandRunnerContent;
         }
 
         public void StopCommandRunner()
         {
             _scheduledCommandRunner.Stop();
 
-            CommandRunnerButtonText = ConstantValues.EnabledCommandRunnerContent;
+            CommandRunnerButtonText = ConstantValues.DisabledCommandRunnerContent;
         }
 
         public async Task LoadScheduledCommandsAsync()
         {
+            if (!_scheduledCommandRunner.IsStop)
+                return;
+
             await _scheduledCommandRunner.LoadAsync();
             Commands.Clear();
             Commands.AddRange(_scheduledCommandRunner.ScheduledCommands);

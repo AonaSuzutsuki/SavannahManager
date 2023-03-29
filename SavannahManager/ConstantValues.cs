@@ -33,8 +33,8 @@ namespace _7dtd_svmanager_fix_mvvm
 
 
 
-        public const string EnabledCommandRunnerContent = "Enabled Scheduled Command";
-        public const string DisabledCommandRunnerContent = "Disabled Scheduled Command";
+        public const string EnabledCommandRunnerContent = "Scheduled Command Enabled";
+        public const string DisabledCommandRunnerContent = "Scheduled Command Disabled";
 
         public static string Version => CommonCoreLib.File.Version.GetVersion(); /* + "b";*/
     }
