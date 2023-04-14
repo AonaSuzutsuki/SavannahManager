@@ -74,8 +74,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Scheduled
                         NextTime = now + Command.Interval;
                     }
 
-                    Debug.WriteLine($"{Command.Command}: {NextTime - now}");
-
                     await Task.Delay(100);
                 }
                 IsStopCommand = true;

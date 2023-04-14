@@ -790,22 +790,18 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                 if (args.EventType == AutoRestartWaitingTimeEventArgs.WaitingType.RestartWait)
                 {
                     BottomNewsLabel = $"{newsLabel}, AutoRestart: {ts:d\\.hh\\:mm\\:ss} remaining.";
-                    Debug.WriteLine($"AutoRestart: {ts} remaining.");
                 }
                 else if (args.EventType == AutoRestartWaitingTimeEventArgs.WaitingType.ProcessWait)
                 {
                     BottomNewsLabel = $"{newsLabel}, AutoRestart: Waiting to stop server.";
-                    Debug.WriteLine("AutoRestart: Waiting to stop server.");
                 }
                 else if (args.EventType == AutoRestartWaitingTimeEventArgs.WaitingType.ScriptWait)
                 {
                     BottomNewsLabel = $"{newsLabel}, Script Cool Time: {ts:d\\.hh\\:mm\\:ss} remaining.";
-                    Debug.WriteLine($"Script Cool Time: {ts} remaining.");
                 }
                 else
                 {
                     BottomNewsLabel = $"{newsLabel}, Rebooting Cool Time: {ts:d\\.hh\\:mm\\:ss} remaining.";
-                    Debug.WriteLine($"Rebooting Cool Time: {ts} remaining.");
                 }
             }, () => BottomNewsLabel = newsLabel);
             _autoRestart.FewRemaining.Subscribe(ts =>
@@ -816,7 +812,6 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             _autoRestart.ScriptRunning.Subscribe(args =>
             {
                 BottomNewsLabel = $"{newsLabel}, AutoRestart: Waiting to run the script.";
-                Debug.WriteLine("AutoRestart: Waiting to run the script.");
             }, () => BottomNewsLabel = newsLabel);
             _autoRestart.Start(() => StopAutoRestart(true));
 
