@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
@@ -18,6 +19,9 @@ public abstract class AbstractAutoRestart : IDisposable
     protected DateTime ThresholdTime;
     protected DateTime MessageDateTime;
     protected DateTime WaitScriptThresholdTime;
+    protected int IntervalMode;
+    protected TimeSpan DayOfWeekTime;
+    protected int DayOfWeek;
 
     private readonly bool _isAutoRestartSendMessage;
     private readonly int _autoRestartSendingMessageStartTime;
@@ -63,7 +67,16 @@ public abstract class AbstractAutoRestart : IDisposable
             1 => new TimeSpan(0, setting.IntervalTime, 0),
             _ => new TimeSpan(setting.IntervalTime, 0, 0)
         };
-        ThresholdTime = CalculateThresholdTime(BaseTime);
+
+        if (!TimeSpan.TryParse(setting.DayOfWeekDate, out DayOfWeekTime))
+        {
+            throw new FormatException();
+        }
+
+        IntervalMode = setting.IntervalMode;
+        DayOfWeek = setting.DayOfWeek;
+
+        ThresholdTime = CalculateThresholdTime();
 
         _isAutoRestartSendMessage = setting.IsAutoRestartSendMessage;
         _autoRestartSendingMessageStartTime = setting.AutoRestartSendingMessageStartTime;
@@ -167,7 +180,8 @@ public abstract class AbstractAutoRestart : IDisposable
                     }
                 }
                 IsRestarting = false;
-                ThresholdTime = CalculateThresholdTime(BaseTime);
+
+                ThresholdTime = CalculateThresholdTime();
 
                 AfterStartSever();
 
@@ -264,9 +278,34 @@ public abstract class AbstractAutoRestart : IDisposable
         IsRequestStop = true;
     }
 
+    protected static DateTime CalculateThresholdTime(TimeSpan dayOfWeekTime, int dayOfWeek)
+    {
+        var today = DateTime.Today;
+
+        var sub = dayOfWeek - (int)today.DayOfWeek;
+        if (sub < 0)
+        {
+            sub = 7 + sub;
+        }
+        else if (sub == 0 && today + dayOfWeekTime <= DateTime.Now)
+        {
+            sub = 7;
+        }
+
+        var thresholdTime = today + dayOfWeekTime;
+        thresholdTime = thresholdTime.AddDays(sub);
+
+        return thresholdTime;
+    }
+
     protected static DateTime CalculateThresholdTime(TimeSpan baseTime)
     {
         return DateTime.Now + baseTime;
+    }
+
+    protected DateTime CalculateThresholdTime()
+    {
+        return IntervalMode == 0 ? CalculateThresholdTime(BaseTime) : CalculateThresholdTime(DayOfWeekTime, DayOfWeek);
     }
 
     protected static async Task ExecuteCommand(string command)

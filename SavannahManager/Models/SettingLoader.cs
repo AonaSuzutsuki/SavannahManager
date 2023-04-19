@@ -57,9 +57,15 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
         #region Auto Restart
 
+        public int IntervalMode { get; set; } // 0: Interval Time, 1: Day of week
+
         public int IntervalTime { get; set; }
 
         public int IntervalTimeMode { get; set; }
+
+        public string DayOfWeekDate { get; set; }
+
+        public int DayOfWeek { get; set; }
 
         public int RebootingWaitMode { get; set; } // 0: Rebooting Cool Time, 1: Process Check
 
@@ -218,8 +224,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
 
             IsAutoUpdate = _iniLoader.GetValue(MainClassName, "IsUpdateCheck", true);
 
+            IntervalMode = _iniLoader.GetValue(AutoRestartClassName, "IntervalMode", 0);
             IntervalTime = _iniLoader.GetValue(AutoRestartClassName, "IntervalTime", 5);
             IntervalTimeMode = _iniLoader.GetValue(AutoRestartClassName, "IntervalTimeMode", 2);
+            DayOfWeekDate = _iniLoader.GetValue(AutoRestartClassName, "DayOfWeekDate", string.Empty);
+            DayOfWeek = _iniLoader.GetValue(AutoRestartClassName, "DayOfWeek", 0);
             IsAutoRestartSendMessage = _iniLoader.GetValue(AutoRestartClassName, "IsSendMessage", false);
             AutoRestartSendingMessageStartTime =
                 _iniLoader.GetValue(AutoRestartClassName, "SendingMessageStartTime", 1);
@@ -322,8 +331,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models
             _iniLoader.SetValue(MainClassName, "IsLogOutput", IsLogGetter);
             _iniLoader.SetValue(MainClassName, "IsFirstBoot", IsFirstBoot);
             _iniLoader.SetValue(MainClassName, "IsUpdateCheck", IsAutoUpdate);
+            _iniLoader.SetValue(AutoRestartClassName, "IntervalMode", IntervalMode);
             _iniLoader.SetValue(AutoRestartClassName, "IntervalTime", IntervalTime);
             _iniLoader.SetValue(AutoRestartClassName, "IntervalTimeMode", IntervalTimeMode);
+            _iniLoader.SetValue(AutoRestartClassName, "DayOfWeekDate", DayOfWeekDate);
+            _iniLoader.SetValue(AutoRestartClassName, "DayOfWeek", DayOfWeek);
             _iniLoader.SetValue(AutoRestartClassName, "IsSendMessage", IsAutoRestartSendMessage);
             _iniLoader.SetValue(AutoRestartClassName, "SendingMessageStartTime", AutoRestartSendingMessageStartTime);
             _iniLoader.SetValue(AutoRestartClassName, "SendingMessageStartTimeMode", AutoRestartSendingMessageStartTimeMode);

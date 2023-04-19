@@ -200,6 +200,34 @@ Get Timeなどのコンソールログに出力しないで解析する機能で
     <value>コンフィグファイルパス</value>
     <comment>UI, 設定</comment>
   </data>
+  <data name="UI_Day_Friday" xml:space="preserve">
+    <value>金曜日</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Day_Monday" xml:space="preserve">
+    <value>月曜日</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Day_Saturday" xml:space="preserve">
+    <value>土曜日</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Day_Sunday" xml:space="preserve">
+    <value>日曜日</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Day_Thursday" xml:space="preserve">
+    <value>木曜日</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Day_Tuesday" xml:space="preserve">
+    <value>火曜日</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Day_Wednesday" xml:space="preserve">
+    <value>水曜日</value>
+    <comment>UI, 設定</comment>
+  </data>
   <data name="UI_EnabledRestartMessage" xml:space="preserve">
     <value>再起動時にチャットメッセージを送信する</value>
     <comment>UI, 設定</comment>
