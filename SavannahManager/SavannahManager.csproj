@@ -31,12 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BackupLib" Version="1.0.6" />
     <PackageReference Include="CommonCoreLib" Version="1.0.6" />
     <PackageReference Include="CommonExtensionLib" Version="1.0.5" />
     <PackageReference Include="CommonNavigationControlLib" Version="1.0.5" />
     <PackageReference Include="CommonStyleLib" Version="1.0.24" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SavannahXmlLib" Version="1.0.5" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
     <PackageReference Include="UpdateLib" Version="1.0.1" />
@@ -64,9 +63,6 @@
     <Compile Update="App.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Backup\BackupSelector.xaml.cs">
-      <DependentUpon>BackupSelector.xaml</DependentUpon>
     </Compile>
     <Compile Update="LangResources\CmdListResources.Designer.cs">
       <DependentUpon>CmdListResources.resx</DependentUpon>
@@ -256,9 +252,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Views\Backup\BackupSelector.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Views\Permissions\GetSteamId.xaml">
       <SubType>Designer</SubType>
     </Page>
