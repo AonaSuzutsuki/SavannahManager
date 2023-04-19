@@ -200,6 +200,34 @@ In a local environment, 2000 milliseconds (2 seconds) should usually be enough.<
     <value>Config File Path</value>
     <comment>UI, Setting</comment>
   </data>
+  <data name="UI_Day_Friday" xml:space="preserve">
+    <value>Friday</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Day_Monday" xml:space="preserve">
+    <value>Monday</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Day_Saturday" xml:space="preserve">
+    <value>Saturday</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Day_Sunday" xml:space="preserve">
+    <value>Sunday</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Day_Thursday" xml:space="preserve">
+    <value>Thursday</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Day_Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+    <comment>UI, 設定</comment>
+  </data>
+  <data name="UI_Day_Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+    <comment>UI, 設定</comment>
+  </data>
   <data name="UI_EnabledRestartMessage" xml:space="preserve">
     <value>Send message when the server restart time is approaching</value>
     <comment>UI, Setting</comment>

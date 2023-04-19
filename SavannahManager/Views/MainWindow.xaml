@@ -102,10 +102,18 @@
             <StackPanel Margin="10,55,10,0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25">
                 <Button Width="23" Height="23" Name="StartBt" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding StartBtEnabled.Value}" Style="{StaticResource ResourceKey=StartBt}" Margin="0,0,0,0" Command="{Binding StartServerCommand}" />
                 <Button Width="23" Height="23" Name="StopBt" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource ResourceKey=StopBt}" Margin="3,0,0,0" Command="{Binding StopServerCommand}" />
+
                 <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" BorderThickness="1" />
+
                 <Button Name="TelnetBt" IsEnabled="{Binding TelnetBtIsEnabled.Value}" Style="{StaticResource TelnetBt}" Margin="4,0,0,0" Content="{Binding TelnetBtLabel.Value}" Command="{Binding ConnectTelnetCommand}" />
+
                 <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" Visibility="Visible" BorderThickness="1" />
+
                 <Button Style="{StaticResource AutoRestartButton}" Margin="4,0,0,0" Content="{Binding AutoRestartText.Value}" Command="{Binding AutoRestartCommand}" />
+
+                <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" Visibility="Visible" BorderThickness="1" />
+
+                <Button Style="{StaticResource CommandRunnerButton}" Margin="4,0,0,0" Content="{Binding CommandRunnerButtonText.Value}" Command="{Binding ExecuteCommandRunnerCommand}" />
 
                 <Button Name="CommandListBt" Style="{StaticResource CommandListBt}" Margin="4,0,0,0" Content="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ShowCommandListBT, Mode=OneWay}" Command="{Binding OpenCommandListCommand}" IsEnabled="False" Visibility="Hidden" />
                 <Border Width="1" Margin="3,2,0,0" BorderBrush="{StaticResource BorderWhiteColor}" BorderThickness="1" Visibility="Hidden" />
@@ -120,7 +128,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="223"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="230"/>
+                        <ColumnDefinition Width="230" MinWidth="230"/>
                     </Grid.ColumnDefinitions>
                     <Grid HorizontalAlignment="Stretch" Margin="0,0,5,0" Width="Auto" Grid.Column="0">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="25">
@@ -237,7 +245,10 @@
                             </TextBox>
                         </DockPanel>
                     </Grid>
-                    <Grid Grid.Column="2" Name="RightPanel" HorizontalAlignment="Right" Margin="0,0,0,0" Width="230">
+
+                    <GridSplitter Grid.Column="2" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="5" Margin="0,0,0,0"/>
+
+                    <Grid Grid.Column="2" Name="RightPanel" HorizontalAlignment="Stretch" Margin="5,0,0,0">
                         <TabControl Name="SettingTab" Background="Transparent" BorderThickness="1" BorderBrush="#FFE7E7E7">
                             <TabItem Header="{Binding Source={x:Static app:ResourceService.Current}, Path=Resources.UI_ServerLabel, Mode=OneWay}">
                                 <Grid Style="{StaticResource TabGrid}">
@@ -353,6 +364,24 @@
                                                     <Button Name="SaveWorldBt" Grid.Column="1" Content="Save World" Style="{StaticResource FlatButton}" Command="{Binding SaveWorldCommand}" />
                                                 </Grid>
                                             </Grid>
+                                        </TabItem>
+
+                                        <TabItem Header="Scheduled">
+                                            <StackPanel Margin="5">
+                                                <CheckBox Content="Execute scheduled with telnet" IsChecked="{Binding IsExecuteScheduledCommand.Value}" />
+
+                                                <ListView Height="200" Margin="0, 5" ItemsSource="{Binding ScheduledCommands}">
+                                                    <ListView.View>
+                                                        <GridView>
+                                                            <GridViewColumn Width="150" Header="Command" DisplayMemberBinding="{Binding Path=Command.Command}" />
+                                                            <GridViewColumn Width="135" Header="Previous" DisplayMemberBinding="{Binding Path=PreviousTime, Converter={converter:DateTimeStringConverter}}" />
+                                                            <GridViewColumn Width="135" Header="Next" DisplayMemberBinding="{Binding Path=NextTime, Converter={converter:DateTimeStringConverter}}" />
+                                                        </GridView>
+                                                    </ListView.View>
+                                                </ListView>
+
+                                                <Button Content="Edit" Height="25" Style="{StaticResource FlatButton}" Command="{Binding OpenListScheduledCommand}" />
+                                            </StackPanel>
                                         </TabItem>
                                     </TabControl>
 

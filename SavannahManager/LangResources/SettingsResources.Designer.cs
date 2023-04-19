@@ -256,6 +256,69 @@ namespace _7dtd_svmanager_fix_mvvm.LangResources {
         }
         
         /// <summary>
+        ///   金曜日 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Day_Friday {
+            get {
+                return ResourceManager.GetString("UI_Day_Friday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   月曜日 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Day_Monday {
+            get {
+                return ResourceManager.GetString("UI_Day_Monday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   土曜日 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Day_Saturday {
+            get {
+                return ResourceManager.GetString("UI_Day_Saturday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   日曜日 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Day_Sunday {
+            get {
+                return ResourceManager.GetString("UI_Day_Sunday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   木曜日 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Day_Thursday {
+            get {
+                return ResourceManager.GetString("UI_Day_Thursday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   火曜日 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Day_Tuesday {
+            get {
+                return ResourceManager.GetString("UI_Day_Tuesday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   水曜日 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Day_Wednesday {
+            get {
+                return ResourceManager.GetString("UI_Day_Wednesday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   再起動時にチャットメッセージを送信する に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_EnabledRestartMessage {

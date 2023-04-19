@@ -73,7 +73,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.AutoRestart
             _process = process;
             IsAttach = _process != null;
 
-            ThresholdTime = CalculateThresholdTime(BaseTime);
+            ThresholdTime = CalculateThresholdTime();
         }
 
         protected override void AfterStartSever()

@@ -31,6 +31,11 @@ namespace _7dtd_svmanager_fix_mvvm
         public static readonly string XmlEditorFilePath = AppDirectoryPath + @"\XmlEditor\7dtd-XmlEditor.exe";
         public static readonly string UpdaterFilePath = AppDirectoryPath + @"\Updater\update.exe";
 
+
+
+        public const string EnabledCommandRunnerContent = "Scheduled Command Enabled";
+        public const string DisabledCommandRunnerContent = "Scheduled Command Disabled";
+
         public static string Version => CommonCoreLib.File.Version.GetVersion(); /* + "b";*/
     }
 }
