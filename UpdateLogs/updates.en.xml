@@ -1,5 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.57.5">
+    1. added a function to perform periodic execution of commands.
+      It can be configured from "Command" -> "Scheduled" in the right column.
+      Details will be added in the manual, but as time is short, we will briefly describe it here.
+
+      Press "Edit" to display the command's management list.
+      Commands can be added by pressing the "+" button, and the meaning of each item is as follows
+      Command: Command to be executed
+      Interval: The interval at which the command will be executed.
+      Wait Time: The amount of time to wait before executing the first time (can be used to prevent execution during server startup).
+
+      To start periodic execution, click "AutoRestart Disabled" next to the Start AutoRestart button.
+      The button will then switch to "AutoRestart Enabled" and clicking it will stop it.
+
+      Also, enabling "Execute scheduled with telnet" on the main screen will start scheduled execution as soon as a Telnet connection is made.
+
+    2. Added a day of the week to the restart timing for automatic restart.
+      By specifying the day of the week, the restart process can be performed at a fixed time each week.
+
+    3. Removed dependency library
+      Operation is not affected, but a clean update should be performed if necessary.
+  </update>
   <update version="2.6.56.4">
     1. Fixed a problem where error messages were not displayed correctly.
   </update>
