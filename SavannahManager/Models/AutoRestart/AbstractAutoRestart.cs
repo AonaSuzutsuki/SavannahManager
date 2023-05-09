@@ -61,20 +61,26 @@ public abstract class AbstractAutoRestart : IDisposable
         Model = model;
         var setting = model.Model.Setting;
 
-        BaseTime = setting.IntervalTimeMode switch
-        {
-            0 => new TimeSpan(0, 0, setting.IntervalTime),
-            1 => new TimeSpan(0, setting.IntervalTime, 0),
-            _ => new TimeSpan(setting.IntervalTime, 0, 0)
-        };
-
-        if (!TimeSpan.TryParse(setting.DayOfWeekDate, out DayOfWeekTime))
-        {
-            throw new FormatException();
-        }
-
         IntervalMode = setting.IntervalMode;
-        DayOfWeek = setting.DayOfWeek;
+
+        if (IntervalMode != 0)
+        {
+            if (!TimeSpan.TryParse(setting.DayOfWeekDate, out DayOfWeekTime))
+            {
+                throw new FormatException();
+            }
+
+            DayOfWeek = setting.DayOfWeek;
+        }
+        else
+        {
+            BaseTime = setting.IntervalTimeMode switch
+            {
+                0 => new TimeSpan(0, 0, setting.IntervalTime),
+                1 => new TimeSpan(0, setting.IntervalTime, 0),
+                _ => new TimeSpan(setting.IntervalTime, 0, 0)
+            };
+        }
 
         ThresholdTime = CalculateThresholdTime();
 

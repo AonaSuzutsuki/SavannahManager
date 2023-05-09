@@ -658,7 +658,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             await LoadScheduledCommandsAsync();
             _scheduledCommandRunner.Start();
 
-            CommandRunnerButtonText = ConstantValues.EnabledCommandRunnerContent;
+            if (_scheduledCommandRunner.ScheduledCommands.Any())
+                CommandRunnerButtonText = ConstantValues.EnabledCommandRunnerContent;
         }
 
         public void StopCommandRunner()
