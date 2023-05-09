@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.58.6">
+    1. Fixed an issue in which buttons were enabled when "Scheduled Commands" was empty.
+    2. Fixed a crash problem with the auto-restart function when date of the day of the week interval mode is not set.
+  </update>
   <update version="2.6.57.5">
-    1. added a function to perform periodic execution of commands.
+    1. Added a function to perform periodic execution of commands.
       It can be configured from "Command" -> "Scheduled" in the right column.
       Details will be added in the manual, but as time is short, we will briefly describe it here.
 

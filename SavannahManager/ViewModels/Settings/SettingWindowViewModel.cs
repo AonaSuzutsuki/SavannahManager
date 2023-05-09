@@ -254,6 +254,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.Settings
         {
             if (_model.IsRequirePassword)
                 ResetPassword();
+
+            if (_model.DayOfWeekTimeSelected && string.IsNullOrEmpty(_model.DayOfWeekDate))
+            {
+                WindowManageService.MessageBoxShow("Set the time if day-of-week mode is selected.", LangResources.CommonResources.Error, ExMessageBoxBase.MessageType.Exclamation);
+                return;
+            }
+
             _model.Save();
 
             WindowManageService.Close();
