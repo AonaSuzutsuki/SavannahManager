@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.59.7">
+    1. Added config template of a21.1 on ConfigEditor.
+  </update>
   <update version="2.6.58.6">
     1. Fixed an issue in which buttons were enabled when "Scheduled Commands" was empty.
     2. Fixed a crash problem with the auto-restart function when date of the day of the week interval mode is not set.

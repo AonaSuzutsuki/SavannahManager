@@ -8,6 +8,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SavannahXmlLib.XmlWrapper.Nodes;
+using System.Xml.Linq;
+using System.ComponentModel.Design;
 
 namespace ConfigFileMaker
 {
@@ -15,8 +17,44 @@ namespace ConfigFileMaker
     {
         static void Main()
         {
+            var configDict = FirstAnalyze();
+            var templateDict = SecondAnalyze();
+            var except = RemoveConfigOnlyElement(configDict, templateDict).Select(x => x.Value);
+
             var writer = new SavannahXmlWriter();
             var root = SavannahTagNode.CreateRoot("ServerSettings");
+
+            foreach (var info in except)
+            {
+                var attributes = new List<AttributeInfo>
+                {
+                    new() { Name = "name", Value = info.Property },
+                    new() { Name = "value", Value = info.Value },
+                    new() { Name = "selection", Value = info.Selection },
+                    new() { Name = "type", Value = info.Type }
+                };
+
+                var elem = SavannahTagNode.CreateElement("property", attributes.ToArray());
+                elem.InnerText = info.Description;
+                elem.AddChildElement(SavannahTextNode.CreateTextNode(info.Description));
+
+                root.AddChildElement(elem);
+            }
+
+            var memory = new MemoryStream();
+            writer.Write(memory, root);
+            var xml = Encoding.UTF8.GetString(memory.ToArray());
+            Console.WriteLine(xml);
+
+            using var fs = new FileStream("out.xml", FileMode.Create, FileAccess.Write, FileShare.None);
+            using var sw = new StreamWriter(fs);
+            sw.Write(xml);
+            sw.Flush();
+        }
+
+        static Dictionary<string, ConfigListInfo> FirstAnalyze()
+        {
+            var configDict = new Dictionary<string, ConfigListInfo>();
 
             var text = GetInnerXml(File.ReadAllText("serverconfig.xml"));
             var regex = new Regex("^( |\\t)*<property( |\\t)+name=\"(?<name>.*)\"( |\\t)+value=\"(?<value>.*)\"( |\\t)*\\/>( |\\t)*([\r\n])*( |\t)*<!--(?<description>.*)-->",
@@ -28,8 +66,8 @@ namespace ConfigFileMaker
                 var value = match.Groups["value"].ToString();
                 var description = match.Groups["description"].ToString().TrimStart(' ').TrimEnd(' ');
 
-                string selection = "";
-                string selectionType = "string";
+                var selection = "";
+                var selectionType = "string";
                 if (int.TryParse(value, out _))
                 {
                     selectionType = "integer";
@@ -40,49 +78,65 @@ namespace ConfigFileMaker
                     selection = "true/false";
                 }
 
-                var attributes = new List<AttributeInfo>
+                var item = new ConfigListInfo
                 {
-                    new AttributeInfo() { Name = "name", Value = name },
-                    new AttributeInfo() { Name = "value", Value = value },
-                    new AttributeInfo() { Name = "selection", Value = selection },
-                    new AttributeInfo() { Name = "type", Value = selectionType }
+                    Property = name,
+                    Value = value,
+                    Selection = selection,
+                    Type = selectionType,
+                    Description = description
                 };
-                description = AddDescription(attributes, description);
 
-                var elem = SavannahTagNode.CreateElement("property", attributes.ToArray());
-                elem.InnerText = description;
-                elem.AddChildElement(SavannahTextNode.CreateTextNode(description));
-
-                root.AddChildElement(elem);
+                configDict.Add(name, item);
 
                 match = match.NextMatch();
             }
 
-            var memory = new MemoryStream();
-            writer.Write(memory, root);
-            Console.WriteLine(Encoding.UTF8.GetString(memory.ToArray()));
+            return configDict;
         }
 
-        static string AddDescription(List<AttributeInfo> attributeInfos, string description)
+        static Dictionary<string, ConfigListInfo> SecondAnalyze()
         {
+            var templateDict = new Dictionary<string, ConfigListInfo>();
+
             var reader = new SavannahXmlReader("template.xml");
+            var nodes = reader.GetNodes("/ServerSettings/property");
 
-            string name = attributeInfos[0].Value;
-            var value = reader.GetValue("/ServerSettings/property[@name='{0}']".FormatString(name));
-            var selection = reader.GetAttribute("selection", "/ServerSettings/property[@name='{0}']".FormatString(name));
-            var type = reader.GetAttribute("type", "/ServerSettings/property[@name='{0}']".FormatString(name));
-
-            attributeInfos[2].Value = selection;
-            attributeInfos[3].Value = type;
-
-            if (value != null)
+            foreach (var node in nodes)
             {
-                if (value.EndsWith("\r\n"))
-                    value = value.Substring(0, value.Length - 2);
-                return value;
+                if (node is not SavannahTagNode xmlNode)
+                    continue;
+
+                var item = new ConfigListInfo
+                {
+                    Property = xmlNode.GetAttribute("name").Value,
+                    Value = xmlNode.GetAttribute("value").Value,
+                    Selection = xmlNode.GetAttribute("selection").Value,
+                    Type = xmlNode.GetAttribute("type").Value,
+                    Description = xmlNode.InnerText
+                };
+
+                templateDict.Add(item.Property, item);
             }
-            
-            return description;
+
+            return templateDict;
+        }
+
+        static Dictionary<string, ConfigListInfo> RemoveConfigOnlyElement(Dictionary<string, ConfigListInfo> configDict,
+            Dictionary<string, ConfigListInfo> templateDict)
+        {
+            var except = configDict
+                .Select(x => new KeyValuePair<string, ConfigListInfo>(x.Key, new ConfigListInfo
+                {
+                    Property = x.Value.Property,
+                    Value = x.Value.Value,
+                    Selection = x.Value.Selection,
+                    Type = x.Value.Type,
+                    Description = templateDict.Get(x.Key)?.Description ?? x.Value.Description,
+                }))
+                .ToDictionary(x => x.Key, x => x.Value);
+
+            return except;
         }
 
         static string GetInnerXml(string text)
