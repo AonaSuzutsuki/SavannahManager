@@ -48,6 +48,8 @@
     <None Remove="lang\a18b\ja_ConfigData.xml" />
     <None Remove="lang\a19b\en_ConfigData.xml" />
     <None Remove="lang\a19b\ja_ConfigData.xml" />
+    <None Remove="lang\a21.1b\en_ConfigData.xml" />
+    <None Remove="lang\a21.1b\ja_ConfigData.xml" />
     <None Remove="lang\a20.4b\en_ConfigData.xml" />
     <None Remove="lang\a20.4b\ja_ConfigData.xml" />
     <None Remove="lang\a20b\en_ConfigData.xml" />
@@ -136,6 +138,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="lang\a19b\ja_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a21.1b\en_ConfigData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lang\a21.1b\ja_ConfigData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="lang\a20.4b\en_ConfigData.xml">
