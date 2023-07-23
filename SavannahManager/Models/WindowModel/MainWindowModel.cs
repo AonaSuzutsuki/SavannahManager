@@ -635,7 +635,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
                         SetBorderColor(CommonStyleLib.ConstantValues.ActivatedBorderColor);
 
                         LockAction(telnet => telnet.Write(TelnetClient.Cr));
-                        AppendConsoleLog(SocTelnetSend(password));
+                        AppendConsoleLog(SocTelnetSend(password, true));
 
                         if (IsExecuteScheduledCommand)
                         {
