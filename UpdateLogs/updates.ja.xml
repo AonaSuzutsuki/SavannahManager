@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.60.8">
+    1. エラーメッセージ表示時に例外が発生する問題を修正
+  </update>
   <update version="2.6.59.7">
     1. ConfigEditorにa21.1のテンプレートを追加しました。
   </update>
