@@ -34,6 +34,9 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
         public ObservableCollection<string> EncodingItems { get; set; }
         public ReactiveProperty<string> EncodingSelectedItem { get; set; }
 
+        public ObservableCollection<string> AnalyzePlans { get; set; }
+        public ReactiveProperty<string> AnalyzePlansSelectedItem { get; set; }
+
         public ReadOnlyCollection<LogFileItem> LogFileList { get; set; }
         public ReactiveProperty<bool> LogFileListEnabled { get; set; }
         public ReactiveProperty<LogFileItem> LogFileSelectedItem { get; set; }
@@ -63,6 +66,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
             CanExportChat = new ReactiveProperty<bool>();
 
             EncodingItems = new ObservableCollection<string>(LogFileInfo.EncodingNames);
+            AnalyzePlans = new ObservableCollection<string>(LogViewerModel.AnalyzePlan.Select(x => x.Key));
 
             LogFileList = model.LogFileList.ToReadOnlyReactiveCollection(m => new LogFileItem(m)).AddTo(CompositeDisposable);
             LogFileSelectedItem = new ReactiveProperty<LogFileItem>();
@@ -87,6 +91,19 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
                     _model.RemoveCurrentLogCache();
                     _ = _model.AnalyzeCurrentLogFile();
                 }
+            };
+
+            AnalyzePlansSelectedItem = new ReactiveProperty<string>(LogViewerModel.AnalyzePlan.Keys.First());
+            AnalyzePlansSelectedItem.PropertyChanged += (sender, args) =>
+            {
+                if (_model.CurrentFileInfo == null)
+                    return;
+
+                if (ProgressBarVisibility != null)
+                    ProgressBarVisibility.Value = true;
+                _model.SetLogAnalyzer(AnalyzePlansSelectedItem.Value);
+                _model.RemoveCurrentLogCache();
+                _ = _model.AnalyzeCurrentLogFile();
             };
 
             RichLogDetailItems = model.ObserveProperty(m => m.RichLogDetailItems).ToReactiveProperty().AddTo(CompositeDisposable);

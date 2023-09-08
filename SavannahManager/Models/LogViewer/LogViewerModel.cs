@@ -22,12 +22,19 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 {
     public class LogViewerModel : ModelBase
     {
+        public static readonly Dictionary<string, AbstractLogAnalyzer> AnalyzePlan = new()
+        {
+            {"A20", new A20LogAnalyzer()},
+            {"A21", new A21LogAnalyzer()}
+        };
+
         private LogFileInfo _currentFileInfo;
         private ObservableCollection<RichTextItem> _richLogDetailItems = new();
         private readonly Dictionary<string, LogCacheItem> _cache = new();
         private ObservableCollection<ChatInfo> _chatInfos = new();
         private ObservableCollection<PlayerItemInfo> _playerItemInfos = new();
-        private readonly ILogAnalyzer _logAnalyzer = new A20LogAnalyzer();
+
+        private ILogAnalyzer _logAnalyzer = new A20LogAnalyzer();
 
         public ObservableCollection<LogFileInfo> LogFileList { get; set; } = new();
 
@@ -123,7 +130,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 
                 lock (_cache)
                 {
-                    _cache.Add(logFileInfo.FullPath, new LogCacheItem
+                    _cache.Put(logFileInfo.FullPath, new LogCacheItem
                     {
                         RichTextItems = RichLogDetailItems,
                         ChatItems = ChatInfos,
@@ -143,6 +150,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
             {
                 _cache.Remove(logFileInfo.FullPath);
             }
+        }
+
+        public void SetLogAnalyzer(string version)
+        {
+            if (!AnalyzePlan.ContainsKey(version))
+                return;
+
+            _logAnalyzer = AnalyzePlan[version];
         }
 
         public async Task ChangeFilter(string filter)

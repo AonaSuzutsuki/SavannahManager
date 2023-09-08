@@ -82,6 +82,21 @@ public abstract class AbstractLogAnalyzer : ILogAnalyzer
         return text;
     }
 
+    protected static List<PlayerItemInfo> GetPlayerList(Dictionary<string, List<PlayerItemInfo>> playerDict, string id)
+    {
+        if (!playerDict.ContainsKey(id))
+        {
+            var players = new List<PlayerItemInfo>();
+            playerDict.Add(id, players);
+            return players;
+        }
+        else
+        {
+            var players = playerDict[id];
+            return players;
+        }
+    }
+
     private static RichTextItem CreateTextItem(string line)
     {
         var paragraph = new RichTextItem
