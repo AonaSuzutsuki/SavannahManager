@@ -8,6 +8,8 @@
         a20
         a21
         Server_Fixes (a21)
+
+    2. Updated internal packages.
   </update>
   <update version="2.6.60.8">
     1. Fixed an issue that caused an exception when displaying error messages.
