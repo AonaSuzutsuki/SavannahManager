@@ -19,6 +19,8 @@ public class LogFileItem : BindableBase
 
     public string EncodingName => Info.EncodingName;
 
+    public string AnalyzerPlanName => Info.LogAnalyzer.Name;
+
     public LogFileItem(LogFileInfo info)
     {
         Title = info.Name;

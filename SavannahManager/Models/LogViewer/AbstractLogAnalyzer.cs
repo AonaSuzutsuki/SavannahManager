@@ -6,7 +6,7 @@ using SvManagerLibrary.Chat;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer;
 
-public abstract class AbstractLogAnalyzer : ILogAnalyzer
+public abstract class AbstractLogAnalyzer
 {
     public List<RichTextItem> LogRichTextList { get; set; }
     public List<ChatInfo> ChatList { get; set; }
@@ -80,6 +80,21 @@ public abstract class AbstractLogAnalyzer : ILogAnalyzer
         var text = CreateTextItem(line);
 
         return text;
+    }
+
+    protected static List<PlayerItemInfo> GetPlayerList(Dictionary<string, List<PlayerItemInfo>> playerDict, string id)
+    {
+        if (!playerDict.ContainsKey(id))
+        {
+            var players = new List<PlayerItemInfo>();
+            playerDict.Add(id, players);
+            return players;
+        }
+        else
+        {
+            var players = playerDict[id];
+            return players;
+        }
     }
 
     private static RichTextItem CreateTextItem(string line)
