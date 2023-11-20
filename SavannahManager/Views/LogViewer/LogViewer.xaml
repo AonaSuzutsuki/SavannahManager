@@ -206,42 +206,57 @@
                         </TabItem>
 
                         <TabItem Header="Player">
-                            <ListView ItemsSource="{Binding PlayerItems.Value}" Height="Auto" Width="Auto" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
-                                <i:Interaction.Behaviors>
-                                    <behaviors:SortableListViewBehavior FirstSort="Date" />
-                                </i:Interaction.Behaviors>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="5" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
 
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding Date}">
-                                            <GridViewColumnHeader Tag="Date" Content="Date" />
-                                        </GridViewColumn>
-                                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding InOut}">
-                                            <GridViewColumnHeader Tag="InOut" Content="In/Out" />
-                                        </GridViewColumn>
-                                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding Name}">
-                                            <GridViewColumnHeader Tag="Name" Content="Name" />
-                                        </GridViewColumn>
-                                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding Id}">
-                                            <GridViewColumnHeader Tag="Id" Content="Id" />
-                                        </GridViewColumn>
-                                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding SteamId}">
-                                            <GridViewColumnHeader Tag="SteamId" Content="Steam Id" />
-                                        </GridViewColumn>
-                                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding IpAddress}">
-                                            <GridViewColumnHeader Tag="IpAddress" Content="IP" />
-                                        </GridViewColumn>
-                                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding Position}">
-                                            <GridViewColumnHeader Tag="Position" Content="Position" />
-                                        </GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                                <ListView.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="Export Players to File" Command="{Binding ExportPlayerCommand}" IsEnabled="{Binding CanExportPlayer.Value}" />
-                                    </ContextMenu>
-                                </ListView.ContextMenu>
-                            </ListView>
+                                <Grid Grid.Row="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Analyze Plan" />
+                                        <ComboBox Width="100" Height="25" SelectedIndex="0" ItemsSource="{Binding AnalyzePlans}" SelectedItem="{Binding AnalyzePlansSelectedItem.Value}" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <ListView Grid.Row="2" ItemsSource="{Binding PlayerItems.Value}" Height="Auto" Width="Auto" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:SortableListViewBehavior FirstSort="Date" />
+                                    </i:Interaction.Behaviors>
+
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Width="140" DisplayMemberBinding="{Binding Date}">
+                                                <GridViewColumnHeader Tag="Date" Content="Date" />
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding InOut}">
+                                                <GridViewColumnHeader Tag="InOut" Content="In/Out" />
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="140" DisplayMemberBinding="{Binding Name}">
+                                                <GridViewColumnHeader Tag="Name" Content="Name" />
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Id}">
+                                                <GridViewColumnHeader Tag="Id" Content="Id" />
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="150" DisplayMemberBinding="{Binding SteamId}">
+                                                <GridViewColumnHeader Tag="SteamId" Content="Steam Id" />
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="140" DisplayMemberBinding="{Binding IpAddress}">
+                                                <GridViewColumnHeader Tag="IpAddress" Content="IP" />
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="140" DisplayMemberBinding="{Binding Position}">
+                                                <GridViewColumnHeader Tag="Position" Content="Position" />
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                    <ListView.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Export Players to File" Command="{Binding ExportPlayerCommand}" IsEnabled="{Binding CanExportPlayer.Value}" />
+                                        </ContextMenu>
+                                    </ListView.ContextMenu>
+                                </ListView>
+                            </Grid>
                         </TabItem>
 
                         <TabItem Header="Chat">

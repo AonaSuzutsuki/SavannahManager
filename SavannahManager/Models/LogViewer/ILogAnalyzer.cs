@@ -10,6 +10,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 {
     public interface ILogAnalyzer
     {
+        public string Name { get; }
+
         List<RichTextItem> LogRichTextList { get; set; }
         List<ChatInfo> ChatList { get; set; }
         Dictionary<string, List<PlayerItemInfo>> PlayerInfos { get; set; }

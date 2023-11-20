@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.61.9">
+    1. Add analysis plan to log viewer
+      You can avoid problems with incorrect analysis when log format changes from version to version.
+
+      ・Implemented Version
+        a20
+        a21
+        Server_Fixes (a21)
+
+    2. Updated internal packages.
+  </update>
   <update version="2.6.60.8">
     1. Fixed an issue that caused an exception when displaying error messages.
   </update>
