@@ -22,19 +22,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 {
     public class LogViewerModel : ModelBase
     {
-        public static readonly Dictionary<string, AbstractLogAnalyzer> AnalyzePlan = new()
-        {
-            {"A20", new A20LogAnalyzer()},
-            {"A21", new A21LogAnalyzer()}
-        };
-
         private LogFileInfo _currentFileInfo;
         private ObservableCollection<RichTextItem> _richLogDetailItems = new();
         private readonly Dictionary<string, LogCacheItem> _cache = new();
         private ObservableCollection<ChatInfo> _chatInfos = new();
         private ObservableCollection<PlayerItemInfo> _playerItemInfos = new();
-
-        private ILogAnalyzer _logAnalyzer = new A20LogAnalyzer();
 
         public ObservableCollection<LogFileInfo> LogFileList { get; set; } = new();
 
@@ -115,13 +107,14 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
             
             await Task.Factory.StartNew(() =>
             {
-                _logAnalyzer.Analyze(logFileInfo);
+                var logAnalyzer = logFileInfo.LogAnalyzer;
+                logAnalyzer.Analyze(logFileInfo);
                 
-                RichLogDetailItems = new ObservableCollection<RichTextItem>(_logAnalyzer.LogRichTextList);
-                ChatInfos = new ObservableCollection<ChatInfo>(_logAnalyzer.ChatList);
+                RichLogDetailItems = new ObservableCollection<RichTextItem>(logAnalyzer.LogRichTextList);
+                ChatInfos = new ObservableCollection<ChatInfo>(logAnalyzer.ChatList);
 
                 var playerItemList = new List<PlayerItemInfo>();
-                foreach (var playerItems in _logAnalyzer.PlayerInfos)
+                foreach (var playerItems in logAnalyzer.PlayerInfos)
                 {
                     playerItemList.AddRange(playerItems.Value);
                 }
@@ -154,10 +147,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
 
         public void SetLogAnalyzer(string version)
         {
-            if (!AnalyzePlan.ContainsKey(version))
-                return;
-
-            _logAnalyzer = AnalyzePlan[version];
+            _currentFileInfo.ChangeLogAnalyzer(version);
         }
 
         public async Task ChangeFilter(string filter)
@@ -185,7 +175,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer
             
             await Task.Factory.StartNew(() =>
             {
-                var list = _logAnalyzer.Analyze(fileInfo, filter);
+                var list = fileInfo.LogAnalyzer.Analyze(fileInfo, filter);
 
                 RichLogDetailItems = new ObservableCollection<RichTextItem>(list);
             });

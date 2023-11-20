@@ -24,9 +24,45 @@ using SvManagerLibrary.Chat;
 
 namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
 {
+    public class IgnoreEvent
+    {
+        private readonly HashSet<string> _ignorePropertyNames = new();
+
+        public void Add(string propertyName)
+        {
+            if (_ignorePropertyNames.Contains(propertyName))
+                return;
+
+            _ignorePropertyNames.Add(propertyName);
+        }
+
+        public void Remove(string propertyName)
+        {
+            if (!_ignorePropertyNames.Contains(propertyName))
+                return;
+
+            _ignorePropertyNames.Remove(propertyName);
+        }
+
+        public bool CheckIgnore(string? propertyName)
+        {
+            if (propertyName == null)
+                return false;
+
+            var result = _ignorePropertyNames.Contains(propertyName);
+            if (result)
+            {
+                Remove(propertyName);
+            }
+
+            return result;
+        }
+    }
+
     public class LogViewerViewModel : ViewModelBase
     {
         private readonly LogViewerModel _model;
+        private readonly IgnoreEvent _ignoreEvent = new();
 
         public ReactiveProperty<bool> CanExportPlayer { get; set; }
         public ReactiveProperty<bool> CanExportChat { get; set; }
@@ -66,7 +102,7 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
             CanExportChat = new ReactiveProperty<bool>();
 
             EncodingItems = new ObservableCollection<string>(LogFileInfo.EncodingNames);
-            AnalyzePlans = new ObservableCollection<string>(LogViewerModel.AnalyzePlan.Select(x => x.Key));
+            AnalyzePlans = new ObservableCollection<string>(LogFileInfo.AnalyzePlans.Select(x => x.Key));
 
             LogFileList = model.LogFileList.ToReadOnlyReactiveCollection(m => new LogFileItem(m)).AddTo(CompositeDisposable);
             LogFileSelectedItem = new ReactiveProperty<LogFileItem>();
@@ -74,6 +110,13 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
             {
                 if (EncodingSelectedItem != null)
                     EncodingSelectedItem.Value = LogFileSelectedItem.Value.EncodingName;
+
+                if (AnalyzePlansSelectedItem != null)
+                {
+                    _ignoreEvent.Add(nameof(AnalyzePlansSelectedItem));
+
+                    AnalyzePlansSelectedItem.Value = LogFileSelectedItem.Value.AnalyzerPlanName;
+                }
             };
             LogFileListEnabled = new ReactiveProperty<bool>(true);
 
@@ -93,9 +136,12 @@ namespace _7dtd_svmanager_fix_mvvm.ViewModels.LogViewer
                 }
             };
 
-            AnalyzePlansSelectedItem = new ReactiveProperty<string>(LogViewerModel.AnalyzePlan.Keys.First());
+            AnalyzePlansSelectedItem = new ReactiveProperty<string>();
             AnalyzePlansSelectedItem.PropertyChanged += (sender, args) =>
             {
+                if (_ignoreEvent.CheckIgnore(nameof(AnalyzePlansSelectedItem)))
+                    return;
+
                 if (_model.CurrentFileInfo == null)
                     return;
 

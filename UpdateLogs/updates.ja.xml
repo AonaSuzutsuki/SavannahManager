@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.61.9">
+    1. ログビューアーに解析プランを追加
+      バージョンによってログ形式が変わった場合にに正しく解析できない問題を回避できます。
+      
+      ・実装済みのバージョン
+        a20
+        a21
+        Server_Fixes (a21)
+  </update>
   <update version="2.6.60.8">
     1. エラーメッセージ表示時に例外が発生する問題を修正
   </update>

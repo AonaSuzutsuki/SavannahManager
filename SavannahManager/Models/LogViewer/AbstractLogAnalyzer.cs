@@ -6,7 +6,7 @@ using SvManagerLibrary.Chat;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer;
 
-public abstract class AbstractLogAnalyzer : ILogAnalyzer
+public abstract class AbstractLogAnalyzer
 {
     public List<RichTextItem> LogRichTextList { get; set; }
     public List<ChatInfo> ChatList { get; set; }

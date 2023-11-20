@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using _7dtd_svmanager_fix_mvvm.Models.LogViewer.Versions.a20;
 using Prism.Mvvm;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.LogViewer;
@@ -14,6 +16,14 @@ public class LogFileInfo : BindableBase
         "Shift-JIS"
     };
 
+
+    public static readonly Dictionary<string, ILogAnalyzer> AnalyzePlans = new()
+    {
+        { A20LogAnalyzer.AnalyzerName, new A20LogAnalyzer() },
+        { A21LogAnalyzer.AnalyzerName, new A21LogAnalyzer() },
+        { ServerFixesAnalyzer.AnalyzerName, new ServerFixesAnalyzer() }
+    };
+
     private string _encodingName = EncodingNames.First();
 
     public string Date { get; set; }
@@ -22,6 +32,8 @@ public class LogFileInfo : BindableBase
     public FileInfo Info { get; }
 
     public Encoding ReadEncoding { get; private set; } = Encoding.UTF8;
+
+    public ILogAnalyzer LogAnalyzer { get; private set; } = new A20LogAnalyzer();
 
     public string EncodingName
     {
@@ -35,6 +47,14 @@ public class LogFileInfo : BindableBase
     }
 
     private string _cache;
+
+    public void ChangeLogAnalyzer(string name)
+    {
+        if (!AnalyzePlans.ContainsKey(name))
+            return;
+
+        LogAnalyzer = AnalyzePlans[name];
+    }
 
     public StringReader GetStringReader()
     {
