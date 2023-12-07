@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using CommonCoreLib.CommonPath;
 using Prism.Mvvm;
 using SvManagerLibrary.SteamLibrary;
 
@@ -22,7 +23,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Setup
 
         protected static string GetFileName(string steamPath, string target, string name)
         {
-            var filename = GetFullPath(steamPath + target, name);
+            var filename = GetFullPath(steamPath.UnifiedSystemPathSeparator() + target, name);
 
             if (string.IsNullOrEmpty(filename))
             {
@@ -31,7 +32,11 @@ namespace _7dtd_svmanager_fix_mvvm.Models.Setup
                     var slLoader = new SteamLibraryLoader(steamPath + ConstantValues.SteamLibraryPath);
                     var dirPaths = slLoader.SteamLibraryPathList;
                     foreach (var dirPath in dirPaths)
+                    {
                         filename = GetFullPath(dirPath.SteamDirPath + target, name);
+                        if (!string.IsNullOrEmpty(filename))
+                            break;
+                    }
                 }
                 catch (Exception e)
                 {
