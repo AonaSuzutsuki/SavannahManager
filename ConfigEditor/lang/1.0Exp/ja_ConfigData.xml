@@ -1,0 +1,372 @@
+<?xml version="1.0"?>
+<ServerSettings>
+    <property name="ServerName" value="My Game Host" selection="" type="string">
+        サーバ名を設定します。
+        サーバリストにはこの名前で表示されます。
+    </property>
+    <property name="ServerDescription" value="A 7 Days to Die server" selection="" type="string">
+        サーバの説明を設定します。
+        サーバリストではこの説明文が表示されます。
+    </property>
+    <property name="ServerWebsiteURL" value="" selection="" type="string">
+        サーバのウェブサイトを設定します。
+        サーバリストのリンクをクリックするとこのリンクがブラウザで開かれます。
+    </property>
+    <property name="ServerPassword" value="" selection="" type="string">
+        サーバパスワードを設定します。
+        サーバに入る際に問われます。
+    </property>
+    <property name="ServerLoginConfirmationText" value="" selection="" type="string">
+        サーバに入室した際に初めに表示させるコンフォームのメッセージ文です。空にした場合は表示されません。
+        このコンフォームを更に複雑に変更する場合は、XUiの"serverjoinrulesdialog"を変更してください。
+    </property>
+    <property name="Region" value="NorthAmericaEast" selection="" type="string">
+        サーバの地域を設定します。
+        設定できる地域は「NorthAmericaEast, NorthAmericaWest, CentralAmerica, SouthAmerica, Europe, Russia, Asia, MiddleEast, Africa, Oceania」です。
+    </property>
+    <property name="Language" value="English" selection="" type="string">
+        このサーバに参加するプレイヤーたちの主要な言語を設定します。
+        言語はどれでも設定できますが、検索時にユーザたちが予想しやすいようなものを設定してください。
+        公式では英語を推奨しており、例えばドイツ語は「Deutsch」ではなく「German」としましょう。
+    </property>
+    <property name="ServerPort" value="26900" selection="" type="integer">
+        サーバが待機するポート番号を設定します。
+        同じLAN内のPCにLANサーバとして認識させたい場合は、26900-26905、27015-27020の範囲で指定してください。
+    </property>
+    <property name="ServerVisibility" value="2" selection="" type="integer">
+        サーバの公開状況を設定します。
+        1に設定した場合は最初のプレイヤーだけ直接IPアドレスを入力する必要があります。
+
+        2 = 公開, 1 = フレンドリストのみ, 0 = 表示させない.
+    </property>
+    <property name="ServerDisabledNetworkProtocols" value="SteamNetworking" selection="" type="string">
+        ネットワークプロトコルで使用させないものを設定します。複数指定する場合はカンマ区切りでできます。
+        現段階ではLiteNetLib, SteamNetworkingの2つがネットワークプロトコルとして使用されているようです。
+        Dedicatedサーバの場合で、NATルータを使用していないく、正しくポートフォワーディングが設定されている場合はSteamNetworkingを無効化します。
+    </property>
+    <property name="ServerMaxWorldTransferSpeedKiBs" value="512" selection="" type="integer">
+        クライアントがまだワールドを持っていない場合、最初の接続時にワールドを転送する最大速度をkiB/sで指定します。最大値は約1300kiB/sです。
+    </property>
+    <property name="ServerMaxPlayerCount" value="8" selection="" type="integer">
+        参加できる最大人数を設定します。
+    </property>
+    <property name="ServerReservedSlots" value="0" selection="" type="integer">
+        MaxPlayerCountのうち、一部の数だけ使用される特殊なプレイヤースロットです。
+        ここで参加するプレイヤーはServerReservedSlotsPermissionで指定される権限が適用されます。
+    </property>
+    <property name="ServerReservedSlotsPermission" value="100" selection="" type="integer">
+        ServerReservedSlotsで参加するプレイヤーに与える権限です。
+    </property>
+    <property name="ServerAdminSlots" value="0" selection="" type="integer">
+        参加者がMaxPlayerCountに達していても、管理者である場合はServerAdminSlotsのスロット分だけ参加できます。
+    </property>
+    <property name="ServerAdminSlotsPermission" value="0" selection="" type="integer">
+        ServerAdminSlotsで参加する管理者に与える権限です。
+    </property>
+    <property name="WebDashboardEnabled" value="false" selection="true/false" type="combo">
+        ウェブダッシュボードを有効にするかどうか
+    </property>
+    <property name="WebDashboardPort" value="8080" selection="" type="integer">
+        ウェブダッシュボードのポート番号
+    </property>
+    <property name="WebDashboardUrl" value="" selection="" type="string">
+        External URL to the web dashboard if not just using the public IP of the server, e.g. if the web dashboard is behind a reverse proxy. Needs to be the full URL, like "https://domainOfReverseProxy.tld:1234/". Can be left empty if directly using the public IP and dashboard port
+    </property>
+    <property name="EnableMapRendering" value="false" selection="true/false" type="combo">
+        探索中のマップタイルのレンダリングを有効にするかどうか。これはウェブダッシュボードのマップ表示で使用されます。
+    </property>
+    <property name="TelnetEnabled" value="true" selection="true/false" type="combo">
+        Telnetを有効にするかしないか。
+        当ソフトではTelnetを用いたコントロールを行うため必ずtrueにしてください。
+    </property>
+    <property name="TelnetPort" value="8081" selection="" type="integer">
+        Telnetが待機するポート番号です。
+    </property>
+    <property name="TelnetPassword" value="" selection="" type="string">
+        Telnetにアクセスする際のパスワードです。
+        もしパスワードが空の場合、ローカルループバックアドレスからのみ接続可能となります。
+    </property>
+    <property name="TelnetFailedLoginLimit" value="10" selection="" type="integer">
+        1箇所から指定した数だけパスワードを間違えると、クライアントはTelnetへの接続をブロックされます。
+    </property>
+    <property name="TelnetFailedLoginsBlocktime" value="10" selection="" type="integer">
+        Telnetへの接続をブロックされた際の時間を指定します。（秒単位）
+    </property>
+    <property name="TerminalWindowEnabled" value="true" selection="true/false" type="combo">
+        ターミナルウィンドウを表示し、ログの出力やコマンドの入力ができます。a17ではこちらでもサーバの管理ができるようになりました。
+        ただし、Windows専用なのでLinuxやmacOSでは今までどおりTelnetを使いましょう。
+    </property>
+    <property name="AdminFileName" value="serveradmin.xml" selection="" type="string">
+        Admin情報が記述されたファイルを指定します。
+        相対パスで記述されていますが、おそらく絶対パスも可能です。
+        また、7Days to Dieの実行ファイルの場所ではなく、「C:\Users\{User Name}\Documents\7 Days To Die\Saves」が作業ディレクトリになると思います。
+    </property>
+    <property name="EACEnabled" value="true" selection="true/false" type="combo">
+        EasyAntiCheatを有効にするかしないか。
+    </property>
+    <property name="IgnoreEOSSanctions" value="false" selection="true/false" type="combo">
+        Ignore EOS sanctions when allowing players to join
+    </property>
+    <property name="HideCommandExecutionLog" value="0" selection="" type="integer">
+        コマンド実行の履歴をログで隠すかどうか。
+
+        0 = 全て表示
+        1 = Telnet/ControlPanelからのみ隠す
+        2 = ゲームからのみ隠す
+        3 = 全て隠す
+    </property>
+    <property name="MaxUncoveredMapChunksPerPlayer" value="131072" selection="" type="integer">
+        各プレイヤーがどれだけの範囲でチャンクを描写するかどうかを設定します。 プレイヤーあたりの最大マップファイルサイズは512バイトにこの値を掛けたものです。
+        標準値は131072で、ゲーム内で32km2を表します。
+    </property>
+    <property name="PersistentPlayerProfiles" value="false" selection="true/false" type="combo">
+        参加時にプロフィールを更新するかしないか。
+        trueだと初回参加時のプロフィールを使いまわします。
+        もしユーザがプロフィールを変更した場合、この値をfalseにしていないと更新されません。
+    </property>
+    <property name="MaxChunkAge" value="-1" selection="" type="integer">
+        The number of in-game days which must pass since visiting a chunk before it will reset to its original state if not revisited or protected (e.g. by a land claim or bedroll being in close proximity).
+    </property>
+    <property name="SaveDataLimit" value="-1" selection="" type="integer">
+        The maximum disk space allowance for each saved game in megabytes (MB). Saved chunks may be forceably reset to their original states to free up space when this limit is reached. Negative values disable the limit.
+    </property>
+    <property name="GameWorld" value="Navezgane" selection="" type="string">
+        ワールド生成の種類を設定します。現時点ではランダム生成のRWGもしくは既定のワールド(Worldsフォルダ内にある) "Navezgane"、"PREGEN01"などが指定できます。
+        RWGの場合はWorldGenSeedとWorldGenSizeによっては生成に時間がかかる可能性があります。
+    </property>
+    <property name="WorldGenSeed" value="asdf" selection="" type="string">
+        GameWorldでRWGが選択された際に用いられるシード値です。もし既に生成したことのあるワールドなら読み込みがすぐに終わります。
+    </property>
+    <property name="WorldGenSize" value="6144" selection="" type="integer">
+        GameWorldでRWGが選択された際に生成されるマップのサイズを2048から16384の間で指定します。
+        小さいとマップは小さくなりますが、生成時間と生成に消費されるメモリが少なくなります。逆に大きいと数値に比例して増大します。
+        恐らく単位はxzのブロック数のことで、1ブロック単位じゃないかと思います。
+    </property>
+    <property name="GameName" value="My Game" selection="" type="string">
+        ゲーム名を設定します。この値は保存する際のディレクトリ名となり、木などの配置のためのシード値でもあります。
+        ただ、ランダム生成の場合はシード値としては働きません。
+    </property>
+    <property name="GameMode" value="GameModeSurvival" selection="" type="string">
+        ゲームモードです。
+        かつてはいくつか選択肢がありましたが、現在は GameModeSurvival オンリーです。
+    </property>
+    <property name="GameDifficulty" value="1" selection="" type="integer">
+        ゲームの難易度を設定します。0が最も優しく、5が最も難しい難易度になります。
+    </property>
+    <property name="BlockDamagePlayer" value="100" selection="" type="integer">
+        プレイヤーがブロックへ与える事のできるダメージの割合(%)です。
+    </property>
+    <property name="BlockDamageAI" value="100" selection="" type="integer">
+        AIがブロックへ与える事のできるダメージの割合(%)です。
+    </property>
+    <property name="BlockDamageAIBM" value="100" selection="" type="integer">
+        AI(ホード時)がブロックへ与える事のできるダメージの割合(%)です。
+    </property>
+    <property name="XPMultiplier" value="100" selection="" type="integer">
+        取得するXPの量の割合(%)です。
+    </property>
+    <property name="PlayerSafeZoneLevel" value="5" selection="" type="integer">
+        プレイヤーのスポーン時に指定されたレベル以下の時だけ敵性生物の出現を停止させます。
+    </property>
+    <property name="PlayerSafeZoneHours" value="5" selection="" type="integer">
+        PlayerSafeZoneLevelの安全が保証される時間です。なおゲーム内時間らしいです。
+    </property>
+    <property name="BuildCreate" value="false" selection="true/false" type="combo">
+        チートモードを有効にするかどうかを設定します。
+    </property>
+    <property name="DayNightLength" value="60" selection="" type="integer">
+        １日の時間をリアルタイムで何分とするかを設定します。
+    </property>
+    <property name="DayLightLength" value="18" selection="" type="integer">
+        ゲーム内時間で昼の時間を設定します。こちらはリアルタイムではないので要注意。
+    </property>
+    <property name="DeathPenalty" value="1" selection="" type="integer">
+        Penalty after dying. 0 = Nothing. 1 = Default: Classic XP Penalty.  2 = Injured: You keep most of your debuffs. Food and Water is set to 50% on respawn. 3 = Permanent Death: Your character is completely reset. You will respawn with a fresh start within the saved game.
+    </property>
+    <property name="DropOnDeath" value="1" selection="" type="integer">
+        死亡した際にアイテムをドロップするかどうか。
+        0 = ドロップしない
+        1 = 全てドロップ
+        2 = ツールベルトのみ
+        3 = バックパックのみ
+        4 = 全て消滅させる
+    </property>
+    <property name="DropOnQuit" value="0" selection="" type="integer">
+        サーバ退出時にアイテムをドロップするかどうか。
+        0 = ドロップしない
+        1 = 全て
+        2 = ツールベルトのみ
+        3 = バックパックのみ
+    </property>
+    <property name="BedrollDeadZoneSize" value="15" selection="" type="integer">
+        ベッドロールの安全圏を設定します。このエリア内はゾンビ(スリーパー含めて)は湧きません。既に無効化されたベッドロールは効果は無いようです。
+    </property>
+    <property name="BedrollExpiryTime" value="45" selection="" type="integer">
+        ベッドロールが最終オンラインから何日で無効化されるかどうか。
+        ゲーム内時間なのかリアル時間なのかは不明
+    </property>
+    <property name="MaxSpawnedZombies" value="64" selection="" type="integer">
+        ゾンビの最大湧き数。
+        増やしすぎるとメモリ消費やCPU消費が増加するため注意。
+    </property>
+    <property name="MaxSpawnedAnimals" value="50" selection="" type="integer">
+        サーバに多くのプレイヤーがいる場合、この制限を増やして野生動物を増やすことができます。
+        動物はゾンビほどCPUを消費しません。
+        注意：
+        これにより任意に多くの動物が生まれるわけではありません。
+        もし多くのプレイヤーが分散している場合、制限に達している可能性があるので制限を増やすことでスポーン数が増えます。
+    </property>
+    <property name="ServerMaxAllowedViewDistance" value="12" selection="" type="integer">
+        クライアントが要求できる最大表示距離(6 - 12)。
+        メモリ使用量とパフォーマンスに大きな影響を与えます。
+    </property>
+    <property name="MaxQueuedMeshLayers" value="1000" selection="" type="integer">
+        Maximum amount of Chunk mesh layers that can be enqueued during mesh generation. Reducing this will improve memory usage but may increase Chunk generation time
+    </property>
+    <property name="EnemySpawnMode" value="true" selection="true/false" type="combo">
+        敵を出現させるかどうか。
+    </property>
+    <property name="EnemyDifficulty" value="0" selection="" type="integer">
+        通常の敵をノーマルモードにするかフェラルにするかどうかの設定です。
+
+        0 = Normal
+        1 = Feral
+    </property>
+    <property name="ZombieFeralSense" value="0" selection="" type="integer">
+        フェラルゾンビ（だけ？）の感覚を強化する設定です。視覚や聴覚、嗅覚などの距離を増やすらしいです。
+        設定値はおそらく日中だけ、夜間だけ強化するみたいな感じでしょうか？試してないので不明。
+
+        0 = Off
+        1 = Day
+        2 = Night
+        3 = All
+    </property>
+    <property name="ZombieMove" value="0" selection="" type="integer">
+        昼のゾンビの速度の設定です。
+
+        0 = walk
+        1 = jog
+        2 = run
+        3 = sprint
+        4 = nightmare
+    </property>
+    <property name="ZombieMoveNight" value="3" selection="" type="integer">
+        夜のゾンビの速度の設定です。
+
+        0 = walk
+        1 = jog
+        2 = run
+        3 = sprint
+        4 = nightmare
+    </property>
+    <property name="ZombieFeralMove" value="3" selection="" type="integer">
+        フェラルゾンビの速度の設定です。
+
+        0 = walk
+        1 = jog
+        2 = run
+        3 = sprint
+        4 = nightmare
+    </property>
+    <property name="ZombieBMMove" value="3" selection="" type="integer">
+        ブラッドムーンホードの際のゾンビ歩行速度の設定です。
+
+        0 = walk
+        1 = jog
+        2 = run
+        3 = sprint
+        4 = nightmare
+    </property>
+    <property name="BloodMoonFrequency" value="7" selection="" type="integer">
+        ブラッドムーンホードの間隔を設定します。単位は日。
+    </property>
+    <property name="BloodMoonRange" value="0" selection="" type="integer">
+        ブラッドムーンホードをBloodMoonFrequencyで指定した日数から指定した日数からランダムで選定された日数をズラします。
+        0の場合はBloodMoonFrequencyの値通りでブラッドムーンホードが来ます。
+        要するに0以外にするといつホードが来るかわからなくなります。
+    </property>
+    <property name="BloodMoonWarning" value="8" selection="" type="integer">
+        ブラッドムーンホードの際の経過日数を赤字にする開始時間を設定します。（ゲーム内の8時？）
+        -1を設定すると赤字になりません。
+    </property>
+    <property name="BloodMoonEnemyCount" value="8" selection="" type="integer">
+        ブラッドムーンホードの敵対生物の出現数をプレイヤーごとに設定します。
+    </property>
+    <property name="LootAbundance" value="100" selection="" type="integer">
+        一つの探索物から得られる資源の割合。
+    </property>
+    <property name="LootRespawnDays" value="7" selection="" type="integer">
+        資源の復活する期間。ゲーム内日数で指定。
+    </property>
+    <property name="AirDropFrequency" value="72" selection="" type="integer">
+        航空支援の投下する間隔。ゲーム内時間(h)で指定します。
+        0にすると救援物資は投下されません。
+    </property>
+    <property name="AirDropMarker" value="true" selection="true/false" type="combo">
+        支援物資が投下された時、マップに支援物資の位置を表示します。
+    </property>
+    <property name="PartySharedKillRange" value="100" selection="" type="integer">
+        パーティを組んで敵をキルした際に経験値がシェアされますが、その時の距離を設定します。単位はmです。
+    </property>
+    <property name="PlayerKillingMode" value="3" selection="" type="integer">
+        プレイヤー同士のキルのモードを設定します。
+
+        0 = プレイヤーキルなし
+        1 = 同盟のみキルあり
+        2 = 同盟以外キルあり
+        3 = 全員対象
+    </property>
+    <property name="LandClaimCount" value="3" selection="" type="integer">
+        プレイヤーごとに設置できるランドクレイムブロックの最大数です。
+    </property>
+    <property name="LandClaimSize" value="41" selection="" type="integer">
+        ランドクレイムブロックで保護されるブロックサイズです。
+    </property>
+    <property name="LandClaimDeadZone" value="30" selection="" type="integer">
+        他のランドクレイムブロックを設置できなくする距離を設定します。
+        フレンド（同盟のこと？）の場合は除く。
+    </property>
+    <property name="LandClaimExpiryTime" value="7" selection="" type="integer">
+        プレーヤーがオフラインの状態で、ランドクレイムブロックが保護されなくなるまでの日数（現実時間？）
+    </property>
+    <property name="LandClaimDecayMode" value="0" selection="" type="integer">
+        オフラインプレーヤーのランドクレームがどのように減衰するかを設定します。
+
+        0 = 線形関数
+        1 = 指数関数
+        2 = クレームが期限切れになるまで完全に保護されます。
+    </property>
+    <property name="LandClaimOnlineDurabilityModifier" value="4" selection="" type="integer">
+        プレイヤーがオンラインのときに、保護されたランドクレームエリア内のブロックの強度を倍率でどれだけ増加するか。
+        0を設定するとダメージを受けなくなります。
+        デフォルトは4倍です。
+    </property>
+    <property name="LandClaimOfflineDurabilityModifier" value="4" selection="" type="integer">
+        プレイヤーがオフラインのときに、保護されたランドクレームエリア内のブロックの強度を倍率でどれだけ増加するか。
+        0を設定するとダメージを受けなくなります。
+        デフォルトは4倍です。
+    </property>
+    <property name="LandClaimOfflineDelay" value="0" selection="" type="integer">
+        プレイヤーがログアウトしてから、ランドクレイムエリア内のブロックの強度がオンラインからオフラインモードに遷移するまでの時間(分)です。
+        デフォルトは0分です。
+    </property>
+    <property name="DynamicMeshEnabled" value="true" selection="true/false" type="combo">
+        DynamicMeshシステムを有効にします。
+    </property>
+    <property name="DynamicMeshLandClaimOnly" value="true" selection="true/false" type="combo">
+        DynamicMeshシステムをランドクレイムブロックエリア内でのみ有効にします。
+    </property>
+    <property name="DynamicMeshLandClaimBuffer" value="3" selection="" type="integer">
+        Dynamic Mesh LCB chunk radius
+    </property>
+    <property name="DynamicMeshMaxItemCache" value="3" selection="" type="integer">
+        同時に処理できるアイテムの数です。数値が高ければ高いほど多くのRAMを消費します。
+    </property>
+    <property name="TwitchServerPermission" value="90" selection="" type="integer">
+        サーバでTwitch Integrationを使用するために必要なパーミッションレベル
+    </property>
+    <property name="TwitchBloodMoonAllowed" value="false" selection="true/false" type="combo">
+        ブラッドムーンホード中にTwitch Integrationを許可するかどうか（？）
+        ブラッドムーン中にサーバがtwitchアクションを許可した場合、余計なゾンビが発生してサーバラグが発生する可能性があります。
+    </property>
+</ServerSettings>
