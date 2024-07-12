@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.62.10">
+    1. added data file of 1.0Exp on ConfigEditor.
+  </update>
   <update version="2.6.61.9">
     1. Add analysis plan to log viewer
       You can avoid problems with incorrect analysis when log format changes from version to version.

@@ -66,21 +66,25 @@
 
     <!-- Folder and file locations -->
     <property name="AdminFileName"					value="serveradmin.xml"/>
-    <!-- Server admin file name. Path relative to the SaveGameFolder -->
+    <!-- Server admin file name. Path relative to UserDataFolder/Saves -->
     <!-- <property name="UserDataFolder"				value="absolute path" /> -->
-    <!-- Use this to override where the server stores all generated data, including RWG generated worlds. Do not forget to uncomment the entry! -->
-    <!-- <property name="SaveGameFolder"				value="absolute path" /> -->
-    <!-- Use this to only override the save game path. Do not forget to uncomment the entry! -->
+    <!-- Use this to override where the server stores all user data, including RWG generated worlds and saves. Do not forget to uncomment the entry! -->
 
     <!-- Other technical settings -->
     <property name="EACEnabled"						value="true"/>
     <!-- Enables/Disables EasyAntiCheat -->
+    <property name="IgnoreEOSSanctions"				value="false"/>
+    <!-- Ignore EOS sanctions when allowing players to join -->
     <property name="HideCommandExecutionLog"		value="0"/>
     <!-- Hide logging of command execution. 0 = show everything, 1 = hide only from Telnet/ControlPanel, 2 = also hide from remote game clients, 3 = hide everything -->
     <property name="MaxUncoveredMapChunksPerPlayer"	value="131072"/>
     <!-- Override how many chunks can be uncovered on the ingame map by each player. Resulting max map file size limit per player is (x * 512 Bytes), uncovered area is (x * 256 m²). Default 131072 means max 32 km² can be uncovered at any time -->
     <property name="PersistentPlayerProfiles"		value="false" />
     <!-- If disabled a player can join with any selected profile. If true they will join with the last profile they joined with -->
+    <property name="MaxChunkAge"					value="-1"/>
+    <!-- The number of in-game days which must pass since visiting a chunk before it will reset to its original state if not revisited or protected (e.g. by a land claim or bedroll being in close proximity). -->
+    <property name="SaveDataLimit"					value="-1"/>
+    <!-- The maximum disk space allowance for each saved game in megabytes (MB). Saved chunks may be forceably reset to their original states to free up space when this limit is reached. Negative values disable the limit. -->
 
 
 
@@ -88,7 +92,7 @@
 
     <!-- World -->
     <property name="GameWorld"						value="Navezgane"/>
-    <!-- "RWG" (see WorldGenSeed and WorldGenSize options below) or any already existing world name in the Worlds folder (currently shipping with e.g. "Navezgane", "PREGEN01", ...) -->
+    <!-- "RWG" (see WorldGenSeed and WorldGenSize options below) or any already existing world name in the Worlds folder (currently shipping with e.g. "Navezgane", "Pregen04kA", "Pregen04kB", "Pregen04kC", "Pregen04kD", "Pregen06kA", "Pregen06kB", "Pregen06kC", "Pregen06kD", "Pregen08kA", "Pregen08kB", "Pregen08kC", "Pregen08kD", "Pregen10kA", "Pregen10kB", "Pregen10kC", "Pregen10kD", ...) -->
     <property name="WorldGenSeed"					value="asdf"/>
     <!-- If RWG this is the seed for the generation of the new world. If a world with the resulting name already exists it will simply load it -->
     <property name="WorldGenSize"					value="6144"/>
@@ -214,11 +218,6 @@
     <!-- Required permission level to use twitch integration on the server -->
     <property name="TwitchBloodMoonAllowed"			value="false"/>
     <!-- If the server allows twitch actions during a blood moon. This could cause server lag with extra zombies being spawned during blood moon. -->
-
-    <property name="MaxChunkAge"					value="-1"/>
-    <!-- The number of in-game days which must pass since visiting a chunk before it will reset to its original state if not revisited or protected (e.g. by a land claim or bedroll being in close proximity). -->
-    <property name="SaveDataLimit"					value="-1"/>
-    <!-- The maximum disk space allowance for each saved game in megabytes (MB). Saved chunks may be forceably reset to their original states to free up space when this limit is reached. Negative values disable the limit. -->
 
     <!-- There are several game settings that you cannot change when starting a new game.
 	You can use console commands to change at least some of them ingame.
