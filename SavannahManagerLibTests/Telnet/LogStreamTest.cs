@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using CommonCoreLib;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using SvManagerLibrary.Telnet;
 
 namespace SvManagerLibraryTests2.Telnet
@@ -43,7 +44,7 @@ namespace SvManagerLibraryTests2.Telnet
             _ = stream.Read(data, 0, data.Length);
             var act = logStream.TextEncoding.GetString(data);
 
-            Assert.AreEqual(exp, act);
+            ClassicAssert.AreEqual(exp, act);
         }
 
         [Test]
@@ -66,7 +67,7 @@ namespace SvManagerLibraryTests2.Telnet
             var data = new byte[logStream.Length];
             _ = stream.Read(data, 0, data.Length);
 
-            Assert.AreEqual(exp, data);
+            ClassicAssert.AreEqual(exp, data);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using SvManagerLibrary.Telnet;
 
 namespace SvManagerLibraryTests2.Telnet
@@ -21,7 +22,7 @@ namespace SvManagerLibraryTests2.Telnet
                 waiter.Next();
             }
 
-            Assert.AreEqual(300, waiter.ElapsedSeconds);
+            ClassicAssert.AreEqual(300, waiter.ElapsedSeconds);
         }
 
         [Test]
@@ -37,7 +38,7 @@ namespace SvManagerLibraryTests2.Telnet
                 waiter.Next();
             }
 
-            Assert.AreEqual(0, waiter.ElapsedSeconds);
+            ClassicAssert.AreEqual(0, waiter.ElapsedSeconds);
         }
     }
 }
