@@ -15,11 +15,11 @@ Thank you very much.
 
 # Require to run
 1. Windows 7 SP1 or later
-2. [.NET 6 Desktop Runtime or Runtime](https://dotnet.microsoft.com/download/dotnet/6.0)
+2. [.NET 8 Desktop Runtime or Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)
 
 # Development environment
 1. Visual Studio 2022
-2. [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
+2. [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 
 # Build
 ## Visual Studio 2022
