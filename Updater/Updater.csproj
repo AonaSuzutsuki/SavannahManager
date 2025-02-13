@@ -2,15 +2,13 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <LangVersion>latest</LangVersion>
     <Authors>Aona Suzutsuki</Authors>
     <Company>Kimama Lab.</Company>
-    <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2022</Copyright>
-    <AssemblyVersion>2.2.7.1</AssemblyVersion>
-    <FileVersion>2.2.7.1</FileVersion>
-    <Version>2.2.7.1</Version>
+    <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2025</Copyright>
+    <Version>2.2.8.2</Version>
     <AssemblyName>update</AssemblyName>
     <ApplicationIcon />
     <StartupObject />
@@ -22,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommonCoreLib" Version="1.0.6" />
-    <PackageReference Include="CommonStyleLib" Version="1.0.24" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.25" />
     <PackageReference Include="SavannahXmlLib" Version="1.0.5" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
     <PackageReference Include="UpdateLib" Version="1.0.1" />

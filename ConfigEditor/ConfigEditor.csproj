@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <RootNamespace>ConfigEditor_mvvm</RootNamespace>
     <Authors>Aona Suzutsuki</Authors>
@@ -170,7 +170,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommonStyleLib" Version="1.0.24" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.25" />
   </ItemGroup>
 
   <ItemGroup>
@@ -237,6 +237,10 @@
     <Page Update="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Behaviors\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

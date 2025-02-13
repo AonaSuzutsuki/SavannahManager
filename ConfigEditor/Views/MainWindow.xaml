@@ -7,7 +7,7 @@
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:app="clr-namespace:ConfigEditor_mvvm.LangResources"
         xmlns:viewModels="clr-namespace:ConfigEditor_mvvm.ViewModels"
-        xmlns:behaviors="clr-namespace:ConfigEditor_mvvm.Views.Behaviors"
+        xmlns:textBoxBehaviors="clr-namespace:CommonStyleLib.Views.Behaviors.TextBoxBehavior;assembly=CommonStyleLib"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
@@ -124,7 +124,7 @@
                     </Grid.RowDefinitions>
 
                     <Grid>
-                        <TextBox Text="{Binding FilterText.Value, UpdateSourceTrigger=PropertyChanged}" behaviors:PlaceHolderBehavior.PlaceHolder="Filter" />
+                        <TextBox Text="{Binding FilterText.Value, UpdateSourceTrigger=PropertyChanged}" textBoxBehaviors:PlaceHolderBehavior.PlaceHolder="Filter" />
                     </Grid>
 
                     <ListView Grid.Row="2" Height="Auto" Width="Auto" Name="ConfigsList" ItemsSource="{Binding ConfigList.Value}" SelectedIndex="{Binding ConfigListSelectedIndex.Value}" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
