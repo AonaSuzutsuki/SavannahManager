@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using System.Xml.Linq;
+using NUnit.Framework.Legacy;
 
 namespace SvManagerLibraryTests2.Chat
 {
@@ -17,7 +18,7 @@ namespace SvManagerLibraryTests2.Chat
         {
             var exp = true;
             var act = ChatInfo.IsNullOrEmpty(null);
-            Assert.AreEqual(exp, act);
+            ClassicAssert.AreEqual(exp, act);
         }
 
         [Test]
@@ -25,7 +26,7 @@ namespace SvManagerLibraryTests2.Chat
         {
             var exp = true;
             var act = ChatInfo.IsNullOrEmpty(new ChatInfo());
-            Assert.AreEqual(exp, act);
+            ClassicAssert.AreEqual(exp, act);
         }
 
         [Test]
@@ -35,8 +36,8 @@ namespace SvManagerLibraryTests2.Chat
             var act = ChatInfo.IsNullOrEmpty(new ChatInfo() { Message = "test" });
             var act2 = ChatInfo.IsNullOrEmpty(new ChatInfo() { Name = "test" });
 
-            Assert.AreEqual(exp, act);
-            Assert.AreEqual(exp, act2);
+            ClassicAssert.AreEqual(exp, act);
+            ClassicAssert.AreEqual(exp, act2);
         }
 
         [Test]
@@ -45,7 +46,7 @@ namespace SvManagerLibraryTests2.Chat
             var exp = false;
             var act = ChatInfo.IsNullOrEmpty(new ChatInfo() { Name = "Server", Message = "test" });
 
-            Assert.AreEqual(exp, act);
+            ClassicAssert.AreEqual(exp, act);
         }
 
         [Test]

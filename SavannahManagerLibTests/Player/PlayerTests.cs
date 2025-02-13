@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Moq;
+using NUnit.Framework.Legacy;
 using SvManagerLibraryTests2.Telnet;
 
 namespace SvManagerLibraryTests2.Player

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using SvManagerLibrary.Web;
 
 namespace SvManagerLibraryTests2.Web
@@ -17,7 +18,7 @@ namespace SvManagerLibraryTests2.Web
             var exp = "SUCCESS.";
             var result = await Downloader.DownloadStringAsync(url);
 
-            Assert.AreEqual(exp, result);
+            ClassicAssert.AreEqual(exp, result);
         }
 
         [Test]

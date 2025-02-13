@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using SvManagerLibrary.Crypto;
 
 namespace SvManagerLibraryTests2.Crypto
@@ -22,7 +23,7 @@ namespace SvManagerLibraryTests2.Crypto
             var exp = "u2j9DzevlOMDoMQcnSy1/A==";
             var result = wrapper.Encrypt(text);
 
-            Assert.AreEqual(exp, result);
+            ClassicAssert.AreEqual(exp, result);
         }
 
         [Test]
@@ -33,7 +34,7 @@ namespace SvManagerLibraryTests2.Crypto
             var exp = "help";
             var result = wrapper.Decrypt(text);
 
-            Assert.AreEqual(exp, result);
+            ClassicAssert.AreEqual(exp, result);
         }
     }
 }

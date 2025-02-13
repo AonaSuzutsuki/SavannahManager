@@ -6,6 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
+        xmlns:textBoxBehavior="clr-namespace:CommonStyleLib.Views.Behaviors.TextBoxBehavior;assembly=CommonStyleLib"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels.Settings"
         xmlns:converter="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Converter"
@@ -302,7 +303,7 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
 
-                                            <TextBox Text="{Binding AutoRestartDayOfWeekDate.Value}" behaviors:PlaceHolderBehavior.PlaceHolder="14:30" />
+                                            <TextBox Text="{Binding AutoRestartDayOfWeekDate.Value}" textBoxBehavior:PlaceHolderBehavior.PlaceHolder="14:30" />
 
                                             <ComboBox Grid.Column="2" ItemsSource="{Binding DayOfWeekItems}" SelectedIndex="{Binding AutoRestartDayOfWeek.Value, FallbackValue=2}" />
                                         </Grid>

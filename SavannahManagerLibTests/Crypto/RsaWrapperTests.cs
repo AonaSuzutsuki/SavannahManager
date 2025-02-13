@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using SvManagerLibrary.Crypto;
 
 namespace SvManagerLibraryTests2.Crypto
@@ -24,7 +25,7 @@ namespace SvManagerLibraryTests2.Crypto
             var encrypted = encryption.Encrypt(text);
             var decrypted = decryption.Decrypt(encrypted);
 
-            Assert.AreEqual(text, decrypted);
+            ClassicAssert.AreEqual(text, decrypted);
         }
 
         [Test]
@@ -46,7 +47,7 @@ namespace SvManagerLibraryTests2.Crypto
             var encrypted = encryption.Encrypt(text);
             var decrypted = decryption.Decrypt(encrypted);
 
-            Assert.AreEqual(text, decrypted);
+            ClassicAssert.AreEqual(text, decrypted);
         }
     }
 }

@@ -8,7 +8,6 @@ using CommonStyleLib.File;
 using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
-using Microsoft.VisualBasic.ApplicationServices;
 using Prism.Commands;
 using Reactive.Bindings;
 using SavannahManagerStyleLib.Models.SshFileSelector;

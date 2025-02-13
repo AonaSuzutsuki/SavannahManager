@@ -173,6 +173,8 @@ namespace ConfigEditor_mvvm.Models
 
         // Event avoidance at loading
         private bool _isSetConfig;
+
+        private List<ConfigListInfo> _baseConfigListInfo = new();
         #endregion
 
         /// <summary>
@@ -204,11 +206,14 @@ namespace ConfigEditor_mvvm.Models
                     
                     LoadToConfigList(configLoader);
                     SaveBtEnabled = true;
+
+                    NarrowDownConfig("");
                     return;
                 }
             }
 
             LoadNewConfig();
+            NarrowDownConfig("");
         }
 
         /// <summary>
@@ -256,16 +261,31 @@ namespace ConfigEditor_mvvm.Models
             }
         }
 
+        public void NarrowDownConfig(string searchWord)
+        {
+            if (string.IsNullOrEmpty(searchWord))
+            {
+                ConfigList.Clear();
+                ConfigList.AddRange(_baseConfigListInfo);
+                return;
+            }
+
+            var narrowDownItems = _baseConfigListInfo.Where(x => x.Property.Contains(searchWord));
+
+            ConfigList.Clear();
+            ConfigList.AddRange(narrowDownItems);
+        }
+
         private void LoadNewConfig()
         {
             if (VersionListSelectedIndex < 0)
                 return;
 
-            ConfigList.Clear();
+            _baseConfigListInfo = new();
 
             var version = VersionList[VersionListSelectedIndex];
             var list = new List<ConfigListInfo>(_templateLoader.GetConfigList(version));
-            ConfigList.AddRange(list);
+            _baseConfigListInfo.AddRange(list);
         }
 
         public void VersionListSelectionChanged()
@@ -294,7 +314,7 @@ namespace ConfigEditor_mvvm.Models
         {
             if (VersionListSelectedIndex < 0) return;
 
-            ConfigList.Clear();
+            var baseList = new List<ConfigListInfo>();
 
             var version = VersionList[VersionListSelectedIndex];
 
@@ -317,7 +337,7 @@ namespace ConfigEditor_mvvm.Models
                 {
                     var configListInfo = templateDic[propertyName];
                     configListInfo.Value = configInfo.Value;
-                    ConfigList.Add(configListInfo);
+                    baseList.Add(configListInfo);
                 }
             }
 
@@ -328,9 +348,11 @@ namespace ConfigEditor_mvvm.Models
                 if (templateDic.ContainsKey(key))
                 {
                     var configListInfo = templateDic[key];
-                    ConfigList.Add(configListInfo);
+                    baseList.Add(configListInfo);
                 }
             }
+
+            _baseConfigListInfo = baseList;
         }
 
         /// <summary>
@@ -449,7 +471,7 @@ namespace ConfigEditor_mvvm.Models
         private ConfigLoader CreateConfigLoader()
         {
             var loader = new ConfigLoader();
-            foreach (var configListInfo in ConfigList)
+            foreach (var configListInfo in _baseConfigListInfo)
             {
                 if (configListInfo.Property.Equals("SaveGameFolder") && string.IsNullOrEmpty(configListInfo.Value))
                     continue;

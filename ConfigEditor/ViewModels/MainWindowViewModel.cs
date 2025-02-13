@@ -60,6 +60,12 @@ namespace ConfigEditor_mvvm.ViewModels
             ValueText = model.ToReactivePropertyAsSynchronized(m => m.ValueText);
             ValueListVisibility = model.ToReactivePropertyAsSynchronized(m => m.ValueListVisibility);
             ValueTextBoxVisibility = model.ToReactivePropertyAsSynchronized(m => m.ValueTextBoxVisibility);
+
+            FilterText = new ReactiveProperty<string>();
+            FilterText.PropertyChanged += (sender, args) =>
+            {
+                _model.NarrowDownConfig(FilterText.Value);
+            };
             #endregion
 
             if (Loaded != null && Loaded.CanExecute(null))
@@ -83,6 +89,8 @@ namespace ConfigEditor_mvvm.ViewModels
 
         public ReactiveProperty<string> NameLabel { get; set; }
         public ReactiveProperty<string> DescriptionLabel { get; set; }
+
+        public ReactiveProperty<string> FilterText { get; set; }
 
         /// <summary>
         /// It is an intermediary property of the Value list.
@@ -127,10 +135,14 @@ namespace ConfigEditor_mvvm.ViewModels
         public void NewFileBt_Clicked()
         {
             _model.LoadNewData();
+
+            _model.NarrowDownConfig(FilterText.Value);
         }
         public void OpenBt_Clicked()
         {
             _model.OpenFile();
+
+            _model.NarrowDownConfig(FilterText.Value);
         }
         public void SaveAsBt_Clicked()
         {
@@ -155,6 +167,8 @@ namespace ConfigEditor_mvvm.ViewModels
 
                 _model.OpenFileViaSftp(stream);
             };
+
+            _model.NarrowDownConfig(FilterText.Value);
 
             WindowManageService.ShowDialog<FileSelectorView>(vm);
 
@@ -185,6 +199,8 @@ namespace ConfigEditor_mvvm.ViewModels
         public void VersionsList_SelectionChanged()
         {
             _model.VersionListSelectionChanged();
+
+            _model.NarrowDownConfig(FilterText.Value);
         }
         public void ConfigList_SelectionChanged()
         {

@@ -7,6 +7,7 @@
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:views="clr-namespace:_7dtd_svmanager_fix_mvvm.Views"
         xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
+        xmlns:textBoxBehavior="clr-namespace:CommonStyleLib.Views.Behaviors.TextBoxBehavior;assembly=CommonStyleLib"
         xmlns:app="clr-namespace:_7dtd_svmanager_fix_mvvm.LangResources"
         xmlns:permissions="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels.Permissions"
         mc:Ignorable="d"
@@ -562,7 +563,7 @@
                                                         <ColumnDefinition Width="25" />
                                                     </Grid.ColumnDefinitions>
 
-                                                    <TextBox Text="{Binding UnBanDate.Value, UpdateSourceTrigger=PropertyChanged}" behaviors:PlaceHolderBehavior.PlaceHolder="2035-12-31 23:59:59" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
+                                                    <TextBox Text="{Binding UnBanDate.Value, UpdateSourceTrigger=PropertyChanged}" textBoxBehavior:PlaceHolderBehavior.PlaceHolder="2035-12-31 23:59:59" TextWrapping="Wrap" Style="{StaticResource TextBoxInListView}">
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="TextChanged">
                                                                 <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />

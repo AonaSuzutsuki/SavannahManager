@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace SvManagerLibraryTests2.Config
 {
@@ -33,7 +34,7 @@ namespace SvManagerLibraryTests2.Config
                 Value = "test value"
             };
 
-            Assert.AreEqual(exp, info);
+            ClassicAssert.AreEqual(exp, info);
         }
 
         [Test]
@@ -75,7 +76,7 @@ namespace SvManagerLibraryTests2.Config
                 Value = "test value"
             };
 
-            Assert.AreEqual(exp, info);
+            ClassicAssert.AreEqual(exp, info);
         }
 
         [Test]
@@ -89,7 +90,7 @@ namespace SvManagerLibraryTests2.Config
                 Value = "My Game Host"
             };
 
-            Assert.AreEqual(exp, info);
+            ClassicAssert.AreEqual(exp, info);
         }
 
         [Test]
@@ -135,7 +136,7 @@ namespace SvManagerLibraryTests2.Config
             stream.Read(buffer, 0, buffer.Length);
             var act = Encoding.UTF8.GetString(buffer).UnifiedBreakLine();
 
-            Assert.AreEqual(exp, act);
+            ClassicAssert.AreEqual(exp, act);
         }
     }
 }

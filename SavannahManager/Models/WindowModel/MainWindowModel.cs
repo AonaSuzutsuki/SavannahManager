@@ -21,7 +21,6 @@ using SvManagerLibrary.Chat;
 using SvManagerLibrary.Player;
 using CommonExtensionLib.Extensions;
 using System.Linq;
-using System.Windows.Forms;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 using _7dtd_svmanager_fix_mvvm.Models.Ssh;
 using _7dtd_svmanager_fix_mvvm.Models.Update;

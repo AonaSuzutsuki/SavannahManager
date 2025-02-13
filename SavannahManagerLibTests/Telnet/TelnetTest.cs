@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using SvManagerLibrary.Telnet;
 
 namespace SvManagerLibraryTests2.Telnet
@@ -60,7 +61,7 @@ namespace SvManagerLibraryTests2.Telnet
             var connected = telnetClient.Connect("localhost", 26900);
             var exp = true;
 
-            Assert.AreEqual(exp, connected);
+            ClassicAssert.AreEqual(exp, connected);
         }
 
         [Test]
@@ -71,7 +72,7 @@ namespace SvManagerLibraryTests2.Telnet
             var log = telnetClient.Read().TrimEnd('\0');
             var exp = "test\n";
 
-            Assert.AreEqual(exp, log);
+            ClassicAssert.AreEqual(exp, log);
         }
 
         [Test]
@@ -82,7 +83,7 @@ namespace SvManagerLibraryTests2.Telnet
             var log = telnetClient.DestructionEventRead("lp");
             var exp = "test\n";
 
-            Assert.AreEqual(exp, log);
+            ClassicAssert.AreEqual(exp, log);
         }
 
         [Test]
@@ -115,7 +116,7 @@ namespace SvManagerLibraryTests2.Telnet
 
             var value = telnetClient.DestructionEventRead("");
             var exp = "test message.\n";
-            Assert.AreEqual(exp, value);
+            ClassicAssert.AreEqual(exp, value);
         }
 
         [Test]
@@ -148,7 +149,7 @@ namespace SvManagerLibraryTests2.Telnet
 
             var value = telnetClient.DestructionEventRead("", "test3 message.");
             var exp = "test\ntest2\ntest3 message.\n";
-            Assert.AreEqual(exp, value);
+            ClassicAssert.AreEqual(exp, value);
         }
 
         [Test]
@@ -181,7 +182,7 @@ namespace SvManagerLibraryTests2.Telnet
             var waitTime = telnetClient.CalculateWaitTime();
             var exp = 100;
 
-            Assert.AreEqual(exp, waitTime);
+            ClassicAssert.AreEqual(exp, waitTime);
         }
 
         [Test]
@@ -266,7 +267,7 @@ namespace SvManagerLibraryTests2.Telnet
 
             manualEvent.WaitOne(1000, false);
 
-            Assert.AreEqual("test\n", result);
+            ClassicAssert.AreEqual("test\n", result);
         }
     }
 }

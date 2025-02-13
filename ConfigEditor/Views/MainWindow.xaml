@@ -7,6 +7,7 @@
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:app="clr-namespace:ConfigEditor_mvvm.LangResources"
         xmlns:viewModels="clr-namespace:ConfigEditor_mvvm.ViewModels"
+        xmlns:textBoxBehaviors="clr-namespace:CommonStyleLib.Views.Behaviors.TextBoxBehavior;assembly=CommonStyleLib"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
         Icon="pack://application:,,,/CommonStyleLib;component/Resources/1.ico"
@@ -115,20 +116,32 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <ListView Grid.Row="0" Height="Auto" Width="Auto" Name="ConfigsList" ItemsSource="{Binding ConfigList.Value}" SelectedIndex="{Binding ConfigListSelectedIndex.Value}" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding ConfigListSelectionChanged}" CommandParameter="{Binding Path=SelectedIndex, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="220" Header="Properties" DisplayMemberBinding="{Binding Path=Property}" />
-                            <GridViewColumn Width="110" Header="Value" DisplayMemberBinding="{Binding Path=Value}" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <TextBox Text="{Binding FilterText.Value, UpdateSourceTrigger=PropertyChanged}" textBoxBehaviors:PlaceHolderBehavior.PlaceHolder="Filter" />
+                    </Grid>
+
+                    <ListView Grid.Row="2" Height="Auto" Width="Auto" Name="ConfigsList" ItemsSource="{Binding ConfigList.Value}" SelectedIndex="{Binding ConfigListSelectedIndex.Value}" Foreground="White" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding ConfigListSelectionChanged}" CommandParameter="{Binding Path=SelectedIndex, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="220" Header="Properties" DisplayMemberBinding="{Binding Path=Property}" />
+                                <GridViewColumn Width="110" Header="Value" DisplayMemberBinding="{Binding Path=Value}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
 
                 <Grid Margin="10" Grid.Column="1">
                     <Grid.RowDefinitions>

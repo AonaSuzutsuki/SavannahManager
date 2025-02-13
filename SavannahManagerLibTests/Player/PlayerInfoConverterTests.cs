@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace SvManagerLibraryTests2.Player
 {
@@ -33,7 +34,7 @@ namespace SvManagerLibraryTests2.Player
                 Coord = "(741.9, 45.1, 951.5)",
             };
 
-            Assert.AreEqual(exp, act);
+            ClassicAssert.AreEqual(exp, act);
         }
     }
 }

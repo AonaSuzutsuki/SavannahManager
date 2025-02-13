@@ -3,6 +3,7 @@ using System.Net.Sockets;
 using System.Text;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using SvManagerLibrary.Telnet;
 using SvManagerLibrary.Time;
 using SvManagerLibraryTests2.Telnet;
@@ -25,7 +26,7 @@ namespace SvManagerLibraryTests2.Time
                 Minute = 23
             };
 
-            Assert.AreEqual(exp, act);
+            ClassicAssert.AreEqual(exp, act);
         }
 
         [Test]
@@ -45,7 +46,7 @@ namespace SvManagerLibraryTests2.Time
 
             var act = SvManagerLibrary.Time.Time.GetTimeFromTelnet(mock.Object);
 
-            Assert.AreEqual(exp, act);
+            ClassicAssert.AreEqual(exp, act);
         }
 
         [Test]
@@ -72,7 +73,7 @@ namespace SvManagerLibraryTests2.Time
             var telnetClient = new TelnetClient(mock.Object);
             var act = SvManagerLibrary.Time.Time.GetTimeFromTelnet(telnetClient);
 
-            Assert.AreEqual(exp, act);
+            ClassicAssert.AreEqual(exp, act);
         }
 
         [Test]

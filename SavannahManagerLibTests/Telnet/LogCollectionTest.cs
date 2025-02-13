@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using SvManagerLibrary.Telnet;
 
 namespace SvManagerLibraryTests2.Telnet
@@ -49,7 +50,7 @@ namespace SvManagerLibraryTests2.Telnet
             foreach (var exp in expList)
             {
                 var act = collection.GetFirst();
-                Assert.AreEqual(exp, act);
+                ClassicAssert.AreEqual(exp, act);
             }
         }
     }

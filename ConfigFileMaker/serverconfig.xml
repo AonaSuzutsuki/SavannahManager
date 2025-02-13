@@ -71,6 +71,8 @@
     <!-- Use this to override where the server stores all user data, including RWG generated worlds and saves. Do not forget to uncomment the entry! -->
 
     <!-- Other technical settings -->
+    <property name="ServerAllowCrossplay"			value="false"/>
+    <!-- Enables/Disables crossplay, crossplay servers will only be found in searches and joinable if sanctions are not ignored, and have a default or fewer player slot count  -->
     <property name="EACEnabled"						value="true"/>
     <!-- Enables/Disables EasyAntiCheat -->
     <property name="IgnoreEOSSanctions"				value="false"/>
@@ -92,13 +94,13 @@
 
     <!-- World -->
     <property name="GameWorld"						value="Navezgane"/>
-    <!-- "RWG" (see WorldGenSeed and WorldGenSize options below) or any already existing world name in the Worlds folder (currently shipping with e.g. "Navezgane", "Pregen04kA", "Pregen04kB", "Pregen04kC", "Pregen04kD", "Pregen06kA", "Pregen06kB", "Pregen06kC", "Pregen06kD", "Pregen08kA", "Pregen08kB", "Pregen08kC", "Pregen08kD", "Pregen10kA", "Pregen10kB", "Pregen10kC", "Pregen10kD", ...) -->
+    <!-- "RWG" (see WorldGenSeed and WorldGenSize options below) or any already existing world name in the Worlds folder (currently shipping with e.g. "Navezgane", "Pregen04k1", "Pregen04k2", "Pregen04k3", "Pregen04k4", "Pregen06k1", "Pregen06k2", "Pregen06k3", "Pregen06k4", "Pregen08k1", "Pregen08k2", "Pregen08k3", "Pregen08k4", "Pregen10k1", "Pregen10k2", "Pregen10k3", "Pregen10k4", ...) -->
     <property name="WorldGenSeed"					value="asdf"/>
     <!-- If RWG this is the seed for the generation of the new world. If a world with the resulting name already exists it will simply load it -->
     <property name="WorldGenSize"					value="6144"/>
     <!-- If RWG, this controls the width and height of the created world. Officially supported sizes are between 6144 and 10240 and must be a multiple of 2048, e.g. 6144, 8192, 10240. -->
     <property name="GameName"						value="My Game"/>
-    <!-- Whatever you want the game name to be. This affects the save game name as well as the seed used when placing decoration (trees etc) in the world. It does not control the generic layout of the world if creating an RWG world -->
+    <!-- Whatever you want the game name to be (allowed [A-Za-z0-9_-. ]). This affects the save game name as well as the seed used when placing decoration (trees etc) in the world. It does not control the generic layout of the world if creating an RWG world -->
     <property name="GameMode"						value="GameModeSurvival"/>
     <!-- GameModeSurvival -->
 
@@ -219,6 +221,8 @@
     <property name="TwitchBloodMoonAllowed"			value="false"/>
     <!-- If the server allows twitch actions during a blood moon. This could cause server lag with extra zombies being spawned during blood moon. -->
 
+    <property name="QuestProgressionDailyLimit"		value="4"/>
+    <!-- Limits the number of quests that contribute to quest tier progression a player can complete each day. Quests after the limit can still be completed for rewards. -->
     <!-- There are several game settings that you cannot change when starting a new game.
 	You can use console commands to change at least some of them ingame.
 	setgamepref BedrollDeadZoneSize 30 -->

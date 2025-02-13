@@ -7,6 +7,7 @@
         xmlns:commonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
         xmlns:viewModels="clr-namespace:_7dtd_svmanager_fix_mvvm.ViewModels.Settings.ScheduledCommand"
         xmlns:behaviors="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Behaviors"
+        xmlns:textBoxBehavior="clr-namespace:CommonStyleLib.Views.Behaviors.TextBoxBehavior;assembly=CommonStyleLib"
         xmlns:local="clr-namespace:_7dtd_svmanager_fix_mvvm.Views.Settings.ScheduledCommand"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:AddCommandViewModel}"
@@ -75,7 +76,7 @@
 
                         <Label Content="Command" />
 
-                        <TextBox Grid.Column="2" Text="{Binding CommandText.Value}" behaviors:PlaceHolderBehavior.PlaceHolder="ex: lp" />
+                        <TextBox Grid.Column="2" Text="{Binding CommandText.Value}" textBoxBehavior:PlaceHolderBehavior.PlaceHolder="ex: lp" />
                     </Grid>
 
 
@@ -90,7 +91,7 @@
 
                         <Label Content="Interval" />
 
-                        <TextBox Grid.Column="2" Text="{Binding IntervalText.Value}" behaviors:PlaceHolderBehavior.PlaceHolder="10" />
+                        <TextBox Grid.Column="2" Text="{Binding IntervalText.Value}" textBoxBehavior:PlaceHolderBehavior.PlaceHolder="10" />
 
                         <ComboBox Grid.Column="4" ItemsSource="{Binding HourMinuteSecondItems}" SelectedIndex="{Binding IntervalTimeMode.Value, FallbackValue=0}" />
                     </Grid>
@@ -106,7 +107,7 @@
 
                         <Label Content="Wait Time" />
 
-                        <TextBox Grid.Column="2" Text="{Binding WaitTimeText.Value}" behaviors:PlaceHolderBehavior.PlaceHolder="10" />
+                        <TextBox Grid.Column="2" Text="{Binding WaitTimeText.Value}" textBoxBehavior:PlaceHolderBehavior.PlaceHolder="10" />
 
                         <ComboBox Grid.Column="4" ItemsSource="{Binding HourMinuteSecondItems}" SelectedIndex="{Binding WaitTimeMode.Value,FallbackValue=0}" />
                     </Grid>
