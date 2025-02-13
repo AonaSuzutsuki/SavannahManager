@@ -9,8 +9,8 @@
     <AssemblyName>SavannahManager2</AssemblyName>
     <Authors>Aona Suzutsuki</Authors>
     <Company>Kimama Lab.</Company>
-    <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2024</Copyright>
-    <Version>2.6.62.10</Version>
+    <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2025</Copyright>
+    <Version>2.6.63.11</Version>
     <ApplicationIcon>Images\1.ico</ApplicationIcon>
   </PropertyGroup>
 
