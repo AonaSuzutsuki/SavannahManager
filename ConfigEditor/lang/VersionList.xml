@@ -20,5 +20,6 @@
     <config version="a21.2b">lang\a21.2b</config>
     <config version="1.0Exp">lang\1.0Exp</config>
     <config version="1.3">lang\1.3</config>
+    <config version="2.2">lang\2.2</config>
   </configs>
 </root>

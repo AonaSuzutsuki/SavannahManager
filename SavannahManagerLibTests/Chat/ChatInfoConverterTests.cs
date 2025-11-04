@@ -6,12 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
+using SvManagerLibrary.AnalyzerPlan.Console;
 
 namespace SvManagerLibraryTests2.Chat
 {
     [TestFixture]
     public class ChatInfoConverterTests
     {
+        private IConsoleAnalyzer _analyzer = new OnePointTreeConsoleAnalyzer();
+
         [Test]
         public void ConvertChatTest()
         {
@@ -24,7 +27,7 @@ namespace SvManagerLibraryTests2.Chat
                 Message = "Hello, World.",
                 Date = "2019-01-19T16:14:21"
             };
-            var act = ChatInfoConverter.ConvertChat(text);
+            var act = ChatInfoConverter.ConvertChat(text, _analyzer);
 
             ClassicAssert.AreEqual(exp, act);
         }

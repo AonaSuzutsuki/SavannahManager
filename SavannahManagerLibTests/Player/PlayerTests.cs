@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Moq;
 using NUnit.Framework.Legacy;
+using SvManagerLibrary.AnalyzerPlan.Console;
 using SvManagerLibraryTests2.Telnet;
 
 namespace SvManagerLibraryTests2.Player
@@ -16,6 +17,8 @@ namespace SvManagerLibraryTests2.Player
     [TestFixture]
     public class PlayerTests
     {
+        private IConsoleAnalyzer _analyzer = new OnePointTreeConsoleAnalyzer();
+
         [Test]
         public void SetPlayerInfoTest()
         {
@@ -42,7 +45,7 @@ namespace SvManagerLibraryTests2.Player
             mock.Setup(x => x.DestructionEventRead(It.IsAny<string>(), It.IsAny<string>())).Returns(text);
             mock.Setup(x => x.Connected).Returns(true);
 
-            var act = SvManagerLibrary.Player.Player.GetPlayerInfoList(mock.Object);
+            var act = SvManagerLibrary.Player.Player.GetPlayerInfoList(mock.Object, _analyzer);
 
             CollectionAssert.AreEqual(exp, act);
         }
@@ -83,7 +86,7 @@ namespace SvManagerLibraryTests2.Player
                 });
 
             var telnetClient = new TelnetClient(mock.Object);
-            var act = SvManagerLibrary.Player.Player.GetPlayerInfoList(telnetClient);
+            var act = SvManagerLibrary.Player.Player.GetPlayerInfoList(telnetClient, _analyzer);
 
             CollectionAssert.AreEqual(exp, act);
         }

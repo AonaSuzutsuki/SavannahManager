@@ -21,6 +21,7 @@ public class LogFileInfo : BindableBase
     {
         { A20LogAnalyzer.AnalyzerName, new A20LogAnalyzer() },
         { A21LogAnalyzer.AnalyzerName, new A21LogAnalyzer() },
+        { Formal1Point3Analyzer.AnalyzerName, new Formal1Point3Analyzer() },
         { ServerFixesAnalyzer.AnalyzerName, new ServerFixesAnalyzer() }
     };
 

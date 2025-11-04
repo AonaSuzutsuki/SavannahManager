@@ -6,12 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
+using SvManagerLibrary.AnalyzerPlan.Console;
 
 namespace SvManagerLibraryTests2.Player
 {
     [TestFixture]
     public class PlayerInfoConverterTests
     {
+        private IConsoleAnalyzer _analyzer = new OnePointTreeConsoleAnalyzer();
+
         [Test]
         public void ConvertPlayerDetailTest()
         {
@@ -19,7 +22,7 @@ namespace SvManagerLibraryTests2.Player
                 ", remote=True, health=92, deaths=4, zombies=4, players=1, score=2, level=1, pltfmid=Steam_76561198010715714" +
                 ", crossid=EOS_0002bfc568d6401ca9de387e0ae914c9, ip=192.168.0.81, ping=0";
 
-            var act = PlayerInfoConverter.ConvertPlayerDetail(text);
+            var act = PlayerInfoConverter.ConvertPlayerDetail(text, _analyzer);
             var exp = new PlayerInfo
             {
                 Id = "171",

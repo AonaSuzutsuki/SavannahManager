@@ -21,6 +21,7 @@ using SvManagerLibrary.Chat;
 using SvManagerLibrary.Player;
 using CommonExtensionLib.Extensions;
 using System.Linq;
+using System.Text;
 using _7dtd_svmanager_fix_mvvm.Models.Interfaces;
 using _7dtd_svmanager_fix_mvvm.Models.Ssh;
 using _7dtd_svmanager_fix_mvvm.Models.Update;
@@ -29,6 +30,7 @@ using CommonStyleLib.Models.Errors;
 using Renci.SshNet.Common;
 using _7dtd_svmanager_fix_mvvm.Models.AutoRestart;
 using _7dtd_svmanager_fix_mvvm.Models.Scheduled;
+using SvManagerLibrary.AnalyzerPlan.Console;
 
 namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 {
@@ -315,7 +317,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
         private int _port;
         private string _password = string.Empty;
 
-        private readonly List<ChatInfo> _chatArray = new();
+        private readonly Stack<ChatInfo> _chatArray = new();
         private readonly CommandCollector _commandCollector = new();
         private readonly Dictionary<int, UserDetail> _playersDictionary = new();
         private readonly List<int> _connectedIds = new();
@@ -326,6 +328,8 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         private AbstractAutoRestart _autoRestart;
         private readonly ScheduledCommandRunner _scheduledCommandRunner;
+
+        private readonly IConsoleAnalyzer _analyzerPlan = new OnePointTreeConsoleAnalyzer();
         #endregion
 
         #region Event
@@ -1020,11 +1024,19 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
         public string GetChatText(string text)
         {
-            _chatArray.AddMultiLine(text);
-            var cData = _chatArray.LastOrDefault();
-            if (cData != null)
-                return $"{cData.Name}: {cData.Message}\r\n";
-            return string.Empty;
+            _chatArray.Clear();
+            _chatArray.AddMultiLine(text, _analyzerPlan);
+
+            var sb = new StringBuilder();
+
+            while (_chatArray.Any())
+            {
+                var data = _chatArray.Pop();
+                if (data != null)
+                    sb.AppendLine($"{data.Name}: {data.Message}");
+            }
+
+            return sb.ToString();
         }
         public void SendChat(string text, Action act)
         {
@@ -1045,7 +1057,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
 
             _connectedIds.Clear();
             PlayerClean();
-            var playerInfoArray = LockFunction(Player.GetPlayerInfoList);
+            var playerInfoArray = LockFunction((telnet) => Player.GetPlayerInfoList(telnet, _analyzerPlan));
             foreach (var uDetail in playerInfoArray)
                 AddUser(uDetail);
         }
@@ -1117,7 +1129,7 @@ namespace _7dtd_svmanager_fix_mvvm.Models.WindowModel
             if (!CheckConnected())
                 return;
 
-            var timeInfo = LockFunction(Time.GetTimeFromTelnet);
+            var timeInfo = LockFunction((telnet) => Time.GetTimeFromTelnet(telnet, _analyzerPlan));
 
             TimeDayText = timeInfo.Day.ToString();
             TimeHourText = timeInfo.Hour.ToString();

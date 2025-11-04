@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <ServerSettings>
   <property name="ServerName" value="My Game Host" selection="" type="string">
     サーバ名を設定します。
@@ -36,7 +36,7 @@
   <property name="ServerVisibility" value="2" selection="" type="integer">
     サーバの公開状況を設定します。
     1に設定した場合は最初のプレイヤーだけ直接IPアドレスを入力する必要があります。
-  
+
     2 = 公開, 1 = フレンドリストのみ, 0 = 表示させない.
   </property>
   <property name="ServerDisabledNetworkProtocols" value="SteamNetworking" selection="" type="string">
@@ -102,7 +102,7 @@
     また、7Days to Dieの実行ファイルの場所ではなく、「C:\Users\{User Name}\Documents\7 Days To Die\Saves」が作業ディレクトリになると思います。
   </property>
   <property name="ServerAllowCrossplay" value="false" selection="true/false" type="combo">
-  Enables/Disables crossplay, crossplay servers will only be found in searches and joinable if sanctions are not ignored, and have a default or fewer player slot count
+    Enables/Disables crossplay, crossplay servers will only be found in searches and joinable if sanctions are not ignored, and have a default or fewer player slot count
   </property>
   <property name="EACEnabled" value="true" selection="true/false" type="combo">
     EasyAntiCheatを有効にするかしないか。
@@ -112,7 +112,7 @@
   </property>
   <property name="HideCommandExecutionLog" value="0" selection="" type="integer">
     コマンド実行の履歴をログで隠すかどうか。
-  
+
     0 = 全て表示
     1 = Telnet/ControlPanelからのみ隠す
     2 = ゲームからのみ隠す
@@ -137,7 +137,7 @@
     ワールド生成の種類を設定します。現時点ではランダム生成のRWGもしくは既定のワールド(Worldsフォルダ内にある) "Navezgane"、"PREGEN01"などが指定できます。
     RWGの場合はWorldGenSeedとWorldGenSizeによっては生成に時間がかかる可能性があります。
   </property>
-  <property name="WorldGenSeed" value="asdf" selection="" type="string">
+  <property name="WorldGenSeed" value="MyGame" selection="" type="string">
     GameWorldでRWGが選択された際に用いられるシード値です。もし既に生成したことのあるワールドなら読み込みがすぐに終わります。
   </property>
   <property name="WorldGenSize" value="6144" selection="" type="integer">
@@ -145,7 +145,7 @@
     小さいとマップは小さくなりますが、生成時間と生成に消費されるメモリが少なくなります。逆に大きいと数値に比例して増大します。
     恐らく単位はxzのブロック数のことで、1ブロック単位じゃないかと思います。
   </property>
-  <property name="GameName" value="My Game" selection="" type="string">
+  <property name="GameName" value="MyGame" selection="" type="string">
     ゲーム名を設定します。この値は保存する際のディレクトリ名となり、木などの配置のためのシード値でもあります。
     ただ、ランダム生成の場合はシード値としては働きません。
   </property>
@@ -183,6 +183,12 @@
   <property name="DayLightLength" value="18" selection="" type="integer">
     ゲーム内時間で昼の時間を設定します。こちらはリアルタイムではないので要注意。
   </property>
+  <property name="BiomeProgression" value="true" selection="true/false" type="combo">
+    Enables biome hazards and loot stage caps to promote biome progression. Loot stage caps are increased by completing biome challenges.
+  </property>
+  <property name="StormFreq" value="100" selection="" type="integer">
+    Adjusts the frequency of storms. 0% turns them off. Vanilla values: 0, 50, 100, 150, 200, 300, 400, 500
+  </property>
   <property name="DeathPenalty" value="1" selection="" type="integer">
     Penalty after dying. 0 = Nothing. 1 = Default: Classic XP Penalty.  2 = Injured: You keep most of your debuffs. Food and Water is set to 50% on respawn. 3 = Permanent Death: Your character is completely reset. You will respawn with a fresh start within the saved game.
   </property>
@@ -208,6 +214,9 @@
     ベッドロールが最終オンラインから何日で無効化されるかどうか。
     ゲーム内時間なのかリアル時間なのかは不明
   </property>
+  <property name="AllowSpawnNearFriend" value="2" selection="" type="integer">
+    Can new players joining the server for the first time select to join near any friend playing at the same time? 0 = Disabled, 1 = Always, 2 = Only near friends in forest biome
+  </property>
   <property name="MaxSpawnedZombies" value="64" selection="" type="integer">
     ゾンビの最大湧き数。
     増やしすぎるとメモリ消費やCPU消費が増加するため注意。
@@ -231,14 +240,14 @@
   </property>
   <property name="EnemyDifficulty" value="0" selection="" type="integer">
     通常の敵をノーマルモードにするかフェラルにするかどうかの設定です。
-  
+
     0 = Normal
     1 = Feral
   </property>
   <property name="ZombieFeralSense" value="0" selection="" type="integer">
     フェラルゾンビ（だけ？）の感覚を強化する設定です。視覚や聴覚、嗅覚などの距離を増やすらしいです。
     設定値はおそらく日中だけ、夜間だけ強化するみたいな感じでしょうか？試してないので不明。
-  
+
     0 = Off
     1 = Day
     2 = Night
@@ -246,7 +255,7 @@
   </property>
   <property name="ZombieMove" value="0" selection="" type="integer">
     昼のゾンビの速度の設定です。
-  
+
     0 = walk
     1 = jog
     2 = run
@@ -255,7 +264,7 @@
   </property>
   <property name="ZombieMoveNight" value="3" selection="" type="integer">
     夜のゾンビの速度の設定です。
-  
+
     0 = walk
     1 = jog
     2 = run
@@ -264,7 +273,7 @@
   </property>
   <property name="ZombieFeralMove" value="3" selection="" type="integer">
     フェラルゾンビの速度の設定です。
-  
+
     0 = walk
     1 = jog
     2 = run
@@ -273,7 +282,7 @@
   </property>
   <property name="ZombieBMMove" value="3" selection="" type="integer">
     ブラッドムーンホードの際のゾンビ歩行速度の設定です。
-  
+
     0 = walk
     1 = jog
     2 = run
@@ -313,13 +322,13 @@
   </property>
   <property name="PlayerKillingMode" value="3" selection="" type="integer">
     プレイヤー同士のキルのモードを設定します。
-  
+
     0 = プレイヤーキルなし
     1 = 同盟のみキルあり
     2 = 同盟以外キルあり
     3 = 全員対象
   </property>
-  <property name="LandClaimCount" value="3" selection="" type="integer">
+  <property name="LandClaimCount" value="5" selection="" type="integer">
     プレイヤーごとに設置できるランドクレイムブロックの最大数です。
   </property>
   <property name="LandClaimSize" value="41" selection="" type="integer">
@@ -334,7 +343,7 @@
   </property>
   <property name="LandClaimDecayMode" value="0" selection="" type="integer">
     オフラインプレーヤーのランドクレームがどのように減衰するかを設定します。
-  
+
     0 = 線形関数
     1 = 指数関数
     2 = クレームが期限切れになるまで完全に保護されます。
@@ -373,6 +382,6 @@
     ブラッドムーン中にサーバがtwitchアクションを許可した場合、余計なゾンビが発生してサーバラグが発生する可能性があります。
   </property>
   <property name="QuestProgressionDailyLimit" value="4" selection="" type="integer">
-  Limits the number of quests that contribute to quest tier progression a player can complete each day. Quests after the limit can still be completed for rewards.
+    Limits the number of quests that contribute to quest tier progression a player can complete each day. Quests after the limit can still be completed for rewards.
   </property>
 </ServerSettings>

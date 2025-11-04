@@ -1,5 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+  <update version="2.6.64.12">
+    1. 内部パッケージを更新しました。
+    2. ConfigEditorに2.2のコンフィグを追加しました。
+  </update>
+  <update version="2.6.63.11">
+    1. フレームワークを.Net 6から.Net 8に変更しました。
+    2. 内部パッケージを更新しました。
+    3. ConfigEditorにフィルターを追加しました。
+    4. ConfigEditorに1.3のコンフィグを追加しました。
+
+    <br />
+
+    <font color="#ff0000">
+      ○お知らせ
+      .Net 8にフレームワークを変更しました。
+      インストールされていない方は公式よりDesktop Runtimeのインストールをお願いします。（インストール前に更新すると起動しなくなります）
+    </font>
+    <a href="https://dotnet.microsoft.com/download/dotnet/8.0">
+      <font color="#00ffff">https://dotnet.microsoft.com/download/dotnet/8.0</font>
+    </a>
+  </update>
   <update version="2.6.62.10">
     1. ConfigEditorに1.0Expのデータを追加しました。
   </update>

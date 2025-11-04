@@ -81,6 +81,9 @@
     <property name="AdminFileName" value="serveradmin.xml" selection="" type="string">
         Server admin file name. Path relative to the SaveGameFolder
     </property>
+    <property name="ServerAllowCrossplay" value="false" selection="true/false" type="combo">
+        Enables/Disables crossplay, crossplay servers will only be found in searches and joinable if sanctions are not ignored, and have a default or fewer player slot count
+    </property>
     <property name="EACEnabled" value="true" selection="true/false" type="combo">
         Enables/Disables EasyAntiCheat
     </property>
@@ -266,5 +269,8 @@
     </property>
     <property name="TwitchBloodMoonAllowed" value="false" selection="true/false" type="combo">
         If the server allows twitch actions during a blood moon. This could cause server lag with extra zombies being spawned during blood moon.
+    </property>
+    <property name="QuestProgressionDailyLimit" value="4" selection="" type="integer">
+        Limits the number of quests that contribute to quest tier progression a player can complete each day. Quests after the limit can still be completed for rewards.
     </property>
 </ServerSettings>

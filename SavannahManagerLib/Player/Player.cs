@@ -1,5 +1,6 @@
 ﻿using SvManagerLibrary.Telnet;
 using System.Collections.Generic;
+using SvManagerLibrary.AnalyzerPlan.Console;
 
 namespace SvManagerLibrary.Player
 {
@@ -12,15 +13,16 @@ namespace SvManagerLibrary.Player
         /// Get player info list via telnet client.
         /// </summary>
         /// <param name="telnet">The telnet client.</param>
+        /// <param name="analyzerPlan"></param>
         /// <returns>A player info list.</returns>
-        public static List<PlayerInfo> GetPlayerInfoList(ITelnetClient telnet)
+        public static List<PlayerInfo> GetPlayerInfoList(ITelnetClient telnet, IConsoleAnalyzer analyzerPlan)
         {
             TelnetException.CheckTelnetClient(telnet);
 
             var players = new List<PlayerInfo>();
             var log = telnet.DestructionEventRead("lp", "Total of [0-9]+ in the game");
             if (!string.IsNullOrEmpty(log))
-                players.Add(log);
+                players.Add(log, analyzerPlan);
 
             return players;
         }

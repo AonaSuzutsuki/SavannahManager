@@ -1,4 +1,5 @@
 ﻿using CommonExtensionLib.Extensions;
+using SvManagerLibrary.AnalyzerPlan.Console;
 using SvManagerLibrary.Extensions;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -13,19 +14,22 @@ namespace SvManagerLibrary.Player
 
         private string text = "";
         private Dictionary<string, string> _properties = new Dictionary<string,string>();
+        private IConsoleAnalyzer _analyzerPlan;
 
         public IReadOnlyDictionary<string, string> Properties { get; }
 
-        public PlayerInfoConverter(string text)
+        public PlayerInfoConverter(string text, IConsoleAnalyzer analyzerPlan)
         {
             _properties = new Dictionary<string, string>();
             Properties = _properties;
             this.text = text;
+            _analyzerPlan = analyzerPlan;
         }
 
         public void Analyze()
         {
-            const string firstExpression = "(?<number>[0-9]+\\.) id=(?<identity>.*?), (?<name>.*?), ";
+            var expressions = _analyzerPlan.GetPlayerExpression();
+            var firstExpression = expressions.first;
             var firstRegex = new Regex(firstExpression);
             var firstMatch = firstRegex.Match(text);
             if (firstMatch.Success)
@@ -40,7 +44,7 @@ namespace SvManagerLibrary.Player
                 firstRegex.Replace(text, "");
             }
 
-            const string secondExpression = "(, )*(?<name>[a-zA-Z]+)=(?<value>(\\([0-9., -]+\\))|([0-9a-zA-Z_\\.:]+))";
+            var secondExpression = expressions.second;
             var secondRegex = new Regex(secondExpression);
             foreach (Match secondMatch in secondRegex.Matches(text))
             {
@@ -61,10 +65,11 @@ namespace SvManagerLibrary.Player
         /// Convert a text of 7dtd telnet log to a PlayerInfo object.
         /// </summary>
         /// <param name="text">7dtd telnet log.</param>
+        /// <param name="analyzerPlan"></param>
         /// <returns>PlayerInfo object.</returns>
-        public static PlayerInfo ConvertPlayerDetail(string text)
+        public static PlayerInfo ConvertPlayerDetail(string text, IConsoleAnalyzer analyzerPlan)
         {
-            var converter = new PlayerInfoConverter(text);
+            var converter = new PlayerInfoConverter(text, analyzerPlan);
             converter.Analyze();
 
             if (converter.Properties.Count <= 0)

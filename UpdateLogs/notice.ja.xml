@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <notices>
-  <notice version="2.6.63.11" mode="confirm">
+  <notice version="2.6.62.10" mode="confirm">
     次期アップデートからフレームワークが.Net 8に変更されています。
     ランタイムがインストールされているか確認してからアップデートを行ってください。
     インストールされていない場合は起動できません。
