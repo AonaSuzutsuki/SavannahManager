@@ -22,12 +22,25 @@ using SavannahXmlLib.XmlWrapper.Nodes;
 
 namespace _7dtd_XmlEditor.Models.TreeView
 {
+    /// <summary>
+    /// Represents a single item in a tree view structure for XML editing.
+    /// Manages state, editing, and reserved attribute handling for XML nodes.
+    /// </summary>
     public class TreeViewItemInfo : TreeViewItemInfoBase
     {
         #region Constants
 
+        /// <summary>
+        /// Reserved attribute key for XML node ID.
+        /// </summary>
         public const string XmlId = "savannah.xml.id";
+        /// <summary>
+        /// Reserved attribute key for selected state.
+        /// </summary>
         public const string XmlSelected = "savannah.selected";
+        /// <summary>
+        /// Reserved attribute key for expanded state.
+        /// </summary>
         public const string XmlExpanded = "savannah.expanded";
 
         #endregion
@@ -35,69 +48,113 @@ namespace _7dtd_XmlEditor.Models.TreeView
         #region Event
 
         private readonly Subject<TreeViewItemInfo> _failedLostFocus = new();
+        /// <summary>
+        /// Observable event triggered when focus loss fails during text editing.
+        /// </summary>
         public IObservable<TreeViewItemInfo> FailedLostFocus => _failedLostFocus;
 
         #endregion
 
         private string _tagName = string.Empty;
-
         private bool _isTextBoxFocus;
-
         private Visibility _textBlockVisibility = Visibility.Visible;
         private Visibility _textBoxVisibility = Visibility.Collapsed;
 
+        /// <summary>
+        /// Gets or sets the edited model associated with this item.
+        /// </summary>
         public IEditedModel EditedModel { get; set; }
 
+        /// <summary>
+        /// Gets or sets whether this item is the root of the tree.
+        /// </summary>
         public bool IsRoot { get; set; }
 
+        /// <summary>
+        /// Gets or sets the tag name of the XML node.
+        /// </summary>
         public string TagName
         {
             get => _tagName;
             set => SetProperty(ref _tagName, value);
         }
 
+        /// <summary>
+        /// Gets or sets the parent item in the tree.
+        /// </summary>
         public new TreeViewItemInfo Parent
         {
-            get => (TreeViewItemInfo) base.Parent;
+            get => (TreeViewItemInfo)base.Parent;
             set => base.Parent = value;
         }
 
+        /// <summary>
+        /// Gets or sets whether attribute redraw should be ignored.
+        /// </summary>
         public bool IgnoreAttributeRedraw { get; set; }
+        /// <summary>
+        /// Gets or sets whether this item is currently edited.
+        /// </summary>
         public bool IsEdited { get; set; }
 
+        /// <summary>
+        /// Gets or sets whether the text box is focused for editing.
+        /// </summary>
         public bool IsTextBoxFocus
         {
             get => _isTextBoxFocus;
             set => SetProperty(ref _isTextBoxFocus, value);
         }
 
+        /// <summary>
+        /// Gets the path of the parent node.
+        /// </summary>
         public string ParentPath => Parent == null ? "/" : $"{Parent.ParentPath}{Parent.TagName}/";
+        /// <summary>
+        /// Gets the full path of this node.
+        /// </summary>
         public string Path => $"{ParentPath}{Node.TagName}";
 
+        /// <summary>
+        /// Gets the underlying XML node.
+        /// </summary>
         public AbstractSavannahXmlNode Node { get; }
 
-
+        /// <summary>
+        /// Gets or sets the visibility of the text block (display mode).
+        /// </summary>
         public Visibility TextBlockVisibility
         {
             get => _textBlockVisibility;
             set => SetProperty(ref _textBlockVisibility, value);
         }
+        /// <summary>
+        /// Gets or sets the visibility of the text box (edit mode).
+        /// </summary>
         public Visibility TextBoxVisibility
         {
             get => _textBoxVisibility;
             set => SetProperty(ref _textBoxVisibility, value);
         }
 
+        /// <summary>
+        /// Gets or sets the command executed when the text box loses focus.
+        /// </summary>
         public ICommand TextBoxLostFocus { get; set; }
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeViewItemInfo"/> class.
+        /// </summary>
+        /// <param name="root">The root XML node.</param>
+        /// <param name="editedModel">The edited model instance.</param>
+        /// <param name="parent">The parent tree view item, if any.</param>
         public TreeViewItemInfo(AbstractSavannahXmlNode root, IEditedModel editedModel, TreeViewItemInfo parent = null)
         {
             if (root is SavannahTagNode tagRoot)
             {
                 RemoveReservedAttributes(tagRoot);
                 Children = new ObservableCollection<ITreeViewItemInfoBase>(from node in tagRoot.ChildNodes
-                    select new TreeViewItemInfo(node, editedModel, this));
+                                                                           select new TreeViewItemInfo(node, editedModel, this));
             }
 
             Node = root;
@@ -116,6 +173,10 @@ namespace _7dtd_XmlEditor.Models.TreeView
             });
         }
 
+        /// <summary>
+        /// Removes reserved attributes (expanded, selected) from the specified tag node and updates state.
+        /// </summary>
+        /// <param name="tagNode">The tag node to process.</param>
         public void RemoveReservedAttributes(SavannahTagNode tagNode)
         {
             _ = bool.TryParse(tagNode.GetAttribute(XmlExpanded)?.Value, out var isExpanded);
@@ -126,6 +187,10 @@ namespace _7dtd_XmlEditor.Models.TreeView
             tagNode.RemoveAttribute(XmlSelected);
         }
 
+        /// <summary>
+        /// Recursively removes reserved attributes from this item and all child items.
+        /// </summary>
+        /// <param name="info">The root item to start from. If null, uses this item.</param>
         public void RemoveReservedAttributesIncludedChildren(TreeViewItemInfo info = null)
         {
             info ??= this;
@@ -140,6 +205,10 @@ namespace _7dtd_XmlEditor.Models.TreeView
             }
         }
 
+        /// <summary>
+        /// Recursively assigns the expanded state to XML attributes for this item and all children.
+        /// </summary>
+        /// <param name="info">The root item to start from. If null, uses this item.</param>
         public void AssignExpanded(TreeViewItemInfo info = null)
         {
             info ??= this;
@@ -153,6 +222,9 @@ namespace _7dtd_XmlEditor.Models.TreeView
             }
         }
 
+        /// <summary>
+        /// Enables text editing mode for this item.
+        /// </summary>
         public void EnableTextEdit()
         {
             if (Node is not SavannahTagNode)
@@ -162,6 +234,11 @@ namespace _7dtd_XmlEditor.Models.TreeView
             TextBoxVisibility = Visibility.Visible;
             IsTextBoxFocus = true;
         }
+
+        /// <summary>
+        /// Disables text editing mode for this item.
+        /// </summary>
+        /// <returns>True if editing can be disabled; otherwise, false.</returns>
         public bool DisableTextEdit()
         {
             if (string.IsNullOrEmpty(TagName))
@@ -173,6 +250,9 @@ namespace _7dtd_XmlEditor.Models.TreeView
             return true;
         }
 
+        /// <summary>
+        /// Applies changes to the tag name if it was modified during editing.
+        /// </summary>
         private void ApplyTagChange()
         {
             if (Node.TagName == TagName)
@@ -190,6 +270,10 @@ namespace _7dtd_XmlEditor.Models.TreeView
             EditedModel.FullPath = Path;
         }
 
+        /// <summary>
+        /// Gets an enumerable collection of child <see cref="TreeViewItemInfo"/> items.
+        /// </summary>
+        /// <returns>Enumerable of child items.</returns>
         public IEnumerable<TreeViewItemInfo> GetChildrenEnumerable()
         {
             if (Children == null)
@@ -200,6 +284,11 @@ namespace _7dtd_XmlEditor.Models.TreeView
             }
         }
 
+        /// <summary>
+        /// Gets the display name for the specified XML node.
+        /// </summary>
+        /// <param name="node">The XML node.</param>
+        /// <returns>The display name string.</returns>
         public static string GetNodeName(AbstractSavannahXmlNode node)
         {
             if (node is not SavannahTagNode tagNode)
@@ -208,6 +297,11 @@ namespace _7dtd_XmlEditor.Models.TreeView
             return tagNode.Attributes.Any() ? $"{node.TagName} {tagNode.Attributes.ToAttributesText(", ")}" : $"{node.TagName}";
         }
 
+        /// <summary>
+        /// Gets the display name for the specified tree view item.
+        /// </summary>
+        /// <param name="info">The tree view item.</param>
+        /// <returns>The display name string.</returns>
         public static string GetName(TreeViewItemInfo info)
         {
             var root = info.Node;

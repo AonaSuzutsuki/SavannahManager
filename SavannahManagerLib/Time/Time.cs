@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using SvManagerLibrary.AnalyzerPlan.Console;
 using SvManagerLibrary.Telnet;
 
 namespace SvManagerLibrary.Time
@@ -14,12 +15,13 @@ namespace SvManagerLibrary.Time
         /// Convert a text of 7dtd telnet log to a TimeInfo object.
         /// </summary>
         /// <param name="text">7dtd telnet log.</param>
+        /// <param name="analyzerPlan"></param>
         /// <returns>TimeInfo object.</returns>
-        public static TimeInfo ConvertTime(string text)
+        public static TimeInfo ConvertTime(string text, IConsoleAnalyzer analyzerPlan)
         {
             var timeInfo = new TimeInfo();
 
-            const string expression = "^Day (?<day>.*?), (?<hour>.*?):(?<minute>.*?)$";
+            var expression = analyzerPlan.GetTimeExpression();
             var reg = new Regex(expression);
             var sr = new StringReader(text);
             while (sr.Peek() > -1)
@@ -45,13 +47,14 @@ namespace SvManagerLibrary.Time
         /// Get time from TelnetClient.
         /// </summary>
         /// <param name="telnet">The TelnetClient.</param>
+        /// <param name="analyzerPlan"></param>
         /// <returns>TimeInfo.</returns>
-        public static TimeInfo GetTimeFromTelnet(ITelnetClient telnet)
+        public static TimeInfo GetTimeFromTelnet(ITelnetClient telnet, IConsoleAnalyzer analyzerPlan)
         {
             TelnetException.CheckTelnetClient(telnet);
 
-            var log = telnet.DestructionEventRead("gt", "^Day (?<day>.*?), (?<hour>.*?):(?<minute>.*?)$");
-            return ConvertTime(log);
+            var log = telnet.DestructionEventRead("gt", analyzerPlan.GetTimeExpression());
+            return ConvertTime(log, analyzerPlan);
         }
 
         /// <summary>

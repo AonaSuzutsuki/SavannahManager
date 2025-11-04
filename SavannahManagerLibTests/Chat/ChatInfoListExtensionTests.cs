@@ -6,17 +6,21 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
+using CommonExtensionLib.Extensions;
+using SvManagerLibrary.AnalyzerPlan.Console;
 
 namespace SvManagerLibraryTests2.Chat
 {
     [TestFixture]
     public class ChatInfoListExtensionTests
     {
+        private IConsoleAnalyzer _analyzer = new OnePointTreeConsoleAnalyzer();
+
         [Test]
         public void AddTest()
         {
             var text = "2019-01-19T16:14:21 140.048 INF Chat (from '-non-player-', entity id '-1', to 'Global'): 'Server': Hello, World.";
-            var act = new List<ChatInfo> { text };
+            var act = new List<ChatInfo>().Add(text, _analyzer);
             var exp = new List<ChatInfo>
             {
                 new ChatInfo()
@@ -37,8 +41,7 @@ namespace SvManagerLibraryTests2.Chat
         {
             var text = "2019-01-19T16:14:21 140.048 INF Chat (from '-non-player-', entity id '-1', to 'Global'): 'Server': Hello, World.\r\n";
             text += "2019-01-19T16:14:21 140.048 INF Chat (from '-non-player-', entity id '-1', to 'Global'): 'Server2': HogeHoge.\r\nasad9asc8z";
-            var act = new List<ChatInfo>();
-            act.AddMultiLine(text);
+            var act = new List<ChatInfo>().AddMultiLine(text, _analyzer);
             var exp = new List<ChatInfo>
             {
                 new ChatInfo()

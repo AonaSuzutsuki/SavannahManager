@@ -4,6 +4,7 @@ using System.Text;
 using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
+using SvManagerLibrary.AnalyzerPlan.Console;
 using SvManagerLibrary.Telnet;
 using SvManagerLibrary.Time;
 using SvManagerLibraryTests2.Telnet;
@@ -14,11 +15,13 @@ namespace SvManagerLibraryTests2.Time
     [TestFixture]
     public class TimeTests
     {
+        private IConsoleAnalyzer _analyzer = new OnePointTreeConsoleAnalyzer();
+
         [Test]
         public void ConvertTimeTest()
         {
             var text = "Day 256, 11:23";
-            var act = SvManagerLibrary.Time.Time.ConvertTime(text);
+            var act = SvManagerLibrary.Time.Time.ConvertTime(text, _analyzer);
             var exp = new TimeInfo()
             {
                 Day = 256,
@@ -44,7 +47,7 @@ namespace SvManagerLibraryTests2.Time
             mock.Setup(x => x.DestructionEventRead(It.IsAny<string>(), It.IsAny<string>())).Returns(text);
             mock.Setup(x => x.Connected).Returns(true);
 
-            var act = SvManagerLibrary.Time.Time.GetTimeFromTelnet(mock.Object);
+            var act = SvManagerLibrary.Time.Time.GetTimeFromTelnet(mock.Object, _analyzer);
 
             ClassicAssert.AreEqual(exp, act);
         }
@@ -71,7 +74,7 @@ namespace SvManagerLibraryTests2.Time
                 });
 
             var telnetClient = new TelnetClient(mock.Object);
-            var act = SvManagerLibrary.Time.Time.GetTimeFromTelnet(telnetClient);
+            var act = SvManagerLibrary.Time.Time.GetTimeFromTelnet(telnetClient, _analyzer);
 
             ClassicAssert.AreEqual(exp, act);
         }
