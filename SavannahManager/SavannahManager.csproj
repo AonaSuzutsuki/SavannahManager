@@ -31,11 +31,11 @@
   <ItemGroup>
     <PackageReference Include="CommonCoreLib" Version="1.0.6" />
     <PackageReference Include="CommonExtensionLib" Version="1.0.5" />
-    <PackageReference Include="CommonNavigationControlLib" Version="1.0.6" />
-    <PackageReference Include="CommonStyleLib" Version="1.0.25" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="CommonNavigationControlLib" Version="1.0.7" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.26" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="SavannahXmlLib" Version="1.0.5" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.13" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.10" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
     <PackageReference Include="UpdateLib" Version="1.0.1" />
   </ItemGroup>
