@@ -10,7 +10,7 @@
     <Authors>Aona Suzutsuki</Authors>
     <Company>Kimama Lab.</Company>
     <Copyright>Copyright (C) Aona Suzutsuki 2014 - 2025</Copyright>
-    <Version>2.6.64.12</Version>
+    <Version>2.6.65.13</Version>
     <ApplicationIcon>Images\1.ico</ApplicationIcon>
   </PropertyGroup>
 
@@ -31,11 +31,11 @@
   <ItemGroup>
     <PackageReference Include="CommonCoreLib" Version="1.0.6" />
     <PackageReference Include="CommonExtensionLib" Version="1.0.5" />
-    <PackageReference Include="CommonNavigationControlLib" Version="1.0.6" />
-    <PackageReference Include="CommonStyleLib" Version="1.0.25" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="CommonNavigationControlLib" Version="1.0.7" />
+    <PackageReference Include="CommonStyleLib" Version="1.0.26" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="SavannahXmlLib" Version="1.0.5" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.13" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.10" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
     <PackageReference Include="UpdateLib" Version="1.0.1" />
   </ItemGroup>
